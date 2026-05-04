@@ -9,38 +9,254 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SpaceRouteImport } from './routes/space'
+import { Route as PresenceRouteImport } from './routes/presence'
+import { Route as OnboardingRouteImport } from './routes/onboarding'
+import { Route as NoWordsRouteImport } from './routes/no-words'
+import { Route as MemoriesRouteImport } from './routes/memories'
+import { Route as HomeRouteImport } from './routes/home'
+import { Route as HelpRouteImport } from './routes/help'
+import { Route as GardenRouteImport } from './routes/garden'
+import { Route as DatesRouteImport } from './routes/dates'
+import { Route as CrisisRouteImport } from './routes/crisis'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as GardenZoneRouteImport } from './routes/garden.$zone'
 
+const SpaceRoute = SpaceRouteImport.update({
+  id: '/space',
+  path: '/space',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PresenceRoute = PresenceRouteImport.update({
+  id: '/presence',
+  path: '/presence',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OnboardingRoute = OnboardingRouteImport.update({
+  id: '/onboarding',
+  path: '/onboarding',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NoWordsRoute = NoWordsRouteImport.update({
+  id: '/no-words',
+  path: '/no-words',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MemoriesRoute = MemoriesRouteImport.update({
+  id: '/memories',
+  path: '/memories',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HomeRoute = HomeRouteImport.update({
+  id: '/home',
+  path: '/home',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HelpRoute = HelpRouteImport.update({
+  id: '/help',
+  path: '/help',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GardenRoute = GardenRouteImport.update({
+  id: '/garden',
+  path: '/garden',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DatesRoute = DatesRouteImport.update({
+  id: '/dates',
+  path: '/dates',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CrisisRoute = CrisisRouteImport.update({
+  id: '/crisis',
+  path: '/crisis',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GardenZoneRoute = GardenZoneRouteImport.update({
+  id: '/$zone',
+  path: '/$zone',
+  getParentRoute: () => GardenRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/crisis': typeof CrisisRoute
+  '/dates': typeof DatesRoute
+  '/garden': typeof GardenRouteWithChildren
+  '/help': typeof HelpRoute
+  '/home': typeof HomeRoute
+  '/memories': typeof MemoriesRoute
+  '/no-words': typeof NoWordsRoute
+  '/onboarding': typeof OnboardingRoute
+  '/presence': typeof PresenceRoute
+  '/space': typeof SpaceRoute
+  '/garden/$zone': typeof GardenZoneRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/crisis': typeof CrisisRoute
+  '/dates': typeof DatesRoute
+  '/garden': typeof GardenRouteWithChildren
+  '/help': typeof HelpRoute
+  '/home': typeof HomeRoute
+  '/memories': typeof MemoriesRoute
+  '/no-words': typeof NoWordsRoute
+  '/onboarding': typeof OnboardingRoute
+  '/presence': typeof PresenceRoute
+  '/space': typeof SpaceRoute
+  '/garden/$zone': typeof GardenZoneRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/crisis': typeof CrisisRoute
+  '/dates': typeof DatesRoute
+  '/garden': typeof GardenRouteWithChildren
+  '/help': typeof HelpRoute
+  '/home': typeof HomeRoute
+  '/memories': typeof MemoriesRoute
+  '/no-words': typeof NoWordsRoute
+  '/onboarding': typeof OnboardingRoute
+  '/presence': typeof PresenceRoute
+  '/space': typeof SpaceRoute
+  '/garden/$zone': typeof GardenZoneRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/crisis'
+    | '/dates'
+    | '/garden'
+    | '/help'
+    | '/home'
+    | '/memories'
+    | '/no-words'
+    | '/onboarding'
+    | '/presence'
+    | '/space'
+    | '/garden/$zone'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/crisis'
+    | '/dates'
+    | '/garden'
+    | '/help'
+    | '/home'
+    | '/memories'
+    | '/no-words'
+    | '/onboarding'
+    | '/presence'
+    | '/space'
+    | '/garden/$zone'
+  id:
+    | '__root__'
+    | '/'
+    | '/crisis'
+    | '/dates'
+    | '/garden'
+    | '/help'
+    | '/home'
+    | '/memories'
+    | '/no-words'
+    | '/onboarding'
+    | '/presence'
+    | '/space'
+    | '/garden/$zone'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CrisisRoute: typeof CrisisRoute
+  DatesRoute: typeof DatesRoute
+  GardenRoute: typeof GardenRouteWithChildren
+  HelpRoute: typeof HelpRoute
+  HomeRoute: typeof HomeRoute
+  MemoriesRoute: typeof MemoriesRoute
+  NoWordsRoute: typeof NoWordsRoute
+  OnboardingRoute: typeof OnboardingRoute
+  PresenceRoute: typeof PresenceRoute
+  SpaceRoute: typeof SpaceRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/space': {
+      id: '/space'
+      path: '/space'
+      fullPath: '/space'
+      preLoaderRoute: typeof SpaceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/presence': {
+      id: '/presence'
+      path: '/presence'
+      fullPath: '/presence'
+      preLoaderRoute: typeof PresenceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/onboarding': {
+      id: '/onboarding'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof OnboardingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/no-words': {
+      id: '/no-words'
+      path: '/no-words'
+      fullPath: '/no-words'
+      preLoaderRoute: typeof NoWordsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/memories': {
+      id: '/memories'
+      path: '/memories'
+      fullPath: '/memories'
+      preLoaderRoute: typeof MemoriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/home': {
+      id: '/home'
+      path: '/home'
+      fullPath: '/home'
+      preLoaderRoute: typeof HomeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/help': {
+      id: '/help'
+      path: '/help'
+      fullPath: '/help'
+      preLoaderRoute: typeof HelpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/garden': {
+      id: '/garden'
+      path: '/garden'
+      fullPath: '/garden'
+      preLoaderRoute: typeof GardenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dates': {
+      id: '/dates'
+      path: '/dates'
+      fullPath: '/dates'
+      preLoaderRoute: typeof DatesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/crisis': {
+      id: '/crisis'
+      path: '/crisis'
+      fullPath: '/crisis'
+      preLoaderRoute: typeof CrisisRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,11 +264,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/garden/$zone': {
+      id: '/garden/$zone'
+      path: '/$zone'
+      fullPath: '/garden/$zone'
+      preLoaderRoute: typeof GardenZoneRouteImport
+      parentRoute: typeof GardenRoute
+    }
   }
 }
 
+interface GardenRouteChildren {
+  GardenZoneRoute: typeof GardenZoneRoute
+}
+
+const GardenRouteChildren: GardenRouteChildren = {
+  GardenZoneRoute: GardenZoneRoute,
+}
+
+const GardenRouteWithChildren =
+  GardenRoute._addFileChildren(GardenRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CrisisRoute: CrisisRoute,
+  DatesRoute: DatesRoute,
+  GardenRoute: GardenRouteWithChildren,
+  HelpRoute: HelpRoute,
+  HomeRoute: HomeRoute,
+  MemoriesRoute: MemoriesRoute,
+  NoWordsRoute: NoWordsRoute,
+  OnboardingRoute: OnboardingRoute,
+  PresenceRoute: PresenceRoute,
+  SpaceRoute: SpaceRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
