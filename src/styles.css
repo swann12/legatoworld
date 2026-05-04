@@ -226,4 +226,23 @@
     50% { transform: translate(8px, -10px); }
   }
   .drift { animation: legato-drift 14s ease-in-out infinite; }
+
+  /* Garden: slow sway for grass, leaves, planted markers */
+  @keyframes legato-sway {
+    0%, 100% { transform: translate(0, 0) rotate(-1.2deg); }
+    50%      { transform: translate(2px, -3px) rotate(1.4deg); }
+  }
+  .sway { animation: legato-sway 9s ease-in-out infinite; transform-origin: bottom center; }
+
+  @keyframes legato-shimmer {
+    0%, 100% { opacity: 0.55; }
+    50%      { opacity: 0.85; }
+  }
+  .shimmer { animation: legato-shimmer 7s ease-in-out infinite; }
+
+  /* Hide-scrollbar already exists; add a soft vertical fade for landscape edges */
+  .landscape-fade-top {
+    -webkit-mask-image: linear-gradient(to bottom, transparent, black 8%);
+            mask-image: linear-gradient(to bottom, transparent, black 8%);
+  }
 }
