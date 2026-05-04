@@ -16,6 +16,7 @@ import { Route as NoWordsRouteImport } from './routes/no-words'
 import { Route as HomeRouteImport } from './routes/home'
 import { Route as HelpRouteImport } from './routes/help'
 import { Route as GardenRouteImport } from './routes/garden'
+import { Route as DatesRouteImport } from './routes/dates'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as GardenZoneRouteImport } from './routes/garden.$zone'
 
@@ -54,6 +55,11 @@ const GardenRoute = GardenRouteImport.update({
   path: '/garden',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DatesRoute = DatesRouteImport.update({
+  id: '/dates',
+  path: '/dates',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -67,6 +73,7 @@ const GardenZoneRoute = GardenZoneRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/dates': typeof DatesRoute
   '/garden': typeof GardenRouteWithChildren
   '/help': typeof HelpRoute
   '/home': typeof HomeRoute
@@ -78,6 +85,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/dates': typeof DatesRoute
   '/garden': typeof GardenRouteWithChildren
   '/help': typeof HelpRoute
   '/home': typeof HomeRoute
@@ -90,6 +98,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/dates': typeof DatesRoute
   '/garden': typeof GardenRouteWithChildren
   '/help': typeof HelpRoute
   '/home': typeof HomeRoute
@@ -103,6 +112,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/dates'
     | '/garden'
     | '/help'
     | '/home'
@@ -114,6 +124,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/dates'
     | '/garden'
     | '/help'
     | '/home'
@@ -125,6 +136,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/dates'
     | '/garden'
     | '/help'
     | '/home'
@@ -137,6 +149,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DatesRoute: typeof DatesRoute
   GardenRoute: typeof GardenRouteWithChildren
   HelpRoute: typeof HelpRoute
   HomeRoute: typeof HomeRoute
@@ -197,6 +210,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GardenRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dates': {
+      id: '/dates'
+      path: '/dates'
+      fullPath: '/dates'
+      preLoaderRoute: typeof DatesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -227,6 +247,7 @@ const GardenRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DatesRoute: DatesRoute,
   GardenRoute: GardenRouteWithChildren,
   HelpRoute: HelpRoute,
   HomeRoute: HomeRoute,
