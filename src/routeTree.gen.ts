@@ -18,6 +18,7 @@ import { Route as HomeRouteImport } from './routes/home'
 import { Route as HelpRouteImport } from './routes/help'
 import { Route as GardenRouteImport } from './routes/garden'
 import { Route as DatesRouteImport } from './routes/dates'
+import { Route as CrisisRouteImport } from './routes/crisis'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as GardenZoneRouteImport } from './routes/garden.$zone'
 
@@ -66,6 +67,11 @@ const DatesRoute = DatesRouteImport.update({
   path: '/dates',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CrisisRoute = CrisisRouteImport.update({
+  id: '/crisis',
+  path: '/crisis',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -79,6 +85,7 @@ const GardenZoneRoute = GardenZoneRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/crisis': typeof CrisisRoute
   '/dates': typeof DatesRoute
   '/garden': typeof GardenRouteWithChildren
   '/help': typeof HelpRoute
@@ -92,6 +99,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/crisis': typeof CrisisRoute
   '/dates': typeof DatesRoute
   '/garden': typeof GardenRouteWithChildren
   '/help': typeof HelpRoute
@@ -106,6 +114,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/crisis': typeof CrisisRoute
   '/dates': typeof DatesRoute
   '/garden': typeof GardenRouteWithChildren
   '/help': typeof HelpRoute
@@ -121,6 +130,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/crisis'
     | '/dates'
     | '/garden'
     | '/help'
@@ -134,6 +144,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/crisis'
     | '/dates'
     | '/garden'
     | '/help'
@@ -147,6 +158,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/crisis'
     | '/dates'
     | '/garden'
     | '/help'
@@ -161,6 +173,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CrisisRoute: typeof CrisisRoute
   DatesRoute: typeof DatesRoute
   GardenRoute: typeof GardenRouteWithChildren
   HelpRoute: typeof HelpRoute
@@ -237,6 +250,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DatesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/crisis': {
+      id: '/crisis'
+      path: '/crisis'
+      fullPath: '/crisis'
+      preLoaderRoute: typeof CrisisRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -267,6 +287,7 @@ const GardenRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CrisisRoute: CrisisRoute,
   DatesRoute: DatesRoute,
   GardenRoute: GardenRouteWithChildren,
   HelpRoute: HelpRoute,
