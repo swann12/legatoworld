@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as HomeRouteImport } from './routes/home'
+import { Route as HelpRouteImport } from './routes/help'
 import { Route as GardenRouteImport } from './routes/garden'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as GardenZoneRouteImport } from './routes/garden.$zone'
@@ -23,6 +24,11 @@ const OnboardingRoute = OnboardingRouteImport.update({
 const HomeRoute = HomeRouteImport.update({
   id: '/home',
   path: '/home',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HelpRoute = HelpRouteImport.update({
+  id: '/help',
+  path: '/help',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GardenRoute = GardenRouteImport.update({
@@ -44,6 +50,7 @@ const GardenZoneRoute = GardenZoneRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/garden': typeof GardenRouteWithChildren
+  '/help': typeof HelpRoute
   '/home': typeof HomeRoute
   '/onboarding': typeof OnboardingRoute
   '/garden/$zone': typeof GardenZoneRoute
@@ -51,6 +58,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/garden': typeof GardenRouteWithChildren
+  '/help': typeof HelpRoute
   '/home': typeof HomeRoute
   '/onboarding': typeof OnboardingRoute
   '/garden/$zone': typeof GardenZoneRoute
@@ -59,21 +67,36 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/garden': typeof GardenRouteWithChildren
+  '/help': typeof HelpRoute
   '/home': typeof HomeRoute
   '/onboarding': typeof OnboardingRoute
   '/garden/$zone': typeof GardenZoneRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/garden' | '/home' | '/onboarding' | '/garden/$zone'
+  fullPaths:
+    | '/'
+    | '/garden'
+    | '/help'
+    | '/home'
+    | '/onboarding'
+    | '/garden/$zone'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/garden' | '/home' | '/onboarding' | '/garden/$zone'
-  id: '__root__' | '/' | '/garden' | '/home' | '/onboarding' | '/garden/$zone'
+  to: '/' | '/garden' | '/help' | '/home' | '/onboarding' | '/garden/$zone'
+  id:
+    | '__root__'
+    | '/'
+    | '/garden'
+    | '/help'
+    | '/home'
+    | '/onboarding'
+    | '/garden/$zone'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   GardenRoute: typeof GardenRouteWithChildren
+  HelpRoute: typeof HelpRoute
   HomeRoute: typeof HomeRoute
   OnboardingRoute: typeof OnboardingRoute
 }
@@ -92,6 +115,13 @@ declare module '@tanstack/react-router' {
       path: '/home'
       fullPath: '/home'
       preLoaderRoute: typeof HomeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/help': {
+      id: '/help'
+      path: '/help'
+      fullPath: '/help'
+      preLoaderRoute: typeof HelpRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/garden': {
@@ -132,6 +162,7 @@ const GardenRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   GardenRoute: GardenRouteWithChildren,
+  HelpRoute: HelpRoute,
   HomeRoute: HomeRoute,
   OnboardingRoute: OnboardingRoute,
 }
