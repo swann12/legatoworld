@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SpaceRouteImport } from './routes/space'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as HomeRouteImport } from './routes/home'
 import { Route as HelpRouteImport } from './routes/help'
@@ -16,6 +17,11 @@ import { Route as GardenRouteImport } from './routes/garden'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as GardenZoneRouteImport } from './routes/garden.$zone'
 
+const SpaceRoute = SpaceRouteImport.update({
+  id: '/space',
+  path: '/space',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const OnboardingRoute = OnboardingRouteImport.update({
   id: '/onboarding',
   path: '/onboarding',
@@ -53,6 +59,7 @@ export interface FileRoutesByFullPath {
   '/help': typeof HelpRoute
   '/home': typeof HomeRoute
   '/onboarding': typeof OnboardingRoute
+  '/space': typeof SpaceRoute
   '/garden/$zone': typeof GardenZoneRoute
 }
 export interface FileRoutesByTo {
@@ -61,6 +68,7 @@ export interface FileRoutesByTo {
   '/help': typeof HelpRoute
   '/home': typeof HomeRoute
   '/onboarding': typeof OnboardingRoute
+  '/space': typeof SpaceRoute
   '/garden/$zone': typeof GardenZoneRoute
 }
 export interface FileRoutesById {
@@ -70,6 +78,7 @@ export interface FileRoutesById {
   '/help': typeof HelpRoute
   '/home': typeof HomeRoute
   '/onboarding': typeof OnboardingRoute
+  '/space': typeof SpaceRoute
   '/garden/$zone': typeof GardenZoneRoute
 }
 export interface FileRouteTypes {
@@ -80,9 +89,17 @@ export interface FileRouteTypes {
     | '/help'
     | '/home'
     | '/onboarding'
+    | '/space'
     | '/garden/$zone'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/garden' | '/help' | '/home' | '/onboarding' | '/garden/$zone'
+  to:
+    | '/'
+    | '/garden'
+    | '/help'
+    | '/home'
+    | '/onboarding'
+    | '/space'
+    | '/garden/$zone'
   id:
     | '__root__'
     | '/'
@@ -90,6 +107,7 @@ export interface FileRouteTypes {
     | '/help'
     | '/home'
     | '/onboarding'
+    | '/space'
     | '/garden/$zone'
   fileRoutesById: FileRoutesById
 }
@@ -99,10 +117,18 @@ export interface RootRouteChildren {
   HelpRoute: typeof HelpRoute
   HomeRoute: typeof HomeRoute
   OnboardingRoute: typeof OnboardingRoute
+  SpaceRoute: typeof SpaceRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/space': {
+      id: '/space'
+      path: '/space'
+      fullPath: '/space'
+      preLoaderRoute: typeof SpaceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/onboarding': {
       id: '/onboarding'
       path: '/onboarding'
@@ -165,6 +191,7 @@ const rootRouteChildren: RootRouteChildren = {
   HelpRoute: HelpRoute,
   HomeRoute: HomeRoute,
   OnboardingRoute: OnboardingRoute,
+  SpaceRoute: SpaceRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
