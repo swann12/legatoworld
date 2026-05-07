@@ -22,6 +22,7 @@ import { Route as DatesRouteImport } from './routes/dates'
 import { Route as CrisisRouteImport } from './routes/crisis'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as GardenZoneRouteImport } from './routes/garden.$zone'
+import { Route as ComposeZoneRouteImport } from './routes/compose.$zone'
 
 const SpaceRoute = SpaceRouteImport.update({
   id: '/space',
@@ -88,6 +89,11 @@ const GardenZoneRoute = GardenZoneRouteImport.update({
   path: '/$zone',
   getParentRoute: () => GardenRoute,
 } as any)
+const ComposeZoneRoute = ComposeZoneRouteImport.update({
+  id: '/compose/$zone',
+  path: '/compose/$zone',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -102,6 +108,7 @@ export interface FileRoutesByFullPath {
   '/practical': typeof PracticalRoute
   '/presence': typeof PresenceRoute
   '/space': typeof SpaceRoute
+  '/compose/$zone': typeof ComposeZoneRoute
   '/garden/$zone': typeof GardenZoneRoute
 }
 export interface FileRoutesByTo {
@@ -117,6 +124,7 @@ export interface FileRoutesByTo {
   '/practical': typeof PracticalRoute
   '/presence': typeof PresenceRoute
   '/space': typeof SpaceRoute
+  '/compose/$zone': typeof ComposeZoneRoute
   '/garden/$zone': typeof GardenZoneRoute
 }
 export interface FileRoutesById {
@@ -133,6 +141,7 @@ export interface FileRoutesById {
   '/practical': typeof PracticalRoute
   '/presence': typeof PresenceRoute
   '/space': typeof SpaceRoute
+  '/compose/$zone': typeof ComposeZoneRoute
   '/garden/$zone': typeof GardenZoneRoute
 }
 export interface FileRouteTypes {
@@ -150,6 +159,7 @@ export interface FileRouteTypes {
     | '/practical'
     | '/presence'
     | '/space'
+    | '/compose/$zone'
     | '/garden/$zone'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -165,6 +175,7 @@ export interface FileRouteTypes {
     | '/practical'
     | '/presence'
     | '/space'
+    | '/compose/$zone'
     | '/garden/$zone'
   id:
     | '__root__'
@@ -180,6 +191,7 @@ export interface FileRouteTypes {
     | '/practical'
     | '/presence'
     | '/space'
+    | '/compose/$zone'
     | '/garden/$zone'
   fileRoutesById: FileRoutesById
 }
@@ -196,6 +208,7 @@ export interface RootRouteChildren {
   PracticalRoute: typeof PracticalRoute
   PresenceRoute: typeof PresenceRoute
   SpaceRoute: typeof SpaceRoute
+  ComposeZoneRoute: typeof ComposeZoneRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -291,6 +304,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GardenZoneRouteImport
       parentRoute: typeof GardenRoute
     }
+    '/compose/$zone': {
+      id: '/compose/$zone'
+      path: '/compose/$zone'
+      fullPath: '/compose/$zone'
+      preLoaderRoute: typeof ComposeZoneRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -318,7 +338,17 @@ const rootRouteChildren: RootRouteChildren = {
   PracticalRoute: PracticalRoute,
   PresenceRoute: PresenceRoute,
   SpaceRoute: SpaceRoute,
+  ComposeZoneRoute: ComposeZoneRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}
