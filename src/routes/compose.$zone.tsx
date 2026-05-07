@@ -147,15 +147,26 @@ function Composer({ type, onSave }: { type: MemoryType; onSave: () => void }) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [openMemoryId, setOpenMemoryId] = useState<string | null>(null);
   const [family, setFamily] = useState<"végétal" | "minéral" | "marin" | "ciel" | "vivant" | "exotique">("végétal");
+  const [brush, setBrush] = useState<ShapeKind | null>("petal");
+  const lastStampRef = useRef<{ x: number; y: number; t: number } | null>(null);
 
-  const addShape = (kind: ShapeKind) => {
-    const tint = TINTS[items.length % TINTS.length];
-    const id = `s-${Date.now()}`;
+  const stampAt = (kind: ShapeKind, x: number, y: number, baseSize = 44) => {
+    const tint = TINTS[Math.floor(Math.random() * TINTS.length)];
+    const id = `s-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
+    const jitter = (r: number) => (Math.random() - 0.5) * r;
     setItems((prev) => [
       ...prev,
-      { id, kind, x: 50, y: 50, size: 80, rotation: 0, tint: tint.a, tint2: tint.b },
+      {
+        id,
+        kind,
+        x: clamp(x + jitter(4), 3, 97),
+        y: clamp(y + jitter(4), 3, 97),
+        size: clamp(baseSize + jitter(28), 20, 110),
+        rotation: jitter(360),
+        tint: tint.a,
+        tint2: tint.b,
+      },
     ]);
-    setSelectedId(id);
   };
 
   const updateItem = (id: string, patch: Partial<Item>) =>
@@ -167,8 +178,36 @@ function Composer({ type, onSave }: { type: MemoryType; onSave: () => void }) {
     setSelectedId(null);
   };
 
+  const pctFromEvent = (e: { clientX: number; clientY: number }) => {
+    const rect = canvasRef.current!.getBoundingClientRect();
+    return {
+      x: ((e.clientX - rect.left) / rect.width) * 100,
+      y: ((e.clientY - rect.top) / rect.height) * 100,
+    };
+  };
+
   const onCanvasPointerDown = (e: React.PointerEvent) => {
-    if (e.target === canvasRef.current) setSelectedId(null);
+    if (e.target !== canvasRef.current && !(e.target as HTMLElement).dataset?.ground) return;
+    setSelectedId(null);
+    if (!brush) return;
+    const p = pctFromEvent(e);
+    stampAt(brush, p.x, p.y);
+    lastStampRef.current = { x: p.x, y: p.y, t: Date.now() };
+    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+  };
+
+  const onCanvasPointerMove = (e: React.PointerEvent) => {
+    if (!brush || !lastStampRef.current) return;
+    const p = pctFromEvent(e);
+    const dx = p.x - lastStampRef.current.x;
+    const dy = p.y - lastStampRef.current.y;
+    if (Math.hypot(dx, dy) < 5) return;
+    stampAt(brush, p.x, p.y);
+    lastStampRef.current = { x: p.x, y: p.y, t: Date.now() };
+  };
+
+  const onCanvasPointerUp = () => {
+    lastStampRef.current = null;
   };
 
   // Pointer drag handling on shapes
@@ -244,11 +283,11 @@ function Composer({ type, onSave }: { type: MemoryType; onSave: () => void }) {
           Étape 2 · {labelFor(type).toLowerCase()}
         </p>
         <h1 className="mt-2 font-serif text-[1.6rem] leading-[1.1] font-light text-dusk text-balance">
-          Composez votre souvenir.
+          Peignez votre souvenir.
         </h1>
         <p className="mt-2 text-[12.5px] text-dusk/55 max-w-[34ch]">
-          Touchez un élément pour l'ajouter. Glissez pour déplacer.
-          Touchez à nouveau pour le redimensionner ou le faire tourner.
+          Choisissez un élément, puis peignez sur la toile pour faire éclore le jardin.
+          Touchez une forme pour l'ajuster.
         </p>
       </div>
 
@@ -256,18 +295,23 @@ function Composer({ type, onSave }: { type: MemoryType; onSave: () => void }) {
       <div
         ref={canvasRef}
         onPointerDown={onCanvasPointerDown}
+        onPointerMove={onCanvasPointerMove}
+        onPointerUp={onCanvasPointerUp}
+        onPointerCancel={onCanvasPointerUp}
         className="relative mt-5 w-full paper-card overflow-hidden touch-none select-none"
-        style={{ aspectRatio: "3 / 4", borderRadius: 28 }}
+        style={{ aspectRatio: "3 / 4", borderRadius: 28, cursor: brush ? "crosshair" : "default" }}
       >
         {/* painted ground — same world as the garden, blurred to a wash */}
         <img
           src={gardenPainted}
           alt=""
           aria-hidden
+          data-ground="1"
           className="absolute inset-0 w-full h-full object-cover pointer-events-none"
           style={{ filter: "blur(28px) saturate(0.85)", opacity: 0.35, transform: "scale(1.1)" }}
         />
         <div
+          data-ground="1"
           className="absolute inset-0 pointer-events-none"
           style={{
             background:
@@ -377,8 +421,10 @@ function Composer({ type, onSave }: { type: MemoryType; onSave: () => void }) {
         {palette.map((s) => (
           <button
             key={s.kind}
-            onClick={() => addShape(s.kind)}
-            className="shrink-0 flex flex-col items-center gap-1.5 paper-card p-2.5 w-[72px]"
+            onClick={() => setBrush(s.kind)}
+            className={`shrink-0 flex flex-col items-center gap-1.5 paper-card p-2.5 w-[72px] transition-all ${
+              brush === s.kind ? "ring-2 ring-dusk/60 scale-[1.04]" : ""
+            }`}
           >
             <OrganicShape kind={s.kind} size={40} tint="var(--clay)" tint2="var(--peach)" />
             <span className="text-[10px] tracking-wide text-dusk/65">{s.label}</span>

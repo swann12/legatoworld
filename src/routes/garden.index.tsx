@@ -69,13 +69,7 @@ function Garden() {
           <div className="px-5 mt-9">
             <div
               className="relative w-full overflow-hidden"
-              style={{
-                aspectRatio: "1 / 1",
-                borderRadius: 36,
-                boxShadow:
-                  "inset 0 1px 1px rgba(255,250,235,0.55), 0 30px 70px -28px rgba(60,40,30,0.38)",
-                border: "1px solid color-mix(in oklab, var(--dusk) 10%, transparent)",
-              }}
+              style={{ aspectRatio: "1 / 1" }}
             >
               {/* The painted garden image as the actual scene */}
               <img
@@ -120,21 +114,13 @@ function Garden() {
                     touchAction: "manipulation",
                   }}
                 >
-                  {/* warm breath of light on hover */}
+                  {/* warm breath of light on hover — no frame, just luminescence */}
                   <span
-                    className="absolute inset-[-6%] rounded-full opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity duration-700"
+                    className="absolute inset-[-10%] rounded-full opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity duration-700"
                     style={{
                       background:
-                        "radial-gradient(ellipse at center, rgba(255,238,205,0.55), transparent 65%)",
+                        "radial-gradient(ellipse at center, rgba(255,240,210,0.6), transparent 70%)",
                       mixBlendMode: "soft-light",
-                    }}
-                  />
-                  {/* ornamental gold ring, dissolved */}
-                  <span
-                    className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-80 group-focus:opacity-80 transition-opacity duration-700"
-                    style={{
-                      boxShadow:
-                        "inset 0 0 0 1px rgba(196,158,90,0.55), 0 0 24px rgba(196,158,90,0.18)",
                     }}
                   />
                 </Link>
