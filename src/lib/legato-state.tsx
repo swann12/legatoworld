@@ -10,18 +10,18 @@ export type Branch =
 export type Mode = "cocoon" | "anchoring" | "breath" | "relay";
 
 export const BRANCHES: { id: Branch; label: string; whisper: string }[] = [
-  { id: "person", label: "A person", whisper: "Someone you carry." },
-  { id: "animal", label: "An animal", whisper: "A small, devoted presence." },
-  { id: "fear", label: "Fear of losing someone", whisper: "Anticipation, ahead of time." },
-  { id: "anxiety", label: "Reflection on death", whisper: "The quiet, larger questions." },
-  { id: "unknown", label: "I don't know yet", whisper: "That's a place too." },
+  { id: "person", label: "Une personne", whisper: "Quelqu'un que vous portez." },
+  { id: "animal", label: "Un animal", whisper: "Une petite présence dévouée." },
+  { id: "fear", label: "La peur de perdre quelqu'un", whisper: "Une anticipation, en amont." },
+  { id: "anxiety", label: "Réflexion sur la mort", whisper: "Les grandes questions, tout doucement." },
+  { id: "unknown", label: "Je ne sais pas encore", whisper: "C'est un lieu, aussi." },
 ];
 
 export const MODES: { id: Mode; label: string; whisper: string; tint: string }[] = [
-  { id: "cocoon", label: "Cocoon", whisper: "Low energy. Few choices. Wrapped.", tint: "rose" },
-  { id: "anchoring", label: "Anchoring", whisper: "Fog. Need structure under the feet.", tint: "sage" },
-  { id: "breath", label: "Breath", whisper: "A small reopening. More air.", tint: "mist" },
-  { id: "relay", label: "Relay", whisper: "Practical hands. Help from others.", tint: "lavender" },
+  { id: "cocoon", label: "Cocon", whisper: "Peu d'énergie. Peu de choix. Enveloppé·e.", tint: "rose" },
+  { id: "anchoring", label: "Ancrage", whisper: "Du brouillard. Besoin de sol sous les pieds.", tint: "sage" },
+  { id: "breath", label: "Souffle", whisper: "Une petite réouverture. Plus d'air.", tint: "mist" },
+  { id: "relay", label: "Relais", whisper: "Des mains concrètes. L'aide des autres.", tint: "lavender" },
 ];
 
 type Ctx = {

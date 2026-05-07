@@ -6,8 +6,8 @@ import { Halos } from "@/components/legato/Halos";
 export const Route = createFileRoute("/onboarding")({
   head: () => ({
     meta: [
-      { title: "Begin softly — Legato" },
-      { name: "description", content: "Five quiet questions to set the tone of your space." },
+      { title: "Commencer doucement — Legato" },
+      { name: "description", content: "Quelques questions tranquilles pour accorder votre espace." },
     ],
   }),
   component: Onboarding,
@@ -35,7 +35,7 @@ function Onboarding() {
             onClick={() => (step === 0 ? navigate({ to: "/" }) : setStep(((step - 1) as Step)))}
             className="text-[11px] uppercase tracking-[0.22em] text-dusk/50 hover:text-dusk"
           >
-            ← Back
+            ← Retour
           </button>
           <Progress step={step} />
         </div>
@@ -52,7 +52,7 @@ function Onboarding() {
               className="ceramic organic-radius-3 w-full px-7 py-5 text-center"
             >
               <span className="font-serif text-xl italic text-dusk">
-                {step === 3 ? "Step inside" : "Continue"}
+                {step === 3 ? "Entrer" : "Continuer"}
               </span>
             </button>
           </div>
@@ -81,16 +81,16 @@ function StepWelcome({ name, setName }: { name: string; setName: (s: string) => 
   return (
     <div className="space-y-10">
       <h2 className="font-serif text-[2.4rem] leading-[1.05] font-light text-balance">
-        Before anything, <span className="italic">how shall we call you?</span>
+        Avant tout, <span className="italic">comment vous nommer ?</span>
       </h2>
       <p className="text-[15px] leading-relaxed text-dusk/60 max-w-[34ch]">
-        A name to whisper at the top of the page. Nothing more.
+        Un prénom à murmurer en haut de la page. Rien de plus.
       </p>
       <div className="ceramic-soft organic-radius-3 px-6 py-5">
         <input
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="Your name"
+          placeholder="Votre prénom"
           className="w-full bg-transparent font-serif text-2xl italic text-dusk placeholder:text-dusk/30 outline-none"
         />
       </div>
@@ -102,10 +102,10 @@ function StepBranch({ value, onChange }: { value: Branch; onChange: (b: Branch) 
   return (
     <div className="space-y-8">
       <h2 className="font-serif text-[2.4rem] leading-[1.05] font-light text-balance">
-        What brings you, <span className="italic">in this moment?</span>
+        Qu'est-ce qui vous amène, <span className="italic">en ce moment ?</span>
       </h2>
       <p className="text-[14px] text-dusk/55 max-w-[34ch]">
-        You can change this any time. Nothing here is fixed.
+        Vous pouvez changer à tout moment. Rien n'est figé ici.
       </p>
       <div className="space-y-3">
         {BRANCHES.map((b) => {
@@ -139,10 +139,10 @@ function StepMode({ value, onChange }: { value: Mode; onChange: (m: Mode) => voi
   return (
     <div className="space-y-8">
       <h2 className="font-serif text-[2.4rem] leading-[1.05] font-light text-balance">
-        How does <span className="italic">today</span> feel?
+        Comment se sent <span className="italic">aujourd'hui</span> ?
       </h2>
       <p className="text-[14px] text-dusk/55 max-w-[34ch]">
-        Choose the room that fits. The app will adjust around you.
+        Choisissez la pièce qui vous va. L'app s'ajustera autour de vous.
       </p>
       <div className="grid grid-cols-2 gap-3">
         {MODES.map((m) => {
@@ -186,16 +186,16 @@ function StepClosing({ name, branch, mode }: { name: string; branch: Branch; mod
   return (
     <div className="space-y-8">
       <h2 className="font-serif text-[2.6rem] leading-[1.02] font-light text-balance">
-        Welcome, <span className="italic">{name || "friend"}.</span>
+        Bienvenue, <span className="italic">{name || "vous"}.</span>
       </h2>
       <div className="space-y-5 text-[15px] leading-relaxed text-dusk/65 max-w-[34ch]">
         <p>
-          We'll hold space for <span className="italic">{branchLabel}</span>, in
-          a <span className="italic">{modeLabel?.toLowerCase()}</span> room.
+          Nous tiendrons un espace pour <span className="italic">{branchLabel}</span>,
+          dans une pièce en <span className="italic">{modeLabel?.toLowerCase()}</span>.
         </p>
         <p>
-          When you're ready, we'll plant something in the garden together. Or not.
-          You set the pace.
+          Quand vous serez prêt·e, nous planterons quelque chose dans le jardin,
+          ensemble. Ou pas. Vous donnez le rythme.
         </p>
       </div>
     </div>

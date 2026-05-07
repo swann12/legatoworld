@@ -4,7 +4,7 @@ import { Shell, ScreenHeader, Section } from "@/components/legato/Shell";
 import { useLegato, MODES, BRANCHES } from "@/lib/legato-state";
 
 export const Route = createFileRoute("/space")({
-  head: () => ({ meta: [{ title: "Space — Legato" }] }),
+  head: () => ({ meta: [{ title: "Espace — Legato" }] }),
   component: Space,
 });
 
@@ -14,10 +14,10 @@ function Space() {
   const branchLabel = BRANCHES.find((b) => b.id === branch)?.label;
 
   const items: { to: "/memories" | "/dates" | "/onboarding" | "/crisis"; eyebrow: string; title: string }[] = [
-    { to: "/memories", eyebrow: "Library", title: "Everything you've kept" },
-    { to: "/dates", eyebrow: "Calendar", title: "Sensitive dates" },
-    { to: "/onboarding", eyebrow: "Adjust", title: "Change branch or mode" },
-    { to: "/crisis", eyebrow: "Safety", title: "If today is too much" },
+    { to: "/memories", eyebrow: "Bibliothèque", title: "Tout ce que vous avez gardé" },
+    { to: "/dates", eyebrow: "Calendrier", title: "Dates sensibles" },
+    { to: "/onboarding", eyebrow: "Ajuster", title: "Changer de branche ou de mode" },
+    { to: "/crisis", eyebrow: "Sécurité", title: "Si aujourd'hui est trop" },
   ];
 
   return (
@@ -26,16 +26,16 @@ function Space() {
         <Halos mode={mode} variant="calm" />
         <div className="relative z-10">
           <ScreenHeader
-            eyebrow="Space — your settings, gently"
-            title={<>{name}, <br /><span className="italic">your interior.</span></>}
+            eyebrow="Espace — vos réglages, en douceur"
+            title={<>{name}, <br /><span className="italic">votre intérieur.</span></>}
           />
 
           <Section className="mt-8">
             <div className="ceramic organic-radius-3 p-6 space-y-3">
-              <Row label="Holding" value={branchLabel ?? ""} />
+              <Row label="Présence tenue" value={branchLabel ?? ""} />
               <Row label="Mode" value={modeLabel ?? ""} />
-              <Row label="Notifications" value="Quiet (no pings)" />
-              <Row label="Language" value="English" />
+              <Row label="Notifications" value="Silencieuses (aucun signal)" />
+              <Row label="Langue" value="Français" />
             </div>
           </Section>
 
@@ -53,7 +53,7 @@ function Space() {
 
           <Section className="mt-10">
             <p className="text-center text-[11px] uppercase tracking-[0.22em] text-dusk/35">
-              Legato · v1 · made with care
+              Legato · v1 · fait avec soin
             </p>
           </Section>
         </div>

@@ -1,10 +1,10 @@
 import { Link, useLocation } from "@tanstack/react-router";
 
 const items = [
-  { to: "/home", label: "Home" },
-  { to: "/garden", label: "Garden" },
-  { to: "/help", label: "Help" },
-  { to: "/space", label: "Space" },
+  { to: "/home", label: "Accueil" },
+  { to: "/garden", label: "Jardin" },
+  { to: "/help", label: "Aide" },
+  { to: "/space", label: "Espace" },
 ] as const;
 
 export function BottomNav() {

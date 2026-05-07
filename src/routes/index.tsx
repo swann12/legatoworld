@@ -9,7 +9,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "A premium, emotionally intelligent companion for grief, loss, and the fear of losing someone.",
+          "Un compagnon premium, doux et sensible, pour le deuil, la perte et la peur de perdre quelqu'un.",
       },
     ],
   }),
@@ -29,11 +29,11 @@ function Index() {
 
           <div className="mt-32 max-w-[28ch]">
             <h1 className="font-serif text-[3rem] leading-[1.02] font-light text-dusk text-balance">
-              Some things <span className="italic">cannot be fixed,</span> only kept company.
+              Certaines choses <span className="italic">ne se réparent pas,</span> elles s'accompagnent.
             </h1>
             <p className="mt-6 text-[15px] leading-relaxed text-dusk/60 max-w-[34ch]">
-              A quiet space for grief, fear of loss, and the larger questions —
-              held with care, without pressure.
+              Un espace tranquille pour le deuil, la peur de perdre, et les
+              grandes questions — tenu avec soin, sans pression.
             </p>
           </div>
 
@@ -42,16 +42,16 @@ function Index() {
               to="/onboarding"
               className="ceramic organic-radius-3 px-7 py-5 text-center"
             >
-              <span className="block font-serif text-xl italic text-dusk">Begin softly</span>
+              <span className="block font-serif text-xl italic text-dusk">Commencer doucement</span>
               <span className="mt-1 block text-[11px] uppercase tracking-[0.22em] text-dusk/50">
-                Five quiet questions
+                Quatre questions, sans bruit
               </span>
             </Link>
             <Link
               to="/home"
               className="text-center text-[12px] uppercase tracking-[0.22em] text-dusk/50 hover:text-dusk transition-colors"
             >
-              Skip — I've been here before
+              Passer — je suis déjà venu·e
             </Link>
           </div>
         </div>

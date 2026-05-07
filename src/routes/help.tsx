@@ -4,21 +4,21 @@ import { Shell, ScreenHeader, Section } from "@/components/legato/Shell";
 import { useLegato } from "@/lib/legato-state";
 
 export const Route = createFileRoute("/help")({
-  head: () => ({ meta: [{ title: "Help — Legato" }] }),
+  head: () => ({ meta: [{ title: "Aide — Legato" }] }),
   component: Help,
 });
 
 const PRACTICAL = [
-  { kind: "Administration", title: "What needs to be cancelled or notified", body: "A list, paced gently. Bank, subscriptions, the post office." },
-  { kind: "Body", title: "When the body forgets to eat", body: "Five small things you can swallow without thinking." },
-  { kind: "Sleep", title: "Nights that won't end", body: "What others have done at 3 a.m." },
-  { kind: "Conversation", title: "Words for awkward sympathies", body: "When people say the wrong thing, kindly." },
+  { kind: "Administratif", title: "Ce qu'il faut résilier ou prévenir", body: "Une liste, au rythme doux. Banque, abonnements, la poste." },
+  { kind: "Le corps", title: "Quand le corps oublie de manger", body: "Cinq petites choses que l'on peut avaler sans y penser." },
+  { kind: "Sommeil", title: "Les nuits qui ne finissent pas", body: "Ce que d'autres ont fait à 3 h du matin." },
+  { kind: "Paroles", title: "Que répondre aux condoléances maladroites", body: "Quand on dit ce qu'il ne faut pas, gentiment." },
 ];
 
 const RELAY = [
-  { kind: "A close friend", title: "Ask someone to take one task", body: "Forward a single, clear ask. We write the message for you." },
-  { kind: "A professional", title: "Find a grief therapist nearby", body: "Curated by region and language." },
-  { kind: "A community", title: "Quiet group, weekly", body: "Online circles for loss of a person, an animal, or anticipated grief." },
+  { kind: "Un·e proche", title: "Demander à quelqu'un de prendre une tâche", body: "Transmettre une demande simple et claire. Nous écrivons le message pour vous." },
+  { kind: "Un·e pro", title: "Trouver un·e thérapeute du deuil près de chez vous", body: "Sélectionné·es par région et par langue." },
+  { kind: "Une communauté", title: "Petit cercle, chaque semaine", body: "Des groupes en ligne pour la perte d'une personne, d'un animal, ou un deuil anticipé." },
 ];
 
 function Help() {
@@ -29,13 +29,13 @@ function Help() {
         <Halos mode={mode} variant="calm" />
         <div className="relative z-10">
           <ScreenHeader
-            eyebrow="Help — practical, quiet"
-            title={<>Hands nearby, <br /><span className="italic">if you need them.</span></>}
-            subtitle="Nothing here demands you do it now. Choose only what feels possible today."
+            eyebrow="Aide — concrète, tranquille"
+            title={<>Des mains tout près, <br /><span className="italic">si vous en avez besoin.</span></>}
+            subtitle="Rien ici ne vous demande de faire maintenant. Choisissez seulement ce qui semble possible aujourd'hui."
           />
 
           <Section className="mt-10 space-y-3">
-            <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/40 mb-2">Practical things</p>
+            <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/40 mb-2">Choses concrètes</p>
             {PRACTICAL.map((p) => (
               <article key={p.title} className="ceramic-soft organic-radius-3 p-5">
                 <p className="text-[10px] uppercase tracking-[0.2em] text-dusk/40">{p.kind}</p>
@@ -46,7 +46,7 @@ function Help() {
           </Section>
 
           <Section className="mt-10 space-y-3">
-            <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/40 mb-2">Relay — let others help</p>
+            <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/40 mb-2">Relais — laisser d'autres aider</p>
             {RELAY.map((p) => (
               <article key={p.title} className="ceramic organic-radius-3 p-5">
                 <p className="text-[10px] uppercase tracking-[0.2em] text-dusk/40">{p.kind}</p>
@@ -58,8 +58,8 @@ function Help() {
 
           <Section className="mt-10">
             <Link to="/crisis" className="block border-t border-dusk/10 pt-6 text-center">
-              <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/40">If today is too much</p>
-              <p className="mt-1 font-serif text-base italic text-dusk">A small, quiet door →</p>
+              <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/40">Si aujourd'hui est trop</p>
+              <p className="mt-1 font-serif text-base italic text-dusk">Une petite porte, calme →</p>
             </Link>
           </Section>
         </div>

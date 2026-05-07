@@ -7,8 +7,8 @@ import { useLegato, MODES, BRANCHES } from "@/lib/legato-state";
 export const Route = createFileRoute("/home")({
   head: () => ({
     meta: [
-      { title: "Home — Legato" },
-      { name: "description", content: "Your quiet interior, today." },
+      { title: "Accueil — Legato" },
+      { name: "description", content: "Votre intérieur tranquille, aujourd'hui." },
     ],
   }),
   component: Home,
@@ -40,18 +40,18 @@ function Home() {
 
           {/* greeting */}
           <ScreenHeader
-            eyebrow="Today, slowly"
+            eyebrow="Aujourd'hui, lentement"
             title={
               <>
                 {name},<br />
-                <span className="italic text-dusk/85">rest here</span> a while.
+                <span className="italic text-dusk/85">posez-vous ici</span> un moment.
               </>
             }
             subtitle={
               <>
-                Held in <span className="italic">{modeMeta.label.toLowerCase()}</span>, with
+                Tenu·e en <span className="italic">{modeMeta.label.toLowerCase()}</span>, avec
                 {" "}
-                <span className="italic">{branchMeta.label.toLowerCase()}</span> close by.
+                <span className="italic">{branchMeta.label.toLowerCase()}</span> tout près.
               </>
             }
           />
@@ -81,18 +81,18 @@ function Home() {
                   </div>
                   <div className="flex-1">
                     <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/40">
-                      Presence
+                      Présence
                     </p>
                     <h3 className="font-serif text-2xl italic text-dusk leading-tight">
-                      A few quiet minutes
+                      Quelques minutes tranquilles
                     </h3>
                   </div>
                 </div>
                 <p className="mt-5 text-[13.5px] leading-relaxed text-dusk/65 max-w-[32ch]">
-                  No tasks. Just a small companion who listens, in your own pace.
+                  Aucune tâche. Juste une petite présence qui écoute, à votre rythme.
                 </p>
                 <p className="mt-5 text-[11px] uppercase tracking-[0.22em] text-dusk/55">
-                  Step inside →
+                  Entrer →
                 </p>
               </div>
             </Link>
@@ -116,10 +116,10 @@ function Home() {
                 </div>
                 <div className="flex-1">
                   <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/40">
-                    The Garden
+                    Le Jardin
                   </p>
                   <p className="font-serif text-lg italic text-dusk">
-                    Three traces have settled in.
+                    Trois traces s'y sont déposées.
                   </p>
                 </div>
                 <span className="text-dusk/40">→</span>
@@ -127,16 +127,16 @@ function Home() {
 
               <Link to="/no-words" className="ceramic-soft organic-radius-3 p-5">
                 <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/40">
-                  No words
+                  Sans mots
                 </p>
-                <p className="mt-2 font-serif text-lg text-dusk">Just be here.</p>
+                <p className="mt-2 font-serif text-lg text-dusk">Être là, simplement.</p>
               </Link>
 
               <Link to="/help" className="ceramic-soft organic-radius-3 p-5">
                 <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/40">
-                  Practical help
+                  Aide concrète
                 </p>
-                <p className="mt-2 font-serif text-lg text-dusk">Hands nearby.</p>
+                <p className="mt-2 font-serif text-lg text-dusk">Des mains, tout près.</p>
               </Link>
             </div>
           </Section>
@@ -148,10 +148,10 @@ function Home() {
             >
               <div>
                 <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/40">
-                  Sensitive dates
+                  Dates sensibles
                 </p>
                 <p className="mt-1 font-serif text-base italic text-dusk">
-                  An anniversary in 12 days
+                  Un anniversaire dans 12 jours
                 </p>
               </div>
               <span className="text-dusk/40 text-sm">→</span>
@@ -165,10 +165,10 @@ function Home() {
             >
               <div>
                 <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/40">
-                  If today is too much
+                  Si aujourd'hui est trop
                 </p>
                 <p className="mt-1 font-serif text-base italic text-dusk">
-                  A small, quiet door
+                  Une petite porte, calme
                 </p>
               </div>
               <span className="text-dusk/40 text-sm">→</span>
