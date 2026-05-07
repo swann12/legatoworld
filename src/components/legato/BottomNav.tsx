@@ -34,7 +34,7 @@ export function BottomNav() {
                 }`}
               />
               <span
-                className={`text-[10px] font-medium tracking-[0.08em] transition-opacity whitespace-nowrap ${
+                className={`text-[9px] font-medium uppercase tracking-[0.18em] transition-opacity whitespace-nowrap ${
                   active ? "text-dusk opacity-100" : "text-dusk opacity-45 group-hover:opacity-80"
                 }`}
               >
