@@ -3,7 +3,7 @@ import { Halos } from "@/components/legato/Halos";
 import { Shell } from "@/components/legato/Shell";
 import { useLegato } from "@/lib/legato-state";
 
-export const Route = createFileRoute("/garden")({
+export const Route = createFileRoute("/garden/")({
   head: () => ({
     meta: [
       { title: "Le Jardin — Legato" },
