@@ -3,6 +3,7 @@ import { Link, useLocation } from "@tanstack/react-router";
 const items = [
   { to: "/home", label: "Accueil" },
   { to: "/garden", label: "Jardin" },
+  { to: "/presence", label: "Présence" },
   { to: "/help", label: "Aide" },
   { to: "/space", label: "Espace" },
 ] as const;
