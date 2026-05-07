@@ -183,6 +183,9 @@ function Garden() {
                     <stop offset="0%" stopColor="oklch(0.95 0.022 60)" />
                     <stop offset="100%" stopColor="oklch(0.92 0.028 55)" />
                   </linearGradient>
+                  <filter id="feather" x="-20%" y="-20%" width="140%" height="140%">
+                    <feGaussianBlur stdDeviation="6" />
+                  </filter>
                   {PATCHES.map((p) => (
                     <clipPath key={`c-${p.id}`} id={`clip-${p.id}`}>
                       <path d={p.d} />
@@ -209,17 +212,17 @@ function Garden() {
                 {/* parterre soils — soft tinted washes under each bed */}
                 {PATCHES.map((p) => (
                   <g key={`g-${p.id}`}>
+                    {/* diffuse halo extending beyond the bed */}
                     <path
                       d={p.d}
-                      fill={`color-mix(in oklab, ${p.blooms[0].tint} 18%, var(--paper))`}
-                      opacity="0.85"
+                      fill={`color-mix(in oklab, ${p.blooms[0].tint} 28%, var(--paper))`}
+                      opacity="0.55"
+                      filter="url(#feather)"
                     />
                     <path
                       d={p.d}
-                      fill="none"
-                      stroke="oklch(0.78 0.04 60)"
-                      strokeWidth="0.6"
-                      opacity="0.5"
+                      fill={`color-mix(in oklab, ${p.blooms[0].tint} 14%, var(--paper))`}
+                      opacity="0.7"
                     />
                   </g>
                 ))}
