@@ -26,20 +26,22 @@ type Being = {
 
 /** Positions calibrated to the painted garden image (5 main beds). */
 export const BEINGS: Being[] = [
-  { id: "elise", name: "Élise", kind: "person", cx: 22, cy: 22, rx: 20, ry: 16,
+  { id: "elise", name: "Élise", kind: "person", cx: 20, cy: 20, rx: 18, ry: 16,
     blooms: [{ tint: "var(--rose)", tint2: "var(--peach)" }, { tint: "var(--peach)", tint2: "var(--rose)" }] },
-  { id: "papa",  name: "Papa",  kind: "person", cx: 78, cy: 22, rx: 20, ry: 16,
+  { id: "papa",  name: "Papa",  kind: "person", cx: 78, cy: 20, rx: 20, ry: 16,
     blooms: [{ tint: "var(--clay)", tint2: "var(--peach)" }, { tint: "var(--lavender)", tint2: "var(--mist)" }] },
-  { id: "leon",  name: "Léon",  kind: "animal", cx: 22, cy: 58, rx: 20, ry: 15,
+  { id: "leon",  name: "Léon",  kind: "animal", cx: 18, cy: 58, rx: 18, ry: 16,
     blooms: [{ tint: "var(--lavender)", tint2: "var(--mist)" }, { tint: "var(--sage)", tint2: "var(--paper)" }] },
-  { id: "mamie", name: "Mamie", kind: "person", cx: 80, cy: 56, rx: 18, ry: 15,
+  { id: "mamie", name: "Mamie", kind: "person", cx: 80, cy: 60, rx: 18, ry: 16,
     blooms: [{ tint: "var(--rose)", tint2: "var(--peach)" }, { tint: "var(--peach)", tint2: "var(--paper)" }] },
-  { id: "theo",  name: "Théo",  kind: "person", cx: 50, cy: 84, rx: 26, ry: 14,
+  { id: "theo",  name: "Théo",  kind: "person", cx: 50, cy: 84, rx: 22, ry: 12,
     blooms: [{ tint: "var(--sage)", tint2: "var(--clay)" }, { tint: "var(--peach)", tint2: "var(--rose)" }] },
 ];
 
 function Garden() {
   const { mode, lostName, t, lang } = useLegato();
+  const [hovered, setHovered] = useState<string | null>(null);
+  const activeBeing = BEINGS.find((b) => b.id === hovered) ?? null;
 
   return (
     <Shell>
@@ -60,8 +62,8 @@ function Garden() {
             </h1>
             <p className="mt-4 max-w-[32ch] text-[13.5px] leading-relaxed text-dusk/60">
               {lang === "fr"
-                ? "Chaque parcelle appartient à un être. Touchez-en une pour entrer dans son jardin."
-                : "Each plot belongs to a being. Touch one to enter their garden."}
+                ? "Une peinture vivante. Effleurez une floraison pour entrer dans le jardin de l'être qui l'habite."
+                : "A living painting. Brush a bloom to enter the garden of the being who dwells there."}
             </p>
           </header>
 
@@ -81,28 +83,32 @@ function Garden() {
                 draggable={false}
               />
 
-              {/* Subtle warm vignette + cream paper veil to soften */}
+              {/* Soft cream veil — softens edges so nothing feels framed */}
               <div
                 className="absolute inset-0 pointer-events-none"
                 style={{
                   background:
-                    "radial-gradient(ellipse at 50% 45%, transparent 60%, rgba(50,28,18,0.22) 100%)",
+                    "radial-gradient(ellipse at 50% 50%, transparent 55%, rgba(255,248,232,0.55) 100%)",
                 }}
               />
               <div
                 className="absolute inset-0 pointer-events-none mix-blend-soft-light"
                 style={{
                   background:
-                    "radial-gradient(ellipse at 50% 50%, rgba(255,248,232,0.18), transparent 70%)",
+                    "radial-gradient(ellipse at 50% 50%, rgba(255,248,232,0.22), transparent 75%)",
                 }}
               />
 
-              {/* Clickable parterres — invisible hotspots, cursor-pointer, soft hover glow */}
+              {/* Invisible hotspots — only a soft inner luminescence on hover, never a frame */}
               {BEINGS.map((p) => (
                 <Link
                   key={p.id}
                   to="/garden/$zone"
                   params={{ zone: p.id }}
+                  onMouseEnter={() => setHovered(p.id)}
+                  onMouseLeave={() => setHovered((h) => (h === p.id ? null : h))}
+                  onFocus={() => setHovered(p.id)}
+                  onBlur={() => setHovered((h) => (h === p.id ? null : h))}
                   aria-label={`${lang === "fr" ? "Entrer dans le jardin de" : "Enter the garden of"} ${p.name}`}
                   className="absolute group focus:outline-none cursor-pointer"
                   style={{
@@ -114,22 +120,35 @@ function Garden() {
                     touchAction: "manipulation",
                   }}
                 >
-                  {/* warm breath of light on hover — no frame, just luminescence */}
                   <span
-                    className="absolute inset-[-10%] rounded-full opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity duration-700"
+                    className="absolute inset-[-30%] rounded-full opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity duration-1000"
                     style={{
                       background:
-                        "radial-gradient(ellipse at center, rgba(255,240,210,0.6), transparent 70%)",
+                        "radial-gradient(ellipse at center, rgba(255,242,215,0.55), transparent 72%)",
                       mixBlendMode: "soft-light",
+                      filter: "blur(8px)",
                     }}
                   />
                 </Link>
               ))}
             </div>
 
-            <p className="mt-4 px-2 text-center text-[11px] italic text-dusk/45">
-              {lang === "fr" ? "touchez un parterre pour entrer" : "tap a flower bed to enter"}
-            </p>
+            {/* Discreet, subtle indication of which being a bloom belongs to */}
+            <div className="mt-5 h-6 px-2 text-center">
+              <p
+                key={activeBeing?.id ?? "idle"}
+                className="text-[11px] italic text-dusk/55 transition-opacity duration-500"
+                style={{ opacity: activeBeing ? 1 : 0.5 }}
+              >
+                {activeBeing
+                  ? lang === "fr"
+                    ? `ce jardin appartient à ${activeBeing.name}`
+                    : `this garden belongs to ${activeBeing.name}`
+                  : lang === "fr"
+                    ? "effleurez une floraison"
+                    : "brush a bloom"}
+              </p>
+            </div>
           </div>
         </div>
       </div>
