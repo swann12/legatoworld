@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SpaceRouteImport } from './routes/space'
 import { Route as PresenceRouteImport } from './routes/presence'
+import { Route as PracticalRouteImport } from './routes/practical'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as NoWordsRouteImport } from './routes/no-words'
 import { Route as MemoriesRouteImport } from './routes/memories'
@@ -30,6 +31,11 @@ const SpaceRoute = SpaceRouteImport.update({
 const PresenceRoute = PresenceRouteImport.update({
   id: '/presence',
   path: '/presence',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PracticalRoute = PracticalRouteImport.update({
+  id: '/practical',
+  path: '/practical',
   getParentRoute: () => rootRouteImport,
 } as any)
 const OnboardingRoute = OnboardingRouteImport.update({
@@ -93,6 +99,7 @@ export interface FileRoutesByFullPath {
   '/memories': typeof MemoriesRoute
   '/no-words': typeof NoWordsRoute
   '/onboarding': typeof OnboardingRoute
+  '/practical': typeof PracticalRoute
   '/presence': typeof PresenceRoute
   '/space': typeof SpaceRoute
   '/garden/$zone': typeof GardenZoneRoute
@@ -107,6 +114,7 @@ export interface FileRoutesByTo {
   '/memories': typeof MemoriesRoute
   '/no-words': typeof NoWordsRoute
   '/onboarding': typeof OnboardingRoute
+  '/practical': typeof PracticalRoute
   '/presence': typeof PresenceRoute
   '/space': typeof SpaceRoute
   '/garden/$zone': typeof GardenZoneRoute
@@ -122,6 +130,7 @@ export interface FileRoutesById {
   '/memories': typeof MemoriesRoute
   '/no-words': typeof NoWordsRoute
   '/onboarding': typeof OnboardingRoute
+  '/practical': typeof PracticalRoute
   '/presence': typeof PresenceRoute
   '/space': typeof SpaceRoute
   '/garden/$zone': typeof GardenZoneRoute
@@ -138,6 +147,7 @@ export interface FileRouteTypes {
     | '/memories'
     | '/no-words'
     | '/onboarding'
+    | '/practical'
     | '/presence'
     | '/space'
     | '/garden/$zone'
@@ -152,6 +162,7 @@ export interface FileRouteTypes {
     | '/memories'
     | '/no-words'
     | '/onboarding'
+    | '/practical'
     | '/presence'
     | '/space'
     | '/garden/$zone'
@@ -166,6 +177,7 @@ export interface FileRouteTypes {
     | '/memories'
     | '/no-words'
     | '/onboarding'
+    | '/practical'
     | '/presence'
     | '/space'
     | '/garden/$zone'
@@ -181,6 +193,7 @@ export interface RootRouteChildren {
   MemoriesRoute: typeof MemoriesRoute
   NoWordsRoute: typeof NoWordsRoute
   OnboardingRoute: typeof OnboardingRoute
+  PracticalRoute: typeof PracticalRoute
   PresenceRoute: typeof PresenceRoute
   SpaceRoute: typeof SpaceRoute
 }
@@ -199,6 +212,13 @@ declare module '@tanstack/react-router' {
       path: '/presence'
       fullPath: '/presence'
       preLoaderRoute: typeof PresenceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/practical': {
+      id: '/practical'
+      path: '/practical'
+      fullPath: '/practical'
+      preLoaderRoute: typeof PracticalRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/onboarding': {
@@ -295,6 +315,7 @@ const rootRouteChildren: RootRouteChildren = {
   MemoriesRoute: MemoriesRoute,
   NoWordsRoute: NoWordsRoute,
   OnboardingRoute: OnboardingRoute,
+  PracticalRoute: PracticalRoute,
   PresenceRoute: PresenceRoute,
   SpaceRoute: SpaceRoute,
 }
