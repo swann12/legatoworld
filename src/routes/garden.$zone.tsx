@@ -3,52 +3,57 @@ import { useState } from "react";
 import { Halos } from "@/components/legato/Halos";
 import { Shell } from "@/components/legato/Shell";
 import { useLegato } from "@/lib/legato-state";
+import { BEINGS } from "./garden.index";
 
 export const Route = createFileRoute("/garden/$zone")({
-  head: () => ({ meta: [{ title: "Une zone du jardin — Legato" }] }),
+  head: () => ({ meta: [{ title: "Un jardin — Legato" }] }),
   component: GardenZone,
 });
 
-const ZONE: Record<string, { name: string; whisper: string; color: string; color2: string; items: { id: string; title: string; date: string; preview: string }[] }> = {
-  voice: {
-    name: "Voix", whisper: "Un son qu'on emporte.",
-    color: "var(--rose)", color2: "var(--peach)",
-    items: [
-      { id: "v1", title: "Lecture sous le porche", date: "14 avril 2024", preview: "0:42" },
-      { id: "v2", title: "Rire pour rien", date: "2 mars 2024", preview: "0:18" },
-    ],
-  },
-  photo: {
-    name: "Lumière", whisper: "La lumière, fixée dans le temps.",
-    color: "var(--peach)", color2: "var(--rose)",
-    items: [
-      { id: "p1", title: "La cuisine, fin d'après-midi", date: "11 août 2023", preview: "" },
-      { id: "p2", title: "Des mains, chapeau d'été", date: "30 juin 2023", preview: "" },
-    ],
-  },
-  sentence: {
-    name: "Phrases", whisper: "Des mots gardés en poche.",
-    color: "var(--lavender)", color2: "var(--mist)",
-    items: [
-      { id: "s1", title: "Quelque chose qu'elle a dit", date: "—", preview: "« Tu reviens toujours plus doux… »" },
-    ],
-  },
-  habit: {
-    name: "Gestes", whisper: "De petites tendresses répétées.",
-    color: "var(--sage)", color2: "var(--mist)",
-    items: [{ id: "h1", title: "Le thé de 16 h", date: "Tous les jours", preview: "Une cuillère et demie de miel." }],
-  },
-  object: {
-    name: "Objets", whisper: "Ce que la main connaît encore.",
-    color: "var(--clay)", color2: "var(--peach)",
-    items: [{ id: "o1", title: "Le foulard bleu", date: "—", preview: "Plié dans le deuxième tiroir." }],
-  },
+/**
+ * Each zone is now a being's garden — a single person or animal.
+ * Memories of every kind (voice, light, words, gestures, objects)
+ * coexist inside this one garden.
+ */
+type ItemKind = "voice" | "photo" | "sentence" | "habit" | "object";
+type Item = { id: string; kind: ItemKind; title: string; date: string; preview: string };
+
+const BEING_MEMORIES: Record<string, Item[]> = {
+  elise: [
+    { id: "e1", kind: "voice",    title: "Lecture sous le porche", date: "14 avril 2024", preview: "0:42" },
+    { id: "e2", kind: "sentence", title: "Quelque chose qu'elle a dit", date: "—", preview: "« Tu reviens toujours plus doux… »" },
+    { id: "e3", kind: "photo",    title: "La cuisine, fin d'après-midi", date: "11 août 2023", preview: "" },
+    { id: "e4", kind: "habit",    title: "Le thé de 16 h", date: "Chaque jour", preview: "Une cuillère et demie de miel." },
+  ],
+  papa: [
+    { id: "p1", kind: "voice",    title: "Il chantonne en conduisant", date: "été 2019", preview: "0:28" },
+    { id: "p2", kind: "object",   title: "La montre en cuir usé",     date: "—",          preview: "Toujours en retard d'une minute." },
+  ],
+  leon: [
+    { id: "l1", kind: "habit",    title: "Le tour du jardin, midi", date: "tous les jours", preview: "Trois pas, une pause, un regard." },
+    { id: "l2", kind: "photo",    title: "Endormi sur le pull",     date: "novembre 2022",  preview: "" },
+  ],
+  mamie: [
+    { id: "m1", kind: "sentence", title: "Sa formule du matin", date: "—", preview: "« Doucement le matin, pas trop vite le soir. »" },
+    { id: "m2", kind: "object",   title: "Le foulard bleu",     date: "—", preview: "Plié dans le deuxième tiroir." },
+  ],
+  theo: [
+    { id: "t1", kind: "voice",    title: "Rire pour rien",     date: "2 mars 2024", preview: "0:18" },
+    { id: "t2", kind: "photo",    title: "Des mains, chapeau d'été", date: "30 juin 2023", preview: "" },
+  ],
+};
+
+const KIND_LABEL: Record<ItemKind, string> = {
+  voice: "voix", photo: "lumière", sentence: "phrase", habit: "geste", object: "objet",
 };
 
 function GardenZone() {
   const { zone } = Route.useParams();
   const { mode } = useLegato();
-  const data = ZONE[zone] ?? ZONE.voice;
+  const being = BEINGS.find((b) => b.id === zone) ?? BEINGS[0];
+  const items = BEING_MEMORIES[being.id] ?? [];
+  const color = being.blooms[0].tint;
+  const color2 = being.blooms[1]?.tint ?? being.blooms[0].tint2;
   const [openId, setOpenId] = useState<string | null>(null);
   const [playingId, setPlayingId] = useState<string | null>(null);
 
@@ -69,25 +74,28 @@ function GardenZone() {
               className="size-28 sway"
               style={{
                 borderRadius: "60% 40% 55% 45% / 50% 60% 40% 50%",
-                background: `radial-gradient(ellipse at 32% 28%, ${data.color} 0%, ${data.color2} 70%)`,
+                background: `radial-gradient(ellipse at 32% 28%, ${color} 0%, ${color2} 70%)`,
                 boxShadow:
                   "inset 0 2px 4px rgba(255,255,255,0.6), 0 18px 40px -16px rgba(60,40,40,0.3)",
               }}
             />
             <p className="mt-7 text-[10px] uppercase tracking-[0.22em] text-dusk/45">
-              Parterre — {data.name.toLowerCase()}
+              {being.kind === "person" ? "Le jardin de" : "Le coin de"}
             </p>
             <h1 className="mt-2 font-serif text-[2rem] leading-[1.05] font-light text-dusk text-balance">
-              {data.whisper}
+              {being.name}
             </h1>
+            <p className="mt-2 text-[10px] uppercase tracking-[0.22em] text-dusk/40">
+              {being.kind === "person" ? "personne" : "animal"} · {items.length} {items.length > 1 ? "souvenirs" : "souvenir"}
+            </p>
           </div>
 
-          {/* Existing compositions */}
+          {/* Existing memories — every kind coexists in one being's garden */}
           <div className="px-7 mt-10 space-y-3">
-            {data.items.map((it) => {
+            {items.map((it) => {
               const open = openId === it.id;
               const playing = playingId === it.id;
-              const isVoice = zone === "voice";
+              const isVoice = it.kind === "voice";
               return (
                 <button
                   key={it.id}
@@ -102,6 +110,9 @@ function GardenZone() {
                     <h3 className="font-serif text-lg italic text-dusk leading-snug">{it.title}</h3>
                     <span className="text-[10px] tracking-[0.1em] text-dusk/45 shrink-0">{it.date}</span>
                   </div>
+                  <p className="mt-1 text-[10px] uppercase tracking-[0.22em] text-dusk/40">
+                    {KIND_LABEL[it.kind]}
+                  </p>
                   {it.preview && (
                     <p className="mt-2 text-[13.5px] leading-relaxed text-dusk/65">{it.preview}</p>
                   )}
@@ -119,7 +130,7 @@ function GardenZone() {
                       <div
                         className="rounded-[18px] p-4"
                         style={{
-                          background: `linear-gradient(135deg, color-mix(in oklab, ${data.color} 35%, var(--paper)), color-mix(in oklab, ${data.color2} 25%, var(--paper)))`,
+                          background: `linear-gradient(135deg, color-mix(in oklab, ${color} 35%, var(--paper)), color-mix(in oklab, ${color2} 25%, var(--paper)))`,
                         }}
                       >
                         {isVoice ? (
