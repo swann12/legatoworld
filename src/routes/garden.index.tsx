@@ -15,122 +15,147 @@ export const Route = createFileRoute("/garden/")({
 });
 
 /**
- * Painted flower-bed garden: sandy winding paths, stepping stones,
- * and dense parterres of small blooms. Inspired by hand-drawn garden plans.
+ * Painted-garden view — a hand-drawn illustrated plan crossed with
+ * pointillist density (Kusama) and pictorial flower-field brushwork
+ * (Klimt / van Gogh). Each parterre is a being's memorial garden.
+ * No names are shown; the whole parcel is the entry, with a hover hint.
  */
 type Bloom = { kind: ShapeKind; tint: string; tint2: string; weight: number };
-/** A parterre = a single being (person or animal) the user remembers. */
 export type Being = {
-  id: string;                 // slug used as the route param
-  name: string;               // displayed only in the small legend / detail page
+  id: string;
+  name: string;
   kind: "person" | "animal";
-  d: string;                  // SVG path defining the bed shape (viewBox 0..300 / 0..400)
-  markX: number; markY: number; // subtle "enter here" ink mark
+  /** SVG path on a 0..300 / 0..400 viewBox */
+  d: string;
+  /** centroid for the hover label */
+  cx: number; cy: number;
   blooms: Bloom[];
+  /** density of pointillé dots (60..220) */
   density: number;
-  intensity: number;          // 0.55..1 — opacity contrast of the bed
+  /** richness 0.7..1 — drives opacity & saturation */
+  intensity: number;
+  /** dominant deep ink for the bed outline */
+  ink: string;
 };
 
-/**
- * The five parterres of the garden — one per being.
- * IDs become the route slug used by /garden/$zone.
- */
 export const BEINGS: Being[] = [
   {
     id: "elise", name: "Élise", kind: "person",
-    d: "M40,40 C 30,90 80,140 95,95 C 130,60 170,30 150,82 C 138,122 80,142 42,122 Z",
-    markX: 92, markY: 88,
+    d: "M30,32 C 24,90 86,142 110,98 C 142,52 178,28 158,90 C 144,134 86,148 38,128 C 22,118 24,72 30,32 Z",
+    cx: 92, cy: 86,
     blooms: [
-      { kind: "rose",     tint: "var(--rose)",   tint2: "var(--peach)", weight: 3 },
-      { kind: "anemone",  tint: "var(--peach)",  tint2: "var(--rose)",  weight: 2 },
-      { kind: "camellia", tint: "var(--rose)",   tint2: "var(--paper)", weight: 2 },
-      { kind: "moss",     tint: "var(--sage)",   tint2: "var(--mist)",  weight: 1 },
+      { kind: "rose",     tint: "var(--rose)",     tint2: "var(--peach)",   weight: 4 },
+      { kind: "anemone",  tint: "var(--peach)",    tint2: "var(--rose)",    weight: 3 },
+      { kind: "camellia", tint: "var(--rose)",     tint2: "var(--paper)",   weight: 2 },
+      { kind: "daisy",    tint: "var(--paper)",    tint2: "var(--peach)",   weight: 2 },
+      { kind: "moss",     tint: "var(--sage)",     tint2: "var(--mist)",    weight: 2 },
     ],
-    density: 28, intensity: 1,
+    density: 180, intensity: 1, ink: "oklch(0.42 0.10 22)",
   },
   {
     id: "papa", name: "Papa", kind: "person",
-    d: "M180,40 C 252,28 294,70 282,124 C 278,162 228,172 208,142 C 178,112 158,80 180,40 Z",
-    markX: 232, markY: 98,
+    d: "M180,28 C 256,18 298,72 282,128 C 274,164 222,176 200,148 C 174,118 156,72 180,28 Z",
+    cx: 226, cy: 92,
     blooms: [
-      { kind: "tulip",    tint: "var(--clay)",   tint2: "var(--peach)", weight: 3 },
-      { kind: "magnolia", tint: "var(--paper)",  tint2: "var(--peach)", weight: 2 },
-      { kind: "iris",     tint: "var(--lavender)", tint2: "var(--mist)", weight: 1 },
-      { kind: "grass",    tint: "var(--sage)",   tint2: "var(--mist)",  weight: 1 },
+      { kind: "tulip",    tint: "var(--clay)",     tint2: "var(--peach)",   weight: 3 },
+      { kind: "magnolia", tint: "var(--paper)",    tint2: "var(--peach)",   weight: 2 },
+      { kind: "iris",     tint: "var(--lavender)", tint2: "var(--mist)",    weight: 2 },
+      { kind: "ginkgo",   tint: "var(--peach)",    tint2: "var(--paper)",   weight: 2 },
+      { kind: "grass",    tint: "var(--sage)",     tint2: "var(--mist)",    weight: 2 },
     ],
-    density: 22, intensity: 0.78,
+    density: 150, intensity: 0.92, ink: "oklch(0.40 0.08 60)",
   },
   {
     id: "leon", name: "Léon", kind: "animal",
-    d: "M30,180 C 70,160 132,168 132,212 C 132,262 72,262 40,240 C 10,220 8,200 30,180 Z",
-    markX: 78, markY: 214,
+    d: "M22,180 C 64,158 134,164 138,214 C 142,266 78,272 42,250 C 8,232 4,202 22,180 Z",
+    cx: 78, cy: 214,
     blooms: [
-      { kind: "moss",     tint: "var(--sage)",   tint2: "var(--mist)",   weight: 3 },
-      { kind: "fern",     tint: "var(--sage)",   tint2: "var(--mist)",   weight: 2 },
-      { kind: "pebble",   tint: "var(--clay)",   tint2: "var(--paper)",  weight: 1 },
-      { kind: "daisy",    tint: "var(--paper)",  tint2: "var(--peach)",  weight: 1 },
+      { kind: "moss",     tint: "var(--sage)",     tint2: "var(--mist)",    weight: 4 },
+      { kind: "fern",     tint: "var(--sage)",     tint2: "var(--mist)",    weight: 3 },
+      { kind: "pebble",   tint: "var(--clay)",     tint2: "var(--paper)",   weight: 2 },
+      { kind: "daisy",    tint: "var(--paper)",    tint2: "var(--peach)",   weight: 2 },
+      { kind: "leaf",     tint: "var(--sage)",     tint2: "var(--mist)",    weight: 2 },
     ],
-    density: 24, intensity: 0.92,
+    density: 170, intensity: 0.96, ink: "oklch(0.34 0.10 145)",
   },
   {
     id: "mamie", name: "Mamie", kind: "person",
-    d: "M170,200 C 244,180 292,212 280,262 C 268,302 220,302 188,280 C 158,260 148,220 170,200 Z",
-    markX: 226, markY: 244,
+    d: "M168,202 C 248,180 296,214 282,266 C 268,308 218,308 184,284 C 152,262 142,222 168,202 Z",
+    cx: 222, cy: 246,
     blooms: [
-      { kind: "iris",     tint: "var(--lavender)", tint2: "var(--mist)",  weight: 3 },
-      { kind: "ginkgo",   tint: "var(--peach)",    tint2: "var(--paper)", weight: 1 },
-      { kind: "anemone",  tint: "var(--lavender)", tint2: "var(--rose)",  weight: 2 },
-      { kind: "leaf",     tint: "var(--sage)",     tint2: "var(--mist)",  weight: 1 },
+      { kind: "iris",     tint: "var(--lavender)", tint2: "var(--mist)",    weight: 3 },
+      { kind: "anemone",  tint: "var(--lavender)", tint2: "var(--rose)",    weight: 3 },
+      { kind: "ginkgo",   tint: "var(--peach)",    tint2: "var(--paper)",   weight: 2 },
+      { kind: "leaf",     tint: "var(--sage)",     tint2: "var(--mist)",    weight: 2 },
+      { kind: "lavender" in {} ? "iris" : "iris", tint: "var(--lavender)", tint2: "var(--paper)", weight: 1 },
     ],
-    density: 26, intensity: 0.7,
+    density: 160, intensity: 0.88, ink: "oklch(0.40 0.10 290)",
   },
   {
     id: "theo", name: "Théo", kind: "person",
-    d: "M70,310 C 132,288 202,300 232,332 C 262,362 220,392 160,382 C 98,372 58,362 70,310 Z",
-    markX: 152, markY: 348,
+    d: "M64,308 C 130,284 206,298 238,332 C 268,366 222,398 158,386 C 92,374 50,362 64,308 Z",
+    cx: 152, cy: 348,
     blooms: [
-      { kind: "shell",    tint: "var(--clay)",   tint2: "var(--peach)", weight: 2 },
-      { kind: "pearl",    tint: "var(--paper)",  tint2: "var(--mist)",  weight: 2 },
-      { kind: "spiral",   tint: "var(--peach)",  tint2: "var(--rose)",  weight: 2 },
-      { kind: "starfish", tint: "var(--peach)",  tint2: "var(--rose)",  weight: 1 },
+      { kind: "shell",    tint: "var(--clay)",     tint2: "var(--peach)",   weight: 3 },
+      { kind: "pearl",    tint: "var(--paper)",    tint2: "var(--mist)",    weight: 2 },
+      { kind: "spiral",   tint: "var(--peach)",    tint2: "var(--rose)",    weight: 2 },
+      { kind: "starfish", tint: "var(--peach)",    tint2: "var(--rose)",    weight: 2 },
+      { kind: "coral",    tint: "var(--clay)",     tint2: "var(--rose)",    weight: 2 },
     ],
-    density: 26, intensity: 1,
+    density: 170, intensity: 1, ink: "oklch(0.42 0.10 30)",
   },
 ];
 
-/* deterministic pseudo-random */
+/* deterministic pseudo-random in [0,1) */
 function rand(seed: number) { return ((Math.sin(seed) + 1) / 2); }
 
-/**
- * Sample N points roughly inside a rectangle that bounds the SVG path.
- * For a beautifully dense look without complex point-in-polygon code,
- * we let a per-patch <clipPath> handle clipping to the petal shape.
- */
-function blooms(p: Being) {
-  // crude bounding box from path "M x,y C ... " — extract numbers
-  const nums = p.d.match(/-?\d+(\.\d+)?/g)?.map(Number) ?? [];
-  let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
-  for (let i = 0; i < nums.length; i += 2) {
-    minX = Math.min(minX, nums[i]); maxX = Math.max(maxX, nums[i]);
-    minY = Math.min(minY, nums[i + 1]); maxY = Math.max(maxY, nums[i + 1]);
+function bbox(d: string) {
+  const nums = d.match(/-?\d+(\.\d+)?/g)!.map(Number);
+  let mnx = Infinity, mny = Infinity, mxx = -Infinity, mxy = -Infinity;
+  for (let k = 0; k < nums.length; k += 2) {
+    mnx = Math.min(mnx, nums[k]); mxx = Math.max(mxx, nums[k]);
+    mny = Math.min(mny, nums[k + 1]); mxy = Math.max(mxy, nums[k + 1]);
   }
-  const w = maxX - minX, h = maxY - minY;
+  return { mnx, mny, mxx, mxy };
+}
+
+/** pictorial brush touches (larger flower/leaf shapes) */
+function picturalBlooms(p: Being, count: number) {
+  const { mnx, mny, mxx, mxy } = bbox(p.d);
+  const w = mxx - mnx, h = mxy - mny;
   const total = p.blooms.reduce((s, b) => s + b.weight, 0);
   const out: { x: number; y: number; size: number; rot: number; bloom: Bloom }[] = [];
-  let i = 0;
-  while (out.length < p.density && i < p.density * 10) {
-    const seed = (p.id.charCodeAt(0) + i) * 7.7;
-    const x = minX + rand(seed) * w;
-    const y = minY + rand(seed * 1.7 + 3) * h;
-    // pick a bloom by weight
+  for (let i = 0; i < count; i++) {
+    const seed = (p.id.charCodeAt(0) + i) * 11.3;
+    const x = mnx + rand(seed) * w;
+    const y = mny + rand(seed * 1.7 + 3) * h;
     let r = rand(seed * 2.3) * total, picked = p.blooms[0];
     for (const b of p.blooms) { if ((r -= b.weight) <= 0) { picked = b; break; } }
-    const size = 14 + rand(seed * 3.1) * 12;
-    const rot = rand(seed * 4.7) * 60 - 30;
+    const size = 16 + rand(seed * 3.1) * 18;
+    const rot = rand(seed * 4.7) * 80 - 40;
     out.push({ x, y, size, rot, bloom: picked });
-    i++;
   }
   return out;
+}
+
+/** dense pointillé dots (Kusama-like) */
+function stippleDots(p: Being) {
+  const { mnx, mny, mxx, mxy } = bbox(p.d);
+  const w = mxx - mnx, h = mxy - mny;
+  const dots: { x: number; y: number; r: number; tint: string; opacity: number }[] = [];
+  for (let i = 0; i < p.density; i++) {
+    const seed = (p.id.charCodeAt(0) + i) * 5.3;
+    const x = mnx + rand(seed) * w;
+    const y = mny + rand(seed * 2.1 + 1) * h;
+    const bloom = p.blooms[i % p.blooms.length];
+    const r = 0.7 + rand(seed * 3.9) * 1.8;
+    dots.push({
+      x, y, r,
+      tint: i % 3 === 0 ? bloom.tint2 : bloom.tint,
+      opacity: 0.55 + rand(seed * 7) * 0.4,
+    });
+  }
+  return dots;
 }
 
 function Garden() {
@@ -154,22 +179,33 @@ function Garden() {
               )}
             </h1>
             <p className="mt-4 max-w-[32ch] text-[13.5px] leading-relaxed text-dusk/60">
-              {t("garden.subtitle")}
+              {lang === "fr"
+                ? "Chaque parcelle appartient à un être. Touchez-en une pour entrer dans son jardin."
+                : "Each plot belongs to a being. Touch one to enter their garden."}
             </p>
           </header>
 
-          {/* The painted garden, viewed from above — each parterre is a being */}
+          {/* The painted garden, viewed from above */}
           <div className="px-5 mt-9">
             <div
-              className="relative w-full paper-card overflow-hidden"
-              style={{ aspectRatio: "3 / 4", borderRadius: 36 }}
+              className="relative w-full overflow-hidden"
+              style={{
+                aspectRatio: "3 / 4",
+                borderRadius: 36,
+                background:
+                  "radial-gradient(ellipse at 50% 20%, oklch(0.94 0.025 80) 0%, oklch(0.86 0.04 60) 60%, oklch(0.74 0.05 50) 100%)",
+                boxShadow:
+                  "inset 0 1px 1px rgba(255,255,255,0.6), 0 24px 60px -28px rgba(60,40,40,0.35)",
+                border: "1px solid color-mix(in oklab, var(--dusk) 10%, transparent)",
+              }}
             >
-              {/* warm paper ground */}
+              {/* paper grain */}
               <div
-                className="absolute inset-0"
+                className="absolute inset-0 mix-blend-multiply opacity-[0.18] pointer-events-none"
                 style={{
-                  background:
-                    "radial-gradient(ellipse at 50% 30%, color-mix(in oklab, var(--paper) 98%, white) 0%, color-mix(in oklab, var(--clay) 38%, var(--paper)) 100%)",
+                  backgroundImage:
+                    "radial-gradient(circle at 20% 30%, rgba(80,50,30,0.22), transparent 40%)," +
+                    "radial-gradient(circle at 80% 70%, rgba(60,40,30,0.18), transparent 50%)",
                 }}
               />
 
@@ -180,13 +216,20 @@ function Garden() {
                 aria-hidden
               >
                 <defs>
-                  {/* soft sandy path tone */}
                   <linearGradient id="sand" x1="0" x2="0" y1="0" y2="1">
-                    <stop offset="0%" stopColor="oklch(0.95 0.022 60)" />
-                    <stop offset="100%" stopColor="oklch(0.92 0.028 55)" />
+                    <stop offset="0%" stopColor="oklch(0.93 0.03 70)" />
+                    <stop offset="100%" stopColor="oklch(0.86 0.04 60)" />
+                  </linearGradient>
+                  <linearGradient id="sand-edge" x1="0" x2="0" y1="0" y2="1">
+                    <stop offset="0%" stopColor="oklch(0.62 0.06 50)" />
+                    <stop offset="100%" stopColor="oklch(0.55 0.05 45)" />
                   </linearGradient>
                   <filter id="feather" x="-20%" y="-20%" width="140%" height="140%">
-                    <feGaussianBlur stdDeviation="6" />
+                    <feGaussianBlur stdDeviation="5" />
+                  </filter>
+                  <filter id="grain">
+                    <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" />
+                    <feColorMatrix values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.18 0" />
                   </filter>
                   {BEINGS.map((p) => (
                     <clipPath key={`c-${p.id}`} id={`clip-${p.id}`}>
@@ -195,166 +238,189 @@ function Garden() {
                   ))}
                 </defs>
 
-                {/* meandering sandy paths — wide soft strokes */}
-                <g stroke="url(#sand)" fill="none" strokeLinecap="round" opacity="0.95">
-                  <path d="M150,-10 C 160,60 110,110 150,170 S 200,260 150,330 C 130,360 150,400 150,420" strokeWidth="34" />
-                  <path d="M-10,210 C 80,220 130,200 180,220 S 260,250 320,230" strokeWidth="22" opacity="0.7" />
+                {/* meandering sandy paths — wider, with dark edges */}
+                <g fill="none" strokeLinecap="round">
+                  <path
+                    d="M150,-10 C 162,60 110,108 152,170 S 196,260 148,330 C 128,360 152,400 152,420"
+                    stroke="url(#sand-edge)" strokeWidth="40" opacity="0.55"
+                  />
+                  <path
+                    d="M150,-10 C 162,60 110,108 152,170 S 196,260 148,330 C 128,360 152,400 152,420"
+                    stroke="url(#sand)" strokeWidth="32"
+                  />
+                  <path
+                    d="M-10,210 C 80,222 130,200 184,222 S 264,252 320,232"
+                    stroke="url(#sand-edge)" strokeWidth="26" opacity="0.45"
+                  />
+                  <path
+                    d="M-10,210 C 80,222 130,200 184,222 S 264,252 320,232"
+                    stroke="url(#sand)" strokeWidth="20"
+                  />
                 </g>
 
-                {/* path inner ribbon (subtle) */}
-                <g stroke="oklch(0.97 0.012 60)" fill="none" strokeLinecap="round" opacity="0.75">
-                  <path d="M150,-10 C 160,60 110,110 150,170 S 200,260 150,330 C 130,360 150,400 150,420" strokeWidth="18" />
+                {/* path inner ribbon */}
+                <g stroke="oklch(0.97 0.012 60)" fill="none" strokeLinecap="round" opacity="0.7">
+                  <path d="M150,-10 C 162,60 110,108 152,170 S 196,260 148,330 C 128,360 152,400 152,420" strokeWidth="14" />
                 </g>
 
                 {/* path edge stitches */}
-                <g stroke="oklch(0.84 0.03 60)" fill="none" strokeWidth="0.6" strokeDasharray="1 5" opacity="0.7">
-                  <path d="M150,-10 C 160,60 110,110 150,170 S 200,260 150,330 C 130,360 150,400 150,420" />
+                <g stroke="oklch(0.55 0.05 50)" fill="none" strokeWidth="0.8" strokeDasharray="1 5" opacity="0.55">
+                  <path d="M150,-10 C 162,60 110,108 152,170 S 196,260 148,330 C 128,360 152,400 152,420" />
                 </g>
 
-                {/* parterre soils — soft tinted washes with varied opacity */}
+                {/* parterre soils — darker, two layered washes for depth */}
                 {BEINGS.map((p) => (
                   <g key={`g-${p.id}`}>
+                    {/* shadow under the bed */}
                     <path
                       d={p.d}
-                      fill={`color-mix(in oklab, ${p.blooms[0].tint} 75%, var(--paper))`}
-                      opacity={(0.55 + p.intensity * 0.4).toFixed(2)}
+                      fill={`color-mix(in oklab, ${p.ink} 60%, var(--paper))`}
+                      opacity="0.18"
+                      transform="translate(2 4)"
                       filter="url(#feather)"
                     />
+                    {/* deep wash */}
                     <path
                       d={p.d}
-                      fill={`color-mix(in oklab, ${p.blooms[0].tint} 55%, var(--paper))`}
-                      opacity={(0.75 + p.intensity * 0.25).toFixed(2)}
+                      fill={`color-mix(in oklab, ${p.blooms[0].tint} 92%, ${p.ink})`}
+                      opacity={(0.5 + p.intensity * 0.35).toFixed(2)}
+                      filter="url(#feather)"
+                    />
+                    {/* mid wash */}
+                    <path
+                      d={p.d}
+                      fill={`color-mix(in oklab, ${p.blooms[0].tint} 85%, var(--paper))`}
+                      opacity={(0.7 + p.intensity * 0.25).toFixed(2)}
+                    />
+                    {/* hand-drawn ink contour */}
+                    <path
+                      d={p.d}
+                      fill="none"
+                      stroke={p.ink}
+                      strokeWidth="0.8"
+                      strokeDasharray="2 3"
+                      opacity="0.55"
                     />
                   </g>
                 ))}
 
-                {/* stepping stones along the central path */}
-                {[
-                  { cx: 152, cy: 30 }, { cx: 138, cy: 70 }, { cx: 122, cy: 110 },
-                  { cx: 132, cy: 150 }, { cx: 158, cy: 180 }, { cx: 178, cy: 215 },
-                  { cx: 188, cy: 252 }, { cx: 168, cy: 285 }, { cx: 150, cy: 318 },
-                  { cx: 138, cy: 350 }, { cx: 152, cy: 384 },
-                ].map((s, i) => (
-                  <g key={i}>
-                    <ellipse cx={s.cx + 1} cy={s.cy + 1.5} rx="11" ry="8" fill="rgba(60,40,40,0.12)" />
-                    <ellipse cx={s.cx} cy={s.cy} rx="11" ry="8" fill="oklch(0.96 0.012 70)" stroke="oklch(0.86 0.03 60)" strokeWidth="0.6" />
-                  </g>
-                ))}
-              </svg>
-
-              {/* Visual layer — stipple + blooms for every bed (non-interactive) */}
-              <svg
-                viewBox="0 0 300 400"
-                className="absolute inset-0 w-full h-full pointer-events-none"
-                preserveAspectRatio="none"
-                aria-hidden
-              >
+                {/* pointillé layer — Kusama-like dense dots, clipped to each bed */}
                 {BEINGS.map((p) => (
                   <g key={`stipple-${p.id}`} clipPath={`url(#clip-${p.id})`}>
-                    {Array.from({ length: 80 }).map((_, i) => {
-                      const seed = (p.id.charCodeAt(0) + i) * 5.3;
-                      const nums = p.d.match(/-?\d+(\.\d+)?/g)!.map(Number);
-                      let mnx = Infinity, mny = Infinity, mxx = -Infinity, mxy = -Infinity;
-                      for (let k = 0; k < nums.length; k += 2) {
-                        mnx = Math.min(mnx, nums[k]); mxx = Math.max(mxx, nums[k]);
-                        mny = Math.min(mny, nums[k + 1]); mxy = Math.max(mxy, nums[k + 1]);
-                      }
-                      const x = mnx + rand(seed) * (mxx - mnx);
-                      const y = mny + rand(seed * 2.1 + 1) * (mxy - mny);
-                      const tint = i % 2 === 0 ? p.blooms[0].tint : (p.blooms[1]?.tint ?? p.blooms[0].tint2);
-                      return <circle key={i} cx={x} cy={y} r={1 + (i % 3) * 0.5} fill={tint} opacity={(0.6 + p.intensity * 0.35).toFixed(2)} />;
-                    })}
+                    {stippleDots(p).map((d, i) => (
+                      <circle
+                        key={i}
+                        cx={d.x} cy={d.y} r={d.r}
+                        fill={d.tint}
+                        opacity={d.opacity.toFixed(2)}
+                      />
+                    ))}
+                  </g>
+                ))}
+
+                {/* pictorial brush touches — flower/leaf glyphs */}
+                {BEINGS.map((p) => (
+                  <g
+                    key={`blooms-${p.id}`}
+                    clipPath={`url(#clip-${p.id})`}
+                    opacity={(0.85 + p.intensity * 0.15).toFixed(2)}
+                  >
+                    {picturalBlooms(p, 14).map((b, i) => (
+                      <g key={i} transform={`translate(${b.x} ${b.y}) rotate(${b.rot}) scale(${b.size / 100})`}>
+                        <g transform="translate(-50 -50)">
+                          <foreignObject x="0" y="0" width="100" height="100">
+                            <OrganicShape kind={b.bloom.kind} size={100} tint={b.bloom.tint} tint2={b.bloom.tint2} />
+                          </foreignObject>
+                        </g>
+                      </g>
+                    ))}
+                  </g>
+                ))}
+
+                {/* a few stepping stones, sparse */}
+                {[
+                  { cx: 152, cy: 30 }, { cx: 130, cy: 100 }, { cx: 156, cy: 178 },
+                  { cx: 184, cy: 248 }, { cx: 144, cy: 322 }, { cx: 152, cy: 388 },
+                ].map((s, i) => (
+                  <g key={i}>
+                    <ellipse cx={s.cx + 1} cy={s.cy + 1.5} rx="9" ry="6.5" fill="rgba(60,40,40,0.18)" />
+                    <ellipse cx={s.cx} cy={s.cy} rx="9" ry="6.5" fill="oklch(0.96 0.012 70)" stroke="oklch(0.6 0.04 50)" strokeWidth="0.5" />
                   </g>
                 ))}
               </svg>
-              <div className="absolute inset-0 pointer-events-none">
-                <svg viewBox="0 0 300 400" className="absolute inset-0 w-full h-full" preserveAspectRatio="none">
-                  {BEINGS.map((p) => (
-                    <g key={`blooms-${p.id}`} clipPath={`url(#clip-${p.id})`} opacity={(0.85 + p.intensity * 0.15).toFixed(2)}>
-                      {blooms(p).map((b, i) => (
-                        <g key={i} transform={`translate(${b.x} ${b.y}) rotate(${b.rot}) scale(${b.size / 100})`}>
-                          <g transform="translate(-50 -50)">
-                            <foreignObject x="0" y="0" width="100" height="100">
-                              <OrganicShape kind={b.bloom.kind} size={100} tint={b.bloom.tint} tint2={b.bloom.tint2} />
-                            </foreignObject>
-                          </g>
-                        </g>
-                      ))}
-                    </g>
-                  ))}
-                </svg>
+
+              {/* "vous êtes ici" — small ink mark at the entrance */}
+              <div className="absolute -translate-x-1/2 z-10" style={{ top: "3.5%", left: "50%" }}>
+                <div className="size-1.5 rounded-full bg-dusk/55 breath" />
               </div>
 
-              {/* Each parterre — invisible tap target covering the bed +
-                  a barely-there ink dot at the entry point. Subtle on purpose. */}
+              {/* Each parterre — clickable bed-shaped tap target with hover hint */}
               {BEINGS.map((p) => (
                 <Link
                   key={p.id}
                   to="/garden/$zone"
                   params={{ zone: p.id }}
                   aria-label={`${lang === "fr" ? "Entrer dans le jardin de" : "Enter the garden of"} ${p.name}`}
-                  className="absolute inset-0 group focus:outline-none"
+                  className="absolute inset-0 group focus:outline-none cursor-pointer"
                   style={{ touchAction: "manipulation" }}
                 >
-                  {/* tap area shaped exactly like the bed */}
                   <svg
                     viewBox="0 0 300 400"
                     className="absolute inset-0 w-full h-full"
                     preserveAspectRatio="none"
                   >
+                    {/* invisible tap area */}
                     <path d={p.d} fill="transparent" />
+                    {/* hover halo — soft inner glow only on hover/focus */}
+                    <path
+                      d={p.d}
+                      fill="white"
+                      className="opacity-0 group-hover:opacity-25 group-focus:opacity-25 transition-opacity duration-500"
+                      style={{ mixBlendMode: "overlay" as const }}
+                    />
+                    {/* hover outline — fine ink stroke that brightens */}
+                    <path
+                      d={p.d}
+                      fill="none"
+                      stroke={p.ink}
+                      strokeWidth="1.4"
+                      className="opacity-0 group-hover:opacity-80 group-focus:opacity-80 transition-opacity duration-500"
+                    />
                   </svg>
-                  {/* tiny breathing ink dot — the only visible cue */}
+
+                  {/* discrete italic "entrer ↗" hint that fades in on hover, centered on bed */}
                   <span
-                    className="absolute -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+                    className="absolute -translate-x-1/2 -translate-y-1/2 pointer-events-none
+                               opacity-0 group-hover:opacity-100 group-focus:opacity-100
+                               transition-all duration-500 ease-out
+                               translate-y-1 group-hover:translate-y-0"
                     style={{
-                      left: `${(p.markX / 300) * 100}%`,
-                      top: `${(p.markY / 400) * 100}%`,
+                      left: `${(p.cx / 300) * 100}%`,
+                      top: `${(p.cy / 400) * 100}%`,
                     }}
                   >
                     <span
-                      className="block rounded-full breath transition-opacity duration-500 group-hover:opacity-100"
+                      className="font-serif italic text-[12px] tracking-wide px-2.5 py-1 rounded-full"
                       style={{
-                        width: 4, height: 4,
-                        background: "var(--ink)",
-                        opacity: 0.5,
-                        boxShadow: "0 0 0 2px color-mix(in oklab, var(--paper) 70%, transparent)",
+                        color: "var(--paper)",
+                        background: "color-mix(in oklab, var(--ink) 78%, transparent)",
+                        backdropFilter: "blur(2px)",
                       }}
-                    />
-                  </span>
-                </Link>
-              ))}
-
-              {/* "vous êtes ici" — small ink mark at the entrance */}
-              <div className="absolute -translate-x-1/2" style={{ top: "3.5%", left: "50%" }}>
-                <div className="size-1.5 rounded-full bg-dusk/55 breath" />
-              </div>
-            </div>
-          </div>
-
-          {/* Quiet legend below — the beings, names only */}
-          <div className="px-7 mt-6">
-            <div className="grid grid-cols-2 gap-x-5 gap-y-2.5">
-              {BEINGS.map((p) => (
-                <Link
-                  key={p.id}
-                  to="/garden/$zone"
-                  params={{ zone: p.id }}
-                  className="border-b border-dusk/10 pb-2 group"
-                >
-                  <span className="flex items-baseline justify-between gap-2">
-                    <span className="font-serif text-[14px] italic text-dusk/85 leading-tight group-hover:text-dusk transition-colors">
-                      {p.name}
-                    </span>
-                    <span className="text-[9px] uppercase tracking-[0.22em] text-dusk/40">
-                      {p.kind === "person"
-                        ? (lang === "fr" ? "personne" : "person")
-                        : (lang === "fr" ? "animal" : "animal")}
+                    >
+                      {lang === "fr" ? "entrer" : "enter"}
+                      <span className="ml-1 not-italic">↗</span>
                     </span>
                   </span>
                 </Link>
               ))}
             </div>
+
+            <p className="mt-4 px-2 text-center text-[10px] uppercase tracking-[0.22em] text-dusk/45">
+              {lang === "fr"
+                ? "touchez une parcelle pour entrer · "
+                : "touch a plot to enter · "}
+              {BEINGS.length}
+            </p>
           </div>
 
           <div className="px-7 mt-9">
