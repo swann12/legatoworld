@@ -350,8 +350,21 @@ function Composer({ type, onSave }: { type: MemoryType; onSave: () => void }) {
                 width: it.size,
                 height: it.size,
                 transform: `translate(-50%, -50%) rotate(${it.rotation}deg)`,
+                filter: "blur(0.4px) saturate(0.92)",
+                opacity: 0.86,
+                mixBlendMode: "multiply",
               }}
             >
+              {/* watercolor wash behind each stamp */}
+              <div
+                aria-hidden
+                className="absolute inset-[-25%] rounded-full pointer-events-none"
+                style={{
+                  background: `radial-gradient(circle, ${it.tint} 0%, transparent 65%)`,
+                  opacity: 0.18,
+                  filter: "blur(6px)",
+                }}
+              />
               {/* halo for selection */}
               {(selected || opening) && (
                 <div
