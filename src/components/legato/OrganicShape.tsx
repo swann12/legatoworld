@@ -116,28 +116,127 @@ export function OrganicShape({
 }) {
   const id = `g-${kind}-${Math.random().toString(36).slice(2, 7)}`;
   const inked = INKED.has(kind);
+  // Each species has its OWN realistic palette so a parterre never looks
+  // monochromatic. The parent tint is preserved as a subtle wash for cohesion.
+  const native = NATIVE_PALETTE[kind];
+  const a = native?.[0] ?? tint;
+  const b = native?.[1] ?? tint2;
+  const c = native?.[2] ?? tint2;
   return (
     <svg viewBox="0 0 100 100" width={size} height={size} className={className} aria-hidden>
       <defs>
-        <radialGradient id={id} cx="35%" cy="30%" r="80%">
-          <stop offset="0%" stopColor={tint} />
-          <stop offset="100%" stopColor={tint2} />
+        {/* Realistic, multi-stop fill that gives each element its own life. */}
+        <radialGradient id={id} cx="32%" cy="28%" r="85%">
+          <stop offset="0%" stopColor={a} stopOpacity="1" />
+          <stop offset="55%" stopColor={b} stopOpacity="0.95" />
+          <stop offset="100%" stopColor={c} stopOpacity="1" />
         </radialGradient>
         <linearGradient id={`${id}-l`} x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" stopColor={tint} />
-          <stop offset="100%" stopColor={tint2} />
+          <stop offset="0%" stopColor={a} />
+          <stop offset="100%" stopColor={c} />
         </linearGradient>
-        {/* a soft watercolour wash, used behind inked elements */}
-        <radialGradient id={`${id}-w`} cx="50%" cy="55%" r="60%">
-          <stop offset="0%" stopColor={tint} stopOpacity="0.22" />
-          <stop offset="100%" stopColor={tint} stopOpacity="0" />
+        {/* watercolour wash behind inked elements — uses the species color */}
+        <radialGradient id={`${id}-w`} cx="50%" cy="55%" r="65%">
+          <stop offset="0%" stopColor={a} stopOpacity="0.28" />
+          <stop offset="100%" stopColor={a} stopOpacity="0" />
+        </radialGradient>
+        {/* parent-tint overlay for cohesion with the parterre */}
+        <radialGradient id={`${id}-t`} cx="50%" cy="50%" r="70%">
+          <stop offset="0%" stopColor={tint} stopOpacity="0.0" />
+          <stop offset="100%" stopColor={tint} stopOpacity="0.18" />
         </radialGradient>
       </defs>
       {inked && <circle cx="50" cy="55" r="46" fill={`url(#${id}-w)`} />}
-      <Shape kind={kind} fill={`url(#${id})`} stroke={tint} stroke2={tint2} lineFill={`url(#${id}-l)`} />
+      <Shape kind={kind} fill={`url(#${id})`} stroke={b} stroke2={c} lineFill={`url(#${id}-l)`} />
+      <circle cx="50" cy="50" r="50" fill={`url(#${id}-t)`} />
     </svg>
   );
 }
+
+/**
+ * Realistic native palette per species [highlight, body, shadow/accent].
+ * Tones are kept gentle (oklch with limited chroma) to stay in the project's
+ * watercolour register, but each kind has its OWN dominant hue.
+ */
+const NATIVE_PALETTE: Partial<Record<ShapeKind, [string, string, string]>> = {
+  // — fleurs
+  rose:     ["oklch(0.86 0.12 18)",  "oklch(0.72 0.16 20)",  "oklch(0.55 0.14 22)"],
+  anemone:  ["oklch(0.92 0.05 320)", "oklch(0.78 0.12 340)", "oklch(0.42 0.10 320)"],
+  iris:     ["oklch(0.86 0.08 290)", "oklch(0.62 0.14 295)", "oklch(0.45 0.13 290)"],
+  daisy:    ["oklch(0.98 0.02 90)",  "oklch(0.94 0.04 90)",  "oklch(0.78 0.16 80)"],
+  tulip:    ["oklch(0.82 0.16 35)",  "oklch(0.66 0.20 30)",  "oklch(0.40 0.10 25)"],
+  poppy:    ["oklch(0.78 0.20 28)",  "oklch(0.58 0.22 25)",  "oklch(0.32 0.10 25)"],
+  camellia: ["oklch(0.92 0.06 10)",  "oklch(0.78 0.12 12)",  "oklch(0.55 0.14 15)"],
+  lotus:    ["oklch(0.96 0.03 350)", "oklch(0.86 0.08 350)", "oklch(0.62 0.10 350)"],
+  magnolia: ["oklch(0.98 0.02 60)",  "oklch(0.92 0.05 50)",  "oklch(0.72 0.10 30)"],
+  petal:    ["oklch(0.88 0.10 20)",  "oklch(0.72 0.14 20)",  "oklch(0.50 0.12 20)"],
+  // — feuillages
+  leaf:     ["oklch(0.78 0.13 145)", "oklch(0.58 0.13 145)", "oklch(0.38 0.10 145)"],
+  branch:   ["oklch(0.55 0.05 60)",  "oklch(0.42 0.06 50)",  "oklch(0.30 0.06 40)"],
+  fern:     ["oklch(0.62 0.12 150)", "oklch(0.48 0.12 150)", "oklch(0.32 0.10 150)"],
+  grass:    ["oklch(0.72 0.13 135)", "oklch(0.55 0.13 140)", "oklch(0.38 0.10 140)"],
+  moss:     ["oklch(0.68 0.10 145)", "oklch(0.52 0.10 150)", "oklch(0.38 0.08 150)"],
+  twig:     ["oklch(0.55 0.06 55)",  "oklch(0.40 0.06 45)",  "oklch(0.28 0.05 40)"],
+  tree:     ["oklch(0.65 0.12 145)", "oklch(0.48 0.12 150)", "oklch(0.32 0.08 150)"],
+  bonsai:   ["oklch(0.62 0.10 140)", "oklch(0.45 0.06 60)",  "oklch(0.30 0.06 50)"],
+  willow:   ["oklch(0.78 0.10 135)", "oklch(0.62 0.10 140)", "oklch(0.45 0.08 145)"],
+  ginkgo:   ["oklch(0.92 0.13 95)",  "oklch(0.82 0.16 90)",  "oklch(0.55 0.14 85)"],
+  maple:    ["oklch(0.78 0.18 40)",  "oklch(0.62 0.20 30)",  "oklch(0.42 0.12 25)"],
+  bamboo:   ["oklch(0.72 0.11 130)", "oklch(0.55 0.12 135)", "oklch(0.38 0.08 135)"],
+  // — marin
+  shell:    ["oklch(0.94 0.04 60)",  "oklch(0.82 0.07 50)",  "oklch(0.62 0.08 40)"],
+  scallop:  ["oklch(0.92 0.06 40)",  "oklch(0.80 0.09 35)",  "oklch(0.60 0.09 30)"],
+  spiral:   ["oklch(0.90 0.06 70)",  "oklch(0.76 0.08 60)",  "oklch(0.55 0.08 50)"],
+  coral:    ["oklch(0.82 0.14 25)",  "oklch(0.66 0.16 22)",  "oklch(0.45 0.12 20)"],
+  "coral-fan":["oklch(0.86 0.10 12)","oklch(0.70 0.14 10)",  "oklch(0.48 0.12 8)"],
+  pearl:    ["oklch(0.98 0.01 280)", "oklch(0.92 0.03 270)", "oklch(0.78 0.05 260)"],
+  kelp:     ["oklch(0.55 0.10 155)", "oklch(0.40 0.10 155)", "oklch(0.28 0.08 150)"],
+  urchin:   ["oklch(0.50 0.10 320)", "oklch(0.38 0.10 320)", "oklch(0.22 0.06 310)"],
+  jellyfish:["oklch(0.92 0.05 320)", "oklch(0.80 0.08 310)", "oklch(0.62 0.10 300)"],
+  starfish: ["oklch(0.82 0.14 50)",  "oklch(0.68 0.16 45)",  "oklch(0.48 0.12 40)"],
+  anglerfish:["oklch(0.45 0.04 230)","oklch(0.32 0.06 240)", "oklch(0.20 0.04 240)"],
+  // — minéral
+  stone:    ["oklch(0.78 0.02 80)",  "oklch(0.62 0.03 70)",  "oklch(0.42 0.03 60)"],
+  pebble:   ["oklch(0.82 0.02 90)",  "oklch(0.68 0.03 80)",  "oklch(0.48 0.03 70)"],
+  seed:     ["oklch(0.65 0.06 60)",  "oklch(0.48 0.06 50)",  "oklch(0.30 0.05 40)"],
+  sand:     ["oklch(0.92 0.03 80)",  "oklch(0.82 0.05 70)",  "oklch(0.65 0.06 60)"],
+  root:     ["oklch(0.50 0.05 50)",  "oklch(0.36 0.05 40)",  "oklch(0.22 0.04 35)"],
+  crystal:  ["oklch(0.92 0.06 220)", "oklch(0.78 0.10 215)", "oklch(0.55 0.12 220)"],
+  amber:    ["oklch(0.86 0.13 70)",  "oklch(0.70 0.16 60)",  "oklch(0.48 0.13 55)"],
+  // — ciel
+  cloud:    ["oklch(0.98 0.01 240)", "oklch(0.92 0.02 240)", "oklch(0.80 0.03 240)"],
+  moon:     ["oklch(0.96 0.02 90)",  "oklch(0.86 0.04 80)",  "oklch(0.70 0.05 70)"],
+  sun:      ["oklch(0.96 0.10 90)",  "oklch(0.86 0.16 80)",  "oklch(0.68 0.18 70)"],
+  star:     ["oklch(0.98 0.02 90)",  "oklch(0.88 0.10 90)",  "oklch(0.72 0.14 85)"],
+  mist:     ["oklch(0.92 0.02 240)", "oklch(0.82 0.03 240)", "oklch(0.68 0.04 240)"],
+  rain:     ["oklch(0.78 0.05 230)", "oklch(0.62 0.08 230)", "oklch(0.45 0.08 230)"],
+  wind:     ["oklch(0.86 0.02 200)", "oklch(0.72 0.04 210)", "oklch(0.55 0.05 220)"],
+  comet:    ["oklch(0.92 0.05 250)", "oklch(0.72 0.10 260)", "oklch(0.45 0.12 270)"],
+  halo:     ["oklch(0.96 0.04 90)",  "oklch(0.86 0.08 80)",  "oklch(0.65 0.10 70)"],
+  // — vivant
+  bird:     ["oklch(0.55 0.06 250)", "oklch(0.40 0.08 250)", "oklch(0.25 0.06 250)"],
+  swallow:  ["oklch(0.45 0.05 260)", "oklch(0.30 0.06 260)", "oklch(0.18 0.04 260)"],
+  crane:    ["oklch(0.96 0.02 90)",  "oklch(0.85 0.04 80)",  "oklch(0.32 0.10 25)"],
+  fish:     ["oklch(0.78 0.08 220)", "oklch(0.58 0.12 220)", "oklch(0.38 0.10 220)"],
+  koi:      ["oklch(0.96 0.02 60)",  "oklch(0.78 0.18 35)",  "oklch(0.45 0.14 25)"],
+  butterfly:["oklch(0.86 0.13 30)",  "oklch(0.62 0.18 285)", "oklch(0.32 0.10 280)"],
+  moth:     ["oklch(0.78 0.06 60)",  "oklch(0.55 0.07 50)",  "oklch(0.32 0.06 40)"],
+  bee:      ["oklch(0.92 0.16 90)",  "oklch(0.65 0.16 80)",  "oklch(0.20 0.04 60)"],
+  dragonfly:["oklch(0.82 0.10 180)", "oklch(0.62 0.14 195)", "oklch(0.38 0.12 200)"],
+  deer:     ["oklch(0.72 0.08 60)",  "oklch(0.55 0.09 55)",  "oklch(0.35 0.07 45)"],
+  hare:     ["oklch(0.80 0.04 70)",  "oklch(0.62 0.05 65)",  "oklch(0.42 0.05 55)"],
+  snail:    ["oklch(0.82 0.06 60)",  "oklch(0.62 0.08 55)",  "oklch(0.42 0.08 45)"],
+  feather:  ["oklch(0.92 0.04 80)",  "oklch(0.75 0.06 70)",  "oklch(0.50 0.06 60)"],
+  // — exotique
+  palm:     ["oklch(0.65 0.13 145)", "oklch(0.50 0.13 145)", "oklch(0.32 0.10 145)"],
+  monstera: ["oklch(0.62 0.14 150)", "oklch(0.45 0.13 150)", "oklch(0.28 0.10 150)"],
+  orchid:   ["oklch(0.92 0.05 320)", "oklch(0.75 0.13 325)", "oklch(0.48 0.13 320)"],
+  "bird-of-paradise":["oklch(0.86 0.16 60)","oklch(0.65 0.20 40)","oklch(0.42 0.18 30)"],
+  cactus:   ["oklch(0.72 0.10 145)", "oklch(0.55 0.11 145)", "oklch(0.38 0.09 145)"],
+  hummingbird:["oklch(0.78 0.14 170)","oklch(0.55 0.16 175)","oklch(0.32 0.12 175)"],
+  lantern:  ["oklch(0.86 0.13 35)",  "oklch(0.68 0.16 30)",  "oklch(0.42 0.12 25)"],
+  torii:    ["oklch(0.62 0.18 28)",  "oklch(0.48 0.18 25)",  "oklch(0.30 0.10 25)"],
+};
 
 function Shape({
   kind, fill, stroke, stroke2, lineFill,

@@ -285,56 +285,42 @@ function Garden() {
                 </svg>
               </div>
 
-              {/* Each parterre — clickable wooden "gate" stone at the entry point.
-                  Positioned at (markX, markY); each is its own focusable Link. */}
+              {/* Each parterre — invisible tap target covering the bed +
+                  a barely-there ink dot at the entry point. Subtle on purpose. */}
               {BEINGS.map((p) => (
                 <Link
                   key={p.id}
                   to="/garden/$zone"
                   params={{ zone: p.id }}
                   aria-label={`${lang === "fr" ? "Entrer dans le jardin de" : "Enter the garden of"} ${p.name}`}
-                  className="absolute -translate-x-1/2 -translate-y-1/2 group focus:outline-none"
-                  style={{
-                    left: `${(p.markX / 300) * 100}%`,
-                    top: `${(p.markY / 400) * 100}%`,
-                    touchAction: "manipulation",
-                  }}
+                  className="absolute inset-0 group focus:outline-none"
+                  style={{ touchAction: "manipulation" }}
                 >
-                  <span className="relative flex items-center justify-center">
-                    {/* breathing halo */}
+                  {/* tap area shaped exactly like the bed */}
+                  <svg
+                    viewBox="0 0 300 400"
+                    className="absolute inset-0 w-full h-full"
+                    preserveAspectRatio="none"
+                  >
+                    <path d={p.d} fill="transparent" />
+                  </svg>
+                  {/* tiny breathing ink dot — the only visible cue */}
+                  <span
+                    className="absolute -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+                    style={{
+                      left: `${(p.markX / 300) * 100}%`,
+                      top: `${(p.markY / 400) * 100}%`,
+                    }}
+                  >
                     <span
-                      className="absolute rounded-full breath"
+                      className="block rounded-full breath transition-opacity duration-500 group-hover:opacity-100"
                       style={{
-                        width: 44, height: 44,
-                        background:
-                          "radial-gradient(circle, color-mix(in oklab, var(--paper) 88%, transparent) 0%, transparent 70%)",
+                        width: 4, height: 4,
+                        background: "var(--ink)",
+                        opacity: 0.5,
+                        boxShadow: "0 0 0 2px color-mix(in oklab, var(--paper) 70%, transparent)",
                       }}
                     />
-                    {/* stepping stone */}
-                    <span
-                      className="relative flex items-center justify-center rounded-full transition-transform duration-500 group-hover:scale-110 group-active:scale-95"
-                      style={{
-                        width: 26, height: 26,
-                        background:
-                          "radial-gradient(ellipse at 35% 30%, oklch(0.98 0.01 70) 0%, oklch(0.9 0.025 65) 100%)",
-                        boxShadow:
-                          "0 2px 6px rgba(60,40,40,0.25), inset 0 1px 1.5px rgba(255,255,255,0.7)",
-                        border: "0.5px solid oklch(0.78 0.04 60)",
-                      }}
-                    >
-                      {/* tiny arrow inward */}
-                      <span
-                        className="block"
-                        style={{
-                          width: 0, height: 0,
-                          borderTop: "4px solid transparent",
-                          borderBottom: "4px solid transparent",
-                          borderLeft: "6px solid var(--ink)",
-                          opacity: 0.7,
-                          marginLeft: 1,
-                        }}
-                      />
-                    </span>
                   </span>
                 </Link>
               ))}
