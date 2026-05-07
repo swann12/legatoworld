@@ -5,7 +5,7 @@ import { Shell } from "@/components/legato/Shell";
 import { useLegato } from "@/lib/legato-state";
 
 export const Route = createFileRoute("/no-words")({
-  head: () => ({ meta: [{ title: "No words — Legato" }] }),
+  head: () => ({ meta: [{ title: "Sans mots — Legato" }] }),
   component: NoWords,
 });
 
@@ -20,12 +20,12 @@ function NoWords() {
 
         <div className="relative z-10 flex flex-1 flex-col">
           <div className="px-7 pt-10 flex justify-between">
-            <Link to="/home" className="text-[11px] uppercase tracking-[0.22em] text-dusk/50">← Home</Link>
-            <Link to="/presence" className="text-[11px] uppercase tracking-[0.22em] text-dusk/50">Words →</Link>
+            <Link to="/home" className="text-[11px] uppercase tracking-[0.22em] text-dusk/50">← Accueil</Link>
+            <Link to="/presence" className="text-[11px] uppercase tracking-[0.22em] text-dusk/50">Mots →</Link>
           </div>
 
           <div className="flex-1 flex flex-col items-center justify-center px-8 -mt-8">
-            <button onClick={() => setTapped((t) => t + 1)} className="relative" aria-label="Tap to be heard">
+            <button onClick={() => setTapped((t) => t + 1)} className="relative" aria-label="Toucher pour être entendu·e">
               <div
                 className="size-64 organic-radius-2 breath"
                 style={{
@@ -38,19 +38,19 @@ function NoWords() {
 
             <p className="mt-12 font-serif text-2xl italic text-dusk text-center text-balance max-w-[24ch]">
               {tapped === 0
-                ? "Breathe with this for a while."
+                ? "Respirez avec cela un moment."
                 : tapped < 5
-                  ? "I notice you. Stay as long as you need."
-                  : "Held. Nothing else is required of you."}
+                  ? "Je vous remarque. Restez aussi longtemps qu'il faut."
+                  : "Tenu·e. Rien d'autre ne vous est demandé."}
             </p>
             <p className="mt-4 text-[12px] uppercase tracking-[0.22em] text-dusk/45">
-              {tapped === 0 ? "Tap softly, or just watch" : `Held · ${tapped}`}
+              {tapped === 0 ? "Touchez doucement, ou regardez" : `Tenu·e · ${tapped}`}
             </p>
           </div>
 
           <div className="px-7 pb-12 text-center">
             <Link to="/garden" className="text-[11px] uppercase tracking-[0.22em] text-dusk/50">
-              When ready, the Garden →
+              Quand vous serez prêt·e, le Jardin →
             </Link>
           </div>
         </div>
