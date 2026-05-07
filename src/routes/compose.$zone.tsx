@@ -4,6 +4,7 @@ import { Halos } from "@/components/legato/Halos";
 import { Shell } from "@/components/legato/Shell";
 import { useLegato } from "@/lib/legato-state";
 import { OrganicShape, SHAPE_LIBRARY, type ShapeKind } from "@/components/legato/OrganicShape";
+import gardenPainted from "@/assets/garden-painted.jpg";
 
 export const Route = createFileRoute("/compose/$zone")({
   head: () => ({ meta: [{ title: "Composer un souvenir — Legato" }] }),
@@ -258,12 +259,19 @@ function Composer({ type, onSave }: { type: MemoryType; onSave: () => void }) {
         className="relative mt-5 w-full paper-card overflow-hidden touch-none select-none"
         style={{ aspectRatio: "3 / 4", borderRadius: 28 }}
       >
-        {/* soft inner ground */}
+        {/* painted ground — same world as the garden, blurred to a wash */}
+        <img
+          src={gardenPainted}
+          alt=""
+          aria-hidden
+          className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+          style={{ filter: "blur(28px) saturate(0.85)", opacity: 0.35, transform: "scale(1.1)" }}
+        />
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
             background:
-              "radial-gradient(ellipse at 50% 35%, color-mix(in oklab, var(--paper) 92%, white) 0%, color-mix(in oklab, var(--clay) 50%, var(--paper)) 100%)",
+              "radial-gradient(ellipse at 50% 40%, color-mix(in oklab, var(--paper) 85%, white) 0%, color-mix(in oklab, var(--paper) 70%, transparent) 70%, transparent 100%)",
           }}
         />
 

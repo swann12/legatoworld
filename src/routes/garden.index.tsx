@@ -26,16 +26,16 @@ type Being = {
 
 /** Positions calibrated to the painted garden image (5 main beds). */
 export const BEINGS: Being[] = [
-  { id: "elise", name: "Élise", kind: "person", cx: 24, cy: 22, rx: 19, ry: 14,
+  { id: "elise", name: "Élise", kind: "person", cx: 22, cy: 22, rx: 20, ry: 16,
     blooms: [{ tint: "var(--rose)", tint2: "var(--peach)" }, { tint: "var(--peach)", tint2: "var(--rose)" }] },
-  { id: "papa",  name: "Papa",  kind: "person", cx: 74, cy: 22, rx: 19, ry: 14,
+  { id: "papa",  name: "Papa",  kind: "person", cx: 78, cy: 22, rx: 20, ry: 16,
     blooms: [{ tint: "var(--clay)", tint2: "var(--peach)" }, { tint: "var(--lavender)", tint2: "var(--mist)" }] },
-  { id: "leon",  name: "Léon",  kind: "animal", cx: 22, cy: 55, rx: 19, ry: 13,
-    blooms: [{ tint: "var(--sage)", tint2: "var(--mist)" }, { tint: "var(--clay)", tint2: "var(--paper)" }] },
-  { id: "mamie", name: "Mamie", kind: "person", cx: 78, cy: 55, rx: 19, ry: 13,
-    blooms: [{ tint: "var(--lavender)", tint2: "var(--mist)" }, { tint: "var(--peach)", tint2: "var(--paper)" }] },
-  { id: "theo",  name: "Théo",  kind: "person", cx: 50, cy: 80, rx: 22, ry: 13,
-    blooms: [{ tint: "var(--clay)", tint2: "var(--peach)" }, { tint: "var(--peach)", tint2: "var(--rose)" }] },
+  { id: "leon",  name: "Léon",  kind: "animal", cx: 22, cy: 58, rx: 20, ry: 15,
+    blooms: [{ tint: "var(--lavender)", tint2: "var(--mist)" }, { tint: "var(--sage)", tint2: "var(--paper)" }] },
+  { id: "mamie", name: "Mamie", kind: "person", cx: 80, cy: 56, rx: 18, ry: 15,
+    blooms: [{ tint: "var(--rose)", tint2: "var(--peach)" }, { tint: "var(--peach)", tint2: "var(--paper)" }] },
+  { id: "theo",  name: "Théo",  kind: "person", cx: 50, cy: 84, rx: 26, ry: 14,
+    blooms: [{ tint: "var(--sage)", tint2: "var(--clay)" }, { tint: "var(--peach)", tint2: "var(--rose)" }] },
 ];
 
 function Garden() {
@@ -71,10 +71,10 @@ function Garden() {
               className="relative w-full overflow-hidden"
               style={{
                 aspectRatio: "1 / 1",
-                borderRadius: 32,
+                borderRadius: 36,
                 boxShadow:
-                  "inset 0 1px 1px rgba(255,255,255,0.5), 0 28px 60px -28px rgba(60,40,40,0.45)",
-                border: "1px solid color-mix(in oklab, var(--dusk) 14%, transparent)",
+                  "inset 0 1px 1px rgba(255,250,235,0.55), 0 30px 70px -28px rgba(60,40,30,0.38)",
+                border: "1px solid color-mix(in oklab, var(--dusk) 10%, transparent)",
               }}
             >
               {/* The painted garden image as the actual scene */}
@@ -87,12 +87,19 @@ function Garden() {
                 draggable={false}
               />
 
-              {/* Subtle warm vignette to anchor the composition */}
+              {/* Subtle warm vignette + cream paper veil to soften */}
               <div
                 className="absolute inset-0 pointer-events-none"
                 style={{
                   background:
-                    "radial-gradient(ellipse at 50% 45%, transparent 55%, rgba(60,30,20,0.28) 100%)",
+                    "radial-gradient(ellipse at 50% 45%, transparent 60%, rgba(50,28,18,0.22) 100%)",
+                }}
+              />
+              <div
+                className="absolute inset-0 pointer-events-none mix-blend-soft-light"
+                style={{
+                  background:
+                    "radial-gradient(ellipse at 50% 50%, rgba(255,248,232,0.18), transparent 70%)",
                 }}
               />
 
@@ -113,18 +120,21 @@ function Garden() {
                     touchAction: "manipulation",
                   }}
                 >
+                  {/* warm breath of light on hover */}
                   <span
-                    className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity duration-500"
+                    className="absolute inset-[-6%] rounded-full opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity duration-700"
                     style={{
                       background:
-                        "radial-gradient(ellipse at center, rgba(255,245,225,0.35), transparent 70%)",
+                        "radial-gradient(ellipse at center, rgba(255,238,205,0.55), transparent 65%)",
                       mixBlendMode: "soft-light",
                     }}
                   />
+                  {/* ornamental gold ring, dissolved */}
                   <span
-                    className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-70 group-focus:opacity-70 transition-opacity duration-500"
+                    className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-80 group-focus:opacity-80 transition-opacity duration-700"
                     style={{
-                      boxShadow: "inset 0 0 0 1px rgba(255,250,235,0.55)",
+                      boxShadow:
+                        "inset 0 0 0 1px rgba(196,158,90,0.55), 0 0 24px rgba(196,158,90,0.18)",
                     }}
                   />
                 </Link>
