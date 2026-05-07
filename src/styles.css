@@ -245,4 +245,18 @@
     -webkit-mask-image: linear-gradient(to bottom, transparent, black 8%);
             mask-image: linear-gradient(to bottom, transparent, black 8%);
   }
+
+  /* Quiet bloom for selected garden element */
+  @keyframes legato-bloom {
+    0%, 100% { transform: scale(1); filter: brightness(1); }
+    50%      { transform: scale(1.06); filter: brightness(1.05); }
+  }
+  .bloom { animation: legato-bloom 3.6s ease-in-out infinite; }
+
+  /* Soft container — quieter than ceramic, more space */
+  .paper-card {
+    background: color-mix(in oklab, var(--paper) 92%, white);
+    border: 1px solid color-mix(in oklab, var(--dusk) 6%, transparent);
+    border-radius: 28px;
+  }
 }
