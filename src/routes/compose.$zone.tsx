@@ -350,8 +350,21 @@ function Composer({ type, onSave }: { type: MemoryType; onSave: () => void }) {
                 width: it.size,
                 height: it.size,
                 transform: `translate(-50%, -50%) rotate(${it.rotation}deg)`,
+                filter: "blur(0.4px) saturate(0.92)",
+                opacity: 0.86,
+                mixBlendMode: "multiply",
               }}
             >
+              {/* watercolor wash behind each stamp */}
+              <div
+                aria-hidden
+                className="absolute inset-[-25%] rounded-full pointer-events-none"
+                style={{
+                  background: `radial-gradient(circle, ${it.tint} 0%, transparent 65%)`,
+                  opacity: 0.18,
+                  filter: "blur(6px)",
+                }}
+              />
               {/* halo for selection */}
               {(selected || opening) && (
                 <div
@@ -426,7 +439,27 @@ function Composer({ type, onSave }: { type: MemoryType; onSave: () => void }) {
               brush === s.kind ? "ring-2 ring-dusk/60 scale-[1.04]" : ""
             }`}
           >
-            <OrganicShape kind={s.kind} size={40} tint="var(--clay)" tint2="var(--peach)" />
+            <div
+              className="relative"
+              style={{
+                width: 40,
+                height: 40,
+                filter: "blur(0.5px) saturate(0.9)",
+                opacity: 0.85,
+                mixBlendMode: "multiply",
+              }}
+            >
+              <div
+                aria-hidden
+                className="absolute inset-[-20%] rounded-full"
+                style={{
+                  background: "radial-gradient(circle, var(--clay) 0%, transparent 65%)",
+                  opacity: 0.22,
+                  filter: "blur(5px)",
+                }}
+              />
+              <OrganicShape kind={s.kind} size={40} tint="var(--clay)" tint2="var(--peach)" />
+            </div>
             <span className="text-[10px] tracking-wide text-dusk/65">{s.label}</span>
           </button>
         ))}
