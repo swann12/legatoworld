@@ -5,22 +5,22 @@ import { Shell } from "@/components/legato/Shell";
 import { useLegato } from "@/lib/legato-state";
 
 export const Route = createFileRoute("/presence")({
-  head: () => ({ meta: [{ title: "Presence — Legato" }] }),
+  head: () => ({ meta: [{ title: "Présence — Legato" }] }),
   component: Presence,
 });
 
 const SUGGESTIONS = [
-  "Tell me about today, quietly.",
-  "I want to remember something.",
-  "I don't have words right now.",
-  "Help me name what I'm feeling.",
+  "Raconte-moi cette journée, doucement.",
+  "J'ai envie de me souvenir de quelque chose.",
+  "Je n'ai pas de mots, là.",
+  "Aide-moi à nommer ce que je ressens.",
 ];
 
 function Presence() {
   const { mode, name } = useLegato();
   const [draft, setDraft] = useState("");
   const [messages, setMessages] = useState<{ role: "you" | "presence"; text: string }[]>([
-    { role: "presence", text: "I'm here. There is no need to say anything in particular." },
+    { role: "presence", text: "Je suis là. Rien de particulier à dire, vraiment." },
   ]);
 
   const send = (text?: string) => {
@@ -29,7 +29,7 @@ function Presence() {
     setMessages((m) => [
       ...m,
       { role: "you", text: t },
-      { role: "presence", text: "Thank you for telling me. Take your time — there's no need to continue unless it helps." },
+      { role: "presence", text: "Merci de me l'avoir dit. Prenez votre temps — rien ne presse, sauf si cela vous fait du bien." },
     ]);
     setDraft("");
   };
@@ -41,8 +41,8 @@ function Presence() {
 
         <div className="relative z-10 flex flex-1 flex-col">
           <div className="flex items-center justify-between px-7 pt-10">
-            <Link to="/home" className="text-[11px] uppercase tracking-[0.22em] text-dusk/50 hover:text-dusk">← Home</Link>
-            <Link to="/no-words" className="text-[11px] uppercase tracking-[0.22em] text-dusk/50 hover:text-dusk">No words →</Link>
+            <Link to="/home" className="text-[11px] uppercase tracking-[0.22em] text-dusk/50 hover:text-dusk">← Accueil</Link>
+            <Link to="/no-words" className="text-[11px] uppercase tracking-[0.22em] text-dusk/50 hover:text-dusk">Sans mots →</Link>
           </div>
 
           <div className="px-7 pt-12 flex flex-col items-center text-center">
@@ -55,9 +55,9 @@ function Presence() {
                 }}
               />
             </div>
-            <p className="mt-7 text-[10px] uppercase tracking-[0.22em] text-dusk/40">Presence</p>
+            <p className="mt-7 text-[10px] uppercase tracking-[0.22em] text-dusk/40">Présence</p>
             <h1 className="mt-2 font-serif text-3xl font-light italic text-dusk text-balance max-w-[26ch]">
-              I'm here, {name}. We have time.
+              Je suis là, {name}. Nous avons le temps.
             </h1>
           </div>
 
@@ -65,7 +65,7 @@ function Presence() {
             {messages.map((m, i) =>
               m.role === "presence" ? (
                 <div key={i} className="ceramic-soft organic-radius-3 px-5 py-4 max-w-[85%]">
-                  <p className="text-[10px] uppercase tracking-[0.2em] text-dusk/40 mb-1">Presence</p>
+                  <p className="text-[10px] uppercase tracking-[0.2em] text-dusk/40 mb-1">Présence</p>
                   <p className="font-serif text-[17px] italic leading-snug text-dusk">{m.text}</p>
                 </div>
               ) : (
@@ -89,10 +89,10 @@ function Presence() {
               <input
                 value={draft}
                 onChange={(e) => setDraft(e.target.value)}
-                placeholder="Whisper, or stay silent…"
+                placeholder="Murmurez, ou restez en silence…"
                 className="flex-1 bg-transparent font-serif text-base italic text-dusk placeholder:text-dusk/35 outline-none py-2"
               />
-              <button type="submit" className="size-10 rounded-full bg-dusk text-paper text-sm flex items-center justify-center" aria-label="Send">→</button>
+              <button type="submit" className="size-10 rounded-full bg-dusk text-paper text-sm flex items-center justify-center" aria-label="Envoyer">→</button>
             </form>
           </div>
         </div>
