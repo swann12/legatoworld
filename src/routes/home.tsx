@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Halos } from "@/components/legato/Halos";
-import { Shell, ScreenHeader, Section } from "@/components/legato/Shell";
+import { Shell, Section } from "@/components/legato/Shell";
 import { ModeSelector } from "@/components/legato/ModeSelector";
 import { useLegato, MODES, BRANCHES } from "@/lib/legato-state";
 
@@ -18,11 +18,16 @@ function Home() {
   const { name, mode, branch } = useLegato();
   const modeMeta = MODES.find((m) => m.id === mode)!;
   const branchMeta = BRANCHES.find((b) => b.id === branch)!;
+  const isPractical = branch === "practical";
+  const isCocoon = mode === "cocoon";
+  const isAnchoring = mode === "anchoring";
+  const isBreath = mode === "breath";
+  const isRelay = mode === "relay";
 
   return (
     <Shell>
       <div className="relative">
-        <Halos mode={mode} variant="rich" />
+        <Halos mode={mode} variant={isBreath ? "calm" : isCocoon ? "rich" : "default"} />
 
         <div className="relative z-10">
           {/* top bar */}
@@ -38,31 +43,28 @@ function Home() {
             </Link>
           </div>
 
-          {/* greeting */}
-          <ScreenHeader
-            eyebrow="Aujourd'hui, lentement"
-            title={
-              <>
-                {name},<br />
-                <span className="italic text-dusk/85">posez-vous ici</span> un moment.
-              </>
-            }
-            subtitle={
-              <>
-                Tenu·e en <span className="italic">{modeMeta.label.toLowerCase()}</span>, avec
-                {" "}
-                <span className="italic">{branchMeta.label.toLowerCase()}</span> tout près.
-              </>
-            }
-          />
+          {/* greeting — generously aired */}
+          <header className={`px-7 ${isCocoon ? "pt-20" : isBreath ? "pt-16" : "pt-14"}`}>
+            <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">
+              Aujourd'hui, lentement
+            </p>
+            <h1 className="mt-4 font-serif text-[2.4rem] leading-[1.05] font-light text-dusk text-balance">
+              {name},<br />
+              <span className="italic text-dusk/85">posez-vous ici</span> un moment.
+            </h1>
+            <p className="mt-5 max-w-[34ch] text-[14.5px] leading-relaxed text-dusk/60">
+              Tenu·e en <span className="italic">{modeMeta.label.toLowerCase()}</span>, avec{" "}
+              <span className="italic">{branchMeta.label.toLowerCase()}</span> tout près.
+            </p>
+          </header>
 
-          {/* mode chips */}
-          <div className="mt-10">
+          {/* Mode chips — always visible, but compact */}
+          <div className={`${isCocoon ? "mt-12" : "mt-9"}`}>
             <ModeSelector compact />
           </div>
 
-          {/* featured presence card */}
-          <Section className="mt-10">
+          {/* PRIMARY ACTION — speak to the AI Presence. One clear entry. */}
+          <Section className={`${isCocoon ? "mt-12" : "mt-10"}`}>
             <Link
               to="/presence"
               className="ceramic organic-radius-3 block p-7 relative overflow-hidden"
@@ -72,8 +74,8 @@ function Home() {
                 style={{ background: "radial-gradient(circle, var(--peach), transparent 70%)" }}
               />
               <div className="relative">
-                <div className="flex items-center gap-3">
-                  <div className="relative size-16 rounded-full ceramic-soft flex items-center justify-center">
+                <div className="flex items-center gap-4">
+                  <div className="relative size-16 rounded-full ceramic-soft flex items-center justify-center shrink-0">
                     <div
                       className="size-7 rounded-full breath"
                       style={{ background: "radial-gradient(circle, var(--peach), var(--rose))" }}
@@ -81,15 +83,15 @@ function Home() {
                   </div>
                   <div className="flex-1">
                     <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/40">
-                      Présence
+                      Parler à la Présence
                     </p>
-                    <h3 className="font-serif text-2xl italic text-dusk leading-tight">
+                    <h3 className="mt-1 font-serif text-[1.55rem] italic text-dusk leading-tight">
                       Quelques minutes tranquilles
                     </h3>
                   </div>
                 </div>
                 <p className="mt-5 text-[13.5px] leading-relaxed text-dusk/65 max-w-[32ch]">
-                  Aucune tâche. Juste une petite présence qui écoute, à votre rythme.
+                  Une petite présence qui écoute. Aucune tâche, à votre rythme.
                 </p>
                 <p className="mt-5 text-[11px] uppercase tracking-[0.22em] text-dusk/55">
                   Entrer →
@@ -98,73 +100,74 @@ function Home() {
             </Link>
           </Section>
 
-          {/* secondary trio */}
-          <Section className="mt-5">
-            <div className="grid grid-cols-2 gap-3">
+          {/* Practical companion: only if relevant. Distinct, calm. */}
+          {isPractical && (
+            <Section className="mt-5">
               <Link
-                to="/garden"
-                className="ceramic-soft organic-radius-3 p-5 col-span-2 flex items-center gap-4"
+                to="/practical"
+                className="paper-card block p-6"
               >
-                <div className="relative size-14 shrink-0 rounded-full overflow-hidden">
-                  <div
-                    className="absolute inset-0"
-                    style={{
-                      background:
-                        "radial-gradient(circle at 30% 30%, var(--sage), var(--mist))",
-                    }}
-                  />
-                </div>
-                <div className="flex-1">
-                  <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/40">
-                    Le Jardin
-                  </p>
-                  <p className="font-serif text-lg italic text-dusk">
-                    Trois traces s'y sont déposées.
-                  </p>
-                </div>
-                <span className="text-dusk/40">→</span>
+                <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">
+                  Accompagnement concret
+                </p>
+                <p className="mt-1.5 font-serif text-lg italic text-dusk leading-snug">
+                  Étape par étape, pour les premiers jours.
+                </p>
+                <p className="mt-3 text-[11px] uppercase tracking-[0.22em] text-dusk/55">Ouvrir →</p>
               </Link>
+            </Section>
+          )}
 
-              <Link to="/no-words" className="ceramic-soft organic-radius-3 p-5">
-                <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/40">
-                  Sans mots
-                </p>
-                <p className="mt-2 font-serif text-lg text-dusk">Être là, simplement.</p>
+          {/* Mode-aware secondary surface — distinct rhythm per mode */}
+          {isCocoon && (
+            <Section className="mt-12">
+              {/* Cocoon: a single soft secondary, lots of air */}
+              <Link to="/no-words" className="paper-card block p-6 text-center">
+                <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">Sans mots</p>
+                <p className="mt-2 font-serif text-xl italic text-dusk">Être là, simplement.</p>
               </Link>
+            </Section>
+          )}
 
-              <Link to="/help" className="ceramic-soft organic-radius-3 p-5">
-                <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/40">
-                  Aide concrète
-                </p>
-                <p className="mt-2 font-serif text-lg text-dusk">Des mains, tout près.</p>
+          {isAnchoring && (
+            <Section className="mt-8 space-y-3">
+              {/* Anchoring: structured, repérant */}
+              <SecondaryRow to="/garden" eyebrow="Le Jardin" title="Trois traces s'y sont déposées." />
+              <SecondaryRow to="/dates" eyebrow="Dates sensibles" title="Un anniversaire dans 12 jours." />
+              <SecondaryRow to="/no-words" eyebrow="Sans mots" title="Être là, simplement." />
+              <SecondaryRow to="/help" eyebrow="Aide concrète" title="Des mains, tout près." />
+            </Section>
+          )}
+
+          {isBreath && (
+            <Section className="mt-12 grid grid-cols-2 gap-3">
+              <Link to="/garden" className="paper-card p-5">
+                <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">Le Jardin</p>
+                <p className="mt-2 font-serif text-lg italic text-dusk">Flâner.</p>
               </Link>
-            </div>
-          </Section>
+              <Link to="/no-words" className="paper-card p-5">
+                <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">Sans mots</p>
+                <p className="mt-2 font-serif text-lg italic text-dusk">Respirer.</p>
+              </Link>
+            </Section>
+          )}
 
-          <Section className="mt-8">
-            <Link
-              to="/dates"
-              className="block border-t border-dusk/10 pt-6 flex items-baseline justify-between"
-            >
-              <div>
-                <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/40">
-                  Dates sensibles
-                </p>
-                <p className="mt-1 font-serif text-base italic text-dusk">
-                  Un anniversaire dans 12 jours
-                </p>
-              </div>
-              <span className="text-dusk/40 text-sm">→</span>
-            </Link>
-          </Section>
+          {isRelay && (
+            <Section className="mt-8 space-y-3">
+              <SecondaryRow to="/help" eyebrow="Aide & relais" title="Demander à quelqu'un, simplement." />
+              <SecondaryRow to="/practical" eyebrow="Pratique" title="Démarches, étape par étape." />
+              <SecondaryRow to="/garden" eyebrow="Le Jardin" title="Garder une trace." />
+            </Section>
+          )}
 
-          <Section className="mt-3">
+          {/* Always-visible quiet door */}
+          <Section className="mt-12">
             <Link
               to="/crisis"
               className="block border-t border-dusk/10 pt-6 flex items-baseline justify-between"
             >
               <div>
-                <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/40">
+                <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">
                   Si aujourd'hui est trop
                 </p>
                 <p className="mt-1 font-serif text-base italic text-dusk">
@@ -177,5 +180,19 @@ function Home() {
         </div>
       </div>
     </Shell>
+  );
+}
+
+function SecondaryRow({
+  to, eyebrow, title,
+}: { to: "/garden" | "/dates" | "/no-words" | "/help" | "/practical"; eyebrow: string; title: string }) {
+  return (
+    <Link to={to} className="paper-card p-5 flex items-baseline justify-between">
+      <div>
+        <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">{eyebrow}</p>
+        <p className="mt-1 font-serif text-lg italic text-dusk leading-snug">{title}</p>
+      </div>
+      <span className="text-dusk/40 text-sm">→</span>
+    </Link>
   );
 }

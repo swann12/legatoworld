@@ -1,157 +1,114 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Halos } from "@/components/legato/Halos";
-import { Shell, ScreenHeader, Section } from "@/components/legato/Shell";
+import { Shell } from "@/components/legato/Shell";
 import { useLegato } from "@/lib/legato-state";
 
 export const Route = createFileRoute("/garden/$zone")({
-  head: () => ({
-    meta: [{ title: "Une zone du jardin — Legato" }],
-  }),
+  head: () => ({ meta: [{ title: "Une zone du jardin — Legato" }] }),
   component: GardenZone,
 });
 
-const ZONE_DATA: Record<
-  string,
-  {
-    name: string;
-    whisper: string;
-    color: string;
-    color2: string;
-    traces: { id: string; kind: string; title: string; date: string; body: string }[];
-  }
-> = {
+const ZONE: Record<string, { name: string; whisper: string; color: string; color2: string; items: { id: string; title: string; date: string; preview: string }[] }> = {
   voice: {
-    name: "Voix",
-    whisper: "Un son que l'on emporte.",
-    color: "var(--rose)",
-    color2: "var(--peach)",
-    traces: [
-      { id: "1", kind: "Mémo vocal", title: "Lecture sous le porche", date: "14 avril 2024", body: "0:42" },
-      { id: "2", kind: "Mémo vocal", title: "Rire pour rien", date: "2 mars 2024", body: "0:18" },
+    name: "Voix", whisper: "Un son qu'on emporte.",
+    color: "var(--rose)", color2: "var(--peach)",
+    items: [
+      { id: "v1", title: "Lecture sous le porche", date: "14 avril 2024", preview: "0:42" },
+      { id: "v2", title: "Rire pour rien", date: "2 mars 2024", preview: "0:18" },
     ],
   },
   photo: {
-    name: "Photographies",
-    whisper: "La lumière, fixée dans le temps.",
-    color: "var(--peach)",
-    color2: "var(--rose)",
-    traces: [
-      { id: "1", kind: "Photographie", title: "La cuisine, fin d'après-midi", date: "11 août 2023", body: "" },
-      { id: "2", kind: "Photographie", title: "Des mains, chapeau d'été", date: "30 juin 2023", body: "" },
-      { id: "3", kind: "Photographie", title: "Fenêtre, pluie du matin", date: "4 sept. 2022", body: "" },
+    name: "Lumière", whisper: "La lumière, fixée dans le temps.",
+    color: "var(--peach)", color2: "var(--rose)",
+    items: [
+      { id: "p1", title: "La cuisine, fin d'après-midi", date: "11 août 2023", preview: "" },
+      { id: "p2", title: "Des mains, chapeau d'été", date: "30 juin 2023", preview: "" },
     ],
   },
   sentence: {
-    name: "Phrases",
-    whisper: "Des mots gardés en poche.",
-    color: "var(--lavender)",
-    color2: "var(--mist)",
-    traces: [
-      { id: "1", kind: "Phrase", title: "Quelque chose qu'elle a dit", date: "—", body: "« Tu reviens toujours plus doux que tu n'es parti. »" },
+    name: "Phrases", whisper: "Des mots gardés en poche.",
+    color: "var(--lavender)", color2: "var(--mist)",
+    items: [
+      { id: "s1", title: "Quelque chose qu'elle a dit", date: "—", preview: "« Tu reviens toujours plus doux… »" },
     ],
   },
   habit: {
-    name: "Gestes",
-    whisper: "De petites tendresses répétées.",
-    color: "var(--sage)",
-    color2: "var(--mist)",
-    traces: [
-      { id: "1", kind: "Geste", title: "Le thé de 16 h", date: "Tous les jours", body: "Toujours une cuillère et demie de miel." },
-    ],
+    name: "Gestes", whisper: "De petites tendresses répétées.",
+    color: "var(--sage)", color2: "var(--mist)",
+    items: [{ id: "h1", title: "Le thé de 16 h", date: "Tous les jours", preview: "Une cuillère et demie de miel." }],
   },
   object: {
-    name: "Objets",
-    whisper: "Ce que la main connaît encore.",
-    color: "var(--clay)",
-    color2: "var(--peach)",
-    traces: [
-      { id: "1", kind: "Objet", title: "Le foulard bleu", date: "—", body: "Plié dans le deuxième tiroir." },
-    ],
-  },
-  place: {
-    name: "Lieux",
-    whisper: "La géographie du souvenir.",
-    color: "var(--mist)",
-    color2: "var(--sage)",
-    traces: [
-      { id: "1", kind: "Lieu", title: "Le café du coin", date: "—", body: "Toujours la place près de la fenêtre." },
-      { id: "2", kind: "Lieu", title: "Le chemin le long de la rivière", date: "—", body: "" },
-    ],
+    name: "Objets", whisper: "Ce que la main connaît encore.",
+    color: "var(--clay)", color2: "var(--peach)",
+    items: [{ id: "o1", title: "Le foulard bleu", date: "—", preview: "Plié dans le deuxième tiroir." }],
   },
 };
 
 function GardenZone() {
   const { zone } = Route.useParams();
   const { mode } = useLegato();
-  const data = ZONE_DATA[zone] ?? ZONE_DATA.voice;
+  const data = ZONE[zone] ?? ZONE.voice;
 
   return (
     <Shell>
-      <div className="relative min-h-dvh">
+      <div className="relative pb-12">
         <Halos mode={mode} variant="calm" />
-
         <div className="relative z-10">
           <div className="px-7 pt-10">
-            <Link
-              to="/garden"
-              className="text-[11px] uppercase tracking-[0.22em] text-dusk/50 hover:text-dusk"
-            >
+            <Link to="/garden" className="text-[11px] uppercase tracking-[0.22em] text-dusk/50">
               ← Le Jardin
             </Link>
           </div>
 
-          <ScreenHeader
-            eyebrow={`Zone — ${data.name.toLowerCase()}`}
-            title={
-              <>
-                {data.name}
-                <br />
-                <span className="italic text-dusk/70">dans ce coin.</span>
-              </>
-            }
-            subtitle={data.whisper}
-          />
+          {/* Sculptural icon, very calm */}
+          <div className="px-7 pt-10 flex flex-col items-center text-center">
+            <div
+              className="size-28 sway"
+              style={{
+                borderRadius: "60% 40% 55% 45% / 50% 60% 40% 50%",
+                background: `radial-gradient(ellipse at 32% 28%, ${data.color} 0%, ${data.color2} 70%)`,
+                boxShadow:
+                  "inset 0 2px 4px rgba(255,255,255,0.6), 0 18px 40px -16px rgba(60,40,40,0.3)",
+              }}
+            />
+            <p className="mt-7 text-[10px] uppercase tracking-[0.22em] text-dusk/45">
+              Parterre — {data.name.toLowerCase()}
+            </p>
+            <h1 className="mt-2 font-serif text-[2rem] leading-[1.05] font-light text-dusk text-balance">
+              {data.whisper}
+            </h1>
+          </div>
 
-          {/* large symbolic blob for the zone */}
-          <Section className="mt-8">
-            <div className="ceramic-soft organic-radius-3 p-8 flex justify-center">
-              <div
-                className="size-44 organic-radius-2 drift"
-                style={{
-                  background: `radial-gradient(circle at 30% 30%, ${data.color}, ${data.color2})`,
-                  boxShadow:
-                    "inset 0 2px 4px rgba(255,255,255,0.6), 0 18px 40px -16px rgba(60,40,40,0.3)",
-                }}
-              />
-            </div>
-          </Section>
-
-          {/* traces */}
-          <Section className="mt-8 space-y-3">
-            {data.traces.map((t) => (
-              <article
-                key={t.id}
-                className="ceramic-soft organic-radius-3 p-5"
-              >
-                <div className="flex items-baseline justify-between">
-                  <p className="text-[10px] uppercase tracking-[0.2em] text-dusk/40">{t.kind}</p>
-                  <p className="text-[10px] tracking-[0.1em] text-dusk/40">{t.date}</p>
+          {/* Existing compositions */}
+          <div className="px-7 mt-10 space-y-3">
+            {data.items.map((it) => (
+              <article key={it.id} className="paper-card p-5">
+                <div className="flex items-baseline justify-between gap-4">
+                  <h3 className="font-serif text-lg italic text-dusk leading-snug">{it.title}</h3>
+                  <span className="text-[10px] tracking-[0.1em] text-dusk/45 shrink-0">{it.date}</span>
                 </div>
-                <h3 className="mt-2 font-serif text-xl italic text-dusk">{t.title}</h3>
-                {t.body && (
-                  <p className="mt-2 text-[14px] leading-relaxed text-dusk/65">{t.body}</p>
+                {it.preview && (
+                  <p className="mt-2 text-[13.5px] leading-relaxed text-dusk/65">{it.preview}</p>
                 )}
               </article>
             ))}
-          </Section>
+          </div>
 
-          <Section className="mt-8">
-            <button className="ceramic organic-radius-3 w-full px-7 py-5 text-center">
-              <span className="font-serif text-lg italic text-dusk">
-                Ajouter une nouvelle {data.name.toLowerCase().replace(/s$/, "")}
+          {/* Single primary action: plant a new memory composition */}
+          <div className="px-7 mt-10">
+            <Link
+              to="/compose/$zone"
+              params={{ zone }}
+              className="ceramic organic-radius-3 block px-7 py-5 text-center"
+            >
+              <span className="block font-serif text-xl italic text-dusk">
+                Composer un nouveau souvenir
               </span>
-            </button>
-          </Section>
+              <span className="mt-1 block text-[10px] uppercase tracking-[0.22em] text-dusk/50">
+                choisir le type · puis composer
+              </span>
+            </Link>
+          </div>
         </div>
       </div>
     </Shell>

@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { BRANCHES, MODES, useLegato, type Branch, type Mode } from "@/lib/legato-state";
+import { BRANCHES, MODES, PRACTICAL_BRANCH, useLegato, type Branch, type Mode } from "@/lib/legato-state";
 import { Halos } from "@/components/legato/Halos";
 
 export const Route = createFileRoute("/onboarding")({
@@ -22,6 +22,10 @@ function Onboarding() {
 
   const next = () => {
     if (step === 3) navigate({ to: "/home" });
+    else if (step === 1 && branch === "practical") {
+      // shortcut into the practical companion
+      navigate({ to: "/practical" });
+    }
     else setStep(((step + 1) as Step));
   };
 
@@ -107,6 +111,27 @@ function StepBranch({ value, onChange }: { value: Branch; onChange: (b: Branch) 
       <p className="text-[14px] text-dusk/55 max-w-[34ch]">
         Vous pouvez changer à tout moment. Rien n'est figé ici.
       </p>
+
+      {/* Practical-loss shortcut — distinct visual treatment */}
+      <button
+        onClick={() => onChange(PRACTICAL_BRANCH.id)}
+        className={`w-full organic-radius-3 px-6 py-5 text-left transition-all ${
+          value === PRACTICAL_BRANCH.id ? "ceramic" : "paper-card"
+        }`}
+      >
+        <div className="flex items-baseline justify-between gap-4">
+          <span className="font-serif text-lg italic text-dusk">{PRACTICAL_BRANCH.label}</span>
+          <span className="text-[10px] uppercase tracking-[0.2em] text-dusk/45">aide concrète</span>
+        </div>
+        <p className="mt-2 text-[12.5px] leading-relaxed text-dusk/60">{PRACTICAL_BRANCH.whisper}</p>
+      </button>
+
+      <div className="flex items-center gap-3 text-[10px] uppercase tracking-[0.22em] text-dusk/35">
+        <span className="h-px flex-1 bg-dusk/10" />
+        ou bien
+        <span className="h-px flex-1 bg-dusk/10" />
+      </div>
+
       <div className="space-y-3">
         {BRANCHES.map((b) => {
           const active = value === b.id;
