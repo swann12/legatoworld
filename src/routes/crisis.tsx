@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Shell } from "@/components/legato/Shell";
 
 export const Route = createFileRoute("/crisis")({
-  head: () => ({ meta: [{ title: "A small, quiet door — Legato" }] }),
+  head: () => ({ meta: [{ title: "Une petite porte, calme — Legato" }] }),
   component: Crisis,
 });
 
@@ -17,15 +17,15 @@ function Crisis() {
         />
 
         <div className="relative z-10 flex flex-1 flex-col px-8 pt-10">
-          <Link to="/home" className="text-[11px] uppercase tracking-[0.22em] text-dusk/50">← Home</Link>
+          <Link to="/home" className="text-[11px] uppercase tracking-[0.22em] text-dusk/50">← Accueil</Link>
 
           <div className="mt-16 max-w-[28ch]">
             <h1 className="font-serif text-[2.6rem] leading-[1.05] font-light text-dusk text-balance">
-              You are <span className="italic">here.</span><br />
-              Nothing is required.
+              Vous êtes <span className="italic">ici.</span><br />
+              Rien n'est exigé.
             </h1>
             <p className="mt-6 text-[15px] leading-relaxed text-dusk/65 max-w-[34ch]">
-              Breathe with the dot. When you're ready, one of these doors is open.
+              Respirez avec le point. Quand vous serez prêt·e, une de ces portes est ouverte.
             </p>
           </div>
 
@@ -42,14 +42,14 @@ function Crisis() {
 
           <div className="space-y-3 pb-12">
             <a href="tel:988" className="ceramic organic-radius-3 block px-7 py-5 text-center">
-              <span className="font-serif text-xl italic text-dusk">Call someone now</span>
-              <span className="block mt-1 text-[11px] uppercase tracking-[0.22em] text-dusk/50">A crisis line, in your country</span>
+              <span className="font-serif text-xl italic text-dusk">Appeler quelqu'un maintenant</span>
+              <span className="block mt-1 text-[11px] uppercase tracking-[0.22em] text-dusk/50">Une ligne d'écoute, dans votre pays</span>
             </a>
             <button className="ceramic-soft organic-radius-3 w-full px-7 py-5 text-center">
-              <span className="font-serif text-lg italic text-dusk">Notify a trusted person</span>
+              <span className="font-serif text-lg italic text-dusk">Prévenir une personne de confiance</span>
             </button>
             <Link to="/no-words" className="ceramic-soft organic-radius-3 block px-7 py-5 text-center">
-              <span className="font-serif text-lg italic text-dusk">Just breathe with me</span>
+              <span className="font-serif text-lg italic text-dusk">Juste respirer avec moi</span>
             </Link>
           </div>
         </div>
