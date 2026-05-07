@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState } from "react";
 import { Halos } from "@/components/legato/Halos";
 import { Shell } from "@/components/legato/Shell";
 import { useLegato } from "@/lib/legato-state";
@@ -106,9 +107,9 @@ function Garden() {
                   to="/garden/$zone"
                   params={{ zone: p.id }}
                   onMouseEnter={() => setHovered(p.id)}
-                  onMouseLeave={() => setHovered((h) => (h === p.id ? null : h))}
+                  onMouseLeave={() => setHovered((h: string | null) => (h === p.id ? null : h))}
                   onFocus={() => setHovered(p.id)}
-                  onBlur={() => setHovered((h) => (h === p.id ? null : h))}
+                  onBlur={() => setHovered((h: string | null) => (h === p.id ? null : h))}
                   aria-label={`${lang === "fr" ? "Entrer dans le jardin de" : "Enter the garden of"} ${p.name}`}
                   className="absolute group focus:outline-none cursor-pointer"
                   style={{
