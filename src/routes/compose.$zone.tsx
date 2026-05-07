@@ -439,7 +439,27 @@ function Composer({ type, onSave }: { type: MemoryType; onSave: () => void }) {
               brush === s.kind ? "ring-2 ring-dusk/60 scale-[1.04]" : ""
             }`}
           >
-            <OrganicShape kind={s.kind} size={40} tint="var(--clay)" tint2="var(--peach)" />
+            <div
+              className="relative"
+              style={{
+                width: 40,
+                height: 40,
+                filter: "blur(0.5px) saturate(0.9)",
+                opacity: 0.85,
+                mixBlendMode: "multiply",
+              }}
+            >
+              <div
+                aria-hidden
+                className="absolute inset-[-20%] rounded-full"
+                style={{
+                  background: "radial-gradient(circle, var(--clay) 0%, transparent 65%)",
+                  opacity: 0.22,
+                  filter: "blur(5px)",
+                }}
+              />
+              <OrganicShape kind={s.kind} size={40} tint="var(--clay)" tint2="var(--peach)" />
+            </div>
             <span className="text-[10px] tracking-wide text-dusk/65">{s.label}</span>
           </button>
         ))}
