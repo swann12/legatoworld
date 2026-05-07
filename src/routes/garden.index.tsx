@@ -87,7 +87,7 @@ export const BEINGS: Being[] = [
       { kind: "anemone",  tint: "var(--lavender)", tint2: "var(--rose)",    weight: 3 },
       { kind: "ginkgo",   tint: "var(--peach)",    tint2: "var(--paper)",   weight: 2 },
       { kind: "leaf",     tint: "var(--sage)",     tint2: "var(--mist)",    weight: 2 },
-      { kind: "lavender" in {} ? "iris" : "iris", tint: "var(--lavender)", tint2: "var(--paper)", weight: 1 },
+      { kind: "iris",     tint: "var(--lavender)", tint2: "var(--paper)",   weight: 1 },
     ],
     density: 160, intensity: 0.88, ink: "oklch(0.40 0.10 290)",
   },
