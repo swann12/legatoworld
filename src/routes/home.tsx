@@ -15,14 +15,11 @@ export const Route = createFileRoute("/home")({
 });
 
 function Home() {
-  const { name, mode, branch } = useLegato();
+  const { name, mode, branch, t, lang, setLang } = useLegato();
   const modeMeta = MODES.find((m) => m.id === mode)!;
-  const branchMeta = BRANCHES.find((b) => b.id === branch)!;
-  const isPractical = branch === "practical";
+  const branchMeta = BRANCHES.find((b) => b.id === branch);
   const isCocoon = mode === "cocoon";
-  const isAnchoring = mode === "anchoring";
   const isBreath = mode === "breath";
-  const isRelay = mode === "relay";
 
   return (
     <Shell>
@@ -30,41 +27,55 @@ function Home() {
         <Halos mode={mode} variant={isBreath ? "calm" : isCocoon ? "rich" : "default"} />
 
         <div className="relative z-10">
-          {/* top bar */}
+          {/* top bar — language toggle + space */}
           <div className="flex items-center justify-between px-7 pt-10">
             <span className="font-serif text-xl italic text-dusk">Legato</span>
-            <Link
-              to="/space"
-              className="ceramic-soft size-10 rounded-full flex items-center justify-center"
-            >
-              <span className="font-serif italic text-sm text-dusk">
-                {name.charAt(0).toUpperCase()}
-              </span>
-            </Link>
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => setLang(lang === "fr" ? "en" : "fr")}
+                className="paper-card px-3 py-1.5 text-[10px] uppercase tracking-[0.18em] text-dusk/70"
+                aria-label="Toggle language"
+              >
+                {lang.toUpperCase()}
+              </button>
+              <Link
+                to="/space"
+                className="ceramic-soft size-10 rounded-full flex items-center justify-center"
+              >
+                <span className="font-serif italic text-sm text-dusk">
+                  {name.charAt(0).toUpperCase()}
+                </span>
+              </Link>
+            </div>
           </div>
 
-          {/* greeting — generously aired */}
-          <header className={`px-7 ${isCocoon ? "pt-20" : isBreath ? "pt-16" : "pt-14"}`}>
+          {/* greeting */}
+          <header className={`px-7 ${isCocoon ? "pt-16" : "pt-12"}`}>
             <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">
-              Aujourd'hui, lentement
+              {t("home.aujourdhui")}
             </p>
             <h1 className="mt-4 font-serif text-[2.4rem] leading-[1.05] font-light text-dusk text-balance">
               {name},<br />
-              <span className="italic text-dusk/85">posez-vous ici</span> un moment.
+              <span className="italic text-dusk/85">{t("home.posezvous")}</span> {t("home.unmoment")}
             </h1>
-            <p className="mt-5 max-w-[34ch] text-[14.5px] leading-relaxed text-dusk/60">
-              Tenu·e en <span className="italic">{modeMeta.label.toLowerCase()}</span>, avec{" "}
-              <span className="italic">{branchMeta.label.toLowerCase()}</span> tout près.
-            </p>
+            {branchMeta && (
+              <p className="mt-5 max-w-[34ch] text-[14.5px] leading-relaxed text-dusk/60">
+                {lang === "fr" ? "Tenu·e en " : "Held in "}
+                <span className="italic">{modeMeta.label.toLowerCase()}</span>
+                {lang === "fr" ? ", avec " : ", with "}
+                <span className="italic">{branchMeta.label.toLowerCase()}</span>
+                {lang === "fr" ? " tout près." : " close by."}
+              </p>
+            )}
           </header>
 
-          {/* Mode chips — always visible, but compact */}
-          <div className={`${isCocoon ? "mt-12" : "mt-9"}`}>
+          {/* Mode chips — always visible */}
+          <div className="mt-9">
             <ModeSelector compact />
           </div>
 
-          {/* PRIMARY ACTION — speak to the AI Presence. One clear entry. */}
-          <Section className={`${isCocoon ? "mt-12" : "mt-10"}`}>
+          {/* PRIMARY ACTION — Presence */}
+          <Section className="mt-10">
             <Link
               to="/presence"
               className="ceramic organic-radius-3 block p-7 relative overflow-hidden"
@@ -82,96 +93,89 @@ function Home() {
                     />
                   </div>
                   <div className="flex-1">
-                    <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/40">
-                      Parler à la Présence
+                    <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">
+                      {t("home.parler")}
                     </p>
                     <h3 className="mt-1 font-serif text-[1.55rem] italic text-dusk leading-tight">
-                      Quelques minutes tranquilles
+                      {t("home.parlerSub")}
                     </h3>
                   </div>
                 </div>
                 <p className="mt-5 text-[13.5px] leading-relaxed text-dusk/65 max-w-[32ch]">
-                  Une petite présence qui écoute. Aucune tâche, à votre rythme.
+                  {t("home.parlerBody")}
                 </p>
                 <p className="mt-5 text-[11px] uppercase tracking-[0.22em] text-dusk/55">
-                  Entrer →
+                  {t("home.enter")}
                 </p>
               </div>
             </Link>
           </Section>
 
-          {/* Practical companion: only if relevant. Distinct, calm. */}
-          {isPractical && (
-            <Section className="mt-5">
-              <Link
-                to="/practical"
-                className="paper-card block p-6"
-              >
-                <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">
-                  Accompagnement concret
-                </p>
-                <p className="mt-1.5 font-serif text-lg italic text-dusk leading-snug">
-                  Étape par étape, pour les premiers jours.
-                </p>
-                <p className="mt-3 text-[11px] uppercase tracking-[0.22em] text-dusk/55">Ouvrir →</p>
-              </Link>
-            </Section>
-          )}
+          {/* Journal — always present, beautifully calm */}
+          <Section className="mt-4">
+            <Link to="/journal" className="paper-card block p-6 relative overflow-hidden" style={{ borderRadius: 26 }}>
+              <div
+                className="absolute inset-y-0 right-0 w-24 opacity-50 pointer-events-none"
+                style={{
+                  backgroundImage: "repeating-linear-gradient(0deg, transparent 0 14px, color-mix(in oklab, var(--dusk) 8%, transparent) 14px 15px)",
+                }}
+              />
+              <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">
+                {t("home.journal")}
+              </p>
+              <p className="mt-1.5 font-serif text-xl italic text-dusk leading-snug">
+                {t("home.journalSub")}
+              </p>
+              <p className="mt-3 text-[11px] uppercase tracking-[0.22em] text-dusk/55">
+                {lang === "fr" ? "Ouvrir une page →" : "Open a page →"}
+              </p>
+            </Link>
+          </Section>
 
-          {/* Mode-aware secondary surface — distinct rhythm per mode */}
-          {isCocoon && (
-            <Section className="mt-12">
-              {/* Cocoon: a single soft secondary, lots of air */}
-              <Link to="/no-words" className="paper-card block p-6 text-center">
-                <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">Sans mots</p>
-                <p className="mt-2 font-serif text-xl italic text-dusk">Être là, simplement.</p>
-              </Link>
-            </Section>
-          )}
+          {/* Practical — always reachable, distinct */}
+          <Section className="mt-4">
+            <Link to="/practical" className="paper-card block p-6" style={{ borderRadius: 26 }}>
+              <div className="flex items-baseline justify-between gap-4">
+                <div>
+                  <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">
+                    {t("home.practical")}
+                  </p>
+                  <p className="mt-1.5 font-serif text-lg italic text-dusk leading-snug">
+                    {t("home.practicalSub")}
+                  </p>
+                </div>
+                <span className="text-dusk/40">→</span>
+              </div>
+              <p className="mt-3 text-[11.5px] text-dusk/50">
+                {t("home.practicalAlways")}
+              </p>
+            </Link>
+          </Section>
 
-          {isAnchoring && (
-            <Section className="mt-8 space-y-3">
-              {/* Anchoring: structured, repérant */}
-              <SecondaryRow to="/garden" eyebrow="Le Jardin" title="Trois traces s'y sont déposées." />
-              <SecondaryRow to="/dates" eyebrow="Dates sensibles" title="Un anniversaire dans 12 jours." />
-              <SecondaryRow to="/no-words" eyebrow="Sans mots" title="Être là, simplement." />
-              <SecondaryRow to="/help" eyebrow="Aide concrète" title="Des mains, tout près." />
-            </Section>
-          )}
+          {/* Without words — quiet alternative */}
+          <Section className="mt-4">
+            <Link to="/no-words" className="paper-card block p-6" style={{ borderRadius: 26 }}>
+              <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">
+                {t("home.nowords")}
+              </p>
+              <p className="mt-1.5 font-serif text-lg italic text-dusk leading-snug">
+                {t("home.nowordsSub")}
+              </p>
+            </Link>
+          </Section>
 
-          {isBreath && (
-            <Section className="mt-12 grid grid-cols-2 gap-3">
-              <Link to="/garden" className="paper-card p-5">
-                <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">Le Jardin</p>
-                <p className="mt-2 font-serif text-lg italic text-dusk">Flâner.</p>
-              </Link>
-              <Link to="/no-words" className="paper-card p-5">
-                <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">Sans mots</p>
-                <p className="mt-2 font-serif text-lg italic text-dusk">Respirer.</p>
-              </Link>
-            </Section>
-          )}
-
-          {isRelay && (
-            <Section className="mt-8 space-y-3">
-              <SecondaryRow to="/help" eyebrow="Aide & relais" title="Demander à quelqu'un, simplement." />
-              <SecondaryRow to="/practical" eyebrow="Pratique" title="Démarches, étape par étape." />
-              <SecondaryRow to="/garden" eyebrow="Le Jardin" title="Garder une trace." />
-            </Section>
-          )}
-
-          {/* Always-visible quiet door */}
-          <Section className="mt-12">
+          {/* Crisis door — always present, never loud */}
+          <Section className="mt-10">
             <Link
               to="/crisis"
               className="block border-t border-dusk/10 pt-6 flex items-baseline justify-between"
             >
               <div>
                 <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">
-                  Si aujourd'hui est trop
+                  {t("home.crisis.label")}
                 </p>
                 <p className="mt-1 font-serif text-base italic text-dusk">
-                  Une petite porte, calme
+                  {t("home.crisis.title")}
                 </p>
               </div>
               <span className="text-dusk/40 text-sm">→</span>
@@ -180,19 +184,5 @@ function Home() {
         </div>
       </div>
     </Shell>
-  );
-}
-
-function SecondaryRow({
-  to, eyebrow, title,
-}: { to: "/garden" | "/dates" | "/no-words" | "/help" | "/practical"; eyebrow: string; title: string }) {
-  return (
-    <Link to={to} className="paper-card p-5 flex items-baseline justify-between">
-      <div>
-        <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">{eyebrow}</p>
-        <p className="mt-1 font-serif text-lg italic text-dusk leading-snug">{title}</p>
-      </div>
-      <span className="text-dusk/40 text-sm">→</span>
-    </Link>
   );
 }

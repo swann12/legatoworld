@@ -5,7 +5,7 @@ import { Shell } from "@/components/legato/Shell";
 import { useLegato } from "@/lib/legato-state";
 import { OrganicShape, type ShapeKind } from "@/components/legato/OrganicShape";
 
-export const Route = createFileRoute("/garden/$zone")({
+export const Route = createFileRoute("/garden/")({
   head: () => ({ meta: [{ title: "Une zone du jardin — Legato" }] }),
   component: GardenZone,
 });
