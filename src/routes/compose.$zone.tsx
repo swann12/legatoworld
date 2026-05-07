@@ -28,12 +28,20 @@ const TYPES: { id: MemoryType; label: string; whisper: string }[] = [
 function AtlasVignette({
   item, size, opacity = 1, soft = true,
 }: { item: AtlasItem; size: number; opacity?: number; soft?: boolean }) {
-  // crop ratio in % → background-size = 100/cw * 100
-  const bgW = (100 / item.cw) * 100;
-  const bgH = (100 / item.ch) * 100;
-  // background-position : 0% → left, 100% → right (relative to overflow)
-  const posX = (item.cx - item.cw / 2) / (100 - item.cw) * 100;
-  const posY = (item.cy - item.ch / 2) / (100 - item.ch) * 100;
+  // On resserre la fenêtre visible à ~70% du crop pour exclure
+  // le fond crème et les labels qui suivent l'élément. Le mask radial
+  // dissout les bords pour ne garder QUE le sujet peint.
+  const innerScale = 0.7;
+  const visibleW = item.cw * innerScale;
+  const visibleH = item.ch * innerScale;
+  const bgW = (100 / visibleW) * 100;
+  const bgH = (100 / visibleH) * 100;
+  const posX = ((item.cx - visibleW / 2) / (100 - visibleW)) * 100;
+  const posY = ((item.cy - visibleH / 2) / (100 - visibleH)) * 100;
+  // Masque radial très resserré : noir uniquement au centre,
+  // disparaît bien avant les bords du carré → impossible de voir
+  // le fond crème ou la typographie résiduelle.
+  const mask = "radial-gradient(ellipse at center, black 30%, rgba(0,0,0,0.85) 50%, transparent 78%)";
   return (
     <div
       aria-hidden
@@ -45,15 +53,13 @@ function AtlasVignette({
         backgroundPosition: `${posX}% ${posY}%`,
         backgroundRepeat: "no-repeat",
         opacity,
-        // soft edge mask : disparaît en douceur sur les bords, pas de cadre
-        WebkitMaskImage: soft
-          ? "radial-gradient(ellipse at center, black 55%, transparent 92%)"
-          : undefined,
-        maskImage: soft
-          ? "radial-gradient(ellipse at center, black 55%, transparent 92%)"
-          : undefined,
+        WebkitMaskImage: soft ? mask : undefined,
+        maskImage: soft ? mask : undefined,
+        // Multiply contre le fond crème de la toile : le fond crème
+        // de la planche source disparaît visuellement, seuls les
+        // pigments plus sombres (la peinture) restent.
         mixBlendMode: "multiply",
-        filter: "saturate(0.95)",
+        filter: "saturate(0.95) contrast(1.05)",
       }}
     />
   );
