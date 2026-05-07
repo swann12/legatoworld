@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState } from "react";
 import { Halos } from "@/components/legato/Halos";
 import { Shell } from "@/components/legato/Shell";
 import { useLegato } from "@/lib/legato-state";
@@ -48,6 +49,8 @@ function GardenZone() {
   const { zone } = Route.useParams();
   const { mode } = useLegato();
   const data = ZONE[zone] ?? ZONE.voice;
+  const [openId, setOpenId] = useState<string | null>(null);
+  const [playingId, setPlayingId] = useState<string | null>(null);
 
   return (
     <Shell>
@@ -81,17 +84,101 @@ function GardenZone() {
 
           {/* Existing compositions */}
           <div className="px-7 mt-10 space-y-3">
-            {data.items.map((it) => (
-              <article key={it.id} className="paper-card p-5">
-                <div className="flex items-baseline justify-between gap-4">
-                  <h3 className="font-serif text-lg italic text-dusk leading-snug">{it.title}</h3>
-                  <span className="text-[10px] tracking-[0.1em] text-dusk/45 shrink-0">{it.date}</span>
-                </div>
-                {it.preview && (
-                  <p className="mt-2 text-[13.5px] leading-relaxed text-dusk/65">{it.preview}</p>
-                )}
-              </article>
-            ))}
+            {data.items.map((it) => {
+              const open = openId === it.id;
+              const playing = playingId === it.id;
+              const isVoice = zone === "voice";
+              return (
+                <button
+                  key={it.id}
+                  type="button"
+                  onClick={() => setOpenId(open ? null : it.id)}
+                  className={`w-full text-left paper-card p-5 transition-all duration-500 ${
+                    open ? "scale-[1.01] shadow-lg" : "hover:scale-[1.005]"
+                  }`}
+                  style={{ borderRadius: 24 }}
+                >
+                  <div className="flex items-baseline justify-between gap-4">
+                    <h3 className="font-serif text-lg italic text-dusk leading-snug">{it.title}</h3>
+                    <span className="text-[10px] tracking-[0.1em] text-dusk/45 shrink-0">{it.date}</span>
+                  </div>
+                  {it.preview && (
+                    <p className="mt-2 text-[13.5px] leading-relaxed text-dusk/65">{it.preview}</p>
+                  )}
+
+                  {/* Expanded interactive panel */}
+                  <div
+                    className="grid transition-all duration-500 ease-out"
+                    style={{
+                      gridTemplateRows: open ? "1fr" : "0fr",
+                      opacity: open ? 1 : 0,
+                      marginTop: open ? 16 : 0,
+                    }}
+                  >
+                    <div className="overflow-hidden">
+                      <div
+                        className="rounded-[18px] p-4"
+                        style={{
+                          background: `linear-gradient(135deg, color-mix(in oklab, ${data.color} 35%, var(--paper)), color-mix(in oklab, ${data.color2} 25%, var(--paper)))`,
+                        }}
+                      >
+                        {isVoice ? (
+                          <div className="flex items-center gap-3">
+                            <span
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setPlayingId(playing ? null : it.id);
+                              }}
+                              className="size-11 rounded-full bg-dusk text-paper flex items-center justify-center cursor-pointer shadow-md"
+                              aria-label={playing ? "Pause" : "Écouter"}
+                            >
+                              {playing ? "❚❚" : "▸"}
+                            </span>
+                            <div className="flex-1 flex items-center gap-[2px] h-9">
+                              {Array.from({ length: 28 }).map((_, i) => (
+                                <span
+                                  key={i}
+                                  className="flex-1 rounded-full bg-dusk/60"
+                                  style={{
+                                    height: `${20 + Math.abs(Math.sin(i * 0.7)) * 70}%`,
+                                    opacity: playing ? 0.85 : 0.35,
+                                    transition: `opacity 300ms ${i * 30}ms`,
+                                  }}
+                                />
+                              ))}
+                            </div>
+                            <span className="text-[11px] tabular-nums text-dusk/65">{it.preview}</span>
+                          </div>
+                        ) : (
+                          <p className="font-serif italic text-dusk/85 text-[15px] leading-relaxed text-balance">
+                            {it.preview || "Touchez à nouveau pour refermer."}
+                          </p>
+                        )}
+                        <div className="mt-3 flex items-center justify-between">
+                          <span className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">
+                            Souvenir vivant
+                          </span>
+                          <Link
+                            to="/compose/$zone"
+                            params={{ zone }}
+                            onClick={(e) => e.stopPropagation()}
+                            className="text-[10px] uppercase tracking-[0.22em] text-dusk/70 underline-offset-4 hover:underline"
+                          >
+                            Enrichir →
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {!open && (
+                    <p className="mt-3 text-[10px] uppercase tracking-[0.22em] text-dusk/35">
+                      Toucher pour ouvrir
+                    </p>
+                  )}
+                </button>
+              );
+            })}
           </div>
 
           {/* Single primary action: plant a new memory composition */}
