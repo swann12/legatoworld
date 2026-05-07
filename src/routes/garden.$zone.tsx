@@ -5,7 +5,7 @@ import { useLegato } from "@/lib/legato-state";
 
 export const Route = createFileRoute("/garden/$zone")({
   head: () => ({
-    meta: [{ title: "A zone in the garden — Legato" }],
+    meta: [{ title: "Une zone du jardin — Legato" }],
   }),
   component: GardenZone,
 });
@@ -21,61 +21,61 @@ const ZONE_DATA: Record<
   }
 > = {
   voice: {
-    name: "Voice",
-    whisper: "Sound carried forward.",
+    name: "Voix",
+    whisper: "Un son que l'on emporte.",
     color: "var(--rose)",
     color2: "var(--peach)",
     traces: [
-      { id: "1", kind: "Voice memo", title: "Reading on the porch", date: "April 14, 2024", body: "0:42" },
-      { id: "2", kind: "Voice memo", title: "Laughing at nothing", date: "March 02, 2024", body: "0:18" },
+      { id: "1", kind: "Mémo vocal", title: "Lecture sous le porche", date: "14 avril 2024", body: "0:42" },
+      { id: "2", kind: "Mémo vocal", title: "Rire pour rien", date: "2 mars 2024", body: "0:18" },
     ],
   },
   photo: {
-    name: "Photographs",
-    whisper: "Light, fixed in time.",
+    name: "Photographies",
+    whisper: "La lumière, fixée dans le temps.",
     color: "var(--peach)",
     color2: "var(--rose)",
     traces: [
-      { id: "1", kind: "Photograph", title: "Kitchen, late afternoon", date: "Aug 11, 2023", body: "" },
-      { id: "2", kind: "Photograph", title: "Hands, summer hat", date: "Jun 30, 2023", body: "" },
-      { id: "3", kind: "Photograph", title: "Window, morning rain", date: "Sept 4, 2022", body: "" },
+      { id: "1", kind: "Photographie", title: "La cuisine, fin d'après-midi", date: "11 août 2023", body: "" },
+      { id: "2", kind: "Photographie", title: "Des mains, chapeau d'été", date: "30 juin 2023", body: "" },
+      { id: "3", kind: "Photographie", title: "Fenêtre, pluie du matin", date: "4 sept. 2022", body: "" },
     ],
   },
   sentence: {
-    name: "Sentences",
-    whisper: "Words kept in a pocket.",
+    name: "Phrases",
+    whisper: "Des mots gardés en poche.",
     color: "var(--lavender)",
     color2: "var(--mist)",
     traces: [
-      { id: "1", kind: "Sentence", title: "Something she said", date: "—", body: "\"You always come back gentler than you left.\"" },
+      { id: "1", kind: "Phrase", title: "Quelque chose qu'elle a dit", date: "—", body: "« Tu reviens toujours plus doux que tu n'es parti. »" },
     ],
   },
   habit: {
-    name: "Habits",
-    whisper: "Small, repeated tendernesses.",
+    name: "Gestes",
+    whisper: "De petites tendresses répétées.",
     color: "var(--sage)",
     color2: "var(--mist)",
     traces: [
-      { id: "1", kind: "Habit", title: "Tea at 4pm", date: "Daily", body: "Always one and a half spoons of honey." },
+      { id: "1", kind: "Geste", title: "Le thé de 16 h", date: "Tous les jours", body: "Toujours une cuillère et demie de miel." },
     ],
   },
   object: {
-    name: "Objects",
-    whisper: "What the hand still knows.",
+    name: "Objets",
+    whisper: "Ce que la main connaît encore.",
     color: "var(--clay)",
     color2: "var(--peach)",
     traces: [
-      { id: "1", kind: "Object", title: "The blue scarf", date: "—", body: "Folded in the second drawer." },
+      { id: "1", kind: "Objet", title: "Le foulard bleu", date: "—", body: "Plié dans le deuxième tiroir." },
     ],
   },
   place: {
-    name: "Places",
-    whisper: "Geography of memory.",
+    name: "Lieux",
+    whisper: "La géographie du souvenir.",
     color: "var(--mist)",
     color2: "var(--sage)",
     traces: [
-      { id: "1", kind: "Place", title: "The corner café", date: "—", body: "Window seat, always." },
-      { id: "2", kind: "Place", title: "The path by the river", date: "—", body: "" },
+      { id: "1", kind: "Lieu", title: "Le café du coin", date: "—", body: "Toujours la place près de la fenêtre." },
+      { id: "2", kind: "Lieu", title: "Le chemin le long de la rivière", date: "—", body: "" },
     ],
   },
 };
@@ -96,7 +96,7 @@ function GardenZone() {
               to="/garden"
               className="text-[11px] uppercase tracking-[0.22em] text-dusk/50 hover:text-dusk"
             >
-              ← The Garden
+              ← Le Jardin
             </Link>
           </div>
 
@@ -106,7 +106,7 @@ function GardenZone() {
               <>
                 {data.name}
                 <br />
-                <span className="italic text-dusk/70">in this corner.</span>
+                <span className="italic text-dusk/70">dans ce coin.</span>
               </>
             }
             subtitle={data.whisper}
@@ -148,7 +148,7 @@ function GardenZone() {
           <Section className="mt-8">
             <button className="ceramic organic-radius-3 w-full px-7 py-5 text-center">
               <span className="font-serif text-lg italic text-dusk">
-                Add a new {data.name.toLowerCase().replace(/s$/, "")}
+                Ajouter une nouvelle {data.name.toLowerCase().replace(/s$/, "")}
               </span>
             </button>
           </Section>
