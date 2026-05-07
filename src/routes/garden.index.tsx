@@ -216,14 +216,14 @@ function Garden() {
                   <g key={`g-${p.id}`}>
                     <path
                       d={p.d}
-                      fill={`color-mix(in oklab, ${p.blooms[0].tint} 42%, var(--paper))`}
-                      opacity={(0.4 + p.intensity * 0.35).toFixed(2)}
+                      fill={`color-mix(in oklab, ${p.blooms[0].tint} 75%, var(--paper))`}
+                      opacity={(0.55 + p.intensity * 0.4).toFixed(2)}
                       filter="url(#feather)"
                     />
                     <path
                       d={p.d}
-                      fill={`color-mix(in oklab, ${p.blooms[0].tint} 22%, var(--paper))`}
-                      opacity={(0.55 + p.intensity * 0.35).toFixed(2)}
+                      fill={`color-mix(in oklab, ${p.blooms[0].tint} 55%, var(--paper))`}
+                      opacity={(0.75 + p.intensity * 0.25).toFixed(2)}
                     />
                   </g>
                 ))}
@@ -242,80 +242,100 @@ function Garden() {
                 ))}
               </svg>
 
-              {/* Each parterre — dense painting of blooms + subtle ink mark only */}
+              {/* Visual layer — stipple + blooms for every bed (non-interactive) */}
+              <svg
+                viewBox="0 0 300 400"
+                className="absolute inset-0 w-full h-full pointer-events-none"
+                preserveAspectRatio="none"
+                aria-hidden
+              >
+                {BEINGS.map((p) => (
+                  <g key={`stipple-${p.id}`} clipPath={`url(#clip-${p.id})`}>
+                    {Array.from({ length: 80 }).map((_, i) => {
+                      const seed = (p.id.charCodeAt(0) + i) * 5.3;
+                      const nums = p.d.match(/-?\d+(\.\d+)?/g)!.map(Number);
+                      let mnx = Infinity, mny = Infinity, mxx = -Infinity, mxy = -Infinity;
+                      for (let k = 0; k < nums.length; k += 2) {
+                        mnx = Math.min(mnx, nums[k]); mxx = Math.max(mxx, nums[k]);
+                        mny = Math.min(mny, nums[k + 1]); mxy = Math.max(mxy, nums[k + 1]);
+                      }
+                      const x = mnx + rand(seed) * (mxx - mnx);
+                      const y = mny + rand(seed * 2.1 + 1) * (mxy - mny);
+                      const tint = i % 2 === 0 ? p.blooms[0].tint : (p.blooms[1]?.tint ?? p.blooms[0].tint2);
+                      return <circle key={i} cx={x} cy={y} r={1 + (i % 3) * 0.5} fill={tint} opacity={(0.6 + p.intensity * 0.35).toFixed(2)} />;
+                    })}
+                  </g>
+                ))}
+              </svg>
+              <div className="absolute inset-0 pointer-events-none">
+                <svg viewBox="0 0 300 400" className="absolute inset-0 w-full h-full" preserveAspectRatio="none">
+                  {BEINGS.map((p) => (
+                    <g key={`blooms-${p.id}`} clipPath={`url(#clip-${p.id})`} opacity={(0.85 + p.intensity * 0.15).toFixed(2)}>
+                      {blooms(p).map((b, i) => (
+                        <g key={i} transform={`translate(${b.x} ${b.y}) rotate(${b.rot}) scale(${b.size / 100})`}>
+                          <g transform="translate(-50 -50)">
+                            <foreignObject x="0" y="0" width="100" height="100">
+                              <OrganicShape kind={b.bloom.kind} size={100} tint={b.bloom.tint} tint2={b.bloom.tint2} />
+                            </foreignObject>
+                          </g>
+                        </g>
+                      ))}
+                    </g>
+                  ))}
+                </svg>
+              </div>
+
+              {/* Each parterre — clickable wooden "gate" stone at the entry point.
+                  Positioned at (markX, markY); each is its own focusable Link. */}
               {BEINGS.map((p) => (
                 <Link
                   key={p.id}
                   to="/garden/$zone"
                   params={{ zone: p.id }}
-                  aria-label={`${lang === "fr" ? "Jardin de" : "Garden of"} ${p.name}`}
-                  className="absolute inset-0 group block"
-                  style={{ touchAction: "manipulation" }}
+                  aria-label={`${lang === "fr" ? "Entrer dans le jardin de" : "Enter the garden of"} ${p.name}`}
+                  className="absolute -translate-x-1/2 -translate-y-1/2 group focus:outline-none"
+                  style={{
+                    left: `${(p.markX / 300) * 100}%`,
+                    top: `${(p.markY / 400) * 100}%`,
+                    touchAction: "manipulation",
+                  }}
                 >
-                  <svg
-                    viewBox="0 0 300 400"
-                    className="absolute inset-0 w-full h-full transition-transform duration-700 group-hover:scale-[1.01]"
-                    preserveAspectRatio="none"
-                  >
-                    <g clipPath={`url(#clip-${p.id})`}>
-                      {/* soft stipple under the bed */}
-                      {Array.from({ length: 60 }).map((_, i) => {
-                        const seed = (p.id.charCodeAt(0) + i) * 5.3;
-                        const nums = p.d.match(/-?\d+(\.\d+)?/g)!.map(Number);
-                        let mnx = Infinity, mny = Infinity, mxx = -Infinity, mxy = -Infinity;
-                        for (let k = 0; k < nums.length; k += 2) {
-                          mnx = Math.min(mnx, nums[k]); mxx = Math.max(mxx, nums[k]);
-                          mny = Math.min(mny, nums[k + 1]); mxy = Math.max(mxy, nums[k + 1]);
-                        }
-                        const x = mnx + rand(seed) * (mxx - mnx);
-                        const y = mny + rand(seed * 2.1 + 1) * (mxy - mny);
-                        const tint = i % 2 === 0 ? p.blooms[0].tint : (p.blooms[1]?.tint ?? p.blooms[0].tint2);
-                        return <circle key={i} cx={x} cy={y} r={0.8 + (i % 3) * 0.4} fill={tint} opacity={(0.35 + p.intensity * 0.4).toFixed(2)} />;
-                      })}
-                    </g>
-                  </svg>
-
-                  {/* blooms layered on top, also visually clipped by being placed inside a same-aspect SVG container */}
-                  <div className="absolute inset-0" style={{ opacity: (0.7 + p.intensity * 0.3).toFixed(2) }}>
-                    <svg viewBox="0 0 300 400" className="absolute inset-0 w-full h-full" preserveAspectRatio="none">
-                      <g clipPath={`url(#clip-${p.id})`}>
-                        {blooms(p).map((b, i) => (
-                          <g key={i} transform={`translate(${b.x} ${b.y}) rotate(${b.rot}) scale(${b.size / 100})`}>
-                            <g transform="translate(-50 -50)">
-                              <foreignObject x="0" y="0" width="100" height="100">
-                                <OrganicShape kind={b.bloom.kind} size={100} tint={b.bloom.tint} tint2={b.bloom.tint2} />
-                              </foreignObject>
-                            </g>
-                          </g>
-                        ))}
-                      </g>
-                    </svg>
-                  </div>
-
-                  {/* Subtle "enter here" ink mark — no text on the plan */}
-                  <div
-                    className="absolute -translate-x-1/2 -translate-y-1/2 pointer-events-none"
-                    style={{ left: `${(p.markX / 300) * 100}%`, top: `${(p.markY / 400) * 100}%` }}
-                  >
-                    <div className="relative">
-                      <div
-                        className="absolute inset-0 rounded-full breath"
+                  <span className="relative flex items-center justify-center">
+                    {/* breathing halo */}
+                    <span
+                      className="absolute rounded-full breath"
+                      style={{
+                        width: 44, height: 44,
+                        background:
+                          "radial-gradient(circle, color-mix(in oklab, var(--paper) 88%, transparent) 0%, transparent 70%)",
+                      }}
+                    />
+                    {/* stepping stone */}
+                    <span
+                      className="relative flex items-center justify-center rounded-full transition-transform duration-500 group-hover:scale-110 group-active:scale-95"
+                      style={{
+                        width: 26, height: 26,
+                        background:
+                          "radial-gradient(ellipse at 35% 30%, oklch(0.98 0.01 70) 0%, oklch(0.9 0.025 65) 100%)",
+                        boxShadow:
+                          "0 2px 6px rgba(60,40,40,0.25), inset 0 1px 1.5px rgba(255,255,255,0.7)",
+                        border: "0.5px solid oklch(0.78 0.04 60)",
+                      }}
+                    >
+                      {/* tiny arrow inward */}
+                      <span
+                        className="block"
                         style={{
-                          width: 22, height: 22, transform: "translate(-11px,-11px)",
-                          background: "radial-gradient(circle, color-mix(in oklab, var(--paper) 70%, transparent) 0%, transparent 70%)",
+                          width: 0, height: 0,
+                          borderTop: "4px solid transparent",
+                          borderBottom: "4px solid transparent",
+                          borderLeft: "6px solid var(--ink)",
+                          opacity: 0.7,
+                          marginLeft: 1,
                         }}
                       />
-                      <div
-                        className="rounded-full"
-                        style={{
-                          width: 5, height: 5,
-                          background: "var(--ink)",
-                          opacity: 0.55,
-                          boxShadow: "0 0 0 3px color-mix(in oklab, var(--paper) 60%, transparent)",
-                        }}
-                      />
-                    </div>
-                  </div>
+                    </span>
+                  </span>
                 </Link>
               ))}
 
