@@ -368,7 +368,8 @@ function Composer({ type, onSave }: { type: MemoryType; onSave: () => void }) {
     window.addEventListener("pointerup", up);
   };
 
-  const palette = SHAPE_LIBRARY.filter((s) => s.family === family);
+  const palette = FRAGMENTS.filter((f) => f.family === family);
+  const fragmentById = (id: string) => FRAGMENTS.find((f) => f.id === id) ?? FRAGMENTS[0];
 
   return (
     <div className="flex-1 flex flex-col px-5 pt-6 pb-6">
@@ -469,7 +470,7 @@ function Composer({ type, onSave }: { type: MemoryType; onSave: () => void }) {
                   }}
                 />
               )}
-              <OrganicShape kind={it.kind} size={it.size} tint={it.tint} tint2={it.tint2} />
+              <PaintedFragment fragment={fragmentById(it.fragmentId)} size={it.size} />
 
               {selected && (
                 <>
@@ -510,7 +511,7 @@ function Composer({ type, onSave }: { type: MemoryType; onSave: () => void }) {
 
       {/* Family tabs */}
       <div className="mt-5 flex justify-center gap-2 flex-wrap">
-        {(["végétal", "marin", "vivant", "exotique", "minéral", "ciel"] as const).map((f) => (
+        {(["fleurs", "feuillages", "ciel", "marin", "minéral"] as const).map((f) => (
           <button
             key={f}
             onClick={() => setFamily(f)}
@@ -523,40 +524,42 @@ function Composer({ type, onSave }: { type: MemoryType; onSave: () => void }) {
         ))}
       </div>
 
-      {/* Palette */}
-      <div className="mt-3 flex gap-3 overflow-x-auto no-scrollbar px-1 pb-2">
-        {palette.map((s) => (
-          <button
-            key={s.kind}
-            onClick={() => setBrush(s.kind)}
-            className={`shrink-0 flex flex-col items-center gap-1.5 paper-card p-2.5 w-[72px] transition-all ${
-              brush === s.kind ? "ring-2 ring-dusk/60 scale-[1.04]" : ""
-            }`}
-          >
-            <div
-              className="relative"
-              style={{
-                width: 40,
-                height: 40,
-                filter: "blur(0.5px) saturate(0.9)",
-                opacity: 0.85,
-                mixBlendMode: "multiply",
-              }}
+      {/* Palette — fragments peints, sans cadre, simples vignettes intégrées */}
+      <div className="mt-3 flex gap-4 overflow-x-auto no-scrollbar px-2 pb-3">
+        {palette.map((f) => {
+          const active = brush === f.id;
+          return (
+            <button
+              key={f.id}
+              onClick={() => setBrush(f.id)}
+              className={`shrink-0 flex flex-col items-center gap-1.5 transition-all ${
+                active ? "scale-[1.08]" : "opacity-75 hover:opacity-100"
+              }`}
+              aria-pressed={active}
             >
               <div
-                aria-hidden
-                className="absolute inset-[-20%] rounded-full"
+                className="relative"
                 style={{
-                  background: "radial-gradient(circle, var(--clay) 0%, transparent 65%)",
-                  opacity: 0.22,
-                  filter: "blur(5px)",
+                  width: 56, height: 56,
+                  filter: active ? "saturate(1)" : "saturate(0.85)",
                 }}
-              />
-              <OrganicShape kind={s.kind} size={40} tint="var(--clay)" tint2="var(--peach)" />
-            </div>
-            <span className="text-[10px] tracking-wide text-dusk/65">{s.label}</span>
-          </button>
-        ))}
+              >
+                <PaintedFragment fragment={f} size={56} />
+                {active && (
+                  <span
+                    aria-hidden
+                    className="absolute inset-[-30%] -z-10"
+                    style={{
+                      background: "radial-gradient(circle, rgba(255,242,215,0.55), transparent 70%)",
+                      filter: "blur(8px)",
+                    }}
+                  />
+                )}
+              </div>
+              <span className="text-[10px] tracking-wide text-dusk/55 italic">{f.label}</span>
+            </button>
+          );
+        })}
       </div>
 
       {/* Bottom action bar */}
