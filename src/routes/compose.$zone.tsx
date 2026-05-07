@@ -1,4 +1,4 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useRef, useState } from "react";
 import { Halos } from "@/components/legato/Halos";
 import { Shell } from "@/components/legato/Shell";
@@ -419,6 +419,3 @@ function previewFor(t: MemoryType) {
     case "video": return "Quelques secondes au lac, août.";
   }
 }
-
-// Side-effect-free reference to satisfy unused-link-import lint
-void Link;
