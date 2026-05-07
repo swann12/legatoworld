@@ -241,11 +241,11 @@ function Composer({ type, onSave }: { type: MemoryType; onSave: () => void }) {
   const [items, setItems] = useState<Item[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [openMemoryId, setOpenMemoryId] = useState<string | null>(null);
-  const [family, setFamily] = useState<"végétal" | "minéral" | "marin" | "ciel" | "vivant" | "exotique">("végétal");
-  const [brush, setBrush] = useState<ShapeKind | null>("petal");
+  const [family, setFamily] = useState<Family>("fleurs");
+  const [brush, setBrush] = useState<string | null>("rose-poudree");
   const lastStampRef = useRef<{ x: number; y: number; t: number } | null>(null);
 
-  const stampAt = (kind: ShapeKind, x: number, y: number, baseSize = 44) => {
+  const stampAt = (fragmentId: string, x: number, y: number, baseSize = 56) => {
     const tint = TINTS[Math.floor(Math.random() * TINTS.length)];
     const id = `s-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
     const jitter = (r: number) => (Math.random() - 0.5) * r;
@@ -253,13 +253,12 @@ function Composer({ type, onSave }: { type: MemoryType; onSave: () => void }) {
       ...prev,
       {
         id,
-        kind,
+        fragmentId,
         x: clamp(x + jitter(4), 3, 97),
         y: clamp(y + jitter(4), 3, 97),
-        size: clamp(baseSize + jitter(28), 20, 110),
+        size: clamp(baseSize + jitter(32), 32, 140),
         rotation: jitter(360),
-        tint: tint.a,
-        tint2: tint.b,
+        tint,
       },
     ]);
   };
