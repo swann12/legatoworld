@@ -145,7 +145,7 @@ function Composer({ type, onSave }: { type: MemoryType; onSave: () => void }) {
   const [items, setItems] = useState<Item[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [openMemoryId, setOpenMemoryId] = useState<string | null>(null);
-  const [family, setFamily] = useState<"végétal" | "minéral" | "ciel">("végétal");
+  const [family, setFamily] = useState<"végétal" | "minéral" | "marin" | "ciel">("végétal");
 
   const addShape = (kind: ShapeKind) => {
     const tint = TINTS[items.length % TINTS.length];
@@ -350,8 +350,8 @@ function Composer({ type, onSave }: { type: MemoryType; onSave: () => void }) {
       </div>
 
       {/* Family tabs */}
-      <div className="mt-5 flex justify-center gap-2">
-        {(["végétal", "minéral", "ciel"] as const).map((f) => (
+      <div className="mt-5 flex justify-center gap-2 flex-wrap">
+        {(["végétal", "marin", "minéral", "ciel"] as const).map((f) => (
           <button
             key={f}
             onClick={() => setFamily(f)}

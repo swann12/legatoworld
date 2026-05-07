@@ -15,6 +15,7 @@ import { Route as PracticalRouteImport } from './routes/practical'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as NoWordsRouteImport } from './routes/no-words'
 import { Route as MemoriesRouteImport } from './routes/memories'
+import { Route as JournalRouteImport } from './routes/journal'
 import { Route as HomeRouteImport } from './routes/home'
 import { Route as HelpRouteImport } from './routes/help'
 import { Route as DatesRouteImport } from './routes/dates'
@@ -52,6 +53,11 @@ const NoWordsRoute = NoWordsRouteImport.update({
 const MemoriesRoute = MemoriesRouteImport.update({
   id: '/memories',
   path: '/memories',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JournalRoute = JournalRouteImport.update({
+  id: '/journal',
+  path: '/journal',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HomeRoute = HomeRouteImport.update({
@@ -101,6 +107,7 @@ export interface FileRoutesByFullPath {
   '/dates': typeof DatesRoute
   '/help': typeof HelpRoute
   '/home': typeof HomeRoute
+  '/journal': typeof JournalRoute
   '/memories': typeof MemoriesRoute
   '/no-words': typeof NoWordsRoute
   '/onboarding': typeof OnboardingRoute
@@ -117,6 +124,7 @@ export interface FileRoutesByTo {
   '/dates': typeof DatesRoute
   '/help': typeof HelpRoute
   '/home': typeof HomeRoute
+  '/journal': typeof JournalRoute
   '/memories': typeof MemoriesRoute
   '/no-words': typeof NoWordsRoute
   '/onboarding': typeof OnboardingRoute
@@ -134,6 +142,7 @@ export interface FileRoutesById {
   '/dates': typeof DatesRoute
   '/help': typeof HelpRoute
   '/home': typeof HomeRoute
+  '/journal': typeof JournalRoute
   '/memories': typeof MemoriesRoute
   '/no-words': typeof NoWordsRoute
   '/onboarding': typeof OnboardingRoute
@@ -152,6 +161,7 @@ export interface FileRouteTypes {
     | '/dates'
     | '/help'
     | '/home'
+    | '/journal'
     | '/memories'
     | '/no-words'
     | '/onboarding'
@@ -168,6 +178,7 @@ export interface FileRouteTypes {
     | '/dates'
     | '/help'
     | '/home'
+    | '/journal'
     | '/memories'
     | '/no-words'
     | '/onboarding'
@@ -184,6 +195,7 @@ export interface FileRouteTypes {
     | '/dates'
     | '/help'
     | '/home'
+    | '/journal'
     | '/memories'
     | '/no-words'
     | '/onboarding'
@@ -201,6 +213,7 @@ export interface RootRouteChildren {
   DatesRoute: typeof DatesRoute
   HelpRoute: typeof HelpRoute
   HomeRoute: typeof HomeRoute
+  JournalRoute: typeof JournalRoute
   MemoriesRoute: typeof MemoriesRoute
   NoWordsRoute: typeof NoWordsRoute
   OnboardingRoute: typeof OnboardingRoute
@@ -254,6 +267,13 @@ declare module '@tanstack/react-router' {
       path: '/memories'
       fullPath: '/memories'
       preLoaderRoute: typeof MemoriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/journal': {
+      id: '/journal'
+      path: '/journal'
+      fullPath: '/journal'
+      preLoaderRoute: typeof JournalRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/home': {
@@ -321,6 +341,7 @@ const rootRouteChildren: RootRouteChildren = {
   DatesRoute: DatesRoute,
   HelpRoute: HelpRoute,
   HomeRoute: HomeRoute,
+  JournalRoute: JournalRoute,
   MemoriesRoute: MemoriesRoute,
   NoWordsRoute: NoWordsRoute,
   OnboardingRoute: OnboardingRoute,
@@ -334,3 +355,12 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}
