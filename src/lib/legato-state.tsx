@@ -5,6 +5,7 @@ export type Branch =
   | "animal"
   | "fear"
   | "anxiety"
+  | "practical"
   | "unknown";
 
 export type Mode = "cocoon" | "anchoring" | "breath" | "relay";
@@ -16,6 +17,13 @@ export const BRANCHES: { id: Branch; label: string; whisper: string }[] = [
   { id: "anxiety", label: "Réflexion sur la mort", whisper: "Les grandes questions, tout doucement." },
   { id: "unknown", label: "Je ne sais pas encore", whisper: "C'est un lieu, aussi." },
 ];
+
+/** Surfaced separately on the branch step — points to the practical companion. */
+export const PRACTICAL_BRANCH = {
+  id: "practical" as const,
+  label: "Je traverse une perte récente",
+  whisper: "J'ai besoin d'un accompagnement concret, maintenant.",
+};
 
 export const MODES: { id: Mode; label: string; whisper: string; tint: string }[] = [
   { id: "cocoon", label: "Cocon", whisper: "Peu d'énergie. Peu de choix. Enveloppé·e.", tint: "rose" },
