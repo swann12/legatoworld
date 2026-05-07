@@ -84,19 +84,19 @@ function Garden() {
                 draggable={false}
               />
 
-              {/* Soft cream veil — softens edges so nothing feels framed */}
-              <div
-                className="absolute inset-0 pointer-events-none"
-                style={{
-                  background:
-                    "radial-gradient(ellipse at 50% 50%, transparent 55%, rgba(255,248,232,0.55) 100%)",
-                }}
-              />
+              {/* Atmospheric mist — dissolves edges everywhere, no circular vignette */}
               <div
                 className="absolute inset-0 pointer-events-none mix-blend-soft-light"
                 style={{
                   background:
-                    "radial-gradient(ellipse at 50% 50%, rgba(255,248,232,0.22), transparent 75%)",
+                    "linear-gradient(180deg, rgba(255,248,232,0.35) 0%, rgba(255,248,232,0) 35%, rgba(255,248,232,0) 65%, rgba(255,248,232,0.35) 100%)",
+                }}
+              />
+              <div
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                  background:
+                    "radial-gradient(circle at 30% 70%, rgba(214,196,222,0.10), transparent 55%), radial-gradient(circle at 75% 30%, rgba(245,210,180,0.10), transparent 55%)",
                 }}
               />
 
@@ -122,12 +122,12 @@ function Garden() {
                   }}
                 >
                   <span
-                    className="absolute inset-[-30%] rounded-full opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity duration-1000"
+                    className="absolute inset-[-60%] rounded-full opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity duration-1000"
                     style={{
                       background:
-                        "radial-gradient(ellipse at center, rgba(255,242,215,0.55), transparent 72%)",
+                        "radial-gradient(ellipse at center, rgba(255,242,215,0.45), transparent 70%)",
                       mixBlendMode: "soft-light",
-                      filter: "blur(8px)",
+                      filter: "blur(20px)",
                     }}
                   />
                 </Link>
