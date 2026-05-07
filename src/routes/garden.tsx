@@ -4,8 +4,8 @@ import { Shell } from "@/components/legato/Shell";
 export const Route = createFileRoute("/garden")({
   head: () => ({
     meta: [
-      { title: "The Garden — Legato" },
-      { name: "description", content: "A symbolic inner landscape, planted slowly." },
+      { title: "Le Jardin — Legato" },
+      { name: "description", content: "Un paysage intérieur symbolique, cultivé doucement." },
     ],
   }),
   component: Garden,
@@ -18,10 +18,10 @@ export const Route = createFileRoute("/garden")({
 const ZONES = [
   {
     id: "voice",
-    name: "The Grove of Voices",
-    short: "Voice",
+    name: "Le Bosquet des Voix",
+    short: "Voix",
     count: 2,
-    whisper: "Sound carried forward.",
+    whisper: "Un son que l'on emporte.",
     color: "var(--rose)",
     color2: "var(--peach)",
     x: 30,
@@ -30,10 +30,10 @@ const ZONES = [
   },
   {
     id: "photo",
-    name: "The Field of Light",
-    short: "Photographs",
+    name: "Le Champ de Lumière",
+    short: "Photos",
     count: 5,
-    whisper: "Light, fixed in time.",
+    whisper: "La lumière, fixée dans le temps.",
     color: "var(--peach)",
     color2: "var(--rose)",
     x: 70,
@@ -42,10 +42,10 @@ const ZONES = [
   },
   {
     id: "sentence",
-    name: "The Reading Bench",
-    short: "Sentences",
+    name: "Le Banc de Lecture",
+    short: "Phrases",
     count: 3,
-    whisper: "Words kept in a pocket.",
+    whisper: "Des mots gardés en poche.",
     color: "var(--lavender)",
     color2: "var(--mist)",
     x: 26,
@@ -54,10 +54,10 @@ const ZONES = [
   },
   {
     id: "habit",
-    name: "The Quiet Orchard",
-    short: "Habits",
+    name: "Le Verger Tranquille",
+    short: "Gestes",
     count: 1,
-    whisper: "Small, repeated tendernesses.",
+    whisper: "De petites tendresses répétées.",
     color: "var(--sage)",
     color2: "var(--mist)",
     x: 72,
@@ -66,10 +66,10 @@ const ZONES = [
   },
   {
     id: "object",
-    name: "The Cabinet by the Path",
-    short: "Objects",
+    name: "Le Cabinet près du Chemin",
+    short: "Objets",
     count: 2,
-    whisper: "What the hand still knows.",
+    whisper: "Ce que la main connaît encore.",
     color: "var(--clay)",
     color2: "var(--peach)",
     x: 30,
@@ -78,10 +78,10 @@ const ZONES = [
   },
   {
     id: "place",
-    name: "The Far Hills",
-    short: "Places",
+    name: "Les Collines au Loin",
+    short: "Lieux",
     count: 4,
-    whisper: "Geography of memory.",
+    whisper: "La géographie du souvenir.",
     color: "var(--mist)",
     color2: "var(--sage)",
     x: 66,
@@ -113,19 +113,19 @@ function GardenLandscape() {
       {/* Floating header — over the sky */}
       <header className="absolute top-0 inset-x-0 z-20 px-7 pt-12">
         <p className="text-[10px] uppercase tracking-[0.24em] text-dusk/50">
-          The Garden — for someone you carry
+          Le Jardin — pour celui ou celle que vous portez
         </p>
         <h1 className="mt-3 font-serif text-[2.1rem] leading-[1.05] font-light text-dusk text-balance">
-          A landscape,
+          Un paysage,
           <br />
-          <span className="italic">slowly tended.</span>
+          <span className="italic">cultivé lentement.</span>
         </h1>
         <p className="mt-3 max-w-[28ch] text-[13px] leading-relaxed text-dusk/60">
-          Walk down the path. Each place keeps a different kind of memory.
+          Descendez le chemin. Chaque lieu garde un souvenir différent.
         </p>
         <div className="mt-5 flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] text-dusk/45">
           <span className="size-1.5 rounded-full bg-dusk/40 breath" />
-          scroll to stroll
+          faire défiler pour flâner
         </div>
       </header>
 
@@ -281,7 +281,7 @@ function GardenLandscape() {
         >
           <div className="size-3 rounded-full bg-dusk/70 breath" />
           <p className="mt-2 text-[9px] uppercase tracking-[0.22em] text-dusk/55 text-center">
-            you are here
+            vous êtes ici
           </p>
         </div>
 
@@ -294,7 +294,7 @@ function GardenLandscape() {
       {/* End of the path */}
       <div className="relative z-10 px-7 -mt-4 pb-4">
         <p className="font-serif text-lg italic text-dusk/65 text-balance text-center">
-          "A garden is a slow conversation with what remains."
+          « Un jardin est une lente conversation avec ce qui reste. »
         </p>
 
         <Link
@@ -302,10 +302,10 @@ function GardenLandscape() {
           className="ceramic organic-radius-3 mt-8 block px-7 py-5 text-center"
         >
           <span className="font-serif text-lg italic text-dusk">
-            Plant a new trace
+            Planter une nouvelle trace
           </span>
           <span className="block mt-1 text-[10px] uppercase tracking-[0.22em] text-dusk/45">
-            voice · photo · sentence · habit · object · place
+            voix · photo · phrase · geste · objet · lieu
           </span>
         </Link>
       </div>
@@ -393,7 +393,7 @@ function ZoneMarker({ zone }: { zone: Zone }) {
             labelLeft ? "text-left pl-1" : "text-right pr-1"
           }`}
         >
-          enter ›
+          entrer ›
         </div>
       </div>
     </Link>
