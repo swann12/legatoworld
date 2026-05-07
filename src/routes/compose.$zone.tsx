@@ -3,8 +3,71 @@ import { useRef, useState } from "react";
 import { Halos } from "@/components/legato/Halos";
 import { Shell } from "@/components/legato/Shell";
 import { useLegato } from "@/lib/legato-state";
-import { OrganicShape, SHAPE_LIBRARY, type ShapeKind } from "@/components/legato/OrganicShape";
 import gardenPainted from "@/assets/garden-painted.jpg";
+
+/* ────────── Fragments — chaque "élément" est un morceau peint extrait
+   directement de la peinture-jardin. Continuité esthétique parfaite. ────────── */
+type Family = "fleurs" | "feuillages" | "ciel" | "marin" | "minéral";
+type Fragment = {
+  id: string;
+  label: string;
+  family: Family;
+  /** Position (en %) de la zone à découper dans gardenPainted */
+  cx: number; cy: number;
+  /** Taille de la zone (en % de l'image) — petite = focus, grande = nuage */
+  zoom: number;
+  /** Forme du masque organique */
+  mask: "petal" | "round" | "drift" | "spire" | "wing" | "shell";
+};
+
+const FRAGMENTS: Fragment[] = [
+  // fleurs — extraits des concentrations florales
+  { id: "rose-poudree",   label: "Rose poudrée",    family: "fleurs",     cx: 28, cy: 78, zoom: 14, mask: "round" },
+  { id: "anemone",        label: "Anémone",         family: "fleurs",     cx: 45, cy: 52, zoom: 12, mask: "petal" },
+  { id: "iris",           label: "Iris",            family: "fleurs",     cx: 68, cy: 45, zoom: 14, mask: "spire" },
+  { id: "marguerite",     label: "Marguerite",      family: "fleurs",     cx: 38, cy: 38, zoom: 11, mask: "round" },
+  { id: "pavot",          label: "Pavot",           family: "fleurs",     cx: 82, cy: 22, zoom: 13, mask: "round" },
+  { id: "tulipe",         label: "Tulipe",          family: "fleurs",     cx: 18, cy: 25, zoom: 12, mask: "petal" },
+  { id: "cosmos",         label: "Cosmos",          family: "fleurs",     cx: 55, cy: 78, zoom: 13, mask: "round" },
+  { id: "petale-isole",   label: "Pétale",          family: "fleurs",     cx: 72, cy: 68, zoom: 8,  mask: "petal" },
+  { id: "grappe",         label: "Grappe florale",  family: "fleurs",     cx: 50, cy: 22, zoom: 18, mask: "drift" },
+  { id: "floraison-diffuse", label: "Floraison diffuse", family: "fleurs", cx: 22, cy: 55, zoom: 22, mask: "drift" },
+  // feuillages
+  { id: "fougere",        label: "Fougère",         family: "feuillages", cx: 12, cy: 35, zoom: 16, mask: "spire" },
+  { id: "mousse",         label: "Mousse",          family: "feuillages", cx: 8,  cy: 18, zoom: 14, mask: "drift" },
+  { id: "herbes",         label: "Herbes hautes",   family: "feuillages", cx: 88, cy: 60, zoom: 14, mask: "spire" },
+  { id: "branchage",      label: "Branchage",       family: "feuillages", cx: 60, cy: 35, zoom: 16, mask: "wing" },
+  { id: "feuillage-leger",label: "Feuillage léger", family: "feuillages", cx: 30, cy: 65, zoom: 13, mask: "drift" },
+  { id: "arbre-fin",      label: "Arbre fin",       family: "feuillages", cx: 85, cy: 80, zoom: 18, mask: "spire" },
+  { id: "arbuste",        label: "Arbuste vaporeux",family: "feuillages", cx: 65, cy: 88, zoom: 18, mask: "drift" },
+  // ciel
+  { id: "nuage-doux",     label: "Nuage",           family: "ciel",       cx: 50, cy: 5,  zoom: 22, mask: "drift" },
+  { id: "brume",          label: "Brume",           family: "ciel",       cx: 95, cy: 50, zoom: 20, mask: "drift" },
+  { id: "halo",           label: "Halo",            family: "ciel",       cx: 5,  cy: 95, zoom: 18, mask: "round" },
+  { id: "souffle",        label: "Souffle",         family: "ciel",       cx: 75, cy: 10, zoom: 16, mask: "wing" },
+  { id: "poussiere-or",   label: "Poussière d'or",  family: "ciel",       cx: 92, cy: 5,  zoom: 10, mask: "round" },
+  // marin
+  { id: "coquillage",     label: "Coquillage",      family: "marin",      cx: 78, cy: 92, zoom: 12, mask: "shell" },
+  { id: "spirale",        label: "Spirale",         family: "marin",      cx: 15, cy: 88, zoom: 11, mask: "shell" },
+  { id: "corail",         label: "Corail",          family: "marin",      cx: 42, cy: 65, zoom: 14, mask: "spire" },
+  { id: "corail-souple",  label: "Corail souple",   family: "marin",      cx: 58, cy: 50, zoom: 13, mask: "wing" },
+  { id: "nacre",          label: "Nacre",           family: "marin",      cx: 92, cy: 92, zoom: 9,  mask: "shell" },
+  // minéral
+  { id: "pierre",         label: "Pierre",          family: "minéral",    cx: 35, cy: 92, zoom: 10, mask: "round" },
+  { id: "graine",         label: "Graine",          family: "minéral",    cx: 48, cy: 88, zoom: 8,  mask: "petal" },
+  { id: "sable",          label: "Sable",           family: "minéral",    cx: 5,  cy: 50, zoom: 14, mask: "drift" },
+  { id: "fragment",       label: "Fragment",        family: "minéral",    cx: 88, cy: 35, zoom: 9,  mask: "petal" },
+];
+
+/** Soft organic SVG masks — never circular icons, always painterly silhouettes. */
+const MASK_PATHS: Record<Fragment["mask"], string> = {
+  round:  "M50 6 C 78 6 96 26 94 54 C 92 82 70 96 48 94 C 22 92 6 72 6 48 C 6 24 24 6 50 6 Z",
+  petal:  "M50 4 C 76 18 92 50 70 90 C 52 86 32 76 22 56 C 14 36 26 14 50 4 Z",
+  drift:  "M8 60 C 4 38 22 22 46 26 C 64 16 90 28 94 50 C 96 70 78 86 56 84 C 36 96 10 84 8 60 Z",
+  spire:  "M50 2 C 60 30 64 56 58 96 C 50 92 44 92 40 96 C 38 56 42 30 50 2 Z",
+  wing:   "M6 70 C 14 36 50 22 94 30 C 86 56 60 76 36 86 C 22 90 8 84 6 70 Z",
+  shell:  "M50 8 C 86 18 96 56 78 86 C 56 90 30 84 18 64 C 8 44 22 16 50 8 Z",
+};
 
 export const Route = createFileRoute("/compose/$zone")({
   head: () => ({ meta: [{ title: "Composer un souvenir — Legato" }] }),
@@ -22,23 +85,55 @@ const TYPES: { id: MemoryType; label: string; whisper: string }[] = [
 
 type Item = {
   id: string;
-  kind: ShapeKind;
+  fragmentId: string;
   x: number;        // % of canvas
   y: number;        // % of canvas
   size: number;     // 36..160
   rotation: number; // deg
-  tint: string;
-  tint2: string;
+  tint: string;     // halo wash color
 };
 
-const TINTS: { a: string; b: string }[] = [
-  { a: "var(--rose)",     b: "var(--peach)" },
-  { a: "var(--peach)",    b: "var(--rose)" },
-  { a: "var(--sage)",     b: "var(--mist)" },
-  { a: "var(--mist)",     b: "var(--lavender)" },
-  { a: "var(--lavender)", b: "var(--rose)" },
-  { a: "var(--clay)",     b: "var(--peach)" },
+const TINTS = [
+  "var(--rose)", "var(--peach)", "var(--sage)", "var(--mist)",
+  "var(--lavender)", "var(--clay)",
 ];
+
+/** A painted fragment — masked extract of the garden painting. */
+function PaintedFragment({
+  fragment, size, rotation = 0,
+}: { fragment: Fragment; size: number; rotation?: number }) {
+  const maskId = `m-${fragment.id}-${size}-${Math.round(rotation)}`;
+  // Background-position is the *focal point* in the source image.
+  // Background-size > 100% acts as zoom: lower zoom% means we see a small region magnified.
+  const bgScale = (100 / fragment.zoom) * 100; // % of mask-box
+  return (
+    <svg viewBox="0 0 100 100" width={size} height={size} aria-hidden style={{ overflow: "visible" }}>
+      <defs>
+        <clipPath id={maskId}>
+          <path d={MASK_PATHS[fragment.mask]} />
+        </clipPath>
+        <filter id={`${maskId}-blur`} x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="0.6" />
+        </filter>
+      </defs>
+      <g clipPath={`url(#${maskId})`} filter={`url(#${maskId}-blur)`}
+         transform={`rotate(${rotation} 50 50)`}>
+        <image
+          href={gardenPainted}
+          x={50 - bgScale / 2 - ((fragment.cx - 50) * bgScale) / 100}
+          y={50 - bgScale / 2 - ((fragment.cy - 50) * bgScale) / 100}
+          width={bgScale}
+          height={bgScale}
+          preserveAspectRatio="xMidYMid slice"
+          style={{ opacity: 0.95 }}
+        />
+        {/* soft inner glow to keep edges evanescent */}
+        <path d={MASK_PATHS[fragment.mask]} fill="none"
+              stroke="rgba(255,248,232,0.55)" strokeWidth="3" filter={`url(#${maskId}-blur)`} />
+      </g>
+    </svg>
+  );
+}
 
 function Compose() {
   const { zone } = Route.useParams();
@@ -146,11 +241,11 @@ function Composer({ type, onSave }: { type: MemoryType; onSave: () => void }) {
   const [items, setItems] = useState<Item[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [openMemoryId, setOpenMemoryId] = useState<string | null>(null);
-  const [family, setFamily] = useState<"végétal" | "minéral" | "marin" | "ciel" | "vivant" | "exotique">("végétal");
-  const [brush, setBrush] = useState<ShapeKind | null>("petal");
+  const [family, setFamily] = useState<Family>("fleurs");
+  const [brush, setBrush] = useState<string | null>("rose-poudree");
   const lastStampRef = useRef<{ x: number; y: number; t: number } | null>(null);
 
-  const stampAt = (kind: ShapeKind, x: number, y: number, baseSize = 44) => {
+  const stampAt = (fragmentId: string, x: number, y: number, baseSize = 56) => {
     const tint = TINTS[Math.floor(Math.random() * TINTS.length)];
     const id = `s-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
     const jitter = (r: number) => (Math.random() - 0.5) * r;
@@ -158,13 +253,12 @@ function Composer({ type, onSave }: { type: MemoryType; onSave: () => void }) {
       ...prev,
       {
         id,
-        kind,
+        fragmentId,
         x: clamp(x + jitter(4), 3, 97),
         y: clamp(y + jitter(4), 3, 97),
-        size: clamp(baseSize + jitter(28), 20, 110),
+        size: clamp(baseSize + jitter(32), 32, 140),
         rotation: jitter(360),
-        tint: tint.a,
-        tint2: tint.b,
+        tint,
       },
     ]);
   };
@@ -274,7 +368,8 @@ function Composer({ type, onSave }: { type: MemoryType; onSave: () => void }) {
     window.addEventListener("pointerup", up);
   };
 
-  const palette = SHAPE_LIBRARY.filter((s) => s.family === family);
+  const palette = FRAGMENTS.filter((f) => f.family === family);
+  const fragmentById = (id: string) => FRAGMENTS.find((f) => f.id === id) ?? FRAGMENTS[0];
 
   return (
     <div className="flex-1 flex flex-col px-5 pt-6 pb-6">
@@ -375,7 +470,7 @@ function Composer({ type, onSave }: { type: MemoryType; onSave: () => void }) {
                   }}
                 />
               )}
-              <OrganicShape kind={it.kind} size={it.size} tint={it.tint} tint2={it.tint2} />
+              <PaintedFragment fragment={fragmentById(it.fragmentId)} size={it.size} />
 
               {selected && (
                 <>
@@ -416,7 +511,7 @@ function Composer({ type, onSave }: { type: MemoryType; onSave: () => void }) {
 
       {/* Family tabs */}
       <div className="mt-5 flex justify-center gap-2 flex-wrap">
-        {(["végétal", "marin", "vivant", "exotique", "minéral", "ciel"] as const).map((f) => (
+        {(["fleurs", "feuillages", "ciel", "marin", "minéral"] as const).map((f) => (
           <button
             key={f}
             onClick={() => setFamily(f)}
@@ -429,40 +524,42 @@ function Composer({ type, onSave }: { type: MemoryType; onSave: () => void }) {
         ))}
       </div>
 
-      {/* Palette */}
-      <div className="mt-3 flex gap-3 overflow-x-auto no-scrollbar px-1 pb-2">
-        {palette.map((s) => (
-          <button
-            key={s.kind}
-            onClick={() => setBrush(s.kind)}
-            className={`shrink-0 flex flex-col items-center gap-1.5 paper-card p-2.5 w-[72px] transition-all ${
-              brush === s.kind ? "ring-2 ring-dusk/60 scale-[1.04]" : ""
-            }`}
-          >
-            <div
-              className="relative"
-              style={{
-                width: 40,
-                height: 40,
-                filter: "blur(0.5px) saturate(0.9)",
-                opacity: 0.85,
-                mixBlendMode: "multiply",
-              }}
+      {/* Palette — fragments peints, sans cadre, simples vignettes intégrées */}
+      <div className="mt-3 flex gap-4 overflow-x-auto no-scrollbar px-2 pb-3">
+        {palette.map((f) => {
+          const active = brush === f.id;
+          return (
+            <button
+              key={f.id}
+              onClick={() => setBrush(f.id)}
+              className={`shrink-0 flex flex-col items-center gap-1.5 transition-all ${
+                active ? "scale-[1.08]" : "opacity-75 hover:opacity-100"
+              }`}
+              aria-pressed={active}
             >
               <div
-                aria-hidden
-                className="absolute inset-[-20%] rounded-full"
+                className="relative"
                 style={{
-                  background: "radial-gradient(circle, var(--clay) 0%, transparent 65%)",
-                  opacity: 0.22,
-                  filter: "blur(5px)",
+                  width: 56, height: 56,
+                  filter: active ? "saturate(1)" : "saturate(0.85)",
                 }}
-              />
-              <OrganicShape kind={s.kind} size={40} tint="var(--clay)" tint2="var(--peach)" />
-            </div>
-            <span className="text-[10px] tracking-wide text-dusk/65">{s.label}</span>
-          </button>
-        ))}
+              >
+                <PaintedFragment fragment={f} size={56} />
+                {active && (
+                  <span
+                    aria-hidden
+                    className="absolute inset-[-30%] -z-10"
+                    style={{
+                      background: "radial-gradient(circle, rgba(255,242,215,0.55), transparent 70%)",
+                      filter: "blur(8px)",
+                    }}
+                  />
+                )}
+              </div>
+              <span className="text-[10px] tracking-wide text-dusk/55 italic">{f.label}</span>
+            </button>
+          );
+        })}
       </div>
 
       {/* Bottom action bar */}
