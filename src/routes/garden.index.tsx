@@ -17,17 +17,25 @@ export const Route = createFileRoute("/garden/")({
 type Being = {
   id: string;
   name: string;
+  kind: "person" | "animal";
   /** clickable elliptical hotspot, % of container */
   cx: number; cy: number; rx: number; ry: number;
+  /** dominant color tints used by detail pages */
+  blooms: { tint: string; tint2: string }[];
 };
 
 /** Positions calibrated to the painted garden image (5 main beds). */
-const BEINGS: Being[] = [
-  { id: "elise", name: "Élise", cx: 24, cy: 22, rx: 19, ry: 14 },
-  { id: "papa",  name: "Papa",  cx: 74, cy: 22, rx: 19, ry: 14 },
-  { id: "leon",  name: "Léon",  cx: 22, cy: 55, rx: 19, ry: 13 },
-  { id: "mamie", name: "Mamie", cx: 78, cy: 55, rx: 19, ry: 13 },
-  { id: "theo",  name: "Théo",  cx: 50, cy: 80, rx: 22, ry: 13 },
+export const BEINGS: Being[] = [
+  { id: "elise", name: "Élise", kind: "person", cx: 24, cy: 22, rx: 19, ry: 14,
+    blooms: [{ tint: "var(--rose)", tint2: "var(--peach)" }, { tint: "var(--peach)", tint2: "var(--rose)" }] },
+  { id: "papa",  name: "Papa",  kind: "person", cx: 74, cy: 22, rx: 19, ry: 14,
+    blooms: [{ tint: "var(--clay)", tint2: "var(--peach)" }, { tint: "var(--lavender)", tint2: "var(--mist)" }] },
+  { id: "leon",  name: "Léon",  kind: "animal", cx: 22, cy: 55, rx: 19, ry: 13,
+    blooms: [{ tint: "var(--sage)", tint2: "var(--mist)" }, { tint: "var(--clay)", tint2: "var(--paper)" }] },
+  { id: "mamie", name: "Mamie", kind: "person", cx: 78, cy: 55, rx: 19, ry: 13,
+    blooms: [{ tint: "var(--lavender)", tint2: "var(--mist)" }, { tint: "var(--peach)", tint2: "var(--paper)" }] },
+  { id: "theo",  name: "Théo",  kind: "person", cx: 50, cy: 80, rx: 22, ry: 13,
+    blooms: [{ tint: "var(--clay)", tint2: "var(--peach)" }, { tint: "var(--peach)", tint2: "var(--rose)" }] },
 ];
 
 function Garden() {
