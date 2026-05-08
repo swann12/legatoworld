@@ -628,7 +628,7 @@ function Composer({
       <div className="mt-2 flex gap-4 overflow-x-auto no-scrollbar px-2 pb-3">
         {palette.map((a) => {
           const active = brush === a.id;
-          const isBackgroundWash = a.family === "fonds";
+          const isBackgroundWash = false;
           return (
             <button
               key={a.id}
