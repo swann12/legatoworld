@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Halos } from "@/components/legato/Halos";
 import { Shell } from "@/components/legato/Shell";
 import { useLegato } from "@/lib/legato-state";
@@ -370,14 +370,16 @@ function Composer({
   const [styleFilter, setStyleFilter] = useState<Style | null>(null);
   const [brush, setBrush] = useState<string | null>("renoncule");
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const lastStampRef = useRef<{ x: number; y: number } | null>(null);
+  // ID du stamp en cours de "maintien" : tant que le doigt reste appuyé,
+  // on agrandit ce stamp au lieu d'en répéter de nouveaux.
+  const growingRef = useRef<string | null>(null);
 
   const palette = useMemo(
     () => ATLAS.filter((a) => a.family === family && (!styleFilter || a.styles.includes(styleFilter))),
     [family, styleFilter]
   );
 
-  const stampAt = (atlasId: string, x: number, y: number) => {
+  const stampAt = (atlasId: string, x: number, y: number): string => {
     const tint = TINTS[Math.floor(Math.random() * TINTS.length)];
     const id = `s-${Date.now()}-${Math.random().toString(36).slice(2,5)}`;
     const j = (r: number) => (Math.random() - 0.5) * r;
@@ -387,12 +389,13 @@ function Composer({
         id, atlasId,
         x: clamp(x + j(2), 3, 97),
         y: clamp(y + j(2), 3, 97),
-        size: 76 + j(28),
+        size: 70 + j(18),
         rotation: j(20),
         opacity: 1,
         tint,
       },
     ]);
+    return id;
   };
 
   const updateItem = (id: string, patch: Partial<CompositionItem>) =>
@@ -411,28 +414,32 @@ function Composer({
     const r = canvasRef.current.getBoundingClientRect();
     const x = ((e.clientX - r.left) / r.width) * 100;
     const y = ((e.clientY - r.top) / r.height) * 100;
-    stampAt(brush, x, y);
-    lastStampRef.current = { x, y };
+    const newId = stampAt(brush, x, y);
+    growingRef.current = newId;
     (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
   };
 
-  const onCanvasMove = (e: React.PointerEvent) => {
-    if (!brush || !lastStampRef.current || !canvasRef.current) return;
-    if ((e.target as HTMLElement).dataset?.shape) return;
-    const r = canvasRef.current.getBoundingClientRect();
-    const x = ((e.clientX - r.left) / r.width) * 100;
-    const y = ((e.clientY - r.top) / r.height) * 100;
-    const dx = x - lastStampRef.current.x;
-    const dy = y - lastStampRef.current.y;
-    // Espacement minimum entre stamps pour une peinture fluide
-    if (Math.hypot(dx, dy) < 6) return;
-    stampAt(brush, x, y);
-    lastStampRef.current = { x, y };
+  const onCanvasUp = () => {
+    growingRef.current = null;
   };
 
-  const onCanvasUp = () => {
-    lastStampRef.current = null;
-  };
+  // Boucle d'animation : tant qu'un stamp est "maintenu", on l'agrandit.
+  useEffect(() => {
+    let raf = 0;
+    const tick = () => {
+      const id = growingRef.current;
+      if (id) {
+        setItems((prev) =>
+          prev.map((it) =>
+            it.id === id ? { ...it, size: Math.min(260, it.size + 1.8) } : it
+          )
+        );
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [setItems]);
 
   const startDrag = (e: React.PointerEvent, item: CompositionItem) => {
     e.stopPropagation();
@@ -464,9 +471,9 @@ function Composer({
       <div
         ref={canvasRef}
         onPointerDown={onCanvasClick}
-        onPointerMove={onCanvasMove}
         onPointerUp={onCanvasUp}
         onPointerCancel={onCanvasUp}
+        onPointerLeave={onCanvasUp}
         className="relative mt-5 w-full overflow-hidden touch-none select-none"
         style={{
           aspectRatio: "3 / 4",
