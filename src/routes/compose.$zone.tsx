@@ -388,7 +388,8 @@ function Composer({
     const tint = TINTS[Math.floor(Math.random() * TINTS.length)];
     const id = `s-${Date.now()}-${Math.random().toString(36).slice(2,5)}`;
     const j = (r: number) => (Math.random() - 0.5) * r;
-    const isBackgroundWash = atlas?.family === "fonds";
+    const isBackgroundWash = false;
+    void atlas;
     setItems((prev) => [
       ...prev,
       {
