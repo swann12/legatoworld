@@ -26,22 +26,15 @@ const TYPES: { id: MemoryType; label: string; whisper: string }[] = [
 /* ───────── Vignette peinte — extrait pictural d'une planche atlas ───────── */
 
 function AtlasVignette({
-  item, size, opacity = 1, soft = true,
-}: { item: AtlasItem; size: number; opacity?: number; soft?: boolean }) {
-  // On resserre la fenêtre visible à ~70% du crop pour exclure
-  // le fond crème et les labels qui suivent l'élément. Le mask radial
-  // dissout les bords pour ne garder QUE le sujet peint.
-  const innerScale = 0.7;
-  const visibleW = item.cw * innerScale;
-  const visibleH = item.ch * innerScale;
-  const bgW = (100 / visibleW) * 100;
-  const bgH = (100 / visibleH) * 100;
-  const posX = ((item.cx - visibleW / 2) / (100 - visibleW)) * 100;
-  const posY = ((item.cy - visibleH / 2) / (100 - visibleH)) * 100;
-  // Masque radial très resserré : noir uniquement au centre,
-  // disparaît bien avant les bords du carré → impossible de voir
-  // le fond crème ou la typographie résiduelle.
-  const mask = "radial-gradient(ellipse at center, black 30%, rgba(0,0,0,0.85) 50%, transparent 78%)";
+  item, size, opacity = 1,
+}: { item: AtlasItem; size: number; opacity?: number }) {
+  // Sprite-sheet maths : on agrandit l'image à (cols × size) × (rows × size)
+  // et on la décale pour faire apparaître la cellule (col, row).
+  // La planche est un PNG transparent : pas besoin de masquer le fond.
+  const bgW = item.cols * 100;          // % de la box
+  const bgH = item.rows * 100;
+  const posX = item.cols > 1 ? (item.col / (item.cols - 1)) * 100 : 50;
+  const posY = item.rows > 1 ? (item.row / (item.rows - 1)) * 100 : 50;
   return (
     <div
       aria-hidden
@@ -53,13 +46,8 @@ function AtlasVignette({
         backgroundPosition: `${posX}% ${posY}%`,
         backgroundRepeat: "no-repeat",
         opacity,
-        WebkitMaskImage: soft ? mask : undefined,
-        maskImage: soft ? mask : undefined,
-        // Multiply contre le fond crème de la toile : le fond crème
-        // de la planche source disparaît visuellement, seuls les
-        // pigments plus sombres (la peinture) restent.
-        mixBlendMode: "multiply",
-        filter: "saturate(0.95) contrast(1.05)",
+        // Fond transparent du PNG → l'élément est déjà détouré.
+        // Pas de mix-blend, pas de mask : on voit l'illustration nette.
       }}
     />
   );
@@ -380,8 +368,9 @@ function Composer({
   const canvasRef = useRef<HTMLDivElement>(null);
   const [family, setFamily] = useState<Family>("florale");
   const [styleFilter, setStyleFilter] = useState<Style | null>(null);
-  const [brush, setBrush] = useState<string | null>("rose-ancienne");
+  const [brush, setBrush] = useState<string | null>("renoncule");
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const lastStampRef = useRef<{ x: number; y: number } | null>(null);
 
   const palette = useMemo(
     () => ATLAS.filter((a) => a.family === family && (!styleFilter || a.styles.includes(styleFilter))),
@@ -420,7 +409,29 @@ function Composer({
     setSelectedId(null);
     if (!brush || !canvasRef.current) return;
     const r = canvasRef.current.getBoundingClientRect();
-    stampAt(brush, ((e.clientX - r.left) / r.width) * 100, ((e.clientY - r.top) / r.height) * 100);
+    const x = ((e.clientX - r.left) / r.width) * 100;
+    const y = ((e.clientY - r.top) / r.height) * 100;
+    stampAt(brush, x, y);
+    lastStampRef.current = { x, y };
+    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+  };
+
+  const onCanvasMove = (e: React.PointerEvent) => {
+    if (!brush || !lastStampRef.current || !canvasRef.current) return;
+    if ((e.target as HTMLElement).dataset?.shape) return;
+    const r = canvasRef.current.getBoundingClientRect();
+    const x = ((e.clientX - r.left) / r.width) * 100;
+    const y = ((e.clientY - r.top) / r.height) * 100;
+    const dx = x - lastStampRef.current.x;
+    const dy = y - lastStampRef.current.y;
+    // Espacement minimum entre stamps pour une peinture fluide
+    if (Math.hypot(dx, dy) < 6) return;
+    stampAt(brush, x, y);
+    lastStampRef.current = { x, y };
+  };
+
+  const onCanvasUp = () => {
+    lastStampRef.current = null;
   };
 
   const startDrag = (e: React.PointerEvent, item: CompositionItem) => {
@@ -453,6 +464,9 @@ function Composer({
       <div
         ref={canvasRef}
         onPointerDown={onCanvasClick}
+        onPointerMove={onCanvasMove}
+        onPointerUp={onCanvasUp}
+        onPointerCancel={onCanvasUp}
         className="relative mt-5 w-full overflow-hidden touch-none select-none"
         style={{
           aspectRatio: "3 / 4",
