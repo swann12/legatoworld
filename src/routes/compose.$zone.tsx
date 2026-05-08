@@ -35,6 +35,10 @@ function AtlasVignette({
   const bgH = item.rows * 100;
   const posX = item.cols > 1 ? (item.col / (item.cols - 1)) * 100 : 50;
   const posY = item.rows > 1 ? (item.row / (item.rows - 1)) * 100 : 50;
+  // Bords très légèrement progressifs pour éviter l'effet "sticker" :
+  // un mask radial doux qui n'atténue que les ~6% extérieurs.
+  const featherMask =
+    "radial-gradient(ellipse at center, black 86%, rgba(0,0,0,0.85) 94%, transparent 100%)";
   return (
     <div
       aria-hidden
@@ -46,8 +50,8 @@ function AtlasVignette({
         backgroundPosition: `${posX}% ${posY}%`,
         backgroundRepeat: "no-repeat",
         opacity,
-        // Fond transparent du PNG → l'élément est déjà détouré.
-        // Pas de mix-blend, pas de mask : on voit l'illustration nette.
+        WebkitMaskImage: featherMask,
+        maskImage: featherMask,
       }}
     />
   );
@@ -395,6 +399,8 @@ function Composer({
         rotation: isBackgroundWash ? j(8) : j(20),
         opacity: isBackgroundWash ? 0.72 : 1,
         tint,
+        // Les fonds passent automatiquement en arrière-plan.
+        z: isBackgroundWash ? -10 : prev.length + 1,
       },
     ]);
     return id;
@@ -460,6 +466,18 @@ function Composer({
 
   const selected = items.find((i) => i.id === selectedId) ?? null;
 
+  // Pour le z-index, on calcule le min/max actuels pour les actions "avant/arrière".
+  const bringForward = () => {
+    if (!selected) return;
+    const maxZ = items.reduce((m, i) => Math.max(m, i.z ?? 0), 0);
+    updateItem(selected.id, { z: maxZ + 1 });
+  };
+  const sendBackward = () => {
+    if (!selected) return;
+    const minZ = items.reduce((m, i) => Math.min(m, i.z ?? 0), 0);
+    updateItem(selected.id, { z: minZ - 1 });
+  };
+
   return (
     <div className="flex-1 flex flex-col px-5 pt-6 pb-6">
       <div className="px-2">
@@ -505,9 +523,21 @@ function Composer({
               style={{
                 top: `${it.y}%`, left: `${it.x}%`,
                 transform: `translate(-50%, -50%) rotate(${it.rotation}deg)`,
+                zIndex: it.z ?? 1,
               }}
             >
-              <div className="relative" style={{ width: it.size, height: it.size }}>
+              {/* Hitbox volontairement réduite (~55% de la vignette) pour
+                  ne pas bloquer les éléments voisins ni le canvas. */}
+              <div
+                className="relative"
+                style={{
+                  width: it.size,
+                  height: it.size,
+                  // Aucun pointer events sur la vignette elle-même : seul
+                  // le petit cœur central capte le drag/sélection.
+                  pointerEvents: "none",
+                }}
+              >
                 {isSel && (
                   <div
                     aria-hidden
@@ -519,6 +549,19 @@ function Composer({
                   />
                 )}
                 <AtlasVignette item={a} size={it.size} opacity={it.opacity} />
+                {/* Cœur de sélection : petite zone centrale, ~45% de la vignette */}
+                <div
+                  data-shape="1"
+                  className="absolute"
+                  style={{
+                    left: "50%", top: "50%",
+                    width: Math.max(28, it.size * 0.45),
+                    height: Math.max(28, it.size * 0.45),
+                    transform: "translate(-50%,-50%)",
+                    pointerEvents: "auto",
+                    cursor: "grab",
+                  }}
+                />
               </div>
             </div>
           );
@@ -534,6 +577,8 @@ function Composer({
             onChange={(v) => updateItem(selected.id, { opacity: v / 100 })} />
           <Slider label="Rotation" value={Math.round(selected.rotation)} min={-180} max={180}
             onChange={(v) => updateItem(selected.id, { rotation: v })} />
+          <button onClick={sendBackward} className="uppercase tracking-[0.2em]">↧ Arrière</button>
+          <button onClick={bringForward} className="uppercase tracking-[0.2em]">↥ Avant</button>
           <button onClick={deleteSelected} className="ml-auto uppercase tracking-[0.2em]">Retirer</button>
         </div>
       )}
