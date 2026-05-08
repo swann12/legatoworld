@@ -8,14 +8,22 @@ export type MemoryType = "voice" | "sentence" | "photo" | "text" | "sound";
 
 export type CompositionItem = {
   id: string;
-  atlasId: string;
+  elementId?: string;
+  atlasId?: string;
   x: number;        // % canvas
   y: number;        // % canvas
-  size: number;
+  size?: number;
+  width?: number;
+  height?: number;
   rotation: number;
   opacity: number;  // 0..1
-  tint: string;
+  tint?: string;
   z?: number;       // ordre de superposition (plus grand = au-dessus)
+  name?: string;
+  hidden?: boolean;
+  locked?: boolean;
+  maskDataUrl?: string | null;
+  source?: string;
 };
 
 export type Memory = {
