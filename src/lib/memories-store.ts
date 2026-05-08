@@ -15,6 +15,7 @@ export type CompositionItem = {
   rotation: number;
   opacity: number;  // 0..1
   tint: string;
+  z?: number;       // ordre de superposition (plus grand = au-dessus)
 };
 
 export type Memory = {
