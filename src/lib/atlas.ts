@@ -69,6 +69,16 @@ const FLORALE_LIST: { id: string; label: string; styles: Style[] }[] = [
   { id: "scabieuse", label: "Scabieuse", styles: ["léger", "pictural"] },
   { id: "dahlia", label: "Dahlia", styles: ["dense", "ornemental"] },
   { id: "petales-roses", label: "Pétales roses", styles: ["léger", "évanescent"] },
+  { id: "delphinium", label: "Delphinium", styles: ["sculptural", "pictural"] },
+  { id: "myosotis", label: "Myosotis", styles: ["léger", "évanescent"] },
+  { id: "anemone-rose", label: "Anémone rose", styles: ["pictural", "ornemental"] },
+  { id: "freesia", label: "Freesia", styles: ["léger"] },
+  { id: "petites-baies", label: "Petites baies", styles: ["léger", "ornemental"] },
+  { id: "ombelles", label: "Ombelles", styles: ["léger", "évanescent"] },
+  { id: "feuillage-fin", label: "Feuillage fin", styles: ["organique"] },
+  { id: "branche-feuillue", label: "Branche feuillue", styles: ["organique", "léger"] },
+  { id: "fleur-doree", label: "Fleur dorée", styles: ["ornemental"] },
+  { id: "feuille-vegetale", label: "Feuille végétale", styles: ["organique"] },
 ];
 
 const HYBRIDE_LIST: { id: string; label: string; styles: Style[] }[] = [
@@ -125,6 +135,11 @@ const MARIN_LIST: { id: string; label: string; styles: Style[] }[] = [
   { id: "algue-brune", label: "Algue brune", styles: ["organique"] },
   { id: "varech", label: "Varech", styles: ["organique", "léger"] },
   { id: "plume-mer", label: "Plume de mer", styles: ["évanescent", "ornemental"] },
+  { id: "patelle", label: "Patelle", styles: ["léger"] },
+  { id: "buccin", label: "Buccin", styles: ["organique"] },
+  { id: "spirale-nacree", label: "Spirale nacrée", styles: ["ornemental"] },
+  { id: "corail-doigt", label: "Corail doigt", styles: ["organique"] },
+  { id: "balanes", label: "Balanes", styles: ["organique", "dense"] },
 ];
 
 const MINERAL_LIST: { id: string; label: string; styles: Style[] }[] = [
@@ -230,13 +245,13 @@ function build(
 }
 
 export const ATLAS: AtlasItem[] = [
-  ...build(FLORALE_LIST, "florale", spritesFlorale, 6, 5),
+  ...build(FLORALE_LIST, "florale", spritesFlorale, 8, 5),
   ...build(HYBRIDE_LIST, "hybride", spritesHybride, 5, 4),
-  ...build(MARIN_LIST, "marin", spritesMarin, 6, 5),
+  ...build(MARIN_LIST, "marin", spritesMarin, 7, 5),
   ...build(MINERAL_LIST, "minéral", spritesMineral, 5, 4),
   ...build(ATMOSPHERE_LIST, "atmosphère", spritesAtmosphere, 5, 4),
   ...build(FONDS_LIST, "fonds", spritesFonds, 3, 4),
-  ...build(FAUNE_LIST, "faune", spritesFaune, 4, 5),
+  ...build(FAUNE_LIST, "faune", spritesFaune, 5, 4),
 ];
 
 export const FAMILIES: { id: Family; label: string }[] = [
