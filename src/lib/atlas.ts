@@ -3,290 +3,114 @@ import spritesHybride from "@/assets/sprites-hybride.png";
 import spritesMarin from "@/assets/sprites-marin.png";
 import spritesMineral from "@/assets/sprites-mineral.png";
 import spritesAtmosphere from "@/assets/sprites-atmosphere.png";
-import spritesFaune from "@/assets/sprites-faune.png";
-import spritesFonds from "@/assets/sprites-fonds.png";
 
 export type Family =
   | "florale"
   | "hybride"
   | "marin"
   | "minéral"
-  | "atmosphère"
-  | "fonds"
-  | "faune";
+  | "atmosphère";
 
-export type Style =
-  | "évanescent"
-  | "pictural"
-  | "ornemental"
-  | "organique"
-  | "surréaliste"
-  | "japonisant"
-  | "sculptural"
-  | "dense"
-  | "léger";
+export type Style = "pictural" | "ornemental" | "organique" | "léger" | "évanescent" | "sculptural" | "japonisant" | "dense" | "surréaliste";
 
 export type AtlasItem = {
-  id: string;
-  label: string;
-  family: Family;
-  styles: Style[];
-  src: string;
-  col: number;
-  row: number;
-  cols: number;
-  rows: number;
+  id: string; label: string; family: Family; styles: Style[];
+  src: string; col: number; row: number; cols: number; rows: number;
 };
 
-const FLORALE_LIST: { id: string; label: string; styles: Style[] }[] = [
-  { id: "renoncule", label: "Renoncule", styles: ["pictural", "ornemental"] },
-  { id: "anemone", label: "Anémone", styles: ["pictural", "dense"] },
-  { id: "iris", label: "Iris", styles: ["pictural", "sculptural"] },
-  { id: "pavot", label: "Pavot", styles: ["pictural", "dense"] },
-  { id: "cosmos", label: "Cosmos", styles: ["léger", "évanescent"] },
-  { id: "tulipe", label: "Tulipe", styles: ["pictural"] },
-  { id: "marguerite", label: "Marguerite", styles: ["léger"] },
-  { id: "pois-senteur", label: "Pois de senteur", styles: ["léger", "évanescent"] },
-  { id: "renoncule-jaune", label: "Renoncule jaune", styles: ["pictural"] },
-  { id: "lavande", label: "Lavande", styles: ["sculptural", "japonisant"] },
-  { id: "fougere", label: "Fougère", styles: ["organique", "léger"] },
-  { id: "herbes", label: "Herbes folles", styles: ["léger", "japonisant"] },
-  { id: "saule-pleureur", label: "Saule pleureur", styles: ["japonisant", "évanescent"] },
-  { id: "feuillage-ginkgo", label: "Feuillage ginkgo", styles: ["japonisant", "léger"] },
-  { id: "lavande-haute", label: "Lavande haute", styles: ["sculptural"] },
-  { id: "cerisier", label: "Cerisier en fleurs", styles: ["japonisant", "pictural"] },
-  { id: "arbre-nu", label: "Arbre nu", styles: ["léger", "japonisant"] },
-  { id: "pivoine", label: "Pivoine", styles: ["pictural", "dense"] },
-  { id: "chardon", label: "Chardon séché", styles: ["organique"] },
-  { id: "bouquet-sauvage", label: "Bouquet sauvage", styles: ["dense", "pictural"] },
-  { id: "rose-ancienne", label: "Rose ancienne", styles: ["ornemental", "pictural"] },
-  { id: "glycine", label: "Glycine", styles: ["évanescent", "japonisant"] },
-  { id: "magnolia", label: "Magnolia", styles: ["pictural", "sculptural"] },
-  { id: "hellebore", label: "Hellébore", styles: ["léger", "organique"] },
-  { id: "muguet", label: "Muguet", styles: ["léger", "évanescent"] },
-  { id: "mimosa", label: "Mimosa", styles: ["léger", "ornemental"] },
-  { id: "hortensia", label: "Hortensia", styles: ["dense", "pictural"] },
-  { id: "scabieuse", label: "Scabieuse", styles: ["léger", "pictural"] },
-  { id: "dahlia", label: "Dahlia", styles: ["dense", "ornemental"] },
-  { id: "petales-roses", label: "Pétales roses", styles: ["léger", "évanescent"] },
-  { id: "delphinium", label: "Delphinium", styles: ["sculptural", "pictural"] },
-  { id: "myosotis", label: "Myosotis", styles: ["léger", "évanescent"] },
-  { id: "anemone-rose", label: "Anémone rose", styles: ["pictural", "ornemental"] },
-  { id: "freesia", label: "Freesia", styles: ["léger"] },
-  { id: "petites-baies", label: "Petites baies", styles: ["léger", "ornemental"] },
-  { id: "ombelles", label: "Ombelles", styles: ["léger", "évanescent"] },
-  { id: "feuillage-fin", label: "Feuillage fin", styles: ["organique"] },
-  { id: "branche-feuillue", label: "Branche feuillue", styles: ["organique", "léger"] },
-  { id: "fleur-doree", label: "Fleur dorée", styles: ["ornemental"] },
-  { id: "feuille-vegetale", label: "Feuille végétale", styles: ["organique"] },
-  { id: "branche-saule", label: "Branche de saule", styles: ["japonisant", "évanescent"] },
-  { id: "cypres", label: "Cyprès", styles: ["sculptural", "japonisant"] },
-  { id: "branche-olivier", label: "Branche d'olivier", styles: ["léger", "organique"] },
-  { id: "gypsophile", label: "Gypsophile", styles: ["évanescent", "léger"] },
-  { id: "fleur-sauvage-rose", label: "Fleur sauvage rose", styles: ["léger", "pictural"] },
-  { id: "bouton-dor", label: "Bouton d'or", styles: ["léger", "ornemental"] },
-  { id: "bleuet", label: "Bleuet", styles: ["pictural", "léger"] },
-  { id: "petit-pavot", label: "Petit pavot", styles: ["pictural"] },
-];
-
-const HYBRIDE_LIST: { id: string; label: string; styles: Style[] }[] = [
-  { id: "fleur-nacre", label: "Fleur de nacre", styles: ["surréaliste", "ornemental"] },
-  { id: "rose-corail", label: "Rose-corail", styles: ["surréaliste", "sculptural"] },
-  { id: "arbre-nuage", label: "Arbre-nuage", styles: ["évanescent", "japonisant"] },
-  { id: "arche-fleurie", label: "Arche fleurie", styles: ["sculptural", "ornemental"] },
-  { id: "colonne-vegetale", label: "Colonne végétale", styles: ["sculptural", "organique"] },
-  { id: "lotus-coquille", label: "Lotus dans coquille", styles: ["japonisant", "surréaliste"] },
-  { id: "branche-cerisier", label: "Branche de cerisier", styles: ["japonisant", "pictural"] },
-  { id: "lotus-rose", label: "Lotus rose", styles: ["japonisant", "ornemental"] },
-  { id: "calice-orne", label: "Calice orné", styles: ["sculptural", "ornemental"] },
-  { id: "fleur-tubulaire", label: "Fleur tubulaire", styles: ["organique", "sculptural"] },
-  { id: "fleur-evanescente", label: "Fleur évanescente", styles: ["évanescent"] },
-  { id: "bouquet-hybride", label: "Bouquet hybride", styles: ["dense", "ornemental"] },
-  { id: "fleur-coquillage", label: "Fleur-coquillage", styles: ["surréaliste", "pictural"] },
-  { id: "corolle-sculpturale", label: "Corolle sculpturale", styles: ["sculptural", "ornemental"] },
-  { id: "tige-tubulaire", label: "Tige tubulaire", styles: ["organique", "sculptural"] },
-  { id: "orchidee-surreelle", label: "Orchidée surréelle", styles: ["surréaliste", "pictural"] },
-  { id: "fleur-klimt", label: "Fleur architecturale", styles: ["ornemental", "sculptural"] },
-  { id: "meduse-fleur", label: "Méduse-fleur", styles: ["évanescent", "surréaliste"] },
-  { id: "anemone-hybride", label: "Anémone hybride", styles: ["dense", "surréaliste"] },
-  { id: "pavot-coquillage", label: "Pavot-coquillage", styles: ["pictural", "surréaliste"] },
-];
-
-const MARIN_LIST: { id: string; label: string; styles: Style[] }[] = [
-  { id: "stjacques", label: "Saint-Jacques", styles: ["pictural", "ornemental"] },
-  { id: "conque", label: "Conque", styles: ["organique"] },
-  { id: "nautile", label: "Nautile", styles: ["organique", "sculptural"] },
-  { id: "porcelaine", label: "Porcelaine", styles: ["léger", "ornemental"] },
-  { id: "corail-eventail", label: "Corail éventail", styles: ["organique"] },
-  { id: "corail-rouge", label: "Corail rouge", styles: ["dense"] },
-  { id: "corail-rose", label: "Corail rose", styles: ["dense", "ornemental"] },
-  { id: "corail-jaune", label: "Corail jaune", styles: ["organique"] },
-  { id: "anemone-mer", label: "Anémone de mer", styles: ["organique", "dense"] },
-  { id: "hippocampe", label: "Hippocampe", styles: ["pictural"] },
-  { id: "coquillages", label: "Petits coquillages", styles: ["léger", "ornemental"] },
-  { id: "galet", label: "Galet", styles: ["léger", "organique"] },
-  { id: "corail-brun", label: "Corail brun", styles: ["organique"] },
-  { id: "corail-pale", label: "Corail pâle", styles: ["évanescent"] },
-  { id: "algue", label: "Algue", styles: ["organique", "japonisant"] },
-  { id: "sand-dollar", label: "Sand dollar", styles: ["léger", "ornemental"] },
-  { id: "oursin", label: "Oursin", styles: ["dense", "surréaliste"] },
-  { id: "etoile-mer", label: "Étoile de mer", styles: ["ornemental", "pictural"] },
-  { id: "bigorneau", label: "Bigorneau", styles: ["organique"] },
-  { id: "ormeau", label: "Ormeau", styles: ["ornemental", "pictural"] },
-  { id: "murex", label: "Murex", styles: ["sculptural", "organique"] },
-  { id: "conque-trompette", label: "Conque trompette", styles: ["sculptural"] },
-  { id: "triton", label: "Triton", styles: ["sculptural", "ornemental"] },
-  { id: "coquillage-cornet", label: "Coquillage cornet", styles: ["léger"] },
-  { id: "moule", label: "Moule", styles: ["dense", "pictural"] },
-  { id: "huitre", label: "Huître", styles: ["organique", "pictural"] },
-  { id: "meduse", label: "Méduse", styles: ["évanescent", "surréaliste"] },
-  { id: "algue-brune", label: "Algue brune", styles: ["organique"] },
-  { id: "varech", label: "Varech", styles: ["organique", "léger"] },
-  { id: "plume-mer", label: "Plume de mer", styles: ["évanescent", "ornemental"] },
-  { id: "patelle", label: "Patelle", styles: ["léger"] },
-  { id: "buccin", label: "Buccin", styles: ["organique"] },
-  { id: "spirale-nacree", label: "Spirale nacrée", styles: ["ornemental"] },
-  { id: "corail-doigt", label: "Corail doigt", styles: ["organique"] },
-  { id: "balanes", label: "Balanes", styles: ["organique", "dense"] },
-];
-
-const MINERAL_LIST: { id: string; label: string; styles: Style[] }[] = [
-  { id: "arche-poreuse", label: "Arche poreuse", styles: ["sculptural", "organique"] },
-  { id: "colonne-erodee", label: "Colonne érodée", styles: ["sculptural"] },
-  { id: "escalier-spiral", label: "Escalier spiral", styles: ["sculptural", "surréaliste"] },
-  { id: "escalier-sinueux", label: "Escalier sinueux", styles: ["sculptural"] },
-  { id: "pierre-poreuse", label: "Pierre poreuse", styles: ["organique"] },
-  { id: "galet-tachete", label: "Galet tacheté", styles: ["organique", "léger"] },
-  { id: "roche-cratere", label: "Roche cratère", styles: ["organique", "dense"] },
-  { id: "cavite-spirale", label: "Cavité spirale", styles: ["organique", "sculptural"] },
-  { id: "corail-mineral", label: "Corail minéral", styles: ["organique", "ornemental"] },
-  { id: "niche-coquille", label: "Niche coquille", styles: ["sculptural", "ornemental"] },
-  { id: "portail-floral", label: "Portail floral", styles: ["sculptural", "ornemental"] },
-  { id: "niche-rose", label: "Niche rose", styles: ["ornemental"] },
-  { id: "geode-bleue", label: "Géode bleue", styles: ["sculptural"] },
-  { id: "geode-violette", label: "Géode violette", styles: ["sculptural"] },
-  { id: "grotte", label: "Grotte", styles: ["surréaliste", "dense"] },
-  { id: "cairn", label: "Cairn", styles: ["léger", "japonisant"] },
-  { id: "monolithe", label: "Monolithe", styles: ["sculptural", "dense"] },
-  { id: "colonne-brisee", label: "Colonne brisée", styles: ["sculptural"] },
-  { id: "arche-brisee", label: "Arche brisée", styles: ["sculptural", "surréaliste"] },
-  { id: "fenetre-erodee", label: "Fenêtre érodée", styles: ["organique", "surréaliste"] },
-  { id: "tour-corail", label: "Tour corallienne", styles: ["sculptural", "ornemental"] },
-  { id: "chapelle-ruinee", label: "Chapelle ruinée", styles: ["surréaliste", "pictural"] },
-  { id: "pont-pierre", label: "Pont de pierre", styles: ["sculptural"] },
-  { id: "arche-sur-eau", label: "Arche sur l'eau", styles: ["organique", "évanescent"] },
-];
-
-const ATMOSPHERE_LIST: { id: string; label: string; styles: Style[] }[] = [
-  { id: "nuage-blanc", label: "Nuage blanc", styles: ["évanescent", "léger"] },
-  { id: "nuage-gris", label: "Nuage gris", styles: ["dense", "pictural"] },
-  { id: "stratus", label: "Stratus", styles: ["évanescent"] },
-  { id: "soleil", label: "Soleil", styles: ["évanescent", "ornemental"] },
-  { id: "lune-croissant", label: "Croissant de lune", styles: ["évanescent"] },
-  { id: "pleine-lune", label: "Pleine lune", styles: ["évanescent"] },
-  { id: "halo", label: "Halo doré", styles: ["évanescent", "ornemental"] },
-  { id: "brume-rose", label: "Brume rose", styles: ["évanescent"] },
-  { id: "horizon-aube", label: "Horizon d'aube", styles: ["évanescent"] },
-  { id: "horizon-crepuscule", label: "Crépuscule", styles: ["pictural"] },
-  { id: "horizon-mer", label: "Horizon de mer", styles: ["évanescent", "pictural"] },
-  { id: "poussiere-or", label: "Poussière d'or", styles: ["évanescent", "ornemental"] },
-  { id: "nuage-klimt", label: "Nuage rose", styles: ["ornemental", "pictural"] },
-  { id: "nappe-lumineuse", label: "Nappe lumineuse", styles: ["évanescent"] },
-  { id: "halo-argente", label: "Halo argenté", styles: ["évanescent", "ornemental"] },
-  { id: "arc-pastel", label: "Arc pastel", styles: ["évanescent", "surréaliste"] },
-  { id: "etoile-filante", label: "Étoile filante", styles: ["léger", "ornemental"] },
-  { id: "constellation", label: "Constellation", styles: ["léger", "ornemental"] },
-  { id: "vapeur", label: "Vapeur blanche", styles: ["évanescent"] },
-  { id: "brume-bleue", label: "Brume bleu-gris", styles: ["évanescent"] },
-];
-
-const FONDS_LIST: { id: string; label: string; styles: Style[] }[] = [
-  { id: "fond-aube-rose", label: "Fond aube rose", styles: ["évanescent", "pictural"] },
-  { id: "fond-brume-lilas", label: "Fond brume lilas", styles: ["évanescent", "japonisant"] },
-  { id: "fond-prairie-sauge", label: "Fond prairie sauge", styles: ["organique", "léger"] },
-  { id: "fond-or-doux", label: "Fond or doux", styles: ["ornemental", "évanescent"] },
-  { id: "fond-mer-bleue", label: "Fond mer bleue", styles: ["pictural", "évanescent"] },
-  { id: "fond-couchant-rose", label: "Fond couchant rose", styles: ["pictural", "dense"] },
-  { id: "fond-matin-jaune", label: "Fond matin jaune", styles: ["léger", "évanescent"] },
-  { id: "fond-soir-mauve", label: "Fond soir mauve", styles: ["évanescent", "pictural"] },
-  { id: "fond-terre-rose", label: "Fond terre rose", styles: ["organique", "pictural"] },
-  { id: "fond-songe-bleu", label: "Fond songe bleu", styles: ["évanescent", "léger"] },
-  { id: "fond-haze-rose", label: "Fond haze rose", styles: ["évanescent", "ornemental"] },
-  { id: "fond-halo-creme", label: "Fond halo crème", styles: ["ornemental", "évanescent"] },
-];
-
-const FAUNE_LIST: { id: string; label: string; styles: Style[] }[] = [
-  { id: "coleoptere", label: "Coléoptère", styles: ["pictural"] },
-  { id: "libellule", label: "Libellule", styles: ["léger", "japonisant"] },
-  { id: "phalene", label: "Phalène", styles: ["léger"] },
-  { id: "fauvette", label: "Fauvette", styles: ["pictural"] },
-  { id: "hirondelle", label: "Hirondelle", styles: ["pictural", "léger"] },
-  { id: "becasseau", label: "Bécasseau", styles: ["pictural"] },
-  { id: "abeille", label: "Abeille", styles: ["pictural"] },
-  { id: "mante", label: "Mante", styles: ["organique"] },
-  { id: "papillon", label: "Papillon", styles: ["pictural"] },
-  { id: "escargot", label: "Escargot", styles: ["léger"] },
-  { id: "lezard", label: "Lézard", styles: ["organique"] },
-  { id: "chrysope", label: "Chrysope", styles: ["léger"] },
-  { id: "bernard-hermite", label: "Bernard-l'ermite", styles: ["organique"] },
-  { id: "coccinelle", label: "Coccinelle", styles: ["léger"] },
-  { id: "cloporte", label: "Cloporte", styles: ["organique"] },
-  { id: "mesange", label: "Mésange", styles: ["pictural", "léger"] },
-  { id: "rouge-gorge", label: "Rouge-gorge", styles: ["pictural"] },
-  { id: "sphinx", label: "Papillon de nuit", styles: ["dense", "pictural"] },
-  { id: "demoiselle", label: "Demoiselle", styles: ["léger", "japonisant"] },
-  { id: "sauterelle", label: "Sauterelle", styles: ["organique", "léger"] },
-];
-
-function build(
-  list: { id: string; label: string; styles: Style[] }[],
-  family: Family,
-  src: string,
-  cols: number,
-  rows: number,
-): AtlasItem[] {
-  return list.map((item, i) => ({
-    ...item,
-    family,
-    src,
-    col: i % cols,
-    row: Math.floor(i / cols),
-    cols,
-    rows,
-  }));
-}
-
 export const ATLAS: AtlasItem[] = [
-  ...build(FLORALE_LIST, "florale", spritesFlorale, 8, 6),
-  ...build(HYBRIDE_LIST, "hybride", spritesHybride, 5, 4),
-  ...build(MARIN_LIST, "marin", spritesMarin, 7, 5),
-  ...build(MINERAL_LIST, "minéral", spritesMineral, 6, 4),
-  ...build(ATMOSPHERE_LIST, "atmosphère", spritesAtmosphere, 5, 4),
-  ...build(FONDS_LIST, "fonds", spritesFonds, 3, 4),
-  ...build(FAUNE_LIST, "faune", spritesFaune, 5, 4),
+  { id: "petale-delicat", label: "Pétale délicat", family: "florale", styles: ["pictural"], src: spritesFlorale, col: 0, row: 0, cols: 8, rows: 5 },
+  { id: "rose-ancienne", label: "Rose ancienne", family: "florale", styles: ["pictural"], src: spritesFlorale, col: 1, row: 0, cols: 8, rows: 5 },
+  { id: "anemone", label: "Anémone", family: "florale", styles: ["pictural"], src: spritesFlorale, col: 2, row: 0, cols: 8, rows: 5 },
+  { id: "iris", label: "Iris", family: "florale", styles: ["pictural"], src: spritesFlorale, col: 3, row: 0, cols: 8, rows: 5 },
+  { id: "pavot", label: "Pavot", family: "florale", styles: ["pictural"], src: spritesFlorale, col: 4, row: 0, cols: 8, rows: 5 },
+  { id: "cosmos", label: "Cosmos", family: "florale", styles: ["pictural"], src: spritesFlorale, col: 5, row: 0, cols: 8, rows: 5 },
+  { id: "tulipe-parrot", label: "Tulipe parrot", family: "florale", styles: ["pictural"], src: spritesFlorale, col: 6, row: 0, cols: 8, rows: 5 },
+  { id: "marguerite", label: "Marguerite fine", family: "florale", styles: ["pictural"], src: spritesFlorale, col: 7, row: 0, cols: 8, rows: 5 },
+  { id: "petite-prairie", label: "Petite fleur de prairie", family: "florale", styles: ["pictural"], src: spritesFlorale, col: 0, row: 1, cols: 8, rows: 5 },
+  { id: "grappe-florale", label: "Grappe florale", family: "florale", styles: ["pictural"], src: spritesFlorale, col: 1, row: 1, cols: 8, rows: 5 },
+  { id: "fleur-ronde", label: "Fleur ronde stylisée", family: "florale", styles: ["pictural"], src: spritesFlorale, col: 2, row: 1, cols: 8, rows: 5 },
+  { id: "floraison-diffuse", label: "Floraison diffuse", family: "florale", styles: ["pictural"], src: spritesFlorale, col: 3, row: 1, cols: 8, rows: 5 },
+  { id: "bouton-rose", label: "Bouton de rose", family: "florale", styles: ["pictural"], src: spritesFlorale, col: 4, row: 1, cols: 8, rows: 5 },
+  { id: "renoncule", label: "Renoncule", family: "florale", styles: ["pictural"], src: spritesFlorale, col: 5, row: 1, cols: 8, rows: 5 },
+  { id: "pois-senteur", label: "Pois de senteur", family: "florale", styles: ["pictural"], src: spritesFlorale, col: 6, row: 1, cols: 8, rows: 5 },
+  { id: "bleuet", label: "Bleuet", family: "florale", styles: ["pictural"], src: spritesFlorale, col: 7, row: 1, cols: 8, rows: 5 },
+  { id: "freesia", label: "Freesia", family: "florale", styles: ["pictural"], src: spritesFlorale, col: 0, row: 2, cols: 8, rows: 5 },
+  { id: "hellebore", label: "Hellébore", family: "florale", styles: ["pictural"], src: spritesFlorale, col: 1, row: 2, cols: 8, rows: 5 },
+  { id: "lupin", label: "Lupin", family: "florale", styles: ["pictural"], src: spritesFlorale, col: 2, row: 2, cols: 8, rows: 5 },
+  { id: "narcisse", label: "Narcisse", family: "florale", styles: ["pictural"], src: spritesFlorale, col: 3, row: 2, cols: 8, rows: 5 },
+  { id: "pivoine", label: "Pivoine", family: "florale", styles: ["pictural"], src: spritesFlorale, col: 4, row: 2, cols: 8, rows: 5 },
+  { id: "immortelle", label: "Immortelle", family: "florale", styles: ["pictural"], src: spritesFlorale, col: 5, row: 2, cols: 8, rows: 5 },
+  { id: "ombe-florale", label: "Ombe florale", family: "florale", styles: ["pictural"], src: spritesFlorale, col: 6, row: 2, cols: 8, rows: 5 },
+  { id: "fleur-evanescente", label: "Fleur évanescente", family: "florale", styles: ["pictural"], src: spritesFlorale, col: 7, row: 2, cols: 8, rows: 5 },
+  { id: "fougere", label: "Fougère", family: "florale", styles: ["pictural"], src: spritesFlorale, col: 0, row: 3, cols: 8, rows: 5 },
+  { id: "mousse", label: "Mousse", family: "florale", styles: ["pictural"], src: spritesFlorale, col: 1, row: 3, cols: 8, rows: 5 },
+  { id: "herbe-haute", label: "Herbe haute", family: "florale", styles: ["pictural"], src: spritesFlorale, col: 2, row: 3, cols: 8, rows: 5 },
+  { id: "tige-fine", label: "Tige fine", family: "florale", styles: ["pictural"], src: spritesFlorale, col: 3, row: 3, cols: 8, rows: 5 },
+  { id: "feuillage-leger", label: "Feuillage léger", family: "florale", styles: ["pictural"], src: spritesFlorale, col: 4, row: 3, cols: 8, rows: 5 },
+  { id: "liane-douce", label: "Liane douce", family: "florale", styles: ["pictural"], src: spritesFlorale, col: 5, row: 3, cols: 8, rows: 5 },
+  { id: "arbuste-vaporeux", label: "Arbuste vaporeux", family: "florale", styles: ["pictural"], src: spritesFlorale, col: 6, row: 3, cols: 8, rows: 5 },
+  { id: "touffe-vegetale", label: "Touffe végétale", family: "florale", styles: ["pictural"], src: spritesFlorale, col: 7, row: 3, cols: 8, rows: 5 },
+  { id: "feuillage-stylise", label: "Feuillage stylisé", family: "florale", styles: ["pictural"], src: spritesFlorale, col: 0, row: 4, cols: 8, rows: 5 },
+  { id: "plante-sous-bois", label: "Plante de sous-bois", family: "florale", styles: ["pictural"], src: spritesFlorale, col: 1, row: 4, cols: 8, rows: 5 },
+  { id: "petit-arbre-poetique", label: "Petit arbre poétique", family: "florale", styles: ["pictural"], src: spritesFlorale, col: 2, row: 4, cols: 8, rows: 5 },
+  { id: "arbre-fleuri", label: "Arbre fleuri stylisé", family: "florale", styles: ["pictural"], src: spritesFlorale, col: 3, row: 4, cols: 8, rows: 5 },
+  { id: "arbre-fin-elance", label: "Arbre fin élancé", family: "florale", styles: ["pictural"], src: spritesFlorale, col: 4, row: 4, cols: 8, rows: 5 },
+  { id: "branche-fleurie", label: "Branche fleurie", family: "florale", styles: ["pictural"], src: spritesFlorale, col: 5, row: 4, cols: 8, rows: 5 },
+  { id: "arbre-corail", label: "Arbre-corail", family: "florale", styles: ["pictural"], src: spritesFlorale, col: 6, row: 4, cols: 8, rows: 5 },
+  { id: "petit-bosquet", label: "Petit bosquet", family: "florale", styles: ["pictural"], src: spritesFlorale, col: 7, row: 4, cols: 8, rows: 5 },
+  { id: "stjacques", label: "Coquille Saint-Jacques", family: "marin", styles: ["pictural"], src: spritesMarin, col: 0, row: 0, cols: 6, rows: 2 },
+  { id: "conque-spiralee", label: "Conque spiralée", family: "marin", styles: ["pictural"], src: spritesMarin, col: 1, row: 0, cols: 6, rows: 2 },
+  { id: "coquillage-nacre", label: "Coquillage nacré", family: "marin", styles: ["pictural"], src: spritesMarin, col: 2, row: 0, cols: 6, rows: 2 },
+  { id: "coquille-ouverte", label: "Coquille ouverte", family: "marin", styles: ["pictural"], src: spritesMarin, col: 3, row: 0, cols: 6, rows: 2 },
+  { id: "petit-coquillage", label: "Petit coquillage strié", family: "marin", styles: ["pictural"], src: spritesMarin, col: 4, row: 0, cols: 6, rows: 2 },
+  { id: "coquille-eventail", label: "Coquille éventail", family: "marin", styles: ["pictural"], src: spritesMarin, col: 5, row: 0, cols: 6, rows: 2 },
+  { id: "corail-ramifie", label: "Corail ramifié", family: "marin", styles: ["pictural"], src: spritesMarin, col: 0, row: 1, cols: 6, rows: 2 },
+  { id: "corail-bulbeux", label: "Corail bulbeux", family: "marin", styles: ["pictural"], src: spritesMarin, col: 1, row: 1, cols: 6, rows: 2 },
+  { id: "corail-dentele", label: "Corail dentelé", family: "marin", styles: ["pictural"], src: spritesMarin, col: 2, row: 1, cols: 6, rows: 2 },
+  { id: "forme-spongieuse", label: "Forme spongieuse", family: "marin", styles: ["pictural"], src: spritesMarin, col: 3, row: 1, cols: 6, rows: 2 },
+  { id: "anemone-marine", label: "Anémone marine", family: "marin", styles: ["pictural"], src: spritesMarin, col: 4, row: 1, cols: 6, rows: 2 },
+  { id: "nuage-doux", label: "Nuage doux", family: "atmosphère", styles: ["pictural"], src: spritesAtmosphere, col: 0, row: 0, cols: 6, rows: 1 },
+  { id: "nuage-flottant", label: "Nuage flottant", family: "atmosphère", styles: ["pictural"], src: spritesAtmosphere, col: 1, row: 0, cols: 6, rows: 1 },
+  { id: "brume-legere", label: "Brume légère", family: "atmosphère", styles: ["pictural"], src: spritesAtmosphere, col: 2, row: 0, cols: 6, rows: 1 },
+  { id: "halo-solaire", label: "Halo solaire", family: "atmosphère", styles: ["pictural"], src: spritesAtmosphere, col: 3, row: 0, cols: 6, rows: 1 },
+  { id: "poussiere-lumineuse", label: "Poussière lumineuse", family: "atmosphère", styles: ["pictural"], src: spritesAtmosphere, col: 4, row: 0, cols: 6, rows: 1 },
+  { id: "voile-atmospherique", label: "Voile atmosphérique", family: "atmosphère", styles: ["pictural"], src: spritesAtmosphere, col: 5, row: 0, cols: 6, rows: 1 },
+  { id: "galet-doux", label: "Galet doux", family: "minéral", styles: ["pictural"], src: spritesMineral, col: 0, row: 0, cols: 7, rows: 2 },
+  { id: "fragment-poreux", label: "Fragment poreux", family: "minéral", styles: ["pictural"], src: spritesMineral, col: 1, row: 0, cols: 7, rows: 2 },
+  { id: "sable-leger", label: "Sable léger", family: "minéral", styles: ["pictural"], src: spritesMineral, col: 2, row: 0, cols: 7, rows: 2 },
+  { id: "amas-graines", label: "Amas de graines", family: "minéral", styles: ["pictural"], src: spritesMineral, col: 3, row: 0, cols: 7, rows: 2 },
+  { id: "relief-organique", label: "Relief organique", family: "minéral", styles: ["pictural"], src: spritesMineral, col: 4, row: 0, cols: 7, rows: 2 },
+  { id: "texture-minerale", label: "Texture minérale", family: "minéral", styles: ["pictural"], src: spritesMineral, col: 5, row: 0, cols: 7, rows: 2 },
+  { id: "arche-biomorphique", label: "Arche biomorphique", family: "minéral", styles: ["pictural"], src: spritesMineral, col: 6, row: 0, cols: 7, rows: 2 },
+  { id: "colonne-poreuse", label: "Colonne poreuse", family: "minéral", styles: ["pictural"], src: spritesMineral, col: 0, row: 1, cols: 7, rows: 2 },
+  { id: "escalier-organique", label: "Escalier organique", family: "minéral", styles: ["pictural"], src: spritesMineral, col: 1, row: 1, cols: 7, rows: 2 },
+  { id: "cavite-sculptee", label: "Cavité sculptée", family: "minéral", styles: ["pictural"], src: spritesMineral, col: 2, row: 1, cols: 7, rows: 2 },
+  { id: "passerelle-douce", label: "Passerelle douce", family: "minéral", styles: ["pictural"], src: spritesMineral, col: 3, row: 1, cols: 7, rows: 2 },
+  { id: "portail-coquillage", label: "Portail coquillage", family: "minéral", styles: ["pictural"], src: spritesMineral, col: 4, row: 1, cols: 7, rows: 2 },
+  { id: "volume-corallien", label: "Volume corallien", family: "minéral", styles: ["pictural"], src: spritesMineral, col: 5, row: 1, cols: 7, rows: 2 },
+  { id: "niche-architecturale", label: "Niche architecturale", family: "minéral", styles: ["pictural"], src: spritesMineral, col: 6, row: 1, cols: 7, rows: 2 },
+  { id: "fleur-coquillage", label: "Fleur-coquillage", family: "hybride", styles: ["pictural"], src: spritesHybride, col: 0, row: 0, cols: 10, rows: 1 },
+  { id: "corail-fleur", label: "Corail-fleur", family: "hybride", styles: ["pictural"], src: spritesHybride, col: 1, row: 0, cols: 10, rows: 1 },
+  { id: "arbre-nuageux", label: "Arbre nuageux", family: "hybride", styles: ["pictural"], src: spritesHybride, col: 2, row: 0, cols: 10, rows: 1 },
+  { id: "arche-florale", label: "Arche florale", family: "hybride", styles: ["pictural"], src: spritesHybride, col: 3, row: 0, cols: 10, rows: 1 },
+  { id: "nuage-petale", label: "Nuage pétale", family: "hybride", styles: ["pictural"], src: spritesHybride, col: 4, row: 0, cols: 10, rows: 1 },
+  { id: "colonne-vegetale", label: "Colonne végétale", family: "hybride", styles: ["pictural"], src: spritesHybride, col: 5, row: 0, cols: 10, rows: 1 },
+  { id: "coquille-lotus", label: "Coquille-lotus", family: "hybride", styles: ["pictural"], src: spritesHybride, col: 6, row: 0, cols: 10, rows: 1 },
+  { id: "eventail-marin-bota", label: "Éventail marin botanique", family: "hybride", styles: ["pictural"], src: spritesHybride, col: 7, row: 0, cols: 10, rows: 1 },
+  { id: "petit-sanctuaire", label: "Petit sanctuaire organique", family: "hybride", styles: ["pictural"], src: spritesHybride, col: 8, row: 0, cols: 10, rows: 1 },
+  { id: "forme-hybride-japo", label: "Forme hybride japonisante", family: "hybride", styles: ["pictural"], src: spritesHybride, col: 9, row: 0, cols: 10, rows: 1 },
 ];
 
 export const FAMILIES: { id: Family; label: string }[] = [
   { id: "florale", label: "Botanique" },
-  { id: "hybride", label: "Hybride" },
-  { id: "marin", label: "Marin / Littoral" },
+  { id: "marin", label: "Marin" },
+  { id: "atmosphère", label: "Atmosphère" },
   { id: "minéral", label: "Minéral / Architecture" },
-  { id: "atmosphère", label: "Atmosphère / Ciel" },
-  { id: "fonds", label: "Fonds / Lavis" },
-  { id: "faune", label: "Faune discrète" },
+  { id: "hybride", label: "Hybrides inspirées" },
 ];
 
-export const STYLES: Style[] = [
-  "évanescent",
-  "pictural",
-  "ornemental",
-  "organique",
-  "surréaliste",
-  "japonisant",
-  "sculptural",
-  "dense",
-  "léger",
-];
+export const STYLES: Style[] = ["pictural","ornemental","organique","léger","évanescent","sculptural","japonisant","dense","surréaliste"];
 
 export function getAtlasItem(id: string): AtlasItem | undefined {
   return ATLAS.find((a) => a.id === id);
