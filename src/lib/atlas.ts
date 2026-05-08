@@ -79,6 +79,14 @@ const FLORALE_LIST: { id: string; label: string; styles: Style[] }[] = [
   { id: "branche-feuillue", label: "Branche feuillue", styles: ["organique", "léger"] },
   { id: "fleur-doree", label: "Fleur dorée", styles: ["ornemental"] },
   { id: "feuille-vegetale", label: "Feuille végétale", styles: ["organique"] },
+  { id: "branche-saule", label: "Branche de saule", styles: ["japonisant", "évanescent"] },
+  { id: "cypres", label: "Cyprès", styles: ["sculptural", "japonisant"] },
+  { id: "branche-olivier", label: "Branche d'olivier", styles: ["léger", "organique"] },
+  { id: "gypsophile", label: "Gypsophile", styles: ["évanescent", "léger"] },
+  { id: "fleur-sauvage-rose", label: "Fleur sauvage rose", styles: ["léger", "pictural"] },
+  { id: "bouton-dor", label: "Bouton d'or", styles: ["léger", "ornemental"] },
+  { id: "bleuet", label: "Bleuet", styles: ["pictural", "léger"] },
+  { id: "petit-pavot", label: "Petit pavot", styles: ["pictural"] },
 ];
 
 const HYBRIDE_LIST: { id: string; label: string; styles: Style[] }[] = [
@@ -163,6 +171,10 @@ const MINERAL_LIST: { id: string; label: string; styles: Style[] }[] = [
   { id: "colonne-brisee", label: "Colonne brisée", styles: ["sculptural"] },
   { id: "arche-brisee", label: "Arche brisée", styles: ["sculptural", "surréaliste"] },
   { id: "fenetre-erodee", label: "Fenêtre érodée", styles: ["organique", "surréaliste"] },
+  { id: "tour-corail", label: "Tour corallienne", styles: ["sculptural", "ornemental"] },
+  { id: "chapelle-ruinee", label: "Chapelle ruinée", styles: ["surréaliste", "pictural"] },
+  { id: "pont-pierre", label: "Pont de pierre", styles: ["sculptural"] },
+  { id: "arche-sur-eau", label: "Arche sur l'eau", styles: ["organique", "évanescent"] },
 ];
 
 const ATMOSPHERE_LIST: { id: string; label: string; styles: Style[] }[] = [
@@ -245,10 +257,10 @@ function build(
 }
 
 export const ATLAS: AtlasItem[] = [
-  ...build(FLORALE_LIST, "florale", spritesFlorale, 8, 5),
+  ...build(FLORALE_LIST, "florale", spritesFlorale, 8, 6),
   ...build(HYBRIDE_LIST, "hybride", spritesHybride, 5, 4),
   ...build(MARIN_LIST, "marin", spritesMarin, 7, 5),
-  ...build(MINERAL_LIST, "minéral", spritesMineral, 5, 4),
+  ...build(MINERAL_LIST, "minéral", spritesMineral, 6, 4),
   ...build(ATMOSPHERE_LIST, "atmosphère", spritesAtmosphere, 5, 4),
   ...build(FONDS_LIST, "fonds", spritesFonds, 3, 4),
   ...build(FAUNE_LIST, "faune", spritesFaune, 5, 4),
