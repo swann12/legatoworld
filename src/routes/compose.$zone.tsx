@@ -380,18 +380,20 @@ function Composer({
   );
 
   const stampAt = (atlasId: string, x: number, y: number): string => {
+    const atlas = getAtlasItem(atlasId);
     const tint = TINTS[Math.floor(Math.random() * TINTS.length)];
     const id = `s-${Date.now()}-${Math.random().toString(36).slice(2,5)}`;
     const j = (r: number) => (Math.random() - 0.5) * r;
+    const isBackgroundWash = atlas?.family === "fonds";
     setItems((prev) => [
       ...prev,
       {
         id, atlasId,
-        x: clamp(x + j(2), 3, 97),
-        y: clamp(y + j(2), 3, 97),
-        size: 70 + j(18),
-        rotation: j(20),
-        opacity: 1,
+        x: clamp(x + j(isBackgroundWash ? 0.6 : 2), 3, 97),
+        y: clamp(y + j(isBackgroundWash ? 0.6 : 2), 3, 97),
+        size: isBackgroundWash ? 220 + j(24) : 70 + j(18),
+        rotation: isBackgroundWash ? j(8) : j(20),
+        opacity: isBackgroundWash ? 0.72 : 1,
         tint,
       },
     ]);
@@ -486,7 +488,7 @@ function Composer({
         {items.length === 0 && (
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
             <p className="font-serif italic text-dusk/40 text-center px-8 text-balance">
-              Une page nue. Choisissez un élément ci-dessous, puis touchez la toile.
+              Une page nue. Posez d'abord un fond ou une atmosphère, puis vos formes vivantes.
             </p>
           </div>
         )}
@@ -573,9 +575,14 @@ function Composer({
       </div>
 
       {/* Palette d'éléments — vignettes peintes */}
-      <div className="mt-3 flex gap-4 overflow-x-auto no-scrollbar px-2 pb-3">
+      <div className="mt-2 px-2 text-[10px] uppercase tracking-[0.18em] text-dusk/38">
+        {palette.length} fragments disponibles
+      </div>
+
+      <div className="mt-2 flex gap-4 overflow-x-auto no-scrollbar px-2 pb-3">
         {palette.map((a) => {
           const active = brush === a.id;
+          const isBackgroundWash = a.family === "fonds";
           return (
             <button
               key={a.id}
@@ -586,7 +593,7 @@ function Composer({
               aria-pressed={active}
             >
               <div className="relative">
-                <AtlasVignette item={a} size={62} />
+                <AtlasVignette item={a} size={isBackgroundWash ? 78 : 62} opacity={isBackgroundWash ? 0.88 : 1} />
                 {active && (
                   <span aria-hidden className="absolute inset-[-30%] -z-10"
                     style={{ background: "radial-gradient(circle, rgba(255,242,215,0.6), transparent 70%)", filter: "blur(8px)" }} />
