@@ -368,8 +368,9 @@ function Composer({
   const canvasRef = useRef<HTMLDivElement>(null);
   const [family, setFamily] = useState<Family>("florale");
   const [styleFilter, setStyleFilter] = useState<Style | null>(null);
-  const [brush, setBrush] = useState<string | null>("rose-ancienne");
+  const [brush, setBrush] = useState<string | null>("renoncule");
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const lastStampRef = useRef<{ x: number; y: number } | null>(null);
 
   const palette = useMemo(
     () => ATLAS.filter((a) => a.family === family && (!styleFilter || a.styles.includes(styleFilter))),
@@ -408,7 +409,29 @@ function Composer({
     setSelectedId(null);
     if (!brush || !canvasRef.current) return;
     const r = canvasRef.current.getBoundingClientRect();
-    stampAt(brush, ((e.clientX - r.left) / r.width) * 100, ((e.clientY - r.top) / r.height) * 100);
+    const x = ((e.clientX - r.left) / r.width) * 100;
+    const y = ((e.clientY - r.top) / r.height) * 100;
+    stampAt(brush, x, y);
+    lastStampRef.current = { x, y };
+    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+  };
+
+  const onCanvasMove = (e: React.PointerEvent) => {
+    if (!brush || !lastStampRef.current || !canvasRef.current) return;
+    if ((e.target as HTMLElement).dataset?.shape) return;
+    const r = canvasRef.current.getBoundingClientRect();
+    const x = ((e.clientX - r.left) / r.width) * 100;
+    const y = ((e.clientY - r.top) / r.height) * 100;
+    const dx = x - lastStampRef.current.x;
+    const dy = y - lastStampRef.current.y;
+    // Espacement minimum entre stamps pour une peinture fluide
+    if (Math.hypot(dx, dy) < 6) return;
+    stampAt(brush, x, y);
+    lastStampRef.current = { x, y };
+  };
+
+  const onCanvasUp = () => {
+    lastStampRef.current = null;
   };
 
   const startDrag = (e: React.PointerEvent, item: CompositionItem) => {
@@ -441,6 +464,9 @@ function Composer({
       <div
         ref={canvasRef}
         onPointerDown={onCanvasClick}
+        onPointerMove={onCanvasMove}
+        onPointerUp={onCanvasUp}
+        onPointerCancel={onCanvasUp}
         className="relative mt-5 w-full overflow-hidden touch-none select-none"
         style={{
           aspectRatio: "3 / 4",
