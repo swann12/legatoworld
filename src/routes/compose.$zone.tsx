@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type ChangeEvent, type Dispatch, type PointerEvent as ReactPointerEvent, type SetStateAction } from "react";
 import { Halos } from "@/components/legato/Halos";
 import { Shell } from "@/components/legato/Shell";
 import { useLegato } from "@/lib/legato-state";
@@ -318,7 +318,7 @@ function Composer({
   onSave,
 }: {
   items: CompositionItem[];
-  setItems: React.Dispatch<React.SetStateAction<CompositionItem[]>>;
+  setItems: Dispatch<SetStateAction<CompositionItem[]>>;
   onSave: () => void;
 }) {
   const canvasRef = useRef<HTMLDivElement>(null);
@@ -583,7 +583,7 @@ function Composer({
     updateLayer(layer.id, { maskDataUrl: mask.toDataURL("image/png") });
   };
 
-  const onCanvasPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+  const onCanvasPointerDown = (e: ReactPointerEvent<HTMLDivElement>) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const hit = getTopLayerAtPoint(e.clientX, e.clientY);
@@ -619,7 +619,7 @@ function Composer({
     (e.currentTarget as HTMLDivElement).setPointerCapture(e.pointerId);
   };
 
-  const onCanvasPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+  const onCanvasPointerMove = (e: ReactPointerEvent<HTMLDivElement>) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const selectedLayer = normalizedLayers.find((layer) => layer.id === selectedId);
@@ -705,7 +705,7 @@ function Composer({
     });
   };
 
-  const onImportElement = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onImportElement = (e: ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files ?? []);
     if (!files.length) return;
     files.forEach((file) => {
