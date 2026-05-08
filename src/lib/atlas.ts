@@ -1,7 +1,9 @@
-import atlasBotanique from "@/assets/atlas-botanique.jpg";
-import atlasHybride from "@/assets/atlas-hybride.jpg";
-import atlasFaune from "@/assets/atlas-faune.jpg";
-import atlasCiel from "@/assets/atlas-ciel.jpg";
+import spritesFlorale from "@/assets/sprites-florale.png";
+import spritesHybride from "@/assets/sprites-hybride.png";
+import spritesMarin from "@/assets/sprites-marin.png";
+import spritesMineral from "@/assets/sprites-mineral.png";
+import spritesAtmosphere from "@/assets/sprites-atmosphere.png";
+import spritesFaune from "@/assets/sprites-faune.png";
 
 /* ───────── Atlas — éléments isolés extraits des planches sources ─────────
    Chaque élément est une fenêtre rectangulaire (en %) découpée dans une
@@ -25,99 +27,158 @@ export type AtlasItem = {
   label: string;
   family: Family;
   styles: Style[];
-  /** source planche */
   src: string;
-  /** centre du crop, en % de l'image */
-  cx: number; cy: number;
-  /** taille du crop, en % de l'image (largeur) */
-  cw: number; ch: number;
+  /** colonne (0-indexée) dans la grille de la planche */
+  col: number;
+  /** ligne (0-indexée) dans la grille de la planche */
+  row: number;
+  /** nombre total de colonnes de la planche */
+  cols: number;
+  /** nombre total de lignes de la planche */
+  rows: number;
 };
 
-/* Coordonnées approximatives sur les planches uploadées par l'utilisateur. */
+/* ───────── Planches sprites — chaque élément est isolé sur fond
+   transparent et placé dans une cellule de grille régulière. ───────── */
+
+/* FLORALE — 5 cols × 4 rows, ordre exact de la planche */
+const FLORALE_LIST: { id: string; label: string; styles: Style[] }[] = [
+  { id: "renoncule",      label: "Renoncule",       styles: ["pictural","ornemental"] },
+  { id: "anemone",        label: "Anémone",         styles: ["pictural"] },
+  { id: "iris",           label: "Iris",            styles: ["pictural","sculptural"] },
+  { id: "pavot",          label: "Pavot",           styles: ["pictural","dense"] },
+  { id: "cosmos",         label: "Cosmos",          styles: ["léger","évanescent"] },
+  { id: "tulipe",         label: "Tulipe",          styles: ["pictural"] },
+  { id: "marguerite",     label: "Marguerite",      styles: ["léger"] },
+  { id: "pois-senteur",   label: "Pois de senteur", styles: ["léger","évanescent"] },
+  { id: "renoncule-jaune",label: "Renoncule jaune", styles: ["pictural"] },
+  { id: "lavande",        label: "Lavande",         styles: ["sculptural","japonisant"] },
+  { id: "fougere",        label: "Fougère",         styles: ["organique","léger"] },
+  { id: "herbes",         label: "Herbes",          styles: ["léger","japonisant"] },
+  { id: "saule-pleureur", label: "Saule pleureur",  styles: ["japonisant","évanescent"] },
+  { id: "feuillage-leger",label: "Feuillage léger", styles: ["léger","évanescent"] },
+  { id: "lavande-haute",  label: "Lavande haute",   styles: ["sculptural"] },
+  { id: "cerisier",       label: "Cerisier en fleurs", styles: ["japonisant","pictural"] },
+  { id: "arbre-nu",       label: "Arbre nu",        styles: ["léger","japonisant"] },
+  { id: "pivoine",        label: "Pivoine",         styles: ["pictural","dense"] },
+  { id: "chardon",        label: "Chardon séché",   styles: ["organique"] },
+  { id: "bouquet-sauvage",label: "Bouquet sauvage", styles: ["dense","pictural"] },
+];
+
+/* MARIN — 4 cols × 4 rows */
+const MARIN_LIST: { id: string; label: string; styles: Style[] }[] = [
+  { id: "stjacques",     label: "Saint-Jacques",  styles: ["pictural"] },
+  { id: "conque",        label: "Conque",         styles: ["organique"] },
+  { id: "nautile",       label: "Nautile",        styles: ["organique","sculptural"] },
+  { id: "porcelaine",    label: "Porcelaine",     styles: ["léger","ornemental"] },
+  { id: "corail-eventail",label:"Corail éventail",styles: ["organique"] },
+  { id: "corail-rouge",  label: "Corail rouge",   styles: ["dense"] },
+  { id: "corail-rose",   label: "Corail rose",    styles: ["dense","ornemental"] },
+  { id: "corail-jaune",  label: "Corail jaune",   styles: ["organique"] },
+  { id: "anemone-mer",   label: "Anémone de mer", styles: ["organique"] },
+  { id: "hippocampe",    label: "Hippocampe",     styles: ["pictural"] },
+  { id: "coquillages",   label: "Petits coquillages", styles: ["léger","ornemental"] },
+  { id: "galet",         label: "Galet",          styles: ["léger"] },
+  { id: "corail-brun",   label: "Corail brun",    styles: ["organique"] },
+  { id: "corail-pale",   label: "Corail pâle",    styles: ["évanescent"] },
+  { id: "algue",         label: "Algue",          styles: ["organique","japonisant"] },
+  { id: "sand-dollar",   label: "Sand dollar",    styles: ["léger","ornemental"] },
+];
+
+/* ATMOSPHÈRE — 4 cols × 3 rows */
+const ATMOSPHERE_LIST: { id: string; label: string; styles: Style[] }[] = [
+  { id: "nuage-blanc",       label: "Nuage blanc",      styles: ["évanescent","léger"] },
+  { id: "nuage-gris",        label: "Nuage gris",       styles: ["dense","pictural"] },
+  { id: "stratus",           label: "Stratus",          styles: ["évanescent"] },
+  { id: "soleil",            label: "Soleil",           styles: ["évanescent","ornemental"] },
+  { id: "lune-croissant",    label: "Croissant de lune",styles: ["évanescent"] },
+  { id: "pleine-lune",       label: "Pleine lune",      styles: ["évanescent"] },
+  { id: "halo",              label: "Halo doré",        styles: ["évanescent","ornemental"] },
+  { id: "brume-rose",        label: "Brume rose",       styles: ["évanescent"] },
+  { id: "horizon-aube",      label: "Horizon d'aube",   styles: ["évanescent"] },
+  { id: "horizon-crepuscule",label: "Crépuscule",       styles: ["pictural"] },
+  { id: "horizon-mer",       label: "Horizon de mer",   styles: ["évanescent","pictural"] },
+  { id: "poussiere-or",      label: "Poussière d'or",   styles: ["évanescent","ornemental"] },
+];
+
+/* FAUNE — 3 cols × 5 rows */
+const FAUNE_LIST: { id: string; label: string; styles: Style[] }[] = [
+  { id: "coleoptere",     label: "Coléoptère",      styles: ["pictural"] },
+  { id: "libellule",      label: "Libellule",       styles: ["léger","japonisant"] },
+  { id: "phalene",        label: "Phalène",         styles: ["léger"] },
+  { id: "fauvette",       label: "Fauvette",        styles: ["pictural"] },
+  { id: "hirondelle",     label: "Hirondelle",      styles: ["pictural"] },
+  { id: "becasseau",      label: "Bécasseau",       styles: ["pictural"] },
+  { id: "abeille",        label: "Abeille",         styles: ["pictural"] },
+  { id: "mante",          label: "Mante",           styles: ["organique"] },
+  { id: "papillon",       label: "Papillon",        styles: ["pictural"] },
+  { id: "escargot",       label: "Escargot",        styles: ["léger"] },
+  { id: "lezard",         label: "Lézard",          styles: ["organique"] },
+  { id: "chrysope",       label: "Chrysope",        styles: ["léger"] },
+  { id: "bernard-hermite",label: "Bernard-l'ermite",styles: ["organique"] },
+  { id: "coccinelle",     label: "Coccinelle",      styles: ["léger"] },
+  { id: "cloporte",       label: "Cloporte",        styles: ["organique"] },
+];
+
+/* MINÉRAL — 4 cols × 4 rows */
+const MINERAL_LIST: { id: string; label: string; styles: Style[] }[] = [
+  { id: "arche-poreuse",   label: "Arche poreuse",   styles: ["sculptural","organique"] },
+  { id: "colonne-erodee",  label: "Colonne érodée",  styles: ["sculptural"] },
+  { id: "escalier-spiral", label: "Escalier spiral", styles: ["sculptural","surréaliste"] },
+  { id: "escalier-sinueux",label: "Escalier sinueux",styles: ["sculptural"] },
+  { id: "pierre-poreuse",  label: "Pierre poreuse",  styles: ["organique"] },
+  { id: "galet-tachete",   label: "Galet tacheté",   styles: ["organique","léger"] },
+  { id: "roche-cratere",   label: "Roche cratère",   styles: ["organique","dense"] },
+  { id: "cavite-spirale",  label: "Cavité spirale",  styles: ["organique","sculptural"] },
+  { id: "corail-mineral",  label: "Corail minéral",  styles: ["organique"] },
+  { id: "niche-coquille",  label: "Niche coquille",  styles: ["sculptural","ornemental"] },
+  { id: "portail-floral",  label: "Portail floral",  styles: ["sculptural","ornemental"] },
+  { id: "niche-rose",      label: "Niche rose",      styles: ["ornemental"] },
+  { id: "geode-bleue",     label: "Géode bleue",     styles: ["sculptural"] },
+  { id: "geode-violette",  label: "Géode violette",  styles: ["sculptural"] },
+  { id: "grotte",          label: "Grotte",          styles: ["surréaliste"] },
+  { id: "cairn",           label: "Cairn",           styles: ["léger","japonisant"] },
+];
+
+/* HYBRIDE — 4 cols × 3 rows */
+const HYBRIDE_LIST: { id: string; label: string; styles: Style[] }[] = [
+  { id: "fleur-nacre",      label: "Fleur de nacre",     styles: ["surréaliste","ornemental"] },
+  { id: "rose-corail",      label: "Rose-corail",        styles: ["surréaliste","sculptural"] },
+  { id: "arbre-nuage",      label: "Arbre-nuage",        styles: ["évanescent","japonisant"] },
+  { id: "arche-fleurie",    label: "Arche fleurie",      styles: ["sculptural","ornemental"] },
+  { id: "colonne-vegetale", label: "Colonne végétale",   styles: ["sculptural"] },
+  { id: "lotus-coquille",   label: "Lotus dans coquille",styles: ["japonisant","surréaliste"] },
+  { id: "branche-cerisier", label: "Branche de cerisier",styles: ["japonisant","pictural"] },
+  { id: "lotus-rose",       label: "Lotus rose",         styles: ["japonisant"] },
+  { id: "calice-orne",      label: "Calice orné",        styles: ["sculptural","ornemental"] },
+  { id: "fleur-tubulaire",  label: "Fleur tubulaire",    styles: ["organique","sculptural"] },
+  { id: "fleur-evanescente",label: "Fleur évanescente",  styles: ["évanescent"] },
+  { id: "bouquet-hybride",  label: "Bouquet hybride",    styles: ["dense","ornemental"] },
+];
+
+/* ───────── Construction de l'atlas à partir des listes + grilles ───────── */
+
+function build(
+  list: { id: string; label: string; styles: Style[] }[],
+  family: Family, src: string, cols: number, rows: number,
+): AtlasItem[] {
+  return list.map((item, i) => ({
+    ...item,
+    family,
+    src,
+    col: i % cols,
+    row: Math.floor(i / cols),
+    cols, rows,
+  }));
+}
+
 export const ATLAS: AtlasItem[] = [
-  /* ─── FLORALE — atlas botanique (sections 1-3 + 8) ─── */
-  { id: "petale-delicat",    label: "Pétale",          family: "florale", styles: ["léger","évanescent"],   src: atlasBotanique, cx: 5,  cy: 10, cw: 8,  ch: 9 },
-  { id: "rose-ancienne",     label: "Rose ancienne",   family: "florale", styles: ["pictural","ornemental"], src: atlasBotanique, cx: 14, cy: 10, cw: 8,  ch: 9 },
-  { id: "anemone",           label: "Anémone",         family: "florale", styles: ["pictural"],              src: atlasBotanique, cx: 23, cy: 10, cw: 8,  ch: 9 },
-  { id: "iris",              label: "Iris",            family: "florale", styles: ["pictural","sculptural"], src: atlasBotanique, cx: 32, cy: 10, cw: 7,  ch: 10 },
-  { id: "pavot",             label: "Pavot",           family: "florale", styles: ["pictural","dense"],      src: atlasBotanique, cx: 40, cy: 10, cw: 8,  ch: 9 },
-  { id: "cosmos",            label: "Cosmos",          family: "florale", styles: ["léger","évanescent"],    src: atlasBotanique, cx: 49, cy: 10, cw: 7,  ch: 9 },
-  { id: "tulipe",            label: "Tulipe",          family: "florale", styles: ["pictural"],              src: atlasBotanique, cx: 57, cy: 10, cw: 7,  ch: 9 },
-  { id: "marguerite",        label: "Marguerite",      family: "florale", styles: ["léger"],                 src: atlasBotanique, cx: 65, cy: 10, cw: 7,  ch: 9 },
-  { id: "fleur-prairie",     label: "Fleur de prairie",family: "florale", styles: ["évanescent","léger"],    src: atlasBotanique, cx: 73, cy: 10, cw: 7,  ch: 9 },
-  { id: "grappe-florale",    label: "Grappe florale",  family: "florale", styles: ["pictural","dense"],      src: atlasBotanique, cx: 81, cy: 10, cw: 7,  ch: 10 },
-  { id: "fleur-ronde",       label: "Fleur ronde",     family: "florale", styles: ["ornemental"],            src: atlasBotanique, cx: 88, cy: 10, cw: 7,  ch: 9 },
-  { id: "renoncule",         label: "Renoncule",       family: "florale", styles: ["pictural"],              src: atlasBotanique, cx: 14, cy: 21, cw: 8,  ch: 9 },
-  { id: "pois-senteur",      label: "Pois de senteur", family: "florale", styles: ["léger","évanescent"],    src: atlasBotanique, cx: 23, cy: 21, cw: 7,  ch: 9 },
-  { id: "bleuet",            label: "Bleuet",          family: "florale", styles: ["léger"],                 src: atlasBotanique, cx: 32, cy: 21, cw: 7,  ch: 9 },
-  { id: "hellebore",         label: "Hellébore",       family: "florale", styles: ["pictural"],              src: atlasBotanique, cx: 49, cy: 21, cw: 7,  ch: 9 },
-  { id: "lupin",             label: "Lupin",           family: "florale", styles: ["sculptural"],            src: atlasBotanique, cx: 57, cy: 21, cw: 7,  ch: 10 },
-  { id: "pivoine",           label: "Pivoine",         family: "florale", styles: ["pictural","dense"],      src: atlasBotanique, cx: 73, cy: 21, cw: 7,  ch: 9 },
-  { id: "ombre-florale",     label: "Ombre florale",   family: "florale", styles: ["évanescent"],            src: atlasBotanique, cx: 81, cy: 21, cw: 8,  ch: 9 },
-  // feuillages
-  { id: "fougere",           label: "Fougère",         family: "florale", styles: ["organique","léger"],     src: atlasBotanique, cx: 6,  cy: 38, cw: 7,  ch: 9 },
-  { id: "mousse",            label: "Mousse",          family: "florale", styles: ["organique"],             src: atlasBotanique, cx: 14, cy: 38, cw: 7,  ch: 8 },
-  { id: "herbe-haute",       label: "Herbe haute",     family: "florale", styles: ["léger","japonisant"],    src: atlasBotanique, cx: 22, cy: 38, cw: 6,  ch: 9 },
-  { id: "tige-fine",         label: "Tige fine",       family: "florale", styles: ["léger","japonisant"],    src: atlasBotanique, cx: 28, cy: 38, cw: 5,  ch: 9 },
-  { id: "feuillage-leger",   label: "Feuillage léger", family: "florale", styles: ["léger","évanescent"],    src: atlasBotanique, cx: 34, cy: 38, cw: 7,  ch: 9 },
-  { id: "liane-douce",       label: "Liane",           family: "florale", styles: ["organique"],             src: atlasBotanique, cx: 6,  cy: 47, cw: 7,  ch: 9 },
-  { id: "arbuste-vaporeux",  label: "Arbuste",         family: "florale", styles: ["évanescent"],            src: atlasBotanique, cx: 14, cy: 47, cw: 8,  ch: 9 },
-  // arbres
-  { id: "arbre-fleuri",      label: "Arbre fleuri",    family: "florale", styles: ["pictural","japonisant"], src: atlasBotanique, cx: 50, cy: 38, cw: 9,  ch: 10 },
-  { id: "arbre-fin",         label: "Arbre fin",       family: "florale", styles: ["léger","japonisant"],    src: atlasBotanique, cx: 60, cy: 38, cw: 7,  ch: 10 },
-
-  /* ─── HYBRIDE — fleurs-coraux, sculpturales (atlas botanique section 8) ─── */
-  { id: "fleur-coquillage",  label: "Fleur-coquillage",family: "hybride", styles: ["surréaliste","sculptural"], src: atlasBotanique, cx: 5,  cy: 92, cw: 9,  ch: 8 },
-  { id: "corail-fleur",      label: "Corail-fleur",    family: "hybride", styles: ["surréaliste"],          src: atlasBotanique, cx: 14, cy: 92, cw: 9,  ch: 8 },
-  { id: "arbre-nuageux",     label: "Arbre nuageux",   family: "hybride", styles: ["évanescent","japonisant"], src: atlasBotanique, cx: 24, cy: 92, cw: 9,  ch: 8 },
-  { id: "arche-florale",     label: "Arche florale",   family: "hybride", styles: ["sculptural","ornemental"], src: atlasBotanique, cx: 33, cy: 92, cw: 8,  ch: 8 },
-  { id: "colonne-vegetale",  label: "Colonne végétale",family: "hybride", styles: ["sculptural"],           src: atlasBotanique, cx: 50, cy: 92, cw: 8,  ch: 8 },
-  { id: "coquille-lotus",    label: "Coquille-lotus",  family: "hybride", styles: ["japonisant"],            src: atlasBotanique, cx: 58, cy: 92, cw: 9,  ch: 8 },
-
-  /* ─── MARIN — coquillages, coraux (atlas hybride 01_27_37) ─── */
-  { id: "coquille-stj",      label: "St-Jacques",      family: "marin",   styles: ["pictural"],              src: atlasHybride, cx: 30, cy: 35, cw: 9,  ch: 9 },
-  { id: "conque",            label: "Conque",          family: "marin",   styles: ["organique"],             src: atlasHybride, cx: 39, cy: 35, cw: 7,  ch: 9 },
-  { id: "spirale-marine",    label: "Spirale",         family: "marin",   styles: ["organique"],             src: atlasHybride, cx: 71, cy: 32, cw: 7,  ch: 8 },
-  { id: "corail-rouge",      label: "Corail rouge",    family: "marin",   styles: ["dense"],                 src: atlasHybride, cx: 22, cy: 50, cw: 9,  ch: 11 },
-  { id: "corail-souple",     label: "Corail souple",   family: "marin",   styles: ["organique"],             src: atlasHybride, cx: 46, cy: 50, cw: 9,  ch: 11 },
-  { id: "anemone-marine",    label: "Anémone marine",  family: "marin",   styles: ["organique"],             src: atlasHybride, cx: 35, cy: 53, cw: 8,  ch: 10 },
-  { id: "hippocampe",        label: "Hippocampe",      family: "marin",   styles: ["pictural"],              src: atlasHybride, cx: 56, cy: 47, cw: 7,  ch: 11 },
-  { id: "petits-coquillages",label: "Coquillages",     family: "marin",   styles: ["léger","ornemental"],    src: atlasHybride, cx: 32, cy: 79, cw: 9,  ch: 6 },
-
-  /* ─── MINÉRAL — arches, cavités, architectures (atlas hybride) ─── */
-  { id: "arche-ruine",       label: "Arche en ruine",  family: "minéral", styles: ["sculptural","surréaliste"], src: atlasHybride, cx: 7,  cy: 49, cw: 12, ch: 14 },
-  { id: "tour-coquillage",   label: "Tour coquille",   family: "minéral", styles: ["sculptural"],           src: atlasHybride, cx: 42, cy: 22, cw: 12, ch: 14 },
-  { id: "sanctuaire",        label: "Sanctuaire",      family: "minéral", styles: ["sculptural","ornemental"], src: atlasHybride, cx: 76, cy: 22, cw: 14, ch: 16 },
-  { id: "ruine-littorale",   label: "Ruine littorale", family: "minéral", styles: ["surréaliste"],          src: atlasHybride, cx: 50, cy: 78, cw: 14, ch: 14 },
-  { id: "cavite-coraux",     label: "Cavité",          family: "minéral", styles: ["organique"],             src: atlasHybride, cx: 76, cy: 78, cw: 14, ch: 16 },
-  { id: "fragment-poreux",   label: "Fragment poreux", family: "minéral", styles: ["organique","léger"],     src: atlasHybride, cx: 18, cy: 75, cw: 8,  ch: 8 },
-
-  /* ─── ATMOSPHÈRE — nuages, halos, soleils (atlas ciel) ─── */
-  { id: "nuage-blanc",       label: "Nuage blanc",     family: "atmosphère", styles: ["évanescent","léger"], src: atlasCiel, cx: 28, cy: 6,  cw: 12, ch: 10 },
-  { id: "nuage-sombre",      label: "Nuage sombre",    family: "atmosphère", styles: ["dense","pictural"],   src: atlasCiel, cx: 6,  cy: 8,  cw: 12, ch: 12 },
-  { id: "nuage-flottant",    label: "Nuage flottant",  family: "atmosphère", styles: ["évanescent"],         src: atlasCiel, cx: 44, cy: 6,  cw: 12, ch: 10 },
-  { id: "soleil-doux",       label: "Soleil doux",     family: "atmosphère", styles: ["évanescent"],         src: atlasCiel, cx: 67, cy: 5,  cw: 11, ch: 10 },
-  { id: "lune-diffuse",      label: "Lune diffuse",    family: "atmosphère", styles: ["évanescent"],         src: atlasCiel, cx: 90, cy: 5,  cw: 9,  ch: 9 },
-  { id: "halo-or",           label: "Halo doré",       family: "atmosphère", styles: ["évanescent","ornemental"], src: atlasCiel, cx: 82, cy: 17, cw: 9,  ch: 9 },
-  { id: "horizon-marin",     label: "Horizon marin",   family: "atmosphère", styles: ["évanescent","pictural"], src: atlasCiel, cx: 14, cy: 36, cw: 22, ch: 5 },
-  { id: "horizon-aube",      label: "Horizon d'aube",  family: "atmosphère", styles: ["évanescent"],         src: atlasCiel, cx: 36, cy: 36, cw: 22, ch: 5 },
-  { id: "horizon-crepuscule",label: "Crépuscule",      family: "atmosphère", styles: ["pictural"],           src: atlasCiel, cx: 60, cy: 36, cw: 20, ch: 5 },
-  { id: "brume-cote",        label: "Brume côtière",   family: "atmosphère", styles: ["évanescent"],         src: atlasCiel, cx: 6,  cy: 23, cw: 20, ch: 7 },
-
-  /* ─── FAUNE — discrète (atlas faune) ─── */
-  { id: "coleoptere",        label: "Coléoptère",      family: "faune",   styles: ["pictural"],              src: atlasFaune, cx: 7,  cy: 8,  cw: 10, ch: 10 },
-  { id: "libellule",         label: "Libellule",       family: "faune",   styles: ["léger","japonisant"],    src: atlasFaune, cx: 22, cy: 8,  cw: 13, ch: 10 },
-  { id: "papillon-fin",      label: "Papillon",        family: "faune",   styles: ["léger","pictural"],      src: atlasFaune, cx: 40, cy: 8,  cw: 11, ch: 10 },
-  { id: "hirondelle",        label: "Hirondelle",      family: "faune",   styles: ["pictural"],              src: atlasFaune, cx: 75, cy: 6,  cw: 14, ch: 10 },
-  { id: "abeille",           label: "Abeille",         family: "faune",   styles: ["pictural"],              src: atlasFaune, cx: 8,  cy: 22, cw: 11, ch: 9 },
-  { id: "mante",             label: "Mante",           family: "faune",   styles: ["organique"],             src: atlasFaune, cx: 26, cy: 22, cw: 12, ch: 10 },
-  { id: "papillon-tachete",  label: "Papillon tacheté",family: "faune",   styles: ["pictural"],              src: atlasFaune, cx: 44, cy: 24, cw: 11, ch: 10 },
-  { id: "becasseau",         label: "Bécasseau",       family: "faune",   styles: ["pictural"],              src: atlasFaune, cx: 78, cy: 22, cw: 10, ch: 12 },
-  { id: "bernard-hermite",   label: "Bernard-l'ermite",family: "faune",   styles: ["organique"],             src: atlasFaune, cx: 7,  cy: 38, cw: 12, ch: 10 },
-  { id: "crabe",             label: "Crabe",           family: "faune",   styles: ["organique"],             src: atlasFaune, cx: 22, cy: 38, cw: 11, ch: 10 },
-  { id: "escargot",          label: "Escargot",        family: "faune",   styles: ["léger"],                 src: atlasFaune, cx: 46, cy: 42, cw: 11, ch: 9 },
-  { id: "lezard",            label: "Lézard",          family: "faune",   styles: ["organique"],             src: atlasFaune, cx: 5,  cy: 53, cw: 14, ch: 9 },
-  { id: "cloporte",          label: "Cloporte",        family: "faune",   styles: ["léger"],                 src: atlasFaune, cx: 22, cy: 53, cw: 10, ch: 7 },
+  ...build(FLORALE_LIST,    "florale",    spritesFlorale,    5, 4),
+  ...build(HYBRIDE_LIST,    "hybride",    spritesHybride,    4, 3),
+  ...build(MARIN_LIST,      "marin",      spritesMarin,      4, 4),
+  ...build(MINERAL_LIST,    "minéral",    spritesMineral,    4, 4),
+  ...build(ATMOSPHERE_LIST, "atmosphère", spritesAtmosphere, 4, 3),
+  ...build(FAUNE_LIST,      "faune",      spritesFaune,      3, 5),
 ];
 
 export const FAMILIES: { id: Family; label: string }[] = [
