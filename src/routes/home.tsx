@@ -4,6 +4,7 @@ import { Shell, Section } from "@/components/legato/Shell";
 import { ModeSelector } from "@/components/legato/ModeSelector";
 import { useLegato, BRANCHES, modeProfile } from "@/lib/legato-state";
 import type { Branch, Mode } from "@/lib/legato-state";
+import { LivingPatch } from "@/components/legato/LivingPatch";
 
 export const Route = createFileRoute("/home")({
   head: () => ({
@@ -52,8 +53,24 @@ function Home() {
             </div>
           </div>
 
+          {/* Garden patch — small plot seen from above, above the greeting */}
+          <div className="px-7 pt-8 flex justify-center">
+            <div className="relative w-[180px] h-[90px]">
+              <div
+                aria-hidden
+                className="absolute inset-0 organic-radius-2"
+                style={{
+                  background:
+                    "radial-gradient(ellipse at 50% 60%, color-mix(in oklab, var(--sage) 55%, var(--paper)), color-mix(in oklab, var(--clay) 80%, transparent) 75%, transparent 100%)",
+                  filter: "blur(0.4px)",
+                }}
+              />
+              <LivingPatch beingId={`home-${name}`} density={0.6} tint="var(--sage)" tint2="var(--peach)" />
+            </div>
+          </div>
+
           {/* greeting */}
-          <header className={`px-7 ${profile.density === "tight" ? "pt-14" : profile.density === "open" ? "pt-10" : "pt-12"}`}>
+          <header className={`px-7 ${profile.density === "tight" ? "pt-8" : profile.density === "open" ? "pt-6" : "pt-7"}`}>
             <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">
               {t("home.aujourdhui")}
             </p>
@@ -206,59 +223,33 @@ function PresenceBlock({ t, primary, ctaLabel }: { t: (k: string) => string; pri
   return (
     <Link
       to="/presence"
-      className={`${primary ? "ceramic organic-radius-3 px-7 py-9" : "paper-card p-6"} block relative overflow-hidden`}
+      className={`${primary ? "ceramic organic-radius-3 px-6 py-7" : "paper-card p-6"} block relative overflow-hidden`}
     >
-      {primary && (
-        <div
-          aria-hidden
-          className="absolute left-1/2 -top-16 -translate-x-1/2 size-56 rounded-full opacity-55 halo"
-          style={{ background: "radial-gradient(circle, var(--peach), transparent 65%)" }}
-        />
-      )}
-      {primary ? (
-        <div className="relative flex flex-col items-center text-center">
-          <div className="relative size-16 rounded-full ceramic-soft flex items-center justify-center">
-            <div
-              className="size-7 rounded-full breath"
-              style={{ background: "radial-gradient(circle, var(--peach), var(--rose))" }}
-            />
-          </div>
-          <p className="mt-5 text-[10px] uppercase tracking-[0.24em] text-dusk/50">
+      <div className="relative flex items-center gap-5">
+        <div className={`${primary ? "size-14" : "size-11"} rounded-full ceramic-soft flex items-center justify-center shrink-0`}>
+          <div
+            className={`${primary ? "size-5" : "size-3.5"} rounded-full breath`}
+            style={{ background: "radial-gradient(circle, var(--peach), var(--rose))" }}
+          />
+        </div>
+        <div className="flex-1 min-w-0">
+          <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/50">
             {t("home.parler")}
           </p>
           <h3
-            className="mt-2 font-serif italic text-dusk text-[1.55rem] leading-[1.15] max-w-[18ch]"
+            className={`mt-1.5 font-serif italic text-dusk leading-[1.15] ${primary ? "text-[1.35rem]" : "text-lg"}`}
             style={{ textWrap: "balance" }}
           >
-            {t("home.parlerSub")}
+            Une oreille calme, à toute heure.
           </h3>
-          <p
-            className="mt-3 text-[13px] leading-relaxed text-dusk/60 max-w-[26ch]"
-            style={{ textWrap: "balance" }}
-          >
-            {t("home.parlerBody")}
-          </p>
-          <span className="mt-6 inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.24em] text-dusk/55">
-            {ctaLabel} <span aria-hidden>→</span>
-          </span>
+          {primary && (
+            <p className="mt-2 text-[12.5px] text-dusk/60" style={{ textWrap: "pretty" }}>
+              On vous écoute, sans jugement, sans réponse à donner.
+            </p>
+          )}
         </div>
-      ) : (
-        <div className="relative flex items-center gap-4">
-          <div className="size-10 rounded-full ceramic-soft flex items-center justify-center shrink-0">
-            <div
-              className="size-3.5 rounded-full breath"
-              style={{ background: "radial-gradient(circle, var(--peach), var(--rose))" }}
-            />
-          </div>
-          <div className="flex-1">
-            <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">{t("home.parler")}</p>
-            <h3 className="mt-1 font-serif italic text-dusk leading-tight text-lg">
-              {t("home.parlerSub")}
-            </h3>
-          </div>
-          <span className="text-dusk/40 text-sm">→</span>
-        </div>
-      )}
+        <span className="text-dusk/40 text-sm">→</span>
+      </div>
     </Link>
   );
 }
@@ -301,13 +292,13 @@ function PracticalBlock({ t, primary }: { t: (k: string) => string; primary: boo
 function RelayBlock({ primary }: { primary: boolean }) {
   return (
     <Link to="/help" className={`${primary ? "ceramic organic-radius-3 p-7" : "paper-card p-6"} block`}>
-      <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">S'appuyer sur les autres</p>
+      <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">Demander un appui</p>
       <p className={`mt-1.5 font-serif italic text-dusk leading-snug ${primary ? "text-[1.4rem]" : "text-lg"}`}>
-        Proches, professionnels, écoute
+        Proches, professionnels, ligne d'écoute.
       </p>
       {primary && (
         <p className="mt-3 text-[12px] text-dusk/55">
-          Quelques mains tendues, quand les forces manquent.
+          Une main tendue, quand les forces manquent.
         </p>
       )}
     </Link>

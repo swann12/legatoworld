@@ -442,69 +442,129 @@ function createAmbientAudio(motion: Motion): AmbientAudio | null {
   master.gain.value = 0;
   master.connect(ctx.destination);
 
-  // Brown-noise buffer (warm, low frequencies)
-  const bufferSize = 2 * ctx.sampleRate;
-  const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-  const data = buffer.getChannelData(0);
-  let lastOut = 0;
-  for (let i = 0; i < bufferSize; i++) {
-    const white = Math.random() * 2 - 1;
-    lastOut = (lastOut + 0.02 * white) / 1.02;
-    data[i] = lastOut * 3.5;
+  // Build noise buffers — brown (warm) and white (sharp)
+  const bufferSize = 3 * ctx.sampleRate;
+  const brown = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+  const white = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+  {
+    const b = brown.getChannelData(0);
+    const w = white.getChannelData(0);
+    let last = 0;
+    for (let i = 0; i < bufferSize; i++) {
+      const r = Math.random() * 2 - 1;
+      last = (last + 0.02 * r) / 1.02;
+      b[i] = last * 3.5;
+      w[i] = r;
+    }
   }
-  const noise = ctx.createBufferSource();
-  noise.buffer = buffer;
-  noise.loop = true;
 
-  const filter = ctx.createBiquadFilter();
-  filter.type = "lowpass";
+  const stops: Array<() => void> = [];
+  const targetGain = 0.22;
 
-  // Per-motion shaping
-  let targetGain = 0.18;
-  if (motion === "rain") {
-    filter.type = "highpass";
-    filter.frequency.value = 800;
-    targetGain = 0.22;
+  const playNoise = (
+    buf: AudioBuffer,
+    type: BiquadFilterType,
+    freq: number,
+    q: number,
+    gain: number,
+  ) => {
+    const src = ctx.createBufferSource();
+    src.buffer = buf;
+    src.loop = true;
+    const f = ctx.createBiquadFilter();
+    f.type = type;
+    f.frequency.value = freq;
+    f.Q.value = q;
+    const g = ctx.createGain();
+    g.gain.value = gain;
+    src.connect(f);
+    f.connect(g);
+    g.connect(master);
+    src.start();
+    stops.push(() => { try { src.stop(); } catch {} });
+    return { f, g };
+  };
+
+  // Per-motion sound design — each is unmistakably different.
+  if (motion === "pulse") {
+    // Warm hearth — deep brown noise + slow sub-tone "ember" pulse
+    playNoise(brown, "lowpass", 320, 0.4, 0.55);
+    const sub = ctx.createOscillator();
+    sub.type = "sine";
+    sub.frequency.value = 70;
+    const subG = ctx.createGain();
+    subG.gain.value = 0.04;
+    sub.connect(subG); subG.connect(master);
+    sub.start();
+    stops.push(() => { try { sub.stop(); } catch {} });
+    // very slow swell
+    const lfo = ctx.createOscillator();
+    const lfoG = ctx.createGain();
+    lfo.frequency.value = 0.12; lfoG.gain.value = 0.05;
+    lfo.connect(lfoG); lfoG.connect(master.gain);
+    lfo.start();
+    stops.push(() => { try { lfo.stop(); } catch {} });
   } else if (motion === "ripple") {
-    filter.frequency.value = 700;
-    targetGain = 0.2;
+    // Ocean — band-passed brown noise, slow swell back-and-forth
+    const { f } = playNoise(brown, "bandpass", 600, 0.6, 0.7);
+    const lfo = ctx.createOscillator();
+    const lfoG = ctx.createGain();
+    lfo.frequency.value = 0.16; lfoG.gain.value = 350;
+    lfo.connect(lfoG); lfoG.connect(f.frequency);
+    lfo.start();
+    stops.push(() => { try { lfo.stop(); } catch {} });
   } else if (motion === "drift") {
-    filter.frequency.value = 500;
-    targetGain = 0.18;
-  } else if (motion === "pulse") {
-    filter.frequency.value = 350;
-    targetGain = 0.16;
+    // Forest / wind — high-passed white noise, gentle wobble
+    const { f } = playNoise(white, "highpass", 1200, 0.7, 0.18);
+    const lfo = ctx.createOscillator();
+    const lfoG = ctx.createGain();
+    lfo.frequency.value = 0.22; lfoG.gain.value = 600;
+    lfo.connect(lfoG); lfoG.connect(f.frequency);
+    lfo.start();
+    stops.push(() => { try { lfo.stop(); } catch {} });
+  } else if (motion === "rain") {
+    // Rain — bright high-pass white noise + sparse droplet transients
+    playNoise(white, "highpass", 2000, 0.5, 0.22);
+    let cancelled = false;
+    const drop = () => {
+      if (cancelled) return;
+      const o = ctx.createOscillator();
+      o.type = "triangle";
+      o.frequency.value = 1800 + Math.random() * 1400;
+      const g = ctx.createGain();
+      const t = ctx.currentTime;
+      g.gain.setValueAtTime(0, t);
+      g.gain.linearRampToValueAtTime(0.06, t + 0.005);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + 0.12);
+      o.connect(g); g.connect(master);
+      o.start(t); o.stop(t + 0.15);
+      setTimeout(drop, 80 + Math.random() * 220);
+    };
+    drop();
+    stops.push(() => { cancelled = true; });
   } else {
-    // veil
-    filter.frequency.value = 280;
-    targetGain = 0.14;
+    // Veil / snow — very quiet pink-ish low-pass, near silence
+    playNoise(brown, "lowpass", 220, 0.3, 0.28);
+    const shimmer = ctx.createOscillator();
+    shimmer.type = "sine";
+    shimmer.frequency.value = 880;
+    const sg = ctx.createGain();
+    sg.gain.value = 0.012;
+    shimmer.connect(sg); sg.connect(master);
+    shimmer.start();
+    stops.push(() => { try { shimmer.stop(); } catch {} });
   }
-
-  noise.connect(filter);
-  filter.connect(master);
-
-  // Slow LFO on gain for "breathing" sound
-  const lfo = ctx.createOscillator();
-  const lfoGain = ctx.createGain();
-  lfo.frequency.value = motion === "ripple" ? 0.18 : motion === "pulse" ? 0.14 : 0.1;
-  lfoGain.gain.value = targetGain * 0.35;
-  lfo.connect(lfoGain);
-  lfoGain.connect(master.gain);
 
   let started = false;
   return {
     start() {
       if (started) return;
       started = true;
-      try {
-        ctx.resume();
-      } catch {}
-      noise.start();
-      lfo.start();
+      try { ctx.resume(); } catch {}
       const now = ctx.currentTime;
       master.gain.cancelScheduledValues(now);
       master.gain.setValueAtTime(0, now);
-      master.gain.linearRampToValueAtTime(targetGain, now + 1.4);
+      master.gain.linearRampToValueAtTime(targetGain, now + 1.6);
     },
     stop() {
       try {
@@ -512,11 +572,8 @@ function createAmbientAudio(motion: Motion): AmbientAudio | null {
         master.gain.cancelScheduledValues(now);
         master.gain.linearRampToValueAtTime(0, now + 0.6);
         setTimeout(() => {
-          try {
-            noise.stop();
-            lfo.stop();
-            ctx.close();
-          } catch {}
+          stops.forEach((fn) => fn());
+          try { ctx.close(); } catch {}
         }, 700);
       } catch {}
     },
