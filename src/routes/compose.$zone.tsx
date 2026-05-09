@@ -407,7 +407,7 @@ function Composer({
   const onLayerPointerDown = (
     e: React.PointerEvent,
     item: CompositionItem,
-    mode: "move" | "scale" | "rotate" = "move",
+    mode: "move" | "scale" | "rotate" | "opacity" = "move",
   ) => {
     e.stopPropagation();
     setSelected(item.id);
@@ -415,12 +415,14 @@ function Composer({
     if (!rect) return;
     dragRef.current = {
       id: item.id,
-      mode,
+      mode: mode as "move" | "scale" | "rotate",
       startX: e.clientX,
       startY: e.clientY,
       item,
       canvasRect: rect,
     };
+    // stocker opacity dans le mode via cast — on étend avec un champ
+    (dragRef.current as { extra?: string }).extra = mode === "opacity" ? "opacity" : "";
     (e.target as HTMLElement).setPointerCapture(e.pointerId);
     historyRef.current.past.push(items);
     historyRef.current.future = [];
@@ -433,9 +435,14 @@ function Composer({
     const dy = e.clientY - d.startY;
     const w = d.canvasRect.width;
     const h = d.canvasRect.height;
+    const extra = (d as { extra?: string }).extra;
     setItems((prev) =>
       prev.map((it) => {
         if (it.id !== d.id) return it;
+        if (extra === "opacity") {
+          const op = Math.max(0.1, Math.min(1, (d.item.opacity ?? 1) - dy / 200));
+          return { ...it, opacity: op };
+        }
         if (d.mode === "move") {
           return { ...it, x: d.item.x + (dx / w) * 100, y: d.item.y + (dy / h) * 100 };
         }
@@ -475,6 +482,16 @@ function Composer({
     if (!selected) return;
     const minZ = Math.min(0, ...items.map((i) => i.z ?? 0));
     commit(items.map((it) => (it.id === selected ? { ...it, z: minZ - 1 } : it)));
+  };
+
+  /* ───── flip horizontal / vertical ───── */
+  const flipH = () => {
+    if (!selected) return;
+    commit(items.map((it) => (it.id === selected ? { ...it, flipX: !it.flipX } : it)));
+  };
+  const flipV = () => {
+    if (!selected) return;
+    commit(items.map((it) => (it.id === selected ? { ...it, flipY: !it.flipY } : it)));
   };
 
   /* ───── wheel zoom on canvas ───── */
@@ -521,6 +538,7 @@ function Composer({
       ctx.save();
       ctx.translate(x, y);
       ctx.rotate(((it.rotation ?? 0) * Math.PI) / 180);
+      ctx.scale(it.flipX ? -1 : 1, it.flipY ? -1 : 1);
       ctx.globalAlpha = it.opacity ?? 1;
       ctx.drawImage(img, -w / 2, -h / 2, w, h);
       ctx.restore();
