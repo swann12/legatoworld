@@ -259,7 +259,7 @@ function PracticalBlock({ t, primary }: { t: (k: string) => string; primary: boo
       <div className="flex items-baseline justify-between gap-4">
         <div>
           <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">{t("home.practical")}</p>
-          <p className={`mt-1.5 font-serif italic text-dusk leading-snug ${primary ? "text-[1.4rem]" : "text-lg"}`}>
+          <p className={`mt-1.5 font-serif italic text-dusk leading-snug whitespace-pre-line ${primary ? "text-[1.4rem]" : "text-lg"}`}>
             {t("home.practicalSub")}
           </p>
         </div>
