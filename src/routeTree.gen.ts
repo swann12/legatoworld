@@ -12,7 +12,6 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as WishesRouteImport } from './routes/wishes'
 import { Route as SpaceRouteImport } from './routes/space'
 import { Route as PresenceRouteImport } from './routes/presence'
-import { Route as PracticalRouteImport } from './routes/practical'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as NoWordsRouteImport } from './routes/no-words'
 import { Route as MemoriesRouteImport } from './routes/memories'
@@ -23,6 +22,7 @@ import { Route as HelpRouteImport } from './routes/help'
 import { Route as DatesRouteImport } from './routes/dates'
 import { Route as CrisisRouteImport } from './routes/crisis'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PracticalIndexRouteImport } from './routes/practical.index'
 import { Route as GardenIndexRouteImport } from './routes/garden.index'
 import { Route as PracticalTextsRouteImport } from './routes/practical.texts'
 import { Route as PracticalStepsRouteImport } from './routes/practical.steps'
@@ -48,11 +48,6 @@ const SpaceRoute = SpaceRouteImport.update({
 const PresenceRoute = PresenceRouteImport.update({
   id: '/presence',
   path: '/presence',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PracticalRoute = PracticalRouteImport.update({
-  id: '/practical',
-  path: '/practical',
   getParentRoute: () => rootRouteImport,
 } as any)
 const OnboardingRoute = OnboardingRouteImport.update({
@@ -103,6 +98,11 @@ const CrisisRoute = CrisisRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PracticalIndexRoute = PracticalIndexRouteImport.update({
+  id: '/practical/',
+  path: '/practical/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GardenIndexRoute = GardenIndexRouteImport.update({
@@ -172,7 +172,6 @@ export interface FileRoutesByFullPath {
   '/memories': typeof MemoriesRoute
   '/no-words': typeof NoWordsRoute
   '/onboarding': typeof OnboardingRoute
-  '/practical': typeof PracticalRouteWithChildren
   '/presence': typeof PresenceRoute
   '/space': typeof SpaceRoute
   '/wishes': typeof WishesRoute
@@ -187,6 +186,7 @@ export interface FileRoutesByFullPath {
   '/practical/steps': typeof PracticalStepsRoute
   '/practical/texts': typeof PracticalTextsRoute
   '/garden/': typeof GardenIndexRoute
+  '/practical/': typeof PracticalIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -199,7 +199,6 @@ export interface FileRoutesByTo {
   '/memories': typeof MemoriesRoute
   '/no-words': typeof NoWordsRoute
   '/onboarding': typeof OnboardingRoute
-  '/practical': typeof PracticalRouteWithChildren
   '/presence': typeof PresenceRoute
   '/space': typeof SpaceRoute
   '/wishes': typeof WishesRoute
@@ -214,6 +213,7 @@ export interface FileRoutesByTo {
   '/practical/steps': typeof PracticalStepsRoute
   '/practical/texts': typeof PracticalTextsRoute
   '/garden': typeof GardenIndexRoute
+  '/practical': typeof PracticalIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -227,7 +227,6 @@ export interface FileRoutesById {
   '/memories': typeof MemoriesRoute
   '/no-words': typeof NoWordsRoute
   '/onboarding': typeof OnboardingRoute
-  '/practical': typeof PracticalRouteWithChildren
   '/presence': typeof PresenceRoute
   '/space': typeof SpaceRoute
   '/wishes': typeof WishesRoute
@@ -242,6 +241,7 @@ export interface FileRoutesById {
   '/practical/steps': typeof PracticalStepsRoute
   '/practical/texts': typeof PracticalTextsRoute
   '/garden/': typeof GardenIndexRoute
+  '/practical/': typeof PracticalIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -256,7 +256,6 @@ export interface FileRouteTypes {
     | '/memories'
     | '/no-words'
     | '/onboarding'
-    | '/practical'
     | '/presence'
     | '/space'
     | '/wishes'
@@ -271,6 +270,7 @@ export interface FileRouteTypes {
     | '/practical/steps'
     | '/practical/texts'
     | '/garden/'
+    | '/practical/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -283,7 +283,6 @@ export interface FileRouteTypes {
     | '/memories'
     | '/no-words'
     | '/onboarding'
-    | '/practical'
     | '/presence'
     | '/space'
     | '/wishes'
@@ -298,6 +297,7 @@ export interface FileRouteTypes {
     | '/practical/steps'
     | '/practical/texts'
     | '/garden'
+    | '/practical'
   id:
     | '__root__'
     | '/'
@@ -310,7 +310,6 @@ export interface FileRouteTypes {
     | '/memories'
     | '/no-words'
     | '/onboarding'
-    | '/practical'
     | '/presence'
     | '/space'
     | '/wishes'
@@ -325,6 +324,7 @@ export interface FileRouteTypes {
     | '/practical/steps'
     | '/practical/texts'
     | '/garden/'
+    | '/practical/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -338,13 +338,13 @@ export interface RootRouteChildren {
   MemoriesRoute: typeof MemoriesRoute
   NoWordsRoute: typeof NoWordsRoute
   OnboardingRoute: typeof OnboardingRoute
-  PracticalRoute: typeof PracticalRouteWithChildren
   PresenceRoute: typeof PresenceRoute
   SpaceRoute: typeof SpaceRoute
   WishesRoute: typeof WishesRoute
   ComposeZoneRoute: typeof ComposeZoneRoute
   GardenZoneRoute: typeof GardenZoneRoute
   GardenIndexRoute: typeof GardenIndexRoute
+  PracticalIndexRoute: typeof PracticalIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -368,13 +368,6 @@ declare module '@tanstack/react-router' {
       path: '/presence'
       fullPath: '/presence'
       preLoaderRoute: typeof PresenceRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/practical': {
-      id: '/practical'
-      path: '/practical'
-      fullPath: '/practical'
-      preLoaderRoute: typeof PracticalRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/onboarding': {
@@ -445,6 +438,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/practical/': {
+      id: '/practical/'
+      path: '/practical'
+      fullPath: '/practical/'
+      preLoaderRoute: typeof PracticalIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/garden/': {
@@ -527,32 +527,6 @@ declare module '@tanstack/react-router' {
   }
 }
 
-interface PracticalRouteChildren {
-  PracticalAtmosphereRoute: typeof PracticalAtmosphereRoute
-  PracticalBookletRoute: typeof PracticalBookletRoute
-  PracticalCeremonyRoute: typeof PracticalCeremonyRoute
-  PracticalFlowersRoute: typeof PracticalFlowersRoute
-  PracticalObjectsRoute: typeof PracticalObjectsRoute
-  PracticalShareRoute: typeof PracticalShareRoute
-  PracticalStepsRoute: typeof PracticalStepsRoute
-  PracticalTextsRoute: typeof PracticalTextsRoute
-}
-
-const PracticalRouteChildren: PracticalRouteChildren = {
-  PracticalAtmosphereRoute: PracticalAtmosphereRoute,
-  PracticalBookletRoute: PracticalBookletRoute,
-  PracticalCeremonyRoute: PracticalCeremonyRoute,
-  PracticalFlowersRoute: PracticalFlowersRoute,
-  PracticalObjectsRoute: PracticalObjectsRoute,
-  PracticalShareRoute: PracticalShareRoute,
-  PracticalStepsRoute: PracticalStepsRoute,
-  PracticalTextsRoute: PracticalTextsRoute,
-}
-
-const PracticalRouteWithChildren = PracticalRoute._addFileChildren(
-  PracticalRouteChildren,
-)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CrisisRoute: CrisisRoute,
@@ -564,14 +538,23 @@ const rootRouteChildren: RootRouteChildren = {
   MemoriesRoute: MemoriesRoute,
   NoWordsRoute: NoWordsRoute,
   OnboardingRoute: OnboardingRoute,
-  PracticalRoute: PracticalRouteWithChildren,
   PresenceRoute: PresenceRoute,
   SpaceRoute: SpaceRoute,
   WishesRoute: WishesRoute,
   ComposeZoneRoute: ComposeZoneRoute,
   GardenZoneRoute: GardenZoneRoute,
   GardenIndexRoute: GardenIndexRoute,
+  PracticalIndexRoute: PracticalIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}
