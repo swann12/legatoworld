@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Halos } from "@/components/legato/Halos";
 import { Shell } from "@/components/legato/Shell";
 import { useLegato } from "@/lib/legato-state";
+import { useMemories } from "@/lib/memories-store";
 import gardenPainted from "@/assets/garden-painted.jpg";
 
 export const Route = createFileRoute("/garden/")({
@@ -43,6 +44,9 @@ function Garden() {
   const { mode, lostName, t, lang } = useLegato();
   const [hovered, setHovered] = useState<string | null>(null);
   const activeBeing = BEINGS.find((b) => b.id === hovered) ?? null;
+  const allMemories = useMemories();
+  const densityFor = (id: string) =>
+    Math.min(1, allMemories.filter((m) => m.zone === id).length / 6);
 
   return (
     <Shell>
@@ -71,36 +75,58 @@ function Garden() {
           {/* The painted garden, viewed from above */}
           <div className="px-5 mt-9">
             <div
-              className="relative w-full overflow-hidden"
+              className="relative w-full"
               style={{ aspectRatio: "1 / 1" }}
             >
-              {/* The painted garden image as the actual scene */}
+              {/* The painted garden image — dissolved into the paper, no rigid frame */}
               <img
                 src={gardenPainted}
                 alt=""
                 width={1024}
                 height={1024}
-                className="absolute inset-0 w-full h-full object-cover select-none"
+                className="absolute inset-0 w-full h-full object-cover select-none garden-dissolve"
                 draggable={false}
               />
 
-              {/* Atmospheric mist — dissolves edges everywhere, no circular vignette */}
+              {/* Cool atmospheric veil — fresher palette, breaks the sepia */}
               <div
-                className="absolute inset-0 pointer-events-none mix-blend-soft-light"
+                className="absolute inset-0 pointer-events-none mix-blend-soft-light garden-dissolve"
                 style={{
                   background:
-                    "linear-gradient(180deg, rgba(255,248,232,0.35) 0%, rgba(255,248,232,0) 35%, rgba(255,248,232,0) 65%, rgba(255,248,232,0.35) 100%)",
+                    "linear-gradient(180deg, color-mix(in oklab, var(--bloom-mist) 55%, transparent) 0%, transparent 35%, transparent 65%, color-mix(in oklab, var(--bloom-fresh) 35%, transparent) 100%)",
                 }}
               />
               <div
-                className="absolute inset-0 pointer-events-none"
+                className="absolute inset-0 pointer-events-none garden-dissolve wander"
                 style={{
                   background:
-                    "radial-gradient(circle at 30% 70%, rgba(214,196,222,0.10), transparent 55%), radial-gradient(circle at 75% 30%, rgba(245,210,180,0.10), transparent 55%)",
+                    "radial-gradient(circle at 30% 70%, color-mix(in oklab, var(--lavender) 25%, transparent), transparent 55%), radial-gradient(circle at 75% 30%, color-mix(in oklab, var(--peach) 25%, transparent), transparent 55%)",
                 }}
               />
 
-              {/* Invisible hotspots — only a soft inner luminescence on hover, never a frame */}
+              {/* Per-being living veil — density grows as souvenirs accumulate */}
+              {BEINGS.map((p) => {
+                const d = densityFor(p.id);
+                return (
+                  <div
+                    key={`veil-${p.id}`}
+                    className="absolute pointer-events-none breathe"
+                    style={{
+                      left: `${p.cx - p.rx}%`,
+                      top: `${p.cy - p.ry}%`,
+                      width: `${p.rx * 2}%`,
+                      height: `${p.ry * 2}%`,
+                      borderRadius: "50%",
+                      background: `radial-gradient(ellipse at center, color-mix(in oklab, ${p.blooms[0].tint} ${10 + d * 30}%, transparent), transparent 65%)`,
+                      mixBlendMode: "soft-light",
+                      filter: "blur(14px)",
+                      opacity: 0.55 + d * 0.4,
+                    }}
+                  />
+                );
+              })}
+
+              {/* Hotspots — local lift on hover, gentle dim on the others */}
               {BEINGS.map((p) => (
                 <Link
                   key={p.id}
@@ -111,7 +137,7 @@ function Garden() {
                   onFocus={() => setHovered(p.id)}
                   onBlur={() => setHovered((h: string | null) => (h === p.id ? null : h))}
                   aria-label={`${lang === "fr" ? "Entrer dans le jardin de" : "Enter the garden of"} ${p.name}`}
-                  className="absolute group focus:outline-none cursor-pointer"
+                  className="absolute group focus:outline-none cursor-pointer transition-[filter,opacity] duration-1000"
                   style={{
                     left: `${p.cx - p.rx}%`,
                     top: `${p.cy - p.ry}%`,
@@ -119,15 +145,17 @@ function Garden() {
                     height: `${p.ry * 2}%`,
                     borderRadius: "50%",
                     touchAction: "manipulation",
+                    opacity: hovered && hovered !== p.id ? 0.55 : 1,
+                    filter: hovered && hovered !== p.id ? "saturate(0.7)" : "none",
                   }}
                 >
                   <span
-                    className="absolute inset-[-60%] rounded-full opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity duration-1000"
+                    className="absolute inset-[-40%] rounded-full opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity duration-1000"
                     style={{
                       background:
-                        "radial-gradient(ellipse at center, rgba(255,242,215,0.45), transparent 70%)",
-                      mixBlendMode: "soft-light",
-                      filter: "blur(20px)",
+                        `radial-gradient(ellipse at center, color-mix(in oklab, ${p.blooms[0].tint} 60%, white) 0%, transparent 70%)`,
+                      mixBlendMode: "screen",
+                      filter: "blur(18px)",
                     }}
                   />
                 </Link>

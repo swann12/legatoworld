@@ -1,11 +1,15 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useEffect, useMemo, useRef, useState, type ChangeEvent, type Dispatch, type PointerEvent as ReactPointerEvent, type SetStateAction } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Halos } from "@/components/legato/Halos";
 import { Shell } from "@/components/legato/Shell";
 import { useLegato } from "@/lib/legato-state";
-import { ELEMENTS, ELEMENT_FAMILIES, getElementById, type ElementAsset, type ElementFamily } from "@/lib/elements";
+import {
+  ELEMENTS,
+  ELEMENT_FAMILIES,
+  getElementById,
+  type ElementFamily,
+} from "@/lib/elements";
 import { addMemory, type CompositionItem, type MemoryType } from "@/lib/memories-store";
-import JSZip from "jszip";
 
 export const Route = createFileRoute("/compose/$zone")({
   head: () => ({ meta: [{ title: "Composer un souvenir — Legato" }] }),
@@ -13,29 +17,13 @@ export const Route = createFileRoute("/compose/$zone")({
 });
 
 type Step = "type" | "import" | "ask" | "compose";
-type EditorTool = "select" | "place" | "replace" | "erase";
-
-type EditorElement = ElementAsset;
-
-type EditorLayer = CompositionItem & {
-  elementId: string;
-  width: number;
-  height: number;
-  name: string;
-  hidden: boolean;
-  locked: boolean;
-  opacity: number;
-  rotation: number;
-  z: number;
-  source?: string;
-};
 
 const TYPES: { id: MemoryType; label: string; whisper: string }[] = [
   { id: "voice", label: "Une voix", whisper: "Enregistrer un son, un mot, un silence." },
   { id: "sentence", label: "Une phrase", whisper: "Une parole, une promesse, une trace." },
-  { id: "photo", label: "Une photo", whisper: "Une image, fixée doucement." },
+  { id: "photo", label: "Une photo", whisper: "Une image, gardée doucement." },
   { id: "text", label: "Un texte", whisper: "Quelques mots, une lettre." },
-  { id: "sound", label: "Un son", whisper: "Un environnement, une musique." },
+  { id: "sound", label: "Un son", whisper: "Une ambiance, une musique." },
 ];
 
 function Compose() {
@@ -75,21 +63,24 @@ function Compose() {
   return (
     <Shell hideNav>
       <div className="relative min-h-dvh flex flex-col">
-        <Halos mode={mode} variant="calm" />
+        {step !== "compose" && <Halos mode={mode} variant="calm" />}
         <div className="relative z-10 flex-1 flex flex-col">
-          <div className="flex items-center justify-between px-7 pt-10">
-            <button onClick={back} className="text-[11px] uppercase tracking-[0.22em] text-dusk/50">
-              ← Retour
-            </button>
-            <span className="text-[10px] uppercase tracking-[0.22em] text-dusk/40">
-              {step === "type" && "1 · type"}
-              {step === "import" && "2 · souvenir"}
-              {step === "ask" && "3 · composer ?"}
-              {step === "compose" && "4 · composition"}
-            </span>
-          </div>
+          {step !== "compose" && (
+            <div className="flex items-center justify-between px-7 pt-10">
+              <button onClick={back} className="text-[11px] uppercase tracking-[0.22em] text-dusk/50">
+                ← Retour
+              </button>
+              <span className="text-[10px] uppercase tracking-[0.22em] text-dusk/40">
+                {step === "type" && "1 · type"}
+                {step === "import" && "2 · souvenir"}
+                {step === "ask" && "3 · composer ?"}
+              </span>
+            </div>
+          )}
 
-          {step === "type" && <ChooseType type={type} setType={setType} next={() => type && setStep("import")} />}
+          {step === "type" && (
+            <ChooseType type={type} setType={setType} next={() => type && setStep("import")} />
+          )}
           {step === "import" && type && (
             <ImportMemory
               type={type}
@@ -104,13 +95,24 @@ function Compose() {
               next={() => setStep("ask")}
             />
           )}
-          {step === "ask" && <AskCompose onYes={() => setStep("compose")} onNo={() => saveMemory(false)} />}
-          {step === "compose" && <Composer items={items} setItems={setItems} onSave={() => saveMemory(true)} />}
+          {step === "ask" && (
+            <AskCompose onYes={() => setStep("compose")} onNo={() => saveMemory(false)} />
+          )}
+          {step === "compose" && (
+            <Composer
+              items={items}
+              setItems={setItems}
+              onSave={() => saveMemory(true)}
+              onCancel={() => setStep("ask")}
+            />
+          )}
         </div>
       </div>
     </Shell>
   );
 }
+
+/* ───────────────── Étape 1 — Type ───────────────── */
 
 function ChooseType({
   type,
@@ -129,7 +131,7 @@ function ChooseType({
           Quel type de <span className="italic">souvenir ?</span>
         </h1>
         <p className="mt-4 max-w-[32ch] text-[13.5px] leading-relaxed text-dusk/60">
-          Vous le déposerez d'abord. Vous pourrez ensuite, si vous le souhaitez, composer un jardin autour.
+          Vous le déposez d'abord. Vous pourrez ensuite, si vous le souhaitez, composer un jardin autour.
         </p>
       </header>
 
@@ -164,6 +166,8 @@ function ChooseType({
     </div>
   );
 }
+
+/* ───────────────── Étape 2 — Importer ───────────────── */
 
 function ImportMemory({
   type,
@@ -223,7 +227,9 @@ function ImportMemory({
         <h1 className="mt-3 font-serif text-[2.2rem] leading-[1.05] font-light text-dusk text-balance">
           Déposez ce <span className="italic">souvenir.</span>
         </h1>
-        <p className="mt-4 max-w-[34ch] text-[13.5px] leading-relaxed text-dusk/60">Prenez le temps. Une trace — sans mise en scène.</p>
+        <p className="mt-4 max-w-[34ch] text-[13.5px] leading-relaxed text-dusk/60">
+          Prenez le temps. Une trace, sans mise en scène.
+        </p>
       </header>
 
       <div className="mt-8 space-y-4">
@@ -291,16 +297,20 @@ function ImportMemory({
   );
 }
 
+/* ───────────────── Étape 3 — Demande ───────────────── */
+
 function AskCompose({ onYes, onNo }: { onYes: () => void; onNo: () => void }) {
   return (
-    <div className="flex-1 flex flex-col px-7 pt-16 pb-10">
-      <div className="text-center">
-        <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">Étape 3</p>
-        <h1 className="mt-4 font-serif text-[2rem] leading-[1.15] font-light text-dusk text-balance max-w-[22ch] mx-auto">
-          Souhaitez-vous composer un <span className="italic">jardin</span> autour de ce souvenir ?
-        </h1>
-      </div>
-      <div className="mt-auto pt-10 space-y-3">
+    <div className="flex-1 flex flex-col items-center justify-center px-7 py-12 text-center">
+      <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">Étape 3</p>
+      <h1 className="mt-5 font-serif text-[1.9rem] leading-[1.2] font-light text-dusk text-balance max-w-[20ch]">
+        Souhaitez-vous composer un <span className="italic">jardin</span> autour de ce souvenir&nbsp;?
+      </h1>
+      <p className="mt-5 max-w-[28ch] text-[13.5px] leading-relaxed text-dusk/55">
+        Une petite scène végétale, posée librement. Vous pourrez y revenir plus tard.
+      </p>
+
+      <div className="w-full max-w-[320px] mt-12 space-y-3">
         <button onClick={onYes} className="w-full ceramic organic-radius-3 px-7 py-5 text-center">
           <span className="font-serif text-xl italic text-dusk">Oui, composer</span>
         </button>
@@ -312,692 +322,453 @@ function AskCompose({ onYes, onNo }: { onYes: () => void; onNo: () => void }) {
   );
 }
 
+/* ───────────────── Étape 4 — Composeur (refonte) ─────────────────
+   Principe : un geste, pas un logiciel.
+   - Tap sur un élément du tiroir → posé au centre, sélectionné.
+   - Drag → déplace · Wheel/pinch → redimensionne · Poignée du haut → rotation.
+   - Sélection unique. Pas de calques visibles.
+   - Bouton Fermer (annuler), Enregistrer, Annuler/Refaire, Gomme, Exporter.
+*/
+
+type Sel = string | null;
+
 function Composer({
   items,
   setItems,
   onSave,
+  onCancel,
 }: {
   items: CompositionItem[];
-  setItems: Dispatch<SetStateAction<CompositionItem[]>>;
+  setItems: React.Dispatch<React.SetStateAction<CompositionItem[]>>;
   onSave: () => void;
+  onCancel: () => void;
 }) {
   const canvasRef = useRef<HTMLDivElement>(null);
-  const imageCacheRef = useRef(new Map<string, HTMLImageElement>());
-  const sourceCanvasRef = useRef(new Map<string, HTMLCanvasElement>());
-  const maskCanvasRef = useRef(new Map<string, HTMLCanvasElement>());
-  const dragLayerIdRef = useRef<string | null>(null);
-  const historyRef = useRef<{ past: string[]; future: string[] }>({ past: [], future: [] });
-  const erasingRef = useRef<string | null>(null);
-  const pointerOffsetRef = useRef({ dx: 0, dy: 0 });
-
+  const [selected, setSelected] = useState<Sel>(null);
+  const [drawerOpen, setDrawerOpen] = useState(items.length === 0);
   const [family, setFamily] = useState<ElementFamily>("florale");
-  const [tool, setTool] = useState<EditorTool>("place");
-  const [brush, setBrush] = useState<string | null>(ELEMENTS[0]?.id ?? null);
-  const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [eraserSize, setEraserSize] = useState(56);
-  const [eraserOpacity, setEraserOpacity] = useState(80);
-  const [eraserHardness, setEraserHardness] = useState(30);
-  const [userElements, setUserElements] = useState<EditorElement[]>([]);
+  const historyRef = useRef<{ past: CompositionItem[][]; future: CompositionItem[][] }>({
+    past: [],
+    future: [],
+  });
 
-  const allElements = useMemo(() => [...ELEMENTS, ...userElements], [userElements]);
-
-  const normalizedLayers = useMemo<EditorLayer[]>(() => {
-    return items
-      .map((item, index) => {
-        const elementId = item.elementId ?? item.atlasId;
-        if (!elementId) return null;
-        const element = allElements.find((entry) => entry.id === elementId);
-        if (!element) return null;
-        const width = item.width ?? item.size ?? clamp(element.width * 0.4, 70, 280);
-        const height = item.height ?? Math.max(40, Math.round((width / element.width) * element.height));
-        return {
-          ...item,
-          elementId,
-          width,
-          height,
-          name: item.name ?? element.label,
-          hidden: item.hidden ?? false,
-          locked: item.locked ?? false,
-          opacity: item.opacity ?? 1,
-          rotation: item.rotation ?? 0,
-          z: item.z ?? index + 1,
-          source: item.source ?? element.source,
-        };
-      })
-      .filter(Boolean)
-      .sort((a, b) => (a?.z ?? 0) - (b?.z ?? 0)) as EditorLayer[];
-  }, [allElements, items]);
-
-  const selected = normalizedLayers.find((layer) => layer.id === selectedId) ?? null;
-  const palette = useMemo(() => allElements.filter((entry) => entry.family === family), [allElements, family]);
-
-  useEffect(() => {
-    allElements.forEach((entry) => {
-      if (imageCacheRef.current.has(entry.id)) return;
-      const img = new Image();
-      img.src = entry.src;
-      imageCacheRef.current.set(entry.id, img);
-      img.onload = () => {
-        const canvas = document.createElement("canvas");
-        canvas.width = img.naturalWidth;
-        canvas.height = img.naturalHeight;
-        const ctx = canvas.getContext("2d");
-        if (ctx) ctx.drawImage(img, 0, 0);
-        sourceCanvasRef.current.set(entry.id, canvas);
-      };
-    });
-  }, [allElements]);
-
-  const commitHistory = (snapshot: CompositionItem[]) => {
-    historyRef.current.past.push(JSON.stringify(snapshot));
+  /* ───── history ───── */
+  const commit = (next: CompositionItem[]) => {
+    historyRef.current.past.push(items);
     if (historyRef.current.past.length > 40) historyRef.current.past.shift();
+    historyRef.current.future = [];
+    setItems(next);
+  };
+  const undo = () => {
+    const p = historyRef.current.past.pop();
+    if (!p) return;
+    historyRef.current.future.unshift(items);
+    setItems(p);
+  };
+  const redo = () => {
+    const n = historyRef.current.future.shift();
+    if (!n) return;
+    historyRef.current.past.push(items);
+    setItems(n);
+  };
+
+  /* ───── add element ───── */
+  const addElement = (id: string) => {
+    const el = getElementById(id);
+    if (!el) return;
+    const baseW = 28; // % of canvas
+    const aspect = el.height / el.width;
+    const newItem: CompositionItem = {
+      id: `i-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+      elementId: el.id,
+      x: 50,
+      y: 50,
+      width: baseW,
+      height: baseW * aspect * 0.75, // canvas is 3:4 portrait → ratio compensation
+      rotation: 0,
+      opacity: 1,
+      z: items.length + 1,
+    };
+    commit([...items, newItem]);
+    setSelected(newItem.id);
+  };
+
+  /* ───── pointer drag/scale/rotate ───── */
+  const dragRef = useRef<{
+    id: string;
+    mode: "move" | "scale" | "rotate";
+    startX: number;
+    startY: number;
+    item: CompositionItem;
+    canvasRect: DOMRect;
+  } | null>(null);
+
+  const onLayerPointerDown = (
+    e: React.PointerEvent,
+    item: CompositionItem,
+    mode: "move" | "scale" | "rotate" = "move",
+  ) => {
+    e.stopPropagation();
+    setSelected(item.id);
+    const rect = canvasRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    dragRef.current = {
+      id: item.id,
+      mode,
+      startX: e.clientX,
+      startY: e.clientY,
+      item,
+      canvasRect: rect,
+    };
+    (e.target as HTMLElement).setPointerCapture(e.pointerId);
+    historyRef.current.past.push(items);
     historyRef.current.future = [];
   };
 
-  const updateLayers = (updater: (prev: EditorLayer[]) => EditorLayer[]) => {
-    setItems((prev) => {
-      const current = prev as EditorLayer[];
-      const next = updater(current).map((layer, index) => ({ ...layer, z: index + 1 }));
-      return next;
-    });
+  const onPointerMove = (e: React.PointerEvent) => {
+    const d = dragRef.current;
+    if (!d) return;
+    const dx = e.clientX - d.startX;
+    const dy = e.clientY - d.startY;
+    const w = d.canvasRect.width;
+    const h = d.canvasRect.height;
+    setItems((prev) =>
+      prev.map((it) => {
+        if (it.id !== d.id) return it;
+        if (d.mode === "move") {
+          return { ...it, x: d.item.x + (dx / w) * 100, y: d.item.y + (dy / h) * 100 };
+        }
+        if (d.mode === "scale") {
+          const factor = 1 + dy / 180; // drag down = grow, up = shrink
+          const newW = Math.max(4, Math.min(180, (d.item.width ?? 20) * factor));
+          const ratio = (d.item.height ?? 20) / (d.item.width ?? 20);
+          return { ...it, width: newW, height: newW * ratio };
+        }
+        if (d.mode === "rotate") {
+          const cx = d.canvasRect.left + (d.item.x / 100) * w;
+          const cy = d.canvasRect.top + (d.item.y / 100) * h;
+          const angle = (Math.atan2(e.clientY - cy, e.clientX - cx) * 180) / Math.PI + 90;
+          return { ...it, rotation: angle };
+        }
+        return it;
+      }),
+    );
   };
 
-  const loadMaskCanvas = (layer: EditorLayer) => {
-    const existing = maskCanvasRef.current.get(layer.id);
-    if (existing && existing.width === Math.round(layer.width) && existing.height === Math.round(layer.height)) return existing;
-    const canvas = document.createElement("canvas");
-    canvas.width = Math.max(1, Math.round(layer.width));
-    canvas.height = Math.max(1, Math.round(layer.height));
-    const ctx = canvas.getContext("2d");
-    if (ctx) {
-      ctx.fillStyle = "rgba(255,255,255,1)";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      if (layer.maskDataUrl) {
-        const img = new Image();
-        img.src = layer.maskDataUrl;
-        img.onload = () => {
-          const draw = canvas.getContext("2d");
-          if (!draw) return;
-          draw.clearRect(0, 0, canvas.width, canvas.height);
-          draw.drawImage(img, 0, 0, canvas.width, canvas.height);
-        };
-      }
-    }
-    maskCanvasRef.current.set(layer.id, canvas);
-    return canvas;
+  const onPointerUp = () => {
+    dragRef.current = null;
   };
 
-  const hitTestLayer = (layer: EditorLayer, clientX: number, clientY: number) => {
-    if (layer.hidden) return false;
-    const canvas = canvasRef.current;
-    if (!canvas) return false;
-    const rect = canvas.getBoundingClientRect();
-    const cx = rect.left + (layer.x / 100) * rect.width;
-    const cy = rect.top + (layer.y / 100) * rect.height;
-    const left = cx - layer.width / 2;
-    const top = cy - layer.height / 2;
-    if (clientX < left || clientX > left + layer.width || clientY < top || clientY > top + layer.height) return false;
-    const source = sourceCanvasRef.current.get(layer.elementId);
-    if (!source) return true;
-    const localX = Math.floor(((clientX - left) / layer.width) * source.width);
-    const localY = Math.floor(((clientY - top) / layer.height) * source.height);
-    const ctx = source.getContext("2d", { willReadFrequently: true });
-    if (!ctx) return true;
-    const alpha = ctx.getImageData(clamp(localX, 0, source.width - 1), clamp(localY, 0, source.height - 1), 1, 1).data[3];
-    if (alpha < 12) return false;
-    if (!layer.maskDataUrl) return true;
-    const mask = loadMaskCanvas(layer);
-    const maskCtx = mask.getContext("2d", { willReadFrequently: true });
-    if (!maskCtx) return true;
-    const maskX = clamp(Math.floor(((clientX - left) / layer.width) * mask.width), 0, mask.width - 1);
-    const maskY = clamp(Math.floor(((clientY - top) / layer.height) * mask.height), 0, mask.height - 1);
-    return maskCtx.getImageData(maskX, maskY, 1, 1).data[3] > 12;
-  };
-
-  const getTopLayerAtPoint = (clientX: number, clientY: number) => {
-    const ordered = [...normalizedLayers].sort((a, b) => b.z - a.z);
-    return ordered.find((layer) => hitTestLayer(layer, clientX, clientY)) ?? null;
-  };
-
-  const stampAt = (elementId: string, x: number, y: number) => {
-    const element = getElementById(elementId) ?? userElements.find((entry) => entry.id === elementId);
-    if (!element) return;
-    const baseWidth = clamp(element.width * 0.42, 70, family === "atmosphere" ? 420 : 280);
-    const width = family === "atmosphere" ? Math.max(baseWidth, 380) : baseWidth;
-    const height = Math.max(40, Math.round((width / element.width) * element.height));
-    updateLayers((prev) => [
-      ...prev,
-      {
-        id: `layer-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
-        elementId,
-        x: clamp(x, 3, 97),
-        y: clamp(y, 3, 97),
-        width,
-        height,
-        rotation: 0,
-        opacity: 1,
-        z: prev.length + 1,
-        name: element.label,
-        hidden: false,
-        locked: false,
-        maskDataUrl: null,
-        source: element.source,
-      },
-    ]);
-  };
-
-  const updateLayer = (id: string, patch: Partial<EditorLayer>) => {
-    updateLayers((prev) => prev.map((layer) => (layer.id === id ? { ...layer, ...patch } : layer)));
-  };
-
-  const moveLayer = (id: string, direction: "up" | "down" | "front" | "back") => {
-    updateLayers((prev) => {
-      const list = [...prev];
-      const index = list.findIndex((layer) => layer.id === id);
-      if (index < 0) return list;
-      const [layer] = list.splice(index, 1);
-      let nextIndex = index;
-      if (direction === "up") nextIndex = Math.min(list.length, index + 1);
-      if (direction === "down") nextIndex = Math.max(0, index - 1);
-      if (direction === "front") nextIndex = list.length;
-      if (direction === "back") nextIndex = 0;
-      list.splice(nextIndex, 0, layer);
-      return list;
-    });
-  };
-
-  const duplicateSelected = () => {
-    if (!selected) return;
-    commitHistory(items);
-    updateLayers((prev) => [
-      ...prev,
-      {
-        ...selected,
-        id: `layer-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
-        x: clamp(selected.x + 2, 3, 97),
-        y: clamp(selected.y + 2, 3, 97),
-        name: `${selected.name} copie`,
-      },
-    ]);
-  };
-
+  /* ───── delete / duplicate / z-order ───── */
   const deleteSelected = () => {
-    if (!selectedId) return;
-    commitHistory(items);
-    updateLayers((prev) => prev.filter((layer) => layer.id !== selectedId));
-    setSelectedId(null);
-  };
-
-  const undo = () => {
-    const prev = historyRef.current.past.pop();
-    if (!prev) return;
-    historyRef.current.future.unshift(JSON.stringify(items));
-    setItems(JSON.parse(prev));
-  };
-
-  const redo = () => {
-    const next = historyRef.current.future.shift();
-    if (!next) return;
-    historyRef.current.past.push(JSON.stringify(items));
-    setItems(JSON.parse(next));
-  };
-
-  const replaceSelected = (elementId: string) => {
     if (!selected) return;
-    const element = getElementById(elementId) ?? userElements.find((entry) => entry.id === elementId);
-    if (!element) return;
-    commitHistory(items);
-    const area = selected.width * selected.height;
-    const width = Math.max(48, Math.sqrt((area * element.width) / element.height));
-    const height = Math.max(48, Math.round((width / element.width) * element.height));
-    updateLayer(selected.id, { elementId, name: element.label, width, height, source: element.source });
+    commit(items.filter((it) => it.id !== selected));
+    setSelected(null);
+  };
+  const bringForward = () => {
+    if (!selected) return;
+    const maxZ = Math.max(0, ...items.map((i) => i.z ?? 0));
+    commit(items.map((it) => (it.id === selected ? { ...it, z: maxZ + 1 } : it)));
+  };
+  const sendBackward = () => {
+    if (!selected) return;
+    const minZ = Math.min(0, ...items.map((i) => i.z ?? 0));
+    commit(items.map((it) => (it.id === selected ? { ...it, z: minZ - 1 } : it)));
   };
 
-  const beginErase = (layer: EditorLayer, clientX: number, clientY: number) => {
+  /* ───── wheel zoom on canvas ───── */
+  useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const rect = canvas.getBoundingClientRect();
-    const cx = (layer.x / 100) * rect.width;
-    const cy = (layer.y / 100) * rect.height;
-    const localX = clientX - rect.left - (cx - layer.width / 2);
-    const localY = clientY - rect.top - (cy - layer.height / 2);
-    const mask = loadMaskCanvas(layer);
-    const ctx = mask.getContext("2d");
-    if (!ctx) return;
-    const maskX = (localX / layer.width) * mask.width;
-    const maskY = (localY / layer.height) * mask.height;
-    const radius = Math.max(4, (eraserSize / layer.width) * mask.width);
-    const hardness = clamp(eraserHardness / 100, 0.05, 1);
-    const inner = radius * hardness;
-    const gradient = ctx.createRadialGradient(maskX, maskY, inner * 0.2, maskX, maskY, radius);
-    gradient.addColorStop(0, `rgba(0,0,0,${eraserOpacity / 100})`);
-    gradient.addColorStop(Math.min(0.98, hardness), `rgba(0,0,0,${eraserOpacity / 100})`);
-    gradient.addColorStop(1, "rgba(0,0,0,0)");
-    ctx.save();
-    ctx.globalCompositeOperation = "destination-out";
-    ctx.fillStyle = gradient;
-    ctx.beginPath();
-    ctx.arc(maskX, maskY, radius, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.restore();
-    updateLayer(layer.id, { maskDataUrl: mask.toDataURL("image/png") });
-  };
-
-  const onCanvasPointerDown = (e: ReactPointerEvent<HTMLDivElement>) => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const hit = getTopLayerAtPoint(e.clientX, e.clientY);
-    if (tool === "place" && brush) {
-      commitHistory(items);
-      const rect = canvas.getBoundingClientRect();
-      stampAt(brush, ((e.clientX - rect.left) / rect.width) * 100, ((e.clientY - rect.top) / rect.height) * 100);
-      return;
-    }
-    if (!hit) {
-      setSelectedId(null);
-      return;
-    }
-    setSelectedId(hit.id);
-    if (tool === "replace" && brush) {
-      replaceSelected(brush);
-      return;
-    }
-    if (tool === "erase") {
-      if (hit.locked) return;
-      commitHistory(items);
-      erasingRef.current = hit.id;
-      beginErase(hit, e.clientX, e.clientY);
-      return;
-    }
-    if (hit.locked) return;
-    const rect = canvas.getBoundingClientRect();
-    pointerOffsetRef.current = {
-      dx: e.clientX - (rect.left + (hit.x / 100) * rect.width),
-      dy: e.clientY - (rect.top + (hit.y / 100) * rect.height),
+    const handler = (e: WheelEvent) => {
+      if (!selected) return;
+      e.preventDefault();
+      const factor = 1 - e.deltaY / 400;
+      setItems((prev) =>
+        prev.map((it) => {
+          if (it.id !== selected) return it;
+          const newW = Math.max(4, Math.min(180, (it.width ?? 20) * factor));
+          const ratio = (it.height ?? 20) / (it.width ?? 20);
+          return { ...it, width: newW, height: newW * ratio };
+        }),
+      );
     };
-    erasingRef.current = null;
-    (e.currentTarget as HTMLDivElement).setPointerCapture(e.pointerId);
-  };
+    canvas.addEventListener("wheel", handler, { passive: false });
+    return () => canvas.removeEventListener("wheel", handler);
+  }, [selected, setItems]);
 
-  const onCanvasPointerMove = (e: ReactPointerEvent<HTMLDivElement>) => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const selectedLayer = normalizedLayers.find((layer) => layer.id === selectedId);
-    if (!selectedLayer) return;
-    if (tool === "erase" && erasingRef.current === selectedLayer.id) {
-      beginErase(selectedLayer, e.clientX, e.clientY);
-      return;
-    }
-    if (tool !== "select" || selectedLayer.locked || !(e.buttons & 1)) return;
-    const rect = canvas.getBoundingClientRect();
-    updateLayer(selectedLayer.id, {
-      x: clamp(((e.clientX - rect.left - pointerOffsetRef.current.dx) / rect.width) * 100, 0, 100),
-      y: clamp(((e.clientY - rect.top - pointerOffsetRef.current.dy) / rect.height) * 100, 0, 100),
-    });
-  };
-
-  const onCanvasPointerUp = () => {
-    erasingRef.current = null;
-  };
-
-  const exportComposition = async () => {
-    const blob = await renderExport(normalizedLayers);
-    downloadBlob(blob, "composition-hd.png");
-  };
-
-  const exportSelected = async () => {
-    if (!selected) return;
-    const blob = await renderExport([selected], { isolate: true });
-    downloadBlob(blob, `${selected.name}.png`);
-  };
-
-  const exportAllLayers = async () => {
-    const zip = new JSZip();
-    for (const layer of normalizedLayers.filter((entry) => !entry.hidden)) {
-      const blob = await renderExport([layer], { isolate: true });
-      zip.file(`${sanitizeFileName(layer.name)}.png`, blob);
-    }
-    const blob = await zip.generateAsync({ type: "blob" });
-    downloadBlob(blob, "calques.zip");
-  };
-
-  const renderExport = async (layers: EditorLayer[], options?: { isolate?: boolean }) => {
+  /* ───── export — always white background ───── */
+  const exportHD = async () => {
+    const W = 2400;
+    const H = 3200;
     const canvas = document.createElement("canvas");
-    if (options?.isolate && layers.length === 1) {
-      canvas.width = Math.max(1, Math.round(layers[0].width * 2));
-      canvas.height = Math.max(1, Math.round(layers[0].height * 2));
-    } else {
-      canvas.width = 2400;
-      canvas.height = 3200;
-    }
-    const ctx = canvas.getContext("2d");
-    if (!ctx) throw new Error("Canvas indisponible");
-    for (const layer of [...layers].sort((a, b) => a.z - b.z)) {
-      const element = getElementById(layer.elementId) ?? userElements.find((entry) => entry.id === layer.elementId);
-      if (!element || layer.hidden) continue;
-      const img = await loadImage(element.src);
-      const drawCanvas = document.createElement("canvas");
-      drawCanvas.width = Math.max(1, Math.round(layer.width * 2));
-      drawCanvas.height = Math.max(1, Math.round(layer.height * 2));
-      const drawCtx = drawCanvas.getContext("2d");
-      if (!drawCtx) continue;
-      drawCtx.globalAlpha = layer.opacity;
-      drawCtx.drawImage(img, 0, 0, drawCanvas.width, drawCanvas.height);
-      if (layer.maskDataUrl) {
-        const mask = await loadImage(layer.maskDataUrl);
-        drawCtx.globalCompositeOperation = "destination-in";
-        drawCtx.drawImage(mask, 0, 0, drawCanvas.width, drawCanvas.height);
-        drawCtx.globalCompositeOperation = "source-over";
-      }
-      const x = options?.isolate && layers.length === 1 ? canvas.width / 2 : (layer.x / 100) * canvas.width;
-      const y = options?.isolate && layers.length === 1 ? canvas.height / 2 : (layer.y / 100) * canvas.height;
+    canvas.width = W;
+    canvas.height = H;
+    const ctx = canvas.getContext("2d")!;
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, W, H);
+
+    const sorted = [...items].sort((a, b) => (a.z ?? 0) - (b.z ?? 0));
+    for (const it of sorted) {
+      const el = it.elementId ? getElementById(it.elementId) : null;
+      if (!el) continue;
+      const img = await loadImage(el.src);
+      const w = ((it.width ?? 20) / 100) * W;
+      const h = ((it.height ?? 20) / 100) * H;
+      const x = ((it.x ?? 50) / 100) * W;
+      const y = ((it.y ?? 50) / 100) * H;
       ctx.save();
       ctx.translate(x, y);
-      ctx.rotate((layer.rotation * Math.PI) / 180);
-      ctx.drawImage(drawCanvas, -drawCanvas.width / 2, -drawCanvas.height / 2);
+      ctx.rotate(((it.rotation ?? 0) * Math.PI) / 180);
+      ctx.globalAlpha = it.opacity ?? 1;
+      ctx.drawImage(img, -w / 2, -h / 2, w, h);
       ctx.restore();
     }
-    return await new Promise<Blob>((resolve, reject) => {
-      canvas.toBlob((blob) => {
-        if (blob) resolve(blob);
-        else reject(new Error("Export impossible"));
-      }, "image/png");
-    });
+    canvas.toBlob((blob) => {
+      if (!blob) return;
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `legato-composition-${Date.now()}.png`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }, "image/png");
   };
 
-  const onImportElement = (e: ChangeEvent<HTMLInputElement>) => {
-    const files = Array.from(e.target.files ?? []);
-    if (!files.length) return;
-    files.forEach((file) => {
-      const reader = new FileReader();
-      reader.onload = () => {
-        const url = String(reader.result);
-        const img = new Image();
-        img.onload = () => {
-          const entry: EditorElement = {
-            id: `user-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
-            label: file.name.replace(/\.[^.]+$/, ""),
-            family,
-            width: img.naturalWidth,
-            height: img.naturalHeight,
-            src: url,
-            source: file.name,
-          };
-          setUserElements((prev) => [...prev, entry]);
-          setBrush(entry.id);
-        };
-        img.src = url;
-      };
-      reader.readAsDataURL(file);
-    });
-    e.target.value = "";
-  };
+  const sortedItems = useMemo(
+    () => [...items].sort((a, b) => (a.z ?? 0) - (b.z ?? 0)),
+    [items],
+  );
+  const elementsForFamily = useMemo(
+    () => ELEMENTS.filter((e) => e.family === family),
+    [family],
+  );
 
   return (
-    <div className="flex-1 flex flex-col px-4 pt-5 pb-5">
-      <div className="px-2">
-        <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">Étape 4 · composition</p>
-        <h1 className="mt-2 font-serif text-[1.6rem] leading-[1.1] font-light text-dusk">Éditeur précis d’éléments illustrés</h1>
-        <p className="mt-2 text-[12.5px] leading-relaxed text-dusk/55 max-w-[70ch]">
-          Chaque élément est traité comme un objet indépendant, avec fond transparent, calque dédié, remplacement fidèle et gomme douce non destructive.
-        </p>
+    <div className="absolute inset-0 flex flex-col bg-paper">
+      {/* Top bar — close, title, save */}
+      <div className="flex items-center justify-between px-5 py-3 border-b border-dusk/8">
+        <button
+          onClick={() => {
+            if (items.length === 0 || confirm("Quitter sans enregistrer la composition ?")) onCancel();
+          }}
+          aria-label="Fermer"
+          className="size-9 flex items-center justify-center text-dusk/60 hover:text-dusk text-lg"
+        >
+          ✕
+        </button>
+        <span className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">Composition</span>
+        <button
+          onClick={onSave}
+          className="ceramic px-4 py-2 rounded-full text-[11px] uppercase tracking-[0.18em] text-dusk"
+        >
+          Enregistrer
+        </button>
       </div>
 
-      <div className="mt-4 grid gap-3 lg:grid-cols-[72px_minmax(0,1fr)_320px]">
-        <aside className="paper-card organic-radius-3 p-2 flex lg:flex-col gap-2 lg:items-stretch overflow-auto">
-          {[
-            ["select", "Sélect."],
-            ["place", "Poser"],
-            ["replace", "Rempl."],
-            ["erase", "Gomme"],
-          ].map(([id, label]) => (
-            <button
-              key={id}
-              onClick={() => setTool(id as EditorTool)}
-              className={`px-3 py-3 text-[11px] uppercase tracking-[0.16em] ${tool === id ? "ceramic" : "paper-card"}`}
-            >
-              {label}
-            </button>
-          ))}
-          <button onClick={undo} className="px-3 py-3 text-[11px] uppercase tracking-[0.16em] paper-card">Annuler</button>
-          <button onClick={redo} className="px-3 py-3 text-[11px] uppercase tracking-[0.16em] paper-card">Rétablir</button>
-        </aside>
-
-        <section className="min-w-0">
-          <div className="paper-card organic-radius-3 px-3 py-3 flex flex-wrap items-center gap-3 text-[11px] uppercase tracking-[0.16em] text-dusk/60">
-            <span>Outil : {tool}</span>
-            {selected && <span>Calque : {selected.name}</span>}
-            {selected && (
-              <>
-                <Slider label="Opacité" value={Math.round(selected.opacity * 100)} min={1} max={100} onChange={(v) => updateLayer(selected.id, { opacity: v / 100 })} />
-                <Slider label="Rotation" value={Math.round(selected.rotation)} min={-180} max={180} onChange={(v) => updateLayer(selected.id, { rotation: v })} />
-                <Slider label="Largeur" value={Math.round(selected.width)} min={30} max={900} onChange={(v) => updateLayer(selected.id, { width: v, height: Math.round((v / (getElementById(selected.elementId)?.width ?? v)) * (getElementById(selected.elementId)?.height ?? selected.height)) })} />
-              </>
-            )}
-            {tool === "erase" && (
-              <>
-                <Slider label="Taille" value={eraserSize} min={8} max={220} onChange={setEraserSize} />
-                <Slider label="Opacité" value={eraserOpacity} min={1} max={100} onChange={setEraserOpacity} />
-                <Slider label="Douceur" value={eraserHardness} min={1} max={100} onChange={setEraserHardness} />
-              </>
-            )}
-          </div>
-
-          <div
-            ref={canvasRef}
-            onPointerDown={onCanvasPointerDown}
-            onPointerMove={onCanvasPointerMove}
-            onPointerUp={onCanvasPointerUp}
-            onPointerCancel={onCanvasPointerUp}
-            className="relative mt-3 w-full overflow-hidden touch-none select-none"
-            style={{
-              aspectRatio: "3 / 4",
-              borderRadius: 24,
-              background: "radial-gradient(ellipse at 50% 35%, color-mix(in oklab, var(--paper) 92%, white) 0%, color-mix(in oklab, var(--paper) 78%, transparent) 70%, transparent 100%), var(--paper)",
-              cursor: tool === "place" ? "copy" : tool === "erase" ? "cell" : "default",
-            }}
-          >
-            {normalizedLayers.length === 0 && (
-              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                <p className="font-serif italic text-dusk/40 text-center px-8 text-balance">Commence par poser une atmosphère, une fleur, un arbre ou un élément marin.</p>
+      {/* Canvas — fully visible, paper backdrop */}
+      <div
+        className="flex-1 relative overflow-hidden flex items-center justify-center px-3 py-3"
+        onPointerMove={onPointerMove}
+        onPointerUp={onPointerUp}
+      >
+        <div
+          ref={canvasRef}
+          onPointerDown={() => setSelected(null)}
+          className="relative bg-paper"
+          style={{
+            width: "min(100%, calc((100dvh - 220px) * 0.75))",
+            aspectRatio: "3 / 4",
+            boxShadow: "0 30px 70px -40px rgba(60,40,40,0.25), inset 0 0 0 1px rgba(60,40,40,0.04)",
+            borderRadius: 18,
+            background:
+              "linear-gradient(180deg, color-mix(in oklab, var(--paper) 96%, white), var(--paper))",
+          }}
+        >
+          {sortedItems.map((it) => {
+            const el = it.elementId ? getElementById(it.elementId) : null;
+            if (!el) return null;
+            const isSel = selected === it.id;
+            return (
+              <div
+                key={it.id}
+                className="absolute"
+                style={{
+                  left: `${it.x}%`,
+                  top: `${it.y}%`,
+                  width: `${it.width}%`,
+                  height: `${it.height}%`,
+                  transform: `translate(-50%, -50%) rotate(${it.rotation ?? 0}deg)`,
+                  opacity: it.opacity ?? 1,
+                  touchAction: "none",
+                }}
+              >
+                <img
+                  src={el.src}
+                  alt=""
+                  draggable={false}
+                  onPointerDown={(e) => onLayerPointerDown(e, it, "move")}
+                  className="block w-full h-full select-none feathered"
+                  style={{ filter: "drop-shadow(0 0 0.6px rgba(0,0,0,0.05))" }}
+                />
+                {isSel && (
+                  <>
+                    {/* selection halo */}
+                    <div
+                      className="absolute inset-[-6%] pointer-events-none rounded-[24px]"
+                      style={{
+                        boxShadow: "0 0 0 1px color-mix(in oklab, var(--dusk) 25%, transparent)",
+                      }}
+                    />
+                    {/* rotate handle (top) */}
+                    <button
+                      aria-label="Tourner"
+                      onPointerDown={(e) => onLayerPointerDown(e, it, "rotate")}
+                      className="absolute left-1/2 -top-7 -translate-x-1/2 size-5 rounded-full bg-paper border border-dusk/30 shadow"
+                    />
+                    {/* scale handle (bottom-right) */}
+                    <button
+                      aria-label="Redimensionner"
+                      onPointerDown={(e) => onLayerPointerDown(e, it, "scale")}
+                      className="absolute -right-3 -bottom-3 size-5 rounded-full bg-dusk/85 border border-paper shadow"
+                    />
+                  </>
+                )}
               </div>
-            )}
-            {normalizedLayers.map((layer) => {
-              const element = getElementById(layer.elementId) ?? userElements.find((entry) => entry.id === layer.elementId);
-              if (!element || layer.hidden) return null;
-              const isSelected = selectedId === layer.id;
-              return (
-                <div
-                  key={layer.id}
-                  className="absolute pointer-events-none"
-                  style={{
-                    top: `${layer.y}%`,
-                    left: `${layer.x}%`,
-                    width: layer.width,
-                    height: layer.height,
-                    zIndex: layer.z,
-                    transform: `translate(-50%, -50%) rotate(${layer.rotation}deg)`,
-                    opacity: layer.locked ? 0.96 : 1,
-                  }}
-                >
-                  {isSelected && (
-                    <div className="absolute inset-[-8px] border border-dusk/35 rounded-[6px]" style={{ boxShadow: "0 0 0 1px color-mix(in oklab, var(--paper) 65%, transparent)" }} />
-                  )}
-                  <img
-                    src={element.src}
-                    alt={layer.name}
-                    draggable={false}
-                    className="w-full h-full object-contain"
-                    style={{
-                      opacity: layer.opacity,
-                      WebkitMaskImage: layer.maskDataUrl ? `url(${layer.maskDataUrl})` : undefined,
-                      maskImage: layer.maskDataUrl ? `url(${layer.maskDataUrl})` : undefined,
-                      WebkitMaskSize: "100% 100%",
-                      maskSize: "100% 100%",
-                      WebkitMaskRepeat: "no-repeat",
-                      maskRepeat: "no-repeat",
-                    }}
-                  />
-                </div>
-              );
-            })}
-          </div>
+            );
+          })}
 
-          <div className="mt-3 paper-card organic-radius-3 p-3">
-            <div className="flex flex-wrap items-center gap-2">
-              {ELEMENT_FAMILIES.map((entry) => (
+          {items.length === 0 && (
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <p className="font-serif italic text-dusk/35 text-center px-6 text-[15px]">
+                Une toile vide.<br />Choisissez un élément pour commencer.
+              </p>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Contextual selection bar */}
+      {selected && (
+        <div className="px-5 pb-2 flex items-center justify-center gap-2">
+          <button
+            onClick={sendBackward}
+            className="paper-card px-3 py-1.5 rounded-full text-[10px] uppercase tracking-[0.18em] text-dusk/65"
+          >
+            ↓ Derrière
+          </button>
+          <button
+            onClick={bringForward}
+            className="paper-card px-3 py-1.5 rounded-full text-[10px] uppercase tracking-[0.18em] text-dusk/65"
+          >
+            ↑ Devant
+          </button>
+          <button
+            onClick={deleteSelected}
+            className="paper-card px-3 py-1.5 rounded-full text-[10px] uppercase tracking-[0.18em] text-dusk/65"
+          >
+            Supprimer
+          </button>
+        </div>
+      )}
+
+      {/* Bottom bar — single, calm row */}
+      <div className="border-t border-dusk/8 bg-paper">
+        <div className="flex items-center justify-around px-3 py-2">
+          <BarBtn
+            label="Éléments"
+            active={drawerOpen}
+            onClick={() => setDrawerOpen((v) => !v)}
+          />
+          <BarBtn
+            label="↶ Annuler"
+            onClick={undo}
+            disabled={historyRef.current.past.length === 0}
+          />
+          <BarBtn
+            label="↷ Refaire"
+            onClick={redo}
+            disabled={historyRef.current.future.length === 0}
+          />
+          <BarBtn label="Exporter" onClick={exportHD} />
+        </div>
+
+        {/* Elements drawer */}
+        {drawerOpen && (
+          <div className="border-t border-dusk/8 bg-clay/30">
+            <div className="px-4 pt-3 pb-2 flex gap-2 overflow-x-auto no-scrollbar">
+              {ELEMENT_FAMILIES.map((f) => (
                 <button
-                  key={entry.id}
-                  onClick={() => setFamily(entry.id)}
-                  className={`px-3 py-1.5 text-[10px] uppercase tracking-[0.18em] ${family === entry.id ? "ceramic" : "paper-card"}`}
+                  key={f.id}
+                  onClick={() => setFamily(f.id)}
+                  className={`shrink-0 px-3 py-1.5 rounded-full text-[10px] uppercase tracking-[0.18em] transition ${
+                    family === f.id ? "bg-dusk text-paper" : "text-dusk/60"
+                  }`}
                 >
-                  {entry.label}
+                  {f.label}
                 </button>
               ))}
-              <label className="ml-auto px-3 py-1.5 text-[10px] uppercase tracking-[0.18em] paper-card cursor-pointer">
-                Importer PNG
-                <input type="file" accept="image/png,image/webp,image/jpeg" multiple className="hidden" onChange={onImportElement} />
-              </label>
             </div>
-            <div className="mt-3 grid grid-cols-3 sm:grid-cols-4 xl:grid-cols-6 gap-2 max-h-72 overflow-auto pr-1">
-              {palette.map((entry) => {
-                const active = brush === entry.id;
-                return (
-                  <button
-                    key={entry.id}
-                    onClick={() => {
-                      setBrush(entry.id);
-                      if (tool === "select") setTool(selected ? "replace" : "place");
-                    }}
-                    className={`p-2 text-left organic-radius-3 ${active ? "ceramic" : "paper-card"}`}
-                  >
-                    <div className="h-24 flex items-center justify-center overflow-hidden">
-                      <img src={entry.src} alt={entry.label} className="max-h-full max-w-full object-contain" />
-                    </div>
-                    <div className="mt-1 text-[10px] leading-tight text-dusk/65">{entry.label}</div>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          <div className="mt-3 flex flex-wrap gap-2">
-            <button onClick={exportComposition} className="ceramic organic-radius-3 px-4 py-3 text-[11px] uppercase tracking-[0.16em]">Exporter composition HD</button>
-            <button onClick={exportSelected} disabled={!selected} className="paper-card organic-radius-3 px-4 py-3 text-[11px] uppercase tracking-[0.16em] disabled:opacity-40">Exporter calque</button>
-            <button onClick={exportAllLayers} disabled={!normalizedLayers.length} className="paper-card organic-radius-3 px-4 py-3 text-[11px] uppercase tracking-[0.16em] disabled:opacity-40">Exporter tous les calques</button>
-            <button onClick={onSave} className="paper-card organic-radius-3 px-4 py-3 text-[11px] uppercase tracking-[0.16em]">Garder ce souvenir</button>
-          </div>
-        </section>
-
-        <aside className="paper-card organic-radius-3 p-3 min-w-0">
-          <div className="flex items-center justify-between">
-            <h2 className="font-serif italic text-lg text-dusk">Calques</h2>
-            <span className="text-[10px] uppercase tracking-[0.18em] text-dusk/45">{normalizedLayers.length}</span>
-          </div>
-          <div className="mt-3 space-y-2 max-h-[720px] overflow-auto pr-1">
-            {[...normalizedLayers].sort((a, b) => b.z - a.z).map((layer) => {
-              const element = getElementById(layer.elementId) ?? userElements.find((entry) => entry.id === layer.elementId);
-              if (!element) return null;
-              return (
-                <div
-                  key={layer.id}
-                  draggable
-                  onDragStart={() => {
-                    dragLayerIdRef.current = layer.id;
-                  }}
-                  onDragOver={(e) => e.preventDefault()}
-                  onDrop={() => {
-                    const dragged = dragLayerIdRef.current;
-                    if (!dragged || dragged === layer.id) return;
-                    commitHistory(items);
-                    updateLayers((prev) => {
-                      const list = [...prev];
-                      const from = list.findIndex((entry) => entry.id === dragged);
-                      const to = list.findIndex((entry) => entry.id === layer.id);
-                      if (from < 0 || to < 0) return list;
-                      const [moved] = list.splice(from, 1);
-                      list.splice(to, 0, moved);
-                      return list;
-                    });
-                  }}
-                  className={`organic-radius-3 border px-2 py-2 ${selectedId === layer.id ? "border-dusk/35 bg-paper" : "border-dusk/10"}`}
+            <div className="px-3 pb-3 flex gap-2 overflow-x-auto no-scrollbar">
+              {elementsForFamily.map((el) => (
+                <button
+                  key={el.id}
+                  onClick={() => addElement(el.id)}
+                  className="shrink-0 size-16 bg-paper rounded-xl flex items-center justify-center p-1.5 hover:scale-105 transition"
+                  title={el.label}
                 >
-                  <div className="flex gap-2 items-start">
-                    <button onClick={() => setSelectedId(layer.id)} className="shrink-0 size-14 paper-card organic-radius-3 flex items-center justify-center overflow-hidden">
-                      <img src={element.src} alt={layer.name} className="max-h-full max-w-full object-contain" />
-                    </button>
-                    <div className="min-w-0 flex-1">
-                      <input
-                        value={layer.name}
-                        onChange={(e) => updateLayer(layer.id, { name: e.target.value })}
-                        className="w-full bg-transparent text-[12px] text-dusk outline-none"
-                      />
-                      <p className="text-[10px] text-dusk/45 truncate">{layer.source}</p>
-                    </div>
-                  </div>
-                  <div className="mt-2 flex flex-wrap gap-1.5 text-[10px] uppercase tracking-[0.16em]">
-                    <button onClick={() => updateLayer(layer.id, { hidden: !layer.hidden })} className="paper-card px-2 py-1">{layer.hidden ? "Afficher" : "Masquer"}</button>
-                    <button onClick={() => updateLayer(layer.id, { locked: !layer.locked })} className="paper-card px-2 py-1">{layer.locked ? "Déverr." : "Verrou"}</button>
-                    <button onClick={() => moveLayer(layer.id, "front")} className="paper-card px-2 py-1">Tout devant</button>
-                    <button onClick={() => moveLayer(layer.id, "back")} className="paper-card px-2 py-1">Tout derrière</button>
-                    <button onClick={() => moveLayer(layer.id, "up")} className="paper-card px-2 py-1">+1</button>
-                    <button onClick={() => moveLayer(layer.id, "down")} className="paper-card px-2 py-1">-1</button>
-                    <button onClick={() => { setSelectedId(layer.id); duplicateSelected(); }} className="paper-card px-2 py-1">Dupliquer</button>
-                    <button onClick={() => { setSelectedId(layer.id); deleteSelected(); }} className="paper-card px-2 py-1">Supprimer</button>
-                  </div>
-                </div>
-              );
-            })}
+                  <img
+                    src={el.src}
+                    alt=""
+                    draggable={false}
+                    className="max-w-full max-h-full object-contain feathered"
+                  />
+                </button>
+              ))}
+            </div>
           </div>
-        </aside>
+        )}
       </div>
     </div>
   );
 }
 
-function Slider({
+function BarBtn({
   label,
-  value,
-  min,
-  max,
-  onChange,
+  onClick,
+  active,
+  disabled,
 }: {
   label: string;
-  value: number;
-  min: number;
-  max: number;
-  onChange: (v: number) => void;
+  onClick: () => void;
+  active?: boolean;
+  disabled?: boolean;
 }) {
   return (
-    <label className="flex items-center gap-2">
-      <span>{label}</span>
-      <input type="range" min={min} max={max} value={value} onChange={(e) => onChange(Number(e.target.value))} className="accent-dusk w-24" />
-    </label>
+    <button
+      onClick={onClick}
+      disabled={disabled}
+      className={`px-3 py-2 rounded-full text-[11px] uppercase tracking-[0.18em] transition ${
+        active ? "bg-dusk text-paper" : "text-dusk/70"
+      } ${disabled ? "opacity-30" : "hover:text-dusk"}`}
+    >
+      {label}
+    </button>
   );
 }
 
-function clamp(v: number, lo: number, hi: number) {
-  return Math.min(hi, Math.max(lo, v));
-}
-
-function loadImage(src: string) {
-  return new Promise<HTMLImageElement>((resolve, reject) => {
+const imageCache = new Map<string, HTMLImageElement>();
+function loadImage(src: string): Promise<HTMLImageElement> {
+  const cached = imageCache.get(src);
+  if (cached && cached.complete) return Promise.resolve(cached);
+  return new Promise((resolve, reject) => {
     const img = new Image();
-    img.onload = () => resolve(img);
+    img.crossOrigin = "anonymous";
+    img.onload = () => {
+      imageCache.set(src, img);
+      resolve(img);
+    };
     img.onerror = reject;
     img.src = src;
   });
-}
-
-function downloadBlob(blob: Blob, name: string) {
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = name;
-  a.click();
-  URL.revokeObjectURL(url);
-}
-
-function sanitizeFileName(value: string) {
-  return value.toLowerCase().replace(/[^a-z0-9-_]+/gi, "-");
 }
