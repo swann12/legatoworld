@@ -96,7 +96,7 @@ const DICT: Dict = {
   "home.parlerBody":{ fr: "On vous écoute, sans jugement, sans réponse à donner.", en: "We listen, without judgment, nothing to answer." },
   "home.enter":    { fr: "Entrer", en: "Enter" },
   "home.practical":{ fr: "Démarches concrètes", en: "Concrete steps" },
-  "home.practicalSub":{ fr: "Avancer une étape à la fois.", en: "Move one step at a time." },
+  "home.practicalSub":{ fr: "Avancer une étape\nà la fois.", en: "Move one step\nat a time." },
   "home.practicalAlways":{ fr: "Disponible à votre rythme, jour et nuit.", en: "Available at your pace, day or night." },
   "home.journal":  { fr: "Journal intime", en: "Private journal" },
   "home.journalSub":{ fr: "Déposer une pensée, sans relire.", en: "Set down a thought, no re-reading." },
