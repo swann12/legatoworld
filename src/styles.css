@@ -79,11 +79,13 @@
   --whisper: oklch(0.97 0.008 70);
   --dusk: oklch(0.32 0.015 40);            /* warm graphite */
   --ink: oklch(0.25 0.012 50);
-  --rose: oklch(0.88 0.04 25);             /* dusty rose */
-  --peach: oklch(0.92 0.045 55);           /* muted peach */
-  --sage: oklch(0.88 0.025 145);           /* pale sage */
-  --mist: oklch(0.9 0.025 235);            /* mist blue */
-  --lavender: oklch(0.88 0.035 295);       /* lavender haze */
+  --rose: oklch(0.91 0.035 18);            /* fresh dusty rose */
+  --peach: oklch(0.94 0.04 60);            /* luminous peach */
+  --sage: oklch(0.91 0.028 150);           /* fresh pale sage */
+  --mist: oklch(0.93 0.028 225);           /* clearer mist blue */
+  --lavender: oklch(0.91 0.03 290);        /* fresh lavender */
+  --bloom-fresh: oklch(0.95 0.035 130);    /* delicate green-bloom */
+  --bloom-mist: oklch(0.96 0.02 220);      /* atmospheric haze */
 
   /* Shadcn semantic tokens mapped to Legato */
   --background: var(--paper);
@@ -252,6 +254,32 @@
     50%      { transform: scale(1.06); filter: brightness(1.05); }
   }
   .bloom { animation: legato-bloom 3.6s ease-in-out infinite; }
+
+  /* Slow breath — for organic signatures and resting plates */
+  @keyframes legato-breathe {
+    0%, 100% { transform: translate(0, 0) rotate(-0.4deg); }
+    50%      { transform: translate(0, -2px) rotate(0.5deg); }
+  }
+  .breathe { animation: legato-breathe 9s ease-in-out infinite; transform-origin: center; }
+
+  /* Drift — slowly wandering atmospheric particles */
+  @keyframes legato-wander {
+    0%, 100% { transform: translate(0, 0); }
+    33%      { transform: translate(-3px, 2px); }
+    66%      { transform: translate(2px, -3px); }
+  }
+  .wander { animation: legato-wander 18s ease-in-out infinite; }
+
+  /* Soft feathered illustration — for atlas elements composed into garden */
+  .feathered {
+    filter: drop-shadow(0 0 0.4px rgba(0,0,0,0.04));
+  }
+
+  /* Organic dissolved frame for garden image — never a hard edge */
+  .garden-dissolve {
+    -webkit-mask-image: radial-gradient(ellipse 80% 78% at 50% 52%, black 55%, transparent 100%);
+            mask-image: radial-gradient(ellipse 80% 78% at 50% 52%, black 55%, transparent 100%);
+  }
 
   /* Falling rain droplets for the no-words mode */
   @keyframes legato-rain {
