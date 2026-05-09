@@ -627,31 +627,17 @@ function Composer({
                   alt=""
                   draggable={false}
                   onPointerDown={(e) => onLayerPointerDown(e, it, "move")}
-                  className="block w-full h-full select-none feathered"
-                  style={{ filter: "drop-shadow(0 0 0.6px rgba(0,0,0,0.05))" }}
+                  className="block w-full h-full select-none feathered-soft"
+                  style={{
+                    transform: `scale(${it.flipX ? -1 : 1}, ${it.flipY ? -1 : 1})`,
+                  }}
                 />
                 {isSel && (
-                  <>
-                    {/* selection halo */}
-                    <div
-                      className="absolute inset-[-6%] pointer-events-none rounded-[24px]"
-                      style={{
-                        boxShadow: "0 0 0 1px color-mix(in oklab, var(--dusk) 25%, transparent)",
-                      }}
-                    />
-                    {/* rotate handle (top) */}
-                    <button
-                      aria-label="Tourner"
-                      onPointerDown={(e) => onLayerPointerDown(e, it, "rotate")}
-                      className="absolute left-1/2 -top-7 -translate-x-1/2 size-5 rounded-full bg-paper border border-dusk/30 shadow"
-                    />
-                    {/* scale handle (bottom-right) */}
-                    <button
-                      aria-label="Redimensionner"
-                      onPointerDown={(e) => onLayerPointerDown(e, it, "scale")}
-                      className="absolute -right-3 -bottom-3 size-5 rounded-full bg-dusk/85 border border-paper shadow"
-                    />
-                  </>
+                  <OrganicHandles
+                    onPointerDown={(kind) => (e) => onLayerPointerDown(e, it, kind)}
+                    onFlipH={flipH}
+                    onFlipV={flipV}
+                  />
                 )}
               </div>
             );
@@ -669,7 +655,7 @@ function Composer({
 
       {/* Contextual selection bar */}
       {selected && (
-        <div className="px-5 pb-2 flex items-center justify-center gap-2">
+        <div className="px-5 pb-1 flex items-center justify-center gap-2">
           <button
             onClick={sendBackward}
             className="paper-card px-3 py-1.5 rounded-full text-[10px] uppercase tracking-[0.18em] text-dusk/65"
@@ -691,9 +677,9 @@ function Composer({
         </div>
       )}
 
-      {/* Bottom bar — single, calm row */}
+      {/* Bottom bar — single, calm row : Éléments · Annuler · Refaire · Exporter */}
       <div className="border-t border-dusk/8 bg-paper">
-        <div className="flex items-center justify-around px-3 py-2">
+        <div className="flex items-center justify-between gap-2 px-4 py-2">
           <BarBtn
             label="Éléments"
             active={drawerOpen}
