@@ -88,7 +88,7 @@ function StepWelcome({ name, setName }: { name: string; setName: (s: string) => 
         Avant tout, <span className="italic">comment vous nommer ?</span>
       </h2>
       <p className="text-[15px] leading-relaxed text-dusk/60 max-w-[34ch]">
-        Un prénom à murmurer en haut de la page. Rien de plus.
+        Un prénom, simplement, pour vous accueillir.
       </p>
       <div className="ceramic-soft organic-radius-3 px-6 py-5">
         <input
@@ -109,21 +109,25 @@ function StepBranch({ value, onChange }: { value: Branch; onChange: (b: Branch) 
         Qu'est-ce qui vous amène, <span className="italic">en ce moment ?</span>
       </h2>
       <p className="text-[14px] text-dusk/55 max-w-[34ch]">
-        Vous pouvez changer à tout moment. Rien n'est figé ici.
+        Vous pourrez changer à tout moment.
       </p>
 
-      {/* Practical-loss shortcut — distinct visual treatment */}
+      {/* Practical-loss shortcut — same visual family as the others, with a discreet badge */}
       <button
         onClick={() => onChange(PRACTICAL_BRANCH.id)}
         className={`w-full organic-radius-3 px-6 py-5 text-left transition-all ${
-          value === PRACTICAL_BRANCH.id ? "ceramic" : "paper-card"
+          value === PRACTICAL_BRANCH.id ? "ceramic" : "ceramic-soft opacity-80"
         }`}
       >
         <div className="flex items-baseline justify-between gap-4">
-          <span className="font-serif text-lg italic text-dusk">{PRACTICAL_BRANCH.label}</span>
-          <span className="text-[10px] uppercase tracking-[0.2em] text-dusk/45">aide concrète</span>
+          <span className="font-serif text-xl text-dusk">{PRACTICAL_BRANCH.label}</span>
+          <span className="text-[9px] uppercase tracking-[0.22em] text-dusk/50 shrink-0">
+            aide concrète
+          </span>
         </div>
-        <p className="mt-2 text-[12.5px] leading-relaxed text-dusk/60">{PRACTICAL_BRANCH.whisper}</p>
+        <p className="mt-1.5 text-[12px] leading-relaxed text-dusk/60">
+          {PRACTICAL_BRANCH.whisper}
+        </p>
       </button>
 
       <div className="flex items-center gap-3 text-[10px] uppercase tracking-[0.22em] text-dusk/35">
@@ -151,7 +155,7 @@ function StepBranch({ value, onChange }: { value: Branch; onChange: (b: Branch) 
                   }`}
                 />
               </div>
-              <p className="mt-1 text-[12px] leading-relaxed text-dusk/55">{b.whisper}</p>
+              <p className="mt-1.5 text-[12px] leading-relaxed text-dusk/55">{b.whisper}</p>
             </button>
           );
         })}
@@ -164,10 +168,10 @@ function StepMode({ value, onChange }: { value: Mode; onChange: (m: Mode) => voi
   return (
     <div className="space-y-8">
       <h2 className="font-serif text-[2.4rem] leading-[1.05] font-light text-balance">
-        Comment se sent <span className="italic">aujourd'hui</span> ?
+        Comment vous sentez-vous <span className="italic">aujourd'hui ?</span>
       </h2>
       <p className="text-[14px] text-dusk/55 max-w-[34ch]">
-        Choisissez la pièce qui vous va. L'app s'ajustera autour de vous.
+        Choisissez l'ambiance qui vous va. Tout s'ajustera autour.
       </p>
       <div className="grid grid-cols-2 gap-3">
         {MODES.map((m) => {
@@ -196,7 +200,7 @@ function StepMode({ value, onChange }: { value: Mode; onChange: (m: Mode) => voi
                 />
                 <span className="font-serif text-lg text-dusk">{m.label}</span>
               </div>
-              <p className="mt-2 text-[11px] leading-relaxed text-dusk/55">{m.whisper}</p>
+              <p className="mt-2 text-[11.5px] leading-relaxed text-dusk/55">{m.whisper}</p>
             </button>
           );
         })}
@@ -215,12 +219,10 @@ function StepClosing({ name, branch, mode }: { name: string; branch: Branch; mod
       </h2>
       <div className="space-y-5 text-[15px] leading-relaxed text-dusk/65 max-w-[34ch]">
         <p>
-          Nous tiendrons un espace pour <span className="italic">{branchLabel}</span>,
-          dans une pièce en <span className="italic">{modeLabel?.toLowerCase()}</span>.
+          Nous tiendrons un espace pour <span className="italic">{branchLabel}</span>, en mode <span className="italic">{modeLabel?.toLowerCase()}</span>.
         </p>
         <p>
-          Quand vous serez prêt·e, nous planterons quelque chose dans le jardin,
-          ensemble. Ou pas. Vous donnez le rythme.
+          Quand vous voudrez, nous planterons quelque chose dans le jardin. Vous donnez le rythme.
         </p>
       </div>
     </div>
