@@ -20,7 +20,7 @@ function Presence() {
   const { mode, name } = useLegato();
   const [draft, setDraft] = useState("");
   const [messages, setMessages] = useState<{ role: "you" | "presence"; text: string }[]>([
-    { role: "presence", text: "Je suis là. Rien de particulier à dire, simplement présent·e." },
+    { role: "presence", text: "Je suis là. Rien à dire, simplement présent·e." },
   ]);
 
   const send = (text?: string) => {
@@ -29,7 +29,7 @@ function Presence() {
     setMessages((m) => [
       ...m,
       { role: "you", text: t },
-      { role: "presence", text: "Merci de me l'avoir confié. Prenez tout votre temps, rien ne presse." },
+      { role: "presence", text: "Merci de me l'avoir confié. Prenez votre temps." },
     ]);
     setDraft("");
   };
