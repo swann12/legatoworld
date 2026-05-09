@@ -290,9 +290,6 @@ function GardenZone() {
               <span className="block font-serif text-xl italic text-dusk">
                 Déposer un nouveau souvenir
               </span>
-              <span className="mt-1 block text-[10px] uppercase tracking-[0.22em] text-dusk/50">
-                choisir le type · le déposer · composer si vous le souhaitez
-              </span>
             </Link>
           </div>
         </div>
