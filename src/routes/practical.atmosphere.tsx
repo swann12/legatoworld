@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Shell } from "@/components/legato/Shell";
 import { Halos } from "@/components/legato/Halos";
 import { ConfideDock } from "@/components/legato/ConfideDock";
+import { PersonalSuggestions } from "@/components/legato/PersonalSuggestions";
 import { useLegato } from "@/lib/legato-state";
 
 export const Route = createFileRoute("/practical/atmosphere")({
@@ -46,6 +47,12 @@ function Atmosphere() {
               </Link>
             ))}
           </div>
+
+          <PersonalSuggestions
+            topic="ceremony"
+            eyebrow="Tout déléguer à l'IA"
+            cta="Composer une trame de cérémonie"
+          />
         </div>
       </div>
       <ConfideDock step="atmosphère" />

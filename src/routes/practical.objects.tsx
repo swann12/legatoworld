@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Shell } from "@/components/legato/Shell";
+import { PersonalSuggestions } from "@/components/legato/PersonalSuggestions";
 import { Halos } from "@/components/legato/Halos";
 import { ConfideDock } from "@/components/legato/ConfideDock";
 import { useLegato } from "@/lib/legato-state";
