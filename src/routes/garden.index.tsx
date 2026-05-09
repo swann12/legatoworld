@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Halos } from "@/components/legato/Halos";
 import { Shell } from "@/components/legato/Shell";
+import { LivingPatch } from "@/components/legato/LivingPatch";
 import { useLegato } from "@/lib/legato-state";
 import { useMemories } from "@/lib/memories-store";
 import gardenPainted from "@/assets/garden-painted.jpg";
@@ -46,7 +47,7 @@ function Garden() {
   const activeBeing = BEINGS.find((b) => b.id === hovered) ?? null;
   const allMemories = useMemories();
   const densityFor = (id: string) =>
-    Math.min(1, allMemories.filter((m) => m.zone === id).length / 6);
+    Math.min(1, allMemories.filter((m) => m.zone === id).length / 8);
 
   return (
     <Shell>
@@ -109,20 +110,22 @@ function Garden() {
                 const d = densityFor(p.id);
                 return (
                   <div
-                    key={`veil-${p.id}`}
-                    className="absolute pointer-events-none breathe"
+                    key={`patch-${p.id}`}
+                    className="absolute pointer-events-none"
                     style={{
                       left: `${p.cx - p.rx}%`,
                       top: `${p.cy - p.ry}%`,
                       width: `${p.rx * 2}%`,
                       height: `${p.ry * 2}%`,
-                      borderRadius: "50%",
-                      background: `radial-gradient(ellipse at center, color-mix(in oklab, ${p.blooms[0].tint} ${10 + d * 30}%, transparent), transparent 65%)`,
-                      mixBlendMode: "soft-light",
-                      filter: "blur(14px)",
-                      opacity: 0.55 + d * 0.4,
                     }}
-                  />
+                  >
+                    <LivingPatch
+                      beingId={p.id}
+                      density={d}
+                      tint={p.blooms[0].tint}
+                      tint2={p.blooms[0].tint2}
+                    />
+                  </div>
                 );
               })}
 
@@ -137,7 +140,9 @@ function Garden() {
                   onFocus={() => setHovered(p.id)}
                   onBlur={() => setHovered((h: string | null) => (h === p.id ? null : h))}
                   aria-label={`${lang === "fr" ? "Entrer dans le jardin de" : "Enter the garden of"} ${p.name}`}
-                  className="absolute group focus:outline-none cursor-pointer transition-[filter,opacity] duration-1000"
+                  className={`absolute group focus:outline-none cursor-pointer garden-tile-hover ${
+                    hovered === p.id ? "is-hot" : hovered ? "is-faded" : ""
+                  }`}
                   style={{
                     left: `${p.cx - p.rx}%`,
                     top: `${p.cy - p.ry}%`,
@@ -145,15 +150,13 @@ function Garden() {
                     height: `${p.ry * 2}%`,
                     borderRadius: "50%",
                     touchAction: "manipulation",
-                    opacity: hovered && hovered !== p.id ? 0.55 : 1,
-                    filter: hovered && hovered !== p.id ? "saturate(0.7)" : "none",
                   }}
                 >
                   <span
                     className="absolute inset-[-40%] rounded-full opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity duration-1000"
                     style={{
                       background:
-                        `radial-gradient(ellipse at center, color-mix(in oklab, ${p.blooms[0].tint} 60%, white) 0%, transparent 70%)`,
+                        `radial-gradient(ellipse at center, color-mix(in oklab, ${p.blooms[0].tint} 70%, white) 0%, transparent 72%)`,
                       mixBlendMode: "screen",
                       filter: "blur(18px)",
                     }}
