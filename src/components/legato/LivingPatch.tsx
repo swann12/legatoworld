@@ -61,31 +61,6 @@ export function LivingPatch({
 
   return (
     <div className="absolute inset-0 pointer-events-none bloom-in">
-      {/* Lopin de terre — toujours présent, plus marqué quand vide */}
-      <div
-        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-        style={{
-          width: "78%",
-          height: "62%",
-          borderRadius: "50%",
-          background: `radial-gradient(ellipse at center, color-mix(in oklab, ${tint} ${10 + density * 28}%, transparent), transparent 65%)`,
-          mixBlendMode: "soft-light",
-          filter: "blur(14px)",
-          opacity: 0.5 + density * 0.45,
-        }}
-      />
-      {/* Halo floral quand le jardin est dense */}
-      {density > 0.6 && (
-        <div
-          className="absolute inset-0"
-          style={{
-            background: `radial-gradient(ellipse at 50% 55%, color-mix(in oklab, ${tint2} 35%, transparent), transparent 60%)`,
-            mixBlendMode: "screen",
-            filter: "blur(20px)",
-            opacity: 0.6,
-          }}
-        />
-      )}
       {/* Éléments végétaux */}
       {picks.map((p, i) => (
         <img
