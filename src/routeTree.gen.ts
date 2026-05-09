@@ -17,6 +17,7 @@ import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as NoWordsRouteImport } from './routes/no-words'
 import { Route as MemoriesRouteImport } from './routes/memories'
 import { Route as JournalRouteImport } from './routes/journal'
+import { Route as InspirationRouteImport } from './routes/inspiration'
 import { Route as HomeRouteImport } from './routes/home'
 import { Route as HelpRouteImport } from './routes/help'
 import { Route as DatesRouteImport } from './routes/dates'
@@ -66,6 +67,11 @@ const JournalRoute = JournalRouteImport.update({
   path: '/journal',
   getParentRoute: () => rootRouteImport,
 } as any)
+const InspirationRoute = InspirationRouteImport.update({
+  id: '/inspiration',
+  path: '/inspiration',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const HomeRoute = HomeRouteImport.update({
   id: '/home',
   path: '/home',
@@ -113,6 +119,7 @@ export interface FileRoutesByFullPath {
   '/dates': typeof DatesRoute
   '/help': typeof HelpRoute
   '/home': typeof HomeRoute
+  '/inspiration': typeof InspirationRoute
   '/journal': typeof JournalRoute
   '/memories': typeof MemoriesRoute
   '/no-words': typeof NoWordsRoute
@@ -131,6 +138,7 @@ export interface FileRoutesByTo {
   '/dates': typeof DatesRoute
   '/help': typeof HelpRoute
   '/home': typeof HomeRoute
+  '/inspiration': typeof InspirationRoute
   '/journal': typeof JournalRoute
   '/memories': typeof MemoriesRoute
   '/no-words': typeof NoWordsRoute
@@ -150,6 +158,7 @@ export interface FileRoutesById {
   '/dates': typeof DatesRoute
   '/help': typeof HelpRoute
   '/home': typeof HomeRoute
+  '/inspiration': typeof InspirationRoute
   '/journal': typeof JournalRoute
   '/memories': typeof MemoriesRoute
   '/no-words': typeof NoWordsRoute
@@ -170,6 +179,7 @@ export interface FileRouteTypes {
     | '/dates'
     | '/help'
     | '/home'
+    | '/inspiration'
     | '/journal'
     | '/memories'
     | '/no-words'
@@ -188,6 +198,7 @@ export interface FileRouteTypes {
     | '/dates'
     | '/help'
     | '/home'
+    | '/inspiration'
     | '/journal'
     | '/memories'
     | '/no-words'
@@ -206,6 +217,7 @@ export interface FileRouteTypes {
     | '/dates'
     | '/help'
     | '/home'
+    | '/inspiration'
     | '/journal'
     | '/memories'
     | '/no-words'
@@ -225,6 +237,7 @@ export interface RootRouteChildren {
   DatesRoute: typeof DatesRoute
   HelpRoute: typeof HelpRoute
   HomeRoute: typeof HomeRoute
+  InspirationRoute: typeof InspirationRoute
   JournalRoute: typeof JournalRoute
   MemoriesRoute: typeof MemoriesRoute
   NoWordsRoute: typeof NoWordsRoute
@@ -296,6 +309,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof JournalRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/inspiration': {
+      id: '/inspiration'
+      path: '/inspiration'
+      fullPath: '/inspiration'
+      preLoaderRoute: typeof InspirationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/home': {
       id: '/home'
       path: '/home'
@@ -361,6 +381,7 @@ const rootRouteChildren: RootRouteChildren = {
   DatesRoute: DatesRoute,
   HelpRoute: HelpRoute,
   HomeRoute: HomeRoute,
+  InspirationRoute: InspirationRoute,
   JournalRoute: JournalRoute,
   MemoriesRoute: MemoriesRoute,
   NoWordsRoute: NoWordsRoute,
@@ -376,12 +397,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { createStart } from '@tanstack/react-start'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-  }
-}
