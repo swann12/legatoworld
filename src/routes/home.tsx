@@ -4,7 +4,6 @@ import { Shell, Section } from "@/components/legato/Shell";
 import { ModeSelector } from "@/components/legato/ModeSelector";
 import { useLegato, BRANCHES, modeProfile } from "@/lib/legato-state";
 import type { Branch, Mode } from "@/lib/legato-state";
-import { LivingPatch } from "@/components/legato/LivingPatch";
 
 export const Route = createFileRoute("/home")({
   head: () => ({
@@ -50,22 +49,6 @@ function Home() {
                   {name.charAt(0).toUpperCase()}
                 </span>
               </Link>
-            </div>
-          </div>
-
-          {/* Garden patch — small plot seen from above, above the greeting */}
-          <div className="px-7 pt-8 flex justify-center">
-            <div className="relative w-[180px] h-[90px]">
-              <div
-                aria-hidden
-                className="absolute inset-0 organic-radius-2"
-                style={{
-                  background:
-                    "radial-gradient(ellipse at 50% 60%, color-mix(in oklab, var(--sage) 55%, var(--paper)), color-mix(in oklab, var(--clay) 80%, transparent) 75%, transparent 100%)",
-                  filter: "blur(0.4px)",
-                }}
-              />
-              <LivingPatch beingId={`home-${name}`} density={0.6} tint="var(--sage)" tint2="var(--peach)" />
             </div>
           </div>
 
