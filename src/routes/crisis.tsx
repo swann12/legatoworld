@@ -41,7 +41,7 @@ function Crisis() {
               className="mt-6 text-[15px] leading-relaxed text-dusk/65 max-w-[34ch]"
               style={{ textWrap: "pretty" }}
             >
-              Respirez avec ce point. Une porte s'ouvrira, quand vous voudrez.
+              Respirez avec ce point. Une porte s'ouvrira quand vous voudrez.
             </p>
           </div>
 
@@ -66,7 +66,7 @@ function Crisis() {
             <a href="tel:3114" className="ceramic-soft organic-radius-3 block px-7 py-5 text-center">
               <span className="font-serif text-lg italic text-dusk">Une voix humaine</span>
               <span className="block mt-1 text-[11px] uppercase tracking-[0.22em] text-dusk/55">
-                Ligne d'écoute · gratuite et confidentielle
+                Écoute gratuite et confidentielle
               </span>
             </a>
             <button className="ceramic-soft organic-radius-3 w-full px-7 py-5 text-center">
