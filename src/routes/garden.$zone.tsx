@@ -4,6 +4,8 @@ import { Halos } from "@/components/legato/Halos";
 import { Shell } from "@/components/legato/Shell";
 import { useLegato } from "@/lib/legato-state";
 import { BEINGS } from "./garden.index";
+import { ELEMENTS, type ElementFamily } from "@/lib/elements";
+import { useMemories } from "@/lib/memories-store";
 
 export const Route = createFileRoute("/garden/$zone")({
   head: () => ({ meta: [{ title: "Un jardin — Legato" }] }),
@@ -47,11 +49,64 @@ const KIND_LABEL: Record<ItemKind, string> = {
   voice: "voix", photo: "lumière", sentence: "phrase", habit: "geste", object: "objet",
 };
 
+/** Choose 5 atlas elements that visually identify a being.
+ *  Family is derived from the being's index (varied & deterministic). */
+function signatureFor(beingId: string) {
+  const seed = beingId.split("").reduce((a, c) => a + c.charCodeAt(0), 0);
+  const familyOrder: ElementFamily[] = ["florale", "feuillage", "marin", "feuillage", "florale"];
+  const picks: { src: string; w: number; h: number; x: number; y: number; r: number; s: number }[] = [];
+  familyOrder.forEach((fam, i) => {
+    const pool = ELEMENTS.filter((e) => e.family === fam);
+    if (!pool.length) return;
+    const el = pool[(seed + i * 37) % pool.length];
+    picks.push({
+      src: el.src,
+      w: el.width,
+      h: el.height,
+      // gather around center, slight asymmetric organic spread
+      x: 50 + Math.cos((i / 5) * Math.PI * 2 + seed) * 18,
+      y: 50 + Math.sin((i / 5) * Math.PI * 2 + seed * 0.7) * 14,
+      r: ((seed + i * 23) % 30) - 15,
+      s: 0.55 + ((seed + i * 11) % 30) / 100,
+    });
+  });
+  return picks;
+}
+
+function OrganicSignature({ beingId }: { beingId: string }) {
+  const picks = signatureFor(beingId);
+  return (
+    <div className="relative w-44 h-44 mx-auto breathe">
+      {picks.map((p, i) => (
+        <img
+          key={i}
+          src={p.src}
+          alt=""
+          aria-hidden
+          className="absolute feathered select-none"
+          draggable={false}
+          style={{
+            left: `${p.x}%`,
+            top: `${p.y}%`,
+            width: `${p.w * p.s * 0.18}px`,
+            height: `${p.h * p.s * 0.18}px`,
+            transform: `translate(-50%, -50%) rotate(${p.r}deg)`,
+            opacity: 0.92,
+            mixBlendMode: "multiply",
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
 function GardenZone() {
   const { zone } = Route.useParams();
   const { mode } = useLegato();
   const being = BEINGS.find((b) => b.id === zone) ?? BEINGS[0];
-  const items = BEING_MEMORIES[being.id] ?? [];
+  const seedItems = BEING_MEMORIES[being.id] ?? [];
+  const userMemories = useMemories(being.id);
+  const items = seedItems;
   const color = being.blooms[0].tint;
   const color2 = being.blooms[1]?.tint ?? being.blooms[0].tint2;
   const [openId, setOpenId] = useState<string | null>(null);
@@ -68,27 +123,48 @@ function GardenZone() {
             </Link>
           </div>
 
-          {/* Sculptural icon, very calm */}
-          <div className="px-7 pt-10 flex flex-col items-center text-center">
-            <div
-              className="size-28 sway"
-              style={{
-                borderRadius: "60% 40% 55% 45% / 50% 60% 40% 50%",
-                background: `radial-gradient(ellipse at 32% 28%, ${color} 0%, ${color2} 70%)`,
-                boxShadow:
-                  "inset 0 2px 4px rgba(255,255,255,0.6), 0 18px 40px -16px rgba(60,40,40,0.3)",
-              }}
-            />
-            <p className="mt-7 text-[10px] uppercase tracking-[0.22em] text-dusk/45">
+          {/* Organic signature — fragments of the atlases, gathered around the being */}
+          <div className="px-7 pt-8 flex flex-col items-center text-center">
+            <OrganicSignature beingId={being.id} />
+            <p className="mt-4 text-[10px] uppercase tracking-[0.22em] text-dusk/45">
               {being.kind === "person" ? "Le jardin de" : "Le coin de"}
             </p>
             <h1 className="mt-2 font-serif text-[2rem] leading-[1.05] font-light text-dusk text-balance">
               {being.name}
             </h1>
             <p className="mt-2 text-[10px] uppercase tracking-[0.22em] text-dusk/40">
-              {being.kind === "person" ? "personne" : "animal"} · {items.length} {items.length > 1 ? "souvenirs" : "souvenir"}
+              {items.length + userMemories.length} {items.length + userMemories.length > 1 ? "souvenirs" : "souvenir"}
             </p>
           </div>
+
+          {/* User-created memories first (with composition badge) */}
+          {userMemories.length > 0 && (
+            <div className="px-7 mt-10 space-y-3">
+              {userMemories.map((m) => (
+                <Link
+                  key={m.id}
+                  to="/compose/$zone"
+                  params={{ zone }}
+                  className="block paper-card p-5"
+                  style={{ borderRadius: 24 }}
+                >
+                  <div className="flex items-baseline justify-between gap-4">
+                    <h3 className="font-serif text-lg italic text-dusk leading-snug">
+                      {m.title || "Souvenir"}
+                    </h3>
+                    {m.composition && m.composition.length > 0 && (
+                      <span className="text-[10px] uppercase tracking-[0.18em] text-dusk/55 shrink-0">
+                        composition
+                      </span>
+                    )}
+                  </div>
+                  {m.body && (
+                    <p className="mt-2 text-[13.5px] leading-relaxed text-dusk/65 line-clamp-3">{m.body}</p>
+                  )}
+                </Link>
+              ))}
+            </div>
+          )}
 
           {/* Existing memories — every kind coexists in one being's garden */}
           <div className="px-7 mt-10 space-y-3">
@@ -200,10 +276,10 @@ function GardenZone() {
               className="ceramic organic-radius-3 block px-7 py-5 text-center"
             >
               <span className="block font-serif text-xl italic text-dusk">
-                Composer un nouveau souvenir
+                Déposer un nouveau souvenir
               </span>
               <span className="mt-1 block text-[10px] uppercase tracking-[0.22em] text-dusk/50">
-                choisir le type · puis composer
+                choisir le type · le déposer · composer si vous le souhaitez
               </span>
             </Link>
           </div>
