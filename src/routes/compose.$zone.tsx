@@ -565,6 +565,19 @@ function Composer({
 
   return (
     <div className="absolute inset-0 flex flex-col bg-paper">
+      {/* Inline SVG filter — soft pictural feather on the alpha silhouette */}
+      <svg width="0" height="0" style={{ position: "absolute" }} aria-hidden>
+        <defs>
+          <filter id="legato-feather" x="-10%" y="-10%" width="120%" height="120%">
+            <feGaussianBlur in="SourceAlpha" stdDeviation="1.4" result="blurA" />
+            <feComponentTransfer in="blurA" result="softA">
+              <feFuncA type="linear" slope="1.25" intercept="-0.05" />
+            </feComponentTransfer>
+            <feComposite in="SourceGraphic" in2="softA" operator="in" />
+          </filter>
+        </defs>
+      </svg>
+
       {/* Top bar — close, title, save */}
       <div className="flex items-center justify-between px-5 py-3 border-b border-dusk/8">
         <button
@@ -627,7 +640,7 @@ function Composer({
                   alt=""
                   draggable={false}
                   onPointerDown={(e) => onLayerPointerDown(e, it, "move")}
-                  className="block w-full h-full select-none feathered-soft"
+                  className="block w-full h-full select-none feathered-pictural"
                   style={{
                     transform: `scale(${it.flipX ? -1 : 1}, ${it.flipY ? -1 : 1})`,
                   }}
