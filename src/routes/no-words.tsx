@@ -427,6 +427,102 @@ function wait(ms: number) {
   return new Promise<void>((r) => setTimeout(r, ms));
 }
 
+/* ---------- Procedural ambient audio (Web Audio) ---------- */
+type AmbientAudio = { start: () => void; stop: () => void };
+
+function createAmbientAudio(motion: Motion): AmbientAudio | null {
+  if (typeof window === "undefined") return null;
+  const Ctx =
+    (window.AudioContext as typeof AudioContext | undefined) ||
+    ((window as unknown as { webkitAudioContext?: typeof AudioContext })
+      .webkitAudioContext);
+  if (!Ctx) return null;
+  const ctx = new Ctx();
+  const master = ctx.createGain();
+  master.gain.value = 0;
+  master.connect(ctx.destination);
+
+  // Brown-noise buffer (warm, low frequencies)
+  const bufferSize = 2 * ctx.sampleRate;
+  const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+  const data = buffer.getChannelData(0);
+  let lastOut = 0;
+  for (let i = 0; i < bufferSize; i++) {
+    const white = Math.random() * 2 - 1;
+    lastOut = (lastOut + 0.02 * white) / 1.02;
+    data[i] = lastOut * 3.5;
+  }
+  const noise = ctx.createBufferSource();
+  noise.buffer = buffer;
+  noise.loop = true;
+
+  const filter = ctx.createBiquadFilter();
+  filter.type = "lowpass";
+
+  // Per-motion shaping
+  let targetGain = 0.18;
+  if (motion === "rain") {
+    filter.type = "highpass";
+    filter.frequency.value = 800;
+    targetGain = 0.22;
+  } else if (motion === "ripple") {
+    filter.frequency.value = 700;
+    targetGain = 0.2;
+  } else if (motion === "drift") {
+    filter.frequency.value = 500;
+    targetGain = 0.18;
+  } else if (motion === "pulse") {
+    filter.frequency.value = 350;
+    targetGain = 0.16;
+  } else {
+    // veil
+    filter.frequency.value = 280;
+    targetGain = 0.14;
+  }
+
+  noise.connect(filter);
+  filter.connect(master);
+
+  // Slow LFO on gain for "breathing" sound
+  const lfo = ctx.createOscillator();
+  const lfoGain = ctx.createGain();
+  lfo.frequency.value = motion === "ripple" ? 0.18 : motion === "pulse" ? 0.14 : 0.1;
+  lfoGain.gain.value = targetGain * 0.35;
+  lfo.connect(lfoGain);
+  lfoGain.connect(master.gain);
+
+  let started = false;
+  return {
+    start() {
+      if (started) return;
+      started = true;
+      try {
+        ctx.resume();
+      } catch {}
+      noise.start();
+      lfo.start();
+      const now = ctx.currentTime;
+      master.gain.cancelScheduledValues(now);
+      master.gain.setValueAtTime(0, now);
+      master.gain.linearRampToValueAtTime(targetGain, now + 1.4);
+    },
+    stop() {
+      try {
+        const now = ctx.currentTime;
+        master.gain.cancelScheduledValues(now);
+        master.gain.linearRampToValueAtTime(0, now + 0.6);
+        setTimeout(() => {
+          try {
+            noise.stop();
+            lfo.stop();
+            ctx.close();
+          } catch {}
+        }, 700);
+      } catch {}
+    },
+  };
+}
+
 /* ---------- Background motion (full screen) ---------- */
 function MotionLayer({ kind, accent }: { kind: Motion; accent: string }) {
   if (kind === "pulse") {
