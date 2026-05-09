@@ -1,98 +1,79 @@
-## Refonte Jardin / Souvenirs / Composition
+## Vision
 
-Périmètre large mais cohérent. Je propose de découper en 5 chantiers, livrés dans cet ordre. Aucune logique métier hors store n'est touchée — uniquement présentation, parcours et outil de composition.
+Faire de `/practical` un véritable compagnon d'organisation : doux, lisible, jamais bureaucratique. Toujours relié à l'IA (texte + voix) et au jardin / composition florale. Cinq grands chantiers, sans toucher au schéma de données ni casser l'existant.
 
----
+## Chantier 1 — Refonte de l'index « Aides concrètes »
 
-### Chantier 1 — Vue du jardin (immersion)
+Fichier : `src/routes/practical.tsx`
 
-Fichier : `src/routes/garden.index.tsx`, `src/styles.css`
+- Nouveau header sensible, court, avec une seule intention par mode (`modeProfile(mode)` réutilisé) :
+  - Cocon → « On avance d'un seul pas. »
+  - Ancrage → « Tout est là, dans l'ordre. »
+  - Souffle → « Composer un adieu qui lui ressemble. »
+  - Relais → « D'autres mains peuvent porter avec vous. »
+- Suppression de la liste verticale figée. À la place : 4 grandes cartes-portes, ordonnées selon le mode :
+  1. **Démarches** (administratif + premiers jours)
+  2. **Cérémonie** (déroulé, lieu, intervenants)
+  3. **Atmosphère** (fleurs, objets, textes, musiques)
+  4. **Partage & relais** (envois, proches, pros)
+- Une bande discrète en bas : « Parler à Lovely » (lien vers `/presence` + bouton micro) toujours présente.
+- Bandeau « Budget » repliable, doux, pas en premier plan.
 
-- Suppression du cadre carré rigide : l'image du jardin se fond via masque radial doux (mask-image radial-gradient) dans le fond `--paper`, plus de bord net.
-- Palette rafraîchie : ajout de tokens `--bloom-fresh`, `--bloom-mist`, voile bleuté très léger en surimpression pour casser l'effet sépia/vieillot.
-- Hover des parcelles : remplace le halo unique par un éclaircissement local + très légère désaturation des autres parcelles (filter brightness/contrast sur les hotspots inactifs).
-- Distinction subtile des parcelles : 5 zones organiques (clip-path SVG souples) avec teintes `mix-blend-soft-light` propres à chaque être, visibles seulement au repos très discret.
-- Parcelles évolutives : densité visuelle (opacité du voile floral) calculée à partir de `getMemoriesForZone(zone).length` — plus de souvenirs = parcelle plus vivante.
+## Chantier 2 — Sous-routes guidées
 
-### Chantier 2 — Entrée dans le jardin d'une personne
+Création de routes dédiées (chacune courte, une seule décision à la fois) :
 
-Fichier : `src/routes/garden.$zone.tsx`
+- `src/routes/practical.steps.tsx` — Démarches après décès, cochables, pas de tableau.
+- `src/routes/practical.ceremony.tsx` — Choix du déroulé, lieu, intervenants, religion / civil.
+- `src/routes/practical.atmosphere.tsx` — Hub vers fleurs, objets, textes, musiques.
+- `src/routes/practical.flowers.tsx` — **Composition florale simplifiée** réutilisant les éléments de `src/lib/elements.ts` (familles `florale`, `feuillage`). Canvas réduit (bouquet / couronne / ambiance), preset palettes. Export image + bouton « Envoyer au fleuriste ». S'appuie sur le moteur existant de `compose.$zone.tsx` extrait dans `src/components/legato/MiniComposer.tsx`.
+- `src/routes/practical.objects.tsx` — Cercueil, urne, plaque, livret, objets rituels. Affiche des cartes avec image, courte description, fourchette de prix indicative, lien sortant (`rel="noopener"`) vers références réelles + 2-3 alternatives par budget.
+- `src/routes/practical.texts.tsx` — Textes, poèmes, lectures, musiques. Suggestions IA via `suggestInspiration` déjà existant + curation locale.
+- `src/routes/practical.booklet.tsx` — Générateur de livret (HTML imprimable + export PNG/PDF via `window.print()` stylé `@media print`). Champs : photo, prénom, dates, textes, musiques, déroulé.
+- `src/routes/practical.share.tsx` — Récap des choix faits + `mailto:` pré-rempli (proches / pompes funèbres / officiant).
+- `src/routes/practical.budget.tsx` — Saisie d'un budget indicatif (trois paliers : essentiel / équilibré / élaboré). Stocke en localStorage et filtre les suggestions des autres écrans.
 
-- Suppression de la "bulle prénom" : remplacée par une petite **signature organique** SVG composée de 3–5 éléments d'atlas (issus de `elements.ts`) regroupés selon la famille dominante de la personne (`BEINGS[i].blooms`).
-- Cette signature s'anime en oscillation très lente (keyframes `breathe`, 8s, ±2px/±1deg).
-- Titre H1 sous la signature, marges respirées, plus aucun encadré.
+Chaque sous-route utilise `Shell` + `ScreenHeader` + un fil d'Ariane minimal vers `/practical`.
 
-### Chantier 3 — Parcours souvenir simplifié
+## Chantier 3 — IA proactive et confidente toujours accessible
 
-Fichiers : `src/routes/garden.$zone.tsx` (point d'entrée souvenir), nouveau flux `src/routes/memory.new.$zone.tsx` (ou refonte existant)
+- Nouveau composant `src/components/legato/ConfideDock.tsx` : pastille flottante en bas à droite (taille 56 px, halo doux, animation `breathe`) présente sur toutes les routes `/practical/*` et `/wishes`. Tap → ouvre une `Sheet` (shadcn) avec deux entrées : *Écrire* (textarea) et *Parler* (bouton micro).
+- Reconnaissance vocale via Web Speech API (`window.SpeechRecognition || window.webkitSpeechRecognition`), `lang="fr-FR"`, fallback texte si absent. Pas de dépendance npm.
+- Une fois la confidence saisie, appel d'une nouvelle Server Function `src/lib/practical-ai.functions.ts` → `suggestPractical({ description, mode, budget, step })` qui renvoie des **suggestions structurées** (sections : fleurs, musiques, textes, objets, lieu, organisation) via `google/gemini-2.5-flash` avec tool-calling JSON. Réutilise `LOVABLE_API_KEY`.
+- Les suggestions s'injectent dans la sous-route active (badge « inspiré de ce que vous venez de dire »).
 
-Étapes claires :
-1. Choix du type (voice / sentence / photo / texte / sound) — grille douce, une carte par type.
-2. Capture / import du contenu (selon le type).
-3. Question unique : « Souhaitez-vous composer un jardin autour de ce souvenir ? » — deux boutons doux : *Oui, composer* / *Non, simplement garder*.
-4. Si non → `addMemory()` puis retour au jardin de la personne.
-5. Si oui → ouverture de l'éditeur de composition pré-rempli avec ce memory id.
+## Chantier 4 — Volontés enrichies
 
-Refonte complète de la page « composer un jardin » : marges centrées, hiérarchie eyebrow / titre / sous-titre / paire de CTA, alignement vertical, breathing room.
+Fichier : `src/routes/wishes.tsx`
 
-### Chantier 4 — Éditeur de composition (refonte UX)
+- Sections distinctes : ambiance, fleurs (lien vers mini-compositeur), musiques, textes, objets, ce que je veux / ne veux pas.
+- Bouton « Partager avec un proche » → génère un `mailto:` avec lien lecture seule (token stocké en localStorage pour le MVP visuel ; pas de persistance serveur).
+- Pastille `ConfideDock` aussi présente.
 
-Fichier : `src/routes/compose.$zone.tsx`
+## Chantier 5 — Détails techniques transverses
 
-Principe : **un geste, pas un logiciel**. Réduire drastiquement les outils visibles.
+- `src/components/legato/MiniComposer.tsx` : extraction du noyau drag/zoom de `compose.$zone.tsx` (canvas 3:4 → 4:3 paysage pour bouquet), API `<MiniComposer presets="bouquet|couronne|ambiance" onExport={(blob)=>...} />`.
+- `src/lib/practical-store.ts` : localStorage léger pour budget, choix de cercueil, palette florale, textes retenus, brouillon livret. Aucune table Supabase.
+- `src/styles.css` : ajouter `.dock-halo`, `.print-booklet` (règles `@media print`), variantes de carte `.ceramic-warm` pour les cartes objets/références.
+- Tous les liens externes (références cercueils/fleurs/objets) : composant `<ExternalRef>` neutre, `target="_blank" rel="noopener noreferrer"`, label « ressource externe » + petite icône. Pas de logos commerciaux.
+- Modes appliqués via `modeProfile(mode)` : densité (nombre de cartes visibles), halo, ordre des 4 cartes-portes. Mode **Relais** met « Partage & relais » en tête + suggestions de pros / cercles.
+- Routes ajoutées au `routeTree.gen.ts` automatiquement par le plugin Vite.
+- Aucune nouvelle dépendance npm. Aucune migration. Pas d'appel direct au modèle côté client (toujours via Server Function).
 
-UI :
-- Toile plein écran (calc 100vh - header), zoom auto pour qu'elle soit toujours **entièrement visible** sans scroll.
-- Plus de panneau "calques" complexe : remplacé par une simple barre du bas — *éléments* (tiroir d'atlas) · *gomme douce* · *annuler / refaire*.
-- Trois boutons clairs en haut : **Fermer** (croix, sortie sans enregistrer, avec confirmation si modifs), **Annuler** (revenir à l'état précédent), **Enregistrer** (validation, retour au souvenir).
-- Tiroir des éléments groupé par atlas (florale, hybride, littoral, minéral, atmosphère, faune) — vignettes tactiles.
+## Hors scope (pour rester focalisé)
 
-Interaction sur un élément posé :
-- Tap → sélection (halo doux autour).
-- Drag → déplacer.
-- Pinch / molette → redimensionner.
-- Rotation à deux doigts (ou poignée discrète unique en haut quand sélectionné).
-- **Plus de répétition automatique** : un élément posé = un élément.
-- Hold long sur un élément sélectionné → menu contextuel minimal (supprimer, dupliquer, mettre devant/derrière).
+- Persistance serveur des volontés / partages (token réel, RLS) — restera côté localStorage cette passe.
+- Génération PDF côté serveur (on utilise `window.print()` stylé).
+- Paiements / commandes réelles d'objets.
 
-Visuel des éléments :
-- Application d'un masque de bord progressif (feathering) via canvas pré-traitement à l'import : alpha érodé puis flouté de 2–3 px → contours doux, fusion naturelle.
-- Mix-blend `multiply` léger en option par défaut désactivé.
+## Ce que l'utilisateur verra
 
-### Chantier 5 — Export, retour, jardin évolutif
+- Une page `/practical` calme, 4 portes claires hiérarchisées par mode.
+- À chaque étape : suggestions IA personnalisées + pastille pour parler ou écrire à tout moment.
+- Un mini-compositeur floral exportable et partageable.
+- Des références concrètes (objets, fleurs, cercueils) avec fourchette de prix.
+- Un livret de cérémonie imprimable.
+- Un budget pris en compte partout, sans culpabilisation.
+- Des volontés personnelles enrichies, partageables.
 
-Export :
-- Toujours rendu sur **fond blanc opaque** (pas de transparence dans le PNG final).
-- Taille HD conservée (2400×3200), fidélité 1:1 avec la composition vue à l'écran.
-- Bouton unique « Exporter » dans les options du souvenir, plus de confusion entre export PNG / ZIP / calques (versions avancées rangées dans un sous-menu replié).
-
-Retrouver une composition :
-- Sur la fiche du souvenir (`garden.$zone.tsx` détail) : si `composition` présente, miniature cliquable « Voir la composition » → ouvre l'éditeur en lecture/édition.
-- Dans la **bibliothèque des souvenirs** (`memories.tsx`) : badge discret "composition" sur les cartes concernées, clic pour ouvrir.
-- Sur le jardin de la personne : les compositions enrichissent visuellement la parcelle (voir Chantier 1, densité).
-
-Animations globales :
-- `@keyframes breathe`, `@keyframes drift`, `@keyframes shimmer` ajoutés à `styles.css`, durées 6–12s, amplitudes minimales.
-- Appliquées aux signatures organiques, halos de hover, et éléments du jardin évolutif.
-
----
-
-### Détails techniques
-
-- Aucun changement de schéma data : on réutilise `Memory.composition: CompositionItem[]` existant.
-- Le feathering des contours est appliqué **au moment du rendu** dans l'éditeur (canvas offscreen + filter blur sur le canal alpha), pas en pré-process des fichiers PNG sources, donc réversible.
-- Aucun ajout de dépendance npm.
-- Le store `legato-state` n'est pas modifié.
-- Les anciens panneaux (calques drag&drop, replace, etc.) ne sont pas supprimés du fichier mais désactivés/cachés derrière un mode "avancé" replié, pour ne pas casser les compositions existantes.
-
-### Ordre d'exécution
-
-1. Tokens + animations dans `styles.css`
-2. Garden vue de haut (Chantier 1)
-3. Jardin de la personne + signature (Chantier 2)
-4. Parcours souvenir (Chantier 3)
-5. Éditeur refondu (Chantier 4)
-6. Export + retours + densité évolutive (Chantier 5)
-7. Passe française finale sur tout le périmètre
-
-Dis-moi si je peux commencer, ou si tu veux ajuster un chantier avant.
+Dites-moi si je peux lancer ces 5 chantiers tels quels, ou si vous voulez resserrer le périmètre (par exemple démarrer par 1 + 3 + 4 d'abord).

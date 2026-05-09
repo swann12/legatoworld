@@ -302,3 +302,23 @@
     border-radius: 28px;
   }
 }
+
+/* ─── Practical / Confide dock ─── */
+.dock-halo {
+  box-shadow: 0 8px 30px -10px color-mix(in oklab, var(--rose) 55%, transparent),
+              0 2px 8px -2px color-mix(in oklab, var(--dusk) 18%, transparent);
+  animation: breathe 8s ease-in-out infinite;
+}
+.ceramic-warm {
+  background: linear-gradient(180deg, color-mix(in oklab, var(--peach) 30%, var(--paper)),
+                                       color-mix(in oklab, var(--clay) 60%, var(--paper)));
+  border: 1px solid color-mix(in oklab, var(--dusk) 8%, transparent);
+}
+
+/* Booklet print */
+@media print {
+  body { background: white; }
+  .no-print { display: none !important; }
+  .print-booklet { padding: 0; margin: 0; }
+  .print-booklet .page { page-break-after: always; }
+}
