@@ -1,11 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { Halos } from "@/components/legato/Halos";
 import { Shell } from "@/components/legato/Shell";
-import { LivingPatch } from "@/components/legato/LivingPatch";
 import { useLegato } from "@/lib/legato-state";
-import { useMemories } from "@/lib/memories-store";
-import gardenPainted from "@/assets/garden-painted-v3.png";
+import gardenPainted from "@/assets/garden-painted-v4.png";
 
 export const Route = createFileRoute("/garden/")({
   head: () => ({
@@ -42,18 +39,13 @@ export const BEINGS: Being[] = [
 ];
 
 function Garden() {
-  const { mode, lostName, t, lang } = useLegato();
+  const { lostName, t, lang } = useLegato();
   const [hovered, setHovered] = useState<string | null>(null);
   const activeBeing = BEINGS.find((b) => b.id === hovered) ?? null;
-  const allMemories = useMemories();
-  const densityFor = (id: string) =>
-    Math.min(1, allMemories.filter((m) => m.zone === id).length / 8);
 
   return (
     <Shell>
       <div className="relative pb-10">
-        <Halos mode={mode} variant="calm" />
-
         <div className="relative z-10">
           <header className="px-7 pt-12">
             <p className="text-[10px] uppercase tracking-[0.24em] text-dusk/45">
@@ -74,44 +66,20 @@ function Garden() {
           </header>
 
           {/* The painted garden, viewed from above */}
-          <div className="px-5 mt-9">
+          <div className="px-0 mt-6">
             <div
               className="relative w-full"
-              style={{ aspectRatio: "1 / 1" }}
+              style={{ aspectRatio: "3 / 4" }}
             >
               {/* The painted garden image — dissolved into the paper, no rigid frame */}
               <img
                 src={gardenPainted}
                 alt=""
-                width={1024}
-                height={1024}
+                width={942}
+                height={1256}
                 className="absolute inset-0 w-full h-full object-cover select-none garden-dissolve"
                 draggable={false}
               />
-
-              {/* Per-being living veil — density grows as souvenirs accumulate */}
-              {BEINGS.map((p) => {
-                const d = densityFor(p.id);
-                return (
-                  <div
-                    key={`patch-${p.id}`}
-                    className="absolute pointer-events-none"
-                    style={{
-                      left: `${p.cx - p.rx}%`,
-                      top: `${p.cy - p.ry}%`,
-                      width: `${p.rx * 2}%`,
-                      height: `${p.ry * 2}%`,
-                    }}
-                  >
-                    <LivingPatch
-                      beingId={p.id}
-                      density={d}
-                      tint={p.blooms[0].tint}
-                      tint2={p.blooms[0].tint2}
-                    />
-                  </div>
-                );
-              })}
 
               {/* Hotspots — local lift on hover, gentle dim on the others */}
               {BEINGS.map((p) => (
@@ -137,12 +105,12 @@ function Garden() {
                   }}
                 >
                   <span
-                    className="absolute inset-[-40%] rounded-full opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity duration-1000"
+                    className="absolute inset-[-30%] rounded-full opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity duration-700"
                     style={{
                       background:
-                        `radial-gradient(ellipse at center, color-mix(in oklab, ${p.blooms[0].tint} 70%, white) 0%, transparent 72%)`,
+                        `radial-gradient(ellipse at center, color-mix(in oklab, ${p.blooms[0].tint} 85%, white) 0%, transparent 70%)`,
                       mixBlendMode: "screen",
-                      filter: "blur(18px)",
+                      filter: "blur(14px)",
                     }}
                   />
                 </Link>
@@ -150,7 +118,7 @@ function Garden() {
             </div>
 
             {/* Discreet, subtle indication of which being a bloom belongs to */}
-            <div className="mt-5 h-6 px-2 text-center">
+            <div className="mt-4 h-6 px-2 text-center">
               <p
                 key={activeBeing?.id ?? "idle"}
                 className="text-[11px] italic text-dusk/55 transition-opacity duration-500"
