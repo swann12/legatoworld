@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Halos } from "@/components/legato/Halos";
 import { Shell, Section } from "@/components/legato/Shell";
 import { ModeSelector } from "@/components/legato/ModeSelector";
-import { useLegato, MODES, BRANCHES, modeProfile } from "@/lib/legato-state";
+import { useLegato, BRANCHES, modeProfile } from "@/lib/legato-state";
 
 export const Route = createFileRoute("/home")({
   head: () => ({
