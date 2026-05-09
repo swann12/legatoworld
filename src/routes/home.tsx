@@ -3,6 +3,7 @@ import { Halos } from "@/components/legato/Halos";
 import { Shell, Section } from "@/components/legato/Shell";
 import { ModeSelector } from "@/components/legato/ModeSelector";
 import { useLegato, BRANCHES, modeProfile } from "@/lib/legato-state";
+import type { Branch, Mode } from "@/lib/legato-state";
 
 export const Route = createFileRoute("/home")({
   head: () => ({
@@ -67,7 +68,7 @@ function Home() {
                 className="mt-5 max-w-[36ch] text-[14px] leading-relaxed text-dusk/60"
                 style={{ textWrap: "pretty" }}
               >
-                {modeAccompaniment(mode, branchMeta.label, lang)}
+                {modeAccompaniment(mode, branch, lang)}
               </p>
             )}
           </header>
@@ -123,32 +124,83 @@ function orderForMode(primary: "presence" | "practical" | "journal" | "relay"): 
   return ordered;
 }
 
-/* Phrase d'accompagnement, naturelle, par mode + branche.
- * Remplace l'ancien template "En mode cocon, avec une personne tout près."
- * qui sonnait traduit et coupait mal. */
-function modeAccompaniment(
-  mode: "cocoon" | "anchoring" | "breath" | "relay",
-  branchLabel: string,
-  lang: string,
-): string {
-  const b = branchLabel.toLowerCase();
-  if (lang !== "fr") {
-    const map = {
-      cocoon: `Today, you've chosen to settle quietly — with ${b} held close in mind.`,
-      anchoring: `Today, you're looking for steady ground — with ${b} held close in mind.`,
-      breath: `Today, you're letting things breathe a little — with ${b} held close in mind.`,
-      relay: `Today, you don't have to carry it alone — with ${b} held close in mind.`,
-    } as const;
-    return map[mode];
-  }
-  const map = {
-    cocoon:    `Vous avez choisi de vous replier un peu, doucement, en gardant ${b} tout près.`,
-    anchoring: `Vous cherchez à retrouver des repères, pas à pas, en gardant ${b} tout près.`,
-    breath:    `Vous vous accordez un peu d'air, sans pression, en gardant ${b} tout près.`,
-    relay:     `Vous acceptez de vous laisser aider aujourd'hui, en gardant ${b} tout près.`,
-  } as const;
-  return map[mode];
+/* Phrase d'accompagnement par (mode × branche).
+ * Pas de template générique : chaque combinaison est rédigée à la main,
+ * en français naturel, sans mot orphelin et sans tournure traduite. */
+function modeAccompaniment(mode: Mode, branch: Branch, lang: string): string {
+  if (lang === "fr") return FR[mode][branch];
+  return EN[mode][branch];
 }
+
+const FR: Record<Mode, Record<Branch, string>> = {
+  cocoon: {
+    person:    "Aujourd'hui, vous avez besoin de vous replier un peu, en gardant tout près de vous le souvenir de cette personne.",
+    animal:    "Aujourd'hui, vous voulez vous reposer un instant, sans quitter la pensée de cette présence fidèle.",
+    fear:      "Aujourd'hui, vous préférez ralentir le pas, sans rien lâcher de l'attention que vous portez à ce proche fragile.",
+    anxiety:   "Aujourd'hui, vous laissez ces grandes questions de côté, juste le temps de souffler.",
+    practical: "Aujourd'hui, vous mettez les démarches en pause, et vous prenez soin de vous d'abord.",
+    unknown:   "Aujourd'hui, vous n'avez rien à nommer, et vous pouvez simplement vous poser ici.",
+  },
+  anchoring: {
+    person:    "Aujourd'hui, vous cherchez à retrouver des repères très simples, sans cesser de penser à elle, à lui.",
+    animal:    "Aujourd'hui, vous voulez avancer d'un pas tranquille, en gardant cette présence à vos côtés.",
+    fear:      "Aujourd'hui, vous voulez vous tenir droit·e malgré l'inquiétude, pour pouvoir rester là pour ce proche.",
+    anxiety:   "Aujourd'hui, vous voulez poser un pied après l'autre, sans laisser ces pensées tout occuper.",
+    practical: "Aujourd'hui, vous voulez avancer d'un pas concret, sans vous mettre la pression du reste.",
+    unknown:   "Aujourd'hui, vous voulez simplement retrouver un peu de sol sous les pieds.",
+  },
+  breath: {
+    person:    "Aujourd'hui, vous vous accordez un peu d'air, en laissant le souvenir respirer avec vous.",
+    animal:    "Aujourd'hui, vous laissez la tendresse pour ce compagnon vous traverser, sans pleurer ni serrer.",
+    fear:      "Aujourd'hui, vous laissez l'inquiétude se desserrer, juste assez pour reprendre votre souffle.",
+    anxiety:   "Aujourd'hui, vous laissez les pensées passer, sans chercher à les comprendre toutes.",
+    practical: "Aujourd'hui, vous mettez les papiers de côté, et vous reprenez un peu d'air avant tout.",
+    unknown:   "Aujourd'hui, vous laissez simplement entrer un peu d'air, sans avoir à mettre des mots.",
+  },
+  relay: {
+    person:    "Aujourd'hui, vous acceptez de ne pas porter seul·e ce manque, et de demander un peu d'appui.",
+    animal:    "Aujourd'hui, vous laissez quelqu'un partager la peine, même si elle ne se voit pas pour les autres.",
+    fear:      "Aujourd'hui, vous cherchez une main amie pour vous tenir, le temps que cette peur se desserre.",
+    anxiety:   "Aujourd'hui, vous acceptez d'ouvrir la porte, et de parler de ce qui revient sans cesse.",
+    practical: "Aujourd'hui, vous laissez quelqu'un faire un pas avec vous, plutôt que de tout porter seul·e.",
+    unknown:   "Aujourd'hui, vous acceptez simplement d'être accompagné·e, sans avoir à expliquer pourquoi.",
+  },
+};
+
+const EN: Record<Mode, Record<Branch, string>> = {
+  cocoon: {
+    person:    "Today, you need to fold inward a little, keeping the memory of that person quietly close.",
+    animal:    "Today, you'd like to rest for a moment, without leaving the thought of that faithful companion.",
+    fear:      "Today, you'd rather slow your pace, without easing the care you hold for someone fragile.",
+    anxiety:   "Today, you set the larger questions aside, just long enough to breathe.",
+    practical: "Today, you pause the practical steps, and tend to yourself first.",
+    unknown:   "Today, there's nothing to name — and you can simply settle here.",
+  },
+  anchoring: {
+    person:    "Today, you're looking for very simple ground, without stepping away from your thoughts of them.",
+    animal:    "Today, you want to move at a quiet pace, keeping that presence close by.",
+    fear:      "Today, you want to stand steady through the worry, so you can keep being there for them.",
+    anxiety:   "Today, you want to take one step after another, without letting the thoughts take all the room.",
+    practical: "Today, you want to take one concrete step, without piling on the rest.",
+    unknown:   "Today, you just want to feel a bit of ground under your feet again.",
+  },
+  breath: {
+    person:    "Today, you let yourself breathe, allowing the memory to breathe alongside you.",
+    animal:    "Today, you let the tenderness for that companion move through you, softly.",
+    fear:      "Today, you let the worry loosen a little, just enough to catch your breath.",
+    anxiety:   "Today, you let the thoughts pass through, without trying to understand them all.",
+    practical: "Today, you set the paperwork aside, and take some air before anything else.",
+    unknown:   "Today, you simply let in some air, without having to put it into words.",
+  },
+  relay: {
+    person:    "Today, you accept not to carry this absence alone, and to lean on someone.",
+    animal:    "Today, you let someone share the grief, even if it isn't visible to others.",
+    fear:      "Today, you reach for a kind hand to hold, while the fear softens its grip.",
+    anxiety:   "Today, you let yourself open up, and speak of what keeps coming back.",
+    practical: "Today, you let someone take one step with you, instead of carrying it all.",
+    unknown:   "Today, you simply allow yourself to be accompanied, without having to explain why.",
+  },
+};
 
 function PresenceBlock({ t, primary, ctaLabel }: { t: (k: string) => string; primary: boolean; ctaLabel: string }) {
   return (
