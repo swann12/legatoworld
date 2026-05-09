@@ -151,7 +151,6 @@ function GardenZone() {
               aria-hidden
               draggable={false}
               className="w-[260px] h-auto select-none"
-              style={{ mixBlendMode: "multiply" }}
             />
             <p className="mt-4 text-[10px] uppercase tracking-[0.22em] text-dusk/45">
               {being.kind === "person" ? "Le jardin de" : "Le coin de"}
