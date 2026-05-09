@@ -26,20 +26,22 @@ function Crisis() {
           <Link to="/home" className="text-[11px] uppercase tracking-[0.22em] text-dusk/55 hover:text-dusk">← Accueil</Link>
 
           <div className="mt-14 max-w-[30ch]">
-            <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">
-              Si aujourd'hui pèse trop
-            </p>
+            <div className="flex items-center gap-3 text-[10px] uppercase tracking-[0.28em] text-dusk/45">
+              <span className="h-px w-6 bg-dusk/20" />
+              Ici, doucement
+            </div>
             <h1
-              className="mt-3 font-serif text-[2.3rem] leading-[1.1] font-light text-dusk"
+              className="mt-4 font-serif text-[2.2rem] leading-[1.08] font-light text-dusk"
               style={{ textWrap: "balance" }}
             >
-              Vous êtes ici, et c'est déjà beaucoup.
+              Vous êtes là.
+              <span className="block italic text-dusk/80">C'est déjà beaucoup.</span>
             </h1>
             <p
-              className="mt-6 text-[15px] leading-relaxed text-dusk/70 max-w-[36ch]"
+              className="mt-6 text-[15px] leading-relaxed text-dusk/65 max-w-[34ch]"
               style={{ textWrap: "pretty" }}
             >
-              Respirez doucement avec ce point lumineux. Quand vous le sentirez, l'une de ces portes est ouverte.
+              Respirez avec ce point. Une porte s'ouvrira, quand vous voudrez.
             </p>
           </div>
 
@@ -56,26 +58,26 @@ function Crisis() {
 
           <div className="space-y-3 pb-14">
             <Link to="/no-words" className="ceramic organic-radius-3 block px-7 py-5 text-center">
-              <span className="font-serif text-xl italic text-dusk">Respirer un instant, sans parler</span>
+              <span className="font-serif text-xl italic text-dusk">Respirer, sans parler</span>
               <span className="block mt-1 text-[11px] uppercase tracking-[0.22em] text-dusk/55">
-                Un son, une lumière, le souffle qui revient
+                Un son, une lumière, le souffle
               </span>
             </Link>
             <a href="tel:3114" className="ceramic-soft organic-radius-3 block px-7 py-5 text-center">
-              <span className="font-serif text-lg italic text-dusk">Parler à une voix humaine, tout de suite</span>
+              <span className="font-serif text-lg italic text-dusk">Une voix humaine</span>
               <span className="block mt-1 text-[11px] uppercase tracking-[0.22em] text-dusk/55">
-                Ligne d'écoute, gratuite et confidentielle
+                Ligne d'écoute · gratuite et confidentielle
               </span>
             </a>
             <button className="ceramic-soft organic-radius-3 w-full px-7 py-5 text-center">
-              <span className="font-serif text-lg italic text-dusk">Prévenir une personne de confiance</span>
+              <span className="font-serif text-lg italic text-dusk">Prévenir un proche</span>
               <span className="block mt-1 text-[11px] uppercase tracking-[0.22em] text-dusk/55">
-                Quelques mots préparés pour vous
+                Quelques mots déjà prêts
               </span>
             </button>
             <Link to="/home" className="block px-7 py-4 text-center">
               <span className="text-[12px] uppercase tracking-[0.2em] text-dusk/50">
-                Revenir doucement à l'accueil
+                Revenir à l'accueil
               </span>
             </Link>
           </div>
