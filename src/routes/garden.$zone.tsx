@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Halos } from "@/components/legato/Halos";
 import { Shell } from "@/components/legato/Shell";
+import { CompositionThumb } from "@/components/legato/CompositionThumb";
 import { useLegato } from "@/lib/legato-state";
 import { BEINGS } from "./garden.index";
 import { ELEMENTS, type ElementFamily } from "@/lib/elements";
@@ -49,25 +50,29 @@ const KIND_LABEL: Record<ItemKind, string> = {
   voice: "voix", photo: "lumière", sentence: "phrase", habit: "geste", object: "objet",
 };
 
-/** Choose 5 atlas elements that visually identify a being.
- *  Family is derived from the being's index (varied & deterministic). */
+/** Choisit 6–8 fragments d'atlas pour composer une petite scène
+ *  paysagère (220×120) au-dessus du prénom. */
 function signatureFor(beingId: string) {
   const seed = beingId.split("").reduce((a, c) => a + c.charCodeAt(0), 0);
-  const familyOrder: ElementFamily[] = ["florale", "feuillage", "marin", "feuillage", "florale"];
-  const picks: { src: string; w: number; h: number; x: number; y: number; r: number; s: number }[] = [];
+  const familyOrder: ElementFamily[] = [
+    "feuillage", "florale", "feuillage", "florale", "feuillage", "florale", "feuillage",
+  ];
+  const picks: { src: string; w: number; h: number; x: number; y: number; r: number; s: number; dur: number; delay: number }[] = [];
   familyOrder.forEach((fam, i) => {
     const pool = ELEMENTS.filter((e) => e.family === fam);
     if (!pool.length) return;
     const el = pool[(seed + i * 37) % pool.length];
+    const t = i / (familyOrder.length - 1); // 0..1 → balayage horizontal
     picks.push({
       src: el.src,
       w: el.width,
       h: el.height,
-      // gather around center, slight asymmetric organic spread
-      x: 50 + Math.cos((i / 5) * Math.PI * 2 + seed) * 18,
-      y: 50 + Math.sin((i / 5) * Math.PI * 2 + seed * 0.7) * 14,
-      r: ((seed + i * 23) % 30) - 15,
-      s: 0.55 + ((seed + i * 11) % 30) / 100,
+      x: 8 + t * 84 + (((seed + i * 13) % 10) - 5),     // étalé en largeur
+      y: 70 + (((seed + i * 19) % 24) - 12),             // ligne d'horizon basse
+      r: ((seed + i * 23) % 16) - 8,
+      s: 0.5 + ((seed + i * 11) % 35) / 100,
+      dur: 7 + ((seed + i * 7) % 5),
+      delay: ((seed + i * 11) % 40) / 10,
     });
   });
   return picks;
@@ -76,23 +81,25 @@ function signatureFor(beingId: string) {
 function OrganicSignature({ beingId }: { beingId: string }) {
   const picks = signatureFor(beingId);
   return (
-    <div className="relative w-44 h-44 mx-auto breathe">
+    <div className="relative mx-auto" style={{ width: 240, height: 130 }}>
       {picks.map((p, i) => (
         <img
           key={i}
           src={p.src}
           alt=""
           aria-hidden
-          className="absolute feathered select-none"
+          className="absolute feathered-soft select-none sway-soft"
           draggable={false}
           style={{
             left: `${p.x}%`,
             top: `${p.y}%`,
-            width: `${p.w * p.s * 0.18}px`,
-            height: `${p.h * p.s * 0.18}px`,
-            transform: `translate(-50%, -50%) rotate(${p.r}deg)`,
+            width: `${Math.max(36, p.w * p.s * 0.16)}px`,
+            height: `${Math.max(36, p.h * p.s * 0.16)}px`,
+            transform: `translate(-50%, -80%) rotate(${p.r}deg)`,
             opacity: 0.92,
             mixBlendMode: "multiply",
+            ["--sway-dur" as string]: `${p.dur}s`,
+            ["--sway-delay" as string]: `${p.delay}s`,
           }}
         />
       ))}
@@ -148,19 +155,24 @@ function GardenZone() {
                   className="block paper-card p-5"
                   style={{ borderRadius: 24 }}
                 >
-                  <div className="flex items-baseline justify-between gap-4">
-                    <h3 className="font-serif text-lg italic text-dusk leading-snug">
-                      {m.title || "Souvenir"}
-                    </h3>
+                  <div className="flex items-start gap-4">
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-serif text-lg italic text-dusk leading-snug">
+                        {m.title || "Souvenir"}
+                      </h3>
+                      {m.body && (
+                        <p className="mt-2 text-[13.5px] leading-relaxed text-dusk/65 line-clamp-3">{m.body}</p>
+                      )}
+                      {m.composition && m.composition.length > 0 && (
+                        <p className="mt-2 text-[10px] uppercase tracking-[0.18em] text-dusk/45">
+                          composition · toucher pour rouvrir
+                        </p>
+                      )}
+                    </div>
                     {m.composition && m.composition.length > 0 && (
-                      <span className="text-[10px] uppercase tracking-[0.18em] text-dusk/55 shrink-0">
-                        composition
-                      </span>
+                      <CompositionThumb items={m.composition} />
                     )}
                   </div>
-                  {m.body && (
-                    <p className="mt-2 text-[13.5px] leading-relaxed text-dusk/65 line-clamp-3">{m.body}</p>
-                  )}
                 </Link>
               ))}
             </div>
