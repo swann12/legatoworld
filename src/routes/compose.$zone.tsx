@@ -397,7 +397,7 @@ function Composer({
   /* ───── pointer drag/scale/rotate ───── */
   const dragRef = useRef<{
     id: string;
-    mode: "move" | "scale" | "rotate";
+    mode: "move" | "scale" | "rotate" | "opacity";
     startX: number;
     startY: number;
     item: CompositionItem;
@@ -415,15 +415,17 @@ function Composer({
     if (!rect) return;
     dragRef.current = {
       id: item.id,
-      mode: mode as "move" | "scale" | "rotate",
+      mode,
       startX: e.clientX,
       startY: e.clientY,
       item,
       canvasRect: rect,
     };
-    // stocker opacity dans le mode via cast — on étend avec un champ
-    (dragRef.current as { extra?: string }).extra = mode === "opacity" ? "opacity" : "";
-    (e.target as HTMLElement).setPointerCapture(e.pointerId);
+    try {
+      (e.currentTarget as Element).setPointerCapture(e.pointerId);
+    } catch {
+      /* noop — capture optional */
+    }
     historyRef.current.past.push(items);
     historyRef.current.future = [];
   };
@@ -435,11 +437,10 @@ function Composer({
     const dy = e.clientY - d.startY;
     const w = d.canvasRect.width;
     const h = d.canvasRect.height;
-    const extra = (d as { extra?: string }).extra;
     setItems((prev) =>
       prev.map((it) => {
         if (it.id !== d.id) return it;
-        if (extra === "opacity") {
+        if (d.mode === "opacity") {
           const op = Math.max(0.1, Math.min(1, (d.item.opacity ?? 1) - dy / 200));
           return { ...it, opacity: op };
         }
