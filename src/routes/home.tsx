@@ -117,8 +117,8 @@ function Home() {
 
 type BlockId = "presence" | "journal" | "practical" | "relay" | "nowords" | "wishes" | "inspiration";
 function orderForMode(primary: "presence" | "practical" | "journal" | "relay"): BlockId[] {
-  const all: BlockId[] = ["presence", "journal", "practical", "wishes", "inspiration", "nowords"];
-  if (primary === "relay") return ["relay", "practical", "presence", "wishes", "journal", "nowords"];
+  const all: BlockId[] = ["presence", "journal", "practical", "inspiration", "nowords"];
+  if (primary === "relay") return ["relay", "practical", "presence", "journal", "nowords"];
   // place primary first
   const ordered = [primary as BlockId, ...all.filter((x) => x !== primary)];
   return ordered;
