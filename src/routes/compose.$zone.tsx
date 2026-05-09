@@ -310,7 +310,54 @@ function ImportMemory({
 
 /* ───────────────── Étape 3 — Demande ───────────────── */
 
-function AskCompose({ onYes, onNo }: { onYes: () => void; onNo: () => void }) {
+function AskCompose({
+  mode,
+  onYes,
+  onNo,
+  onAuto,
+}: {
+  mode: string;
+  onYes: () => void;
+  onNo: () => void;
+  onAuto: (items: CompositionItem[]) => void;
+}) {
+  const [autoOpen, setAutoOpen] = useState(false);
+  const [portrait, setPortrait] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const call = useServerFn(composeFromPortrait);
+
+  const generate = async () => {
+    if (loading || portrait.trim().length < 3) return;
+    setLoading(true);
+    setError(null);
+    try {
+      const r = await call({ data: { description: portrait.trim(), mood: mode } });
+      if (r.error) setError(r.error);
+      if (r.items.length === 0) {
+        setError(r.error ?? "Aucune composition n'a pu être générée. Réessayez en quelques mots de plus.");
+        return;
+      }
+      const aspect = 4 / 3; // 3:4 portrait → height/width compensation factor
+      const items: CompositionItem[] = r.items.map((it, i) => ({
+        id: `i-${Date.now()}-${i}`,
+        elementId: it.elementId,
+        x: it.x,
+        y: it.y,
+        width: it.width,
+        height: it.width * aspect * 0.75,
+        rotation: it.rotation,
+        opacity: it.opacity,
+        z: i + 1,
+      }));
+      onAuto(items);
+    } catch {
+      setError("Le service n'a pas répondu. Réessayez dans un instant.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="flex-1 flex flex-col items-center justify-center px-7 py-12 text-center">
       <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">la composition</p>
@@ -318,17 +365,66 @@ function AskCompose({ onYes, onNo }: { onYes: () => void; onNo: () => void }) {
         Souhaitez-vous composer un <span className="italic">jardin</span> autour de ce souvenir&nbsp;?
       </h1>
       <p className="mt-5 max-w-[28ch] text-[13.5px] leading-relaxed text-dusk/55">
-        Une petite scène végétale, posée librement. Vous pourrez y revenir plus tard.
+        Une petite scène végétale. Vous pourrez modifier ensuite, librement.
       </p>
 
-      <div className="w-full max-w-[320px] mt-12 space-y-3">
-        <button onClick={onYes} className="w-full ceramic organic-radius-3 px-7 py-5 text-center">
-          <span className="font-serif text-xl italic text-dusk">Oui, composer</span>
-        </button>
-        <button onClick={onNo} className="w-full paper-card organic-radius-3 px-7 py-5 text-center">
-          <span className="font-serif text-lg italic text-dusk/70">Non, simplement le garder</span>
-        </button>
-      </div>
+      {!autoOpen ? (
+        <div className="w-full max-w-[340px] mt-12 space-y-3">
+          <button
+            onClick={() => setAutoOpen(true)}
+            className="w-full ceramic organic-radius-3 px-7 py-5 text-center relative overflow-hidden"
+          >
+            <span className="font-serif text-xl italic text-dusk">Tout laisser à l'IA</span>
+            <span className="block mt-1 text-[11px] uppercase tracking-[0.22em] text-dusk/55">
+              Une scène entière, à partir d'un portrait
+            </span>
+          </button>
+          <button onClick={onYes} className="w-full paper-card organic-radius-3 px-7 py-5 text-center">
+            <span className="font-serif text-lg italic text-dusk">Composer moi-même</span>
+          </button>
+          <button onClick={onNo} className="w-full px-7 py-4 text-center">
+            <span className="text-[12px] uppercase tracking-[0.2em] text-dusk/50">
+              Non, simplement le garder
+            </span>
+          </button>
+        </div>
+      ) : (
+        <div className="w-full max-w-[420px] mt-10 space-y-3 text-left">
+          <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">
+            Décrivez la personne, ou l'ambiance recherchée
+          </p>
+          <div className="paper-card p-5">
+            <textarea
+              value={portrait}
+              onChange={(e) => setPortrait(e.target.value)}
+              rows={6}
+              placeholder="Sa douceur, ses couleurs, sa saison préférée, un lieu, une habitude…"
+              className="w-full bg-transparent resize-none outline-none font-serif italic text-[15px] leading-[24px] text-dusk placeholder:text-dusk/30"
+            />
+          </div>
+          {error && <p className="text-[13px] italic text-dusk/60">{error}</p>}
+          <button
+            onClick={generate}
+            disabled={loading || portrait.trim().length < 3}
+            className={`w-full ceramic organic-radius-3 px-7 py-5 text-center transition-opacity ${
+              loading || portrait.trim().length < 3 ? "opacity-50" : "opacity-100"
+            }`}
+          >
+            <span className="font-serif text-xl italic text-dusk">
+              {loading ? "On compose…" : "Composer pour moi"}
+            </span>
+          </button>
+          <p className="text-center text-[11px] text-dusk/45 italic">
+            Vous pourrez tout modifier ensuite, à votre main.
+          </p>
+          <button
+            onClick={() => setAutoOpen(false)}
+            className="w-full px-7 py-3 text-center text-[12px] uppercase tracking-[0.2em] text-dusk/50"
+          >
+            ← Revenir aux options
+          </button>
+        </div>
+      )}
     </div>
   );
 }
