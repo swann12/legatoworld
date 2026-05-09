@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Halos } from "@/components/legato/Halos";
 import { Shell } from "@/components/legato/Shell";
+import { ConfideDock } from "@/components/legato/ConfideDock";
 import { useLegato, type Wishes } from "@/lib/legato-state";
 
 export const Route = createFileRoute("/wishes")({
@@ -41,6 +42,23 @@ function WishesPage() {
   const removeShare = (v: string) =>
     setWishes({ sharedWith: wishes.sharedWith.filter((x) => x !== v) });
 
+  const sendToProche = () => {
+    const subject = encodeURIComponent(`Mes volontés — ${name}`);
+    const lines = [
+      `Bonjour,`, ``,
+      `Je voulais te confier ce que j'aimerais, pour le jour venu.`, ``,
+      wishes.ceremony && `Cérémonie : ${wishes.ceremony}`,
+      wishes.ambiance && `Ambiance : ${wishes.ambiance}`,
+      wishes.flowers  && `Fleurs : ${wishes.flowers}`,
+      wishes.music    && `Musique : ${wishes.music}`,
+      wishes.iWant    && `Ce que je voudrais : ${wishes.iWant}`,
+      wishes.iDontWant && `Ce que je ne voudrais pas : ${wishes.iDontWant}`,
+      wishes.toLovedOnes && `\nUn mot pour vous : ${wishes.toLovedOnes}`,
+      ``, `Merci de garder cela précieusement.`,
+    ].filter(Boolean).join("\n");
+    window.location.href = `mailto:?subject=${subject}&body=${encodeURIComponent(lines)}`;
+  };
+
   return (
     <Shell>
       <div className="relative pb-12">
@@ -73,6 +91,11 @@ function WishesPage() {
                   placeholder="…"
                   className="mt-3 w-full bg-transparent resize-none outline-none font-serif italic text-[16px] leading-[26px] text-dusk placeholder:text-dusk/25"
                 />
+                {f.key === "flowers" && (
+                  <Link to="/practical/flowers" className="mt-3 inline-block text-[11px] uppercase tracking-[0.18em] text-dusk/55">
+                    → composer une ambiance florale
+                  </Link>
+                )}
               </div>
             ))}
           </div>
@@ -115,6 +138,12 @@ function WishesPage() {
                   ))}
                 </div>
               )}
+              <button
+                onClick={sendToProche}
+                className="mt-5 w-full ceramic organic-radius-3 px-5 py-3 font-serif italic text-[14px] text-dusk"
+              >
+                Envoyer mes volontés par mail à un proche →
+              </button>
             </div>
           </div>
 
@@ -125,6 +154,7 @@ function WishesPage() {
           </div>
         </div>
       </div>
+      <ConfideDock step="volontés" />
     </Shell>
   );
 }

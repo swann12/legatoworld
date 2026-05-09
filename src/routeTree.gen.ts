@@ -26,6 +26,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as GardenIndexRouteImport } from './routes/garden.index'
 import { Route as PracticalTextsRouteImport } from './routes/practical.texts'
 import { Route as PracticalStepsRouteImport } from './routes/practical.steps'
+import { Route as PracticalShareRouteImport } from './routes/practical.share'
 import { Route as PracticalObjectsRouteImport } from './routes/practical.objects'
 import { Route as PracticalFlowersRouteImport } from './routes/practical.flowers'
 import { Route as PracticalCeremonyRouteImport } from './routes/practical.ceremony'
@@ -119,6 +120,11 @@ const PracticalStepsRoute = PracticalStepsRouteImport.update({
   path: '/steps',
   getParentRoute: () => PracticalRoute,
 } as any)
+const PracticalShareRoute = PracticalShareRouteImport.update({
+  id: '/share',
+  path: '/share',
+  getParentRoute: () => PracticalRoute,
+} as any)
 const PracticalObjectsRoute = PracticalObjectsRouteImport.update({
   id: '/objects',
   path: '/objects',
@@ -177,6 +183,7 @@ export interface FileRoutesByFullPath {
   '/practical/ceremony': typeof PracticalCeremonyRoute
   '/practical/flowers': typeof PracticalFlowersRoute
   '/practical/objects': typeof PracticalObjectsRoute
+  '/practical/share': typeof PracticalShareRoute
   '/practical/steps': typeof PracticalStepsRoute
   '/practical/texts': typeof PracticalTextsRoute
   '/garden/': typeof GardenIndexRoute
@@ -203,6 +210,7 @@ export interface FileRoutesByTo {
   '/practical/ceremony': typeof PracticalCeremonyRoute
   '/practical/flowers': typeof PracticalFlowersRoute
   '/practical/objects': typeof PracticalObjectsRoute
+  '/practical/share': typeof PracticalShareRoute
   '/practical/steps': typeof PracticalStepsRoute
   '/practical/texts': typeof PracticalTextsRoute
   '/garden': typeof GardenIndexRoute
@@ -230,6 +238,7 @@ export interface FileRoutesById {
   '/practical/ceremony': typeof PracticalCeremonyRoute
   '/practical/flowers': typeof PracticalFlowersRoute
   '/practical/objects': typeof PracticalObjectsRoute
+  '/practical/share': typeof PracticalShareRoute
   '/practical/steps': typeof PracticalStepsRoute
   '/practical/texts': typeof PracticalTextsRoute
   '/garden/': typeof GardenIndexRoute
@@ -258,6 +267,7 @@ export interface FileRouteTypes {
     | '/practical/ceremony'
     | '/practical/flowers'
     | '/practical/objects'
+    | '/practical/share'
     | '/practical/steps'
     | '/practical/texts'
     | '/garden/'
@@ -284,6 +294,7 @@ export interface FileRouteTypes {
     | '/practical/ceremony'
     | '/practical/flowers'
     | '/practical/objects'
+    | '/practical/share'
     | '/practical/steps'
     | '/practical/texts'
     | '/garden'
@@ -310,6 +321,7 @@ export interface FileRouteTypes {
     | '/practical/ceremony'
     | '/practical/flowers'
     | '/practical/objects'
+    | '/practical/share'
     | '/practical/steps'
     | '/practical/texts'
     | '/garden/'
@@ -456,6 +468,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PracticalStepsRouteImport
       parentRoute: typeof PracticalRoute
     }
+    '/practical/share': {
+      id: '/practical/share'
+      path: '/share'
+      fullPath: '/practical/share'
+      preLoaderRoute: typeof PracticalShareRouteImport
+      parentRoute: typeof PracticalRoute
+    }
     '/practical/objects': {
       id: '/practical/objects'
       path: '/objects'
@@ -514,6 +533,7 @@ interface PracticalRouteChildren {
   PracticalCeremonyRoute: typeof PracticalCeremonyRoute
   PracticalFlowersRoute: typeof PracticalFlowersRoute
   PracticalObjectsRoute: typeof PracticalObjectsRoute
+  PracticalShareRoute: typeof PracticalShareRoute
   PracticalStepsRoute: typeof PracticalStepsRoute
   PracticalTextsRoute: typeof PracticalTextsRoute
 }
@@ -524,6 +544,7 @@ const PracticalRouteChildren: PracticalRouteChildren = {
   PracticalCeremonyRoute: PracticalCeremonyRoute,
   PracticalFlowersRoute: PracticalFlowersRoute,
   PracticalObjectsRoute: PracticalObjectsRoute,
+  PracticalShareRoute: PracticalShareRoute,
   PracticalStepsRoute: PracticalStepsRoute,
   PracticalTextsRoute: PracticalTextsRoute,
 }
