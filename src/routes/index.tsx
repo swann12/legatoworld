@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Link } from "@tanstack/react-router";
-import { Halos } from "@/components/legato/Halos";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -20,8 +19,6 @@ function Index() {
   return (
     <main className="min-h-dvh bg-paper text-dusk">
       <div className="mobile-frame relative flex min-h-dvh flex-col">
-        <Halos mode="cocoon" variant="rich" />
-
         <div className="relative z-10 flex flex-1 flex-col px-9 pt-16">
           <p className="text-[10px] font-medium uppercase tracking-[0.32em] text-dusk/45">
             Legato
@@ -52,7 +49,7 @@ function Index() {
                 Commencer doucement
               </span>
               <span className="mt-1.5 block text-[10px] uppercase tracking-[0.22em] text-dusk/50">
-                Quelques questions tranquilles
+                À votre rythme, sans pression
               </span>
             </Link>
             <Link
