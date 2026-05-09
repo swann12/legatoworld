@@ -88,7 +88,7 @@ function StepWelcome({ name, setName }: { name: string; setName: (s: string) => 
         Avant tout, <span className="italic">comment vous nommer ?</span>
       </h2>
       <p className="text-[15px] leading-relaxed text-dusk/60 max-w-[34ch]">
-        Un prénom, simplement, pour vous accueillir.
+        Un prénom, pour vous accueillir.
       </p>
       <div className="ceramic-soft organic-radius-3 px-6 py-5">
         <input
@@ -109,7 +109,7 @@ function StepBranch({ value, onChange }: { value: Branch; onChange: (b: Branch) 
         Qu'est-ce qui vous amène, <span className="italic">en ce moment ?</span>
       </h2>
       <p className="text-[14px] text-dusk/55 max-w-[34ch]">
-        Vous pourrez changer à tout moment.
+        Modifiable à tout moment.
       </p>
 
       {/* Practical-loss shortcut — same visual family as the others, with a discreet badge */}
@@ -171,7 +171,7 @@ function StepMode({ value, onChange }: { value: Mode; onChange: (m: Mode) => voi
         Comment vous sentez-vous <span className="italic">aujourd'hui ?</span>
       </h2>
       <p className="text-[14px] text-dusk/55 max-w-[34ch]">
-        Choisissez l'ambiance qui vous va. Tout s'ajustera autour.
+        Choisissez l'ambiance. Tout s'ajustera autour.
       </p>
       <div className="grid grid-cols-2 gap-3">
         {MODES.map((m) => {
@@ -226,10 +226,10 @@ function StepClosing({ name, branch, mode }: { name: string; branch: Branch; mod
       </h2>
       <div className="space-y-5 text-[15px] leading-relaxed text-dusk/65 max-w-[34ch]">
         <p style={{ textWrap: "pretty" }}>
-          Un espace, pour <span className="italic">{branchPhrase[branch]}</span> — en <span className="italic">{modeLabel}</span>.
+          Un espace pour <span className="italic">{branchPhrase[branch]}</span>, en <span className="italic">{modeLabel}</span>.
         </p>
         <p style={{ textWrap: "pretty" }}>
-          Vous donnerez le rythme. Toujours.
+          Vous donnez le rythme.
         </p>
       </div>
     </div>
