@@ -17,15 +17,15 @@ export const Route = createFileRoute("/practical/")({
 });
 
 const HEADERS: Record<Mode, { eyebrow: string; title: string; sub: string }> = {
-  cocoon:    { eyebrow: "Aides concrètes", title: "On avance d'un seul pas.",            sub: "Rien à retenir, rien à finir aujourd'hui. Choisissez seulement ce qui semble possible." },
-  anchoring: { eyebrow: "Aides concrètes", title: "Tout est là, dans l'ordre.",          sub: "Quatre portes claires. Vous avancez à votre rythme, étape par étape." },
-  breath:    { eyebrow: "Aides concrètes", title: "Composer un adieu qui lui ressemble.", sub: "Fleurs, textes, musiques, ambiance. Inspiration douce, jamais imposée." },
-  relay:     { eyebrow: "Aides concrètes", title: "D'autres mains peuvent porter avec vous.", sub: "Confier, transmettre, partager. Vous gardez la décision, d'autres soulagent." },
+  cocoon:    { eyebrow: "Aides concrètes", title: "On avance d'un seul pas.",                 sub: "Rien à finir aujourd'hui. Seulement ce qui semble possible." },
+  anchoring: { eyebrow: "Aides concrètes", title: "Tout est là, dans l'ordre.",               sub: "Quatre portes claires, à votre rythme." },
+  breath:    { eyebrow: "Aides concrètes", title: "Composer un adieu qui lui ressemble.",     sub: "Fleurs, textes, musiques, ambiance. Jamais imposés." },
+  relay:     { eyebrow: "Aides concrètes", title: "D'autres mains peuvent porter avec vous.", sub: "Confier, partager. Vous gardez la décision." },
 };
 
 type Door = { to: string; eyebrow: string; title: string; body: string; key: "steps" | "ceremony" | "atmosphere" | "share" };
 const DOORS: Door[] = [
-  { key: "steps",      to: "/practical/steps",      eyebrow: "Démarches",        title: "Premiers jours",            body: "Constat, mairie, employeur. Trois choses, pas plus." },
+  { key: "steps",      to: "/practical/steps",      eyebrow: "Démarches",        title: "Premiers jours",            body: "Constat, mairie, employeur. Trois pas, pas plus." },
   { key: "ceremony",   to: "/practical/ceremony",   eyebrow: "Cérémonie",        title: "Choisir un déroulé",        body: "Inhumation, crémation, lieu, intervenants." },
   { key: "atmosphere", to: "/practical/atmosphere", eyebrow: "Atmosphère",       title: "Fleurs, textes, musiques",  body: "Composer une ambiance qui lui ressemble." },
   { key: "share",      to: "/practical/share",      eyebrow: "Partage et relais", title: "Transmettre, demander",    body: "Pompes funèbres, proches, officiant." },
