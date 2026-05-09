@@ -5,8 +5,6 @@ import { suggestPractical, type PracticalSuggestion } from "@/lib/practical-ai.f
 import { useServerFn } from "@tanstack/react-start";
 import { savePractical, loadPractical } from "@/lib/practical-store";
 
-type SR = typeof window extends never ? never : any;
-
 export function ConfideDock({ step }: { step?: string }) {
   const { mode } = useLegato();
   const [open, setOpen] = useState(false);
@@ -15,7 +13,7 @@ export function ConfideDock({ step }: { step?: string }) {
   const [loading, setLoading] = useState(false);
   const [suggestion, setSuggestion] = useState<PracticalSuggestion | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const recRef = useRef<SR | null>(null);
+  const recRef = useRef<any>(null);
 
   const ask = useServerFn(suggestPractical);
 
