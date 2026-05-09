@@ -70,7 +70,7 @@ export function PersonalSuggestions({
                 value={portrait}
                 onChange={(e) => onPortraitChange(e.target.value)}
                 rows={5}
-                placeholder="Sa douceur, ses passions, ses musiques, un objet, une saison, une habitude…"
+                placeholder="Sa douceur, ses passions, une habitude, une saison…"
                 className="w-full bg-transparent resize-none outline-none font-serif italic text-[15px] leading-[24px] text-dusk placeholder:text-dusk/30"
               />
             </div>
