@@ -18,31 +18,31 @@ const STEPS = [
     n: "01",
     kind: "Premiers jours",
     title: "Les démarches qui ne peuvent pas attendre",
-    body: "Constat de décès, mairie, employeur. Trois choses, dans cet ordre — rien d'autre pour aujourd'hui.",
+    body: "Constat de décès, mairie, employeur. Trois choses dans cet ordre. Rien d'autre aujourd'hui.",
   },
   {
     n: "02",
     kind: "Obsèques",
-    title: "Choisir le déroulé qui vous ressemble",
-    body: "Inhumation ou crémation, cérémonie civile ou religieuse, lieu, musique. Nous allons doucement.",
+    title: "Choisir un déroulé qui vous ressemble",
+    body: "Inhumation ou crémation, cérémonie civile ou religieuse, lieu, musique. On avance doucement.",
   },
   {
     n: "03",
-    kind: "Cercueil & cérémonie",
-    title: "Ce qu'on peut décider sans tout savoir",
-    body: "Une page calme pour comparer, sans tableau ni vendeur. Vous gardez la main.",
+    kind: "Cercueil et cérémonie",
+    title: "Décider sans tout savoir",
+    body: "Comparer simplement, sans tableau ni argumentaire. Vous gardez la main.",
   },
   {
     n: "04",
     kind: "Administratif",
     title: "Banque, abonnements, courrier",
-    body: "Une checklist tenue pour vous. Vous cochez quand vous le pouvez — pas avant.",
+    body: "Une liste tenue pour vous. Vous cochez quand vous le pouvez, pas avant.",
   },
   {
     n: "05",
     kind: "Autour de vous",
-    title: "Demander à quelqu'un de prendre une tâche",
-    body: "Nous écrivons le message à votre place. Vous l'envoyez d'un geste.",
+    title: "Confier une tâche à un proche",
+    body: "Nous écrivons le message pour vous. Vous l'envoyez d'un geste.",
   },
 ];
 
@@ -55,21 +55,19 @@ function Practical() {
         <div className="relative z-10">
           <div className="px-7 pt-10 flex items-center justify-between">
             <Link to="/home" className="text-[11px] uppercase tracking-[0.22em] text-dusk/50">← Accueil</Link>
-            <span className="text-[10px] uppercase tracking-[0.22em] text-dusk/40">Mode pratique</span>
+            <span className="text-[10px] uppercase tracking-[0.22em] text-dusk/40">Accompagnement</span>
           </div>
 
           <header className="px-7 pt-12">
             <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">
               Accompagnement concret
             </p>
-            <h1 className="mt-3 font-serif text-[2.3rem] leading-[1.05] font-light text-dusk text-balance">
-              On s'occupe du <span className="italic">comment.</span>
-              <br />
+            <h1 className="mt-3 font-serif text-[2.1rem] leading-[1.08] font-light text-dusk text-balance">
+              On s'occupe du <span className="italic">comment.</span><br />
               Vous, du <span className="italic">qui.</span>
             </h1>
-            <p className="mt-5 max-w-[34ch] text-[14.5px] leading-relaxed text-dusk/65">
-              Cinq étapes, dans l'ordre. Une seule à la fois. Rien à mémoriser :
-              ce qui doit revenir, reviendra ici doucement.
+            <p className="mt-5 max-w-[34ch] text-[14px] leading-relaxed text-dusk/65">
+              Cinq étapes, une à la fois. Rien à retenir&nbsp;: tout reste ici, à portée.
             </p>
           </header>
 
@@ -86,30 +84,47 @@ function Practical() {
           </div>
 
           {/* steps as a vertical, very airy list */}
-          <div className="px-7 mt-12 space-y-5">
+          <div className="px-7 mt-12 space-y-4">
             {STEPS.map((s) => (
               <article key={s.n} className="paper-card p-6">
                 <div className="flex items-baseline gap-4">
-                  <span className="font-serif text-[26px] font-light text-dusk/40 leading-none">
+                  <span className="font-serif text-[24px] font-light text-dusk/40 leading-none w-8 shrink-0">
                     {s.n}
                   </span>
-                  <div className="flex-1">
+                  <div className="flex-1 min-w-0">
                     <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">
                       {s.kind}
                     </p>
-                    <h3 className="mt-1 font-serif text-[19px] italic text-dusk leading-snug">
+                    <h3 className="mt-1.5 font-serif text-[18px] italic text-dusk leading-snug">
                       {s.title}
                     </h3>
+                    <p className="mt-3 text-[13px] leading-relaxed text-dusk/65">{s.body}</p>
                   </div>
                 </div>
-                <p className="mt-4 text-[13.5px] leading-relaxed text-dusk/65">{s.body}</p>
               </article>
             ))}
           </div>
 
-          <div className="px-7 mt-12 mb-4 text-center">
-            <p className="font-serif italic text-[15px] text-dusk/55 max-w-[28ch] mx-auto text-balance">
-              « Ralentir n'est pas perdre du temps — c'est en gagner pour soi. »
+          <div className="px-7 mt-10 grid grid-cols-1 gap-3">
+            <Link to="/wishes" className="paper-card p-5 flex items-baseline justify-between">
+              <div>
+                <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">Mes volontés</p>
+                <p className="mt-1 font-serif text-base italic text-dusk">Écrire ce que je voudrais, pour le jour venu</p>
+              </div>
+              <span className="text-dusk/40">→</span>
+            </Link>
+            <Link to="/inspiration" className="paper-card p-5 flex items-baseline justify-between">
+              <div>
+                <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">Inspirations</p>
+                <p className="mt-1 font-serif text-base italic text-dusk">Décrire la personne, recevoir des pistes</p>
+              </div>
+              <span className="text-dusk/40">→</span>
+            </Link>
+          </div>
+
+          <div className="px-7 mt-8 mb-4 text-center">
+            <p className="font-serif italic text-[14px] text-dusk/55 max-w-[28ch] mx-auto text-balance">
+              « Ralentir n'est pas perdre du temps. C'est en gagner pour soi. »
             </p>
           </div>
 
