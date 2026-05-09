@@ -133,6 +133,25 @@ function NoWords() {
 
   const fetchSimilar = useServerFn(similarAmbiances);
 
+  // ----- Ambient audio (procedural, Web Audio) -----
+  const audioRef = useRef<AmbientAudio | null>(null);
+  useEffect(() => {
+    return () => {
+      audioRef.current?.stop();
+      audioRef.current = null;
+    };
+  }, []);
+  useEffect(() => {
+    if (!playing) {
+      audioRef.current?.stop();
+      audioRef.current = null;
+      return;
+    }
+    audioRef.current?.stop();
+    audioRef.current = createAmbientAudio(tex.motion);
+    audioRef.current?.start();
+  }, [playing, tex.motion, tex.id]);
+
   const onPointerDown = (e: React.PointerEvent) => {
     startX.current = e.clientX;
   };
@@ -196,21 +215,27 @@ function NoWords() {
 
   return (
     <Shell hideNav>
-      {/* Full-screen immersive background — no white card behind */}
-      <div className="fixed inset-0 -z-10 transition-[background] duration-[1400ms] ease-out"
-           style={{ background: bgFromPalette(tex.palette, tex.motion) }} />
-      <div className="fixed inset-0 -z-10 pointer-events-none">
-        <MotionLayer kind={tex.motion} accent={tex.palette[0]} />
-      </div>
-      {/* Subtle vignette to keep text legible without an opaque card */}
-      <div className="fixed inset-0 -z-10 pointer-events-none"
-           style={{ background: "radial-gradient(ellipse at 50% 110%, rgba(40,30,40,0.18), transparent 55%)" }} />
-
       <div
-        className="relative min-h-dvh flex flex-col select-none"
+        className="relative min-h-dvh flex flex-col select-none overflow-hidden"
         onPointerDown={onPointerDown}
         onPointerUp={onPointerUp}
       >
+        {/* Immersive background — sits inside the page, above Shell's bg-paper */}
+        <div
+          className="absolute inset-0 transition-[background] duration-[1400ms] ease-out"
+          style={{ background: bgFromPalette(tex.palette, tex.motion) }}
+        />
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <MotionLayer kind={tex.motion} accent={tex.palette[0]} />
+        </div>
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              "radial-gradient(ellipse at 50% 110%, rgba(40,30,40,0.18), transparent 55%)",
+          }}
+        />
+        <div className="relative z-10 flex flex-col flex-1 min-h-dvh">
         {/* Top bar */}
         <div className="px-6 pt-8 flex items-center justify-between">
           <Link to="/home" className="text-[11px] uppercase tracking-[0.22em] text-dusk/60">
@@ -328,6 +353,7 @@ function NoWords() {
             />
           ))}
         </div>
+        </div>
       </div>
     </Shell>
   );
@@ -399,6 +425,102 @@ function BreathingGuide({ onClose }: { onClose: () => void }) {
 
 function wait(ms: number) {
   return new Promise<void>((r) => setTimeout(r, ms));
+}
+
+/* ---------- Procedural ambient audio (Web Audio) ---------- */
+type AmbientAudio = { start: () => void; stop: () => void };
+
+function createAmbientAudio(motion: Motion): AmbientAudio | null {
+  if (typeof window === "undefined") return null;
+  const Ctx =
+    (window.AudioContext as typeof AudioContext | undefined) ||
+    ((window as unknown as { webkitAudioContext?: typeof AudioContext })
+      .webkitAudioContext);
+  if (!Ctx) return null;
+  const ctx = new Ctx();
+  const master = ctx.createGain();
+  master.gain.value = 0;
+  master.connect(ctx.destination);
+
+  // Brown-noise buffer (warm, low frequencies)
+  const bufferSize = 2 * ctx.sampleRate;
+  const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+  const data = buffer.getChannelData(0);
+  let lastOut = 0;
+  for (let i = 0; i < bufferSize; i++) {
+    const white = Math.random() * 2 - 1;
+    lastOut = (lastOut + 0.02 * white) / 1.02;
+    data[i] = lastOut * 3.5;
+  }
+  const noise = ctx.createBufferSource();
+  noise.buffer = buffer;
+  noise.loop = true;
+
+  const filter = ctx.createBiquadFilter();
+  filter.type = "lowpass";
+
+  // Per-motion shaping
+  let targetGain = 0.18;
+  if (motion === "rain") {
+    filter.type = "highpass";
+    filter.frequency.value = 800;
+    targetGain = 0.22;
+  } else if (motion === "ripple") {
+    filter.frequency.value = 700;
+    targetGain = 0.2;
+  } else if (motion === "drift") {
+    filter.frequency.value = 500;
+    targetGain = 0.18;
+  } else if (motion === "pulse") {
+    filter.frequency.value = 350;
+    targetGain = 0.16;
+  } else {
+    // veil
+    filter.frequency.value = 280;
+    targetGain = 0.14;
+  }
+
+  noise.connect(filter);
+  filter.connect(master);
+
+  // Slow LFO on gain for "breathing" sound
+  const lfo = ctx.createOscillator();
+  const lfoGain = ctx.createGain();
+  lfo.frequency.value = motion === "ripple" ? 0.18 : motion === "pulse" ? 0.14 : 0.1;
+  lfoGain.gain.value = targetGain * 0.35;
+  lfo.connect(lfoGain);
+  lfoGain.connect(master.gain);
+
+  let started = false;
+  return {
+    start() {
+      if (started) return;
+      started = true;
+      try {
+        ctx.resume();
+      } catch {}
+      noise.start();
+      lfo.start();
+      const now = ctx.currentTime;
+      master.gain.cancelScheduledValues(now);
+      master.gain.setValueAtTime(0, now);
+      master.gain.linearRampToValueAtTime(targetGain, now + 1.4);
+    },
+    stop() {
+      try {
+        const now = ctx.currentTime;
+        master.gain.cancelScheduledValues(now);
+        master.gain.linearRampToValueAtTime(0, now + 0.6);
+        setTimeout(() => {
+          try {
+            noise.stop();
+            lfo.stop();
+            ctx.close();
+          } catch {}
+        }, 700);
+      } catch {}
+    },
+  };
 }
 
 /* ---------- Background motion (full screen) ---------- */
