@@ -16,7 +16,6 @@ export const Route = createFileRoute("/home")({
 
 function Home() {
   const { name, mode, branch, t, lang, setLang } = useLegato();
-  const modeMeta = MODES.find((m) => m.id === mode)!;
   const branchMeta = BRANCHES.find((b) => b.id === branch);
   const profile = modeProfile(mode);
   const gap = profile.density === "tight" ? "mt-3" : profile.density === "open" ? "mt-6" : "mt-4";
