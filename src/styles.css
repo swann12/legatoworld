@@ -282,13 +282,11 @@
     filter: drop-shadow(0 0 0.6px rgba(0,0,0,0.05)) blur(0.35px);
   }
 
-  /* Garden hotspot — gentle hover intensification (saturation, brightness, halo) */
+  /* Garden hotspot — gentle interaction without colored halos */
   .garden-tile-hover {
-    transition: filter 1100ms cubic-bezier(0.22, 0.61, 0.36, 1),
-                opacity 1100ms cubic-bezier(0.22, 0.61, 0.36, 1);
+    transition: opacity 1000ms cubic-bezier(0.22, 0.61, 0.36, 1);
   }
-  .garden-tile-hover.is-hot   { filter: saturate(1.85) brightness(1.12) contrast(1.08); }
-  .garden-tile-hover.is-faded { filter: saturate(0.55) brightness(0.99); opacity: 0.55; }
+  .garden-tile-hover.is-faded { opacity: 0.72; }
 
   /* Bloom-in — soft scale + opacity entry for living patches */
   @keyframes legato-bloom-in {
@@ -308,16 +306,17 @@
     transform-origin: bottom center;
   }
 
-  /* Garden image — full bleed, blends with paper via multiply */
+  /* Garden image — full bleed, softly dissolved into the surrounding paper */
   .garden-dissolve {
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%);
-            mask-image: linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.08) 3%, rgba(0,0,0,0.34) 9%, rgba(0,0,0,0.82) 18%, black 30%, black 73%, rgba(0,0,0,0.82) 84%, rgba(0,0,0,0.34) 93%, rgba(0,0,0,0.08) 98%, transparent 100%);
+            mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.08) 3%, rgba(0,0,0,0.34) 9%, rgba(0,0,0,0.82) 18%, black 30%, black 73%, rgba(0,0,0,0.82) 84%, rgba(0,0,0,0.34) 93%, rgba(0,0,0,0.08) 98%, transparent 100%);
   }
-  .garden-glow {
-    -webkit-mask-image: var(--glow-mask);
-            mask-image: var(--glow-mask);
-    filter: saturate(2.4) brightness(1.05) contrast(1.08);
-    transition: opacity 700ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  .garden-flower-pop {
+    -webkit-mask-image: var(--flower-mask), linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.08) 3%, rgba(0,0,0,0.34) 9%, rgba(0,0,0,0.82) 18%, black 30%, black 73%, rgba(0,0,0,0.82) 84%, rgba(0,0,0,0.34) 93%, rgba(0,0,0,0.08) 98%, transparent 100%);
+            mask-image: var(--flower-mask), linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.08) 3%, rgba(0,0,0,0.34) 9%, rgba(0,0,0,0.82) 18%, black 30%, black 73%, rgba(0,0,0,0.82) 84%, rgba(0,0,0,0.34) 93%, rgba(0,0,0,0.08) 98%, transparent 100%);
+    -webkit-mask-composite: source-in;
+            mask-composite: intersect;
+    transition: opacity 900ms cubic-bezier(0.22, 0.61, 0.36, 1);
   }
 
   /* Falling rain droplets for the no-words mode */

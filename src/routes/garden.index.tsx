@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Shell } from "@/components/legato/Shell";
 import { useLegato } from "@/lib/legato-state";
 import gardenPainted from "@/assets/garden-painted-v4.png";
+import gardenFlowerPop from "@/assets/garden-flower-pop.png";
 
 export const Route = createFileRoute("/garden/")({
   head: () => ({
@@ -81,18 +82,17 @@ function Garden() {
                 draggable={false}
               />
 
-              {/* Saturation glow — same painting, masked to the hovered bed */}
               {BEINGS.map((p) => (
                 <img
-                  key={`glow-${p.id}`}
-                  src={gardenPainted}
+                  key={`flowers-${p.id}`}
+                  src={gardenFlowerPop}
                   alt=""
                   aria-hidden
                   draggable={false}
-                  className="absolute inset-0 w-full h-full object-cover select-none garden-glow pointer-events-none"
+                  className="absolute inset-0 w-full h-full object-cover select-none garden-flower-pop pointer-events-none"
                   style={{
                     opacity: hovered === p.id ? 1 : 0,
-                    ["--glow-mask" as string]: `radial-gradient(ellipse ${p.rx * 1.2}% ${p.ry * 1.2}% at ${p.cx}% ${p.cy}%, black 30%, rgba(0,0,0,0.6) 55%, transparent 85%)`,
+                    ["--flower-mask" as string]: `radial-gradient(ellipse ${p.rx * 1.18}% ${p.ry * 1.18}% at ${p.cx}% ${p.cy}%, black 42%, rgba(0,0,0,0.65) 66%, transparent 90%)`,
                   }}
                 />
               ))}
@@ -119,17 +119,7 @@ function Garden() {
                     borderRadius: "50%",
                     touchAction: "manipulation",
                   }}
-                >
-                  <span
-                    className="absolute inset-[-30%] rounded-full opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity duration-700"
-                    style={{
-                      background:
-                        `radial-gradient(ellipse at center, color-mix(in oklab, ${p.blooms[0].tint} 85%, white) 0%, transparent 70%)`,
-                      mixBlendMode: "screen",
-                      filter: "blur(14px)",
-                    }}
-                  />
-                </Link>
+                />
               ))}
             </div>
 
