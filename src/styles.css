@@ -311,6 +311,8 @@
   /* Garden image — full bleed, blends with paper via multiply */
   .garden-dissolve {
     mix-blend-mode: multiply;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.4) 4%, black 14%, black 88%, rgba(0,0,0,0.4) 97%, transparent 100%);
+            mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.4) 4%, black 14%, black 88%, rgba(0,0,0,0.4) 97%, transparent 100%);
   }
 
   /* Falling rain droplets for the no-words mode */
