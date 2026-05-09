@@ -7,7 +7,19 @@ import { useLegato } from "@/lib/legato-state";
 import { BEINGS } from "./garden.index";
 import { ELEMENTS, type ElementFamily } from "@/lib/elements";
 import { useMemories } from "@/lib/memories-store";
-import gardenPlotTop from "@/assets/garden-plot-top.png";
+import parcelleElise from "@/assets/parcelle-elise.png";
+import parcellePapa from "@/assets/parcelle-papa.png";
+import parcelleLeon from "@/assets/parcelle-leon.png";
+import parcelleMamie from "@/assets/parcelle-mamie.png";
+import parcelleTheo from "@/assets/parcelle-theo.png";
+
+const PARCELLES: Record<string, string> = {
+  elise: parcelleElise,
+  papa: parcellePapa,
+  leon: parcelleLeon,
+  mamie: parcelleMamie,
+  theo: parcelleTheo,
+};
 
 export const Route = createFileRoute("/garden/$zone")({
   head: () => ({ meta: [{ title: "Un jardin — Legato" }] }),
@@ -134,11 +146,11 @@ function GardenZone() {
           {/* Garden plot — viewed from above, the parcel of this being */}
           <div className="px-7 pt-8 flex flex-col items-center text-center">
             <img
-              src={gardenPlotTop}
+              src={PARCELLES[being.id] ?? parcelleElise}
               alt=""
               aria-hidden
               draggable={false}
-              className="w-[240px] h-auto select-none"
+              className="w-[260px] h-auto select-none"
               style={{ mixBlendMode: "multiply" }}
             />
             <p className="mt-4 text-[10px] uppercase tracking-[0.22em] text-dusk/45">
