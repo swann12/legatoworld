@@ -133,6 +133,25 @@ function NoWords() {
 
   const fetchSimilar = useServerFn(similarAmbiances);
 
+  // ----- Ambient audio (procedural, Web Audio) -----
+  const audioRef = useRef<AmbientAudio | null>(null);
+  useEffect(() => {
+    return () => {
+      audioRef.current?.stop();
+      audioRef.current = null;
+    };
+  }, []);
+  useEffect(() => {
+    if (!playing) {
+      audioRef.current?.stop();
+      audioRef.current = null;
+      return;
+    }
+    audioRef.current?.stop();
+    audioRef.current = createAmbientAudio(tex.motion);
+    audioRef.current?.start();
+  }, [playing, tex.motion, tex.id]);
+
   const onPointerDown = (e: React.PointerEvent) => {
     startX.current = e.clientX;
   };
@@ -196,21 +215,27 @@ function NoWords() {
 
   return (
     <Shell hideNav>
-      {/* Full-screen immersive background — no white card behind */}
-      <div className="fixed inset-0 -z-10 transition-[background] duration-[1400ms] ease-out"
-           style={{ background: bgFromPalette(tex.palette, tex.motion) }} />
-      <div className="fixed inset-0 -z-10 pointer-events-none">
-        <MotionLayer kind={tex.motion} accent={tex.palette[0]} />
-      </div>
-      {/* Subtle vignette to keep text legible without an opaque card */}
-      <div className="fixed inset-0 -z-10 pointer-events-none"
-           style={{ background: "radial-gradient(ellipse at 50% 110%, rgba(40,30,40,0.18), transparent 55%)" }} />
-
       <div
-        className="relative min-h-dvh flex flex-col select-none"
+        className="relative min-h-dvh flex flex-col select-none overflow-hidden"
         onPointerDown={onPointerDown}
         onPointerUp={onPointerUp}
       >
+        {/* Immersive background — sits inside the page, above Shell's bg-paper */}
+        <div
+          className="absolute inset-0 transition-[background] duration-[1400ms] ease-out"
+          style={{ background: bgFromPalette(tex.palette, tex.motion) }}
+        />
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <MotionLayer kind={tex.motion} accent={tex.palette[0]} />
+        </div>
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              "radial-gradient(ellipse at 50% 110%, rgba(40,30,40,0.18), transparent 55%)",
+          }}
+        />
+        <div className="relative z-10 flex flex-col flex-1 min-h-dvh">
         {/* Top bar */}
         <div className="px-6 pt-8 flex items-center justify-between">
           <Link to="/home" className="text-[11px] uppercase tracking-[0.22em] text-dusk/60">
@@ -327,6 +352,7 @@ function NoWords() {
               }`}
             />
           ))}
+        </div>
         </div>
       </div>
     </Shell>
