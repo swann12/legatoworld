@@ -210,19 +210,26 @@ function StepMode({ value, onChange }: { value: Mode; onChange: (m: Mode) => voi
 }
 
 function StepClosing({ name, branch, mode }: { name: string; branch: Branch; mode: Mode }) {
-  const branchLabel = BRANCHES.find((b) => b.id === branch)?.label.toLowerCase();
-  const modeLabel = MODES.find((m) => m.id === mode)?.label;
+  const modeLabel = MODES.find((m) => m.id === mode)?.label.toLowerCase();
+  const branchPhrase: Record<Branch, string> = {
+    person:    "la personne qui vous manque",
+    animal:    "ce compagnon fidèle",
+    fear:      "ce proche que vous voulez garder en pensée",
+    anxiety:   "ce qui vous traverse en silence",
+    practical: "les premiers jours qui s'ouvrent devant vous",
+    unknown:   "ce qui n'a pas encore de nom",
+  };
   return (
     <div className="space-y-8">
       <h2 className="font-serif text-[2.6rem] leading-[1.02] font-light text-balance">
         Bienvenue, <span className="italic">{name || "vous"}.</span>
       </h2>
       <div className="space-y-5 text-[15px] leading-relaxed text-dusk/65 max-w-[34ch]">
-        <p>
-          Nous tiendrons un espace pour <span className="italic">{branchLabel}</span>, en mode <span className="italic">{modeLabel?.toLowerCase()}</span>.
+        <p style={{ textWrap: "pretty" }}>
+          Nous gardons ici un espace pour <span className="italic">{branchPhrase[branch]}</span>, dans une atmosphère plutôt <span className="italic">{modeLabel}</span>.
         </p>
-        <p>
-          Quand vous voudrez, nous planterons quelque chose dans le jardin. Vous donnez le rythme.
+        <p style={{ textWrap: "pretty" }}>
+          Quand vous le souhaiterez, nous planterons quelque chose dans le jardin. C'est vous qui donnez le rythme, jamais nous.
         </p>
       </div>
     </div>

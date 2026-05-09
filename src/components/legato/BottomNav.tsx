@@ -1,5 +1,5 @@
 import { Link, useLocation } from "@tanstack/react-router";
-import { Home, Flower2, BookOpen, Heart, Moon } from "lucide-react";
+import { Home, Flower2, BookOpen, Heart } from "lucide-react";
 import { useLegato } from "@/lib/legato-state";
 
 export function BottomNav() {
@@ -10,14 +10,13 @@ export function BottomNav() {
     { to: "/garden" as const,   label: t("nav.garden"),   Icon: Flower2 },
     { to: "/journal" as const,  label: t("nav.journal"),  Icon: BookOpen },
     { to: "/presence" as const, label: t("nav.presence"), Icon: Heart },
-    { to: "/space" as const,    label: t("nav.space"),    Icon: Moon },
   ];
   return (
     <nav
       aria-label="Primary"
       className="fixed bottom-5 left-1/2 z-50 w-[calc(100%-2rem)] max-w-[400px] -translate-x-1/2"
     >
-      <div className="ceramic organic-radius-3 flex items-center justify-between px-3 py-2.5 backdrop-blur-xl">
+      <div className="ceramic organic-radius-3 flex items-stretch justify-between gap-1 px-2.5 py-2 backdrop-blur-xl">
         {items.map(({ to, label, Icon }) => {
           const active =
             to === "/home"
@@ -28,22 +27,22 @@ export function BottomNav() {
               key={to}
               to={to}
               aria-label={label}
-              className={`group flex items-center gap-2 rounded-full transition-all ${
-                active
-                  ? "bg-dusk/8 px-3 py-2"
-                  : "px-2 py-2 hover:bg-dusk/4"
+              className={`group flex flex-1 flex-col items-center justify-center gap-1 rounded-full px-2 py-1.5 transition-all ${
+                active ? "bg-dusk/8" : "hover:bg-dusk/4"
               }`}
             >
               <Icon
-                size={18}
+                size={17}
                 strokeWidth={1.6}
-                className={active ? "text-dusk" : "text-dusk/55 group-hover:text-dusk/80"}
+                className={active ? "text-dusk" : "text-dusk/60 group-hover:text-dusk/85"}
               />
-              {active && (
-                <span className="font-serif italic text-[13px] text-dusk whitespace-nowrap">
-                  {label}
-                </span>
-              )}
+              <span
+                className={`text-[9px] uppercase tracking-[0.18em] whitespace-nowrap leading-none ${
+                  active ? "text-dusk" : "text-dusk/55"
+                }`}
+              >
+                {label}
+              </span>
             </Link>
           );
         })}

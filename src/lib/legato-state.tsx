@@ -41,24 +41,24 @@ const EMPTY_WISHES: Wishes = {
 };
 
 export const BRANCHES: { id: Branch; label: string; whisper: string }[] = [
-  { id: "person", label: "Une personne", whisper: "Quelqu'un qui vous manque, aujourd'hui." },
-  { id: "animal", label: "Un animal", whisper: "Une présence fidèle, qui compte." },
-  { id: "fear", label: "La peur d'une perte", whisper: "Pour un proche fragile, qu'on garde en pensée." },
-  { id: "anxiety", label: "Vivre avec l'idée de la mort", whisper: "Approcher les grandes questions, en douceur." },
-  { id: "unknown", label: "Je ne sais pas encore", whisper: "Ne rien nommer, c'est déjà une place." },
+  { id: "person",  label: "Une personne qui me manque",      whisper: "Quelqu'un dont l'absence se fait sentir aujourd'hui." },
+  { id: "animal",  label: "Un animal aimé",                  whisper: "Une présence fidèle, qui compte autant qu'un proche." },
+  { id: "fear",    label: "La peur de perdre quelqu'un",     whisper: "Pour un être cher fragile, que l'on garde en pensée." },
+  { id: "anxiety", label: "Vivre avec l'idée de la mort",    whisper: "Approcher la question, sans qu'elle pèse trop lourd." },
+  { id: "unknown", label: "Je ne sais pas encore",           whisper: "Rien à nommer aujourd'hui, et c'est très bien comme ça." },
 ];
 
 export const PRACTICAL_BRANCH = {
   id: "practical" as const,
   label: "Une perte récente",
-  whisper: "Pour traverser les premiers jours, pas à pas.",
+  whisper: "Pour traverser les tout premiers jours, sans avoir à tout porter d'un coup.",
 };
 
 export const MODES: { id: Mode; label: string; whisper: string; tint: string }[] = [
-  { id: "cocoon",    label: "Cocon",    whisper: "Se replier, se reposer, se laisser envelopper.", tint: "rose" },
-  { id: "anchoring", label: "Ancrage",  whisper: "Retrouver des repères, avancer pas à pas.",      tint: "sage" },
-  { id: "breath",    label: "Souffle",  whisper: "Reprendre de l'air, s'alléger un peu.",          tint: "mist" },
-  { id: "relay",     label: "Relais",   whisper: "Se laisser aider, ne pas porter seul·e.",        tint: "lavender" },
+  { id: "cocoon",    label: "Cocon",    whisper: "Se replier un instant et se laisser envelopper, sans rien devoir.", tint: "rose" },
+  { id: "anchoring", label: "Ancrage",  whisper: "Reposer un pied sur la terre, retrouver des repères très simples.", tint: "sage" },
+  { id: "breath",    label: "Souffle",  whisper: "S'alléger un peu, laisser passer un peu d'air entre les pensées.",  tint: "mist" },
+  { id: "relay",     label: "Relais",   whisper: "Confier une part de ce qui pèse, ne pas tout porter aujourd'hui.",  tint: "lavender" },
 ];
 
 /** Visual/UX profile per mode — used to differentiate ambiance and content order. */
@@ -70,10 +70,10 @@ export type ModeProfile = {
 };
 export function modeProfile(mode: Mode): ModeProfile {
   switch (mode) {
-    case "cocoon":    return { density: "tight", halo: "rich",    primary: "presence",  ctaLabel: "Rester un instant" };
-    case "anchoring": return { density: "calm",  halo: "calm",    primary: "practical", ctaLabel: "Avancer d'un pas" };
-    case "breath":    return { density: "open",  halo: "calm",    primary: "journal",   ctaLabel: "Respirer un peu" };
-    case "relay":     return { density: "calm",  halo: "default", primary: "relay",     ctaLabel: "Demander de l'aide" };
+    case "cocoon":    return { density: "tight", halo: "rich",    primary: "presence",  ctaLabel: "Rester encore un instant" };
+    case "anchoring": return { density: "calm",  halo: "calm",    primary: "practical", ctaLabel: "Faire un seul petit pas" };
+    case "breath":    return { density: "open",  halo: "calm",    primary: "journal",   ctaLabel: "Reprendre un peu d'air" };
+    case "relay":     return { density: "calm",  halo: "default", primary: "relay",     ctaLabel: "Demander un appui" };
   }
 }
 
@@ -90,39 +90,39 @@ const DICT: Dict = {
   "common.continue":{ fr: "Continuer", en: "Continue" },
   "nav.wishes":   { fr: "Volontés",  en: "Wishes" },
   "home.aujourdhui":{ fr: "Aujourd'hui", en: "Today" },
-  "home.greeting": { fr: "prenez le temps de vous poser, juste un moment.", en: "take a moment to settle in, gently." },
-  "home.parler":   { fr: "Parler à la présence", en: "Speak to the presence" },
-  "home.parlerSub":{ fr: "Quelques minutes pour soi, à votre rythme.", en: "A few minutes for yourself, at your own pace." },
-  "home.parlerBody":{ fr: "Une présence qui écoute, simplement, sans rien attendre en retour.", en: "A presence that listens, simply, expecting nothing in return." },
+  "home.greeting": { fr: "prenez un instant pour vous poser, sans rien chercher.", en: "take a moment to settle in, without looking for anything." },
+  "home.parler":   { fr: "Parler à une présence", en: "Speak to a presence" },
+  "home.parlerSub":{ fr: "Quelques minutes à voix basse, juste pour vous.", en: "A few quiet minutes, just for you." },
+  "home.parlerBody":{ fr: "Une présence qui écoute en silence, sans attendre quoi que ce soit en retour.", en: "A presence that listens in silence, expecting nothing in return." },
   "home.enter":    { fr: "Entrer doucement", en: "Step inside" },
   "home.practical":{ fr: "Démarches concrètes", en: "Practical steps" },
-  "home.practicalSub":{ fr: "Les premiers jours, organisés pas à pas.", en: "The first days, organised step by step." },
-  "home.practicalAlways":{ fr: "Toujours là, quand vous en aurez besoin.", en: "Always here, whenever you need." },
+  "home.practicalSub":{ fr: "Une seule chose à la fois, à votre rythme et sans urgence.", en: "One thing at a time, at your own pace, without rush." },
+  "home.practicalAlways":{ fr: "Toujours là, le jour où vous en aurez besoin.", en: "Always here, on the day you need it." },
   "home.journal":  { fr: "Journal", en: "Journal" },
-  "home.journalSub":{ fr: "Poser un mot, une pensée, une page.", en: "Set down a word, a thought, a page." },
+  "home.journalSub":{ fr: "Poser un mot, une phrase, une pensée à laisser de côté.", en: "Set down a word, a sentence, a thought to leave aside." },
   "home.nowords":  { fr: "Sans mots", en: "Without words" },
-  "home.nowordsSub":{ fr: "Quand parler est trop : un son, une lumière, une respiration.", en: "When words are too much: a sound, a light, a breath." },
+  "home.nowordsSub":{ fr: "Quand parler est trop, juste un son, une lumière, une respiration.", en: "When words are too much, just a sound, a light, a breath." },
   "home.wishes":   { fr: "Mes volontés", en: "My wishes" },
-  "home.wishesSub":{ fr: "Déposer, à votre rythme, ce que vous souhaitez pour plus tard.", en: "Set down, at your own pace, what you would wish for later." },
-  "home.inspiration":{ fr: "Inspirations", en: "Inspirations" },
-  "home.inspirationSub":{ fr: "Décrire un être cher, recevoir des gestes simples à poser.", en: "Describe a loved one, receive gentle, concrete gestures." },
-  "home.crisis.label":{ fr: "Si aujourd'hui pèse trop", en: "If today weighs too much" },
-  "home.crisis.title":{ fr: "Une porte calme reste ouverte ici.", en: "A quiet door remains open here." },
+  "home.wishesSub":{ fr: "Poser, à votre rythme, ce que vous aimeriez pour plus tard.", en: "Set down, at your own pace, what you would wish for later." },
+  "home.inspiration":{ fr: "Inspirations pour un proche", en: "Inspirations for a loved one" },
+  "home.inspirationSub":{ fr: "Décrire la personne, recevoir des gestes simples qui lui ressemblent.", en: "Describe the person, receive gentle gestures that look like them." },
+  "home.crisis.label":{ fr: "Si aujourd'hui pèse trop", en: "If today feels too heavy" },
+  "home.crisis.title":{ fr: "Une porte calme reste ouverte, quand vous voudrez.", en: "A quiet door stays open, whenever you wish." },
   "garden.title":  { fr: "Le jardin de", en: "The garden of" },
-  "garden.subtitle":{ fr: "Promenez-vous. Touchez une touffe pour entrer dans une zone.", en: "Wander. Touch a patch to enter a zone." },
+  "garden.subtitle":{ fr: "Promenez-vous librement, et touchez une touffe pour entrer dans cette zone.", en: "Wander freely, and touch a patch to step into that zone." },
   "garden.plant":  { fr: "Planter une trace", en: "Plant a trace" },
   "garden.plantSub":{ fr: "Voix · note · photo · vidéo", en: "Voice · note · photo · video" },
   "garden.belong": { fr: "Ce jardin appartient à", en: "This garden belongs to" },
   "journal.title": { fr: "Journal", en: "Journal" },
-  "journal.subtitle":{ fr: "Une page rien qu'à vous, sans titre et sans attente.", en: "A page just for you, untitled, with no expectation." },
-  "journal.placeholder":{ fr: "Écrivez ici, ou laissez simplement la page respirer…", en: "Write here, or simply let the page breathe…" },
+  "journal.subtitle":{ fr: "Une page rien qu'à vous, sans titre, sans plan, sans attente.", en: "A page just for you, with no title, no plan, no expectation." },
+  "journal.placeholder":{ fr: "Écrivez ici, ou laissez simplement la page respirer un moment…", en: "Write here, or simply let the page breathe for a moment…" },
   "journal.save":  { fr: "Garder cette page", en: "Keep this page" },
   "journal.empty": { fr: "Aucune page encore. La première peut tenir en un seul mot.", en: "No page yet. The first can fit in a single word." },
   "journal.to.self":{ fr: "à moi-même", en: "to myself" },
-  "journal.to.them":{ fr: "à elle, à lui", en: "to them" },
+  "journal.to.them":{ fr: "à la personne qui me manque", en: "to the person I miss" },
   "journal.to.free":{ fr: "librement",   en: "freely" },
   "nowords.title": { fr: "Sans mots", en: "Without words" },
-  "nowords.subtitle":{ fr: "Faites glisser, et arrêtez-vous sur ce qui vous apaise.", en: "Swipe, and stop on what feels gentle." },
+  "nowords.subtitle":{ fr: "Glissez doucement, et arrêtez-vous sur l'ambiance qui vous apaise.", en: "Swipe gently, and stop on the ambience that soothes you." },
   "nowords.sound": { fr: "Son d'ambiance", en: "Ambient sound" },
   "nowords.silence":{ fr: "Silence", en: "Silence" },
   "practical.always":{ fr: "Démarches concrètes", en: "Practical steps" },
