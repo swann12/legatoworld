@@ -310,8 +310,9 @@
 
   /* Organic dissolved frame for garden image — never a hard edge */
   .garden-dissolve {
-    -webkit-mask-image: radial-gradient(ellipse 80% 78% at 50% 52%, black 55%, transparent 100%);
-            mask-image: radial-gradient(ellipse 80% 78% at 50% 52%, black 55%, transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse 78% 80% at 50% 52%, black 28%, rgba(0,0,0,0.85) 48%, rgba(0,0,0,0.45) 72%, transparent 96%);
+            mask-image: radial-gradient(ellipse 78% 80% at 50% 52%, black 28%, rgba(0,0,0,0.85) 48%, rgba(0,0,0,0.45) 72%, transparent 96%);
+    mix-blend-mode: multiply;
   }
 
   /* Falling rain droplets for the no-words mode */
