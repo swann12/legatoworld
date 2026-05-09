@@ -26,6 +26,20 @@ function InspirationPage() {
   const [error, setError] = useState<string | null>(null);
   const call = useServerFn(suggestInspiration);
 
+  const HINTS = [
+    "Sa voix, son rire",
+    "Ce qu'il/elle aimait manger",
+    "Sa musique, son chanteur",
+    "Une saison, un parfum",
+    "Un lieu qui lui ressemble",
+    "Un objet, un vêtement",
+    "Une habitude, un geste",
+    "Ce qu'il/elle ne supportait pas",
+  ];
+  const addHint = (h: string) => {
+    setText((prev) => (prev.trim() ? prev.trim() + "\n— " + h + " : " : "— " + h + " : "));
+  };
+
   const onSubmit = async () => {
     const v = text.trim();
     if (v.length < 3 || loading) return;
@@ -89,6 +103,18 @@ function InspirationPage() {
                 rows={7}
                 className="w-full bg-transparent resize-none outline-none font-serif italic text-[16px] leading-[26px] text-dusk placeholder:text-dusk/30"
               />
+            </div>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {HINTS.map((h) => (
+                <button
+                  key={h}
+                  onClick={() => addHint(h)}
+                  className="paper-card px-3 py-1.5 rounded-full text-[11px] text-dusk/65 hover:text-dusk transition"
+                  type="button"
+                >
+                  + {h}
+                </button>
+              ))}
             </div>
           </div>
 
