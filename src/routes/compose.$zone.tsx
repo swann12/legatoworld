@@ -1,9 +1,11 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
 import { Halos } from "@/components/legato/Halos";
 import { Shell } from "@/components/legato/Shell";
 import { OrganicHandles } from "@/components/legato/OrganicHandles";
 import { useLegato } from "@/lib/legato-state";
+import { composeFromPortrait } from "@/lib/compose-auto.functions";
 import {
   ELEMENTS,
   ELEMENT_FAMILIES,
@@ -97,7 +99,15 @@ function Compose() {
             />
           )}
           {step === "ask" && (
-            <AskCompose onYes={() => setStep("compose")} onNo={() => saveMemory(false)} />
+            <AskCompose
+              mode={mode}
+              onYes={() => setStep("compose")}
+              onNo={() => saveMemory(false)}
+              onAuto={(generated) => {
+                setItems(generated);
+                setStep("compose");
+              }}
+            />
           )}
           {step === "compose" && (
             <Composer
