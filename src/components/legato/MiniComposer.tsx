@@ -15,7 +15,7 @@ type Placed = {
   flipY?: boolean;
 };
 
-const FAMILIES: Array<ElementAsset["family"]> = ["florale", "feuillage"];
+const FAMILIES: Array<ElementAsset["family"]> = ["florale", "fleur", "couronne", "feuillage"];
 
 /* Placement intelligent selon le préréglage. Recalcule la couronne
  * pour répartir tous les éléments sur le cercle, rotation tangente. */
