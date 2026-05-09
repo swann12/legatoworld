@@ -111,44 +111,44 @@ const GardenIndexRoute = GardenIndexRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const PracticalTextsRoute = PracticalTextsRouteImport.update({
-  id: '/texts',
-  path: '/texts',
-  getParentRoute: () => PracticalRoute,
+  id: '/practical/texts',
+  path: '/practical/texts',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const PracticalStepsRoute = PracticalStepsRouteImport.update({
-  id: '/steps',
-  path: '/steps',
-  getParentRoute: () => PracticalRoute,
+  id: '/practical/steps',
+  path: '/practical/steps',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const PracticalShareRoute = PracticalShareRouteImport.update({
-  id: '/share',
-  path: '/share',
-  getParentRoute: () => PracticalRoute,
+  id: '/practical/share',
+  path: '/practical/share',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const PracticalObjectsRoute = PracticalObjectsRouteImport.update({
-  id: '/objects',
-  path: '/objects',
-  getParentRoute: () => PracticalRoute,
+  id: '/practical/objects',
+  path: '/practical/objects',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const PracticalFlowersRoute = PracticalFlowersRouteImport.update({
-  id: '/flowers',
-  path: '/flowers',
-  getParentRoute: () => PracticalRoute,
+  id: '/practical/flowers',
+  path: '/practical/flowers',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const PracticalCeremonyRoute = PracticalCeremonyRouteImport.update({
-  id: '/ceremony',
-  path: '/ceremony',
-  getParentRoute: () => PracticalRoute,
+  id: '/practical/ceremony',
+  path: '/practical/ceremony',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const PracticalBookletRoute = PracticalBookletRouteImport.update({
-  id: '/booklet',
-  path: '/booklet',
-  getParentRoute: () => PracticalRoute,
+  id: '/practical/booklet',
+  path: '/practical/booklet',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const PracticalAtmosphereRoute = PracticalAtmosphereRouteImport.update({
-  id: '/atmosphere',
-  path: '/atmosphere',
-  getParentRoute: () => PracticalRoute,
+  id: '/practical/atmosphere',
+  path: '/practical/atmosphere',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const GardenZoneRoute = GardenZoneRouteImport.update({
   id: '/garden/$zone',
@@ -343,6 +343,14 @@ export interface RootRouteChildren {
   WishesRoute: typeof WishesRoute
   ComposeZoneRoute: typeof ComposeZoneRoute
   GardenZoneRoute: typeof GardenZoneRoute
+  PracticalAtmosphereRoute: typeof PracticalAtmosphereRoute
+  PracticalBookletRoute: typeof PracticalBookletRoute
+  PracticalCeremonyRoute: typeof PracticalCeremonyRoute
+  PracticalFlowersRoute: typeof PracticalFlowersRoute
+  PracticalObjectsRoute: typeof PracticalObjectsRoute
+  PracticalShareRoute: typeof PracticalShareRoute
+  PracticalStepsRoute: typeof PracticalStepsRoute
+  PracticalTextsRoute: typeof PracticalTextsRoute
   GardenIndexRoute: typeof GardenIndexRoute
   PracticalIndexRoute: typeof PracticalIndexRoute
 }
@@ -456,59 +464,59 @@ declare module '@tanstack/react-router' {
     }
     '/practical/texts': {
       id: '/practical/texts'
-      path: '/texts'
+      path: '/practical/texts'
       fullPath: '/practical/texts'
       preLoaderRoute: typeof PracticalTextsRouteImport
-      parentRoute: typeof PracticalRoute
+      parentRoute: typeof rootRouteImport
     }
     '/practical/steps': {
       id: '/practical/steps'
-      path: '/steps'
+      path: '/practical/steps'
       fullPath: '/practical/steps'
       preLoaderRoute: typeof PracticalStepsRouteImport
-      parentRoute: typeof PracticalRoute
+      parentRoute: typeof rootRouteImport
     }
     '/practical/share': {
       id: '/practical/share'
-      path: '/share'
+      path: '/practical/share'
       fullPath: '/practical/share'
       preLoaderRoute: typeof PracticalShareRouteImport
-      parentRoute: typeof PracticalRoute
+      parentRoute: typeof rootRouteImport
     }
     '/practical/objects': {
       id: '/practical/objects'
-      path: '/objects'
+      path: '/practical/objects'
       fullPath: '/practical/objects'
       preLoaderRoute: typeof PracticalObjectsRouteImport
-      parentRoute: typeof PracticalRoute
+      parentRoute: typeof rootRouteImport
     }
     '/practical/flowers': {
       id: '/practical/flowers'
-      path: '/flowers'
+      path: '/practical/flowers'
       fullPath: '/practical/flowers'
       preLoaderRoute: typeof PracticalFlowersRouteImport
-      parentRoute: typeof PracticalRoute
+      parentRoute: typeof rootRouteImport
     }
     '/practical/ceremony': {
       id: '/practical/ceremony'
-      path: '/ceremony'
+      path: '/practical/ceremony'
       fullPath: '/practical/ceremony'
       preLoaderRoute: typeof PracticalCeremonyRouteImport
-      parentRoute: typeof PracticalRoute
+      parentRoute: typeof rootRouteImport
     }
     '/practical/booklet': {
       id: '/practical/booklet'
-      path: '/booklet'
+      path: '/practical/booklet'
       fullPath: '/practical/booklet'
       preLoaderRoute: typeof PracticalBookletRouteImport
-      parentRoute: typeof PracticalRoute
+      parentRoute: typeof rootRouteImport
     }
     '/practical/atmosphere': {
       id: '/practical/atmosphere'
-      path: '/atmosphere'
+      path: '/practical/atmosphere'
       fullPath: '/practical/atmosphere'
       preLoaderRoute: typeof PracticalAtmosphereRouteImport
-      parentRoute: typeof PracticalRoute
+      parentRoute: typeof rootRouteImport
     }
     '/garden/$zone': {
       id: '/garden/$zone'
@@ -543,18 +551,17 @@ const rootRouteChildren: RootRouteChildren = {
   WishesRoute: WishesRoute,
   ComposeZoneRoute: ComposeZoneRoute,
   GardenZoneRoute: GardenZoneRoute,
+  PracticalAtmosphereRoute: PracticalAtmosphereRoute,
+  PracticalBookletRoute: PracticalBookletRoute,
+  PracticalCeremonyRoute: PracticalCeremonyRoute,
+  PracticalFlowersRoute: PracticalFlowersRoute,
+  PracticalObjectsRoute: PracticalObjectsRoute,
+  PracticalShareRoute: PracticalShareRoute,
+  PracticalStepsRoute: PracticalStepsRoute,
+  PracticalTextsRoute: PracticalTextsRoute,
   GardenIndexRoute: GardenIndexRoute,
   PracticalIndexRoute: PracticalIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { createStart } from '@tanstack/react-start'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-  }
-}
