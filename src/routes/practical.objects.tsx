@@ -112,6 +112,12 @@ function Objects() {
               </article>
             ))}
           </div>
+
+          <PersonalSuggestions
+            topic="objects"
+            eyebrow="Sur mesure — objets & rituels"
+            cta="Recevoir des objets et rituels sur mesure"
+          />
         </div>
       </div>
       <ConfideDock step="objets" />
