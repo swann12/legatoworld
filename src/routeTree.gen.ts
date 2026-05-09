@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WishesRouteImport } from './routes/wishes'
 import { Route as SpaceRouteImport } from './routes/space'
 import { Route as PresenceRouteImport } from './routes/presence'
 import { Route as PracticalRouteImport } from './routes/practical'
@@ -25,6 +26,11 @@ import { Route as GardenIndexRouteImport } from './routes/garden.index'
 import { Route as GardenZoneRouteImport } from './routes/garden.$zone'
 import { Route as ComposeZoneRouteImport } from './routes/compose.$zone'
 
+const WishesRoute = WishesRouteImport.update({
+  id: '/wishes',
+  path: '/wishes',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SpaceRoute = SpaceRouteImport.update({
   id: '/space',
   path: '/space',
@@ -114,6 +120,7 @@ export interface FileRoutesByFullPath {
   '/practical': typeof PracticalRoute
   '/presence': typeof PresenceRoute
   '/space': typeof SpaceRoute
+  '/wishes': typeof WishesRoute
   '/compose/$zone': typeof ComposeZoneRoute
   '/garden/$zone': typeof GardenZoneRoute
   '/garden/': typeof GardenIndexRoute
@@ -131,6 +138,7 @@ export interface FileRoutesByTo {
   '/practical': typeof PracticalRoute
   '/presence': typeof PresenceRoute
   '/space': typeof SpaceRoute
+  '/wishes': typeof WishesRoute
   '/compose/$zone': typeof ComposeZoneRoute
   '/garden/$zone': typeof GardenZoneRoute
   '/garden': typeof GardenIndexRoute
@@ -149,6 +157,7 @@ export interface FileRoutesById {
   '/practical': typeof PracticalRoute
   '/presence': typeof PresenceRoute
   '/space': typeof SpaceRoute
+  '/wishes': typeof WishesRoute
   '/compose/$zone': typeof ComposeZoneRoute
   '/garden/$zone': typeof GardenZoneRoute
   '/garden/': typeof GardenIndexRoute
@@ -168,6 +177,7 @@ export interface FileRouteTypes {
     | '/practical'
     | '/presence'
     | '/space'
+    | '/wishes'
     | '/compose/$zone'
     | '/garden/$zone'
     | '/garden/'
@@ -185,6 +195,7 @@ export interface FileRouteTypes {
     | '/practical'
     | '/presence'
     | '/space'
+    | '/wishes'
     | '/compose/$zone'
     | '/garden/$zone'
     | '/garden'
@@ -202,6 +213,7 @@ export interface FileRouteTypes {
     | '/practical'
     | '/presence'
     | '/space'
+    | '/wishes'
     | '/compose/$zone'
     | '/garden/$zone'
     | '/garden/'
@@ -220,6 +232,7 @@ export interface RootRouteChildren {
   PracticalRoute: typeof PracticalRoute
   PresenceRoute: typeof PresenceRoute
   SpaceRoute: typeof SpaceRoute
+  WishesRoute: typeof WishesRoute
   ComposeZoneRoute: typeof ComposeZoneRoute
   GardenZoneRoute: typeof GardenZoneRoute
   GardenIndexRoute: typeof GardenIndexRoute
@@ -227,6 +240,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/wishes': {
+      id: '/wishes'
+      path: '/wishes'
+      fullPath: '/wishes'
+      preLoaderRoute: typeof WishesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/space': {
       id: '/space'
       path: '/space'
@@ -348,6 +368,7 @@ const rootRouteChildren: RootRouteChildren = {
   PracticalRoute: PracticalRoute,
   PresenceRoute: PresenceRoute,
   SpaceRoute: SpaceRoute,
+  WishesRoute: WishesRoute,
   ComposeZoneRoute: ComposeZoneRoute,
   GardenZoneRoute: GardenZoneRoute,
   GardenIndexRoute: GardenIndexRoute,
