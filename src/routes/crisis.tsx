@@ -22,30 +22,35 @@ function Crisis() {
           style={{ background: "radial-gradient(circle, var(--rose), transparent 70%)" }}
         />
 
-        <div className="relative z-10 flex flex-1 flex-col px-8 pt-10">
-          <Link to="/home" className="text-[11px] uppercase tracking-[0.22em] text-dusk/55 hover:text-dusk">← Accueil</Link>
+        <div className="relative z-10 flex flex-1 flex-col items-center px-8 pt-10 text-center">
+          <Link
+            to="/home"
+            className="self-start text-[11px] uppercase tracking-[0.22em] text-dusk/55 hover:text-dusk"
+          >
+            ← Accueil
+          </Link>
 
-          <div className="mt-14 max-w-[30ch]">
-            <div className="flex items-center gap-3 text-[10px] uppercase tracking-[0.28em] text-dusk/45">
+          <div className="mt-12 max-w-[24ch]">
+            <div className="flex items-center justify-center gap-3 text-[10px] uppercase tracking-[0.28em] text-dusk/45">
               <span className="h-px w-6 bg-dusk/20" />
               Ici, doucement
+              <span className="h-px w-6 bg-dusk/20" />
             </div>
             <h1
-              className="mt-4 font-serif text-[2.2rem] leading-[1.08] font-light text-dusk"
+              className="mt-5 font-serif text-[2.1rem] leading-[1.12] font-light text-dusk"
               style={{ textWrap: "balance" }}
             >
-              Vous êtes là.
-              <span className="block italic text-dusk/80">C'est déjà beaucoup.</span>
+              Vous êtes là, <span className="italic text-dusk/80">c'est déjà beaucoup.</span>
             </h1>
             <p
-              className="mt-6 text-[15px] leading-relaxed text-dusk/65 max-w-[34ch]"
-              style={{ textWrap: "pretty" }}
+              className="mt-5 text-[14.5px] leading-relaxed text-dusk/65 max-w-[26ch] mx-auto"
+              style={{ textWrap: "balance" }}
             >
-              Respirez avec ce point. Une porte s'ouvrira quand vous voudrez.
+              Respirez avec ce point lumineux. Une porte s'ouvrira quand vous voudrez.
             </p>
           </div>
 
-          <div className="my-14 flex justify-center">
+          <div className="my-12 flex justify-center">
             <div
               className="size-32 rounded-full breath"
               style={{
@@ -56,17 +61,17 @@ function Crisis() {
             />
           </div>
 
-          <div className="space-y-3 pb-14">
+          <div className="w-full space-y-3 pb-14">
             <Link to="/no-words" className="ceramic organic-radius-3 block px-7 py-5 text-center">
               <span className="font-serif text-xl italic text-dusk">Respirer, sans parler</span>
               <span className="block mt-1 text-[11px] uppercase tracking-[0.22em] text-dusk/55">
-                Un son, une lumière, le souffle
+                Un souffle, une lumière
               </span>
             </Link>
             <a href="tel:3114" className="ceramic-soft organic-radius-3 block px-7 py-5 text-center">
               <span className="font-serif text-lg italic text-dusk">Une voix humaine</span>
               <span className="block mt-1 text-[11px] uppercase tracking-[0.22em] text-dusk/55">
-                Écoute gratuite et confidentielle
+                Écoute gratuite, confidentielle
               </span>
             </a>
             <button className="ceramic-soft organic-radius-3 w-full px-7 py-5 text-center">
