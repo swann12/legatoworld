@@ -6,7 +6,7 @@ import { ConfideDock } from "@/components/legato/ConfideDock";
 import { useLegato, modeProfile, type Mode } from "@/lib/legato-state";
 import { BUDGET_LABELS, loadPractical, savePractical, type Budget } from "@/lib/practical-store";
 
-export const Route = createFileRoute("/practical")({
+export const Route = createFileRoute("/practical/")({
   head: () => ({
     meta: [
       { title: "Aides concrètes — Legato" },
