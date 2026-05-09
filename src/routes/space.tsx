@@ -55,10 +55,10 @@ function Space() {
                   Mes volontés
                 </p>
                 <h2 className="mt-2 font-serif text-[1.5rem] font-light italic text-dusk leading-snug max-w-[22ch]">
-                  Poser, à votre rythme, ce que vous voudriez pour plus tard.
+                  Ce que vous voudriez, pour plus tard.
                 </h2>
                 <p className="mt-3 text-[12.5px] leading-relaxed text-dusk/60 max-w-[34ch]">
-                  Une atmosphère, quelques mots, des gestes. Rien d'urgent.
+                  Une atmosphère, des mots, des gestes. Rien d'urgent.
                 </p>
                 <p className="mt-5 text-[11px] uppercase tracking-[0.22em] text-dusk/55">
                   Ouvrir mes volontés →

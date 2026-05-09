@@ -61,7 +61,7 @@ function Dates() {
           <ScreenHeader
             eyebrow="Dates sensibles"
             title={<>Des jours qui <br /><span className="italic">savent déjà.</span></>}
-            subtitle="Touchez une date pour recevoir des rituels — courts, ou un peu plus longs."
+            subtitle="Touchez une date pour des rituels — courts ou plus longs."
           />
 
           <Section className="mt-10 space-y-3">
