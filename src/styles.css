@@ -308,14 +308,14 @@
 
   /* Garden image — full bleed, softly dissolved into the surrounding paper */
   .garden-dissolve {
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.22) 4%, rgba(0,0,0,0.72) 12%, black 23%, black 78%, rgba(0,0,0,0.72) 88%, rgba(0,0,0,0.22) 96%, transparent 100%);
-            mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.22) 4%, rgba(0,0,0,0.72) 12%, black 23%, black 78%, rgba(0,0,0,0.72) 88%, rgba(0,0,0,0.22) 96%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.08) 3%, rgba(0,0,0,0.34) 9%, rgba(0,0,0,0.82) 18%, black 30%, black 73%, rgba(0,0,0,0.82) 84%, rgba(0,0,0,0.34) 93%, rgba(0,0,0,0.08) 98%, transparent 100%);
+            mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.08) 3%, rgba(0,0,0,0.34) 9%, rgba(0,0,0,0.82) 18%, black 30%, black 73%, rgba(0,0,0,0.82) 84%, rgba(0,0,0,0.34) 93%, rgba(0,0,0,0.08) 98%, transparent 100%);
   }
-  .garden-hover-focus {
-    backdrop-filter: saturate(1.75) contrast(1.06);
-    -webkit-backdrop-filter: saturate(1.75) contrast(1.06);
-    -webkit-mask-image: var(--hover-mask);
-            mask-image: var(--hover-mask);
+  .garden-flower-pop {
+    -webkit-mask-image: var(--flower-mask), linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.08) 3%, rgba(0,0,0,0.34) 9%, rgba(0,0,0,0.82) 18%, black 30%, black 73%, rgba(0,0,0,0.82) 84%, rgba(0,0,0,0.34) 93%, rgba(0,0,0,0.08) 98%, transparent 100%);
+            mask-image: var(--flower-mask), linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.08) 3%, rgba(0,0,0,0.34) 9%, rgba(0,0,0,0.82) 18%, black 30%, black 73%, rgba(0,0,0,0.82) 84%, rgba(0,0,0,0.34) 93%, rgba(0,0,0,0.08) 98%, transparent 100%);
+    -webkit-mask-composite: source-in;
+            mask-composite: intersect;
     transition: opacity 900ms cubic-bezier(0.22, 0.61, 0.36, 1);
   }
 
