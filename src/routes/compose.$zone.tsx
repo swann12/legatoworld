@@ -534,6 +534,50 @@ function Composer({
     }
     historyRef.current.past.push(items);
     historyRef.current.future = [];
+    // Window-level fallbacks ensure handles (rotate / scale / opacity)
+    // keep tracking even when the pointer leaves the captured element.
+    const onWinMove = (ev: PointerEvent) => {
+      const d = dragRef.current;
+      if (!d) return;
+      const dx = ev.clientX - d.startX;
+      const dy = ev.clientY - d.startY;
+      const w = d.canvasRect.width;
+      const h = d.canvasRect.height;
+      setItems((prev) =>
+        prev.map((it) => {
+          if (it.id !== d.id) return it;
+          if (d.mode === "opacity") {
+            const op = Math.max(0.1, Math.min(1, (d.item.opacity ?? 1) - dy / 120));
+            return { ...it, opacity: op };
+          }
+          if (d.mode === "move") {
+            return { ...it, x: d.item.x + (dx / w) * 100, y: d.item.y + (dy / h) * 100 };
+          }
+          if (d.mode === "scale") {
+            const factor = 1 + dy / 180;
+            const newW = Math.max(4, Math.min(180, (d.item.width ?? 20) * factor));
+            const ratio = (d.item.height ?? 20) / (d.item.width ?? 20);
+            return { ...it, width: newW, height: newW * ratio };
+          }
+          if (d.mode === "rotate") {
+            const cx = d.canvasRect.left + (d.item.x / 100) * w;
+            const cy = d.canvasRect.top + (d.item.y / 100) * h;
+            const angle = (Math.atan2(ev.clientY - cy, ev.clientX - cx) * 180) / Math.PI + 90;
+            return { ...it, rotation: angle };
+          }
+          return it;
+        }),
+      );
+    };
+    const onWinUp = () => {
+      dragRef.current = null;
+      window.removeEventListener("pointermove", onWinMove);
+      window.removeEventListener("pointerup", onWinUp);
+      window.removeEventListener("pointercancel", onWinUp);
+    };
+    window.addEventListener("pointermove", onWinMove);
+    window.addEventListener("pointerup", onWinUp);
+    window.addEventListener("pointercancel", onWinUp);
   };
 
   const onPointerMove = (e: React.PointerEvent) => {
