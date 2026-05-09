@@ -5,7 +5,7 @@ import { Shell } from "@/components/legato/Shell";
 import { LivingPatch } from "@/components/legato/LivingPatch";
 import { useLegato } from "@/lib/legato-state";
 import { useMemories } from "@/lib/memories-store";
-import gardenPainted from "@/assets/garden-painted.jpg";
+import gardenPainted from "@/assets/garden-painted-v2.jpg";
 
 export const Route = createFileRoute("/garden/")({
   head: () => ({
