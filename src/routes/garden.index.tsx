@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Shell } from "@/components/legato/Shell";
 import { useLegato } from "@/lib/legato-state";
 import gardenPainted from "@/assets/garden-painted-v4.png";
+import gardenFlowerPop from "@/assets/garden-flower-pop.png";
 
 export const Route = createFileRoute("/garden/")({
   head: () => ({
@@ -81,6 +82,21 @@ function Garden() {
                 draggable={false}
               />
 
+              {BEINGS.map((p) => (
+                <img
+                  key={`flowers-${p.id}`}
+                  src={gardenFlowerPop}
+                  alt=""
+                  aria-hidden
+                  draggable={false}
+                  className="absolute inset-0 w-full h-full object-cover select-none garden-flower-pop pointer-events-none"
+                  style={{
+                    opacity: hovered === p.id ? 1 : 0,
+                    ["--flower-mask" as string]: `radial-gradient(ellipse ${p.rx * 1.18}% ${p.ry * 1.18}% at ${p.cx}% ${p.cy}%, black 42%, rgba(0,0,0,0.65) 66%, transparent 90%)`,
+                  }}
+                />
+              ))}
+
               {/* Hotspots — local lift on hover, gentle dim on the others */}
               {BEINGS.map((p) => (
                 <Link
@@ -103,14 +119,7 @@ function Garden() {
                     borderRadius: "50%",
                     touchAction: "manipulation",
                   }}
-                >
-                  <span
-                    className="garden-hover-focus absolute inset-[-18%] rounded-full opacity-0 group-hover:opacity-100 group-focus:opacity-100"
-                    style={{
-                      ["--hover-mask" as string]: `radial-gradient(ellipse at center, black 38%, rgba(0,0,0,0.7) 62%, transparent 88%)`,
-                    }}
-                  />
-                </Link>
+                />
               ))}
             </div>
 
