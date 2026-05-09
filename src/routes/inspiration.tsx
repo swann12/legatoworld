@@ -99,7 +99,7 @@ function InspirationPage() {
               <textarea
                 value={text}
                 onChange={(e) => setText(e.target.value)}
-                placeholder="Sa douceur, ses passions, ses musiques, un souvenir précis, ce qu'il ou elle aimait, ce qu'il ou elle ne supportait pas…"
+                placeholder="Sa douceur, ses passions, un souvenir, ce qu'il ou elle aimait…"
                 rows={7}
                 className="w-full bg-transparent resize-none outline-none font-serif italic text-[16px] leading-[26px] text-dusk placeholder:text-dusk/30"
               />
