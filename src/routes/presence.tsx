@@ -11,16 +11,16 @@ export const Route = createFileRoute("/presence")({
 
 const SUGGESTIONS = [
   "Raconte-moi cette journée, doucement.",
-  "J'ai envie de me souvenir de quelque chose.",
+  "J'aimerais me souvenir de quelque chose.",
   "Je n'ai pas de mots, là.",
-  "Aide-moi à nommer ce que je ressens.",
+  "Aide-moi à mettre des mots sur ce que je ressens.",
 ];
 
 function Presence() {
   const { mode, name } = useLegato();
   const [draft, setDraft] = useState("");
   const [messages, setMessages] = useState<{ role: "you" | "presence"; text: string }[]>([
-    { role: "presence", text: "Je suis là. Rien de particulier à dire, vraiment." },
+    { role: "presence", text: "Je suis là. Rien de particulier à dire, simplement présent·e." },
   ]);
 
   const send = (text?: string) => {
@@ -29,7 +29,7 @@ function Presence() {
     setMessages((m) => [
       ...m,
       { role: "you", text: t },
-      { role: "presence", text: "Merci de me l'avoir dit. Prenez votre temps — rien ne presse, sauf si cela vous fait du bien." },
+      { role: "presence", text: "Merci de me l'avoir confié. Prenez votre temps. Rien ne presse." },
     ]);
     setDraft("");
   };

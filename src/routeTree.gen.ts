@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WishesRouteImport } from './routes/wishes'
 import { Route as SpaceRouteImport } from './routes/space'
 import { Route as PresenceRouteImport } from './routes/presence'
 import { Route as PracticalRouteImport } from './routes/practical'
@@ -16,6 +17,7 @@ import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as NoWordsRouteImport } from './routes/no-words'
 import { Route as MemoriesRouteImport } from './routes/memories'
 import { Route as JournalRouteImport } from './routes/journal'
+import { Route as InspirationRouteImport } from './routes/inspiration'
 import { Route as HomeRouteImport } from './routes/home'
 import { Route as HelpRouteImport } from './routes/help'
 import { Route as DatesRouteImport } from './routes/dates'
@@ -25,6 +27,11 @@ import { Route as GardenIndexRouteImport } from './routes/garden.index'
 import { Route as GardenZoneRouteImport } from './routes/garden.$zone'
 import { Route as ComposeZoneRouteImport } from './routes/compose.$zone'
 
+const WishesRoute = WishesRouteImport.update({
+  id: '/wishes',
+  path: '/wishes',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SpaceRoute = SpaceRouteImport.update({
   id: '/space',
   path: '/space',
@@ -58,6 +65,11 @@ const MemoriesRoute = MemoriesRouteImport.update({
 const JournalRoute = JournalRouteImport.update({
   id: '/journal',
   path: '/journal',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InspirationRoute = InspirationRouteImport.update({
+  id: '/inspiration',
+  path: '/inspiration',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HomeRoute = HomeRouteImport.update({
@@ -107,6 +119,7 @@ export interface FileRoutesByFullPath {
   '/dates': typeof DatesRoute
   '/help': typeof HelpRoute
   '/home': typeof HomeRoute
+  '/inspiration': typeof InspirationRoute
   '/journal': typeof JournalRoute
   '/memories': typeof MemoriesRoute
   '/no-words': typeof NoWordsRoute
@@ -114,6 +127,7 @@ export interface FileRoutesByFullPath {
   '/practical': typeof PracticalRoute
   '/presence': typeof PresenceRoute
   '/space': typeof SpaceRoute
+  '/wishes': typeof WishesRoute
   '/compose/$zone': typeof ComposeZoneRoute
   '/garden/$zone': typeof GardenZoneRoute
   '/garden/': typeof GardenIndexRoute
@@ -124,6 +138,7 @@ export interface FileRoutesByTo {
   '/dates': typeof DatesRoute
   '/help': typeof HelpRoute
   '/home': typeof HomeRoute
+  '/inspiration': typeof InspirationRoute
   '/journal': typeof JournalRoute
   '/memories': typeof MemoriesRoute
   '/no-words': typeof NoWordsRoute
@@ -131,6 +146,7 @@ export interface FileRoutesByTo {
   '/practical': typeof PracticalRoute
   '/presence': typeof PresenceRoute
   '/space': typeof SpaceRoute
+  '/wishes': typeof WishesRoute
   '/compose/$zone': typeof ComposeZoneRoute
   '/garden/$zone': typeof GardenZoneRoute
   '/garden': typeof GardenIndexRoute
@@ -142,6 +158,7 @@ export interface FileRoutesById {
   '/dates': typeof DatesRoute
   '/help': typeof HelpRoute
   '/home': typeof HomeRoute
+  '/inspiration': typeof InspirationRoute
   '/journal': typeof JournalRoute
   '/memories': typeof MemoriesRoute
   '/no-words': typeof NoWordsRoute
@@ -149,6 +166,7 @@ export interface FileRoutesById {
   '/practical': typeof PracticalRoute
   '/presence': typeof PresenceRoute
   '/space': typeof SpaceRoute
+  '/wishes': typeof WishesRoute
   '/compose/$zone': typeof ComposeZoneRoute
   '/garden/$zone': typeof GardenZoneRoute
   '/garden/': typeof GardenIndexRoute
@@ -161,6 +179,7 @@ export interface FileRouteTypes {
     | '/dates'
     | '/help'
     | '/home'
+    | '/inspiration'
     | '/journal'
     | '/memories'
     | '/no-words'
@@ -168,6 +187,7 @@ export interface FileRouteTypes {
     | '/practical'
     | '/presence'
     | '/space'
+    | '/wishes'
     | '/compose/$zone'
     | '/garden/$zone'
     | '/garden/'
@@ -178,6 +198,7 @@ export interface FileRouteTypes {
     | '/dates'
     | '/help'
     | '/home'
+    | '/inspiration'
     | '/journal'
     | '/memories'
     | '/no-words'
@@ -185,6 +206,7 @@ export interface FileRouteTypes {
     | '/practical'
     | '/presence'
     | '/space'
+    | '/wishes'
     | '/compose/$zone'
     | '/garden/$zone'
     | '/garden'
@@ -195,6 +217,7 @@ export interface FileRouteTypes {
     | '/dates'
     | '/help'
     | '/home'
+    | '/inspiration'
     | '/journal'
     | '/memories'
     | '/no-words'
@@ -202,6 +225,7 @@ export interface FileRouteTypes {
     | '/practical'
     | '/presence'
     | '/space'
+    | '/wishes'
     | '/compose/$zone'
     | '/garden/$zone'
     | '/garden/'
@@ -213,6 +237,7 @@ export interface RootRouteChildren {
   DatesRoute: typeof DatesRoute
   HelpRoute: typeof HelpRoute
   HomeRoute: typeof HomeRoute
+  InspirationRoute: typeof InspirationRoute
   JournalRoute: typeof JournalRoute
   MemoriesRoute: typeof MemoriesRoute
   NoWordsRoute: typeof NoWordsRoute
@@ -220,6 +245,7 @@ export interface RootRouteChildren {
   PracticalRoute: typeof PracticalRoute
   PresenceRoute: typeof PresenceRoute
   SpaceRoute: typeof SpaceRoute
+  WishesRoute: typeof WishesRoute
   ComposeZoneRoute: typeof ComposeZoneRoute
   GardenZoneRoute: typeof GardenZoneRoute
   GardenIndexRoute: typeof GardenIndexRoute
@@ -227,6 +253,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/wishes': {
+      id: '/wishes'
+      path: '/wishes'
+      fullPath: '/wishes'
+      preLoaderRoute: typeof WishesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/space': {
       id: '/space'
       path: '/space'
@@ -274,6 +307,13 @@ declare module '@tanstack/react-router' {
       path: '/journal'
       fullPath: '/journal'
       preLoaderRoute: typeof JournalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/inspiration': {
+      id: '/inspiration'
+      path: '/inspiration'
+      fullPath: '/inspiration'
+      preLoaderRoute: typeof InspirationRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/home': {
@@ -341,6 +381,7 @@ const rootRouteChildren: RootRouteChildren = {
   DatesRoute: DatesRoute,
   HelpRoute: HelpRoute,
   HomeRoute: HomeRoute,
+  InspirationRoute: InspirationRoute,
   JournalRoute: JournalRoute,
   MemoriesRoute: MemoriesRoute,
   NoWordsRoute: NoWordsRoute,
@@ -348,6 +389,7 @@ const rootRouteChildren: RootRouteChildren = {
   PracticalRoute: PracticalRoute,
   PresenceRoute: PresenceRoute,
   SpaceRoute: SpaceRoute,
+  WishesRoute: WishesRoute,
   ComposeZoneRoute: ComposeZoneRoute,
   GardenZoneRoute: GardenZoneRoute,
   GardenIndexRoute: GardenIndexRoute,
@@ -355,12 +397,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { createStart } from '@tanstack/react-start'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-  }
-}
