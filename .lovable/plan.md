@@ -1,79 +1,87 @@
-## Vision
+# Refonte Jardin · Composition · Souvenirs · Outils
 
-Faire de `/practical` un véritable compagnon d'organisation : doux, lisible, jamais bureaucratique. Toujours relié à l'IA (texte + voix) et au jardin / composition florale. Cinq grands chantiers, sans toucher au schéma de données ni casser l'existant.
+Conserver la douceur, l'évanescence, l'organique. Rendre l'ensemble plus intuitif, propre, immersif. 16 consignes regroupées en 7 chantiers.
 
-## Chantier 1 — Refonte de l'index « Aides concrètes »
+## 1. Vue du jardin du dessus (consignes 5, 15, 16)
 
-Fichier : `src/routes/practical.tsx`
+`src/routes/garden.index.tsx`
 
-- Nouveau header sensible, court, avec une seule intention par mode (`modeProfile(mode)` réutilisé) :
-  - Cocon → « On avance d'un seul pas. »
-  - Ancrage → « Tout est là, dans l'ordre. »
-  - Souffle → « Composer un adieu qui lui ressemble. »
-  - Relais → « D'autres mains peuvent porter avec vous. »
-- Suppression de la liste verticale figée. À la place : 4 grandes cartes-portes, ordonnées selon le mode :
-  1. **Démarches** (administratif + premiers jours)
-  2. **Cérémonie** (déroulé, lieu, intervenants)
-  3. **Atmosphère** (fleurs, objets, textes, musiques)
-  4. **Partage & relais** (envois, proches, pros)
-- Une bande discrète en bas : « Parler à Lovely » (lien vers `/presence` + bouton micro) toujours présente.
-- Bandeau « Budget » repliable, doux, pas en premier plan.
+- Remplacer l'image de fond par celle uploadée (`user-uploads://ChatGPT_Image_9_mai_2026...png`) → `src/assets/garden-painted-v2.jpg`. Aucun cadre, dissolution douce sur les bords.
+- **Hover d'un jardin** : intensification subtile (saturation +15 %, halo lumineux, légère mise au point) ; les autres jardins se désaturent doucement. Transition 1.2 s.
+- **Jardin évolutif** selon le nombre de souvenirs du being :
+  - 0 souvenir → simple **lopin de terre** (ovale terreux discret)
+  - 1–3 → quelques pousses florales superposées
+  - 4–7 → floraison partielle
+  - 8+ → halo dense, jardin pleinement vivant
+  - Implémentation : composant `LivingPatch` qui pioche déterministiquement dans l'atlas selon `beingId`.
+- **Animations légères** : keyframe `sway` (rotation ±0.6°, 7–9 s, délais aléatoires) sur les éléments végétaux. Apparition `bloom-in` (opacity + scale, 1.4 s).
 
-## Chantier 2 — Sous-routes guidées
+## 2. Composition au-dessus du prénom (consigne 6)
 
-Création de routes dédiées (chacune courte, une seule décision à la fois) :
+`src/routes/garden.$zone.tsx` → refonte `OrganicSignature`
 
-- `src/routes/practical.steps.tsx` — Démarches après décès, cochables, pas de tableau.
-- `src/routes/practical.ceremony.tsx` — Choix du déroulé, lieu, intervenants, religion / civil.
-- `src/routes/practical.atmosphere.tsx` — Hub vers fleurs, objets, textes, musiques.
-- `src/routes/practical.flowers.tsx` — **Composition florale simplifiée** réutilisant les éléments de `src/lib/elements.ts` (familles `florale`, `feuillage`). Canvas réduit (bouquet / couronne / ambiance), preset palettes. Export image + bouton « Envoyer au fleuriste ». S'appuie sur le moteur existant de `compose.$zone.tsx` extrait dans `src/components/legato/MiniComposer.tsx`.
-- `src/routes/practical.objects.tsx` — Cercueil, urne, plaque, livret, objets rituels. Affiche des cartes avec image, courte description, fourchette de prix indicative, lien sortant (`rel="noopener"`) vers références réelles + 2-3 alternatives par budget.
-- `src/routes/practical.texts.tsx` — Textes, poèmes, lectures, musiques. Suggestions IA via `suggestInspiration` déjà existant + curation locale.
-- `src/routes/practical.booklet.tsx` — Générateur de livret (HTML imprimable + export PNG/PDF via `window.print()` stylé `@media print`). Champs : photo, prénom, dates, textes, musiques, déroulé.
-- `src/routes/practical.share.tsx` — Récap des choix faits + `mailto:` pré-rempli (proches / pompes funèbres / officiant).
-- `src/routes/practical.budget.tsx` — Saisie d'un budget indicatif (trois paliers : essentiel / équilibré / élaboré). Stocke en localStorage et filtre les suggestions des autres écrans.
+- Plus de bulle ronde. Une **petite scène horizontale** (~220×120 px) sans cadre, condensation paysagère du jardin du being.
+- 6–8 éléments répartis comme un mini-paysage, contours fondus, halo doux de la couleur dominante. Animation `sway`.
 
-Chaque sous-route utilise `Shell` + `ScreenHeader` + un fil d'Ariane minimal vers `/practical`.
+## 3. Atlas — contours progressifs & découpes (consignes 2, 10)
 
-## Chantier 3 — IA proactive et confidente toujours accessible
+- Nouvelle classe `.feathered-soft` dans `src/styles.css` : masque radial + micro-blur, fond aquarellé, jamais de bord net.
+- Appliquée partout (jardin, composeur, mini-composer, signature).
+- **Audit défensif** : masque CSS de sécurité (vignette 2 %) sur les éléments de l'atlas pour atténuer artefacts (ex : iris). Régénération réelle des PNG hors scope cette itération.
 
-- Nouveau composant `src/components/legato/ConfideDock.tsx` : pastille flottante en bas à droite (taille 56 px, halo doux, animation `breathe`) présente sur toutes les routes `/practical/*` et `/wishes`. Tap → ouvre une `Sheet` (shadcn) avec deux entrées : *Écrire* (textarea) et *Parler* (bouton micro).
-- Reconnaissance vocale via Web Speech API (`window.SpeechRecognition || window.webkitSpeechRecognition`), `lang="fr-FR"`, fallback texte si absent. Pas de dépendance npm.
-- Une fois la confidence saisie, appel d'une nouvelle Server Function `src/lib/practical-ai.functions.ts` → `suggestPractical({ description, mode, budget, step })` qui renvoie des **suggestions structurées** (sections : fleurs, musiques, textes, objets, lieu, organisation) via `google/gemini-2.5-flash` avec tool-calling JSON. Réutilise `LOVABLE_API_KEY`.
-- Les suggestions s'injectent dans la sous-route active (badge « inspiré de ce que vous venez de dire »).
+## 4. Composeur de souvenirs — refonte tactile (consignes 3, 4, 11, 13, 14)
 
-## Chantier 4 — Volontés enrichies
+`src/routes/compose.$zone.tsx`
 
-Fichier : `src/routes/wishes.tsx`
+- **Toile entièrement visible**, plus de scroll. Layout `grid-rows-[auto_1fr_auto]`, marges contenues.
+- **Outils par élément, organiques** : nouveau composant `OrganicHandles`, petite couronne flottante autour de l'élément sélectionné :
+  - nord = **rotation** (glisser circulaire)
+  - est = **taille** (glisser radial)
+  - sud = **opacité** (glisser vertical)
+  - ouest = **miroir / symétrie** (tap = flip H, double-tap = flip V)
+  - Pastilles céramiques 22 px, halo doux, micro-libellé chuchoté. Pas de poignées techniques.
+- **Barre du bas alignée** : `Éléments · Annuler · Refaire · Exporter` sur une seule ligne, mêmes pastilles, même typo.
+- **Export** : fond blanc fidèle, prend en compte flipX/flipY/opacity/rotation. Jamais de transparence.
+- Ajout `flipX?: boolean`, `flipY?: boolean` à `CompositionItem` dans `memories-store.ts`.
 
-- Sections distinctes : ambiance, fleurs (lien vers mini-compositeur), musiques, textes, objets, ce que je veux / ne veux pas.
-- Bouton « Partager avec un proche » → génère un `mailto:` avec lien lecture seule (token stocké en localStorage pour le MVP visuel ; pas de persistance serveur).
-- Pastille `ConfideDock` aussi présente.
+## 5. Mini-composer Aides concrètes / Fleurs (consignes 8, 9)
 
-## Chantier 5 — Détails techniques transverses
+`src/components/legato/MiniComposer.tsx`
 
-- `src/components/legato/MiniComposer.tsx` : extraction du noyau drag/zoom de `compose.$zone.tsx` (canvas 3:4 → 4:3 paysage pour bouquet), API `<MiniComposer presets="bouquet|couronne|ambiance" onExport={(blob)=>...} />`.
-- `src/lib/practical-store.ts` : localStorage léger pour budget, choix de cercueil, palette florale, textes retenus, brouillon livret. Aucune table Supabase.
-- `src/styles.css` : ajouter `.dock-halo`, `.print-booklet` (règles `@media print`), variantes de carte `.ceramic-warm` pour les cartes objets/références.
-- Tous les liens externes (références cercueils/fleurs/objets) : composant `<ExternalRef>` neutre, `target="_blank" rel="noopener noreferrer"`, label « ressource externe » + petite icône. Pas de logos commerciaux.
-- Modes appliqués via `modeProfile(mode)` : densité (nombre de cartes visibles), halo, ordre des 4 cartes-portes. Mode **Relais** met « Partage & relais » en tête + suggestions de pros / cercles.
-- Routes ajoutées au `routeTree.gen.ts` automatiquement par le plugin Vite.
-- Aucune nouvelle dépendance npm. Aucune migration. Pas d'appel direct au modèle côté client (toujours via Server Function).
+- Mêmes outils organiques (taille, rotation, opacité, miroir) — réutilisation `OrganicHandles`. Cohérence totale avec le composeur principal.
+- **Couronne — placement intelligent** :
+  - Chaque élément ajouté se "plugue" automatiquement sur le cercle (rayon ~30 % du canvas).
+  - Répartition angulaire régulière, recalcul doux à chaque ajout.
+  - Rotation auto = tangente au cercle (la fleur regarde vers l'extérieur).
+- **Bouquet** : convergence vers point bas-centre, tiges vers le haut.
+- **Ambiance** : dispersion organique (peaufiner).
 
-## Hors scope (pour rester focalisé)
+## 6. Souvenirs — visualiser les compositions (consigne 12)
 
-- Persistance serveur des volontés / partages (token réel, RLS) — restera côté localStorage cette passe.
-- Génération PDF côté serveur (on utilise `window.print()` stylé).
-- Paiements / commandes réelles d'objets.
+`src/routes/garden.$zone.tsx`
 
-## Ce que l'utilisateur verra
+- Nouveau composant `CompositionThumb` : mini-prévisualisation (~60×80 px) en haut-droite des cartes de souvenir ayant une composition.
+- Au clic : overlay plein écran avec composition en grand + bouton "Modifier".
 
-- Une page `/practical` calme, 4 portes claires hiérarchisées par mode.
-- À chaque étape : suggestions IA personnalisées + pastille pour parler ou écrire à tout moment.
-- Un mini-compositeur floral exportable et partageable.
-- Des références concrètes (objets, fleurs, cercueils) avec fourchette de prix.
-- Un livret de cérémonie imprimable.
-- Un budget pris en compte partout, sans culpabilisation.
-- Des volontés personnelles enrichies, partageables.
+## 7. Français & cohérence micro-copy
 
-Dites-moi si je peux lancer ces 5 chantiers tels quels, ou si vous voulez resserrer le périmètre (par exemple démarrer par 1 + 3 + 4 d'abord).
+- Relecture (jardin, composer, fleurs, étapes pratiques).
+- Étapes : "1 · type" → "Le type", "2 · souvenir" → "Le souvenir", "3 · composer ?" → "La composition".
+- Lowercase chuchoté pour les indications ("toucher pour ouvrir", "souvenir vivant").
+- Espaces insécables avant `?` `!` `:` `;`.
+
+## Détails techniques
+
+- Pas de nouvelle dépendance.
+- Nouveaux composants : `OrganicHandles`, `LivingPatch`, `CompositionThumb`.
+- Extensions `src/styles.css` : `.feathered-soft`, keyframes `sway`, `bloom-in`, classe hover de jardin.
+- Copie image uploadée → `src/assets/garden-painted-v2.jpg`.
+
+## Hors scope
+
+- Régénération réelle des PNG mal détourés (masque défensif appliqué à la place).
+- Backend / persistance (reste en localStorage).
+
+## QA
+
+Vérifier visuellement : `/garden`, `/garden/elise`, `/compose/elise`, `/practical/flowers` (preset couronne). Tester export PNG fond blanc avec flip + opacité.
