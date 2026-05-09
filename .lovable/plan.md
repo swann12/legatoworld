@@ -1,87 +1,79 @@
-# Refonte Jardin · Composition · Souvenirs · Outils
+# Refonte UX writing, hiérarchie & différenciation des modes
 
-Conserver la douceur, l'évanescence, l'organique. Rendre l'ensemble plus intuitif, propre, immersif. 16 consignes regroupées en 7 chantiers.
+Cette refonte est large. Pour rester maîtrisable et te permettre de valider visuellement entre chaque étape, je propose de la découper en **5 livraisons cohérentes**, dans cet ordre. Tu pourras m'arrêter ou ajuster à tout moment.
 
-## 1. Vue du jardin du dessus (consignes 5, 15, 16)
+---
 
-`src/routes/garden.index.tsx`
+## Livraison 1 — Socle global (français + mise en page + barre du bas)
 
-- Remplacer l'image de fond par celle uploadée (`user-uploads://ChatGPT_Image_9_mai_2026...png`) → `src/assets/garden-painted-v2.jpg`. Aucun cadre, dissolution douce sur les bords.
-- **Hover d'un jardin** : intensification subtile (saturation +15 %, halo lumineux, légère mise au point) ; les autres jardins se désaturent doucement. Transition 1.2 s.
-- **Jardin évolutif** selon le nombre de souvenirs du being :
-  - 0 souvenir → simple **lopin de terre** (ovale terreux discret)
-  - 1–3 → quelques pousses florales superposées
-  - 4–7 → floraison partielle
-  - 8+ → halo dense, jardin pleinement vivant
-  - Implémentation : composant `LivingPatch` qui pioche déterministiquement dans l'atlas selon `beingId`.
-- **Animations légères** : keyframe `sway` (rotation ±0.6°, 7–9 s, délais aléatoires) sur les éléments végétaux. Apparition `bloom-in` (opacity + scale, 1.4 s).
+Ce qui change partout, sur toutes les pages :
 
-## 2. Composition au-dessus du prénom (consigne 6)
+- **Français** : relecture complète des titres, sous-titres, micro-textes, boutons, vides, messages d'erreur. Suppression des tournures qui sonnent traduites ("avec une personne tout près", "déposez ce souvenir", etc.). Phrases courtes, naturelles, justes.
+- **Veuves typographiques** : je passe les titres et phrases longues sous `text-wrap: pretty` + `text-balance` ciblé, et je réécris à la main les cas où un mot reste seul à la ligne (ex. "voix.", "souvenir.").
+- **Marges et respirations** : harmonisation des paddings de page (`px-7 pt-12 pb-14` → tokens `--page-x`, `--page-top`, `--page-bottom`), gouttières verticales entre sections (`space-y-10` au lieu de `space-y-3/4` mélangés), titres détachés du haut d'écran.
+- **Barre du bas** : "Accueil" → icône maison, "Espace" → icône cercle/lune. Je ne garde de mot que sur l'élément actif (label révélé). Ça libère de la marge et de l'élégance.
 
-`src/routes/garden.$zone.tsx` → refonte `OrganicSignature`
+## Livraison 2 — Différenciation réelle des 4 modes (Cocon, Ancrage, Souffle, Relais)
 
-- Plus de bulle ronde. Une **petite scène horizontale** (~220×120 px) sans cadre, condensation paysagère du jardin du being.
-- 6–8 éléments répartis comme un mini-paysage, contours fondus, halo doux de la couleur dominante. Animation `sway`.
+Chaque mode aura **sa propre structure d'accueil**, pas seulement une couleur :
 
-## 3. Atlas — contours progressifs & découpes (consignes 2, 10)
+- **Cocon** — état repli. Une seule proposition à la fois, grandes respirations blanches, "Sans mots" mis en avant en premier, journal et jardin discrets.
+- **Ancrage** — état solide. Liste structurée (souvenirs, jardin, démarches), rythme plus dense, "Concret" remonte en tête.
+- **Souffle** — état mouvement. Inspirations et compositions au premier plan, animations un peu plus présentes, ton plus ouvert.
+- **Relais** — état accompagné. Mise en avant du partage, des proches, de "Mes volontés", ton qui inclut la deuxième personne.
 
-- Nouvelle classe `.feathered-soft` dans `src/styles.css` : masque radial + micro-blur, fond aquarellé, jamais de bord net.
-- Appliquée partout (jardin, composeur, mini-composer, signature).
-- **Audit défensif** : masque CSS de sécurité (vignette 2 %) sur les éléments de l'atlas pour atténuer artefacts (ex : iris). Régénération réelle des PNG hors scope cette itération.
+Concrètement : je refactore `home.tsx` pour qu'il lise le mode et compose l'écran à partir de blocs réutilisables, avec ordre + densité + tonalité par mode.
 
-## 4. Composeur de souvenirs — refonte tactile (consignes 3, 4, 11, 13, 14)
+## Livraison 3 — "Parler à la présence" + "Sans mots"
 
-`src/routes/compose.$zone.tsx`
+**Parler à la présence** (`presence.tsx`) :
+- Mise en page recentrée, typographie plus aérée, ponctuation revue.
+- Halo qui respire derrière le champ de saisie (animation lente, déjà disponible via `breath`).
+- Indication temporelle douce ("quelques minutes, à votre rythme") au lieu de "quelques minutes tranquilles".
+- Sensation plus précieuse : carte légèrement surélevée, fond papier plus chaud.
 
-- **Toile entièrement visible**, plus de scroll. Layout `grid-rows-[auto_1fr_auto]`, marges contenues.
-- **Outils par élément, organiques** : nouveau composant `OrganicHandles`, petite couronne flottante autour de l'élément sélectionné :
-  - nord = **rotation** (glisser circulaire)
-  - est = **taille** (glisser radial)
-  - sud = **opacité** (glisser vertical)
-  - ouest = **miroir / symétrie** (tap = flip H, double-tap = flip V)
-  - Pastilles céramiques 22 px, halo doux, micro-libellé chuchoté. Pas de poignées techniques.
-- **Barre du bas alignée** : `Éléments · Annuler · Refaire · Exporter` sur une seule ligne, mêmes pastilles, même typo.
-- **Export** : fond blanc fidèle, prend en compte flipX/flipY/opacity/rotation. Jamais de transparence.
-- Ajout `flipX?: boolean`, `flipY?: boolean` à `CompositionItem` dans `memories-store.ts`.
+**Sans mots** (`no-words.tsx`) :
+- Fond moins opaque (passage en `paper-card` translucide sur halo coloré).
+- Cartes son/ambiance avec mise en page deux lignes propres (titre / ressenti), plus de typographie qui s'étale.
+- Plus d'options : ajout de 6–8 ambiances supplémentaires (foyer, pluie tiède, souffle long, voix murmurée, cloche lointaine, vent dans les feuilles, ressac, silence dense).
+- Mode guidé "respirer" : un cercle qui grandit/diminue 4-7-8, sans texte, qu'on peut lancer depuis n'importe quelle ambiance.
+- **Continuité sensorielle** : quand un son/ambiance plaît, bouton discret "rester dans cette atmosphère" qui appelle l'IA (Lovable AI Gateway, déjà branché via `inspiration.functions.ts` — j'ajoute une fonction `nearbyAmbiances`) pour proposer 3 variations proches sans sortir de l'état.
 
-## 5. Mini-composer Aides concrètes / Fleurs (consignes 8, 9)
+## Livraison 4 — "Si aujourd'hui est trop lourd" + accompagnement IA des proches
 
-`src/components/legato/MiniComposer.tsx`
+**`crisis.tsx`** : refonte complète.
+- Titre plus juste : "Si aujourd'hui pèse trop".
+- Hiérarchie claire : 1) une respiration immédiate, 2) une voix humaine (numéros), 3) écrire à quelqu'un, 4) revenir doucement.
+- Français revu, plus de phrases bancales, espacements généreux.
+- Couleur d'arrière-plan plus enveloppante (rose poudré très pâle).
 
-- Mêmes outils organiques (taille, rotation, opacité, miroir) — réutilisation `OrganicHandles`. Cohérence totale avec le composeur principal.
-- **Couronne — placement intelligent** :
-  - Chaque élément ajouté se "plugue" automatiquement sur le cercle (rayon ~30 % du canvas).
-  - Répartition angulaire régulière, recalcul doux à chaque ajout.
-  - Rotation auto = tangente au cercle (la fleur regarde vers l'extérieur).
-- **Bouquet** : convergence vers point bas-centre, tiges vers le haut.
-- **Ambiance** : dispersion organique (peaufiner).
+**Décrire une personne** (`inspiration.tsx` + `inspiration.functions.ts`) :
+- Formulaire enrichi (lien, âge approximatif, ce qu'elle aimait, un détail concret, ce qui vous manque le plus).
+- Prompt IA réécrit pour produire des suggestions **incarnées** : un objet précis, un geste précis, un lieu précis, une phrase à écrire — jamais "pensez à elle", toujours quelque chose à faire ou à toucher.
+- Affichage des résultats en cartes douces, avec une suite possible ("composer un jardin à partir de ceci", "garder cette piste").
 
-## 6. Souvenirs — visualiser les compositions (consigne 12)
+## Livraison 5 — Repositionner "Mes volontés"
 
-`src/routes/garden.$zone.tsx`
+**Constat** : `wishes.tsx` est aujourd'hui mêlé au reste, alors que c'est une rubrique grave et personnelle.
 
-- Nouveau composant `CompositionThumb` : mini-prévisualisation (~60×80 px) en haut-droite des cartes de souvenir ayant une composition.
-- Au clic : overlay plein écran avec composition en grand + bouton "Modifier".
+**Proposition** :
+- Sortir "Mes volontés" du flux principal.
+- L'ancrer dans **Espace** (la vue intime de l'utilisateur), accessible par une carte distincte, avec une introduction qui explique qu'on peut y déposer, à son rythme, ses souhaits pour soi-même ou pour les autres.
+- Ajouter un seuil doux à l'entrée : un court texte d'accueil, et la possibilité de revenir en arrière sans rien écrire.
+- Supprimer toute mention "obligatoire" dans le parcours principal.
 
-## 7. Français & cohérence micro-copy
+---
 
-- Relecture (jardin, composer, fleurs, étapes pratiques).
-- Étapes : "1 · type" → "Le type", "2 · souvenir" → "Le souvenir", "3 · composer ?" → "La composition".
-- Lowercase chuchoté pour les indications ("toucher pour ouvrir", "souvenir vivant").
-- Espaces insécables avant `?` `!` `:` `;`.
+## Détails techniques (pour info)
 
-## Détails techniques
+- Tokens de page ajoutés dans `src/styles.css` : `--page-x`, `--page-top`, `--page-bottom`, `--stack-lg`.
+- `BottomNav.tsx` passe en mode "icône + label actif".
+- Nouveau composant `src/components/legato/ModeFrame.tsx` qui compose les blocs d'accueil selon le mode.
+- Nouvelles fonctions IA : `nearbyAmbiances` (no-words) et un prompt enrichi pour `describePersonForPaths` (inspiration). Toutes via Lovable AI Gateway, aucune clé à fournir.
+- Pas de changement de schéma de données ni de migration. Tout reste local sauf les appels IA déjà existants.
 
-- Pas de nouvelle dépendance.
-- Nouveaux composants : `OrganicHandles`, `LivingPatch`, `CompositionThumb`.
-- Extensions `src/styles.css` : `.feathered-soft`, keyframes `sway`, `bloom-in`, classe hover de jardin.
-- Copie image uploadée → `src/assets/garden-painted-v2.jpg`.
+---
 
-## Hors scope
+## Comment je procède
 
-- Régénération réelle des PNG mal détourés (masque défensif appliqué à la place).
-- Backend / persistance (reste en localStorage).
-
-## QA
-
-Vérifier visuellement : `/garden`, `/garden/elise`, `/compose/elise`, `/practical/flowers` (preset couronne). Tester export PNG fond blanc avec flip + opacité.
+Je te propose de commencer par la **Livraison 1** seule : tu vois le résultat sur l'app, tu valides ou tu corriges le ton, et on enchaîne avec la 2. Si tu préfères que j'attaque plusieurs livraisons d'un coup, dis-le moi.
