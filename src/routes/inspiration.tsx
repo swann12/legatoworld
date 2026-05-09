@@ -112,15 +112,22 @@ function InspirationPage() {
 
           {result && (
             <div className="px-5 mt-8">
-              <div className="paper-card p-7">
-                <div className="prose prose-sm max-w-none font-serif text-dusk/80
-                  prose-headings:font-serif prose-headings:italic prose-headings:font-normal prose-headings:text-dusk
-                  prose-h3:text-[15px] prose-h3:uppercase prose-h3:tracking-[0.18em] prose-h3:not-italic prose-h3:font-medium prose-h3:text-dusk/55
-                  prose-p:text-[15px] prose-p:leading-relaxed
-                  prose-li:text-[14.5px] prose-li:leading-relaxed prose-li:my-1
-                  prose-strong:text-dusk">
-                  <ReactMarkdown>{result}</ReactMarkdown>
-                </div>
+              <div className="paper-card p-7 space-y-3 text-dusk/80">
+                <ReactMarkdown
+                  components={{
+                    h1: (p) => <h2 className="font-serif italic text-[1.5rem] text-dusk mt-2" {...p} />,
+                    h2: (p) => <h3 className="font-serif italic text-[1.25rem] text-dusk mt-4" {...p} />,
+                    h3: (p) => <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/50 mt-5 mb-1" {...p} />,
+                    p:  (p) => <p className="text-[14.5px] leading-relaxed text-dusk/75" {...p} />,
+                    ul: (p) => <ul className="list-disc pl-5 space-y-1.5" {...p} />,
+                    ol: (p) => <ol className="list-decimal pl-5 space-y-1.5" {...p} />,
+                    li: (p) => <li className="text-[14px] leading-relaxed text-dusk/75" {...p} />,
+                    strong: (p) => <strong className="text-dusk font-medium" {...p} />,
+                    em: (p) => <em className="italic text-dusk/85" {...p} />,
+                  }}
+                >
+                  {result}
+                </ReactMarkdown>
               </div>
             </div>
           )}
