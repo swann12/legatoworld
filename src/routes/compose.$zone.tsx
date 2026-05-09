@@ -2,6 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Halos } from "@/components/legato/Halos";
 import { Shell } from "@/components/legato/Shell";
+import { OrganicHandles } from "@/components/legato/OrganicHandles";
 import { useLegato } from "@/lib/legato-state";
 import {
   ELEMENTS,
@@ -71,9 +72,9 @@ function Compose() {
                 ← Retour
               </button>
               <span className="text-[10px] uppercase tracking-[0.22em] text-dusk/40">
-                {step === "type" && "1 · type"}
-                {step === "import" && "2 · souvenir"}
-                {step === "ask" && "3 · composer ?"}
+                {step === "type" && "Le type"}
+                {step === "import" && "Le souvenir"}
+                {step === "ask" && "La composition"}
               </span>
             </div>
           )}
@@ -126,12 +127,12 @@ function ChooseType({
   return (
     <div className="flex-1 flex flex-col px-7 pt-10 pb-10">
       <header>
-        <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">Étape 1</p>
+        <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">premier pas</p>
         <h1 className="mt-3 font-serif text-[2.2rem] leading-[1.05] font-light text-dusk text-balance">
           Quel type de <span className="italic">souvenir ?</span>
         </h1>
         <p className="mt-4 max-w-[32ch] text-[13.5px] leading-relaxed text-dusk/60">
-          Vous le déposez d'abord. Vous pourrez ensuite, si vous le souhaitez, composer un jardin autour.
+          On le dépose d'abord. Vous pourrez ensuite, si le cœur vous en dit, composer un jardin autour.
         </p>
       </header>
 
@@ -223,7 +224,7 @@ function ImportMemory({
   return (
     <div className="flex-1 flex flex-col px-7 pt-10 pb-10">
       <header>
-        <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">Étape 2</p>
+        <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">le souvenir</p>
         <h1 className="mt-3 font-serif text-[2.2rem] leading-[1.05] font-light text-dusk text-balance">
           Déposez ce <span className="italic">souvenir.</span>
         </h1>
@@ -302,7 +303,7 @@ function ImportMemory({
 function AskCompose({ onYes, onNo }: { onYes: () => void; onNo: () => void }) {
   return (
     <div className="flex-1 flex flex-col items-center justify-center px-7 py-12 text-center">
-      <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">Étape 3</p>
+      <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">la composition</p>
       <h1 className="mt-5 font-serif text-[1.9rem] leading-[1.2] font-light text-dusk text-balance max-w-[20ch]">
         Souhaitez-vous composer un <span className="italic">jardin</span> autour de ce souvenir&nbsp;?
       </h1>
