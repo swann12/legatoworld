@@ -14,10 +14,10 @@ function Space() {
   const branchLabel = BRANCHES.find((b) => b.id === branch)?.label;
 
   const items: { to: "/memories" | "/dates" | "/onboarding" | "/crisis"; eyebrow: string; title: string }[] = [
-    { to: "/memories", eyebrow: "Bibliothèque", title: "Tout ce que vous avez gardé" },
+    { to: "/memories", eyebrow: "Bibliothèque", title: "Ce que vous avez gardé" },
     { to: "/dates", eyebrow: "Calendrier", title: "Dates sensibles" },
     { to: "/onboarding", eyebrow: "Ajuster", title: "Changer de branche ou de mode" },
-    { to: "/crisis", eyebrow: "Sécurité", title: "Si aujourd'hui est trop" },
+    { to: "/crisis", eyebrow: "Sécurité", title: "Si aujourd'hui pèse trop" },
   ];
 
   return (
@@ -26,7 +26,7 @@ function Space() {
         <Halos mode={mode} variant="calm" />
         <div className="relative z-10">
           <ScreenHeader
-            eyebrow="Espace — vos réglages, en douceur"
+            eyebrow="Votre espace"
             title={<>{name}, <br /><span className="italic">votre intérieur.</span></>}
           />
 
@@ -34,9 +34,37 @@ function Space() {
             <div className="ceramic organic-radius-3 p-6 space-y-3">
               <Row label="Présence tenue" value={branchLabel ?? ""} />
               <Row label="Mode" value={modeLabel ?? ""} />
-              <Row label="Notifications" value="Silencieuses (aucun signal)" />
+              <Row label="Notifications" value="Silencieuses" />
               <Row label="Langue" value="Français" />
             </div>
+          </Section>
+
+          {/* Mes volontés — surface distincte, plus engageante */}
+          <Section className="mt-8">
+            <Link
+              to="/wishes"
+              className="ceramic organic-radius-3 block p-7 relative overflow-hidden"
+            >
+              <div
+                aria-hidden
+                className="absolute -right-10 -top-10 size-40 rounded-full opacity-50 halo"
+                style={{ background: "radial-gradient(circle, var(--lavender), transparent 70%)" }}
+              />
+              <div className="relative">
+                <p className="text-[10px] uppercase tracking-[0.28em] text-dusk/45">
+                  Mes volontés
+                </p>
+                <h2 className="mt-2 font-serif text-[1.5rem] font-light italic text-dusk leading-snug max-w-[22ch]">
+                  Poser, à votre rythme, ce que vous voudriez pour plus tard.
+                </h2>
+                <p className="mt-3 text-[12.5px] leading-relaxed text-dusk/60 max-w-[34ch]">
+                  Une atmosphère, quelques mots, des gestes. Rien d'urgent.
+                </p>
+                <p className="mt-5 text-[11px] uppercase tracking-[0.22em] text-dusk/55">
+                  Ouvrir mes volontés →
+                </p>
+              </div>
+            </Link>
           </Section>
 
           <Section className="mt-8 space-y-3">

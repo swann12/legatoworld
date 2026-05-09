@@ -10,10 +10,10 @@ export const Route = createFileRoute("/presence")({
 });
 
 const SUGGESTIONS = [
-  "Aide-moi à raconter cette journée, doucement.",
-  "J'aimerais me souvenir de quelque chose, ensemble.",
-  "Là, je n'ai pas de mots.",
-  "Aide-moi à mettre des mots sur ce que je ressens.",
+  "Raconter cette journée",
+  "Me souvenir, ensemble",
+  "Je n'ai pas de mots",
+  "Mettre des mots, doucement",
 ];
 
 function Presence() {
@@ -45,31 +45,42 @@ function Presence() {
             <Link to="/no-words" className="text-[11px] uppercase tracking-[0.22em] text-dusk/55 hover:text-dusk">Sans mots →</Link>
           </div>
 
-          <div className="px-8 pt-14 flex flex-col items-center text-center">
-            <div className="relative size-32 halo-lg">
+          <div className="px-8 pt-12 flex flex-col items-center text-center">
+            <div className="relative size-36 halo-lg">
               <div
                 className="absolute inset-0 rounded-full breath"
                 style={{
                   background: "radial-gradient(circle at 30% 30%, var(--peach), var(--rose))",
                   boxShadow: "inset 0 2px 6px rgba(255,255,255,0.7), 0 22px 50px -18px rgba(120,60,60,0.32)",
+                  animationDuration: "7s",
                 }}
               />
               <div
-                className="absolute -inset-6 rounded-full breath -z-10 opacity-70"
+                className="absolute -inset-8 rounded-full breath -z-10 opacity-70"
                 style={{
                   background: "radial-gradient(circle, color-mix(in oklab, var(--rose) 35%, transparent), transparent 70%)",
-                  animationDuration: "9s",
+                  animationDuration: "11s",
+                }}
+              />
+              <div
+                className="absolute -inset-16 rounded-full breath -z-20 opacity-40"
+                style={{
+                  background: "radial-gradient(circle, color-mix(in oklab, var(--peach) 30%, transparent), transparent 70%)",
+                  animationDuration: "14s",
                 }}
               />
             </div>
-            <p className="mt-8 text-[10px] uppercase tracking-[0.22em] text-dusk/45">
-              Présence · quelques minutes pour soi
-            </p>
+            <div className="mt-9 flex items-center gap-3 text-[10px] uppercase tracking-[0.28em] text-dusk/45">
+              <span className="h-px w-6 bg-dusk/20" />
+              Présence
+              <span className="h-px w-6 bg-dusk/20" />
+            </div>
             <h1
-              className="mt-3 font-serif text-[1.9rem] font-light italic text-dusk max-w-[24ch] leading-[1.2]"
+              className="mt-4 font-serif text-[1.85rem] font-light text-dusk max-w-[20ch] leading-[1.18]"
               style={{ textWrap: "balance" }}
             >
-              Je suis là, {name}. Nous avons tout le temps qu'il faut.
+              Je suis là, <span className="italic">{name}</span>.
+              <span className="block mt-1 italic text-dusk/75 text-[1.45rem]">Tout le temps qu'il faut.</span>
             </h1>
           </div>
 
