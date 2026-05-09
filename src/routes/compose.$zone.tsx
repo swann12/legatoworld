@@ -719,10 +719,12 @@ function Composer({
       {/* Inline SVG filter — soft pictural feather on the alpha silhouette */}
       <svg width="0" height="0" style={{ position: "absolute" }} aria-hidden>
         <defs>
-          <filter id="legato-feather" x="-10%" y="-10%" width="120%" height="120%">
-            <feGaussianBlur in="SourceAlpha" stdDeviation="1.4" result="blurA" />
+          {/* Progressive feather — softens the silhouette's alpha so each
+              element fades into the paper instead of a hard cutout. */}
+          <filter id="legato-feather" x="-15%" y="-15%" width="130%" height="130%">
+            <feGaussianBlur in="SourceAlpha" stdDeviation="3.2" result="blurA" />
             <feComponentTransfer in="blurA" result="softA">
-              <feFuncA type="linear" slope="1.25" intercept="-0.05" />
+              <feFuncA type="linear" slope="1.6" intercept="-0.18" />
             </feComponentTransfer>
             <feComposite in="SourceGraphic" in2="softA" operator="in" />
           </filter>
