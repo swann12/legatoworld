@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Halos } from "@/components/legato/Halos";
 import { Shell } from "@/components/legato/Shell";
 import { useLegato } from "@/lib/legato-state";
@@ -14,6 +14,14 @@ function Journal() {
   const [body, setBody] = useState("");
   const [to, setTo] = useState<"self" | "them" | "free">("free");
   const [openId, setOpenId] = useState<string | null>(null);
+  const taRef = useRef<HTMLTextAreaElement | null>(null);
+
+  useEffect(() => {
+    const el = taRef.current;
+    if (!el) return;
+    el.style.height = "auto";
+    el.style.height = Math.max(el.scrollHeight, 240) + "px";
+  }, [body]);
 
   const save = () => {
     const trimmed = body.trim();
@@ -72,31 +80,24 @@ function Journal() {
             ))}
           </div>
 
-          {/* Writing surface — feels like a real page */}
+          {/* Writing surface — soft notebook page, no lines, autosize */}
           <div className="px-5 mt-5">
             <div
               className="paper-card relative overflow-hidden"
               style={{
                 borderRadius: 28,
                 background:
-                  "linear-gradient(180deg, color-mix(in oklab, var(--paper) 96%, white) 0%, color-mix(in oklab, var(--clay) 30%, var(--paper)) 100%)",
+                  "linear-gradient(180deg, color-mix(in oklab, var(--paper) 97%, white) 0%, color-mix(in oklab, var(--clay) 22%, var(--paper)) 100%)",
               }}
             >
-              {/* faint horizontal lines, very quiet */}
-              <div
-                aria-hidden
-                className="absolute inset-0 opacity-[0.06] pointer-events-none"
-                style={{
-                  backgroundImage:
-                    "repeating-linear-gradient(0deg, transparent 0 31px, var(--dusk) 31px 32px)",
-                }}
-              />
               <textarea
+                ref={taRef}
                 value={body}
                 onChange={(e) => setBody(e.target.value)}
                 placeholder={placeholder}
-                rows={9}
-                className="relative w-full bg-transparent resize-none outline-none px-7 py-7 font-serif italic text-[18px] leading-[32px] text-dusk placeholder:text-dusk/30"
+                rows={6}
+                className="relative w-full bg-transparent resize-none outline-none px-7 py-7 font-serif italic text-[18px] leading-[30px] text-dusk placeholder:text-dusk/30 overflow-hidden"
+                style={{ minHeight: 240 }}
               />
             </div>
           </div>
