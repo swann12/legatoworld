@@ -69,6 +69,7 @@ export function OrganicHandles({
       {/* Ouest — miroir */}
       <button
         aria-label="Miroir"
+        onPointerDown={(e) => e.stopPropagation()}
         onClick={(e) => {
           e.stopPropagation();
           onFlipTap();
