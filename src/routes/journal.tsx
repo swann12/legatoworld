@@ -53,12 +53,13 @@ function Journal() {
             <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">
               {t("journal.title")}
             </p>
-            <h1 className="mt-3 font-serif text-[2.4rem] leading-[1.05] font-light text-dusk text-balance">
-              {lang === "fr" ? (
-                <>Une page à <span className="italic">vous.</span></>
-              ) : (
-                <>A page that is <span className="italic">yours.</span></>
-              )}
+            <h1
+              className="mt-3 font-serif text-[2.2rem] leading-[1.1] font-light text-dusk max-w-[20ch]"
+              style={{ textWrap: "balance" }}
+            >
+              {lang === "fr"
+                ? "Une page rien qu'à vous, sans titre."
+                : "A page just for you, untitled."}
             </h1>
             <p className="mt-4 max-w-[34ch] text-[14px] leading-relaxed text-dusk/60">
               {t("journal.subtitle")}
