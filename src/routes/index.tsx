@@ -27,12 +27,19 @@ function Index() {
             Legato
           </p>
 
-          <div className="mt-20 max-w-[26ch]">
-            <h1 className="font-serif text-[2.5rem] leading-[1.08] font-light text-dusk text-balance">
-              Certaines choses <span className="italic">ne se réparent pas&nbsp;:</span> elles s'accompagnent.
+          <div className="mt-20 max-w-[24ch]">
+            <h1
+              className="font-serif text-[2.4rem] leading-[1.1] font-light text-dusk"
+              style={{ textWrap: "balance" }}
+            >
+              Certaines choses <span className="italic">s'accompagnent</span>,
+              plutôt qu'elles ne se réparent.
             </h1>
-            <p className="mt-7 max-w-[32ch] text-[14.5px] leading-relaxed text-dusk/60">
-              Un espace tranquille pour le deuil, la peur de perdre et les grandes questions. Tenu avec soin, sans pression.
+            <p
+              className="mt-7 max-w-[28ch] text-[14.5px] leading-relaxed text-dusk/60"
+              style={{ textWrap: "balance" }}
+            >
+              Un espace tranquille pour le deuil et la peur de perdre. Tenu avec soin, sans pression.
             </p>
           </div>
 
@@ -41,9 +48,11 @@ function Index() {
               to="/onboarding"
               className="ceramic organic-radius-3 px-7 py-5 text-center"
             >
-              <span className="block font-serif text-[1.25rem] italic text-dusk">Commencer doucement</span>
+              <span className="block font-serif text-[1.25rem] italic text-dusk">
+                Commencer doucement
+              </span>
               <span className="mt-1.5 block text-[10px] uppercase tracking-[0.22em] text-dusk/50">
-                Quatre questions tranquilles
+                Quelques questions tranquilles
               </span>
             </Link>
             <Link
