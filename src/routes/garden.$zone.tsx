@@ -7,6 +7,7 @@ import { useLegato } from "@/lib/legato-state";
 import { BEINGS } from "./garden.index";
 import { ELEMENTS, type ElementFamily } from "@/lib/elements";
 import { useMemories } from "@/lib/memories-store";
+import gardenPlotTop from "@/assets/garden-plot-top.png";
 
 export const Route = createFileRoute("/garden/$zone")({
   head: () => ({ meta: [{ title: "Un jardin — Legato" }] }),
@@ -130,9 +131,16 @@ function GardenZone() {
             </Link>
           </div>
 
-          {/* Organic signature — fragments of the atlases, gathered around the being */}
+          {/* Garden plot — viewed from above, the parcel of this being */}
           <div className="px-7 pt-8 flex flex-col items-center text-center">
-            <OrganicSignature beingId={being.id} />
+            <img
+              src={gardenPlotTop}
+              alt=""
+              aria-hidden
+              draggable={false}
+              className="w-[240px] h-auto select-none"
+              style={{ mixBlendMode: "multiply" }}
+            />
             <p className="mt-4 text-[10px] uppercase tracking-[0.22em] text-dusk/45">
               {being.kind === "person" ? "Le jardin de" : "Le coin de"}
             </p>
