@@ -206,40 +206,59 @@ function PresenceBlock({ t, primary, ctaLabel }: { t: (k: string) => string; pri
   return (
     <Link
       to="/presence"
-      className={`${primary ? "ceramic organic-radius-3 p-7" : "paper-card p-6"} block relative overflow-hidden`}
+      className={`${primary ? "ceramic organic-radius-3 px-7 py-9" : "paper-card p-6"} block relative overflow-hidden`}
     >
       {primary && (
         <div
-          className="absolute -right-10 -top-10 size-40 rounded-full opacity-60 halo"
-          style={{ background: "radial-gradient(circle, var(--peach), transparent 70%)" }}
+          aria-hidden
+          className="absolute left-1/2 -top-16 -translate-x-1/2 size-56 rounded-full opacity-55 halo"
+          style={{ background: "radial-gradient(circle, var(--peach), transparent 65%)" }}
         />
       )}
-      <div className="relative">
-        <div className="flex items-center gap-4">
-          {primary && (
-            <div className="relative size-14 rounded-full ceramic-soft flex items-center justify-center shrink-0">
-              <div
-                className="size-6 rounded-full breath"
-                style={{ background: "radial-gradient(circle, var(--peach), var(--rose))" }}
-              />
-            </div>
-          )}
+      {primary ? (
+        <div className="relative flex flex-col items-center text-center">
+          <div className="relative size-16 rounded-full ceramic-soft flex items-center justify-center">
+            <div
+              className="size-7 rounded-full breath"
+              style={{ background: "radial-gradient(circle, var(--peach), var(--rose))" }}
+            />
+          </div>
+          <p className="mt-5 text-[10px] uppercase tracking-[0.24em] text-dusk/50">
+            {t("home.parler")}
+          </p>
+          <h3
+            className="mt-2 font-serif italic text-dusk text-[1.55rem] leading-[1.15] max-w-[18ch]"
+            style={{ textWrap: "balance" }}
+          >
+            {t("home.parlerSub")}
+          </h3>
+          <p
+            className="mt-3 text-[13px] leading-relaxed text-dusk/60 max-w-[26ch]"
+            style={{ textWrap: "balance" }}
+          >
+            {t("home.parlerBody")}
+          </p>
+          <span className="mt-6 inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.24em] text-dusk/55">
+            {ctaLabel} <span aria-hidden>→</span>
+          </span>
+        </div>
+      ) : (
+        <div className="relative flex items-center gap-4">
+          <div className="size-10 rounded-full ceramic-soft flex items-center justify-center shrink-0">
+            <div
+              className="size-3.5 rounded-full breath"
+              style={{ background: "radial-gradient(circle, var(--peach), var(--rose))" }}
+            />
+          </div>
           <div className="flex-1">
             <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">{t("home.parler")}</p>
-            <h3 className={`mt-1 font-serif italic text-dusk leading-tight ${primary ? "text-[1.4rem]" : "text-lg"}`}>
+            <h3 className="mt-1 font-serif italic text-dusk leading-tight text-lg">
               {t("home.parlerSub")}
             </h3>
           </div>
+          <span className="text-dusk/40 text-sm">→</span>
         </div>
-        {primary && (
-          <>
-            <p className="mt-4 text-[13px] leading-relaxed text-dusk/65 max-w-[32ch]">
-              {t("home.parlerBody")}
-            </p>
-            <p className="mt-5 text-[11px] uppercase tracking-[0.22em] text-dusk/55">{ctaLabel} →</p>
-          </>
-        )}
-      </div>
+      )}
     </Link>
   );
 }
