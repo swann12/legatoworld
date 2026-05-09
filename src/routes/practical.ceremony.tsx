@@ -27,7 +27,7 @@ function Ceremony() {
   const update = (k: string, v: string) => { setKind(k); setVenue(v); savePractical({ ceremonyKind: k, ceremonyVenue: v }); };
 
   return (
-    <Shell>
+    <Shell hideNav>
       <div className="relative pb-12">
         <Halos mode={mode} variant="calm" />
         <div className="relative z-10">
