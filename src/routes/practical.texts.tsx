@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Shell } from "@/components/legato/Shell";
 import { Halos } from "@/components/legato/Halos";
 import { ConfideDock } from "@/components/legato/ConfideDock";
+import { PersonalSuggestions } from "@/components/legato/PersonalSuggestions";
 import { useLegato } from "@/lib/legato-state";
 
 export const Route = createFileRoute("/practical/texts")({
@@ -62,6 +63,17 @@ function Texts() {
               </div>
             ))}
           </div>
+
+          <PersonalSuggestions
+            topic="texts"
+            eyebrow="Sur mesure — textes & poèmes"
+            cta="Recevoir des textes qui lui ressemblent"
+          />
+          <PersonalSuggestions
+            topic="music"
+            eyebrow="Sur mesure — musiques"
+            cta="Recevoir des musiques qui lui ressemblent"
+          />
         </div>
       </div>
       <ConfideDock step="textes" />

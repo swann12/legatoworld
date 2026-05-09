@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Shell } from "@/components/legato/Shell";
 import { Halos } from "@/components/legato/Halos";
 import { ConfideDock } from "@/components/legato/ConfideDock";
+import { PersonalSuggestions } from "@/components/legato/PersonalSuggestions";
 import { MiniComposer, type FlowerPreset } from "@/components/legato/MiniComposer";
 import { useLegato } from "@/lib/legato-state";
 import { savePractical } from "@/lib/practical-store";
@@ -82,6 +83,12 @@ function Flowers() {
               <p className="mt-2 text-[12px] text-dusk/55 text-center">L'image s'enregistre, vous pourrez l'attacher au mail.</p>
             </div>
           )}
+
+          <PersonalSuggestions
+            topic="flowers"
+            eyebrow="Sur mesure — fleurs"
+            cta="Recevoir des compositions florales sur mesure"
+          />
         </div>
       </div>
       <ConfideDock step="fleurs" />

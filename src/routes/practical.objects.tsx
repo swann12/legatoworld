@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Shell } from "@/components/legato/Shell";
+import { PersonalSuggestions } from "@/components/legato/PersonalSuggestions";
 import { Halos } from "@/components/legato/Halos";
 import { ConfideDock } from "@/components/legato/ConfideDock";
 import { useLegato } from "@/lib/legato-state";
@@ -111,6 +112,12 @@ function Objects() {
               </article>
             ))}
           </div>
+
+          <PersonalSuggestions
+            topic="objects"
+            eyebrow="Sur mesure — objets & rituels"
+            cta="Recevoir des objets et rituels sur mesure"
+          />
         </div>
       </div>
       <ConfideDock step="objets" />
