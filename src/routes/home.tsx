@@ -134,36 +134,36 @@ function modeAccompaniment(mode: Mode, branch: Branch, lang: string): string {
 
 const FR: Record<Mode, Record<Branch, string>> = {
   cocoon: {
-    person:    "Vous vous repliez un peu, sans lâcher ce souvenir.",
-    animal:    "Vous vous reposez, cette présence tout près.",
-    fear:      "Vous ralentissez le pas, sans rien lâcher.",
-    anxiety:   "Vous laissez les grandes questions de côté, un instant.",
+    person:    "Se replier un peu, sans lâcher ce souvenir.",
+    animal:    "Se reposer, cette présence tout près.",
+    fear:      "Ralentir le pas, sans rien lâcher.",
+    anxiety:   "Laisser les grandes questions de côté.",
     practical: "Les démarches attendront. Vous d'abord.",
-    unknown:   "Rien à nommer aujourd'hui. Posez-vous, simplement.",
+    unknown:   "Rien à nommer. Se poser, simplement.",
   },
   anchoring: {
-    person:    "Retrouver quelques repères, sans cesser de penser à elle, à lui.",
-    animal:    "Avancer d'un pas tranquille, cette présence à vos côtés.",
+    person:    "Retrouver des repères, en pensant à elle, à lui.",
+    animal:    "Un pas tranquille, cette présence à vos côtés.",
     fear:      "Tenir droit, malgré l'inquiétude.",
     anxiety:   "Un pied après l'autre, calmement.",
     practical: "Un pas concret, sans pression.",
-    unknown:   "Retrouver un peu de sol sous les pieds.",
+    unknown:   "Un peu de sol sous les pieds.",
   },
   breath: {
     person:    "Un peu d'air. Le souvenir respire avec vous.",
-    animal:    "Laissez la tendresse passer, sans serrer.",
-    fear:      "L'inquiétude se desserre, juste un peu.",
-    anxiety:   "Les pensées passent, sans qu'on les retienne.",
+    animal:    "Laisser la tendresse passer, sans serrer.",
+    fear:      "L'inquiétude se desserre, un peu.",
+    anxiety:   "Les pensées passent, sans les retenir.",
     practical: "Les papiers attendront. D'abord, respirer.",
-    unknown:   "Un peu d'air, sans rien avoir à dire.",
+    unknown:   "Un peu d'air, sans rien à dire.",
   },
   relay: {
-    person:    "Ne pas porter ce manque seul·e. Demander un appui.",
+    person:    "Ne pas porter ce manque seul·e.",
     animal:    "Laisser quelqu'un partager cette peine.",
-    fear:      "Une main amie, le temps que ça se desserre.",
+    fear:      "Une main amie, le temps que ça desserre.",
     anxiety:   "Ouvrir la porte. Dire ce qui revient.",
     practical: "Quelqu'un fait un pas avec vous.",
-    unknown:   "Être accompagné·e, sans avoir à expliquer.",
+    unknown:   "Être accompagné·e, sans expliquer.",
   },
 };
 
@@ -284,11 +284,11 @@ function RelayBlock({ primary }: { primary: boolean }) {
     <Link to="/help" className={`${primary ? "ceramic organic-radius-3 p-7" : "paper-card p-6"} block`}>
       <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">S'appuyer sur les autres</p>
       <p className={`mt-1.5 font-serif italic text-dusk leading-snug ${primary ? "text-[1.4rem]" : "text-lg"}`}>
-        Proches, professionnels, lignes d'écoute
+        Proches, professionnels, écoute
       </p>
       {primary && (
         <p className="mt-3 text-[12px] text-dusk/55">
-          Quelques mains tendues, quand vos forces s'épuisent.
+          Quelques mains tendues, quand les forces manquent.
         </p>
       )}
     </Link>
