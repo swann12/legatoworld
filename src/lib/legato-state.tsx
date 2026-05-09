@@ -41,24 +41,24 @@ const EMPTY_WISHES: Wishes = {
 };
 
 export const BRANCHES: { id: Branch; label: string; whisper: string }[] = [
-  { id: "person", label: "Une personne", whisper: "Quelqu'un qui vous manque." },
-  { id: "animal", label: "Un animal", whisper: "Une présence fidèle." },
-  { id: "fear", label: "La peur d'une perte", whisper: "Un proche fragile, en pensée." },
-  { id: "anxiety", label: "Penser à la mort", whisper: "Les grandes questions, en douceur." },
-  { id: "unknown", label: "Je ne sais pas encore", whisper: "C'est aussi une place." },
+  { id: "person", label: "Une personne", whisper: "Quelqu'un qui vous manque, aujourd'hui." },
+  { id: "animal", label: "Un animal", whisper: "Une présence fidèle, qui compte." },
+  { id: "fear", label: "La peur d'une perte", whisper: "Pour un proche fragile, qu'on garde en pensée." },
+  { id: "anxiety", label: "Vivre avec l'idée de la mort", whisper: "Approcher les grandes questions, en douceur." },
+  { id: "unknown", label: "Je ne sais pas encore", whisper: "Ne rien nommer, c'est déjà une place." },
 ];
 
 export const PRACTICAL_BRANCH = {
   id: "practical" as const,
   label: "Une perte récente",
-  whisper: "Besoin d'aide concrète, maintenant.",
+  whisper: "Pour traverser les premiers jours, pas à pas.",
 };
 
 export const MODES: { id: Mode; label: string; whisper: string; tint: string }[] = [
-  { id: "cocoon",    label: "Cocon",    whisper: "Se replier, se reposer, être enveloppé·e.", tint: "rose" },
-  { id: "anchoring", label: "Ancrage",  whisper: "Retrouver des repères, étape par étape.",   tint: "sage" },
-  { id: "breath",    label: "Souffle",  whisper: "Reprendre de l'air, alléger un peu.",        tint: "mist" },
-  { id: "relay",     label: "Relais",   whisper: "S'appuyer sur les autres, demander de l'aide.", tint: "lavender" },
+  { id: "cocoon",    label: "Cocon",    whisper: "Se replier, se reposer, se laisser envelopper.", tint: "rose" },
+  { id: "anchoring", label: "Ancrage",  whisper: "Retrouver des repères, avancer pas à pas.",      tint: "sage" },
+  { id: "breath",    label: "Souffle",  whisper: "Reprendre de l'air, s'alléger un peu.",          tint: "mist" },
+  { id: "relay",     label: "Relais",   whisper: "Se laisser aider, ne pas porter seul·e.",        tint: "lavender" },
 ];
 
 /** Visual/UX profile per mode — used to differentiate ambiance and content order. */
