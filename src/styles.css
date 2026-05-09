@@ -287,8 +287,8 @@
     transition: filter 1100ms cubic-bezier(0.22, 0.61, 0.36, 1),
                 opacity 1100ms cubic-bezier(0.22, 0.61, 0.36, 1);
   }
-  .garden-tile-hover.is-hot   { filter: saturate(1.18) brightness(1.06); }
-  .garden-tile-hover.is-faded { filter: saturate(0.65) brightness(0.98); opacity: 0.62; }
+  .garden-tile-hover.is-hot   { filter: saturate(1.85) brightness(1.12) contrast(1.08); }
+  .garden-tile-hover.is-faded { filter: saturate(0.55) brightness(0.99); opacity: 0.55; }
 
   /* Bloom-in — soft scale + opacity entry for living patches */
   @keyframes legato-bloom-in {
@@ -308,10 +308,8 @@
     transform-origin: bottom center;
   }
 
-  /* Organic dissolved frame for garden image — never a hard edge */
+  /* Garden image — full bleed, blends with paper via multiply */
   .garden-dissolve {
-    -webkit-mask-image: radial-gradient(ellipse 70% 74% at 50% 52%, black 0%, rgba(0,0,0,0.92) 35%, rgba(0,0,0,0.55) 60%, rgba(0,0,0,0.18) 82%, transparent 100%);
-            mask-image: radial-gradient(ellipse 70% 74% at 50% 52%, black 0%, rgba(0,0,0,0.92) 35%, rgba(0,0,0,0.55) 60%, rgba(0,0,0,0.18) 82%, transparent 100%);
     mix-blend-mode: multiply;
   }
 
