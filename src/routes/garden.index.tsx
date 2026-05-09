@@ -39,7 +39,7 @@ export const BEINGS: Being[] = [
 ];
 
 function Garden() {
-  const { mode, lostName, t, lang } = useLegato();
+  const { lostName, t, lang } = useLegato();
   const [hovered, setHovered] = useState<string | null>(null);
   const activeBeing = BEINGS.find((b) => b.id === hovered) ?? null;
 
