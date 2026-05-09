@@ -10,9 +10,9 @@ export const Route = createFileRoute("/presence")({
 });
 
 const SUGGESTIONS = [
-  "Raconte-moi cette journée, doucement.",
-  "J'aimerais me souvenir de quelque chose.",
-  "Je n'ai pas de mots, là.",
+  "Aide-moi à raconter cette journée, doucement.",
+  "J'aimerais me souvenir de quelque chose, ensemble.",
+  "Là, je n'ai pas de mots.",
   "Aide-moi à mettre des mots sur ce que je ressens.",
 ];
 
@@ -29,7 +29,7 @@ function Presence() {
     setMessages((m) => [
       ...m,
       { role: "you", text: t },
-      { role: "presence", text: "Merci de me l'avoir confié. Prenez votre temps. Rien ne presse." },
+      { role: "presence", text: "Merci de me l'avoir confié. Prenez tout votre temps, rien ne presse." },
     ]);
     setDraft("");
   };
@@ -40,24 +40,36 @@ function Presence() {
         <Halos mode={mode} variant="rich" />
 
         <div className="relative z-10 flex flex-1 flex-col">
-          <div className="flex items-center justify-between px-7 pt-10">
-            <Link to="/home" className="text-[11px] uppercase tracking-[0.22em] text-dusk/50 hover:text-dusk">← Accueil</Link>
-            <Link to="/no-words" className="text-[11px] uppercase tracking-[0.22em] text-dusk/50 hover:text-dusk">Sans mots →</Link>
+          <div className="flex items-center justify-between px-8 pt-10">
+            <Link to="/home" className="text-[11px] uppercase tracking-[0.22em] text-dusk/55 hover:text-dusk">← Accueil</Link>
+            <Link to="/no-words" className="text-[11px] uppercase tracking-[0.22em] text-dusk/55 hover:text-dusk">Sans mots →</Link>
           </div>
 
-          <div className="px-7 pt-12 flex flex-col items-center text-center">
-            <div className="relative size-32">
+          <div className="px-8 pt-14 flex flex-col items-center text-center">
+            <div className="relative size-32 halo-lg">
               <div
-                className="absolute inset-0 organic-radius-2 breath"
+                className="absolute inset-0 rounded-full breath"
                 style={{
                   background: "radial-gradient(circle at 30% 30%, var(--peach), var(--rose))",
-                  boxShadow: "inset 0 2px 4px rgba(255,255,255,0.6), 0 18px 40px -16px rgba(60,40,40,0.3)",
+                  boxShadow: "inset 0 2px 6px rgba(255,255,255,0.7), 0 22px 50px -18px rgba(120,60,60,0.32)",
+                }}
+              />
+              <div
+                className="absolute -inset-6 rounded-full breath -z-10 opacity-70"
+                style={{
+                  background: "radial-gradient(circle, color-mix(in oklab, var(--rose) 35%, transparent), transparent 70%)",
+                  animationDuration: "9s",
                 }}
               />
             </div>
-            <p className="mt-7 text-[10px] uppercase tracking-[0.22em] text-dusk/40">Présence</p>
-            <h1 className="mt-2 font-serif text-3xl font-light italic text-dusk text-balance max-w-[26ch]">
-              Je suis là, {name}. Nous avons le temps.
+            <p className="mt-8 text-[10px] uppercase tracking-[0.22em] text-dusk/45">
+              Présence · quelques minutes pour soi
+            </p>
+            <h1
+              className="mt-3 font-serif text-[1.9rem] font-light italic text-dusk max-w-[24ch] leading-[1.2]"
+              style={{ textWrap: "balance" }}
+            >
+              Je suis là, {name}. Nous avons tout le temps qu'il faut.
             </h1>
           </div>
 
@@ -66,7 +78,7 @@ function Presence() {
               m.role === "presence" ? (
                 <div key={i} className="ceramic-soft organic-radius-3 px-5 py-4 max-w-[85%]">
                   <p className="text-[10px] uppercase tracking-[0.2em] text-dusk/40 mb-1">Présence</p>
-                  <p className="font-serif text-[17px] italic leading-snug text-dusk">{m.text}</p>
+                  <p className="font-serif text-[17px] italic leading-relaxed text-dusk">{m.text}</p>
                 </div>
               ) : (
                 <div key={i} className="ml-auto organic-radius-3 px-5 py-3 max-w-[85%] bg-dusk text-paper">
@@ -76,9 +88,9 @@ function Presence() {
             )}
           </div>
 
-          <div className="px-4 pb-3 flex gap-2 overflow-x-auto no-scrollbar">
+          <div className="px-5 pb-3 flex gap-2 overflow-x-auto no-scrollbar">
             {SUGGESTIONS.map((s) => (
-              <button key={s} onClick={() => send(s)} className="ceramic-soft organic-radius shrink-0 px-4 py-2 text-[12px] text-dusk/70">
+              <button key={s} onClick={() => send(s)} className="ceramic-soft organic-radius shrink-0 px-4 py-2 text-[12.5px] text-dusk/75 italic font-serif">
                 {s}
               </button>
             ))}
@@ -89,7 +101,7 @@ function Presence() {
               <input
                 value={draft}
                 onChange={(e) => setDraft(e.target.value)}
-                placeholder="Murmurez, ou restez en silence…"
+                placeholder="Écrivez un mot, ou restez simplement en silence…"
                 className="flex-1 bg-transparent font-serif text-base italic text-dusk placeholder:text-dusk/35 outline-none py-2"
               />
               <button type="submit" className="size-10 rounded-full bg-dusk text-paper text-sm flex items-center justify-center" aria-label="Envoyer">→</button>
