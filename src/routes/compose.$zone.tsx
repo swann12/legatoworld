@@ -397,7 +397,7 @@ function Composer({
   /* ───── pointer drag/scale/rotate ───── */
   const dragRef = useRef<{
     id: string;
-    mode: "move" | "scale" | "rotate";
+    mode: "move" | "scale" | "rotate" | "opacity";
     startX: number;
     startY: number;
     item: CompositionItem;
@@ -415,15 +415,17 @@ function Composer({
     if (!rect) return;
     dragRef.current = {
       id: item.id,
-      mode: mode as "move" | "scale" | "rotate",
+      mode,
       startX: e.clientX,
       startY: e.clientY,
       item,
       canvasRect: rect,
     };
-    // stocker opacity dans le mode via cast — on étend avec un champ
-    (dragRef.current as { extra?: string }).extra = mode === "opacity" ? "opacity" : "";
-    (e.target as HTMLElement).setPointerCapture(e.pointerId);
+    try {
+      (e.currentTarget as Element).setPointerCapture(e.pointerId);
+    } catch {
+      /* noop — capture optional */
+    }
     historyRef.current.past.push(items);
     historyRef.current.future = [];
   };
@@ -435,11 +437,10 @@ function Composer({
     const dy = e.clientY - d.startY;
     const w = d.canvasRect.width;
     const h = d.canvasRect.height;
-    const extra = (d as { extra?: string }).extra;
     setItems((prev) =>
       prev.map((it) => {
         if (it.id !== d.id) return it;
-        if (extra === "opacity") {
+        if (d.mode === "opacity") {
           const op = Math.max(0.1, Math.min(1, (d.item.opacity ?? 1) - dy / 200));
           return { ...it, opacity: op };
         }
@@ -565,6 +566,19 @@ function Composer({
 
   return (
     <div className="absolute inset-0 flex flex-col bg-paper">
+      {/* Inline SVG filter — soft pictural feather on the alpha silhouette */}
+      <svg width="0" height="0" style={{ position: "absolute" }} aria-hidden>
+        <defs>
+          <filter id="legato-feather" x="-10%" y="-10%" width="120%" height="120%">
+            <feGaussianBlur in="SourceAlpha" stdDeviation="1.4" result="blurA" />
+            <feComponentTransfer in="blurA" result="softA">
+              <feFuncA type="linear" slope="1.25" intercept="-0.05" />
+            </feComponentTransfer>
+            <feComposite in="SourceGraphic" in2="softA" operator="in" />
+          </filter>
+        </defs>
+      </svg>
+
       {/* Top bar — close, title, save */}
       <div className="flex items-center justify-between px-5 py-3 border-b border-dusk/8">
         <button
@@ -627,7 +641,7 @@ function Composer({
                   alt=""
                   draggable={false}
                   onPointerDown={(e) => onLayerPointerDown(e, it, "move")}
-                  className="block w-full h-full select-none feathered-soft"
+                  className="block w-full h-full select-none feathered-pictural"
                   style={{
                     transform: `scale(${it.flipX ? -1 : 1}, ${it.flipY ? -1 : 1})`,
                   }}
