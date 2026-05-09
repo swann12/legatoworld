@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Halos } from "@/components/legato/Halos";
 import { Shell, Section } from "@/components/legato/Shell";
 import { ModeSelector } from "@/components/legato/ModeSelector";
-import { useLegato, MODES, BRANCHES } from "@/lib/legato-state";
+import { useLegato, MODES, BRANCHES, modeProfile } from "@/lib/legato-state";
 
 export const Route = createFileRoute("/home")({
   head: () => ({
@@ -18,13 +18,16 @@ function Home() {
   const { name, mode, branch, t, lang, setLang } = useLegato();
   const modeMeta = MODES.find((m) => m.id === mode)!;
   const branchMeta = BRANCHES.find((b) => b.id === branch);
-  const isCocoon = mode === "cocoon";
-  const isBreath = mode === "breath";
+  const profile = modeProfile(mode);
+  const gap = profile.density === "tight" ? "mt-3" : profile.density === "open" ? "mt-6" : "mt-4";
+
+  // Re-order content blocks by mode
+  const blocks = orderForMode(profile.primary);
 
   return (
     <Shell>
       <div className="relative">
-        <Halos mode={mode} variant={isBreath ? "calm" : isCocoon ? "rich" : "default"} />
+          <Halos mode={mode} variant={profile.halo} />
 
         <div className="relative z-10">
           {/* top bar — language toggle + space */}
@@ -50,17 +53,17 @@ function Home() {
           </div>
 
           {/* greeting */}
-          <header className={`px-7 ${isCocoon ? "pt-16" : "pt-12"}`}>
+          <header className={`px-7 ${profile.density === "tight" ? "pt-14" : profile.density === "open" ? "pt-10" : "pt-12"}`}>
             <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">
               {t("home.aujourdhui")}
             </p>
-            <h1 className="mt-4 font-serif text-[2.4rem] leading-[1.05] font-light text-dusk text-balance">
+            <h1 className="mt-4 font-serif text-[2.1rem] leading-[1.08] font-light text-dusk text-balance">
               {name},<br />
               <span className="italic text-dusk/85">{t("home.posezvous")}</span> {t("home.unmoment")}
             </h1>
             {branchMeta && (
-              <p className="mt-5 max-w-[34ch] text-[14.5px] leading-relaxed text-dusk/60">
-                {lang === "fr" ? "Tenu·e en " : "Held in "}
+              <p className="mt-5 max-w-[34ch] text-[14px] leading-relaxed text-dusk/60">
+                {lang === "fr" ? "En mode " : "In "}
                 <span className="italic">{modeMeta.label.toLowerCase()}</span>
                 {lang === "fr" ? ", avec " : ", with "}
                 <span className="italic">{branchMeta.label.toLowerCase()}</span>
@@ -70,98 +73,22 @@ function Home() {
           </header>
 
           {/* Mode chips — always visible */}
-          <div className="mt-9">
+          <div className="mt-8">
             <ModeSelector compact />
           </div>
 
-          {/* PRIMARY ACTION — Presence */}
-          <Section className="mt-10">
-            <Link
-              to="/presence"
-              className="ceramic organic-radius-3 block p-7 relative overflow-hidden"
-            >
-              <div
-                className="absolute -right-10 -top-10 size-40 rounded-full opacity-60 halo"
-                style={{ background: "radial-gradient(circle, var(--peach), transparent 70%)" }}
-              />
-              <div className="relative">
-                <div className="flex items-center gap-4">
-                  <div className="relative size-16 rounded-full ceramic-soft flex items-center justify-center shrink-0">
-                    <div
-                      className="size-7 rounded-full breath"
-                      style={{ background: "radial-gradient(circle, var(--peach), var(--rose))" }}
-                    />
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">
-                      {t("home.parler")}
-                    </p>
-                    <h3 className="mt-1 font-serif text-[1.55rem] italic text-dusk leading-tight">
-                      {t("home.parlerSub")}
-                    </h3>
-                  </div>
-                </div>
-                <p className="mt-5 text-[13.5px] leading-relaxed text-dusk/65 max-w-[32ch]">
-                  {t("home.parlerBody")}
-                </p>
-                <p className="mt-5 text-[11px] uppercase tracking-[0.22em] text-dusk/55">
-                  {t("home.enter")}
-                </p>
+          <Section className="mt-9">
+            {blocks.map((b, i) => (
+              <div key={b} className={i === 0 ? "" : gap}>
+                {b === "presence" && <PresenceBlock t={t} primary={profile.primary === "presence"} ctaLabel={profile.ctaLabel} />}
+                {b === "journal" && <JournalBlock t={t} primary={profile.primary === "journal"} lang={lang} />}
+                {b === "practical" && <PracticalBlock t={t} primary={profile.primary === "practical"} />}
+                {b === "relay" && <RelayBlock primary={profile.primary === "relay"} />}
+                {b === "nowords" && <NoWordsBlock t={t} />}
+                {b === "wishes" && <WishesBlock t={t} />}
+                {b === "inspiration" && <InspirationBlock t={t} />}
               </div>
-            </Link>
-          </Section>
-
-          {/* Journal — always present, beautifully calm */}
-          <Section className="mt-4">
-            <Link to="/journal" className="paper-card block p-6 relative overflow-hidden" style={{ borderRadius: 26 }}>
-              <div
-                className="absolute inset-y-0 right-0 w-24 opacity-50 pointer-events-none"
-                style={{
-                  backgroundImage: "repeating-linear-gradient(0deg, transparent 0 14px, color-mix(in oklab, var(--dusk) 8%, transparent) 14px 15px)",
-                }}
-              />
-              <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">
-                {t("home.journal")}
-              </p>
-              <p className="mt-1.5 font-serif text-xl italic text-dusk leading-snug">
-                {t("home.journalSub")}
-              </p>
-              <p className="mt-3 text-[11px] uppercase tracking-[0.22em] text-dusk/55">
-                {lang === "fr" ? "Ouvrir une page →" : "Open a page →"}
-              </p>
-            </Link>
-          </Section>
-
-          {/* Practical — always reachable, distinct */}
-          <Section className="mt-4">
-            <Link to="/practical" className="paper-card block p-6" style={{ borderRadius: 26 }}>
-              <div className="flex items-baseline justify-between gap-4">
-                <div>
-                  <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">
-                    {t("home.practical")}
-                  </p>
-                  <p className="mt-1.5 font-serif text-lg italic text-dusk leading-snug">
-                    {t("home.practicalSub")}
-                  </p>
-                </div>
-                <span className="text-dusk/40">→</span>
-              </div>
-              <p className="mt-3 text-[11.5px] text-dusk/50">
-                {t("home.practicalAlways")}
-              </p>
-            </Link>
-          </Section>
-
-          {/* Without words — quiet alternative */}
-          <Section className="mt-4">
-            <Link to="/no-words" className="paper-card block p-6" style={{ borderRadius: 26 }}>
-              <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">
-                {t("home.nowords")}
-              </p>
-              <p className="mt-1.5 font-serif text-lg italic text-dusk leading-snug">
-                {t("home.nowordsSub")}
-              </p>
-            </Link>
+            ))}
           </Section>
 
           {/* Crisis door — always present, never loud */}
@@ -184,5 +111,134 @@ function Home() {
         </div>
       </div>
     </Shell>
+  );
+}
+
+type BlockId = "presence" | "journal" | "practical" | "relay" | "nowords" | "wishes" | "inspiration";
+function orderForMode(primary: "presence" | "practical" | "journal" | "relay"): BlockId[] {
+  const all: BlockId[] = ["presence", "journal", "practical", "wishes", "inspiration", "nowords"];
+  if (primary === "relay") return ["relay", "practical", "presence", "wishes", "journal", "nowords"];
+  // place primary first
+  const ordered = [primary as BlockId, ...all.filter((x) => x !== primary)];
+  return ordered;
+}
+
+function PresenceBlock({ t, primary, ctaLabel }: { t: (k: string) => string; primary: boolean; ctaLabel: string }) {
+  return (
+    <Link
+      to="/presence"
+      className={`${primary ? "ceramic organic-radius-3 p-7" : "paper-card p-6"} block relative overflow-hidden`}
+    >
+      {primary && (
+        <div
+          className="absolute -right-10 -top-10 size-40 rounded-full opacity-60 halo"
+          style={{ background: "radial-gradient(circle, var(--peach), transparent 70%)" }}
+        />
+      )}
+      <div className="relative">
+        <div className="flex items-center gap-4">
+          {primary && (
+            <div className="relative size-14 rounded-full ceramic-soft flex items-center justify-center shrink-0">
+              <div
+                className="size-6 rounded-full breath"
+                style={{ background: "radial-gradient(circle, var(--peach), var(--rose))" }}
+              />
+            </div>
+          )}
+          <div className="flex-1">
+            <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">{t("home.parler")}</p>
+            <h3 className={`mt-1 font-serif italic text-dusk leading-tight ${primary ? "text-[1.4rem]" : "text-lg"}`}>
+              {t("home.parlerSub")}
+            </h3>
+          </div>
+        </div>
+        {primary && (
+          <>
+            <p className="mt-4 text-[13px] leading-relaxed text-dusk/65 max-w-[32ch]">
+              {t("home.parlerBody")}
+            </p>
+            <p className="mt-5 text-[11px] uppercase tracking-[0.22em] text-dusk/55">{ctaLabel} →</p>
+          </>
+        )}
+      </div>
+    </Link>
+  );
+}
+
+function JournalBlock({ t, primary, lang }: { t: (k: string) => string; primary: boolean; lang: string }) {
+  return (
+    <Link to="/journal" className={`${primary ? "ceramic organic-radius-3 p-7" : "paper-card p-6"} block`}>
+      <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">{t("home.journal")}</p>
+      <p className={`mt-1.5 font-serif italic text-dusk leading-snug ${primary ? "text-[1.4rem]" : "text-lg"}`}>
+        {t("home.journalSub")}
+      </p>
+      {primary && (
+        <p className="mt-4 text-[11px] uppercase tracking-[0.22em] text-dusk/55">
+          {lang === "fr" ? "Ouvrir une page →" : "Open a page →"}
+        </p>
+      )}
+    </Link>
+  );
+}
+
+function PracticalBlock({ t, primary }: { t: (k: string) => string; primary: boolean }) {
+  return (
+    <Link to="/practical" className={`${primary ? "ceramic organic-radius-3 p-7" : "paper-card p-6"} block`}>
+      <div className="flex items-baseline justify-between gap-4">
+        <div>
+          <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">{t("home.practical")}</p>
+          <p className={`mt-1.5 font-serif italic text-dusk leading-snug ${primary ? "text-[1.4rem]" : "text-lg"}`}>
+            {t("home.practicalSub")}
+          </p>
+        </div>
+        <span className="text-dusk/40">→</span>
+      </div>
+      {primary && (
+        <p className="mt-3 text-[12px] text-dusk/55">{t("home.practicalAlways")}</p>
+      )}
+    </Link>
+  );
+}
+
+function RelayBlock({ primary }: { primary: boolean }) {
+  return (
+    <Link to="/help" className={`${primary ? "ceramic organic-radius-3 p-7" : "paper-card p-6"} block`}>
+      <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">S'appuyer sur les autres</p>
+      <p className={`mt-1.5 font-serif italic text-dusk leading-snug ${primary ? "text-[1.4rem]" : "text-lg"}`}>
+        Proches, professionnels, lignes d'écoute
+      </p>
+      {primary && (
+        <p className="mt-3 text-[12px] text-dusk/55">
+          Quelques mains tendues, quand vos forces s'épuisent.
+        </p>
+      )}
+    </Link>
+  );
+}
+
+function NoWordsBlock({ t }: { t: (k: string) => string }) {
+  return (
+    <Link to="/no-words" className="paper-card block p-6">
+      <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">{t("home.nowords")}</p>
+      <p className="mt-1.5 font-serif text-lg italic text-dusk leading-snug">{t("home.nowordsSub")}</p>
+    </Link>
+  );
+}
+
+function WishesBlock({ t }: { t: (k: string) => string }) {
+  return (
+    <Link to="/wishes" className="paper-card block p-6">
+      <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">{t("home.wishes")}</p>
+      <p className="mt-1.5 font-serif text-lg italic text-dusk leading-snug">{t("home.wishesSub")}</p>
+    </Link>
+  );
+}
+
+function InspirationBlock({ t }: { t: (k: string) => string }) {
+  return (
+    <Link to="/inspiration" className="paper-card block p-6">
+      <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">{t("home.inspiration")}</p>
+      <p className="mt-1.5 font-serif text-lg italic text-dusk leading-snug">{t("home.inspirationSub")}</p>
+    </Link>
   );
 }
