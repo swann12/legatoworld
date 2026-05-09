@@ -89,22 +89,6 @@ function Garden() {
                 draggable={false}
               />
 
-              {/* Cool atmospheric veil — fresher palette, breaks the sepia */}
-              <div
-                className="absolute inset-0 pointer-events-none mix-blend-soft-light garden-dissolve"
-                style={{
-                  background:
-                    "linear-gradient(180deg, color-mix(in oklab, var(--bloom-mist) 55%, transparent) 0%, transparent 35%, transparent 65%, color-mix(in oklab, var(--bloom-fresh) 35%, transparent) 100%)",
-                }}
-              />
-              <div
-                className="absolute inset-0 pointer-events-none garden-dissolve wander"
-                style={{
-                  background:
-                    "radial-gradient(circle at 30% 70%, color-mix(in oklab, var(--lavender) 25%, transparent), transparent 55%), radial-gradient(circle at 75% 30%, color-mix(in oklab, var(--peach) 25%, transparent), transparent 55%)",
-                }}
-              />
-
               {/* Per-being living veil — density grows as souvenirs accumulate */}
               {BEINGS.map((p) => {
                 const d = densityFor(p.id);
