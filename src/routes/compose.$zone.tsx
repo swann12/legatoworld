@@ -2,6 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Halos } from "@/components/legato/Halos";
 import { Shell } from "@/components/legato/Shell";
+import { OrganicHandles } from "@/components/legato/OrganicHandles";
 import { useLegato } from "@/lib/legato-state";
 import {
   ELEMENTS,
@@ -71,9 +72,9 @@ function Compose() {
                 ← Retour
               </button>
               <span className="text-[10px] uppercase tracking-[0.22em] text-dusk/40">
-                {step === "type" && "1 · type"}
-                {step === "import" && "2 · souvenir"}
-                {step === "ask" && "3 · composer ?"}
+                {step === "type" && "Le type"}
+                {step === "import" && "Le souvenir"}
+                {step === "ask" && "La composition"}
               </span>
             </div>
           )}
@@ -126,12 +127,12 @@ function ChooseType({
   return (
     <div className="flex-1 flex flex-col px-7 pt-10 pb-10">
       <header>
-        <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">Étape 1</p>
+        <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">premier pas</p>
         <h1 className="mt-3 font-serif text-[2.2rem] leading-[1.05] font-light text-dusk text-balance">
           Quel type de <span className="italic">souvenir ?</span>
         </h1>
         <p className="mt-4 max-w-[32ch] text-[13.5px] leading-relaxed text-dusk/60">
-          Vous le déposez d'abord. Vous pourrez ensuite, si vous le souhaitez, composer un jardin autour.
+          On le dépose d'abord. Vous pourrez ensuite, si le cœur vous en dit, composer un jardin autour.
         </p>
       </header>
 
@@ -223,7 +224,7 @@ function ImportMemory({
   return (
     <div className="flex-1 flex flex-col px-7 pt-10 pb-10">
       <header>
-        <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">Étape 2</p>
+        <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">le souvenir</p>
         <h1 className="mt-3 font-serif text-[2.2rem] leading-[1.05] font-light text-dusk text-balance">
           Déposez ce <span className="italic">souvenir.</span>
         </h1>
@@ -302,7 +303,7 @@ function ImportMemory({
 function AskCompose({ onYes, onNo }: { onYes: () => void; onNo: () => void }) {
   return (
     <div className="flex-1 flex flex-col items-center justify-center px-7 py-12 text-center">
-      <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">Étape 3</p>
+      <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">la composition</p>
       <h1 className="mt-5 font-serif text-[1.9rem] leading-[1.2] font-light text-dusk text-balance max-w-[20ch]">
         Souhaitez-vous composer un <span className="italic">jardin</span> autour de ce souvenir&nbsp;?
       </h1>
@@ -406,7 +407,7 @@ function Composer({
   const onLayerPointerDown = (
     e: React.PointerEvent,
     item: CompositionItem,
-    mode: "move" | "scale" | "rotate" = "move",
+    mode: "move" | "scale" | "rotate" | "opacity" = "move",
   ) => {
     e.stopPropagation();
     setSelected(item.id);
@@ -414,12 +415,14 @@ function Composer({
     if (!rect) return;
     dragRef.current = {
       id: item.id,
-      mode,
+      mode: mode as "move" | "scale" | "rotate",
       startX: e.clientX,
       startY: e.clientY,
       item,
       canvasRect: rect,
     };
+    // stocker opacity dans le mode via cast — on étend avec un champ
+    (dragRef.current as { extra?: string }).extra = mode === "opacity" ? "opacity" : "";
     (e.target as HTMLElement).setPointerCapture(e.pointerId);
     historyRef.current.past.push(items);
     historyRef.current.future = [];
@@ -432,9 +435,14 @@ function Composer({
     const dy = e.clientY - d.startY;
     const w = d.canvasRect.width;
     const h = d.canvasRect.height;
+    const extra = (d as { extra?: string }).extra;
     setItems((prev) =>
       prev.map((it) => {
         if (it.id !== d.id) return it;
+        if (extra === "opacity") {
+          const op = Math.max(0.1, Math.min(1, (d.item.opacity ?? 1) - dy / 200));
+          return { ...it, opacity: op };
+        }
         if (d.mode === "move") {
           return { ...it, x: d.item.x + (dx / w) * 100, y: d.item.y + (dy / h) * 100 };
         }
@@ -474,6 +482,16 @@ function Composer({
     if (!selected) return;
     const minZ = Math.min(0, ...items.map((i) => i.z ?? 0));
     commit(items.map((it) => (it.id === selected ? { ...it, z: minZ - 1 } : it)));
+  };
+
+  /* ───── flip horizontal / vertical ───── */
+  const flipH = () => {
+    if (!selected) return;
+    commit(items.map((it) => (it.id === selected ? { ...it, flipX: !it.flipX } : it)));
+  };
+  const flipV = () => {
+    if (!selected) return;
+    commit(items.map((it) => (it.id === selected ? { ...it, flipY: !it.flipY } : it)));
   };
 
   /* ───── wheel zoom on canvas ───── */
@@ -520,6 +538,7 @@ function Composer({
       ctx.save();
       ctx.translate(x, y);
       ctx.rotate(((it.rotation ?? 0) * Math.PI) / 180);
+      ctx.scale(it.flipX ? -1 : 1, it.flipY ? -1 : 1);
       ctx.globalAlpha = it.opacity ?? 1;
       ctx.drawImage(img, -w / 2, -h / 2, w, h);
       ctx.restore();
@@ -608,31 +627,17 @@ function Composer({
                   alt=""
                   draggable={false}
                   onPointerDown={(e) => onLayerPointerDown(e, it, "move")}
-                  className="block w-full h-full select-none feathered"
-                  style={{ filter: "drop-shadow(0 0 0.6px rgba(0,0,0,0.05))" }}
+                  className="block w-full h-full select-none feathered-soft"
+                  style={{
+                    transform: `scale(${it.flipX ? -1 : 1}, ${it.flipY ? -1 : 1})`,
+                  }}
                 />
                 {isSel && (
-                  <>
-                    {/* selection halo */}
-                    <div
-                      className="absolute inset-[-6%] pointer-events-none rounded-[24px]"
-                      style={{
-                        boxShadow: "0 0 0 1px color-mix(in oklab, var(--dusk) 25%, transparent)",
-                      }}
-                    />
-                    {/* rotate handle (top) */}
-                    <button
-                      aria-label="Tourner"
-                      onPointerDown={(e) => onLayerPointerDown(e, it, "rotate")}
-                      className="absolute left-1/2 -top-7 -translate-x-1/2 size-5 rounded-full bg-paper border border-dusk/30 shadow"
-                    />
-                    {/* scale handle (bottom-right) */}
-                    <button
-                      aria-label="Redimensionner"
-                      onPointerDown={(e) => onLayerPointerDown(e, it, "scale")}
-                      className="absolute -right-3 -bottom-3 size-5 rounded-full bg-dusk/85 border border-paper shadow"
-                    />
-                  </>
+                  <OrganicHandles
+                    onPointerDown={(kind) => (e) => onLayerPointerDown(e, it, kind)}
+                    onFlipH={flipH}
+                    onFlipV={flipV}
+                  />
                 )}
               </div>
             );
@@ -650,7 +655,7 @@ function Composer({
 
       {/* Contextual selection bar */}
       {selected && (
-        <div className="px-5 pb-2 flex items-center justify-center gap-2">
+        <div className="px-5 pb-1 flex items-center justify-center gap-2">
           <button
             onClick={sendBackward}
             className="paper-card px-3 py-1.5 rounded-full text-[10px] uppercase tracking-[0.18em] text-dusk/65"
@@ -672,9 +677,9 @@ function Composer({
         </div>
       )}
 
-      {/* Bottom bar — single, calm row */}
+      {/* Bottom bar — single, calm row : Éléments · Annuler · Refaire · Exporter */}
       <div className="border-t border-dusk/8 bg-paper">
-        <div className="flex items-center justify-around px-3 py-2">
+        <div className="flex items-center justify-between gap-2 px-4 py-2">
           <BarBtn
             label="Éléments"
             active={drawerOpen}

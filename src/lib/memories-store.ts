@@ -19,6 +19,8 @@ export type CompositionItem = {
   opacity: number;  // 0..1
   tint?: string;
   z?: number;       // ordre de superposition (plus grand = au-dessus)
+  flipX?: boolean;
+  flipY?: boolean;
   name?: string;
   hidden?: boolean;
   locked?: boolean;
