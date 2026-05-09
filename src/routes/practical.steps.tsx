@@ -32,7 +32,7 @@ function Steps() {
   };
 
   return (
-    <Shell>
+    <Shell hideNav>
       <div className="relative pb-12">
         <Halos mode={mode} variant="calm" />
         <div className="relative z-10">

@@ -42,7 +42,7 @@ function Share() {
   ];
 
   return (
-    <Shell>
+    <Shell hideNav>
       <div className="relative pb-12">
         <Halos mode={mode} variant="default" />
         <div className="relative z-10">

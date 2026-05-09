@@ -55,7 +55,7 @@ function Practical() {
   const gap = profile.density === "tight" ? "space-y-3" : profile.density === "open" ? "space-y-5" : "space-y-4";
 
   return (
-    <Shell>
+    <Shell hideNav>
       <div className="relative">
         <Halos mode={mode} variant={profile.halo === "rich" ? "default" : "calm"} />
         <div className="relative z-10">
