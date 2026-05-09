@@ -134,34 +134,34 @@ function modeAccompaniment(mode: Mode, branch: Branch, lang: string): string {
 
 const FR: Record<Mode, Record<Branch, string>> = {
   cocoon: {
-    person:    "Se replier un peu, sans lâcher ce souvenir.",
-    animal:    "Se reposer, cette présence tout près.",
-    fear:      "Ralentir le pas, sans rien lâcher.",
-    anxiety:   "Laisser les grandes questions de côté.",
-    practical: "Les démarches attendront. Vous d'abord.",
-    unknown:   "Rien à nommer. Se poser, simplement.",
+    person:    "Se replier un peu, le souvenir tout près.",
+    animal:    "Se reposer, cette présence à vos côtés.",
+    fear:      "Ralentir, sans rien lâcher.",
+    anxiety:   "Mettre les grandes questions de côté.",
+    practical: "Les démarches attendront.",
+    unknown:   "Rien à nommer. Se poser.",
   },
   anchoring: {
-    person:    "Retrouver des repères, en pensant à elle, à lui.",
-    animal:    "Un pas tranquille, cette présence à vos côtés.",
+    person:    "Des repères simples, en pensant à elle, à lui.",
+    animal:    "Un pas tranquille, cette présence proche.",
     fear:      "Tenir droit, malgré l'inquiétude.",
-    anxiety:   "Un pied après l'autre, calmement.",
+    anxiety:   "Un pied après l'autre.",
     practical: "Un pas concret, sans pression.",
     unknown:   "Un peu de sol sous les pieds.",
   },
   breath: {
-    person:    "Un peu d'air. Le souvenir respire avec vous.",
-    animal:    "Laisser la tendresse passer, sans serrer.",
-    fear:      "L'inquiétude se desserre, un peu.",
+    person:    "Un peu d'air, le souvenir respire avec vous.",
+    animal:    "Laisser la tendresse passer.",
+    fear:      "L'inquiétude se desserre, doucement.",
     anxiety:   "Les pensées passent, sans les retenir.",
     practical: "Les papiers attendront. D'abord, respirer.",
     unknown:   "Un peu d'air, sans rien à dire.",
   },
   relay: {
     person:    "Ne pas porter ce manque seul·e.",
-    animal:    "Laisser quelqu'un partager cette peine.",
+    animal:    "Partager cette peine, à deux.",
     fear:      "Une main amie, le temps que ça desserre.",
-    anxiety:   "Ouvrir la porte. Dire ce qui revient.",
+    anxiety:   "Dire ce qui revient, à quelqu'un.",
     practical: "Quelqu'un fait un pas avec vous.",
     unknown:   "Être accompagné·e, sans expliquer.",
   },
@@ -206,40 +206,59 @@ function PresenceBlock({ t, primary, ctaLabel }: { t: (k: string) => string; pri
   return (
     <Link
       to="/presence"
-      className={`${primary ? "ceramic organic-radius-3 p-7" : "paper-card p-6"} block relative overflow-hidden`}
+      className={`${primary ? "ceramic organic-radius-3 px-7 py-9" : "paper-card p-6"} block relative overflow-hidden`}
     >
       {primary && (
         <div
-          className="absolute -right-10 -top-10 size-40 rounded-full opacity-60 halo"
-          style={{ background: "radial-gradient(circle, var(--peach), transparent 70%)" }}
+          aria-hidden
+          className="absolute left-1/2 -top-16 -translate-x-1/2 size-56 rounded-full opacity-55 halo"
+          style={{ background: "radial-gradient(circle, var(--peach), transparent 65%)" }}
         />
       )}
-      <div className="relative">
-        <div className="flex items-center gap-4">
-          {primary && (
-            <div className="relative size-14 rounded-full ceramic-soft flex items-center justify-center shrink-0">
-              <div
-                className="size-6 rounded-full breath"
-                style={{ background: "radial-gradient(circle, var(--peach), var(--rose))" }}
-              />
-            </div>
-          )}
+      {primary ? (
+        <div className="relative flex flex-col items-center text-center">
+          <div className="relative size-16 rounded-full ceramic-soft flex items-center justify-center">
+            <div
+              className="size-7 rounded-full breath"
+              style={{ background: "radial-gradient(circle, var(--peach), var(--rose))" }}
+            />
+          </div>
+          <p className="mt-5 text-[10px] uppercase tracking-[0.24em] text-dusk/50">
+            {t("home.parler")}
+          </p>
+          <h3
+            className="mt-2 font-serif italic text-dusk text-[1.55rem] leading-[1.15] max-w-[18ch]"
+            style={{ textWrap: "balance" }}
+          >
+            {t("home.parlerSub")}
+          </h3>
+          <p
+            className="mt-3 text-[13px] leading-relaxed text-dusk/60 max-w-[26ch]"
+            style={{ textWrap: "balance" }}
+          >
+            {t("home.parlerBody")}
+          </p>
+          <span className="mt-6 inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.24em] text-dusk/55">
+            {ctaLabel} <span aria-hidden>→</span>
+          </span>
+        </div>
+      ) : (
+        <div className="relative flex items-center gap-4">
+          <div className="size-10 rounded-full ceramic-soft flex items-center justify-center shrink-0">
+            <div
+              className="size-3.5 rounded-full breath"
+              style={{ background: "radial-gradient(circle, var(--peach), var(--rose))" }}
+            />
+          </div>
           <div className="flex-1">
             <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">{t("home.parler")}</p>
-            <h3 className={`mt-1 font-serif italic text-dusk leading-tight ${primary ? "text-[1.4rem]" : "text-lg"}`}>
+            <h3 className="mt-1 font-serif italic text-dusk leading-tight text-lg">
               {t("home.parlerSub")}
             </h3>
           </div>
+          <span className="text-dusk/40 text-sm">→</span>
         </div>
-        {primary && (
-          <>
-            <p className="mt-4 text-[13px] leading-relaxed text-dusk/65 max-w-[32ch]">
-              {t("home.parlerBody")}
-            </p>
-            <p className="mt-5 text-[11px] uppercase tracking-[0.22em] text-dusk/55">{ctaLabel} →</p>
-          </>
-        )}
-      </div>
+      )}
     </Link>
   );
 }
