@@ -22,47 +22,47 @@ const TEXTURES: Texture[] = [
   {
     id: "warmth",
     title: { fr: "Chaleur lente", en: "Slow warmth" },
-    whisper: { fr: "Comme une main posée.", en: "Like a hand resting." },
+    whisper: { fr: "Comme une main posée sur l'épaule.", en: "Like a hand resting on your shoulder." },
     bg: "radial-gradient(circle at 30% 30%, var(--peach), var(--rose) 60%, var(--lavender) 100%)",
     accent: "var(--peach)",
     motion: "pulse",
-    asmr: { fr: "Souffle long, foyer", en: "Long breath, hearth" },
+    asmr: { fr: "Souffle long, près d'un feu", en: "Long breath, by a fire" },
   },
   {
     id: "ocean",
     title: { fr: "Marée intérieure", en: "Inner tide" },
-    whisper: { fr: "Aller, revenir.", en: "Going, returning." },
+    whisper: { fr: "Aller, revenir, à votre rythme.", en: "Going, returning, at your own pace." },
     bg: "linear-gradient(180deg, var(--mist), color-mix(in oklab, var(--lavender) 60%, var(--paper)))",
     accent: "var(--mist)",
     motion: "ripple",
-    asmr: { fr: "Vagues, sable mouillé", en: "Waves, wet sand" },
+    asmr: { fr: "Vagues posées sur le sable", en: "Waves resting on sand" },
   },
   {
     id: "forest",
-    title: { fr: "Forêt", en: "Forest" },
-    whisper: { fr: "Vert qui respire.", en: "Green that breathes." },
+    title: { fr: "Forêt qui respire", en: "Breathing forest" },
+    whisper: { fr: "Le vert se balance, sans bruit.", en: "Green sways, without sound." },
     bg: "radial-gradient(ellipse at 60% 40%, var(--sage), color-mix(in oklab, var(--sage) 60%, var(--dusk) 20%))",
     accent: "var(--sage)",
     motion: "drift",
-    asmr: { fr: "Feuilles, vent doux", en: "Leaves, soft wind" },
+    asmr: { fr: "Vent doux dans les feuilles", en: "Soft wind in the leaves" },
   },
   {
     id: "rain",
     title: { fr: "Pluie au carreau", en: "Rain on glass" },
-    whisper: { fr: "Tout s'apaise.", en: "Everything settles." },
+    whisper: { fr: "Tout s'apaise, à l'abri.", en: "Everything settles, sheltered." },
     bg: "linear-gradient(180deg, color-mix(in oklab, var(--mist) 70%, var(--dusk) 10%), var(--mist))",
     accent: "var(--mist)",
     motion: "rain",
-    asmr: { fr: "Pluie continue, fenêtre", en: "Steady rain, window" },
+    asmr: { fr: "Pluie continue, derrière la vitre", en: "Steady rain, behind the window" },
   },
   {
     id: "moon",
     title: { fr: "Veillée", en: "Vigil" },
-    whisper: { fr: "Une lumière reste.", en: "A light remains." },
+    whisper: { fr: "Une lumière reste allumée pour vous.", en: "A light is still on, for you." },
     bg: "radial-gradient(circle at 60% 30%, color-mix(in oklab, var(--lavender) 70%, white), color-mix(in oklab, var(--dusk) 30%, var(--lavender)))",
     accent: "var(--lavender)",
     motion: "veil",
-    asmr: { fr: "Silence étoilé", en: "Starlit silence" },
+    asmr: { fr: "Silence sous les étoiles", en: "Silence under the stars" },
   },
 ];
 
@@ -108,11 +108,14 @@ function NoWords() {
           </span>
         </div>
 
-        <div className="px-6 pt-6">
+        <div className="px-7 pt-7">
           <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">
             {t("nowords.title")}
           </p>
-          <h1 className="mt-2 font-serif text-[1.7rem] leading-[1.1] font-light text-dusk text-balance">
+          <h1
+            className="mt-2 font-serif text-[1.7rem] leading-[1.18] font-light text-dusk max-w-[24ch]"
+            style={{ textWrap: "balance" }}
+          >
             {t("nowords.subtitle")}
           </h1>
         </div>
@@ -134,16 +137,33 @@ function NoWords() {
             }}
           >
             <Motion kind={tex.motion} accent={tex.accent} />
-            {/* center title plate */}
-            <div className="absolute inset-x-0 bottom-0 p-7">
-              <div className="paper-card p-5" style={{ borderRadius: 22 }}>
-                <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">
-                  {playing ? (lang === "fr" ? "Ambiance en cours" : "Ambience playing") : t("nowords.silence")}
+            {/* center title plate — translucent over the texture */}
+            <div className="absolute inset-x-0 bottom-0 p-6">
+              <div
+                className="px-6 py-5 backdrop-blur-md"
+                style={{
+                  borderRadius: 22,
+                  background: "color-mix(in oklab, var(--paper) 55%, transparent)",
+                  boxShadow: "inset 0 1px 0 rgba(255,255,255,0.4)",
+                }}
+              >
+                <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/55">
+                  {playing
+                    ? lang === "fr" ? "Ambiance en cours" : "Ambience playing"
+                    : lang === "fr" ? "En silence" : "In silence"}
                 </p>
-                <h3 className="mt-1 font-serif text-[22px] italic text-dusk leading-snug">
+                <h3
+                  className="mt-2 font-serif text-[22px] italic text-dusk leading-snug"
+                  style={{ textWrap: "balance" }}
+                >
                   {tex.title[lang]}
                 </h3>
-                <p className="mt-1.5 text-[13px] text-dusk/65">{tex.whisper[lang]}</p>
+                <p
+                  className="mt-1.5 text-[13.5px] text-dusk/75 leading-relaxed"
+                  style={{ textWrap: "pretty" }}
+                >
+                  {tex.whisper[lang]}
+                </p>
               </div>
             </div>
           </div>
