@@ -282,6 +282,12 @@
     filter: drop-shadow(0 0 0.6px rgba(0,0,0,0.05)) blur(0.35px);
   }
 
+  /* Pictural feather — softens the actual silhouette (alpha channel),
+   * not the bounding box. Requires the inline SVG filter #legato-feather. */
+  .feathered-pictural {
+    filter: url(#legato-feather);
+  }
+
   /* Garden hotspot — gentle interaction without colored halos */
   .garden-tile-hover {
     transition: opacity 1000ms cubic-bezier(0.22, 0.61, 0.36, 1);
