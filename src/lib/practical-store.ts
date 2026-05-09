@@ -6,6 +6,7 @@ export type FlowerStyle = "bouquet" | "couronne" | "ambiance" | "";
 
 export type PracticalState = {
   budget: Budget;
+  portrait: string;        // a few lines describing the person — used to personalize AI suggestions
   flowerStyle: FlowerStyle;
   flowerPalette: string[]; // hex tokens
   ceremonyKind: string;    // inhumation, crémation, libre…
@@ -29,6 +30,7 @@ const KEY = "legato.practical.v1";
 
 const EMPTY: PracticalState = {
   budget: "",
+  portrait: "",
   flowerStyle: "",
   flowerPalette: [],
   ceremonyKind: "",
