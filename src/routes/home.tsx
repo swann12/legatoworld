@@ -57,17 +57,18 @@ function Home() {
             <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">
               {t("home.aujourdhui")}
             </p>
-            <h1 className="mt-4 font-serif text-[2.1rem] leading-[1.08] font-light text-dusk text-balance">
-              {name},<br />
-              <span className="italic text-dusk/85">{t("home.posezvous")}</span> {t("home.unmoment")}
+            <h1
+              className="mt-4 font-serif text-[2rem] leading-[1.12] font-light text-dusk"
+              style={{ textWrap: "balance" }}
+            >
+              Bonjour {name}, <span className="italic text-dusk/85">{t("home.greeting")}</span>
             </h1>
             {branchMeta && (
-              <p className="mt-5 max-w-[34ch] text-[14px] leading-relaxed text-dusk/60">
-                {lang === "fr" ? "En mode " : "In "}
-                <span className="italic">{modeMeta.label.toLowerCase()}</span>
-                {lang === "fr" ? ", avec " : ", with "}
-                <span className="italic">{branchMeta.label.toLowerCase()}</span>
-                {lang === "fr" ? " tout près." : " close by."}
+              <p
+                className="mt-5 max-w-[36ch] text-[14px] leading-relaxed text-dusk/60"
+                style={{ textWrap: "pretty" }}
+              >
+                {modeAccompaniment(mode, branchMeta.label, lang)}
               </p>
             )}
           </header>
@@ -121,6 +122,33 @@ function orderForMode(primary: "presence" | "practical" | "journal" | "relay"): 
   // place primary first
   const ordered = [primary as BlockId, ...all.filter((x) => x !== primary)];
   return ordered;
+}
+
+/* Phrase d'accompagnement, naturelle, par mode + branche.
+ * Remplace l'ancien template "En mode cocon, avec une personne tout près."
+ * qui sonnait traduit et coupait mal. */
+function modeAccompaniment(
+  mode: "cocoon" | "anchoring" | "breath" | "relay",
+  branchLabel: string,
+  lang: string,
+): string {
+  const b = branchLabel.toLowerCase();
+  if (lang !== "fr") {
+    const map = {
+      cocoon: `Today, you've chosen to settle quietly — with ${b} held close in mind.`,
+      anchoring: `Today, you're looking for steady ground — with ${b} held close in mind.`,
+      breath: `Today, you're letting things breathe a little — with ${b} held close in mind.`,
+      relay: `Today, you don't have to carry it alone — with ${b} held close in mind.`,
+    } as const;
+    return map[mode];
+  }
+  const map = {
+    cocoon:    `Vous avez choisi de vous replier un peu, doucement, en gardant ${b} tout près.`,
+    anchoring: `Vous cherchez à retrouver des repères, pas à pas, en gardant ${b} tout près.`,
+    breath:    `Vous vous accordez un peu d'air, sans pression, en gardant ${b} tout près.`,
+    relay:     `Vous acceptez de vous laisser aider aujourd'hui, en gardant ${b} tout près.`,
+  } as const;
+  return map[mode];
 }
 
 function PresenceBlock({ t, primary, ctaLabel }: { t: (k: string) => string; primary: boolean; ctaLabel: string }) {
