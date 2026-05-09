@@ -81,6 +81,22 @@ function Garden() {
                 draggable={false}
               />
 
+              {/* Saturation glow — same painting, masked to the hovered bed */}
+              {BEINGS.map((p) => (
+                <img
+                  key={`glow-${p.id}`}
+                  src={gardenPainted}
+                  alt=""
+                  aria-hidden
+                  draggable={false}
+                  className="absolute inset-0 w-full h-full object-cover select-none garden-glow pointer-events-none"
+                  style={{
+                    opacity: hovered === p.id ? 1 : 0,
+                    ["--glow-mask" as string]: `radial-gradient(ellipse ${p.rx * 1.2}% ${p.ry * 1.2}% at ${p.cx}% ${p.cy}%, black 30%, rgba(0,0,0,0.6) 55%, transparent 85%)`,
+                  }}
+                />
+              ))}
+
               {/* Hotspots — local lift on hover, gentle dim on the others */}
               {BEINGS.map((p) => (
                 <Link
