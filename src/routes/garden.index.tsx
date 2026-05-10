@@ -26,15 +26,15 @@ type Being = {
 
 /** Positions calibrated to the painted garden image (5 main beds). */
 export const BEINGS: Being[] = [
-  { id: "elise", name: "Élise", kind: "person", cx: 20, cy: 20, rx: 18, ry: 16,
+  { id: "elise", name: "Élise", kind: "person", cx: 16, cy: 23, rx: 16, ry: 18,
     blooms: [{ tint: "var(--rose)", tint2: "var(--peach)" }, { tint: "var(--peach)", tint2: "var(--rose)" }] },
-  { id: "papa",  name: "Papa",  kind: "person", cx: 78, cy: 20, rx: 20, ry: 16,
+  { id: "papa",  name: "Papa",  kind: "person", cx: 82, cy: 22, rx: 16, ry: 18,
     blooms: [{ tint: "var(--clay)", tint2: "var(--peach)" }, { tint: "var(--lavender)", tint2: "var(--mist)" }] },
-  { id: "leon",  name: "Léon",  kind: "animal", cx: 18, cy: 58, rx: 18, ry: 16,
+  { id: "leon",  name: "Léon",  kind: "animal", cx: 16, cy: 75, rx: 16, ry: 18,
     blooms: [{ tint: "var(--lavender)", tint2: "var(--mist)" }, { tint: "var(--sage)", tint2: "var(--paper)" }] },
-  { id: "mamie", name: "Mamie", kind: "person", cx: 80, cy: 60, rx: 18, ry: 16,
+  { id: "mamie", name: "Mamie", kind: "person", cx: 82, cy: 47, rx: 16, ry: 16,
     blooms: [{ tint: "var(--rose)", tint2: "var(--peach)" }, { tint: "var(--peach)", tint2: "var(--paper)" }] },
-  { id: "theo",  name: "Théo",  kind: "person", cx: 50, cy: 84, rx: 22, ry: 12,
+  { id: "theo",  name: "Théo",  kind: "person", cx: 50, cy: 82, rx: 18, ry: 14,
     blooms: [{ tint: "var(--sage)", tint2: "var(--clay)" }, { tint: "var(--peach)", tint2: "var(--rose)" }] },
 ];
 
