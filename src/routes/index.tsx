@@ -35,6 +35,21 @@ function Intro() {
     if (videoRef.current) {
       videoRef.current.playbackRate = PLAYBACK_RATE;
     }
+    // Try to unmute as soon as possible; if blocked, unmute on first user interaction
+    const tryUnmute = () => {
+      const v = videoRef.current;
+      if (!v) return;
+      v.muted = false;
+      v.volume = 1;
+      v.play().catch(() => {});
+    };
+    const onFirstInteract = () => {
+      tryUnmute();
+      window.removeEventListener("pointerdown", onFirstInteract);
+      window.removeEventListener("keydown", onFirstInteract);
+    };
+    window.addEventListener("pointerdown", onFirstInteract);
+    window.addEventListener("keydown", onFirstInteract);
     const t1 = window.setTimeout(() => setLogoVisible(false), 350);
     const onEnded = () => setShowEnter(true);
     const v = videoRef.current;
@@ -45,6 +60,8 @@ function Intro() {
       window.clearTimeout(t1);
       window.clearTimeout(t2);
       v?.removeEventListener("ended", onEnded);
+      window.removeEventListener("pointerdown", onFirstInteract);
+      window.removeEventListener("keydown", onFirstInteract);
     };
   }, []);
 
@@ -68,6 +85,7 @@ function Intro() {
         ref={videoRef}
         src="/intro.mp4"
         autoPlay
+        muted
         playsInline
         preload="auto"
         className="absolute inset-0 h-full w-full object-cover pointer-events-none"
