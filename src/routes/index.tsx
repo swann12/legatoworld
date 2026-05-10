@@ -73,10 +73,6 @@ function Intro() {
           30%  { opacity: 0.5; }
           100% { transform: translateX(-50%) scaleY(1)    scaleX(1);   opacity: 0.95; filter: blur(0.5px); }
         }
-        @keyframes intro-sway {
-          0%, 100% { transform: translateX(-50%) rotate(-1.2deg); }
-          50%      { transform: translateX(-50%) rotate(1.2deg); }
-        }
         @keyframes intro-text-in {
           0%   { opacity: 0; transform: translateY(12px); letter-spacing: 0.4em; }
           100% { opacity: 1; transform: translateY(0);    letter-spacing: 0.32em; }
@@ -96,11 +92,6 @@ function Intro() {
           mix-blend-mode: multiply;
           pointer-events: none;
           will-change: transform, opacity, filter;
-        }
-        .intro-bloom-inner {
-          position: absolute; inset: 0;
-          transform-origin: bottom center;
-          will-change: transform;
         }
       `}</style>
 
@@ -149,14 +140,7 @@ function Intro() {
             opacity: 0,
             animation: `intro-bloom-grow ${b.dur}s cubic-bezier(.22,.9,.32,1) ${b.delay}s forwards`,
           }}
-        >
-          <div
-            className="intro-bloom-inner"
-            style={{
-              animation: `intro-sway ${7 + (i % 3)}s ease-in-out ${b.delay + b.dur}s infinite`,
-            }}
-          />
-        </div>
+        />
       ))}
 
       {/* Soft luminous haze, breathing */}
