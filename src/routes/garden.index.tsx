@@ -3,7 +3,6 @@ import { useState } from "react";
 import { Shell } from "@/components/legato/Shell";
 import { useLegato } from "@/lib/legato-state";
 import gardenPainted from "@/assets/garden-painted-v4.png";
-import gardenFlowerPop from "@/assets/garden-flower-pop.png";
 
 export const Route = createFileRoute("/garden/")({
   head: () => ({
@@ -85,7 +84,7 @@ function Garden() {
               {BEINGS.map((p) => (
                 <img
                   key={`flowers-${p.id}`}
-                  src={gardenFlowerPop}
+                  src={gardenPainted}
                   alt=""
                   aria-hidden
                   draggable={false}
