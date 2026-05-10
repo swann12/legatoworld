@@ -28,7 +28,7 @@ type Being = {
 export const BEINGS: Being[] = [
   { id: "elise", name: "Élise", kind: "person", cx: 16, cy: 23, rx: 16, ry: 18,
     blooms: [{ tint: "var(--rose)", tint2: "var(--peach)" }, { tint: "var(--peach)", tint2: "var(--rose)" }] },
-  { id: "papa",  name: "Papa",  kind: "person", cx: 82, cy: 22, rx: 16, ry: 18,
+  { id: "papa",  name: "Thomas",  kind: "person", cx: 82, cy: 22, rx: 16, ry: 18,
     blooms: [{ tint: "var(--clay)", tint2: "var(--peach)" }, { tint: "var(--lavender)", tint2: "var(--mist)" }] },
   { id: "leon",  name: "Léon",  kind: "animal", cx: 16, cy: 75, rx: 16, ry: 18,
     blooms: [{ tint: "var(--lavender)", tint2: "var(--mist)" }, { tint: "var(--sage)", tint2: "var(--paper)" }] },
