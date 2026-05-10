@@ -313,7 +313,7 @@
 
   /* Painted-garden canvas — solid cream that matches the painting. */
   .garden-canvas {
-    background: rgb(242, 233, 224);
+    background: rgb(251, 248, 245);
   }
   /* Whole garden page tinted to match the painting cream — no boundary
      between the painted scene and the page itself. */
@@ -321,7 +321,7 @@
     content: "";
     position: fixed;
     inset: 0;
-    background: rgb(242, 233, 224);
+    background: rgb(251, 248, 245);
     z-index: 0;
     pointer-events: none;
   }
