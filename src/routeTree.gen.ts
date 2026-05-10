@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as WishesRouteImport } from './routes/wishes'
 import { Route as SpaceRouteImport } from './routes/space'
+import { Route as PresentationRouteImport } from './routes/presentation'
 import { Route as PresenceRouteImport } from './routes/presence'
 import { Route as PracticalRouteImport } from './routes/practical'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
@@ -44,6 +45,11 @@ const WishesRoute = WishesRouteImport.update({
 const SpaceRoute = SpaceRouteImport.update({
   id: '/space',
   path: '/space',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PresentationRoute = PresentationRouteImport.update({
+  id: '/presentation',
+  path: '/presentation',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PresenceRoute = PresenceRouteImport.update({
@@ -180,6 +186,7 @@ export interface FileRoutesByFullPath {
   '/onboarding': typeof OnboardingRoute
   '/practical': typeof PracticalRouteWithChildren
   '/presence': typeof PresenceRoute
+  '/presentation': typeof PresentationRoute
   '/space': typeof SpaceRoute
   '/wishes': typeof WishesRoute
   '/compose/$zone': typeof ComposeZoneRoute
@@ -207,6 +214,7 @@ export interface FileRoutesByTo {
   '/no-words': typeof NoWordsRoute
   '/onboarding': typeof OnboardingRoute
   '/presence': typeof PresenceRoute
+  '/presentation': typeof PresentationRoute
   '/space': typeof SpaceRoute
   '/wishes': typeof WishesRoute
   '/compose/$zone': typeof ComposeZoneRoute
@@ -236,6 +244,7 @@ export interface FileRoutesById {
   '/onboarding': typeof OnboardingRoute
   '/practical': typeof PracticalRouteWithChildren
   '/presence': typeof PresenceRoute
+  '/presentation': typeof PresentationRoute
   '/space': typeof SpaceRoute
   '/wishes': typeof WishesRoute
   '/compose/$zone': typeof ComposeZoneRoute
@@ -266,6 +275,7 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/practical'
     | '/presence'
+    | '/presentation'
     | '/space'
     | '/wishes'
     | '/compose/$zone'
@@ -293,6 +303,7 @@ export interface FileRouteTypes {
     | '/no-words'
     | '/onboarding'
     | '/presence'
+    | '/presentation'
     | '/space'
     | '/wishes'
     | '/compose/$zone'
@@ -321,6 +332,7 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/practical'
     | '/presence'
+    | '/presentation'
     | '/space'
     | '/wishes'
     | '/compose/$zone'
@@ -350,6 +362,7 @@ export interface RootRouteChildren {
   OnboardingRoute: typeof OnboardingRoute
   PracticalRoute: typeof PracticalRouteWithChildren
   PresenceRoute: typeof PresenceRoute
+  PresentationRoute: typeof PresentationRoute
   SpaceRoute: typeof SpaceRoute
   WishesRoute: typeof WishesRoute
   ComposeZoneRoute: typeof ComposeZoneRoute
@@ -371,6 +384,13 @@ declare module '@tanstack/react-router' {
       path: '/space'
       fullPath: '/space'
       preLoaderRoute: typeof SpaceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/presentation': {
+      id: '/presentation'
+      path: '/presentation'
+      fullPath: '/presentation'
+      preLoaderRoute: typeof PresentationRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/presence': {
@@ -585,6 +605,7 @@ const rootRouteChildren: RootRouteChildren = {
   OnboardingRoute: OnboardingRoute,
   PracticalRoute: PracticalRouteWithChildren,
   PresenceRoute: PresenceRoute,
+  PresentationRoute: PresentationRoute,
   SpaceRoute: SpaceRoute,
   WishesRoute: WishesRoute,
   ComposeZoneRoute: ComposeZoneRoute,
