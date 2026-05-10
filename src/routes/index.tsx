@@ -35,7 +35,7 @@ function Intro() {
     if (videoRef.current) {
       videoRef.current.playbackRate = PLAYBACK_RATE;
     }
-    const t1 = window.setTimeout(() => setLogoVisible(false), 2000);
+    const t1 = window.setTimeout(() => setLogoVisible(false), 1300);
     const onEnded = () => setShowEnter(true);
     const v = videoRef.current;
     v?.addEventListener("ended", onEnded);
@@ -93,7 +93,7 @@ function Intro() {
         <img
           src="/legato-logo.png"
           alt="Legato"
-          className="w-[58%] max-w-[320px] h-auto"
+          className="w-[42%] max-w-[220px] h-auto"
           style={{ filter: "drop-shadow(0 2px 24px rgba(0,0,0,0.35))" }}
         />
       </div>
@@ -103,7 +103,7 @@ function Intro() {
         <div className="absolute inset-x-0 bottom-0 flex justify-center pb-[8vh] px-8">
           <button
             onClick={enter}
-            className="rounded-full bg-white/90 backdrop-blur px-10 py-4 text-[12px] font-medium uppercase tracking-[0.28em] text-dusk shadow-[0_8px_30px_rgba(0,0,0,0.25)] hover:bg-white transition-colors"
+            className="rounded-full bg-transparent border border-white px-10 py-4 text-[12px] font-medium uppercase tracking-[0.28em] text-white hover:bg-white/10 transition-colors"
             style={{ animation: "intro-enter-in 900ms ease-out forwards" }}
           >
             Entrer
