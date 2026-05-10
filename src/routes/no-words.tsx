@@ -405,8 +405,9 @@ function BreathingGuide({ onClose }: { onClose: () => void }) {
     const tick = setInterval(() => {
       setCount((c) => {
         if (c <= 1) {
-          setStep((s) => (s + 1) % PHASES.length);
-          return PHASES[step].seconds;
+          const nextStep = (step + 1) % PHASES.length;
+          setStep(nextStep);
+          return PHASES[nextStep].seconds;
         }
         return c - 1;
       });
