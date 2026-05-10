@@ -19,12 +19,12 @@ function Index() {
   return (
     <main className="min-h-dvh bg-paper text-dusk">
       <div className="mobile-frame relative flex min-h-dvh flex-col">
-        <div className="relative z-10 flex flex-1 flex-col px-9 pt-16">
+        <div className="relative z-10 flex flex-1 flex-col px-9 pt-14 pb-10">
           <p className="text-[10px] font-medium uppercase tracking-[0.32em] text-dusk/45">
             Legato
           </p>
 
-          <div className="mt-20 max-w-[24ch]">
+          <div className="flex flex-1 flex-col justify-center max-w-[24ch] py-10">
             <h1
               className="font-serif text-[2.4rem] leading-[1.1] font-light text-dusk"
               style={{ textWrap: "balance" }}
@@ -40,7 +40,7 @@ function Index() {
             </p>
           </div>
 
-          <div className="mt-auto flex flex-col gap-5 pb-12">
+          <div className="flex flex-col gap-5">
             <Link
               to="/onboarding"
               className="ceramic organic-radius-3 px-7 py-5 text-center"
