@@ -81,12 +81,18 @@ function Intro() {
 
     const onEnded = () => setShowEnter(true);
     v.addEventListener("ended", onEnded);
+    // Reveal the "Entrer" button slightly before the video ends
+    const onTimeUpdateEnter = () => {
+      if (v.duration && v.currentTime >= v.duration - 1.2) setShowEnter(true);
+    };
+    v.addEventListener("timeupdate", onTimeUpdateEnter);
     // Fallback in case 'ended' doesn't fire
     const t2 = window.setTimeout(() => setShowEnter(true), 30000);
     return () => {
       v.removeEventListener("canplay", startWithSound);
       window.clearTimeout(t2);
       v.removeEventListener("ended", onEnded);
+      v.removeEventListener("timeupdate", onTimeUpdateEnter);
       v.removeEventListener("timeupdate", syncLogoToVideo);
       v.removeEventListener("seeked", syncLogoToVideo);
       window.removeEventListener("pointerdown", onFirstInteract);
