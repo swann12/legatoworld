@@ -68,6 +68,7 @@ function Intro() {
         ref={videoRef}
         src="/intro.mp4"
         autoPlay
+        muted
         playsInline
         preload="auto"
         className="absolute inset-0 h-full w-full object-cover pointer-events-none"
