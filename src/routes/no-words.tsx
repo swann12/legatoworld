@@ -386,65 +386,95 @@ function NoWords() {
   );
 }
 
-/* ---------- Breathing guide ---------- */
+/* ---------- Breathing guide ----------
+   Refonte : un seul cercle qui grandit pendant l'inspiration,
+   se tient pendant la suspension, se rétracte pendant l'expiration.
+   Compte à rebours visible. Fond très sombre, lumière douce. */
 function BreathingGuide({ onClose }: { onClose: () => void }) {
-  const [phase, setPhase] = useState<"in" | "hold" | "out">("in");
-  useEffect(() => {
-    let cancelled = false;
-    const cycle = async () => {
-      while (!cancelled) {
-        setPhase("in");
-        await wait(4000);
-        if (cancelled) return;
-        setPhase("hold");
-        await wait(2000);
-        if (cancelled) return;
-        setPhase("out");
-        await wait(6000);
-      }
-    };
-    cycle();
-    return () => {
-      cancelled = true;
-    };
-  }, []);
+  type Phase = "in" | "hold" | "out";
+  const PHASES: { id: Phase; label: string; verb: string; seconds: number }[] = [
+    { id: "in", label: "Inspirez", verb: "Par le nez, lentement.", seconds: 4 },
+    { id: "hold", label: "Suspendez", verb: "Restez là, sans forcer.", seconds: 4 },
+    { id: "out", label: "Expirez", verb: "Par la bouche, longuement.", seconds: 6 },
+  ];
+  const [step, setStep] = useState(0);
+  const [count, setCount] = useState(PHASES[0].seconds);
 
-  const label =
-    phase === "in" ? "Inspirez" : phase === "hold" ? "Suspendez" : "Expirez";
-  const scale = phase === "in" ? 1 : phase === "hold" ? 1 : 0.55;
-  const duration = phase === "in" ? 4000 : phase === "hold" ? 2000 : 6000;
+  useEffect(() => {
+    setCount(PHASES[step].seconds);
+    const tick = setInterval(() => {
+      setCount((c) => {
+        if (c <= 1) {
+          setStep((s) => (s + 1) % PHASES.length);
+          return PHASES[step].seconds;
+        }
+        return c - 1;
+      });
+    }, 1000);
+    return () => clearInterval(tick);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [step]);
+
+  const phase = PHASES[step];
+  // Smooth scale: in → grow to 1, hold → stay 1, out → shrink to 0.5
+  const scale = phase.id === "in" ? 1 : phase.id === "hold" ? 1 : 0.5;
+  const duration = phase.seconds * 1000;
 
   return (
-    <div className="fixed inset-0 z-30 flex flex-col items-center justify-center backdrop-blur-sm"
-         style={{ background: "color-mix(in oklab, var(--paper) 25%, transparent)" }}>
+    <div
+      className="fixed inset-0 z-30 flex flex-col items-center justify-center"
+      style={{
+        background:
+          "radial-gradient(ellipse at 50% 50%, rgba(28,22,30,0.92), rgba(15,12,18,0.98))",
+      }}
+    >
       <button
         onClick={onClose}
-        className="absolute top-6 right-6 text-[11px] uppercase tracking-[0.22em] text-dusk/65"
+        className="absolute top-6 right-6 text-[11px] uppercase tracking-[0.22em] text-white/60"
       >
         Fermer
       </button>
-      <div className="relative size-[260px] flex items-center justify-center">
+
+      <div className="relative size-[300px] flex items-center justify-center">
+        {/* Outer reference ring — fixed, faint */}
+        <div className="absolute inset-0 rounded-full border border-white/10" />
+        {/* Breathing orb */}
         <div
-          className="absolute inset-0 rounded-full"
+          className="absolute rounded-full"
           style={{
-            background: "radial-gradient(circle, color-mix(in oklab, var(--peach) 70%, white), transparent 70%)",
+            width: "100%",
+            height: "100%",
+            background:
+              "radial-gradient(circle, rgba(255,210,180,0.35), rgba(255,210,180,0.05) 65%, transparent 75%)",
             transform: `scale(${scale})`,
-            transition: `transform ${duration}ms cubic-bezier(0.4, 0, 0.4, 1)`,
-            filter: "blur(2px)",
+            transition: `transform ${duration}ms cubic-bezier(0.42, 0, 0.58, 1)`,
+            filter: "blur(1px)",
           }}
         />
         <div
-          className="absolute inset-6 rounded-full border border-white/60"
+          className="absolute rounded-full border border-white/30"
           style={{
+            width: "75%",
+            height: "75%",
             transform: `scale(${scale})`,
-            transition: `transform ${duration}ms cubic-bezier(0.4, 0, 0.4, 1)`,
+            transition: `transform ${duration}ms cubic-bezier(0.42, 0, 0.58, 1)`,
           }}
         />
-        <p className="relative font-serif italic text-dusk text-[22px]">{label}</p>
+        <div className="relative text-center">
+          <p className="font-serif italic text-white/95 text-[26px] leading-none">
+            {phase.label}
+          </p>
+          <p className="mt-3 font-serif text-white/70 text-[44px] font-light leading-none tabular-nums">
+            {count}
+          </p>
+        </div>
       </div>
-      <p className="mt-10 text-[12px] text-dusk/65 max-w-[26ch] text-center"
-         style={{ textWrap: "balance" }}>
-        Quatre temps pour entrer, deux pour rester, six pour relâcher.
+
+      <p className="mt-10 text-[12.5px] text-white/65 max-w-[28ch] text-center" style={{ textWrap: "balance" }}>
+        {phase.verb}
+      </p>
+      <p className="mt-3 text-[10.5px] uppercase tracking-[0.22em] text-white/35">
+        4 · 4 · 6
       </p>
     </div>
   );
