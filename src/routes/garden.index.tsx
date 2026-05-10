@@ -67,7 +67,7 @@ function Garden() {
           </header>
 
           {/* The painted garden, viewed from above */}
-          <div className="px-0 mt-6 garden-canvas">
+          <div className="px-0 mt-6">
             <div
               className="relative w-full garden-canvas"
               style={{ aspectRatio: "3 / 4" }}
