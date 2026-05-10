@@ -25,11 +25,10 @@ function Start() {
 
           <div className="flex flex-1 flex-col justify-center max-w-[24ch] py-10">
             <h1
-              className="font-serif text-[2.4rem] leading-[1.1] font-light text-dusk"
+              className="font-serif text-[2.4rem] leading-[1.15] font-light text-dusk"
               style={{ textWrap: "balance" }}
             >
-              Certaines choses <span className="italic">s'accompagnent</span>,
-              plutôt qu'elles ne se réparent.
+              Un endroit doux, <span className="italic">pour ce que l'on porte</span> sans toujours pouvoir le dire.
             </h1>
             <p
               className="mt-7 max-w-[28ch] text-[14.5px] leading-relaxed text-dusk/60"

@@ -135,22 +135,49 @@ function NoWords() {
 
   // ----- Ambient audio (procedural, Web Audio) -----
   const audioRef = useRef<AmbientAudio | null>(null);
+  const ctxRef = useRef<AudioContext | null>(null);
   useEffect(() => {
     return () => {
       audioRef.current?.stop();
       audioRef.current = null;
+      try { ctxRef.current?.close(); } catch {}
+      ctxRef.current = null;
     };
   }, []);
+  // When ambiance changes while playing, swap the sound design (ctx already unlocked)
   useEffect(() => {
-    if (!playing) {
+    if (!playing || !ctxRef.current) return;
+    audioRef.current?.stop();
+    audioRef.current = createAmbientAudio(ctxRef.current, tex.motion);
+    audioRef.current?.start();
+  }, [tex.motion, tex.id]);
+
+  const togglePlay = () => {
+    if (playing) {
       audioRef.current?.stop();
       audioRef.current = null;
+      setPlaying(false);
       return;
     }
-    audioRef.current?.stop();
-    audioRef.current = createAmbientAudio(tex.motion);
+    // Create AudioContext from inside the user gesture so browsers unlock it.
+    if (!ctxRef.current) {
+      const Ctx =
+        (window.AudioContext as typeof AudioContext | undefined) ||
+        ((window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext);
+      if (!Ctx) {
+        setAiError("Le son n'est pas disponible sur ce navigateur.");
+        return;
+      }
+      ctxRef.current = new Ctx();
+    }
+    const ctx = ctxRef.current;
+    if (ctx.state === "suspended") {
+      void ctx.resume();
+    }
+    audioRef.current = createAmbientAudio(ctx, tex.motion);
     audioRef.current?.start();
-  }, [playing, tex.motion, tex.id]);
+    setPlaying(true);
+  };
 
   const onPointerDown = (e: React.PointerEvent) => {
     startX.current = e.clientX;
@@ -167,7 +194,7 @@ function NoWords() {
     const h = (e: KeyboardEvent) => {
       if (e.key === "ArrowRight") next();
       if (e.key === "ArrowLeft") prev();
-      if (e.key === " ") setPlaying((p) => !p);
+      if (e.key === " ") togglePlay();
     };
     window.addEventListener("keydown", h);
     return () => window.removeEventListener("keydown", h);
@@ -299,7 +326,7 @@ function NoWords() {
             ←
           </button>
           <button
-            onClick={() => setPlaying((p) => !p)}
+            onClick={togglePlay}
             className="flex-1 px-5 py-3.5 text-center backdrop-blur-md rounded-full"
             style={{
               background: "color-mix(in oklab, var(--paper) 38%, transparent)",
@@ -359,85 +386,106 @@ function NoWords() {
   );
 }
 
-/* ---------- Breathing guide ---------- */
+/* ---------- Breathing guide ----------
+   Refonte : un seul cercle qui grandit pendant l'inspiration,
+   se tient pendant la suspension, se rétracte pendant l'expiration.
+   Compte à rebours visible. Fond très sombre, lumière douce. */
 function BreathingGuide({ onClose }: { onClose: () => void }) {
-  const [phase, setPhase] = useState<"in" | "hold" | "out">("in");
-  useEffect(() => {
-    let cancelled = false;
-    const cycle = async () => {
-      while (!cancelled) {
-        setPhase("in");
-        await wait(4000);
-        if (cancelled) return;
-        setPhase("hold");
-        await wait(2000);
-        if (cancelled) return;
-        setPhase("out");
-        await wait(6000);
-      }
-    };
-    cycle();
-    return () => {
-      cancelled = true;
-    };
-  }, []);
+  type Phase = "in" | "hold" | "out";
+  const PHASES: { id: Phase; label: string; verb: string; seconds: number }[] = [
+    { id: "in", label: "Inspirez", verb: "Par le nez, lentement.", seconds: 4 },
+    { id: "hold", label: "Suspendez", verb: "Restez là, sans forcer.", seconds: 4 },
+    { id: "out", label: "Expirez", verb: "Par la bouche, longuement.", seconds: 6 },
+  ];
+  const [step, setStep] = useState(0);
+  const [count, setCount] = useState(PHASES[0].seconds);
 
-  const label =
-    phase === "in" ? "Inspirez" : phase === "hold" ? "Suspendez" : "Expirez";
-  const scale = phase === "in" ? 1 : phase === "hold" ? 1 : 0.55;
-  const duration = phase === "in" ? 4000 : phase === "hold" ? 2000 : 6000;
+  useEffect(() => {
+    setCount(PHASES[step].seconds);
+    const tick = setInterval(() => {
+      setCount((c) => {
+        if (c <= 1) {
+          const nextStep = (step + 1) % PHASES.length;
+          setStep(nextStep);
+          return PHASES[nextStep].seconds;
+        }
+        return c - 1;
+      });
+    }, 1000);
+    return () => clearInterval(tick);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [step]);
+
+  const phase = PHASES[step];
+  // Smooth scale: in → grow to 1, hold → stay 1, out → shrink to 0.5
+  const scale = phase.id === "in" ? 1 : phase.id === "hold" ? 1 : 0.5;
+  const duration = phase.seconds * 1000;
 
   return (
-    <div className="fixed inset-0 z-30 flex flex-col items-center justify-center backdrop-blur-sm"
-         style={{ background: "color-mix(in oklab, var(--paper) 25%, transparent)" }}>
+    <div
+      className="fixed inset-0 z-30 flex flex-col items-center justify-center"
+      style={{
+        background:
+          "radial-gradient(ellipse at 50% 50%, rgba(28,22,30,0.92), rgba(15,12,18,0.98))",
+      }}
+    >
       <button
         onClick={onClose}
-        className="absolute top-6 right-6 text-[11px] uppercase tracking-[0.22em] text-dusk/65"
+        className="absolute top-6 right-6 text-[11px] uppercase tracking-[0.22em] text-white/60"
       >
         Fermer
       </button>
-      <div className="relative size-[260px] flex items-center justify-center">
+
+      <div className="relative size-[300px] flex items-center justify-center">
+        {/* Outer reference ring — fixed, faint */}
+        <div className="absolute inset-0 rounded-full border border-white/10" />
+        {/* Breathing orb */}
         <div
-          className="absolute inset-0 rounded-full"
+          className="absolute rounded-full"
           style={{
-            background: "radial-gradient(circle, color-mix(in oklab, var(--peach) 70%, white), transparent 70%)",
+            width: "100%",
+            height: "100%",
+            background:
+              "radial-gradient(circle, rgba(255,210,180,0.35), rgba(255,210,180,0.05) 65%, transparent 75%)",
             transform: `scale(${scale})`,
-            transition: `transform ${duration}ms cubic-bezier(0.4, 0, 0.4, 1)`,
-            filter: "blur(2px)",
+            transition: `transform ${duration}ms cubic-bezier(0.42, 0, 0.58, 1)`,
+            filter: "blur(1px)",
           }}
         />
         <div
-          className="absolute inset-6 rounded-full border border-white/60"
+          className="absolute rounded-full border border-white/30"
           style={{
+            width: "75%",
+            height: "75%",
             transform: `scale(${scale})`,
-            transition: `transform ${duration}ms cubic-bezier(0.4, 0, 0.4, 1)`,
+            transition: `transform ${duration}ms cubic-bezier(0.42, 0, 0.58, 1)`,
           }}
         />
-        <p className="relative font-serif italic text-dusk text-[22px]">{label}</p>
+        <div className="relative text-center">
+          <p className="font-serif italic text-white/95 text-[26px] leading-none">
+            {phase.label}
+          </p>
+          <p className="mt-3 font-serif text-white/70 text-[44px] font-light leading-none tabular-nums">
+            {count}
+          </p>
+        </div>
       </div>
-      <p className="mt-10 text-[12px] text-dusk/65 max-w-[26ch] text-center"
-         style={{ textWrap: "balance" }}>
-        Quatre temps pour entrer, deux pour rester, six pour relâcher.
+
+      <p className="mt-10 text-[12.5px] text-white/65 max-w-[28ch] text-center" style={{ textWrap: "balance" }}>
+        {phase.verb}
+      </p>
+      <p className="mt-3 text-[10.5px] uppercase tracking-[0.22em] text-white/35">
+        4 · 4 · 6
       </p>
     </div>
   );
 }
 
-function wait(ms: number) {
-  return new Promise<void>((r) => setTimeout(r, ms));
-}
-
 /* ---------- Procedural ambient audio (Web Audio) ---------- */
 type AmbientAudio = { start: () => void; stop: () => void };
 
-function createAmbientAudio(motion: Motion): AmbientAudio | null {
+function createAmbientAudio(ctx: AudioContext, motion: Motion): AmbientAudio | null {
   if (typeof window === "undefined") return null;
-  const Ctx =
-    (window.AudioContext as typeof AudioContext | undefined) ||
-    ((window as unknown as { webkitAudioContext?: typeof AudioContext })
-      .webkitAudioContext);
-  if (!Ctx) return null;
-  const ctx = new Ctx();
   const master = ctx.createGain();
   master.gain.value = 0;
   master.connect(ctx.destination);
@@ -573,7 +621,7 @@ function createAmbientAudio(motion: Motion): AmbientAudio | null {
         master.gain.linearRampToValueAtTime(0, now + 0.6);
         setTimeout(() => {
           stops.forEach((fn) => fn());
-          try { ctx.close(); } catch {}
+          // Do NOT close the context: it is reused across ambiances.
         }, 700);
       } catch {}
     },
@@ -587,11 +635,11 @@ function MotionLayer({ kind, accent }: { kind: Motion; accent: string }) {
       <>
         <div
           className="absolute left-1/2 top-1/2 size-[70vmin] -translate-x-1/2 -translate-y-1/2 rounded-full breath halo-lg"
-          style={{ background: `radial-gradient(circle, ${accent}, transparent 70%)`, animationDuration: "7s" }}
+          style={{ background: `radial-gradient(circle, ${accent}, transparent 72%)`, animationDuration: "12s", opacity: 0.55 }}
         />
         <div
           className="absolute left-1/2 top-1/2 size-[40vmin] -translate-x-1/2 -translate-y-1/2 rounded-full breath"
-          style={{ background: `radial-gradient(circle, white, transparent 70%)`, animationDuration: "5s", opacity: 0.45 }}
+          style={{ background: `radial-gradient(circle, white, transparent 75%)`, animationDuration: "10s", opacity: 0.22 }}
         />
       </>
     );
@@ -602,11 +650,11 @@ function MotionLayer({ kind, accent }: { kind: Motion; accent: string }) {
         {[0, 1, 2, 3].map((i) => (
           <div
             key={i}
-            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/25"
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/15"
             style={{
               width: `${28 + i * 22}vmin`,
               aspectRatio: "1",
-              animation: `legato-breath 7s ease-in-out ${i * 1.2}s infinite`,
+              animation: `legato-breath 12s ease-in-out ${i * 2}s infinite`,
             }}
           />
         ))}
@@ -616,30 +664,30 @@ function MotionLayer({ kind, accent }: { kind: Motion; accent: string }) {
   if (kind === "drift") {
     return (
       <>
-        <div className="absolute -top-[15vmin] -left-[15vmin] size-[70vmin] rounded-full halo-lg drift opacity-70"
-             style={{ background: `radial-gradient(circle, ${accent}, transparent 70%)` }} />
-        <div className="absolute -bottom-[15vmin] -right-[10vmin] size-[80vmin] rounded-full halo-lg drift opacity-55"
-             style={{ background: `radial-gradient(circle, white, transparent 70%)`, animationDuration: "18s" }} />
+        <div className="absolute -top-[15vmin] -left-[15vmin] size-[70vmin] rounded-full halo-lg drift opacity-45"
+             style={{ background: `radial-gradient(circle, ${accent}, transparent 75%)`, animationDuration: "26s" }} />
+        <div className="absolute -bottom-[15vmin] -right-[10vmin] size-[80vmin] rounded-full halo-lg drift opacity-30"
+             style={{ background: `radial-gradient(circle, white, transparent 75%)`, animationDuration: "32s" }} />
       </>
     );
   }
   if (kind === "rain") {
     return (
       <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 140" preserveAspectRatio="none" aria-hidden>
-        {Array.from({ length: 38 }).map((_, i) => {
-          const x = (i * 5.7) % 100;
-          const delay = (i % 12) * 0.25;
+        {Array.from({ length: 22 }).map((_, i) => {
+          const x = (i * 9.3) % 100;
+          const delay = (i % 8) * 0.4;
           return (
             <line
               key={i}
               x1={x}
               y1={-5}
-              x2={x - 3}
+              x2={x - 2}
               y2={20}
               stroke="white"
-              strokeWidth="0.4"
-              opacity="0.45"
-              style={{ animation: `legato-rain 1.6s linear ${delay}s infinite` }}
+              strokeWidth="0.3"
+              opacity="0.22"
+              style={{ animation: `legato-rain 3.2s linear ${delay}s infinite` }}
             />
           );
         })}
@@ -648,10 +696,10 @@ function MotionLayer({ kind, accent }: { kind: Motion; accent: string }) {
   }
   return (
     <>
-      <div className="absolute inset-0 mix-blend-soft-light opacity-60"
-           style={{ background: `radial-gradient(circle at 30% 80%, ${accent}, transparent 60%)` }} />
-      <div className="absolute -top-[10vmin] left-1/2 -translate-x-1/2 size-[60vmin] rounded-full halo-lg"
-           style={{ background: `radial-gradient(circle, white, transparent 70%)`, opacity: 0.45 }} />
+      <div className="absolute inset-0 mix-blend-soft-light opacity-35"
+           style={{ background: `radial-gradient(circle at 30% 80%, ${accent}, transparent 65%)` }} />
+      <div className="absolute -top-[10vmin] left-1/2 -translate-x-1/2 size-[60vmin] rounded-full halo-lg breath"
+           style={{ background: `radial-gradient(circle, white, transparent 75%)`, opacity: 0.22, animationDuration: "14s" }} />
     </>
   );
 }

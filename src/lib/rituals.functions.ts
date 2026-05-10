@@ -10,19 +10,26 @@ const InputSchema = z.object({
   lostName: z.string().max(80).optional(),
 });
 
-const SYSTEM_PROMPT = `Tu proposes des rituels très courts ou plus longs, pour traverser une date sensible (anniversaire, jour d'absence, date récurrente).
+const SYSTEM_PROMPT = `Tu proposes des rituels du deuil concrets, inspirés de traditions vivantes du monde entier (Mexique, Japon, Irlande, Sénégal, Inde, Corée, Pays scandinaves, Maghreb, Italie, Brésil, peuples autochtones, traditions juives, chrétiennes, bouddhistes, soufies, animistes, etc.).
 
 Règles strictes :
 - Français, ton tendre, jamais cliché, jamais médical, pas d'émojis.
-- Chaque rituel = un seul geste, simple, faisable seul·e à la maison ou dehors.
-- Les "rituels rapides" doivent durer 1 à 5 minutes (un geste, une parole, une respiration, allumer une bougie…).
-- Les "rituels longs" doivent durer 20 à 90 minutes (cuisiner un plat aimé, marcher jusqu'à un lieu, écrire une lettre, écouter un disque entier…).
-- Tiens compte de la nature de la date (anniversaire, jour de naissance, mémoire d'un moment, date récurrente).
+- Chaque rituel doit exister vraiment quelque part — pas une invention poétique. Cite la culture / tradition d'où il vient dans le champ "origin" (ex : "Japon — Obon", "Mexique — Día de los Muertos", "Irlande — wake", "Sénégal — Yaakaar", "Tradition juive — Yahrzeit").
+- Le champ "whisper" décrit le geste à faire, en une phrase douce et très concrète.
+- Le champ "originDetail" donne en 1 à 2 phrases ce que ce rituel signifie et d'où il vient. Pas de jargon, pas de date historique : du sens humain.
+- Varie les durées : rituels rapides entre 5 et 15 min, rituels longs entre 30 min et 2 heures.
+- Tiens compte du type de date (anniversaire, jour de naissance, mémoire d'un moment, date récurrente).
 - Tiens compte du mode (cocoon : intime · ancrage : geste concret · souffle : léger · relais : à plusieurs).
-- Si un prénom est fourni, glisse-le sobrement dans deux ou trois rituels — sans en abuser.
-- 4 rituels rapides, 3 rituels longs. Une phrase par rituel : titre court + une ligne d'invitation très douce.`;
+- Si un prénom est fourni, glisse-le sobrement dans deux rituels au plus.
+- 4 rituels rapides + 3 rituels longs. Diversifie les cultures d'origine entre les rituels.`;
 
-type Ritual = { title: string; whisper: string; durationMin: number };
+type Ritual = {
+  title: string;
+  whisper: string;
+  durationMin: number;
+  origin: string;
+  originDetail: string;
+};
 
 export const suggestRituals = createServerFn({ method: "POST" })
   .inputValidator((data) => InputSchema.parse(data))
@@ -72,8 +79,10 @@ export const suggestRituals = createServerFn({ method: "POST" })
                           title: { type: "string" },
                           whisper: { type: "string" },
                           durationMin: { type: "number" },
+                          origin: { type: "string" },
+                          originDetail: { type: "string" },
                         },
-                        required: ["title", "whisper", "durationMin"],
+                        required: ["title", "whisper", "durationMin", "origin", "originDetail"],
                         additionalProperties: false,
                       },
                     },
@@ -87,8 +96,10 @@ export const suggestRituals = createServerFn({ method: "POST" })
                           title: { type: "string" },
                           whisper: { type: "string" },
                           durationMin: { type: "number" },
+                          origin: { type: "string" },
+                          originDetail: { type: "string" },
                         },
-                        required: ["title", "whisper", "durationMin"],
+                        required: ["title", "whisper", "durationMin", "origin", "originDetail"],
                         additionalProperties: false,
                       },
                     },
