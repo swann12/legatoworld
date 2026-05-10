@@ -393,9 +393,9 @@ function NoWords() {
 function BreathingGuide({ onClose }: { onClose: () => void }) {
   type Phase = "in" | "hold" | "out";
   const PHASES: { id: Phase; label: string; verb: string; seconds: number }[] = [
-    { id: "in", label: "Inspirez", verb: "Par le nez, lentement.", seconds: 4 },
-    { id: "hold", label: "Suspendez", verb: "Restez là, sans forcer.", seconds: 4 },
-    { id: "out", label: "Expirez", verb: "Par la bouche, longuement.", seconds: 6 },
+    { id: "in",   label: "Inspirez",   verb: "Le cercle grandit — laissez l'air entrer par le nez.", seconds: 4 },
+    { id: "hold", label: "Suspendez",  verb: "Restez là, sans forcer.", seconds: 4 },
+    { id: "out",  label: "Expirez",    verb: "Le cercle se referme — soufflez doucement par la bouche.", seconds: 6 },
   ];
   const [step, setStep] = useState(0);
   const [count, setCount] = useState(PHASES[0].seconds);
@@ -417,66 +417,75 @@ function BreathingGuide({ onClose }: { onClose: () => void }) {
   }, [step]);
 
   const phase = PHASES[step];
-  // Smooth scale: in → grow to 1, hold → stay 1, out → shrink to 0.5
-  const scale = phase.id === "in" ? 1 : phase.id === "hold" ? 1 : 0.5;
+  // Scale endpoints per phase. The transition uses the FULL phase duration,
+  // so the circle visibly travels from one size to the next while you breathe.
+  const SCALE = { in: { from: 0.45, to: 1 }, hold: { from: 1, to: 1 }, out: { from: 1, to: 0.45 } } as const;
+  const target = SCALE[phase.id].to;
   const duration = phase.seconds * 1000;
 
   return (
     <div
-      className="fixed inset-0 z-30 flex flex-col items-center justify-center"
+      className="fixed inset-0 z-30 flex flex-col items-center justify-center px-7"
       style={{
         background:
-          "radial-gradient(ellipse at 50% 50%, rgba(28,22,30,0.92), rgba(15,12,18,0.98))",
+          "radial-gradient(ellipse at 50% 45%, rgba(36,28,40,0.96), rgba(12,10,16,0.99))",
       }}
     >
       <button
         onClick={onClose}
-        className="absolute top-6 right-6 text-[11px] uppercase tracking-[0.22em] text-white/60"
+        className="absolute top-6 right-6 text-[11px] uppercase tracking-[0.22em] text-white/55"
       >
         Fermer
       </button>
 
-      <div className="relative size-[300px] flex items-center justify-center">
-        {/* Outer reference ring — fixed, faint */}
+      <p className="text-[10px] uppercase tracking-[0.28em] text-white/40 mb-10">
+        Respiration guidée
+      </p>
+
+      <div className="relative size-[280px] flex items-center justify-center">
+        {/* Reference circle — the maximum size, kept very faint */}
         <div className="absolute inset-0 rounded-full border border-white/10" />
-        {/* Breathing orb */}
+
+        {/* Breathing orb — soft warm light, scales with the phase */}
         <div
-          className="absolute rounded-full"
+          key={phase.id + step}
+          className="absolute inset-0 rounded-full will-change-transform"
           style={{
-            width: "100%",
-            height: "100%",
             background:
-              "radial-gradient(circle, rgba(255,210,180,0.35), rgba(255,210,180,0.05) 65%, transparent 75%)",
-            transform: `scale(${scale})`,
-            transition: `transform ${duration}ms cubic-bezier(0.42, 0, 0.58, 1)`,
-            filter: "blur(1px)",
-          }}
+              "radial-gradient(circle, rgba(255,205,170,0.55) 0%, rgba(255,180,150,0.18) 45%, rgba(255,180,150,0.02) 72%, transparent 80%)",
+            transform: `scale(${SCALE[phase.id].from})`,
+            animation: `legato-breath-phase ${duration}ms cubic-bezier(0.45, 0, 0.55, 1) forwards`,
+            // CSS variable fed to the keyframes
+            ['--to' as string]: String(target),
+            ['--from' as string]: String(SCALE[phase.id].from),
+          } as React.CSSProperties}
         />
-        <div
-          className="absolute rounded-full border border-white/30"
-          style={{
-            width: "75%",
-            height: "75%",
-            transform: `scale(${scale})`,
-            transition: `transform ${duration}ms cubic-bezier(0.42, 0, 0.58, 1)`,
-          }}
-        />
+
+        {/* Center label — phase + remaining seconds */}
         <div className="relative text-center">
-          <p className="font-serif italic text-white/95 text-[26px] leading-none">
+          <p className="font-serif italic text-white/90 text-[22px] leading-none">
             {phase.label}
           </p>
-          <p className="mt-3 font-serif text-white/70 text-[44px] font-light leading-none tabular-nums">
+          <p className="mt-3 font-serif text-white/75 text-[52px] font-light leading-none tabular-nums">
             {count}
           </p>
         </div>
       </div>
 
-      <p className="mt-10 text-[12.5px] text-white/65 max-w-[28ch] text-center" style={{ textWrap: "balance" }}>
+      <p className="mt-12 text-[13px] text-white/70 max-w-[30ch] text-center leading-relaxed" style={{ textWrap: "balance" }}>
         {phase.verb}
       </p>
-      <p className="mt-3 text-[10.5px] uppercase tracking-[0.22em] text-white/35">
+      <p className="mt-4 text-[10.5px] uppercase tracking-[0.28em] text-white/30">
         4 · 4 · 6
       </p>
+
+      {/* Inline keyframes — scoped to this view */}
+      <style>{`
+        @keyframes legato-breath-phase {
+          from { transform: scale(var(--from)); }
+          to   { transform: scale(var(--to)); }
+        }
+      `}</style>
     </div>
   );
 }
