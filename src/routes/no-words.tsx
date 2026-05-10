@@ -393,9 +393,9 @@ function NoWords() {
 function BreathingGuide({ onClose }: { onClose: () => void }) {
   type Phase = "in" | "hold" | "out";
   const PHASES: { id: Phase; label: string; verb: string; seconds: number }[] = [
-    { id: "in", label: "Inspirez", verb: "Par le nez, lentement.", seconds: 4 },
-    { id: "hold", label: "Suspendez", verb: "Restez là, sans forcer.", seconds: 4 },
-    { id: "out", label: "Expirez", verb: "Par la bouche, longuement.", seconds: 6 },
+    { id: "in",   label: "Inspirez",   verb: "Le cercle grandit — laissez l'air entrer par le nez.", seconds: 4 },
+    { id: "hold", label: "Suspendez",  verb: "Restez là, sans forcer.", seconds: 4 },
+    { id: "out",  label: "Expirez",    verb: "Le cercle se referme — soufflez doucement par la bouche.", seconds: 6 },
   ];
   const [step, setStep] = useState(0);
   const [count, setCount] = useState(PHASES[0].seconds);
@@ -417,66 +417,75 @@ function BreathingGuide({ onClose }: { onClose: () => void }) {
   }, [step]);
 
   const phase = PHASES[step];
-  // Smooth scale: in → grow to 1, hold → stay 1, out → shrink to 0.5
-  const scale = phase.id === "in" ? 1 : phase.id === "hold" ? 1 : 0.5;
+  // Scale endpoints per phase. The transition uses the FULL phase duration,
+  // so the circle visibly travels from one size to the next while you breathe.
+  const SCALE = { in: { from: 0.45, to: 1 }, hold: { from: 1, to: 1 }, out: { from: 1, to: 0.45 } } as const;
+  const target = SCALE[phase.id].to;
   const duration = phase.seconds * 1000;
 
   return (
     <div
-      className="fixed inset-0 z-30 flex flex-col items-center justify-center"
+      className="fixed inset-0 z-30 flex flex-col items-center justify-center px-7"
       style={{
         background:
-          "radial-gradient(ellipse at 50% 50%, rgba(28,22,30,0.92), rgba(15,12,18,0.98))",
+          "radial-gradient(ellipse at 50% 45%, rgba(36,28,40,0.96), rgba(12,10,16,0.99))",
       }}
     >
       <button
         onClick={onClose}
-        className="absolute top-6 right-6 text-[11px] uppercase tracking-[0.22em] text-white/60"
+        className="absolute top-6 right-6 text-[11px] uppercase tracking-[0.22em] text-white/55"
       >
         Fermer
       </button>
 
-      <div className="relative size-[300px] flex items-center justify-center">
-        {/* Outer reference ring — fixed, faint */}
+      <p className="text-[10px] uppercase tracking-[0.28em] text-white/40 mb-10">
+        Respiration guidée
+      </p>
+
+      <div className="relative size-[280px] flex items-center justify-center">
+        {/* Reference circle — the maximum size, kept very faint */}
         <div className="absolute inset-0 rounded-full border border-white/10" />
-        {/* Breathing orb */}
+
+        {/* Breathing orb — soft warm light, scales with the phase */}
         <div
-          className="absolute rounded-full"
+          key={phase.id + step}
+          className="absolute inset-0 rounded-full will-change-transform"
           style={{
-            width: "100%",
-            height: "100%",
             background:
-              "radial-gradient(circle, rgba(255,210,180,0.35), rgba(255,210,180,0.05) 65%, transparent 75%)",
-            transform: `scale(${scale})`,
-            transition: `transform ${duration}ms cubic-bezier(0.42, 0, 0.58, 1)`,
-            filter: "blur(1px)",
-          }}
+              "radial-gradient(circle, rgba(255,205,170,0.55) 0%, rgba(255,180,150,0.18) 45%, rgba(255,180,150,0.02) 72%, transparent 80%)",
+            transform: `scale(${SCALE[phase.id].from})`,
+            animation: `legato-breath-phase ${duration}ms cubic-bezier(0.45, 0, 0.55, 1) forwards`,
+            // CSS variable fed to the keyframes
+            ['--to' as string]: String(target),
+            ['--from' as string]: String(SCALE[phase.id].from),
+          } as React.CSSProperties}
         />
-        <div
-          className="absolute rounded-full border border-white/30"
-          style={{
-            width: "75%",
-            height: "75%",
-            transform: `scale(${scale})`,
-            transition: `transform ${duration}ms cubic-bezier(0.42, 0, 0.58, 1)`,
-          }}
-        />
+
+        {/* Center label — phase + remaining seconds */}
         <div className="relative text-center">
-          <p className="font-serif italic text-white/95 text-[26px] leading-none">
+          <p className="font-serif italic text-white/90 text-[22px] leading-none">
             {phase.label}
           </p>
-          <p className="mt-3 font-serif text-white/70 text-[44px] font-light leading-none tabular-nums">
+          <p className="mt-3 font-serif text-white/75 text-[52px] font-light leading-none tabular-nums">
             {count}
           </p>
         </div>
       </div>
 
-      <p className="mt-10 text-[12.5px] text-white/65 max-w-[28ch] text-center" style={{ textWrap: "balance" }}>
+      <p className="mt-12 text-[13px] text-white/70 max-w-[30ch] text-center leading-relaxed" style={{ textWrap: "balance" }}>
         {phase.verb}
       </p>
-      <p className="mt-3 text-[10.5px] uppercase tracking-[0.22em] text-white/35">
+      <p className="mt-4 text-[10.5px] uppercase tracking-[0.28em] text-white/30">
         4 · 4 · 6
       </p>
+
+      {/* Inline keyframes — scoped to this view */}
+      <style>{`
+        @keyframes legato-breath-phase {
+          from { transform: scale(var(--from)); }
+          to   { transform: scale(var(--to)); }
+        }
+      `}</style>
     </div>
   );
 }
@@ -507,7 +516,7 @@ function createAmbientAudio(ctx: AudioContext, motion: Motion): AmbientAudio | n
   }
 
   const stops: Array<() => void> = [];
-  const targetGain = 0.22;
+  const targetGain = 0.14;
 
   const playNoise = (
     buf: AudioBuffer,
@@ -535,72 +544,67 @@ function createAmbientAudio(ctx: AudioContext, motion: Motion): AmbientAudio | n
 
   // Per-motion sound design — each is unmistakably different.
   if (motion === "pulse") {
-    // Warm hearth — deep brown noise + slow sub-tone "ember" pulse
-    playNoise(brown, "lowpass", 320, 0.4, 0.55);
+    // Warm hearth — very deep brown noise, almost felt rather than heard
+    playNoise(brown, "lowpass", 240, 0.3, 0.45);
     const sub = ctx.createOscillator();
     sub.type = "sine";
-    sub.frequency.value = 70;
+    sub.frequency.value = 58;
     const subG = ctx.createGain();
-    subG.gain.value = 0.04;
+    subG.gain.value = 0.025;
     sub.connect(subG); subG.connect(master);
     sub.start();
     stops.push(() => { try { sub.stop(); } catch {} });
-    // very slow swell
+    // very slow swell — barely perceptible
     const lfo = ctx.createOscillator();
     const lfoG = ctx.createGain();
-    lfo.frequency.value = 0.12; lfoG.gain.value = 0.05;
+    lfo.frequency.value = 0.08; lfoG.gain.value = 0.03;
     lfo.connect(lfoG); lfoG.connect(master.gain);
     lfo.start();
     stops.push(() => { try { lfo.stop(); } catch {} });
   } else if (motion === "ripple") {
     // Ocean — band-passed brown noise, slow swell back-and-forth
-    const { f } = playNoise(brown, "bandpass", 600, 0.6, 0.7);
+    const { f } = playNoise(brown, "bandpass", 480, 0.5, 0.55);
     const lfo = ctx.createOscillator();
     const lfoG = ctx.createGain();
-    lfo.frequency.value = 0.16; lfoG.gain.value = 350;
+    lfo.frequency.value = 0.11; lfoG.gain.value = 280;
     lfo.connect(lfoG); lfoG.connect(f.frequency);
     lfo.start();
     stops.push(() => { try { lfo.stop(); } catch {} });
   } else if (motion === "drift") {
-    // Forest / wind — high-passed white noise, gentle wobble
-    const { f } = playNoise(white, "highpass", 1200, 0.7, 0.18);
+    // Forest / wind — softly band-passed noise, gentle wobble (less hiss)
+    const { f } = playNoise(white, "bandpass", 900, 0.5, 0.16);
     const lfo = ctx.createOscillator();
     const lfoG = ctx.createGain();
-    lfo.frequency.value = 0.22; lfoG.gain.value = 600;
+    lfo.frequency.value = 0.14; lfoG.gain.value = 400;
     lfo.connect(lfoG); lfoG.connect(f.frequency);
     lfo.start();
     stops.push(() => { try { lfo.stop(); } catch {} });
   } else if (motion === "rain") {
-    // Rain — bright high-pass white noise + sparse droplet transients
-    playNoise(white, "highpass", 2000, 0.5, 0.22);
+    // Rain — softer mid-band noise (no harsh treble) + sparse, muted droplets
+    playNoise(white, "bandpass", 1400, 0.4, 0.18);
+    playNoise(brown, "lowpass", 600, 0.3, 0.22);
     let cancelled = false;
     const drop = () => {
       if (cancelled) return;
+      // Soft round droplet — sine, lower pitch, slow decay → "plic" not "tic"
       const o = ctx.createOscillator();
-      o.type = "triangle";
-      o.frequency.value = 1800 + Math.random() * 1400;
+      o.type = "sine";
+      o.frequency.value = 420 + Math.random() * 380;
       const g = ctx.createGain();
       const t = ctx.currentTime;
       g.gain.setValueAtTime(0, t);
-      g.gain.linearRampToValueAtTime(0.06, t + 0.005);
-      g.gain.exponentialRampToValueAtTime(0.0001, t + 0.12);
+      g.gain.linearRampToValueAtTime(0.018, t + 0.03);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + 0.45);
       o.connect(g); g.connect(master);
-      o.start(t); o.stop(t + 0.15);
-      setTimeout(drop, 80 + Math.random() * 220);
+      o.start(t); o.stop(t + 0.5);
+      setTimeout(drop, 350 + Math.random() * 700);
     };
     drop();
     stops.push(() => { cancelled = true; });
   } else {
-    // Veil / snow — very quiet pink-ish low-pass, near silence
-    playNoise(brown, "lowpass", 220, 0.3, 0.28);
-    const shimmer = ctx.createOscillator();
-    shimmer.type = "sine";
-    shimmer.frequency.value = 880;
-    const sg = ctx.createGain();
-    sg.gain.value = 0.012;
-    shimmer.connect(sg); sg.connect(master);
-    shimmer.start();
-    stops.push(() => { try { shimmer.stop(); } catch {} });
+    // Veil / snow — very quiet warm low-pass, almost silence
+    playNoise(brown, "lowpass", 180, 0.25, 0.22);
+    // No bright shimmer tone — it was piercing in the dark
   }
 
   let started = false;
@@ -612,17 +616,17 @@ function createAmbientAudio(ctx: AudioContext, motion: Motion): AmbientAudio | n
       const now = ctx.currentTime;
       master.gain.cancelScheduledValues(now);
       master.gain.setValueAtTime(0, now);
-      master.gain.linearRampToValueAtTime(targetGain, now + 1.6);
+      master.gain.linearRampToValueAtTime(targetGain, now + 2.4);
     },
     stop() {
       try {
         const now = ctx.currentTime;
         master.gain.cancelScheduledValues(now);
-        master.gain.linearRampToValueAtTime(0, now + 0.6);
+        master.gain.linearRampToValueAtTime(0, now + 1.2);
         setTimeout(() => {
           stops.forEach((fn) => fn());
           // Do NOT close the context: it is reused across ambiances.
-        }, 700);
+        }, 1300);
       } catch {}
     },
   };
@@ -635,11 +639,11 @@ function MotionLayer({ kind, accent }: { kind: Motion; accent: string }) {
       <>
         <div
           className="absolute left-1/2 top-1/2 size-[70vmin] -translate-x-1/2 -translate-y-1/2 rounded-full breath halo-lg"
-          style={{ background: `radial-gradient(circle, ${accent}, transparent 72%)`, animationDuration: "12s", opacity: 0.55 }}
+          style={{ background: `radial-gradient(circle, ${accent}, transparent 72%)`, animationDuration: "18s", opacity: 0.4 }}
         />
         <div
           className="absolute left-1/2 top-1/2 size-[40vmin] -translate-x-1/2 -translate-y-1/2 rounded-full breath"
-          style={{ background: `radial-gradient(circle, white, transparent 75%)`, animationDuration: "10s", opacity: 0.22 }}
+          style={{ background: `radial-gradient(circle, white, transparent 75%)`, animationDuration: "16s", opacity: 0.14 }}
         />
       </>
     );
@@ -654,7 +658,8 @@ function MotionLayer({ kind, accent }: { kind: Motion; accent: string }) {
             style={{
               width: `${28 + i * 22}vmin`,
               aspectRatio: "1",
-              animation: `legato-breath 12s ease-in-out ${i * 2}s infinite`,
+              animation: `legato-breath 18s ease-in-out ${i * 2.5}s infinite`,
+              opacity: 0.6,
             }}
           />
         ))}
@@ -664,19 +669,19 @@ function MotionLayer({ kind, accent }: { kind: Motion; accent: string }) {
   if (kind === "drift") {
     return (
       <>
-        <div className="absolute -top-[15vmin] -left-[15vmin] size-[70vmin] rounded-full halo-lg drift opacity-45"
-             style={{ background: `radial-gradient(circle, ${accent}, transparent 75%)`, animationDuration: "26s" }} />
-        <div className="absolute -bottom-[15vmin] -right-[10vmin] size-[80vmin] rounded-full halo-lg drift opacity-30"
-             style={{ background: `radial-gradient(circle, white, transparent 75%)`, animationDuration: "32s" }} />
+        <div className="absolute -top-[15vmin] -left-[15vmin] size-[70vmin] rounded-full halo-lg drift opacity-30"
+             style={{ background: `radial-gradient(circle, ${accent}, transparent 75%)`, animationDuration: "38s" }} />
+        <div className="absolute -bottom-[15vmin] -right-[10vmin] size-[80vmin] rounded-full halo-lg drift opacity-20"
+             style={{ background: `radial-gradient(circle, white, transparent 75%)`, animationDuration: "46s" }} />
       </>
     );
   }
   if (kind === "rain") {
     return (
       <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 140" preserveAspectRatio="none" aria-hidden>
-        {Array.from({ length: 22 }).map((_, i) => {
+        {Array.from({ length: 16 }).map((_, i) => {
           const x = (i * 9.3) % 100;
-          const delay = (i % 8) * 0.4;
+          const delay = (i % 8) * 0.7;
           return (
             <line
               key={i}
@@ -686,8 +691,8 @@ function MotionLayer({ kind, accent }: { kind: Motion; accent: string }) {
               y2={20}
               stroke="white"
               strokeWidth="0.3"
-              opacity="0.22"
-              style={{ animation: `legato-rain 3.2s linear ${delay}s infinite` }}
+              opacity="0.14"
+              style={{ animation: `legato-rain 5s linear ${delay}s infinite` }}
             />
           );
         })}
@@ -696,10 +701,10 @@ function MotionLayer({ kind, accent }: { kind: Motion; accent: string }) {
   }
   return (
     <>
-      <div className="absolute inset-0 mix-blend-soft-light opacity-35"
+      <div className="absolute inset-0 mix-blend-soft-light opacity-25"
            style={{ background: `radial-gradient(circle at 30% 80%, ${accent}, transparent 65%)` }} />
       <div className="absolute -top-[10vmin] left-1/2 -translate-x-1/2 size-[60vmin] rounded-full halo-lg breath"
-           style={{ background: `radial-gradient(circle, white, transparent 75%)`, opacity: 0.22, animationDuration: "14s" }} />
+           style={{ background: `radial-gradient(circle, white, transparent 75%)`, opacity: 0.14, animationDuration: "22s" }} />
     </>
   );
 }
