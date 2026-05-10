@@ -516,7 +516,7 @@ function createAmbientAudio(ctx: AudioContext, motion: Motion): AmbientAudio | n
   }
 
   const stops: Array<() => void> = [];
-  const targetGain = 0.22;
+  const targetGain = 0.14;
 
   const playNoise = (
     buf: AudioBuffer,
@@ -544,72 +544,67 @@ function createAmbientAudio(ctx: AudioContext, motion: Motion): AmbientAudio | n
 
   // Per-motion sound design — each is unmistakably different.
   if (motion === "pulse") {
-    // Warm hearth — deep brown noise + slow sub-tone "ember" pulse
-    playNoise(brown, "lowpass", 320, 0.4, 0.55);
+    // Warm hearth — very deep brown noise, almost felt rather than heard
+    playNoise(brown, "lowpass", 240, 0.3, 0.45);
     const sub = ctx.createOscillator();
     sub.type = "sine";
-    sub.frequency.value = 70;
+    sub.frequency.value = 58;
     const subG = ctx.createGain();
-    subG.gain.value = 0.04;
+    subG.gain.value = 0.025;
     sub.connect(subG); subG.connect(master);
     sub.start();
     stops.push(() => { try { sub.stop(); } catch {} });
-    // very slow swell
+    // very slow swell — barely perceptible
     const lfo = ctx.createOscillator();
     const lfoG = ctx.createGain();
-    lfo.frequency.value = 0.12; lfoG.gain.value = 0.05;
+    lfo.frequency.value = 0.08; lfoG.gain.value = 0.03;
     lfo.connect(lfoG); lfoG.connect(master.gain);
     lfo.start();
     stops.push(() => { try { lfo.stop(); } catch {} });
   } else if (motion === "ripple") {
     // Ocean — band-passed brown noise, slow swell back-and-forth
-    const { f } = playNoise(brown, "bandpass", 600, 0.6, 0.7);
+    const { f } = playNoise(brown, "bandpass", 480, 0.5, 0.55);
     const lfo = ctx.createOscillator();
     const lfoG = ctx.createGain();
-    lfo.frequency.value = 0.16; lfoG.gain.value = 350;
+    lfo.frequency.value = 0.11; lfoG.gain.value = 280;
     lfo.connect(lfoG); lfoG.connect(f.frequency);
     lfo.start();
     stops.push(() => { try { lfo.stop(); } catch {} });
   } else if (motion === "drift") {
-    // Forest / wind — high-passed white noise, gentle wobble
-    const { f } = playNoise(white, "highpass", 1200, 0.7, 0.18);
+    // Forest / wind — softly band-passed noise, gentle wobble (less hiss)
+    const { f } = playNoise(white, "bandpass", 900, 0.5, 0.16);
     const lfo = ctx.createOscillator();
     const lfoG = ctx.createGain();
-    lfo.frequency.value = 0.22; lfoG.gain.value = 600;
+    lfo.frequency.value = 0.14; lfoG.gain.value = 400;
     lfo.connect(lfoG); lfoG.connect(f.frequency);
     lfo.start();
     stops.push(() => { try { lfo.stop(); } catch {} });
   } else if (motion === "rain") {
-    // Rain — bright high-pass white noise + sparse droplet transients
-    playNoise(white, "highpass", 2000, 0.5, 0.22);
+    // Rain — softer mid-band noise (no harsh treble) + sparse, muted droplets
+    playNoise(white, "bandpass", 1400, 0.4, 0.18);
+    playNoise(brown, "lowpass", 600, 0.3, 0.22);
     let cancelled = false;
     const drop = () => {
       if (cancelled) return;
+      // Soft round droplet — sine, lower pitch, slow decay → "plic" not "tic"
       const o = ctx.createOscillator();
-      o.type = "triangle";
-      o.frequency.value = 1800 + Math.random() * 1400;
+      o.type = "sine";
+      o.frequency.value = 420 + Math.random() * 380;
       const g = ctx.createGain();
       const t = ctx.currentTime;
       g.gain.setValueAtTime(0, t);
-      g.gain.linearRampToValueAtTime(0.06, t + 0.005);
-      g.gain.exponentialRampToValueAtTime(0.0001, t + 0.12);
+      g.gain.linearRampToValueAtTime(0.018, t + 0.03);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + 0.45);
       o.connect(g); g.connect(master);
-      o.start(t); o.stop(t + 0.15);
-      setTimeout(drop, 80 + Math.random() * 220);
+      o.start(t); o.stop(t + 0.5);
+      setTimeout(drop, 350 + Math.random() * 700);
     };
     drop();
     stops.push(() => { cancelled = true; });
   } else {
-    // Veil / snow — very quiet pink-ish low-pass, near silence
-    playNoise(brown, "lowpass", 220, 0.3, 0.28);
-    const shimmer = ctx.createOscillator();
-    shimmer.type = "sine";
-    shimmer.frequency.value = 880;
-    const sg = ctx.createGain();
-    sg.gain.value = 0.012;
-    shimmer.connect(sg); sg.connect(master);
-    shimmer.start();
-    stops.push(() => { try { shimmer.stop(); } catch {} });
+    // Veil / snow — very quiet warm low-pass, almost silence
+    playNoise(brown, "lowpass", 180, 0.25, 0.22);
+    // No bright shimmer tone — it was piercing in the dark
   }
 
   let started = false;
@@ -621,17 +616,17 @@ function createAmbientAudio(ctx: AudioContext, motion: Motion): AmbientAudio | n
       const now = ctx.currentTime;
       master.gain.cancelScheduledValues(now);
       master.gain.setValueAtTime(0, now);
-      master.gain.linearRampToValueAtTime(targetGain, now + 1.6);
+      master.gain.linearRampToValueAtTime(targetGain, now + 2.4);
     },
     stop() {
       try {
         const now = ctx.currentTime;
         master.gain.cancelScheduledValues(now);
-        master.gain.linearRampToValueAtTime(0, now + 0.6);
+        master.gain.linearRampToValueAtTime(0, now + 1.2);
         setTimeout(() => {
           stops.forEach((fn) => fn());
           // Do NOT close the context: it is reused across ambiances.
-        }, 700);
+        }, 1300);
       } catch {}
     },
   };
