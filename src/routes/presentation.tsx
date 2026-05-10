@@ -47,19 +47,17 @@ function Presentation() {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "ArrowRight" || e.key === " ") setI((v) => Math.min(total - 1, v + 1));
       if (e.key === "ArrowLeft") setI((v) => Math.max(0, v - 1));
-      if (e.key === "Home") setI(0);
-      if (e.key === "End") setI(total - 1);
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [total]);
 
   return (
-    <main className="min-h-dvh bg-paper text-dusk">
-      <div className="mx-auto flex min-h-dvh max-w-[1280px] flex-col px-8 py-10">
+    <main className="h-dvh overflow-hidden bg-paper text-dusk">
+      <div className="mx-auto flex h-full max-w-[1200px] flex-col px-4 py-4 sm:px-8 sm:py-6">
         {/* Top bar */}
-        <div className="flex items-center justify-between">
-          <p className="text-[10px] font-medium uppercase tracking-[0.32em] text-dusk/45">
+        <div className="flex shrink-0 items-center justify-between">
+          <p className="text-[10px] font-medium uppercase tracking-[0.28em] text-dusk/45">
             Legato · Présentation
           </p>
           <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45 tabular-nums">
@@ -67,83 +65,65 @@ function Presentation() {
           </p>
         </div>
 
-        {/* Slide */}
-        <div className="grid flex-1 items-center gap-12 py-10 md:grid-cols-[auto_1fr]">
-          {/* Phone frame */}
-          <div className="mx-auto">
-            <div
-              className="ceramic organic-radius-3 overflow-hidden"
-              style={{ width: 360, height: 720, padding: 8 }}
-            >
-              <iframe
-                key={slide.path}
-                src={slide.path}
-                title={slide.title}
-                className="h-full w-full rounded-[28px] border-0 bg-paper"
-              />
-            </div>
+        {/* Slide — phone + caption, both fluid */}
+        <div className="flex min-h-0 flex-1 flex-col items-center justify-center gap-6 py-4 md:flex-row md:gap-10">
+          {/* Phone frame: scales with available height, capped */}
+          <div
+            className="ceramic organic-radius-3 shrink-0 overflow-hidden"
+            style={{
+              height: "min(70vh, 640px)",
+              aspectRatio: "9 / 18",
+              padding: 6,
+            }}
+          >
+            <iframe
+              key={slide.path}
+              src={slide.path}
+              title={slide.title}
+              className="h-full w-full rounded-[24px] border-0 bg-paper"
+            />
           </div>
 
           {/* Caption */}
-          <div className="max-w-[42ch]">
+          <div className="max-w-[42ch] text-center md:text-left">
             <p className="text-[10px] font-medium uppercase tracking-[0.28em] text-dusk/45">
               {slide.eyebrow}
             </p>
             <h2
-              className="mt-4 font-serif text-[2.6rem] leading-[1.05] font-light text-dusk"
+              className="mt-3 font-serif text-[clamp(1.6rem,3.2vw,2.4rem)] leading-[1.08] font-light text-dusk"
               style={{ textWrap: "balance" }}
             >
               {slide.title}
             </h2>
             <p
-              className="mt-6 text-[15px] leading-relaxed text-dusk/65"
+              className="mt-4 text-[clamp(13px,1.4vw,15px)] leading-relaxed text-dusk/65"
               style={{ textWrap: "balance" }}
             >
               {slide.body}
             </p>
-            <p className="mt-6 font-mono text-[11px] tracking-wide text-dusk/40">
-              {slide.path}
-            </p>
           </div>
         </div>
 
-        {/* Controls */}
-        <div className="flex items-center justify-between gap-6">
+        {/* Controls — minimal */}
+        <div className="flex shrink-0 items-center justify-between gap-4">
           <button
             onClick={() => setI((v) => Math.max(0, v - 1))}
             disabled={i === 0}
-            className="ceramic organic-radius-3 px-5 py-3 text-[11px] uppercase tracking-[0.22em] text-dusk/70 disabled:opacity-30"
+            className="ceramic organic-radius-3 px-4 py-2.5 text-[11px] uppercase tracking-[0.22em] text-dusk/70 disabled:opacity-30"
           >
-            ← Précédent
+            ←
           </button>
-
-          <div className="flex flex-1 flex-wrap items-center justify-center gap-1.5">
-            {SLIDES.map((s, idx) => (
-              <button
-                key={s.path}
-                onClick={() => setI(idx)}
-                aria-label={`Aller à ${s.title}`}
-                className="h-1.5 rounded-full transition-all"
-                style={{
-                  width: idx === i ? 24 : 8,
-                  background: idx === i ? "var(--dusk)" : "color-mix(in oklab, var(--dusk) 25%, transparent)",
-                }}
-              />
-            ))}
-          </div>
-
+          <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/40">
+            ← → pour naviguer
+          </p>
           <button
             onClick={() => setI((v) => Math.min(total - 1, v + 1))}
             disabled={i === total - 1}
-            className="ceramic organic-radius-3 px-5 py-3 text-[11px] uppercase tracking-[0.22em] text-dusk/70 disabled:opacity-30"
+            className="ceramic organic-radius-3 px-4 py-2.5 text-[11px] uppercase tracking-[0.22em] text-dusk/70 disabled:opacity-30"
           >
-            Suivant →
+            →
           </button>
         </div>
-
-        <p className="mt-4 text-center text-[10px] uppercase tracking-[0.22em] text-dusk/35">
-          ← → pour naviguer · Espace pour avancer
-        </p>
       </div>
     </main>
   );
