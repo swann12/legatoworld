@@ -1,7 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
-import grass from "@/assets/intro-grass.png";
-import bloom from "@/assets/intro-bloom.png";
+import { useEffect, useRef, useState } from "react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -17,25 +15,15 @@ export const Route = createFileRoute("/")({
   component: Intro,
 });
 
-const AUTO_ENTER_MS = 16000;
-
-// Small bloom clusters that grow from the ground.
-// Each cluster is a circular crop of the painted bloom image,
-// positioned along the lower band and scaled up from its base.
-const BLOOMS = [
-  { left: 8,  bottom: 6,  size: 26, delay: 3.2, dur: 5.5, bgX: 20, bgY: 30 },
-  { left: 28, bottom: 2,  size: 34, delay: 4.0, dur: 6.0, bgX: 60, bgY: 55 },
-  { left: 52, bottom: 8,  size: 30, delay: 4.8, dur: 6.2, bgX: 35, bgY: 70 },
-  { left: 74, bottom: 3,  size: 32, delay: 5.4, dur: 6.0, bgX: 80, bgY: 40 },
-  { left: 18, bottom: 22, size: 22, delay: 6.2, dur: 5.5, bgX: 50, bgY: 20 },
-  { left: 62, bottom: 26, size: 24, delay: 7.0, dur: 5.5, bgX: 15, bgY: 60 },
-  { left: 42, bottom: 34, size: 20, delay: 8.2, dur: 5.0, bgX: 70, bgY: 80 },
-  { left: 86, bottom: 18, size: 20, delay: 7.6, dur: 5.0, bgX: 40, bgY: 10 },
-];
+// Slow the source video down a touch so the bloom feels even more unhurried.
+const PLAYBACK_RATE = 0.7;
+// Source clip ~5.08s; at 0.7x ≈ 7.26s. Hold a beat after, then auto-enter.
+const AUTO_ENTER_MS = 9500;
 
 function Intro() {
   const navigate = useNavigate();
   const [leaving, setLeaving] = useState(false);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
 
   const enter = () => {
     if (leaving) return;
@@ -49,6 +37,12 @@ function Intro() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.playbackRate = PLAYBACK_RATE;
+    }
+  }, []);
+
   return (
     <main
       onClick={enter}
@@ -60,18 +54,9 @@ function Intro() {
       aria-label="Entrer dans Legato"
     >
       <style>{`
-        @keyframes intro-drift {
-          0%   { transform: translate3d(0, 4%, 0)  scale(1.02); }
-          100% { transform: translate3d(0, -6%, 0) scale(1.04); }
-        }
-        @keyframes intro-grass-in {
-          0%   { opacity: 0; filter: blur(10px); }
-          100% { opacity: 0.92; filter: blur(0); }
-        }
-        @keyframes intro-bloom-grow {
-          0%   { transform: translateX(-50%) scaleY(0)    scaleX(0.6); opacity: 0; filter: blur(6px); }
-          30%  { opacity: 0.5; }
-          100% { transform: translateX(-50%) scaleY(1)    scaleX(1);   opacity: 0.95; filter: blur(0.5px); }
+        @keyframes intro-video-in {
+          0%   { opacity: 0; filter: blur(14px); transform: scale(1.06); }
+          100% { opacity: 1; filter: blur(0);    transform: scale(1.0); }
         }
         @keyframes intro-text-in {
           0%   { opacity: 0; transform: translateY(12px); letter-spacing: 0.4em; }
@@ -85,14 +70,6 @@ function Intro() {
           0%, 100% { opacity: 0.55; }
           50%      { opacity: 0.78; }
         }
-        .intro-bloom {
-          position: absolute;
-          transform-origin: bottom center;
-          background-repeat: no-repeat;
-          mix-blend-mode: multiply;
-          pointer-events: none;
-          will-change: transform, opacity, filter;
-        }
       `}</style>
 
       {/* Warm wash backdrop */}
@@ -104,44 +81,21 @@ function Intro() {
         }}
       />
 
-      {/* Diffuse herb base — fills screen, very gentle drift */}
-      <div
-        className="absolute inset-0 pointer-events-none"
+      {/* Garden video — full-bleed, slowed slightly */}
+      <video
+        ref={videoRef}
+        src="/intro.mp4"
+        autoPlay
+        muted
+        playsInline
+        preload="auto"
+        className="absolute inset-0 h-full w-full object-cover pointer-events-none"
         style={{
-          backgroundImage: `url(${grass})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center bottom",
-          backgroundRepeat: "no-repeat",
           mixBlendMode: "multiply",
           opacity: 0,
-          animation:
-            "intro-grass-in 5000ms ease-out 200ms forwards, intro-drift 30000ms ease-in-out 200ms forwards",
-          filter: "saturate(0.95)",
+          animation: "intro-video-in 1800ms ease-out 100ms forwards",
         }}
       />
-
-      {/* Bloom clusters — grow from the ground, staggered */}
-      {BLOOMS.map((b, i) => (
-        <div
-          key={i}
-          className="intro-bloom"
-          style={{
-            left: `${b.left}%`,
-            bottom: `${b.bottom}%`,
-            width: `${b.size}vmin`,
-            height: `${b.size * 1.15}vmin`,
-            backgroundImage: `url(${bloom})`,
-            backgroundSize: "320% auto",
-            backgroundPosition: `${b.bgX}% ${b.bgY}%`,
-            WebkitMaskImage:
-              "radial-gradient(60% 70% at 50% 90%, black 35%, transparent 75%)",
-            maskImage:
-              "radial-gradient(60% 70% at 50% 90%, black 35%, transparent 75%)",
-            opacity: 0,
-            animation: `intro-bloom-grow ${b.dur}s cubic-bezier(.22,.9,.32,1) ${b.delay}s forwards`,
-          }}
-        />
-      ))}
 
       {/* Soft luminous haze, breathing */}
       <div
