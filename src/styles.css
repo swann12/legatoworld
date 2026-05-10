@@ -311,17 +311,19 @@
     transform-origin: bottom center;
   }
 
-  /* Painted-garden canvas — matches the cream of the painting in the middle,
-     fading back to paper above and below so there is no visible rectangular
-     boundary between the painted scene and the surrounding page. */
+  /* Painted-garden canvas — solid cream that matches the painting. */
   .garden-canvas {
-    background: linear-gradient(
-      to bottom,
-      var(--paper) 0%,
-      rgb(242, 233, 224) 6%,
-      rgb(242, 233, 224) 94%,
-      var(--paper) 100%
-    );
+    background: rgb(242, 233, 224);
+  }
+  /* Whole garden page tinted to match the painting cream — no boundary
+     between the painted scene and the page itself. */
+  .garden-page-bg::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgb(242, 233, 224);
+    z-index: 0;
+    pointer-events: none;
   }
   /* Garden image — almost full bleed, just a hair of fade at top/bottom
      so there's no visible rectangular cut, but no wide gradient halo either. */
