@@ -17,6 +17,7 @@ export const Route = createFileRoute("/")({
 
 // Slow the source video down a touch so the bloom feels even more unhurried.
 const PLAYBACK_RATE = 0.7;
+const LOGO_HIDE_AT_SECONDS = 1.6;
 
 function Intro() {
   const navigate = useNavigate();
@@ -32,18 +33,36 @@ function Intro() {
   };
 
   useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.playbackRate = PLAYBACK_RATE;
-    }
     const v = videoRef.current;
     if (!v) return;
+    v.playbackRate = PLAYBACK_RATE;
+    v.volume = 1;
+    v.defaultMuted = false;
+    v.muted = false;
 
-    // Unmute only on first user interaction (browsers block unmuted autoplay)
+    const startWithSound = () => {
+      v.muted = false;
+      v.defaultMuted = false;
+      v.play().catch(() => {
+        v.muted = true;
+        v.defaultMuted = true;
+        v.play().catch(() => undefined);
+      });
+    };
+
+    if (v.readyState >= HTMLMediaElement.HAVE_FUTURE_DATA) {
+      startWithSound();
+    } else {
+      v.addEventListener("canplay", startWithSound, { once: true });
+    }
+
+    // If the browser blocks sound on first load, enable it on first interaction.
     const onFirstInteract = () => {
       if (!v) return;
       v.muted = false;
+      v.defaultMuted = false;
       v.volume = 1;
-      // Don't call play() again — it would restart/desync. Video is already playing muted.
+      if (v.paused) v.play().catch(() => undefined);
       window.removeEventListener("pointerdown", onFirstInteract);
       window.removeEventListener("keydown", onFirstInteract);
       window.removeEventListener("touchstart", onFirstInteract);
@@ -52,24 +71,24 @@ function Intro() {
     window.addEventListener("keydown", onFirstInteract);
     window.addEventListener("touchstart", onFirstInteract);
 
-    // Hide logo when the video has actually started playing (not on mount).
-    let logoTimer: number | undefined;
-    const onPlaying = () => {
-      if (logoTimer) return;
-      logoTimer = window.setTimeout(() => setLogoVisible(false), 1100);
+    // Hide logo based on the video's own timeline so it stays synced even if loading is delayed.
+    const syncLogoToVideo = () => {
+      if (v.currentTime >= LOGO_HIDE_AT_SECONDS) setLogoVisible(false);
     };
-    v.addEventListener("playing", onPlaying);
-    if (!v.paused && v.currentTime > 0) onPlaying();
+    v.addEventListener("timeupdate", syncLogoToVideo);
+    v.addEventListener("seeked", syncLogoToVideo);
+    syncLogoToVideo();
 
     const onEnded = () => setShowEnter(true);
     v.addEventListener("ended", onEnded);
     // Fallback in case 'ended' doesn't fire
     const t2 = window.setTimeout(() => setShowEnter(true), 30000);
     return () => {
-      if (logoTimer) window.clearTimeout(logoTimer);
+      v.removeEventListener("canplay", startWithSound);
       window.clearTimeout(t2);
       v.removeEventListener("ended", onEnded);
-      v.removeEventListener("playing", onPlaying);
+      v.removeEventListener("timeupdate", syncLogoToVideo);
+      v.removeEventListener("seeked", syncLogoToVideo);
       window.removeEventListener("pointerdown", onFirstInteract);
       window.removeEventListener("keydown", onFirstInteract);
       window.removeEventListener("touchstart", onFirstInteract);
@@ -95,8 +114,6 @@ function Intro() {
       <video
         ref={videoRef}
         src="/intro.mp4"
-        autoPlay
-        muted
         playsInline
         preload="auto"
         className="absolute inset-0 h-full w-full object-cover pointer-events-none"
