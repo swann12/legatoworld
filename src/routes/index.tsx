@@ -35,33 +35,44 @@ function Intro() {
     if (videoRef.current) {
       videoRef.current.playbackRate = PLAYBACK_RATE;
     }
-    // Try to unmute as soon as possible; if blocked, unmute on first user interaction
-    const tryUnmute = () => {
-      const v = videoRef.current;
+    const v = videoRef.current;
+    if (!v) return;
+
+    // Unmute only on first user interaction (browsers block unmuted autoplay)
+    const onFirstInteract = () => {
       if (!v) return;
       v.muted = false;
       v.volume = 1;
-      v.play().catch(() => {});
-    };
-    const onFirstInteract = () => {
-      tryUnmute();
+      // Don't call play() again — it would restart/desync. Video is already playing muted.
       window.removeEventListener("pointerdown", onFirstInteract);
       window.removeEventListener("keydown", onFirstInteract);
+      window.removeEventListener("touchstart", onFirstInteract);
     };
     window.addEventListener("pointerdown", onFirstInteract);
     window.addEventListener("keydown", onFirstInteract);
-    const t1 = window.setTimeout(() => setLogoVisible(false), 350);
+    window.addEventListener("touchstart", onFirstInteract);
+
+    // Hide logo when the video has actually started playing (not on mount).
+    let logoTimer: number | undefined;
+    const onPlaying = () => {
+      if (logoTimer) return;
+      logoTimer = window.setTimeout(() => setLogoVisible(false), 350);
+    };
+    v.addEventListener("playing", onPlaying);
+    if (!v.paused && v.currentTime > 0) onPlaying();
+
     const onEnded = () => setShowEnter(true);
-    const v = videoRef.current;
-    v?.addEventListener("ended", onEnded);
-    // Fallback in case 'ended' doesn't fire (looping or metadata issue)
-    const t2 = window.setTimeout(() => setShowEnter(true), 12000);
+    v.addEventListener("ended", onEnded);
+    // Fallback in case 'ended' doesn't fire
+    const t2 = window.setTimeout(() => setShowEnter(true), 30000);
     return () => {
-      window.clearTimeout(t1);
+      if (logoTimer) window.clearTimeout(logoTimer);
       window.clearTimeout(t2);
-      v?.removeEventListener("ended", onEnded);
+      v.removeEventListener("ended", onEnded);
+      v.removeEventListener("playing", onPlaying);
       window.removeEventListener("pointerdown", onFirstInteract);
       window.removeEventListener("keydown", onFirstInteract);
+      window.removeEventListener("touchstart", onFirstInteract);
     };
   }, []);
 
