@@ -457,14 +457,8 @@ function wait(ms: number) {
 /* ---------- Procedural ambient audio (Web Audio) ---------- */
 type AmbientAudio = { start: () => void; stop: () => void };
 
-function createAmbientAudio(motion: Motion): AmbientAudio | null {
+function createAmbientAudio(ctx: AudioContext, motion: Motion): AmbientAudio | null {
   if (typeof window === "undefined") return null;
-  const Ctx =
-    (window.AudioContext as typeof AudioContext | undefined) ||
-    ((window as unknown as { webkitAudioContext?: typeof AudioContext })
-      .webkitAudioContext);
-  if (!Ctx) return null;
-  const ctx = new Ctx();
   const master = ctx.createGain();
   master.gain.value = 0;
   master.connect(ctx.destination);
@@ -600,7 +594,7 @@ function createAmbientAudio(motion: Motion): AmbientAudio | null {
         master.gain.linearRampToValueAtTime(0, now + 0.6);
         setTimeout(() => {
           stops.forEach((fn) => fn());
-          try { ctx.close(); } catch {}
+          // Do NOT close the context: it is reused across ambiances.
         }, 700);
       } catch {}
     },
