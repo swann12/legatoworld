@@ -56,7 +56,7 @@ function Intro() {
     let logoTimer: number | undefined;
     const onPlaying = () => {
       if (logoTimer) return;
-      logoTimer = window.setTimeout(() => setLogoVisible(false), 350);
+      logoTimer = window.setTimeout(() => setLogoVisible(false), 1100);
     };
     v.addEventListener("playing", onPlaying);
     if (!v.paused && v.currentTime > 0) onPlaying();
