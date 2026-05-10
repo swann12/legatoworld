@@ -35,7 +35,7 @@ function Intro() {
     if (videoRef.current) {
       videoRef.current.playbackRate = PLAYBACK_RATE;
     }
-    const t1 = window.setTimeout(() => setLogoVisible(false), 700);
+    const t1 = window.setTimeout(() => setLogoVisible(false), 350);
     const onEnded = () => setShowEnter(true);
     const v = videoRef.current;
     v?.addEventListener("ended", onEnded);
@@ -94,7 +94,7 @@ function Intro() {
         <div className="absolute inset-x-0 bottom-0 flex justify-center pb-[8vh] px-8">
           <button
             onClick={enter}
-            className="rounded-full bg-white/15 backdrop-blur-md border border-white/70 px-10 py-4 text-[12px] font-medium uppercase tracking-[0.28em] text-white hover:bg-white/25 transition-colors"
+            className="rounded-full bg-white/8 backdrop-blur-sm border border-white/40 px-8 py-3 text-[10.5px] font-medium uppercase tracking-[0.3em] text-white/85 hover:bg-white/15 transition-colors"
             style={{ animation: "intro-enter-in 900ms ease-out forwards" }}
           >
             Entrer
