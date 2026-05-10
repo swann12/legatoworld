@@ -561,28 +561,57 @@ function createAmbientAudio(ctx: AudioContext, motion: Motion): AmbientAudio | n
     lfo.connect(lfoG); lfoG.connect(master.gain);
     lfo.start();
     stops.push(() => { try { lfo.stop(); } catch {} });
+    // Sparse, soft crackles — like embers in a hearth
+    let cancelledP = false;
+    const crackle = () => {
+      if (cancelledP) return;
+      const o = ctx.createOscillator();
+      o.type = "triangle";
+      o.frequency.value = 1100 + Math.random() * 900;
+      const f = ctx.createBiquadFilter();
+      f.type = "bandpass"; f.frequency.value = 1600; f.Q.value = 1.2;
+      const g = ctx.createGain();
+      const t = ctx.currentTime;
+      g.gain.setValueAtTime(0, t);
+      g.gain.linearRampToValueAtTime(0.014, t + 0.005);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + 0.09);
+      o.connect(f); f.connect(g); g.connect(master);
+      o.start(t); o.stop(t + 0.12);
+      setTimeout(crackle, 1200 + Math.random() * 4200);
+    };
+    crackle();
+    stops.push(() => { cancelledP = true; });
   } else if (motion === "ripple") {
-    // Ocean — band-passed brown noise, slow swell back-and-forth
-    const { f } = playNoise(brown, "bandpass", 480, 0.5, 0.55);
+    // Ocean — distant surf with slow back-and-forth swell
+    const { f, g } = playNoise(brown, "bandpass", 420, 0.4, 0.55);
     const lfo = ctx.createOscillator();
     const lfoG = ctx.createGain();
-    lfo.frequency.value = 0.11; lfoG.gain.value = 280;
+    lfo.frequency.value = 0.09; lfoG.gain.value = 220;
     lfo.connect(lfoG); lfoG.connect(f.frequency);
     lfo.start();
     stops.push(() => { try { lfo.stop(); } catch {} });
+    // Volume swell that mirrors the rings expanding/receding
+    const vol = ctx.createOscillator();
+    const volG = ctx.createGain();
+    vol.frequency.value = 0.07; volG.gain.value = 0.18;
+    vol.connect(volG); volG.connect(g.gain);
+    vol.start();
+    stops.push(() => { try { vol.stop(); } catch {} });
   } else if (motion === "drift") {
-    // Forest / wind — softly band-passed noise, gentle wobble (less hiss)
-    const { f } = playNoise(white, "bandpass", 900, 0.5, 0.16);
+    // Forest / wind — soft airy band, slow wobble. Warm, low hiss.
+    const { f } = playNoise(brown, "bandpass", 720, 0.6, 0.4);
     const lfo = ctx.createOscillator();
     const lfoG = ctx.createGain();
-    lfo.frequency.value = 0.14; lfoG.gain.value = 400;
+    lfo.frequency.value = 0.1; lfoG.gain.value = 320;
     lfo.connect(lfoG); lfoG.connect(f.frequency);
     lfo.start();
     stops.push(() => { try { lfo.stop(); } catch {} });
+    // High whisper layer, very quiet — gives the "leaves" sparkle without harshness
+    playNoise(white, "bandpass", 2400, 0.6, 0.05);
   } else if (motion === "rain") {
-    // Rain — softer mid-band noise (no harsh treble) + sparse, muted droplets
-    playNoise(white, "bandpass", 1400, 0.4, 0.18);
-    playNoise(brown, "lowpass", 600, 0.3, 0.22);
+    // Rain — soft veil of falling water + sparse, muted droplets close-by
+    playNoise(white, "bandpass", 1600, 0.4, 0.2);
+    playNoise(brown, "lowpass", 520, 0.3, 0.26);
     let cancelled = false;
     const drop = () => {
       if (cancelled) return;
@@ -593,18 +622,25 @@ function createAmbientAudio(ctx: AudioContext, motion: Motion): AmbientAudio | n
       const g = ctx.createGain();
       const t = ctx.currentTime;
       g.gain.setValueAtTime(0, t);
-      g.gain.linearRampToValueAtTime(0.018, t + 0.03);
+      g.gain.linearRampToValueAtTime(0.022, t + 0.03);
       g.gain.exponentialRampToValueAtTime(0.0001, t + 0.45);
       o.connect(g); g.connect(master);
       o.start(t); o.stop(t + 0.5);
-      setTimeout(drop, 350 + Math.random() * 700);
+      setTimeout(drop, 220 + Math.random() * 520);
     };
     drop();
     stops.push(() => { cancelled = true; });
   } else {
-    // Veil / snow — very quiet warm low-pass, almost silence
-    playNoise(brown, "lowpass", 180, 0.25, 0.22);
-    // No bright shimmer tone — it was piercing in the dark
+    // Veil / snow — quiet warm low-pass + barely audible airy halo
+    playNoise(brown, "lowpass", 200, 0.25, 0.28);
+    const { f } = playNoise(white, "bandpass", 3200, 0.7, 0.025);
+    // Very slow halo movement, almost imperceptible
+    const lfo = ctx.createOscillator();
+    const lfoG = ctx.createGain();
+    lfo.frequency.value = 0.05; lfoG.gain.value = 600;
+    lfo.connect(lfoG); lfoG.connect(f.frequency);
+    lfo.start();
+    stops.push(() => { try { lfo.stop(); } catch {} });
   }
 
   let started = false;
@@ -634,77 +670,225 @@ function createAmbientAudio(ctx: AudioContext, motion: Motion): AmbientAudio | n
 
 /* ---------- Background motion (full screen) ---------- */
 function MotionLayer({ kind, accent }: { kind: Motion; accent: string }) {
+  // Shared, dark-friendly keyframes for all ambiances.
+  // Visual language: low-contrast, warm-tinted glow on top of accent, slow drifts,
+  // soft particles. Nothing strobes or contrasts harshly with a dark room.
+  const keyframes = (
+    <style>{`
+      @keyframes nw-breathe {
+        0%, 100% { transform: translate3d(0,0,0) scale(1);   opacity: var(--o, 0.32); }
+        50%      { transform: translate3d(0,0,0) scale(1.08); opacity: calc(var(--o, 0.32) * 1.35); }
+      }
+      @keyframes nw-float {
+        0%   { transform: translate3d(var(--fx,0),0,0) scale(1); }
+        50%  { transform: translate3d(calc(var(--fx,0) + 6vmin), -4vmin, 0) scale(1.04); }
+        100% { transform: translate3d(var(--fx,0),0,0) scale(1); }
+      }
+      @keyframes nw-rise {
+        0%   { transform: translate3d(0, 18vmin, 0) scale(0.8); opacity: 0; }
+        15%  { opacity: var(--o, 0.5); }
+        85%  { opacity: var(--o, 0.5); }
+        100% { transform: translate3d(2vmin, -22vmin, 0) scale(1.1); opacity: 0; }
+      }
+      @keyframes nw-ring {
+        0%   { transform: translate(-50%, -50%) scale(0.2); opacity: 0; }
+        20%  { opacity: 0.55; }
+        100% { transform: translate(-50%, -50%) scale(2.4);  opacity: 0; }
+      }
+      @keyframes nw-fall {
+        0%   { transform: translate3d(var(--dx,0), -12vh, 0); opacity: 0; }
+        12%  { opacity: var(--o, 0.7); }
+        88%  { opacity: var(--o, 0.7); }
+        100% { transform: translate3d(calc(var(--dx,0) + 1vw), 110vh, 0); opacity: 0; }
+      }
+      @keyframes nw-snow {
+        0%   { transform: translate3d(0, -10vh, 0); opacity: 0; }
+        15%  { opacity: var(--o, 0.55); }
+        85%  { opacity: var(--o, 0.55); }
+        100% { transform: translate3d(8vmin, 110vh, 0); opacity: 0; }
+      }
+      @keyframes nw-hue {
+        0%, 100% { opacity: 0.18; }
+        50%      { opacity: 0.28; }
+      }
+    `}</style>
+  );
+
   if (kind === "pulse") {
+    // Hearth / candle — warm centered glow that breathes, with rising embers.
     return (
       <>
+        {keyframes}
         <div
-          className="absolute left-1/2 top-1/2 size-[70vmin] -translate-x-1/2 -translate-y-1/2 rounded-full breath halo-lg"
-          style={{ background: `radial-gradient(circle, ${accent}, transparent 72%)`, animationDuration: "18s", opacity: 0.4 }}
+          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full halo-lg"
+          style={{
+            width: "88vmin", aspectRatio: "1",
+            background: `radial-gradient(circle, ${accent}, transparent 72%)`,
+            ['--o' as string]: "0.42",
+            animation: "nw-breathe 14s ease-in-out infinite",
+          } as React.CSSProperties}
         />
         <div
-          className="absolute left-1/2 top-1/2 size-[40vmin] -translate-x-1/2 -translate-y-1/2 rounded-full breath"
-          style={{ background: `radial-gradient(circle, white, transparent 75%)`, animationDuration: "16s", opacity: 0.14 }}
+          className="absolute left-1/2 top-[58%] -translate-x-1/2 -translate-y-1/2 rounded-full halo-lg"
+          style={{
+            width: "44vmin", aspectRatio: "1",
+            background: "radial-gradient(circle, rgba(255,205,170,0.55), transparent 70%)",
+            ['--o' as string]: "0.38",
+            animation: "nw-breathe 11s ease-in-out infinite",
+          } as React.CSSProperties}
         />
+        {Array.from({ length: 12 }).map((_, i) => {
+          const left = 14 + (i * 73) % 72;
+          const delay = (i * 1.7) % 14;
+          const size = 4 + (i % 4) * 2;
+          return (
+            <span
+              key={i}
+              className="absolute rounded-full"
+              style={{
+                left: `${left}%`, bottom: `${10 + (i % 5) * 6}%`,
+                width: `${size}px`, height: `${size}px`,
+                background: "radial-gradient(circle, rgba(255,205,170,0.85), rgba(255,170,130,0) 70%)",
+                ['--o' as string]: "0.45",
+                animation: `nw-rise ${14 + (i % 5) * 3}s ease-in ${delay}s infinite`,
+                filter: "blur(0.5px)",
+              } as React.CSSProperties}
+            />
+          );
+        })}
       </>
     );
   }
+
   if (kind === "ripple") {
+    // Tide — soft concentric rings expanding from below, like a stone in water.
     return (
       <>
-        {[0, 1, 2, 3].map((i) => (
+        {keyframes}
+        <div
+          className="absolute inset-0"
+          style={{
+            background: `radial-gradient(ellipse at 50% 95%, ${accent}, transparent 60%)`,
+            animation: "nw-hue 9s ease-in-out infinite",
+          }}
+        />
+        {[0, 1, 2, 3, 4].map((i) => (
           <div
             key={i}
-            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/15"
+            className="absolute left-1/2 top-[88%] rounded-full border"
             style={{
-              width: `${28 + i * 22}vmin`,
-              aspectRatio: "1",
-              animation: `legato-breath 18s ease-in-out ${i * 2.5}s infinite`,
-              opacity: 0.6,
+              width: "20vmin", aspectRatio: "1",
+              borderColor: "rgba(255,255,255,0.18)",
+              animation: `nw-ring 14s ease-out ${i * 2.8}s infinite`,
             }}
           />
         ))}
       </>
     );
   }
+
   if (kind === "drift") {
+    // Forest / wind / tea — large blurred orbs floating very slowly.
+    const orbs = [
+      { top: "-12%", left: "-10%", size: "78vmin", color: accent, dur: "44s", o: 0.32, fx: "0" },
+      { top: "30%",  left: "62%",  size: "62vmin", color: "rgba(255,210,180,0.45)", dur: "52s", o: 0.26, fx: "-2vmin" },
+      { top: "60%",  left: "8%",   size: "70vmin", color: "rgba(190,200,220,0.45)", dur: "60s", o: 0.22, fx: "0" },
+    ];
     return (
       <>
-        <div className="absolute -top-[15vmin] -left-[15vmin] size-[70vmin] rounded-full halo-lg drift opacity-30"
-             style={{ background: `radial-gradient(circle, ${accent}, transparent 75%)`, animationDuration: "38s" }} />
-        <div className="absolute -bottom-[15vmin] -right-[10vmin] size-[80vmin] rounded-full halo-lg drift opacity-20"
-             style={{ background: `radial-gradient(circle, white, transparent 75%)`, animationDuration: "46s" }} />
+        {keyframes}
+        {orbs.map((o, i) => (
+          <div
+            key={i}
+            className="absolute rounded-full halo-lg"
+            style={{
+              top: o.top, left: o.left,
+              width: o.size, aspectRatio: "1",
+              background: `radial-gradient(circle, ${o.color}, transparent 72%)`,
+              opacity: o.o,
+              ['--fx' as string]: o.fx,
+              animation: `nw-float ${o.dur} ease-in-out infinite`,
+            } as React.CSSProperties}
+          />
+        ))}
       </>
     );
   }
+
   if (kind === "rain") {
+    // Rain — soft slanted droplet streaks, plus mist gathered at the bottom.
     return (
-      <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 140" preserveAspectRatio="none" aria-hidden>
-        {Array.from({ length: 16 }).map((_, i) => {
-          const x = (i * 9.3) % 100;
-          const delay = (i % 8) * 0.7;
+      <>
+        {keyframes}
+        <div
+          className="absolute inset-x-0 bottom-0 h-[40%]"
+          style={{
+            background: "linear-gradient(180deg, transparent, rgba(20,18,28,0.35))",
+          }}
+        />
+        {Array.from({ length: 22 }).map((_, i) => {
+          const left = (i * 41) % 100;
+          const dx = ((i * 17) % 12) - 6;
+          const dur = 4.5 + (i % 6) * 0.6;
+          const delay = (i * 0.37) % dur;
           return (
-            <line
+            <span
               key={i}
-              x1={x}
-              y1={-5}
-              x2={x - 2}
-              y2={20}
-              stroke="white"
-              strokeWidth="0.3"
-              opacity="0.14"
-              style={{ animation: `legato-rain 5s linear ${delay}s infinite` }}
+              className="absolute"
+              style={{
+                left: `${left}%`, top: 0,
+                width: "1px", height: "10vh",
+                background: "linear-gradient(180deg, transparent, rgba(220,225,240,0.55))",
+                ['--dx' as string]: `${dx}vw`,
+                ['--o' as string]: "0.5",
+                animation: `nw-fall ${dur}s linear ${delay}s infinite`,
+                filter: "blur(0.4px)",
+              } as React.CSSProperties}
             />
           );
         })}
-      </svg>
+      </>
     );
   }
+
+  // veil — moonlit / wool / snow : faint top glow + slow snow.
   return (
     <>
-      <div className="absolute inset-0 mix-blend-soft-light opacity-25"
-           style={{ background: `radial-gradient(circle at 30% 80%, ${accent}, transparent 65%)` }} />
-      <div className="absolute -top-[10vmin] left-1/2 -translate-x-1/2 size-[60vmin] rounded-full halo-lg breath"
-           style={{ background: `radial-gradient(circle, white, transparent 75%)`, opacity: 0.14, animationDuration: "22s" }} />
+      {keyframes}
+      <div
+        className="absolute -top-[20vmin] left-1/2 -translate-x-1/2 rounded-full halo-lg"
+        style={{
+          width: "80vmin", aspectRatio: "1",
+          background: `radial-gradient(circle, ${accent}, transparent 70%)`,
+          opacity: 0.28,
+        }}
+      />
+      <div
+        className="absolute inset-0 mix-blend-soft-light"
+        style={{
+          background: "radial-gradient(ellipse at 50% 50%, rgba(255,255,255,0.18), transparent 60%)",
+        }}
+      />
+      {Array.from({ length: 26 }).map((_, i) => {
+        const left = (i * 53) % 100;
+        const size = 2 + (i % 4);
+        const dur = 18 + (i % 7) * 3;
+        const delay = (i * 0.9) % dur;
+        return (
+          <span
+            key={i}
+            className="absolute rounded-full"
+            style={{
+              left: `${left}%`, top: 0,
+              width: `${size}px`, height: `${size}px`,
+              background: "rgba(245,240,255,0.85)",
+              ['--o' as string]: "0.55",
+              animation: `nw-snow ${dur}s linear ${delay}s infinite`,
+              filter: "blur(0.6px)",
+            } as React.CSSProperties}
+          />
+        );
+      })}
     </>
   );
 }
