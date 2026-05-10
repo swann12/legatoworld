@@ -638,11 +638,11 @@ function MotionLayer({ kind, accent }: { kind: Motion; accent: string }) {
       <>
         <div
           className="absolute left-1/2 top-1/2 size-[70vmin] -translate-x-1/2 -translate-y-1/2 rounded-full breath halo-lg"
-          style={{ background: `radial-gradient(circle, ${accent}, transparent 70%)`, animationDuration: "7s" }}
+          style={{ background: `radial-gradient(circle, ${accent}, transparent 72%)`, animationDuration: "12s", opacity: 0.55 }}
         />
         <div
           className="absolute left-1/2 top-1/2 size-[40vmin] -translate-x-1/2 -translate-y-1/2 rounded-full breath"
-          style={{ background: `radial-gradient(circle, white, transparent 70%)`, animationDuration: "5s", opacity: 0.45 }}
+          style={{ background: `radial-gradient(circle, white, transparent 75%)`, animationDuration: "10s", opacity: 0.22 }}
         />
       </>
     );
@@ -653,11 +653,11 @@ function MotionLayer({ kind, accent }: { kind: Motion; accent: string }) {
         {[0, 1, 2, 3].map((i) => (
           <div
             key={i}
-            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/25"
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/15"
             style={{
               width: `${28 + i * 22}vmin`,
               aspectRatio: "1",
-              animation: `legato-breath 7s ease-in-out ${i * 1.2}s infinite`,
+              animation: `legato-breath 12s ease-in-out ${i * 2}s infinite`,
             }}
           />
         ))}
@@ -667,30 +667,30 @@ function MotionLayer({ kind, accent }: { kind: Motion; accent: string }) {
   if (kind === "drift") {
     return (
       <>
-        <div className="absolute -top-[15vmin] -left-[15vmin] size-[70vmin] rounded-full halo-lg drift opacity-70"
-             style={{ background: `radial-gradient(circle, ${accent}, transparent 70%)` }} />
-        <div className="absolute -bottom-[15vmin] -right-[10vmin] size-[80vmin] rounded-full halo-lg drift opacity-55"
-             style={{ background: `radial-gradient(circle, white, transparent 70%)`, animationDuration: "18s" }} />
+        <div className="absolute -top-[15vmin] -left-[15vmin] size-[70vmin] rounded-full halo-lg drift opacity-45"
+             style={{ background: `radial-gradient(circle, ${accent}, transparent 75%)`, animationDuration: "26s" }} />
+        <div className="absolute -bottom-[15vmin] -right-[10vmin] size-[80vmin] rounded-full halo-lg drift opacity-30"
+             style={{ background: `radial-gradient(circle, white, transparent 75%)`, animationDuration: "32s" }} />
       </>
     );
   }
   if (kind === "rain") {
     return (
       <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 140" preserveAspectRatio="none" aria-hidden>
-        {Array.from({ length: 38 }).map((_, i) => {
-          const x = (i * 5.7) % 100;
-          const delay = (i % 12) * 0.25;
+        {Array.from({ length: 22 }).map((_, i) => {
+          const x = (i * 9.3) % 100;
+          const delay = (i % 8) * 0.4;
           return (
             <line
               key={i}
               x1={x}
               y1={-5}
-              x2={x - 3}
+              x2={x - 2}
               y2={20}
               stroke="white"
-              strokeWidth="0.4"
-              opacity="0.45"
-              style={{ animation: `legato-rain 1.6s linear ${delay}s infinite` }}
+              strokeWidth="0.3"
+              opacity="0.22"
+              style={{ animation: `legato-rain 3.2s linear ${delay}s infinite` }}
             />
           );
         })}
@@ -699,10 +699,10 @@ function MotionLayer({ kind, accent }: { kind: Motion; accent: string }) {
   }
   return (
     <>
-      <div className="absolute inset-0 mix-blend-soft-light opacity-60"
-           style={{ background: `radial-gradient(circle at 30% 80%, ${accent}, transparent 60%)` }} />
-      <div className="absolute -top-[10vmin] left-1/2 -translate-x-1/2 size-[60vmin] rounded-full halo-lg"
-           style={{ background: `radial-gradient(circle, white, transparent 70%)`, opacity: 0.45 }} />
+      <div className="absolute inset-0 mix-blend-soft-light opacity-35"
+           style={{ background: `radial-gradient(circle at 30% 80%, ${accent}, transparent 65%)` }} />
+      <div className="absolute -top-[10vmin] left-1/2 -translate-x-1/2 size-[60vmin] rounded-full halo-lg breath"
+           style={{ background: `radial-gradient(circle, white, transparent 75%)`, opacity: 0.22, animationDuration: "14s" }} />
     </>
   );
 }
