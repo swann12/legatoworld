@@ -18,7 +18,13 @@ const DATES = [
   { id: "d4", kind: "Récurrent", title: "Les déjeuners du dimanche", date: "Chaque dimanche", inDays: 3, soft: true },
 ];
 
-type Ritual = { title: string; whisper: string; durationMin: number };
+type Ritual = {
+  title: string;
+  whisper: string;
+  durationMin: number;
+  origin?: string;
+  originDetail?: string;
+};
 
 function Dates() {
   const { mode, branch, lostName } = useLegato();
@@ -61,7 +67,7 @@ function Dates() {
           <ScreenHeader
             eyebrow="Dates sensibles"
             title={<>Des jours qui <br /><span className="italic">savent déjà.</span></>}
-            subtitle="Touchez une date pour des rituels — courts ou plus longs."
+            subtitle="Des rituels venus d'ailleurs, courts ou plus longs, à essayer si vous le sentez."
           />
 
           <Section className="mt-10 space-y-3">
@@ -126,19 +132,40 @@ function RitualGroup({ label, items }: { label: string; items: Ritual[] }) {
       <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">{label}</p>
       <div className="mt-3 space-y-2">
         {items.map((it, i) => (
-          <div key={i} className="paper-card p-4">
-            <div className="flex items-baseline justify-between gap-3">
-              <p className="font-serif italic text-[15px] text-dusk">{it.title}</p>
-              <span className="text-[10px] uppercase tracking-[0.2em] text-dusk/40 shrink-0">
-                {it.durationMin} min
-              </span>
-            </div>
-            <p className="mt-1 text-[13px] leading-relaxed text-dusk/65" style={{ textWrap: "pretty" }}>
-              {it.whisper}
-            </p>
-          </div>
+          <RitualCard key={i} item={it} />
         ))}
       </div>
+    </div>
+  );
+}
+
+function RitualCard({ item }: { item: Ritual }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="paper-card p-4">
+      <div className="flex items-baseline justify-between gap-3">
+        <p className="font-serif italic text-[15px] text-dusk">{item.title}</p>
+        <span className="text-[10px] uppercase tracking-[0.2em] text-dusk/40 shrink-0">
+          {item.durationMin} min
+        </span>
+      </div>
+      <p className="mt-1 text-[13px] leading-relaxed text-dusk/65" style={{ textWrap: "pretty" }}>
+        {item.whisper}
+      </p>
+      {item.origin && (
+        <button
+          onClick={() => setOpen((v) => !v)}
+          className="mt-3 flex items-center gap-2 text-[10.5px] uppercase tracking-[0.2em] text-dusk/55"
+        >
+          <span>D'où ça vient · {item.origin}</span>
+          <span className="text-dusk/40">{open ? "−" : "+"}</span>
+        </button>
+      )}
+      {open && item.originDetail && (
+        <p className="mt-2 text-[12.5px] leading-relaxed text-dusk/60 italic" style={{ textWrap: "pretty" }}>
+          {item.originDetail}
+        </p>
+      )}
     </div>
   );
 }
