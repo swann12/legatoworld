@@ -43,6 +43,13 @@ function Garden() {
   const [hovered, setHovered] = useState<string | null>(null);
   const activeBeing = BEINGS.find((b) => b.id === hovered) ?? null;
 
+  /** Extra parcelles in the painting that don't (yet) belong to a being.
+   *  They still glow on hover, but are not clickable. */
+  const EXTRA_PARCELLES = [
+    { id: "_extra-top",    cx: 48, cy: 14, rx: 12, ry: 10 },
+    { id: "_extra-center", cx: 50, cy: 50, rx: 16, ry: 18 },
+  ];
+
   return (
     <Shell>
       <div className="relative pb-10 garden-page-bg">
@@ -81,7 +88,7 @@ function Garden() {
                 draggable={false}
               />
 
-              {BEINGS.map((p) => (
+              {[...BEINGS, ...EXTRA_PARCELLES].map((p) => (
                 <img
                   key={`flowers-${p.id}`}
                   src={gardenPainted}
@@ -110,6 +117,25 @@ function Garden() {
                   className={`absolute group focus:outline-none cursor-pointer garden-tile-hover ${
                     hovered === p.id ? "is-hot" : hovered ? "is-faded" : ""
                   }`}
+                  style={{
+                    left: `${p.cx - p.rx}%`,
+                    top: `${p.cy - p.ry}%`,
+                    width: `${p.rx * 2}%`,
+                    height: `${p.ry * 2}%`,
+                    borderRadius: "50%",
+                    touchAction: "manipulation",
+                  }}
+                />
+              ))}
+
+              {/* Hover-only spots for the unassigned parcelles */}
+              {EXTRA_PARCELLES.map((p) => (
+                <div
+                  key={p.id}
+                  onMouseEnter={() => setHovered(p.id)}
+                  onMouseLeave={() => setHovered((h: string | null) => (h === p.id ? null : h))}
+                  aria-hidden
+                  className="absolute"
                   style={{
                     left: `${p.cx - p.rx}%`,
                     top: `${p.cy - p.ry}%`,
