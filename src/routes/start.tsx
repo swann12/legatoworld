@@ -28,13 +28,13 @@ function Start() {
               className="font-serif text-[2.4rem] leading-[1.15] font-light text-dusk"
               style={{ textWrap: "balance" }}
             >
-              Quand les mots manquent, <span className="italic">on peut commencer ici.</span>
+              Préparer un adieu, <span className="italic">garder une présence.</span>
             </h1>
             <p
-              className="mt-7 max-w-[28ch] text-[14.5px] leading-relaxed text-dusk/60"
+              className="mt-7 max-w-[30ch] text-[14.5px] leading-relaxed text-dusk/60"
               style={{ textWrap: "balance" }}
             >
-              Un espace pour traverser le deuil ou la peur de perdre. À votre rythme, sans pression.
+              Legato vous aide à composer une cérémonie, écrire ce qui compte, et faire vivre le souvenir d'un être cher. À votre rythme.
             </p>
           </div>
 
