@@ -311,17 +311,30 @@
     transform-origin: bottom center;
   }
 
-  /* Garden image — full bleed, softly dissolved into the surrounding paper */
+  /* Painted-garden canvas — matches the cream of the painting in the middle,
+     fading back to paper above and below so there is no visible rectangular
+     boundary between the painted scene and the surrounding page. */
+  .garden-canvas {
+    background: linear-gradient(
+      to bottom,
+      var(--paper) 0%,
+      rgb(242, 233, 224) 6%,
+      rgb(242, 233, 224) 94%,
+      var(--paper) 100%
+    );
+  }
+  /* Garden image — almost full bleed, just a hair of fade at top/bottom
+     so there's no visible rectangular cut, but no wide gradient halo either. */
   .garden-dissolve {
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.08) 3%, rgba(0,0,0,0.34) 9%, rgba(0,0,0,0.82) 18%, black 30%, black 73%, rgba(0,0,0,0.82) 84%, rgba(0,0,0,0.34) 93%, rgba(0,0,0,0.08) 98%, transparent 100%);
-            mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.08) 3%, rgba(0,0,0,0.34) 9%, rgba(0,0,0,0.82) 18%, black 30%, black 73%, rgba(0,0,0,0.82) 84%, rgba(0,0,0,0.34) 93%, rgba(0,0,0,0.08) 98%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 4%, black 96%, transparent 100%);
+            mask-image: linear-gradient(to bottom, transparent 0%, black 4%, black 96%, transparent 100%);
   }
   .garden-flower-pop {
-    -webkit-mask-image: var(--flower-mask), linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.08) 3%, rgba(0,0,0,0.34) 9%, rgba(0,0,0,0.82) 18%, black 30%, black 73%, rgba(0,0,0,0.82) 84%, rgba(0,0,0,0.34) 93%, rgba(0,0,0,0.08) 98%, transparent 100%);
-            mask-image: var(--flower-mask), linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.08) 3%, rgba(0,0,0,0.34) 9%, rgba(0,0,0,0.82) 18%, black 30%, black 73%, rgba(0,0,0,0.82) 84%, rgba(0,0,0,0.34) 93%, rgba(0,0,0,0.08) 98%, transparent 100%);
-    -webkit-mask-composite: source-in;
-            mask-composite: intersect;
-    transition: opacity 900ms cubic-bezier(0.22, 0.61, 0.36, 1);
+    -webkit-mask-image: var(--flower-mask);
+            mask-image: var(--flower-mask);
+    transition: opacity 700ms cubic-bezier(0.22, 0.61, 0.36, 1),
+                filter 700ms cubic-bezier(0.22, 0.61, 0.36, 1);
+    filter: saturate(1.35) brightness(1.04) contrast(1.05);
   }
 
   /* Falling rain droplets for the no-words mode */

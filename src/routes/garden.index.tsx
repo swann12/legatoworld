@@ -69,7 +69,7 @@ function Garden() {
           {/* The painted garden, viewed from above */}
           <div className="px-0 mt-6">
             <div
-              className="relative w-full"
+              className="relative w-full garden-canvas"
               style={{ aspectRatio: "3 / 4" }}
             >
               {/* The painted garden image — dissolved into the paper, no rigid frame */}
