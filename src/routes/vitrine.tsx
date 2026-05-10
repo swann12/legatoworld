@@ -16,18 +16,37 @@ export const Route = createFileRoute("/vitrine")({
 });
 
 function PhoneFrame({ src, label }: { src: string; label: string }) {
+  // Render the app at its native mobile width (390x800) and scale it down
+  // so the layout inside the iframe never reflows or feels cramped.
+  const NATIVE_W = 390;
+  const NATIVE_H = 800;
+  const FRAME_W = 300;
+  const scale = FRAME_W / NATIVE_W;
+  const FRAME_H = NATIVE_H * scale;
+
   return (
     <div className="flex flex-col items-center gap-3">
       <div
-        className="ceramic organic-radius-3 overflow-hidden shadow-[0_30px_60px_-30px_color-mix(in_oklab,var(--dusk)_25%,transparent)]"
-        style={{ width: 260, height: 540, padding: 6 }}
+        className="ceramic organic-radius-3 relative overflow-hidden shadow-[0_30px_60px_-30px_color-mix(in_oklab,var(--dusk)_25%,transparent)]"
+        style={{ width: FRAME_W, height: FRAME_H, padding: 6 }}
       >
-        <iframe
-          src={src}
-          title={label}
-          className="h-full w-full rounded-[22px] border-0 bg-paper"
-          loading="lazy"
-        />
+        <div
+          className="overflow-hidden rounded-[22px] bg-paper"
+          style={{ width: FRAME_W - 12, height: FRAME_H - 12 }}
+        >
+          <iframe
+            src={src}
+            title={label}
+            loading="lazy"
+            className="border-0 bg-paper"
+            style={{
+              width: NATIVE_W,
+              height: NATIVE_H,
+              transform: `scale(${scale})`,
+              transformOrigin: "top left",
+            }}
+          />
+        </div>
       </div>
       <p className="text-[10px] uppercase tracking-[0.24em] text-dusk/45">{label}</p>
     </div>
