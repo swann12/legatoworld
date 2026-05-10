@@ -46,7 +46,7 @@ function Garden() {
 
   return (
     <Shell>
-      <div className="relative pb-10">
+      <div className="relative pb-10 garden-page-bg">
         <div className="relative z-10">
           <header className="px-7 pt-12">
             <p className="text-[10px] uppercase tracking-[0.24em] text-dusk/45">
