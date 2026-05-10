@@ -28,13 +28,13 @@ function Start() {
               className="font-serif text-[2.4rem] leading-[1.15] font-light text-dusk"
               style={{ textWrap: "balance" }}
             >
-              Un endroit doux, <span className="italic">pour ce que l'on porte</span> sans toujours pouvoir le dire.
+              Quand les mots manquent, <span className="italic">on peut commencer ici.</span>
             </h1>
             <p
               className="mt-7 max-w-[28ch] text-[14.5px] leading-relaxed text-dusk/60"
               style={{ textWrap: "balance" }}
             >
-              Un espace tranquille pour le deuil et la peur de perdre. Tenu avec soin, sans pression.
+              Un espace pour traverser le deuil ou la peur de perdre. À votre rythme, sans pression.
             </p>
           </div>
 
