@@ -105,7 +105,7 @@ const DICT: Dict = {
   "home.wishes":   { fr: "Mes volontés", en: "My wishes" },
   "home.wishesSub":{ fr: "Préparer, en douceur, ce que l'on voudrait.", en: "Gently prepare what you would wish for." },
   "home.inspiration":{ fr: "Préparer pour un proche", en: "Prepare for a loved one" },
-  "home.inspirationSub":{ fr: "Composer des gestes qui lui ressemblent.", en: "Compose gestures that look like them." },
+  "home.inspirationSub":{ fr: "Préparer une cérémonie, des fleurs, des mots qui lui ressemblent.", en: "Prepare a ceremony, flowers and words that look like them." },
   "home.crisis.label":{ fr: "Si aujourd'hui pèse trop", en: "If today feels too heavy" },
   "home.crisis.title":{ fr: "Une porte calme, ouverte.", en: "A quiet door, open." },
   "garden.title":  { fr: "Le jardin de", en: "The garden of" },
