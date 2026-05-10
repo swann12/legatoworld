@@ -17,8 +17,6 @@ export const Route = createFileRoute("/")({
 
 // Slow the source video down a touch so the bloom feels even more unhurried.
 const PLAYBACK_RATE = 0.7;
-// Source clip ~5.08s; at 0.7x ≈ 7.26s. Hold a beat after, then auto-enter.
-const AUTO_ENTER_MS = 9500;
 
 function Intro() {
   const navigate = useNavigate();
@@ -30,12 +28,6 @@ function Intro() {
     setLeaving(true);
     window.setTimeout(() => navigate({ to: "/start" }), 900);
   };
-
-  useEffect(() => {
-    const t = window.setTimeout(enter, AUTO_ENTER_MS);
-    return () => window.clearTimeout(t);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   useEffect(() => {
     if (videoRef.current) {
