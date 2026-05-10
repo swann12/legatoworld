@@ -112,7 +112,7 @@ function Intro() {
         <div className="absolute inset-x-0 bottom-0 flex justify-center pb-[8vh] px-8">
           <button
             onClick={enter}
-            className="rounded-full bg-white/8 backdrop-blur-sm border border-white/40 px-8 py-3 text-[10.5px] font-medium uppercase tracking-[0.3em] text-white/85 hover:bg-white/15 transition-colors"
+            className="rounded-full bg-white/[0.04] backdrop-blur-sm border border-white/25 px-8 py-3 text-[10.5px] font-medium uppercase tracking-[0.3em] text-white/70 hover:bg-white/10 transition-colors"
             style={{ animation: "intro-enter-in 900ms ease-out forwards" }}
           >
             Entrer
