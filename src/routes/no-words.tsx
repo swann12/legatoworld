@@ -135,22 +135,49 @@ function NoWords() {
 
   // ----- Ambient audio (procedural, Web Audio) -----
   const audioRef = useRef<AmbientAudio | null>(null);
+  const ctxRef = useRef<AudioContext | null>(null);
   useEffect(() => {
     return () => {
       audioRef.current?.stop();
       audioRef.current = null;
+      try { ctxRef.current?.close(); } catch {}
+      ctxRef.current = null;
     };
   }, []);
+  // When ambiance changes while playing, swap the sound design (ctx already unlocked)
   useEffect(() => {
-    if (!playing) {
+    if (!playing || !ctxRef.current) return;
+    audioRef.current?.stop();
+    audioRef.current = createAmbientAudio(ctxRef.current, tex.motion);
+    audioRef.current?.start();
+  }, [tex.motion, tex.id]);
+
+  const togglePlay = () => {
+    if (playing) {
       audioRef.current?.stop();
       audioRef.current = null;
+      setPlaying(false);
       return;
     }
-    audioRef.current?.stop();
-    audioRef.current = createAmbientAudio(tex.motion);
+    // Create AudioContext from inside the user gesture so browsers unlock it.
+    if (!ctxRef.current) {
+      const Ctx =
+        (window.AudioContext as typeof AudioContext | undefined) ||
+        ((window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext);
+      if (!Ctx) {
+        setAiError("Le son n'est pas disponible sur ce navigateur.");
+        return;
+      }
+      ctxRef.current = new Ctx();
+    }
+    const ctx = ctxRef.current;
+    if (ctx.state === "suspended") {
+      void ctx.resume();
+    }
+    audioRef.current = createAmbientAudio(ctx, tex.motion);
     audioRef.current?.start();
-  }, [playing, tex.motion, tex.id]);
+    setPlaying(true);
+  };
 
   const onPointerDown = (e: React.PointerEvent) => {
     startX.current = e.clientX;
@@ -167,7 +194,7 @@ function NoWords() {
     const h = (e: KeyboardEvent) => {
       if (e.key === "ArrowRight") next();
       if (e.key === "ArrowLeft") prev();
-      if (e.key === " ") setPlaying((p) => !p);
+      if (e.key === " ") togglePlay();
     };
     window.addEventListener("keydown", h);
     return () => window.removeEventListener("keydown", h);
@@ -299,7 +326,7 @@ function NoWords() {
             ←
           </button>
           <button
-            onClick={() => setPlaying((p) => !p)}
+            onClick={togglePlay}
             className="flex-1 px-5 py-3.5 text-center backdrop-blur-md rounded-full"
             style={{
               background: "color-mix(in oklab, var(--paper) 38%, transparent)",
