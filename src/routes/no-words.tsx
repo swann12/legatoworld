@@ -561,28 +561,57 @@ function createAmbientAudio(ctx: AudioContext, motion: Motion): AmbientAudio | n
     lfo.connect(lfoG); lfoG.connect(master.gain);
     lfo.start();
     stops.push(() => { try { lfo.stop(); } catch {} });
+    // Sparse, soft crackles — like embers in a hearth
+    let cancelledP = false;
+    const crackle = () => {
+      if (cancelledP) return;
+      const o = ctx.createOscillator();
+      o.type = "triangle";
+      o.frequency.value = 1100 + Math.random() * 900;
+      const f = ctx.createBiquadFilter();
+      f.type = "bandpass"; f.frequency.value = 1600; f.Q.value = 1.2;
+      const g = ctx.createGain();
+      const t = ctx.currentTime;
+      g.gain.setValueAtTime(0, t);
+      g.gain.linearRampToValueAtTime(0.014, t + 0.005);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + 0.09);
+      o.connect(f); f.connect(g); g.connect(master);
+      o.start(t); o.stop(t + 0.12);
+      setTimeout(crackle, 1200 + Math.random() * 4200);
+    };
+    crackle();
+    stops.push(() => { cancelledP = true; });
   } else if (motion === "ripple") {
-    // Ocean — band-passed brown noise, slow swell back-and-forth
-    const { f } = playNoise(brown, "bandpass", 480, 0.5, 0.55);
+    // Ocean — distant surf with slow back-and-forth swell
+    const { f, g } = playNoise(brown, "bandpass", 420, 0.4, 0.55);
     const lfo = ctx.createOscillator();
     const lfoG = ctx.createGain();
-    lfo.frequency.value = 0.11; lfoG.gain.value = 280;
+    lfo.frequency.value = 0.09; lfoG.gain.value = 220;
     lfo.connect(lfoG); lfoG.connect(f.frequency);
     lfo.start();
     stops.push(() => { try { lfo.stop(); } catch {} });
+    // Volume swell that mirrors the rings expanding/receding
+    const vol = ctx.createOscillator();
+    const volG = ctx.createGain();
+    vol.frequency.value = 0.07; volG.gain.value = 0.18;
+    vol.connect(volG); volG.connect(g.gain);
+    vol.start();
+    stops.push(() => { try { vol.stop(); } catch {} });
   } else if (motion === "drift") {
-    // Forest / wind — softly band-passed noise, gentle wobble (less hiss)
-    const { f } = playNoise(white, "bandpass", 900, 0.5, 0.16);
+    // Forest / wind — soft airy band, slow wobble. Warm, low hiss.
+    const { f } = playNoise(brown, "bandpass", 720, 0.6, 0.4);
     const lfo = ctx.createOscillator();
     const lfoG = ctx.createGain();
-    lfo.frequency.value = 0.14; lfoG.gain.value = 400;
+    lfo.frequency.value = 0.1; lfoG.gain.value = 320;
     lfo.connect(lfoG); lfoG.connect(f.frequency);
     lfo.start();
     stops.push(() => { try { lfo.stop(); } catch {} });
+    // High whisper layer, very quiet — gives the "leaves" sparkle without harshness
+    playNoise(white, "bandpass", 2400, 0.6, 0.05);
   } else if (motion === "rain") {
-    // Rain — softer mid-band noise (no harsh treble) + sparse, muted droplets
-    playNoise(white, "bandpass", 1400, 0.4, 0.18);
-    playNoise(brown, "lowpass", 600, 0.3, 0.22);
+    // Rain — soft veil of falling water + sparse, muted droplets close-by
+    playNoise(white, "bandpass", 1600, 0.4, 0.2);
+    playNoise(brown, "lowpass", 520, 0.3, 0.26);
     let cancelled = false;
     const drop = () => {
       if (cancelled) return;
@@ -593,18 +622,25 @@ function createAmbientAudio(ctx: AudioContext, motion: Motion): AmbientAudio | n
       const g = ctx.createGain();
       const t = ctx.currentTime;
       g.gain.setValueAtTime(0, t);
-      g.gain.linearRampToValueAtTime(0.018, t + 0.03);
+      g.gain.linearRampToValueAtTime(0.022, t + 0.03);
       g.gain.exponentialRampToValueAtTime(0.0001, t + 0.45);
       o.connect(g); g.connect(master);
       o.start(t); o.stop(t + 0.5);
-      setTimeout(drop, 350 + Math.random() * 700);
+      setTimeout(drop, 220 + Math.random() * 520);
     };
     drop();
     stops.push(() => { cancelled = true; });
   } else {
-    // Veil / snow — very quiet warm low-pass, almost silence
-    playNoise(brown, "lowpass", 180, 0.25, 0.22);
-    // No bright shimmer tone — it was piercing in the dark
+    // Veil / snow — quiet warm low-pass + barely audible airy halo
+    playNoise(brown, "lowpass", 200, 0.25, 0.28);
+    const { f } = playNoise(white, "bandpass", 3200, 0.7, 0.025);
+    // Very slow halo movement, almost imperceptible
+    const lfo = ctx.createOscillator();
+    const lfoG = ctx.createGain();
+    lfo.frequency.value = 0.05; lfoG.gain.value = 600;
+    lfo.connect(lfoG); lfoG.connect(f.frequency);
+    lfo.start();
+    stops.push(() => { try { lfo.stop(); } catch {} });
   }
 
   let started = false;
