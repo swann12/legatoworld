@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as WishesRouteImport } from './routes/wishes'
+import { Route as VitrineRouteImport } from './routes/vitrine'
 import { Route as SpaceRouteImport } from './routes/space'
 import { Route as PresentationRouteImport } from './routes/presentation'
 import { Route as PresenceRouteImport } from './routes/presence'
@@ -40,6 +41,11 @@ import { Route as ComposeZoneRouteImport } from './routes/compose.$zone'
 const WishesRoute = WishesRouteImport.update({
   id: '/wishes',
   path: '/wishes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VitrineRoute = VitrineRouteImport.update({
+  id: '/vitrine',
+  path: '/vitrine',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SpaceRoute = SpaceRouteImport.update({
@@ -188,6 +194,7 @@ export interface FileRoutesByFullPath {
   '/presence': typeof PresenceRoute
   '/presentation': typeof PresentationRoute
   '/space': typeof SpaceRoute
+  '/vitrine': typeof VitrineRoute
   '/wishes': typeof WishesRoute
   '/compose/$zone': typeof ComposeZoneRoute
   '/garden/$zone': typeof GardenZoneRoute
@@ -216,6 +223,7 @@ export interface FileRoutesByTo {
   '/presence': typeof PresenceRoute
   '/presentation': typeof PresentationRoute
   '/space': typeof SpaceRoute
+  '/vitrine': typeof VitrineRoute
   '/wishes': typeof WishesRoute
   '/compose/$zone': typeof ComposeZoneRoute
   '/garden/$zone': typeof GardenZoneRoute
@@ -246,6 +254,7 @@ export interface FileRoutesById {
   '/presence': typeof PresenceRoute
   '/presentation': typeof PresentationRoute
   '/space': typeof SpaceRoute
+  '/vitrine': typeof VitrineRoute
   '/wishes': typeof WishesRoute
   '/compose/$zone': typeof ComposeZoneRoute
   '/garden/$zone': typeof GardenZoneRoute
@@ -277,6 +286,7 @@ export interface FileRouteTypes {
     | '/presence'
     | '/presentation'
     | '/space'
+    | '/vitrine'
     | '/wishes'
     | '/compose/$zone'
     | '/garden/$zone'
@@ -305,6 +315,7 @@ export interface FileRouteTypes {
     | '/presence'
     | '/presentation'
     | '/space'
+    | '/vitrine'
     | '/wishes'
     | '/compose/$zone'
     | '/garden/$zone'
@@ -334,6 +345,7 @@ export interface FileRouteTypes {
     | '/presence'
     | '/presentation'
     | '/space'
+    | '/vitrine'
     | '/wishes'
     | '/compose/$zone'
     | '/garden/$zone'
@@ -364,6 +376,7 @@ export interface RootRouteChildren {
   PresenceRoute: typeof PresenceRoute
   PresentationRoute: typeof PresentationRoute
   SpaceRoute: typeof SpaceRoute
+  VitrineRoute: typeof VitrineRoute
   WishesRoute: typeof WishesRoute
   ComposeZoneRoute: typeof ComposeZoneRoute
   GardenZoneRoute: typeof GardenZoneRoute
@@ -377,6 +390,13 @@ declare module '@tanstack/react-router' {
       path: '/wishes'
       fullPath: '/wishes'
       preLoaderRoute: typeof WishesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/vitrine': {
+      id: '/vitrine'
+      path: '/vitrine'
+      fullPath: '/vitrine'
+      preLoaderRoute: typeof VitrineRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/space': {
@@ -607,6 +627,7 @@ const rootRouteChildren: RootRouteChildren = {
   PresenceRoute: PresenceRoute,
   PresentationRoute: PresentationRoute,
   SpaceRoute: SpaceRoute,
+  VitrineRoute: VitrineRoute,
   WishesRoute: WishesRoute,
   ComposeZoneRoute: ComposeZoneRoute,
   GardenZoneRoute: GardenZoneRoute,
