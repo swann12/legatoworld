@@ -35,7 +35,7 @@ function Intro() {
     if (videoRef.current) {
       videoRef.current.playbackRate = PLAYBACK_RATE;
     }
-    const t1 = window.setTimeout(() => setLogoVisible(false), 1300);
+    const t1 = window.setTimeout(() => setLogoVisible(false), 700);
     const onEnded = () => setShowEnter(true);
     const v = videoRef.current;
     v?.addEventListener("ended", onEnded);
@@ -50,7 +50,7 @@ function Intro() {
 
   return (
     <main
-      className="fixed inset-0 overflow-hidden bg-black text-dusk select-none"
+      className="fixed inset-0 overflow-hidden bg-paper text-dusk select-none"
       style={{
         opacity: leaving ? 0 : 1,
         transition: "opacity 900ms ease",
@@ -58,10 +58,6 @@ function Intro() {
       aria-label="Entrer dans Legato"
     >
       <style>{`
-        @keyframes intro-video-in {
-          0%   { opacity: 0; }
-          100% { opacity: 1; }
-        }
         @keyframes intro-enter-in {
           0%   { opacity: 0; transform: translateY(14px); }
           100% { opacity: 1; transform: translateY(0); }
@@ -72,14 +68,9 @@ function Intro() {
         ref={videoRef}
         src="/intro.mp4"
         autoPlay
-        muted
         playsInline
         preload="auto"
         className="absolute inset-0 h-full w-full object-cover pointer-events-none"
-        style={{
-          opacity: 0,
-          animation: "intro-video-in 800ms ease-out forwards",
-        }}
       />
 
       {/* Logo overlay — fades out after 2s */}
@@ -103,7 +94,7 @@ function Intro() {
         <div className="absolute inset-x-0 bottom-0 flex justify-center pb-[8vh] px-8">
           <button
             onClick={enter}
-            className="rounded-full bg-transparent border border-white px-10 py-4 text-[12px] font-medium uppercase tracking-[0.28em] text-white hover:bg-white/10 transition-colors"
+            className="rounded-full bg-white/15 backdrop-blur-md border border-white/70 px-10 py-4 text-[12px] font-medium uppercase tracking-[0.28em] text-white hover:bg-white/25 transition-colors"
             style={{ animation: "intro-enter-in 900ms ease-out forwards" }}
           >
             Entrer
