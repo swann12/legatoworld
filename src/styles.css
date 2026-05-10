@@ -311,10 +311,17 @@
     transform-origin: bottom center;
   }
 
-  /* Painted-garden canvas color — matches the cream of the painting,
-     so the image dissolves seamlessly into the surrounding surface. */
+  /* Painted-garden canvas — matches the cream of the painting in the middle,
+     fading back to paper above and below so there is no visible rectangular
+     boundary between the painted scene and the surrounding page. */
   .garden-canvas {
-    background: rgb(242, 233, 224);
+    background: linear-gradient(
+      to bottom,
+      var(--paper) 0%,
+      rgb(242, 233, 224) 6%,
+      rgb(242, 233, 224) 94%,
+      var(--paper) 100%
+    );
   }
   /* Garden image — almost full bleed, just a hair of fade at top/bottom
      so there's no visible rectangular cut, but no wide gradient halo either. */
