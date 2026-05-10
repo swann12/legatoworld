@@ -91,7 +91,7 @@ function Garden() {
                   className="absolute inset-0 w-full h-full object-cover select-none garden-flower-pop pointer-events-none"
                   style={{
                     opacity: hovered === p.id ? 1 : 0,
-                    ["--flower-mask" as string]: `radial-gradient(ellipse ${p.rx * 1.18}% ${p.ry * 1.18}% at ${p.cx}% ${p.cy}%, black 42%, rgba(0,0,0,0.65) 66%, transparent 90%)`,
+                    ["--flower-mask" as string]: `radial-gradient(ellipse ${p.rx * 0.85}% ${p.ry * 0.85}% at ${p.cx}% ${p.cy}%, black 55%, rgba(0,0,0,0.55) 78%, transparent 100%)`,
                   }}
                 />
               ))}
