@@ -103,10 +103,6 @@ function Compose() {
               mode={mode}
               onYes={() => setStep("compose")}
               onNo={() => saveMemory(false)}
-              onAuto={(generated) => {
-                setItems(generated);
-                setStep("compose");
-              }}
             />
           )}
           {step === "compose" && (
