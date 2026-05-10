@@ -480,10 +480,6 @@ function BreathingGuide({ onClose }: { onClose: () => void }) {
   );
 }
 
-function wait(ms: number) {
-  return new Promise<void>((r) => setTimeout(r, ms));
-}
-
 /* ---------- Procedural ambient audio (Web Audio) ---------- */
 type AmbientAudio = { start: () => void; stop: () => void };
 
