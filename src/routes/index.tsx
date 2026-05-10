@@ -19,6 +19,20 @@ export const Route = createFileRoute("/")({
 
 const AUTO_ENTER_MS = 16000;
 
+// Small bloom clusters that grow from the ground.
+// Each cluster is a circular crop of the painted bloom image,
+// positioned along the lower band and scaled up from its base.
+const BLOOMS = [
+  { left: 8,  bottom: 6,  size: 26, delay: 3.2, dur: 5.5, bgX: 20, bgY: 30 },
+  { left: 28, bottom: 2,  size: 34, delay: 4.0, dur: 6.0, bgX: 60, bgY: 55 },
+  { left: 52, bottom: 8,  size: 30, delay: 4.8, dur: 6.2, bgX: 35, bgY: 70 },
+  { left: 74, bottom: 3,  size: 32, delay: 5.4, dur: 6.0, bgX: 80, bgY: 40 },
+  { left: 18, bottom: 22, size: 22, delay: 6.2, dur: 5.5, bgX: 50, bgY: 20 },
+  { left: 62, bottom: 26, size: 24, delay: 7.0, dur: 5.5, bgX: 15, bgY: 60 },
+  { left: 42, bottom: 34, size: 20, delay: 8.2, dur: 5.0, bgX: 70, bgY: 80 },
+  { left: 86, bottom: 18, size: 20, delay: 7.6, dur: 5.0, bgX: 40, bgY: 10 },
+];
+
 function Intro() {
   const navigate = useNavigate();
   const [leaving, setLeaving] = useState(false);
@@ -46,26 +60,22 @@ function Intro() {
       aria-label="Entrer dans Legato"
     >
       <style>{`
-        @keyframes intro-rise-slow {
-          0%   { transform: translate3d(0, 12%, 0) scale(1.06); }
-          100% { transform: translate3d(0, -38%, 0) scale(1.02); }
-        }
-        @keyframes intro-rise-slower {
-          0%   { transform: translate3d(0, 18%, 0) scale(1.10); }
-          100% { transform: translate3d(0, -28%, 0) scale(1.04); }
-        }
-        @keyframes intro-bloom-in {
-          0%   { opacity: 0; filter: blur(14px) saturate(0.8); }
-          40%  { opacity: 0.35; filter: blur(8px) saturate(0.9); }
-          100% { opacity: 0.78; filter: blur(2px) saturate(1); }
+        @keyframes intro-drift {
+          0%   { transform: translate3d(0, 4%, 0)  scale(1.02); }
+          100% { transform: translate3d(0, -6%, 0) scale(1.04); }
         }
         @keyframes intro-grass-in {
           0%   { opacity: 0; filter: blur(10px); }
-          100% { opacity: 0.85; filter: blur(0px); }
+          100% { opacity: 0.92; filter: blur(0); }
         }
-        @keyframes intro-breathe {
-          0%, 100% { transform: scale(1);   opacity: 0.55; }
-          50%      { transform: scale(1.04); opacity: 0.75; }
+        @keyframes intro-bloom-grow {
+          0%   { transform: translateX(-50%) scaleY(0)    scaleX(0.6); opacity: 0; filter: blur(6px); }
+          30%  { opacity: 0.5; }
+          100% { transform: translateX(-50%) scaleY(1)    scaleX(1);   opacity: 0.95; filter: blur(0.5px); }
+        }
+        @keyframes intro-sway {
+          0%, 100% { transform: translateX(-50%) rotate(-1.2deg); }
+          50%      { transform: translateX(-50%) rotate(1.2deg); }
         }
         @keyframes intro-text-in {
           0%   { opacity: 0; transform: translateY(12px); letter-spacing: 0.4em; }
@@ -79,12 +89,18 @@ function Intro() {
           0%, 100% { opacity: 0.55; }
           50%      { opacity: 0.78; }
         }
-        .intro-layer {
-          position: absolute; inset: -10% -5%;
-          background-repeat: repeat-y;
-          background-position: center top;
-          will-change: transform, opacity, filter;
+        .intro-bloom {
+          position: absolute;
+          transform-origin: bottom center;
+          background-repeat: no-repeat;
+          mix-blend-mode: multiply;
           pointer-events: none;
+          will-change: transform, opacity, filter;
+        }
+        .intro-bloom-inner {
+          position: absolute; inset: 0;
+          transform-origin: bottom center;
+          will-change: transform;
         }
       `}</style>
 
@@ -97,47 +113,51 @@ function Intro() {
         }}
       />
 
-      {/* Far herbs layer — diffuse, slowest rise */}
+      {/* Diffuse herb base — fills screen, very gentle drift */}
       <div
-        className="intro-layer"
+        className="absolute inset-0 pointer-events-none"
         style={{
           backgroundImage: `url(${grass})`,
-          backgroundSize: "140% auto",
+          backgroundSize: "cover",
+          backgroundPosition: "center bottom",
+          backgroundRepeat: "no-repeat",
           mixBlendMode: "multiply",
           opacity: 0,
           animation:
-            "intro-grass-in 4500ms ease-out 200ms forwards, intro-rise-slower 28000ms linear 200ms forwards",
-          filter: "blur(8px) saturate(0.9)",
+            "intro-grass-in 5000ms ease-out 200ms forwards, intro-drift 30000ms ease-in-out 200ms forwards",
+          filter: "saturate(0.95)",
         }}
       />
 
-      {/* Mid herbs layer — sharper, slow rise */}
-      <div
-        className="intro-layer"
-        style={{
-          backgroundImage: `url(${grass})`,
-          backgroundSize: "100% auto",
-          backgroundPosition: "20% top",
-          mixBlendMode: "multiply",
-          opacity: 0,
-          animation:
-            "intro-grass-in 5000ms ease-out 1200ms forwards, intro-rise-slow 26000ms linear 1200ms forwards",
-        }}
-      />
-
-      {/* Bloom layer — emerges later, soft and luminous */}
-      <div
-        className="intro-layer"
-        style={{
-          backgroundImage: `url(${bloom})`,
-          backgroundSize: "115% auto",
-          backgroundPosition: "60% top",
-          mixBlendMode: "multiply",
-          opacity: 0,
-          animation:
-            "intro-bloom-in 7000ms ease-out 3500ms forwards, intro-rise-slow 30000ms linear 3500ms forwards",
-        }}
-      />
+      {/* Bloom clusters — grow from the ground, staggered */}
+      {BLOOMS.map((b, i) => (
+        <div
+          key={i}
+          className="intro-bloom"
+          style={{
+            left: `${b.left}%`,
+            bottom: `${b.bottom}%`,
+            width: `${b.size}vmin`,
+            height: `${b.size * 1.15}vmin`,
+            backgroundImage: `url(${bloom})`,
+            backgroundSize: "320% auto",
+            backgroundPosition: `${b.bgX}% ${b.bgY}%`,
+            WebkitMaskImage:
+              "radial-gradient(60% 70% at 50% 90%, black 35%, transparent 75%)",
+            maskImage:
+              "radial-gradient(60% 70% at 50% 90%, black 35%, transparent 75%)",
+            opacity: 0,
+            animation: `intro-bloom-grow ${b.dur}s cubic-bezier(.22,.9,.32,1) ${b.delay}s forwards`,
+          }}
+        >
+          <div
+            className="intro-bloom-inner"
+            style={{
+              animation: `intro-sway ${7 + (i % 3)}s ease-in-out ${b.delay + b.dur}s infinite`,
+            }}
+          />
+        </div>
+      ))}
 
       {/* Soft luminous haze, breathing */}
       <div
