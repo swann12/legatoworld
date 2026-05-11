@@ -27,6 +27,7 @@ function Intro() {
   const [showEnter, setShowEnter] = useState(false);
   const [bottomFadeVisible, setBottomFadeVisible] = useState(true);
   const [isDesktop, setIsDesktop] = useState(false);
+  const [needsTap, setNeedsTap] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
   // On desktop, the home page is the marketing vitrine, not the intro video.
@@ -80,17 +81,22 @@ function Intro() {
       v.defaultMuted = true;
       v.play()
         .then(() => {
+          setNeedsTap(false);
           // Try to unmute right after autoplay starts. Most browsers will block this,
           // in which case the first user interaction unmutes (see tryUnmute below).
           v.muted = false;
         })
-        .catch(() => undefined);
+        .catch(() => {
+          // Autoplay was blocked (iOS Low Power Mode, strict settings, etc.) — surface a tap prompt.
+          setNeedsTap(true);
+        });
     };
 
     // Some browsers permit unmuting once playback is rolling; retry on first user interaction.
     const tryUnmute = () => {
       v.muted = false;
       v.play().catch(() => undefined);
+      setNeedsTap(false);
     };
     window.addEventListener("pointerdown", tryUnmute, { once: true });
     window.addEventListener("keydown", tryUnmute, { once: true });
@@ -175,6 +181,25 @@ function Intro() {
         onClick={skipToEnd}
         className="absolute inset-0 h-full w-full object-cover cursor-pointer"
       />
+
+      {/* Tap prompt — appears only if the browser blocked autoplay (e.g. iOS Low Power Mode) */}
+      {needsTap && !logoVisible && (
+        <button
+          type="button"
+          onClick={() => {
+            const v = videoRef.current;
+            if (!v) return;
+            v.muted = true;
+            v.play().then(() => { v.muted = false; setNeedsTap(false); }).catch(() => undefined);
+          }}
+          className="absolute inset-0 flex items-end justify-center pb-[14vh] bg-transparent"
+          aria-label="Toucher pour commencer"
+        >
+          <span className="rounded-full border border-paper/60 bg-dusk/30 backdrop-blur-sm px-6 py-3 text-[10.5px] font-medium uppercase tracking-[0.3em] text-paper">
+            Toucher pour commencer
+          </span>
+        </button>
+      )}
 
       {/* Soft fade from the video into the paper background along the bottom edge */}
       <div
