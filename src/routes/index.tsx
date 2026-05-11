@@ -164,7 +164,7 @@ function Intro() {
           background:
             "linear-gradient(to bottom, transparent 0%, color-mix(in oklab, var(--color-paper, #f5efe6) 60%, transparent) 60%, var(--color-paper, #f5efe6) 100%)",
           opacity: logoVisible ? 0 : 1,
-          transition: "opacity 1600ms ease",
+          transition: "opacity 600ms ease",
         }}
       />
 
@@ -173,7 +173,7 @@ function Intro() {
         className="absolute inset-0 flex items-center justify-center pointer-events-none px-10 bg-paper"
         style={{
           opacity: logoVisible ? 1 : 0,
-          transition: "opacity 1600ms ease",
+          transition: "opacity 600ms ease",
         }}
       >
         <img src="/legato-logo-noir.png" alt="Legato" className="w-[140%] max-w-[760px] h-auto" />
