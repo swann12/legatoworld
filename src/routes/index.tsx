@@ -27,6 +27,7 @@ function Intro() {
   const [showEnter, setShowEnter] = useState(false);
   const [bottomFadeVisible, setBottomFadeVisible] = useState(true);
   const [isDesktop, setIsDesktop] = useState(false);
+  const [needsTap, setNeedsTap] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
   // On desktop, the home page is the marketing vitrine, not the intro video.
@@ -80,17 +81,22 @@ function Intro() {
       v.defaultMuted = true;
       v.play()
         .then(() => {
+          setNeedsTap(false);
           // Try to unmute right after autoplay starts. Most browsers will block this,
           // in which case the first user interaction unmutes (see tryUnmute below).
           v.muted = false;
         })
-        .catch(() => undefined);
+        .catch(() => {
+          // Autoplay was blocked (iOS Low Power Mode, strict settings, etc.) — surface a tap prompt.
+          setNeedsTap(true);
+        });
     };
 
     // Some browsers permit unmuting once playback is rolling; retry on first user interaction.
     const tryUnmute = () => {
       v.muted = false;
       v.play().catch(() => undefined);
+      setNeedsTap(false);
     };
     window.addEventListener("pointerdown", tryUnmute, { once: true });
     window.addEventListener("keydown", tryUnmute, { once: true });
