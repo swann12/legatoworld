@@ -18,7 +18,7 @@ export const Route = createFileRoute("/")({
 // Slow the source video down a touch so the bloom feels even more unhurried.
 const PLAYBACK_RATE = 0.7;
 const VIDEO_START_OFFSET = 2;
-const LOGO_SHOW_AT_SECONDS = 2.8;
+const LOGO_SHOW_AT_SECONDS = 4.0;
 
 function Intro() {
   const navigate = useNavigate();
@@ -141,7 +141,7 @@ function Intro() {
         <img
           src="/legato-logo-blanc.png"
           alt="Legato"
-          className="w-[70%] max-w-[360px] h-auto"
+          className="w-[95%] max-w-[560px] h-auto"
           style={{ filter: "drop-shadow(0 2px 24px rgba(0,0,0,0.35))" }}
         />
       </div>
