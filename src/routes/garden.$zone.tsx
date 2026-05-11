@@ -109,6 +109,13 @@ function GardenZone() {
             <p className="mt-4 text-[10px] uppercase tracking-[0.22em] text-dusk/45">
               {being.kind === "person" ? "Le jardin de" : "Le coin de"}
             </p>
+            <img
+              src={BOUQUET_BY_BEING[being.id] ?? bouquet01}
+              alt=""
+              aria-hidden
+              draggable={false}
+              className="mt-3 h-[112px] w-auto max-w-[230px] object-contain select-none feathered-soft"
+            />
             <h1 className="mt-2 font-serif text-[2rem] leading-[1.05] font-light text-dusk text-balance">
               {being.name}
             </h1>
