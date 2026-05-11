@@ -33,6 +33,22 @@ function Intro() {
     window.setTimeout(() => navigate({ to: "/start" }), 900);
   };
 
+  const skipToEnd = () => {
+    const v = videoRef.current;
+    if (v) {
+      try {
+        if (v.duration && isFinite(v.duration)) {
+          v.currentTime = Math.max(0, v.duration - 0.05);
+        }
+        v.pause();
+      } catch {
+        // ignore
+      }
+    }
+    setLogoVisible(true);
+    setShowEnter(true);
+  };
+
   useEffect(() => {
     const v = videoRef.current;
     if (!v) return;
@@ -51,8 +67,22 @@ function Intro() {
       }
       v.muted = true;
       v.defaultMuted = true;
+      v.play()
+        .then(() => {
+          // Try to unmute right after autoplay starts. Most browsers will block this,
+          // in which case the first user interaction unmutes (see tryUnmute below).
+          v.muted = false;
+        })
+        .catch(() => undefined);
+    };
+
+    // Some browsers permit unmuting once playback is rolling; retry on first user interaction.
+    const tryUnmute = () => {
+      v.muted = false;
       v.play().catch(() => undefined);
     };
+    window.addEventListener("pointerdown", tryUnmute, { once: true });
+    window.addEventListener("keydown", tryUnmute, { once: true });
 
     // Kick off muted autoplay immediately, then retry as metadata/buffer become available.
     startAutoplay();
@@ -90,6 +120,8 @@ function Intro() {
       v.removeEventListener("loadedmetadata", startAutoplay);
       v.removeEventListener("canplay", startAutoplay);
       v.removeEventListener("canplaythrough", startAutoplay);
+      window.removeEventListener("pointerdown", tryUnmute);
+      window.removeEventListener("keydown", tryUnmute);
       window.clearTimeout(t2);
       v.removeEventListener("ended", onEnded);
       v.removeEventListener("timeupdate", onTimeUpdateEnter);
@@ -121,7 +153,19 @@ function Intro() {
         muted
         playsInline
         preload="auto"
-        className="absolute inset-0 h-full w-full object-cover pointer-events-none"
+        onClick={skipToEnd}
+        className="absolute inset-0 h-full w-full object-cover cursor-pointer"
+      />
+
+      {/* Soft fade from the video into the paper background along the bottom edge */}
+      <div
+        className="absolute inset-x-0 bottom-0 h-40 pointer-events-none"
+        style={{
+          background:
+            "linear-gradient(to bottom, transparent 0%, color-mix(in oklab, var(--color-paper, #f5efe6) 60%, transparent) 60%, var(--color-paper, #f5efe6) 100%)",
+          opacity: logoVisible ? 0 : 1,
+          transition: "opacity 1600ms ease",
+        }}
       />
 
       {/* Paper background + black logo — fade in together near the end of the video */}
@@ -132,7 +176,7 @@ function Intro() {
           transition: "opacity 1600ms ease",
         }}
       >
-        <img src="/legato-logo-noir.png" alt="Legato" className="w-[120%] max-w-[640px] h-auto" />
+        <img src="/legato-logo-noir.png" alt="Legato" className="w-[140%] max-w-[760px] h-auto" />
       </div>
 
       {/* Enter button — appears at end of video */}
