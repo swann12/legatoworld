@@ -169,7 +169,7 @@ function Intro() {
           background:
             "linear-gradient(to bottom, transparent 0%, color-mix(in oklab, var(--color-paper, #f5efe6) 60%, transparent) 60%, var(--color-paper, #f5efe6) 100%)",
           opacity: logoVisible || !bottomFadeVisible ? 0 : 1,
-          transition: "opacity 600ms ease",
+          transition: "opacity 2400ms ease",
         }}
       />
 
