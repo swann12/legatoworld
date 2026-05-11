@@ -117,27 +117,27 @@ function Start() {
   return (
     <main className="min-h-dvh bg-paper text-dusk">
       <div className="mobile-frame relative flex min-h-dvh flex-col">
-        <div className="relative z-10 flex flex-1 flex-col px-9 pt-14 pb-10">
+        <div className="relative z-10 flex flex-1 flex-col px-8 pt-10 pb-8">
           <p className="text-[10px] font-medium uppercase tracking-[0.32em] text-dusk/45">
             Legato
           </p>
 
-          <div className="flex flex-1 flex-col justify-center max-w-[24ch] py-10">
+          <div className="mt-8 mb-7 max-w-[26ch]">
             <h1
-              className="font-serif text-[2.4rem] leading-[1.15] font-light text-dusk"
+              className="font-serif text-[2rem] leading-[1.12] font-light text-dusk"
               style={{ textWrap: "balance" }}
             >
               Préparer un adieu, <span className="italic">garder une présence.</span>
             </h1>
             <p
-              className="mt-7 max-w-[30ch] text-[14.5px] leading-relaxed text-dusk/60"
+              className="mt-4 max-w-[32ch] text-[13.5px] leading-snug text-dusk/60"
               style={{ textWrap: "balance" }}
             >
-              Legato vous aide à composer une cérémonie, écrire ce qui compte, et faire vivre le souvenir d'un être cher. À votre rythme.
+              Composer une cérémonie, écrire ce qui compte, faire vivre le souvenir. À votre rythme.
             </p>
           </div>
 
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-3.5">
             {mode === "choice" && (
               <div className="flex flex-col gap-4 animate-fade-in">
                 <button
