@@ -46,7 +46,9 @@ function Intro() {
     const startAutoplay = () => {
       try {
         if (v.currentTime < VIDEO_START_OFFSET) v.currentTime = VIDEO_START_OFFSET;
-      } catch {}
+      } catch {
+        // Some mobile browsers only allow setting currentTime after metadata loads.
+      }
       v.muted = true;
       v.defaultMuted = true;
       v.play().catch(() => undefined);
@@ -61,8 +63,9 @@ function Intro() {
     // Reveal the paper background + black logo together near the end of the video.
     const syncLogoToVideo = () => {
       const t = v.currentTime;
-      if (v.duration && t >= v.duration - 1.5) setLogoVisible(true);
-      else if (t >= LOGO_SHOW_AT_SECONDS && v.duration && t >= v.duration - 1.5) setLogoVisible(true);
+      if (v.duration && t >= Math.max(LOGO_SHOW_AT_SECONDS, v.duration - 1.5)) {
+        setLogoVisible(true);
+      }
     };
     v.addEventListener("timeupdate", syncLogoToVideo);
     v.addEventListener("seeked", syncLogoToVideo);
@@ -129,11 +132,7 @@ function Intro() {
           transition: "opacity 1600ms ease",
         }}
       >
-        <img
-          src="/legato-logo-noir.png"
-          alt="Legato"
-          className="w-[120%] max-w-[640px] h-auto"
-        />
+        <img src="/legato-logo-noir.png" alt="Legato" className="w-[120%] max-w-[640px] h-auto" />
       </div>
 
       {/* Enter button — appears at end of video */}
