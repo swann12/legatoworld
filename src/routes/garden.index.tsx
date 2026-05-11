@@ -3,6 +3,18 @@ import { useState } from "react";
 import { Shell } from "@/components/legato/Shell";
 import { useLegato } from "@/lib/legato-state";
 import gardenPainted from "@/assets/garden-painted-v4.png";
+import bouquet01 from "@/assets/bouquets/bouquet-01.png";
+import bouquet02 from "@/assets/bouquets/bouquet-02.png";
+import bouquet03 from "@/assets/bouquets/bouquet-03.png";
+import bouquet04 from "@/assets/bouquets/bouquet-04.png";
+
+const BOUQUET_BY_BEING: Record<string, string> = {
+  elise: bouquet01,
+  papa: bouquet02,
+  leon: bouquet03,
+  mamie: bouquet04,
+  theo: bouquet01,
+};
 
 export const Route = createFileRoute("/garden/")({
   head: () => ({
@@ -88,17 +100,21 @@ function Garden() {
                 draggable={false}
               />
 
-              {[...BEINGS, ...EXTRA_PARCELLES].map((p) => (
+              {BEINGS.map((p) => (
                 <img
-                  key={`flowers-${p.id}`}
-                  src={gardenPainted}
+                  key={`bouquet-${p.id}`}
+                  src={BOUQUET_BY_BEING[p.id]}
                   alt=""
                   aria-hidden
                   draggable={false}
-                  className="absolute inset-0 w-full h-full object-cover select-none garden-flower-pop pointer-events-none"
+                  className="absolute select-none pointer-events-none transition-all duration-700 ease-out"
                   style={{
+                    left: `${p.cx}%`,
+                    top: `${p.cy}%`,
+                    width: `${p.rx * 2.6}%`,
+                    transform: `translate(-50%, -92%) scale(${hovered === p.id ? 1 : 0.92})`,
                     opacity: hovered === p.id ? 1 : 0,
-                    ["--flower-mask" as string]: `radial-gradient(ellipse ${p.rx * 0.85}% ${p.ry * 0.85}% at ${p.cx}% ${p.cy}%, black 55%, rgba(0,0,0,0.55) 78%, transparent 100%)`,
+                    transformOrigin: "bottom center",
                   }}
                 />
               ))}
