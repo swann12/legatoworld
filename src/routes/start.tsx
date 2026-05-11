@@ -117,12 +117,12 @@ function Start() {
   return (
     <main className="min-h-dvh bg-paper text-dusk">
       <div className="mobile-frame relative flex min-h-dvh flex-col">
-        <div className="relative z-10 flex flex-1 flex-col px-8 pt-10 pb-8">
+        <div className="relative z-10 flex flex-1 flex-col justify-center px-8 py-10">
           <p className="text-[10px] font-medium uppercase tracking-[0.32em] text-dusk/45">
             Legato
           </p>
 
-          <div className="mt-8 mb-7 max-w-[26ch]">
+          <div className="mt-6 mb-7 max-w-[26ch]">
             <h1
               className="font-serif text-[2rem] leading-[1.12] font-light text-dusk"
               style={{ textWrap: "balance" }}
