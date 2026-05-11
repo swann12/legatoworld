@@ -145,6 +145,10 @@ function Intro() {
     };
   }, []);
 
+  if (isDesktop) {
+    return <main className="min-h-dvh bg-paper" />;
+  }
+
   return (
     <main
       className="fixed inset-0 overflow-hidden bg-paper text-dusk select-none"
