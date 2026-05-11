@@ -75,20 +75,27 @@ function Intro() {
     window.addEventListener("keydown", onFirstInteract);
     window.addEventListener("touchstart", onFirstInteract);
 
-    // Show & hide logo based on the video's own timeline so it stays synced even if loading is delayed.
+    // Reveal the paper background + black logo together near the end of the video.
     const syncLogoToVideo = () => {
       const t = v.currentTime;
-      if (t >= LOGO_SHOW_AT_SECONDS) setLogoVisible(true);
+      if (v.duration && t >= v.duration - 1.5) setLogoVisible(true);
+      else if (t >= LOGO_SHOW_AT_SECONDS && v.duration && t >= v.duration - 1.5) setLogoVisible(true);
     };
     v.addEventListener("timeupdate", syncLogoToVideo);
     v.addEventListener("seeked", syncLogoToVideo);
     syncLogoToVideo();
 
-    const onEnded = () => setShowEnter(true);
+    const onEnded = () => {
+      setLogoVisible(true);
+      setShowEnter(true);
+    };
     v.addEventListener("ended", onEnded);
     // Reveal the "Entrer" button slightly before the video ends
     const onTimeUpdateEnter = () => {
-      if (v.duration && v.currentTime >= v.duration - 1.2) setShowEnter(true);
+      if (v.duration && v.currentTime >= v.duration - 1.2) {
+        setShowEnter(true);
+        setLogoVisible(true);
+      }
     };
     v.addEventListener("timeupdate", onTimeUpdateEnter);
     // Fallback in case 'ended' doesn't fire
@@ -130,19 +137,18 @@ function Intro() {
         className="absolute inset-0 h-full w-full object-cover pointer-events-none"
       />
 
-      {/* Logo overlay — fades out after 2s */}
+      {/* Paper background + black logo — fade in together near the end of the video */}
       <div
-        className="absolute inset-0 flex items-center justify-center pointer-events-none px-10"
+        className="absolute inset-0 flex items-center justify-center pointer-events-none px-10 bg-paper"
         style={{
           opacity: logoVisible ? 1 : 0,
-          transition: "opacity 1400ms ease",
+          transition: "opacity 1600ms ease",
         }}
       >
         <img
-          src="/legato-logo-blanc.png"
+          src="/legato-logo-noir.png"
           alt="Legato"
-          className="w-[160%] max-w-[960px] h-auto"
-          style={{ filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.25)) drop-shadow(0 4px 18px rgba(0,0,0,0.18))" }}
+          className="w-[80%] max-w-[420px] h-auto"
         />
       </div>
 
@@ -151,7 +157,7 @@ function Intro() {
         <div className="absolute inset-x-0 bottom-0 flex justify-center pb-[8vh] px-8">
           <button
             onClick={enter}
-            className="rounded-full bg-white/[0.04] backdrop-blur-sm border border-white/25 px-8 py-3 text-[10.5px] font-medium uppercase tracking-[0.3em] text-white/70 hover:bg-white/10 transition-colors"
+            className="rounded-full bg-transparent border border-dusk/30 px-8 py-3 text-[10.5px] font-medium uppercase tracking-[0.3em] text-dusk hover:bg-dusk/5 transition-colors"
             style={{ animation: "intro-enter-in 900ms ease-out forwards" }}
           >
             Entrer
