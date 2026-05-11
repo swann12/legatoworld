@@ -25,6 +25,7 @@ function Intro() {
   const [leaving, setLeaving] = useState(false);
   const [logoVisible, setLogoVisible] = useState(false);
   const [showEnter, setShowEnter] = useState(false);
+  const [bottomFadeVisible, setBottomFadeVisible] = useState(true);
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
   const enter = () => {
@@ -90,6 +91,9 @@ function Intro() {
     v.addEventListener("canplay", startAutoplay, { once: true });
     v.addEventListener("canplaythrough", startAutoplay, { once: true });
 
+    // Hide the bottom fade after 2 seconds.
+    const fadeTimer = window.setTimeout(() => setBottomFadeVisible(false), 2000);
+
     // Reveal the paper background + black logo together near the end of the video.
     const syncLogoToVideo = () => {
       const t = v.currentTime;
@@ -123,6 +127,7 @@ function Intro() {
       window.removeEventListener("pointerdown", tryUnmute);
       window.removeEventListener("keydown", tryUnmute);
       window.clearTimeout(t2);
+      window.clearTimeout(fadeTimer);
       v.removeEventListener("ended", onEnded);
       v.removeEventListener("timeupdate", onTimeUpdateEnter);
       v.removeEventListener("timeupdate", syncLogoToVideo);
@@ -163,7 +168,7 @@ function Intro() {
         style={{
           background:
             "linear-gradient(to bottom, transparent 0%, color-mix(in oklab, var(--color-paper, #f5efe6) 60%, transparent) 60%, var(--color-paper, #f5efe6) 100%)",
-          opacity: logoVisible ? 0 : 1,
+          opacity: logoVisible || !bottomFadeVisible ? 0 : 1,
           transition: "opacity 600ms ease",
         }}
       />
