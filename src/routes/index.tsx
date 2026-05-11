@@ -37,47 +37,26 @@ function Intro() {
     const v = videoRef.current;
     if (!v) return;
     v.playbackRate = PLAYBACK_RATE;
-    v.volume = 1;
-    // Start muted so autoplay is allowed by the browser, then try to unmute.
     v.defaultMuted = true;
     v.muted = true;
+    v.setAttribute("muted", "");
+    v.setAttribute("playsinline", "");
+    v.setAttribute("webkit-playsinline", "true");
 
-    const startWithSound = () => {
+    const startAutoplay = () => {
       try {
         if (v.currentTime < VIDEO_START_OFFSET) v.currentTime = VIDEO_START_OFFSET;
       } catch {}
-      // Always start playback (muted is allowed); try to unmute right after.
-      v.play()
-        .then(() => {
-          v.muted = false;
-          v.defaultMuted = false;
-        })
-        .catch(() => {
-          v.muted = true;
-          v.defaultMuted = true;
-          v.play().catch(() => undefined);
-        });
+      v.muted = true;
+      v.defaultMuted = true;
+      v.play().catch(() => undefined);
     };
 
-    // Kick off immediately, and also retry on canplay/loadedmetadata for safety.
-    startWithSound();
-    v.addEventListener("canplay", startWithSound, { once: true });
-    v.addEventListener("loadedmetadata", startWithSound, { once: true });
-
-    // If the browser blocks sound on first load, enable it on first interaction.
-    const onFirstInteract = () => {
-      if (!v) return;
-      v.muted = false;
-      v.defaultMuted = false;
-      v.volume = 1;
-      if (v.paused) v.play().catch(() => undefined);
-      window.removeEventListener("pointerdown", onFirstInteract);
-      window.removeEventListener("keydown", onFirstInteract);
-      window.removeEventListener("touchstart", onFirstInteract);
-    };
-    window.addEventListener("pointerdown", onFirstInteract);
-    window.addEventListener("keydown", onFirstInteract);
-    window.addEventListener("touchstart", onFirstInteract);
+    // Kick off muted autoplay immediately, then retry as metadata/buffer become available.
+    startAutoplay();
+    v.addEventListener("loadedmetadata", startAutoplay, { once: true });
+    v.addEventListener("canplay", startAutoplay, { once: true });
+    v.addEventListener("canplaythrough", startAutoplay, { once: true });
 
     // Reveal the paper background + black logo together near the end of the video.
     const syncLogoToVideo = () => {
@@ -105,15 +84,14 @@ function Intro() {
     // Fallback in case 'ended' doesn't fire
     const t2 = window.setTimeout(() => setShowEnter(true), 30000);
     return () => {
-      v.removeEventListener("canplay", startWithSound);
+      v.removeEventListener("loadedmetadata", startAutoplay);
+      v.removeEventListener("canplay", startAutoplay);
+      v.removeEventListener("canplaythrough", startAutoplay);
       window.clearTimeout(t2);
       v.removeEventListener("ended", onEnded);
       v.removeEventListener("timeupdate", onTimeUpdateEnter);
       v.removeEventListener("timeupdate", syncLogoToVideo);
       v.removeEventListener("seeked", syncLogoToVideo);
-      window.removeEventListener("pointerdown", onFirstInteract);
-      window.removeEventListener("keydown", onFirstInteract);
-      window.removeEventListener("touchstart", onFirstInteract);
     };
   }, []);
 
