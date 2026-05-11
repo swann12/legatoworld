@@ -174,6 +174,18 @@ const manifest = [
   { id: "fleur-11-69", label: "Fleur 69", family: "fleur", width: 131, height: 112, srcKey: "../assets/extracted/fleur/fleur-11-69.png", source: "FLEUR_planches.png" },
   { id: "fleur-11-70", label: "Fleur 70", family: "fleur", width: 134, height: 136, srcKey: "../assets/extracted/fleur/fleur-11-70.png", source: "FLEUR_planches.png" },
   { id: "fleur-11-71", label: "Fleur 71", family: "fleur", width: 139, height: 137, srcKey: "../assets/extracted/fleur/fleur-11-71.png", source: "FLEUR_planches.png" },
+  { id: "couronne-12-01", label: "Couronne 1", family: "couronne", width: 548, height: 632, srcKey: "../assets/extracted/couronne/couronne-12-01.png", source: "COURONNES_02.png" },
+  { id: "couronne-12-02", label: "Couronne 2", family: "couronne", width: 538, height: 572, srcKey: "../assets/extracted/couronne/couronne-12-02.png", source: "COURONNES_02.png" },
+  { id: "couronne-12-03", label: "Couronne 3", family: "couronne", width: 554, height: 600, srcKey: "../assets/extracted/couronne/couronne-12-03.png", source: "COURONNES_02.png" },
+  { id: "couronne-12-04", label: "Couronne 4", family: "couronne", width: 624, height: 602, srcKey: "../assets/extracted/couronne/couronne-12-04.png", source: "COURONNES_02.png" },
+  { id: "couronne-12-05", label: "Couronne 5", family: "couronne", width: 624, height: 602, srcKey: "../assets/extracted/couronne/couronne-12-05.png", source: "COURONNES_02.png" },
+  { id: "couronne-12-06", label: "Couronne 6", family: "couronne", width: 422, height: 590, srcKey: "../assets/extracted/couronne/couronne-12-06.png", source: "COURONNES_02.png" },
+  { id: "couronne-12-07", label: "Couronne 7", family: "couronne", width: 560, height: 582, srcKey: "../assets/extracted/couronne/couronne-12-07.png", source: "COURONNES_02.png" },
+  { id: "couronne-12-08", label: "Couronne 8", family: "couronne", width: 542, height: 574, srcKey: "../assets/extracted/couronne/couronne-12-08.png", source: "COURONNES_02.png" },
+  { id: "couronne-12-09", label: "Couronne 9", family: "couronne", width: 624, height: 598, srcKey: "../assets/extracted/couronne/couronne-12-09.png", source: "COURONNES_02.png" },
+  { id: "couronne-12-10", label: "Couronne 10", family: "couronne", width: 624, height: 586, srcKey: "../assets/extracted/couronne/couronne-12-10.png", source: "COURONNES_02.png" },
+  { id: "couronne-12-11", label: "Couronne 11", family: "couronne", width: 624, height: 572, srcKey: "../assets/extracted/couronne/couronne-12-11.png", source: "COURONNES_02.png" },
+  { id: "couronne-12-12", label: "Couronne 12", family: "couronne", width: 424, height: 574, srcKey: "../assets/extracted/couronne/couronne-12-12.png", source: "COURONNES_02.png" },
 ] as const;
 
 export const ELEMENTS: ElementAsset[] = manifest.map((item) => ({
@@ -187,18 +199,6 @@ export const ELEMENT_FAMILIES: { id: ElementFamily; label: string }[] = [
   { id: "feuillage", label: "Feuillages" },
   { id: "marin", label: "Marin" },
   { id: "atmosphere", label: "Atmosphères" },
-  { id: "couronne-12-01", label: "Couronne 1", family: "couronne", width: 548, height: 632, srcKey: "../assets/extracted/couronne/couronne-12-01.png", source: "COURONNES_02.png" },
-  { id: "couronne-12-02", label: "Couronne 2", family: "couronne", width: 538, height: 572, srcKey: "../assets/extracted/couronne/couronne-12-02.png", source: "COURONNES_02.png" },
-  { id: "couronne-12-03", label: "Couronne 3", family: "couronne", width: 554, height: 600, srcKey: "../assets/extracted/couronne/couronne-12-03.png", source: "COURONNES_02.png" },
-  { id: "couronne-12-04", label: "Couronne 4", family: "couronne", width: 624, height: 602, srcKey: "../assets/extracted/couronne/couronne-12-04.png", source: "COURONNES_02.png" },
-  { id: "couronne-12-05", label: "Couronne 5", family: "couronne", width: 624, height: 602, srcKey: "../assets/extracted/couronne/couronne-12-05.png", source: "COURONNES_02.png" },
-  { id: "couronne-12-06", label: "Couronne 6", family: "couronne", width: 422, height: 590, srcKey: "../assets/extracted/couronne/couronne-12-06.png", source: "COURONNES_02.png" },
-  { id: "couronne-12-07", label: "Couronne 7", family: "couronne", width: 560, height: 582, srcKey: "../assets/extracted/couronne/couronne-12-07.png", source: "COURONNES_02.png" },
-  { id: "couronne-12-08", label: "Couronne 8", family: "couronne", width: 542, height: 574, srcKey: "../assets/extracted/couronne/couronne-12-08.png", source: "COURONNES_02.png" },
-  { id: "couronne-12-09", label: "Couronne 9", family: "couronne", width: 624, height: 598, srcKey: "../assets/extracted/couronne/couronne-12-09.png", source: "COURONNES_02.png" },
-  { id: "couronne-12-10", label: "Couronne 10", family: "couronne", width: 624, height: 586, srcKey: "../assets/extracted/couronne/couronne-12-10.png", source: "COURONNES_02.png" },
-  { id: "couronne-12-11", label: "Couronne 11", family: "couronne", width: 624, height: 572, srcKey: "../assets/extracted/couronne/couronne-12-11.png", source: "COURONNES_02.png" },
-  { id: "couronne-12-12", label: "Couronne 12", family: "couronne", width: 424, height: 574, srcKey: "../assets/extracted/couronne/couronne-12-12.png", source: "COURONNES_02.png" },
 ];
 
 export function getElementById(id: string) { return ELEMENTS.find((item) => item.id === id); }
