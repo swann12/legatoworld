@@ -17,12 +17,14 @@ export const Route = createFileRoute("/")({
 
 // Slow the source video down a touch so the bloom feels even more unhurried.
 const PLAYBACK_RATE = 0.7;
-const LOGO_HIDE_AT_SECONDS = 1.6;
+const VIDEO_START_OFFSET = 2;
+const LOGO_SHOW_AT_SECONDS = 2.8;
+const LOGO_HIDE_AT_SECONDS = 4.4;
 
 function Intro() {
   const navigate = useNavigate();
   const [leaving, setLeaving] = useState(false);
-  const [logoVisible, setLogoVisible] = useState(true);
+  const [logoVisible, setLogoVisible] = useState(false);
   const [showEnter, setShowEnter] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
@@ -41,6 +43,9 @@ function Intro() {
     v.muted = false;
 
     const startWithSound = () => {
+      try {
+        if (v.currentTime < VIDEO_START_OFFSET) v.currentTime = VIDEO_START_OFFSET;
+      } catch {}
       v.muted = false;
       v.defaultMuted = false;
       v.play().catch(() => {
@@ -71,9 +76,11 @@ function Intro() {
     window.addEventListener("keydown", onFirstInteract);
     window.addEventListener("touchstart", onFirstInteract);
 
-    // Hide logo based on the video's own timeline so it stays synced even if loading is delayed.
+    // Show & hide logo based on the video's own timeline so it stays synced even if loading is delayed.
     const syncLogoToVideo = () => {
-      if (v.currentTime >= LOGO_HIDE_AT_SECONDS) setLogoVisible(false);
+      const t = v.currentTime;
+      if (t >= LOGO_HIDE_AT_SECONDS) setLogoVisible(false);
+      else if (t >= LOGO_SHOW_AT_SECONDS) setLogoVisible(true);
     };
     v.addEventListener("timeupdate", syncLogoToVideo);
     v.addEventListener("seeked", syncLogoToVideo);
@@ -134,7 +141,7 @@ function Intro() {
         }}
       >
         <img
-          src="/legato-logo.png"
+          src="/legato-logo-blanc.png"
           alt="Legato"
           className="w-[42%] max-w-[220px] h-auto"
           style={{ filter: "drop-shadow(0 2px 24px rgba(0,0,0,0.35))" }}
