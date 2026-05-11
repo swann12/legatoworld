@@ -67,6 +67,7 @@ function Intro() {
     v.playbackRate = PLAYBACK_RATE;
     v.defaultMuted = true;
     v.muted = true;
+    v.volume = 0;
     v.setAttribute("muted", "");
     v.setAttribute("playsinline", "");
     v.setAttribute("webkit-playsinline", "true");
@@ -79,12 +80,10 @@ function Intro() {
       }
       v.muted = true;
       v.defaultMuted = true;
+      v.volume = 0;
       v.play()
         .then(() => {
           setNeedsTap(false);
-          // Try to unmute right after autoplay starts. Most browsers will block this,
-          // in which case the first user interaction unmutes (see tryUnmute below).
-          v.muted = false;
         })
         .catch(() => {
           // Autoplay was blocked (iOS Low Power Mode, strict settings, etc.) — surface a tap prompt.
@@ -92,20 +91,15 @@ function Intro() {
         });
     };
 
-    // Some browsers permit unmuting once playback is rolling; retry on first user interaction.
-    const tryUnmute = () => {
-      v.muted = false;
-      v.play().catch(() => undefined);
-      setNeedsTap(false);
-    };
-    window.addEventListener("pointerdown", tryUnmute, { once: true });
-    window.addEventListener("keydown", tryUnmute, { once: true });
-
-    // Kick off muted autoplay immediately, then retry as metadata/buffer become available.
+    // Kick off muted autoplay immediately, then retry as metadata/buffer/page visibility become available.
     startAutoplay();
+    const retryTimers = [80, 250, 700, 1400].map((delay) => window.setTimeout(startAutoplay, delay));
+    const onPageReady = () => startAutoplay();
     v.addEventListener("loadedmetadata", startAutoplay, { once: true });
     v.addEventListener("canplay", startAutoplay, { once: true });
     v.addEventListener("canplaythrough", startAutoplay, { once: true });
+    window.addEventListener("pageshow", onPageReady);
+    document.addEventListener("visibilitychange", onPageReady);
 
     // Hide the bottom fade after 2 seconds.
     const fadeTimer = window.setTimeout(() => setBottomFadeVisible(false), 2000);
@@ -140,8 +134,9 @@ function Intro() {
       v.removeEventListener("loadedmetadata", startAutoplay);
       v.removeEventListener("canplay", startAutoplay);
       v.removeEventListener("canplaythrough", startAutoplay);
-      window.removeEventListener("pointerdown", tryUnmute);
-      window.removeEventListener("keydown", tryUnmute);
+      window.removeEventListener("pageshow", onPageReady);
+      document.removeEventListener("visibilitychange", onPageReady);
+      retryTimers.forEach((timer) => window.clearTimeout(timer));
       window.clearTimeout(t2);
       window.clearTimeout(fadeTimer);
       v.removeEventListener("ended", onEnded);
@@ -190,7 +185,8 @@ function Intro() {
             const v = videoRef.current;
             if (!v) return;
             v.muted = true;
-            v.play().then(() => { v.muted = false; setNeedsTap(false); }).catch(() => undefined);
+            v.volume = 0;
+            v.play().then(() => setNeedsTap(false)).catch(() => undefined);
           }}
           className="absolute inset-0 flex items-end justify-center pb-[14vh] bg-transparent"
           aria-label="Toucher pour commencer"
