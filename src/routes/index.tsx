@@ -19,7 +19,6 @@ export const Route = createFileRoute("/")({
 const PLAYBACK_RATE = 0.7;
 const VIDEO_START_OFFSET = 2;
 const LOGO_SHOW_AT_SECONDS = 2.8;
-const LOGO_HIDE_AT_SECONDS = 4.4;
 
 function Intro() {
   const navigate = useNavigate();
@@ -79,8 +78,7 @@ function Intro() {
     // Show & hide logo based on the video's own timeline so it stays synced even if loading is delayed.
     const syncLogoToVideo = () => {
       const t = v.currentTime;
-      if (t >= LOGO_HIDE_AT_SECONDS) setLogoVisible(false);
-      else if (t >= LOGO_SHOW_AT_SECONDS) setLogoVisible(true);
+      if (t >= LOGO_SHOW_AT_SECONDS) setLogoVisible(true);
     };
     v.addEventListener("timeupdate", syncLogoToVideo);
     v.addEventListener("seeked", syncLogoToVideo);
@@ -143,7 +141,7 @@ function Intro() {
         <img
           src="/legato-logo-blanc.png"
           alt="Legato"
-          className="w-[42%] max-w-[220px] h-auto"
+          className="w-[70%] max-w-[360px] h-auto"
           style={{ filter: "drop-shadow(0 2px 24px rgba(0,0,0,0.35))" }}
         />
       </div>
