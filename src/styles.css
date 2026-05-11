@@ -328,8 +328,14 @@
   /* Garden image — almost full bleed, just a hair of fade at top/bottom
      so there's no visible rectangular cut, but no wide gradient halo either. */
   .garden-dissolve {
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 4%, black 96%, transparent 100%);
-            mask-image: linear-gradient(to bottom, transparent 0%, black 4%, black 96%, transparent 100%);
+    -webkit-mask-image:
+      radial-gradient(ellipse 75% 80% at 50% 50%, black 45%, transparent 95%);
+            mask-image:
+      radial-gradient(ellipse 75% 80% at 50% 50%, black 45%, transparent 95%);
+    -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+    -webkit-mask-size: 100% 100%;
+            mask-size: 100% 100%;
   }
   .garden-flower-pop {
     -webkit-mask-image: var(--flower-mask);

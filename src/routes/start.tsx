@@ -122,9 +122,9 @@ function Start() {
             Legato
           </p>
 
-          <div className="mt-6 mb-7 max-w-[26ch]">
+          <div className="mt-6 mb-8 max-w-[24ch]">
             <h1
-              className="font-serif text-[2rem] leading-[1.12] font-light text-dusk"
+              className="font-serif text-[2.6rem] leading-[1.08] font-light text-dusk"
               style={{ textWrap: "balance" }}
             >
               Préparer un adieu, <span className="italic">garder une présence.</span>

@@ -26,7 +26,17 @@ function Intro() {
   const [logoVisible, setLogoVisible] = useState(false);
   const [showEnter, setShowEnter] = useState(false);
   const [bottomFadeVisible, setBottomFadeVisible] = useState(true);
+  const [isDesktop, setIsDesktop] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
+
+  // On desktop, the home page is the marketing vitrine, not the intro video.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (window.matchMedia("(min-width: 768px)").matches) {
+      setIsDesktop(true);
+      navigate({ to: "/vitrine", replace: true });
+    }
+  }, [navigate]);
 
   const enter = () => {
     if (leaving) return;
@@ -134,6 +144,10 @@ function Intro() {
       v.removeEventListener("seeked", syncLogoToVideo);
     };
   }, []);
+
+  if (isDesktop) {
+    return <main className="min-h-dvh bg-paper" />;
+  }
 
   return (
     <main
