@@ -882,213 +882,6 @@
     "source": "source-herbe-07.png"
   },
   {
-    "id": "couronne-10-01",
-    "label": "Couronne 1",
-    "family": "couronne",
-    "src": "@/assets/extracted/couronne/couronne-10-01.png",
-    "width": 295,
-    "height": 365,
-    "source": "COURONNE_02.png"
-  },
-  {
-    "id": "couronne-10-02",
-    "label": "Couronne 2",
-    "family": "couronne",
-    "src": "@/assets/extracted/couronne/couronne-10-02.png",
-    "width": 297,
-    "height": 342,
-    "source": "COURONNE_02.png"
-  },
-  {
-    "id": "couronne-10-03",
-    "label": "Couronne 3",
-    "family": "couronne",
-    "src": "@/assets/extracted/couronne/couronne-10-03.png",
-    "width": 288,
-    "height": 314,
-    "source": "COURONNE_02.png"
-  },
-  {
-    "id": "couronne-10-04",
-    "label": "Couronne 4",
-    "family": "couronne",
-    "src": "@/assets/extracted/couronne/couronne-10-04.png",
-    "width": 290,
-    "height": 308,
-    "source": "COURONNE_02.png"
-  },
-  {
-    "id": "couronne-10-05",
-    "label": "Couronne 5",
-    "family": "couronne",
-    "src": "@/assets/extracted/couronne/couronne-10-05.png",
-    "width": 292,
-    "height": 305,
-    "source": "COURONNE_02.png"
-  },
-  {
-    "id": "couronne-10-06",
-    "label": "Couronne 6",
-    "family": "couronne",
-    "src": "@/assets/extracted/couronne/couronne-10-06.png",
-    "width": 295,
-    "height": 310,
-    "source": "COURONNE_02.png"
-  },
-  {
-    "id": "couronne-10-07",
-    "label": "Couronne 7",
-    "family": "couronne",
-    "src": "@/assets/extracted/couronne/couronne-10-07.png",
-    "width": 287,
-    "height": 301,
-    "source": "COURONNE_02.png"
-  },
-  {
-    "id": "couronne-10-08",
-    "label": "Couronne 8",
-    "family": "couronne",
-    "src": "@/assets/extracted/couronne/couronne-10-08.png",
-    "width": 595,
-    "height": 344,
-    "source": "COURONNE_02.png"
-  },
-  {
-    "id": "couronne-10-09",
-    "label": "Couronne 9",
-    "family": "couronne",
-    "src": "@/assets/extracted/couronne/couronne-10-09.png",
-    "width": 291,
-    "height": 309,
-    "source": "COURONNE_02.png"
-  },
-  {
-    "id": "couronne-10-10",
-    "label": "Couronne 10",
-    "family": "couronne",
-    "src": "@/assets/extracted/couronne/couronne-10-10.png",
-    "width": 298,
-    "height": 307,
-    "source": "COURONNE_02.png"
-  },
-  {
-    "id": "couronne-10-11",
-    "label": "Couronne 11",
-    "family": "couronne",
-    "src": "@/assets/extracted/couronne/couronne-10-11.png",
-    "width": 304,
-    "height": 286,
-    "source": "COURONNE_02.png"
-  },
-  {
-    "id": "couronne-10-12",
-    "label": "Couronne 12",
-    "family": "couronne",
-    "src": "@/assets/extracted/couronne/couronne-10-12.png",
-    "width": 294,
-    "height": 336,
-    "source": "COURONNE_02.png"
-  },
-  {
-    "id": "couronne-10-13",
-    "label": "Couronne 13",
-    "family": "couronne",
-    "src": "@/assets/extracted/couronne/couronne-10-13.png",
-    "width": 302,
-    "height": 321,
-    "source": "COURONNE_02.png"
-  },
-  {
-    "id": "couronne-10-14",
-    "label": "Couronne 14",
-    "family": "couronne",
-    "src": "@/assets/extracted/couronne/couronne-10-14.png",
-    "width": 310,
-    "height": 321,
-    "source": "COURONNE_02.png"
-  },
-  {
-    "id": "couronne-10-15",
-    "label": "Couronne 15",
-    "family": "couronne",
-    "src": "@/assets/extracted/couronne/couronne-10-15.png",
-    "width": 298,
-    "height": 315,
-    "source": "COURONNE_02.png"
-  },
-  {
-    "id": "couronne-10-16",
-    "label": "Couronne 16",
-    "family": "couronne",
-    "src": "@/assets/extracted/couronne/couronne-10-16.png",
-    "width": 292,
-    "height": 322,
-    "source": "COURONNE_02.png"
-  },
-  {
-    "id": "couronne-10-17",
-    "label": "Couronne 17",
-    "family": "couronne",
-    "src": "@/assets/extracted/couronne/couronne-10-17.png",
-    "width": 297,
-    "height": 306,
-    "source": "COURONNE_02.png"
-  },
-  {
-    "id": "couronne-10-18",
-    "label": "Couronne 18",
-    "family": "couronne",
-    "src": "@/assets/extracted/couronne/couronne-10-18.png",
-    "width": 300,
-    "height": 307,
-    "source": "COURONNE_02.png"
-  },
-  {
-    "id": "couronne-10-19",
-    "label": "Couronne 19",
-    "family": "couronne",
-    "src": "@/assets/extracted/couronne/couronne-10-19.png",
-    "width": 300,
-    "height": 307,
-    "source": "COURONNE_02.png"
-  },
-  {
-    "id": "couronne-10-20",
-    "label": "Couronne 20",
-    "family": "couronne",
-    "src": "@/assets/extracted/couronne/couronne-10-20.png",
-    "width": 300,
-    "height": 335,
-    "source": "COURONNE_02.png"
-  },
-  {
-    "id": "couronne-10-21",
-    "label": "Couronne 21",
-    "family": "couronne",
-    "src": "@/assets/extracted/couronne/couronne-10-21.png",
-    "width": 294,
-    "height": 319,
-    "source": "COURONNE_02.png"
-  },
-  {
-    "id": "couronne-10-22",
-    "label": "Couronne 22",
-    "family": "couronne",
-    "src": "@/assets/extracted/couronne/couronne-10-22.png",
-    "width": 308,
-    "height": 313,
-    "source": "COURONNE_02.png"
-  },
-  {
-    "id": "couronne-10-23",
-    "label": "Couronne 23",
-    "family": "couronne",
-    "src": "@/assets/extracted/couronne/couronne-10-23.png",
-    "width": 298,
-    "height": 307,
-    "source": "COURONNE_02.png"
-  },
-  {
     "id": "fleur-11-01",
     "label": "Fleur 1",
     "family": "fleur",
@@ -1726,5 +1519,113 @@
     "width": 139,
     "height": 137,
     "source": "FLEUR_planches.png"
+  },
+  {
+    "id": "couronne-11-01",
+    "label": "Couronne 1",
+    "family": "couronne",
+    "src": "@/assets/extracted/couronne/couronne-11-01.png",
+    "width": 536,
+    "height": 596,
+    "source": "COURONNES_01.png"
+  },
+  {
+    "id": "couronne-11-02",
+    "label": "Couronne 2",
+    "family": "couronne",
+    "src": "@/assets/extracted/couronne/couronne-11-02.png",
+    "width": 638,
+    "height": 578,
+    "source": "COURONNES_01.png"
+  },
+  {
+    "id": "couronne-11-03",
+    "label": "Couronne 3",
+    "family": "couronne",
+    "src": "@/assets/extracted/couronne/couronne-11-03.png",
+    "width": 640,
+    "height": 570,
+    "source": "COURONNES_01.png"
+  },
+  {
+    "id": "couronne-11-04",
+    "label": "Couronne 4",
+    "family": "couronne",
+    "src": "@/assets/extracted/couronne/couronne-11-04.png",
+    "width": 640,
+    "height": 580,
+    "source": "COURONNES_01.png"
+  },
+  {
+    "id": "couronne-11-05",
+    "label": "Couronne 5",
+    "family": "couronne",
+    "src": "@/assets/extracted/couronne/couronne-11-05.png",
+    "width": 640,
+    "height": 690,
+    "source": "COURONNES_01.png"
+  },
+  {
+    "id": "couronne-11-06",
+    "label": "Couronne 6",
+    "family": "couronne",
+    "src": "@/assets/extracted/couronne/couronne-11-06.png",
+    "width": 442,
+    "height": 644,
+    "source": "COURONNES_01.png"
+  },
+  {
+    "id": "couronne-11-07",
+    "label": "Couronne 7",
+    "family": "couronne",
+    "src": "@/assets/extracted/couronne/couronne-11-07.png",
+    "width": 596,
+    "height": 576,
+    "source": "COURONNES_01.png"
+  },
+  {
+    "id": "couronne-11-08",
+    "label": "Couronne 8",
+    "family": "couronne",
+    "src": "@/assets/extracted/couronne/couronne-11-08.png",
+    "width": 640,
+    "height": 574,
+    "source": "COURONNES_01.png"
+  },
+  {
+    "id": "couronne-11-09",
+    "label": "Couronne 9",
+    "family": "couronne",
+    "src": "@/assets/extracted/couronne/couronne-11-09.png",
+    "width": 640,
+    "height": 562,
+    "source": "COURONNES_01.png"
+  },
+  {
+    "id": "couronne-11-10",
+    "label": "Couronne 10",
+    "family": "couronne",
+    "src": "@/assets/extracted/couronne/couronne-11-10.png",
+    "width": 640,
+    "height": 590,
+    "source": "COURONNES_01.png"
+  },
+  {
+    "id": "couronne-11-11",
+    "label": "Couronne 11",
+    "family": "couronne",
+    "src": "@/assets/extracted/couronne/couronne-11-11.png",
+    "width": 640,
+    "height": 644,
+    "source": "COURONNES_01.png"
+  },
+  {
+    "id": "couronne-11-12",
+    "label": "Couronne 12",
+    "family": "couronne",
+    "src": "@/assets/extracted/couronne/couronne-11-12.png",
+    "width": 470,
+    "height": 640,
+    "source": "COURONNES_01.png"
   }
 ]
