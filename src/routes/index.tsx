@@ -148,7 +148,7 @@ function Intro() {
         <img
           src="/legato-logo-noir.png"
           alt="Legato"
-          className="w-[80%] max-w-[420px] h-auto"
+          className="w-[160%] max-w-[840px] h-auto"
         />
       </div>
 
