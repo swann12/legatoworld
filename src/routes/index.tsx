@@ -182,6 +182,25 @@ function Intro() {
         className="absolute inset-0 h-full w-full object-cover cursor-pointer"
       />
 
+      {/* Tap prompt — appears only if the browser blocked autoplay (e.g. iOS Low Power Mode) */}
+      {needsTap && !logoVisible && (
+        <button
+          type="button"
+          onClick={() => {
+            const v = videoRef.current;
+            if (!v) return;
+            v.muted = true;
+            v.play().then(() => { v.muted = false; setNeedsTap(false); }).catch(() => undefined);
+          }}
+          className="absolute inset-0 flex items-end justify-center pb-[14vh] bg-transparent"
+          aria-label="Toucher pour commencer"
+        >
+          <span className="rounded-full border border-paper/60 bg-dusk/30 backdrop-blur-sm px-6 py-3 text-[10.5px] font-medium uppercase tracking-[0.3em] text-paper">
+            Toucher pour commencer
+          </span>
+        </button>
+      )}
+
       {/* Soft fade from the video into the paper background along the bottom edge */}
       <div
         className="absolute inset-x-0 bottom-0 h-40 pointer-events-none"
