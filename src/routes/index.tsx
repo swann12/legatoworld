@@ -38,27 +38,31 @@ function Intro() {
     if (!v) return;
     v.playbackRate = PLAYBACK_RATE;
     v.volume = 1;
-    v.defaultMuted = false;
-    v.muted = false;
+    // Start muted so autoplay is allowed by the browser, then try to unmute.
+    v.defaultMuted = true;
+    v.muted = true;
 
     const startWithSound = () => {
       try {
         if (v.currentTime < VIDEO_START_OFFSET) v.currentTime = VIDEO_START_OFFSET;
       } catch {}
-      v.muted = false;
-      v.defaultMuted = false;
-      v.play().catch(() => {
-        v.muted = true;
-        v.defaultMuted = true;
-        v.play().catch(() => undefined);
-      });
+      // Always start playback (muted is allowed); try to unmute right after.
+      v.play()
+        .then(() => {
+          v.muted = false;
+          v.defaultMuted = false;
+        })
+        .catch(() => {
+          v.muted = true;
+          v.defaultMuted = true;
+          v.play().catch(() => undefined);
+        });
     };
 
-    if (v.readyState >= HTMLMediaElement.HAVE_FUTURE_DATA) {
-      startWithSound();
-    } else {
-      v.addEventListener("canplay", startWithSound, { once: true });
-    }
+    // Kick off immediately, and also retry on canplay/loadedmetadata for safety.
+    startWithSound();
+    v.addEventListener("canplay", startWithSound, { once: true });
+    v.addEventListener("loadedmetadata", startWithSound, { once: true });
 
     // If the browser blocks sound on first load, enable it on first interaction.
     const onFirstInteract = () => {
@@ -132,6 +136,8 @@ function Intro() {
       <video
         ref={videoRef}
         src="/intro.mp4"
+        autoPlay
+        muted
         playsInline
         preload="auto"
         className="absolute inset-0 h-full w-full object-cover pointer-events-none"
