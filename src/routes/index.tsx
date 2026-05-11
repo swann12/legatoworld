@@ -141,8 +141,8 @@ function Intro() {
         <img
           src="/legato-logo-blanc.png"
           alt="Legato"
-          className="w-[125%] max-w-[760px] h-auto"
-          style={{ filter: "drop-shadow(0 2px 24px rgba(0,0,0,0.35))" }}
+          className="w-[160%] max-w-[960px] h-auto"
+          style={{ filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.25)) drop-shadow(0 4px 18px rgba(0,0,0,0.18))" }}
         />
       </div>
 
