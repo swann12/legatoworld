@@ -17,8 +17,8 @@ export const Route = createFileRoute("/")({
 
 // Slow the source video down a touch so the bloom feels even more unhurried.
 const PLAYBACK_RATE = 0.7;
-const VIDEO_START_OFFSET = 2;
-const LOGO_SHOW_AT_SECONDS = 5.2;
+const VIDEO_START_OFFSET = 3;
+const LOGO_SHOW_AT_SECONDS = 6.2;
 
 function Intro() {
   const navigate = useNavigate();
