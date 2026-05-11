@@ -5,13 +5,16 @@ import { Shell } from "@/components/legato/Shell";
 import { CompositionThumb } from "@/components/legato/CompositionThumb";
 import { useLegato } from "@/lib/legato-state";
 import { BEINGS } from "./garden.index";
-import { ELEMENTS, type ElementFamily } from "@/lib/elements";
 import { useMemories } from "@/lib/memories-store";
 import parcelleElise from "@/assets/parcelle-elise.png";
 import parcellePapa from "@/assets/parcelle-papa.png";
 import parcelleLeon from "@/assets/parcelle-leon.png";
 import parcelleMamie from "@/assets/parcelle-mamie.png";
 import parcelleTheo from "@/assets/parcelle-theo.png";
+import bouquet01 from "@/assets/bouquets/bouquet-01.png";
+import bouquet02 from "@/assets/bouquets/bouquet-02.png";
+import bouquet03 from "@/assets/bouquets/bouquet-03.png";
+import bouquet04 from "@/assets/bouquets/bouquet-04.png";
 
 const PARCELLES: Record<string, string> = {
   elise: parcelleElise,
@@ -19,6 +22,14 @@ const PARCELLES: Record<string, string> = {
   leon: parcelleLeon,
   mamie: parcelleMamie,
   theo: parcelleTheo,
+};
+
+const BOUQUET_BY_BEING: Record<string, string> = {
+  elise: bouquet01,
+  papa: bouquet02,
+  leon: bouquet03,
+  mamie: bouquet04,
+  theo: bouquet01,
 };
 
 export const Route = createFileRoute("/garden/$zone")({
@@ -62,63 +73,6 @@ const BEING_MEMORIES: Record<string, Item[]> = {
 const KIND_LABEL: Record<ItemKind, string> = {
   voice: "voix", photo: "lumière", sentence: "phrase", habit: "geste", object: "objet",
 };
-
-/** Choisit 6–8 fragments d'atlas pour composer une petite scène
- *  paysagère (220×120) au-dessus du prénom. */
-function signatureFor(beingId: string) {
-  const seed = beingId.split("").reduce((a, c) => a + c.charCodeAt(0), 0);
-  const familyOrder: ElementFamily[] = [
-    "feuillage", "florale", "feuillage", "florale", "feuillage", "florale", "feuillage",
-  ];
-  const picks: { src: string; w: number; h: number; x: number; y: number; r: number; s: number; dur: number; delay: number }[] = [];
-  familyOrder.forEach((fam, i) => {
-    const pool = ELEMENTS.filter((e) => e.family === fam);
-    if (!pool.length) return;
-    const el = pool[(seed + i * 37) % pool.length];
-    const t = i / (familyOrder.length - 1); // 0..1 → balayage horizontal
-    picks.push({
-      src: el.src,
-      w: el.width,
-      h: el.height,
-      x: 8 + t * 84 + (((seed + i * 13) % 10) - 5),     // étalé en largeur
-      y: 70 + (((seed + i * 19) % 24) - 12),             // ligne d'horizon basse
-      r: ((seed + i * 23) % 16) - 8,
-      s: 0.5 + ((seed + i * 11) % 35) / 100,
-      dur: 7 + ((seed + i * 7) % 5),
-      delay: ((seed + i * 11) % 40) / 10,
-    });
-  });
-  return picks;
-}
-
-function OrganicSignature({ beingId }: { beingId: string }) {
-  const picks = signatureFor(beingId);
-  return (
-    <div className="relative mx-auto" style={{ width: 240, height: 130 }}>
-      {picks.map((p, i) => (
-        <img
-          key={i}
-          src={p.src}
-          alt=""
-          aria-hidden
-          className="absolute feathered-soft select-none sway-soft"
-          draggable={false}
-          style={{
-            left: `${p.x}%`,
-            top: `${p.y}%`,
-            width: `${Math.max(36, p.w * p.s * 0.16)}px`,
-            height: `${Math.max(36, p.h * p.s * 0.16)}px`,
-            transform: `translate(-50%, -80%) rotate(${p.r}deg)`,
-            opacity: 0.92,
-            mixBlendMode: "multiply",
-            ["--sway-dur" as string]: `${p.dur}s`,
-            ["--sway-delay" as string]: `${p.delay}s`,
-          }}
-        />
-      ))}
-    </div>
-  );
-}
 
 function GardenZone() {
   const { zone } = Route.useParams();
