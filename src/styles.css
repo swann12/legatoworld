@@ -276,9 +276,7 @@
 
   /* Soft feathered v2 — pictural fade for atlas elements (jardin / signature / patches) */
   .feathered-soft {
-    -webkit-mask-image: radial-gradient(ellipse 92% 92% at 50% 50%, black 60%, rgba(0,0,0,0.85) 75%, transparent 100%);
-            mask-image: radial-gradient(ellipse 92% 92% at 50% 50%, black 60%, rgba(0,0,0,0.85) 75%, transparent 100%);
-    filter: drop-shadow(0 0 0.6px rgba(0,0,0,0.05)) blur(0.35px);
+    filter: drop-shadow(0 0 0.6px rgba(0,0,0,0.05));
   }
 
   /* Pictural feather — softens the actual silhouette (alpha channel),
