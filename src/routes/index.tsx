@@ -28,6 +28,7 @@ function Intro() {
   const [bottomFadeVisible, setBottomFadeVisible] = useState(true);
   const [isDesktop, setIsDesktop] = useState(false);
   const [needsTap, setNeedsTap] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
   // On desktop, the home page is the marketing vitrine, not the intro video.
