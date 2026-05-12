@@ -66,10 +66,6 @@ function Intro() {
     const v = videoRef.current;
     if (!v) return;
     v.playbackRate = PLAYBACK_RATE;
-    v.defaultMuted = true;
-    v.muted = true;
-    v.volume = 0;
-    v.setAttribute("muted", "");
     v.setAttribute("playsinline", "");
     v.setAttribute("webkit-playsinline", "true");
 
@@ -79,16 +75,21 @@ function Intro() {
       } catch {
         // Some mobile browsers only allow setting currentTime after metadata loads.
       }
-      v.muted = true;
-      v.defaultMuted = true;
-      v.volume = 0;
+      // Try unmuted autoplay first; fall back to muted if the browser blocks it.
+      v.muted = false;
+      v.volume = 1;
       v.play()
         .then(() => {
+          setIsMuted(false);
           setNeedsTap(false);
         })
         .catch(() => {
-          // Autoplay was blocked (iOS Low Power Mode, strict settings, etc.) — surface a tap prompt.
-          setNeedsTap(true);
+          v.muted = true;
+          v.volume = 0;
+          setIsMuted(true);
+          v.play()
+            .then(() => setNeedsTap(false))
+            .catch(() => setNeedsTap(true));
         });
     };
 
