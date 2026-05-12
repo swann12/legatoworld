@@ -172,10 +172,19 @@ function Intro() {
         ref={videoRef}
         src="/intro.mp4"
         autoPlay
-        muted
         playsInline
         preload="auto"
-        onClick={skipToEnd}
+        onClick={() => {
+          const v = videoRef.current;
+          if (v && v.muted) {
+            v.muted = false;
+            v.volume = 1;
+            setIsMuted(false);
+            v.play().catch(() => undefined);
+            return;
+          }
+          skipToEnd();
+        }}
         className="absolute inset-0 h-full w-full object-cover cursor-pointer"
       />
 
@@ -186,8 +195,9 @@ function Intro() {
           onClick={() => {
             const v = videoRef.current;
             if (!v) return;
-            v.muted = true;
-            v.volume = 0;
+            v.muted = false;
+            v.volume = 1;
+            setIsMuted(false);
             v.play().then(() => setNeedsTap(false)).catch(() => undefined);
           }}
           className="absolute inset-0 flex items-end justify-center pb-[14vh] bg-transparent"
@@ -196,6 +206,26 @@ function Intro() {
           <span className="rounded-full border border-paper/60 bg-dusk/30 backdrop-blur-sm px-6 py-3 text-[10.5px] font-medium uppercase tracking-[0.3em] text-paper">
             Toucher pour commencer
           </span>
+        </button>
+      )}
+
+      {/* Sound toggle — visible while video plays muted so the visitor can restore audio */}
+      {!logoVisible && isMuted && !needsTap && (
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            const v = videoRef.current;
+            if (!v) return;
+            v.muted = false;
+            v.volume = 1;
+            setIsMuted(false);
+            v.play().catch(() => undefined);
+          }}
+          className="absolute right-4 top-4 z-20 rounded-full border border-paper/50 bg-dusk/30 backdrop-blur-sm px-3 py-2 text-[10px] uppercase tracking-[0.22em] text-paper"
+          aria-label="Activer le son"
+        >
+          ♪ Son
         </button>
       )}
 
