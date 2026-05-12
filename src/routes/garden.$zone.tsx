@@ -6,23 +6,10 @@ import { CompositionThumb } from "@/components/legato/CompositionThumb";
 import { useLegato } from "@/lib/legato-state";
 import { BEINGS } from "./garden.index";
 import { useMemories } from "@/lib/memories-store";
-import parcelleElise from "@/assets/parcelle-elise.png";
-import parcellePapa from "@/assets/parcelle-papa.png";
-import parcelleLeon from "@/assets/parcelle-leon.png";
-import parcelleMamie from "@/assets/parcelle-mamie.png";
-import parcelleTheo from "@/assets/parcelle-theo.png";
 import bouquet01 from "@/assets/bouquets/bouquet-01.png";
 import bouquet02 from "@/assets/bouquets/bouquet-02.png";
 import bouquet03 from "@/assets/bouquets/bouquet-03.png";
 import bouquet04 from "@/assets/bouquets/bouquet-04.png";
-
-const PARCELLES: Record<string, string> = {
-  elise: parcelleElise,
-  papa: parcellePapa,
-  leon: parcelleLeon,
-  mamie: parcelleMamie,
-  theo: parcelleTheo,
-};
 
 const BOUQUET_BY_BEING: Record<string, string> = {
   elise: bouquet01,
@@ -99,14 +86,7 @@ function GardenZone() {
 
           {/* Garden plot — viewed from above, the parcel of this being */}
           <div className="px-7 pt-8 flex flex-col items-center text-center">
-            <img
-              src={PARCELLES[being.id] ?? parcelleElise}
-              alt=""
-              aria-hidden
-              draggable={false}
-              className="w-[260px] h-auto select-none"
-            />
-            <p className="mt-4 text-[10px] uppercase tracking-[0.22em] text-dusk/45">
+            <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">
               {being.kind === "person" ? "Le jardin de" : "Le coin de"}
             </p>
             <img
