@@ -832,7 +832,7 @@ function BarBtn({
     <button
       onClick={onClick}
       disabled={disabled}
-      className={`px-3 py-2 rounded-full text-[11px] uppercase tracking-[0.18em] transition ${
+      className={`flex-1 px-2 py-2 rounded-full text-[11px] uppercase tracking-[0.18em] text-center transition ${
         active ? "bg-dusk text-paper" : "text-dusk/70"
       } ${disabled ? "opacity-30" : "hover:text-dusk"}`}
     >
