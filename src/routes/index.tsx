@@ -28,6 +28,7 @@ function Intro() {
   const [bottomFadeVisible, setBottomFadeVisible] = useState(true);
   const [isDesktop, setIsDesktop] = useState(false);
   const [needsTap, setNeedsTap] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
   // On desktop, the home page is the marketing vitrine, not the intro video.
@@ -65,10 +66,6 @@ function Intro() {
     const v = videoRef.current;
     if (!v) return;
     v.playbackRate = PLAYBACK_RATE;
-    v.defaultMuted = true;
-    v.muted = true;
-    v.volume = 0;
-    v.setAttribute("muted", "");
     v.setAttribute("playsinline", "");
     v.setAttribute("webkit-playsinline", "true");
 
@@ -78,16 +75,21 @@ function Intro() {
       } catch {
         // Some mobile browsers only allow setting currentTime after metadata loads.
       }
-      v.muted = true;
-      v.defaultMuted = true;
-      v.volume = 0;
+      // Try unmuted autoplay first; fall back to muted if the browser blocks it.
+      v.muted = false;
+      v.volume = 1;
       v.play()
         .then(() => {
+          setIsMuted(false);
           setNeedsTap(false);
         })
         .catch(() => {
-          // Autoplay was blocked (iOS Low Power Mode, strict settings, etc.) — surface a tap prompt.
-          setNeedsTap(true);
+          v.muted = true;
+          v.volume = 0;
+          setIsMuted(true);
+          v.play()
+            .then(() => setNeedsTap(false))
+            .catch(() => setNeedsTap(true));
         });
     };
 
@@ -170,10 +172,19 @@ function Intro() {
         ref={videoRef}
         src="/intro.mp4"
         autoPlay
-        muted
         playsInline
         preload="auto"
-        onClick={skipToEnd}
+        onClick={() => {
+          const v = videoRef.current;
+          if (v && v.muted) {
+            v.muted = false;
+            v.volume = 1;
+            setIsMuted(false);
+            v.play().catch(() => undefined);
+            return;
+          }
+          skipToEnd();
+        }}
         className="absolute inset-0 h-full w-full object-cover cursor-pointer"
       />
 
@@ -184,8 +195,9 @@ function Intro() {
           onClick={() => {
             const v = videoRef.current;
             if (!v) return;
-            v.muted = true;
-            v.volume = 0;
+            v.muted = false;
+            v.volume = 1;
+            setIsMuted(false);
             v.play().then(() => setNeedsTap(false)).catch(() => undefined);
           }}
           className="absolute inset-0 flex items-end justify-center pb-[14vh] bg-transparent"
@@ -194,6 +206,26 @@ function Intro() {
           <span className="rounded-full border border-paper/60 bg-dusk/30 backdrop-blur-sm px-6 py-3 text-[10.5px] font-medium uppercase tracking-[0.3em] text-paper">
             Toucher pour commencer
           </span>
+        </button>
+      )}
+
+      {/* Sound toggle — visible while video plays muted so the visitor can restore audio */}
+      {!logoVisible && isMuted && !needsTap && (
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            const v = videoRef.current;
+            if (!v) return;
+            v.muted = false;
+            v.volume = 1;
+            setIsMuted(false);
+            v.play().catch(() => undefined);
+          }}
+          className="absolute right-4 top-4 z-20 rounded-full border border-paper/50 bg-dusk/30 backdrop-blur-sm px-3 py-2 text-[10px] uppercase tracking-[0.22em] text-paper"
+          aria-label="Activer le son"
+        >
+          ♪ Son
         </button>
       )}
 
