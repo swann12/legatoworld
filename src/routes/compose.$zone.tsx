@@ -489,44 +489,6 @@ function Composer({
     window.addEventListener("pointercancel", onWinUp);
   };
 
-  const onPointerMove = (e: React.PointerEvent) => {
-    const d = dragRef.current;
-    if (!d) return;
-    const dx = e.clientX - d.startX;
-    const dy = e.clientY - d.startY;
-    const w = d.canvasRect.width;
-    const h = d.canvasRect.height;
-    setItems((prev) =>
-      prev.map((it) => {
-        if (it.id !== d.id) return it;
-        if (d.mode === "opacity") {
-          const op = Math.max(0.1, Math.min(1, (d.item.opacity ?? 1) - dy / 200));
-          return { ...it, opacity: op };
-        }
-        if (d.mode === "move") {
-          return { ...it, x: d.item.x + (dx / w) * 100, y: d.item.y + (dy / h) * 100 };
-        }
-        if (d.mode === "scale") {
-          const factor = 1 + dy / 180; // drag down = grow, up = shrink
-          const newW = Math.max(4, Math.min(180, (d.item.width ?? 20) * factor));
-          const ratio = (d.item.height ?? 20) / (d.item.width ?? 20);
-          return { ...it, width: newW, height: newW * ratio };
-        }
-        if (d.mode === "rotate") {
-          const cx = d.canvasRect.left + (d.item.x / 100) * w;
-          const cy = d.canvasRect.top + (d.item.y / 100) * h;
-          const angle = (Math.atan2(e.clientY - cy, e.clientX - cx) * 180) / Math.PI + 90;
-          return { ...it, rotation: angle };
-        }
-        return it;
-      }),
-    );
-  };
-
-  const onPointerUp = () => {
-    dragRef.current = null;
-  };
-
   /* ───── delete / duplicate / z-order ───── */
   const deleteSelected = () => {
     if (!selected) return;
@@ -663,15 +625,13 @@ function Composer({
       {/* Canvas — fully visible, paper backdrop */}
       <div
         className="flex-1 relative overflow-hidden flex items-center justify-center px-3 py-3"
-        onPointerMove={onPointerMove}
-        onPointerUp={onPointerUp}
       >
         <div
           ref={canvasRef}
           onPointerDown={() => setSelected(null)}
           className="relative bg-paper"
           style={{
-            width: "min(100%, calc((100dvh - 220px) * 0.75))",
+            width: "min(100%, calc((100dvh - 200px) * 0.75))",
             aspectRatio: "3 / 4",
             boxShadow: "0 30px 70px -40px rgba(60,40,40,0.25), inset 0 0 0 1px rgba(60,40,40,0.04)",
             borderRadius: 18,
@@ -705,6 +665,9 @@ function Composer({
                   className="block w-full h-full select-none feathered-pictural"
                   style={{
                     transform: `scale(${it.flipX ? -1 : 1}, ${it.flipY ? -1 : 1})`,
+                    touchAction: "none",
+                    WebkitUserSelect: "none",
+                    userSelect: "none",
                   }}
                 />
                 {isSel && (
@@ -725,36 +688,39 @@ function Composer({
               </p>
             </div>
           )}
+
+          {/* Contextual selection bar — absolute overlay so canvas size never changes */}
+          {selected && (
+            <div
+              className="absolute left-1/2 bottom-2 -translate-x-1/2 flex items-center justify-center gap-2 z-10"
+              onPointerDown={(e) => e.stopPropagation()}
+            >
+              <button
+                onClick={sendBackward}
+                className="paper-card px-3 py-1.5 rounded-full text-[10px] uppercase tracking-[0.18em] text-dusk/65"
+              >
+                ↓ Derrière
+              </button>
+              <button
+                onClick={bringForward}
+                className="paper-card px-3 py-1.5 rounded-full text-[10px] uppercase tracking-[0.18em] text-dusk/65"
+              >
+                ↑ Devant
+              </button>
+              <button
+                onClick={deleteSelected}
+                className="paper-card px-3 py-1.5 rounded-full text-[10px] uppercase tracking-[0.18em] text-dusk/65"
+              >
+                Supprimer
+              </button>
+            </div>
+          )}
         </div>
       </div>
 
-      {/* Contextual selection bar */}
-      {selected && (
-        <div className="px-5 pb-1 flex items-center justify-center gap-2">
-          <button
-            onClick={sendBackward}
-            className="paper-card px-3 py-1.5 rounded-full text-[10px] uppercase tracking-[0.18em] text-dusk/65"
-          >
-            ↓ Derrière
-          </button>
-          <button
-            onClick={bringForward}
-            className="paper-card px-3 py-1.5 rounded-full text-[10px] uppercase tracking-[0.18em] text-dusk/65"
-          >
-            ↑ Devant
-          </button>
-          <button
-            onClick={deleteSelected}
-            className="paper-card px-3 py-1.5 rounded-full text-[10px] uppercase tracking-[0.18em] text-dusk/65"
-          >
-            Supprimer
-          </button>
-        </div>
-      )}
-
       {/* Bottom bar — single, calm row : Éléments · Annuler · Refaire · Exporter */}
       <div className="border-t border-dusk/8 bg-paper">
-        <div className="flex items-center justify-between gap-2 px-4 py-2">
+        <div className="flex items-stretch gap-1 px-3 py-2">
           <BarBtn
             label="Éléments"
             active={drawerOpen}
@@ -828,7 +794,7 @@ function BarBtn({
     <button
       onClick={onClick}
       disabled={disabled}
-      className={`px-3 py-2 rounded-full text-[11px] uppercase tracking-[0.18em] transition ${
+      className={`flex-1 px-2 py-2 rounded-full text-[11px] uppercase tracking-[0.18em] text-center transition ${
         active ? "bg-dusk text-paper" : "text-dusk/70"
       } ${disabled ? "opacity-30" : "hover:text-dusk"}`}
     >
