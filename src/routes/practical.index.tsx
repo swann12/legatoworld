@@ -126,6 +126,13 @@ function Practical() {
               </div>
               <span className="text-dusk/40">→</span>
             </Link>
+            <Link to="/resources" className="paper-card p-5 flex items-baseline justify-between">
+              <div>
+                <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">Ressources & accompagnement</p>
+                <p className="mt-1 font-serif italic text-[15px] text-dusk">Des personnes de confiance, recommandées par Legato</p>
+              </div>
+              <span className="text-dusk/40">→</span>
+            </Link>
             <Link to="/presence" className="paper-card p-5 flex items-baseline justify-between">
               <div>
                 <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">Parler en parallèle</p>
