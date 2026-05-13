@@ -26,8 +26,10 @@ import { Route as HelpRouteImport } from './routes/help'
 import { Route as DatesRouteImport } from './routes/dates'
 import { Route as CrisisRouteImport } from './routes/crisis'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ResourcesIndexRouteImport } from './routes/resources.index'
 import { Route as PracticalIndexRouteImport } from './routes/practical.index'
 import { Route as GardenIndexRouteImport } from './routes/garden.index'
+import { Route as ResourcesCategoryRouteImport } from './routes/resources.$category'
 import { Route as PracticalTextsRouteImport } from './routes/practical.texts'
 import { Route as PracticalStepsRouteImport } from './routes/practical.steps'
 import { Route as PracticalShareRouteImport } from './routes/practical.share'
@@ -124,6 +126,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ResourcesIndexRoute = ResourcesIndexRouteImport.update({
+  id: '/resources/',
+  path: '/resources/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PracticalIndexRoute = PracticalIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -132,6 +139,11 @@ const PracticalIndexRoute = PracticalIndexRouteImport.update({
 const GardenIndexRoute = GardenIndexRouteImport.update({
   id: '/garden/',
   path: '/garden/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResourcesCategoryRoute = ResourcesCategoryRouteImport.update({
+  id: '/resources/$category',
+  path: '/resources/$category',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PracticalTextsRoute = PracticalTextsRouteImport.update({
@@ -213,8 +225,10 @@ export interface FileRoutesByFullPath {
   '/practical/share': typeof PracticalShareRoute
   '/practical/steps': typeof PracticalStepsRoute
   '/practical/texts': typeof PracticalTextsRoute
+  '/resources/$category': typeof ResourcesCategoryRoute
   '/garden/': typeof GardenIndexRoute
   '/practical/': typeof PracticalIndexRoute
+  '/resources/': typeof ResourcesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -243,8 +257,10 @@ export interface FileRoutesByTo {
   '/practical/share': typeof PracticalShareRoute
   '/practical/steps': typeof PracticalStepsRoute
   '/practical/texts': typeof PracticalTextsRoute
+  '/resources/$category': typeof ResourcesCategoryRoute
   '/garden': typeof GardenIndexRoute
   '/practical': typeof PracticalIndexRoute
+  '/resources': typeof ResourcesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -275,8 +291,10 @@ export interface FileRoutesById {
   '/practical/share': typeof PracticalShareRoute
   '/practical/steps': typeof PracticalStepsRoute
   '/practical/texts': typeof PracticalTextsRoute
+  '/resources/$category': typeof ResourcesCategoryRoute
   '/garden/': typeof GardenIndexRoute
   '/practical/': typeof PracticalIndexRoute
+  '/resources/': typeof ResourcesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -308,8 +326,10 @@ export interface FileRouteTypes {
     | '/practical/share'
     | '/practical/steps'
     | '/practical/texts'
+    | '/resources/$category'
     | '/garden/'
     | '/practical/'
+    | '/resources/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -338,8 +358,10 @@ export interface FileRouteTypes {
     | '/practical/share'
     | '/practical/steps'
     | '/practical/texts'
+    | '/resources/$category'
     | '/garden'
     | '/practical'
+    | '/resources'
   id:
     | '__root__'
     | '/'
@@ -369,8 +391,10 @@ export interface FileRouteTypes {
     | '/practical/share'
     | '/practical/steps'
     | '/practical/texts'
+    | '/resources/$category'
     | '/garden/'
     | '/practical/'
+    | '/resources/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -393,7 +417,9 @@ export interface RootRouteChildren {
   WishesRoute: typeof WishesRoute
   ComposeZoneRoute: typeof ComposeZoneRoute
   GardenZoneRoute: typeof GardenZoneRoute
+  ResourcesCategoryRoute: typeof ResourcesCategoryRoute
   GardenIndexRoute: typeof GardenIndexRoute
+  ResourcesIndexRoute: typeof ResourcesIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -517,6 +543,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/resources/': {
+      id: '/resources/'
+      path: '/resources'
+      fullPath: '/resources/'
+      preLoaderRoute: typeof ResourcesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/practical/': {
       id: '/practical/'
       path: '/'
@@ -529,6 +562,13 @@ declare module '@tanstack/react-router' {
       path: '/garden'
       fullPath: '/garden/'
       preLoaderRoute: typeof GardenIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/resources/$category': {
+      id: '/resources/$category'
+      path: '/resources/$category'
+      fullPath: '/resources/$category'
+      preLoaderRoute: typeof ResourcesCategoryRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/practical/texts': {
@@ -652,8 +692,19 @@ const rootRouteChildren: RootRouteChildren = {
   WishesRoute: WishesRoute,
   ComposeZoneRoute: ComposeZoneRoute,
   GardenZoneRoute: GardenZoneRoute,
+  ResourcesCategoryRoute: ResourcesCategoryRoute,
   GardenIndexRoute: GardenIndexRoute,
+  ResourcesIndexRoute: ResourcesIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}
