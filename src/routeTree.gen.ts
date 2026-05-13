@@ -40,6 +40,8 @@ import { Route as PracticalBookletRouteImport } from './routes/practical.booklet
 import { Route as PracticalAtmosphereRouteImport } from './routes/practical.atmosphere'
 import { Route as GardenZoneRouteImport } from './routes/garden.$zone'
 import { Route as ComposeZoneRouteImport } from './routes/compose.$zone'
+import { Route as ResourcesConfirmProviderIdRouteImport } from './routes/resources.confirm.$providerId'
+import { Route as ResourcesCategoryProviderIdRouteImport } from './routes/resources.$category.$providerId'
 
 const WishesRoute = WishesRouteImport.update({
   id: '/wishes',
@@ -196,6 +198,18 @@ const ComposeZoneRoute = ComposeZoneRouteImport.update({
   path: '/compose/$zone',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ResourcesConfirmProviderIdRoute =
+  ResourcesConfirmProviderIdRouteImport.update({
+    id: '/resources/confirm/$providerId',
+    path: '/resources/confirm/$providerId',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ResourcesCategoryProviderIdRoute =
+  ResourcesCategoryProviderIdRouteImport.update({
+    id: '/$providerId',
+    path: '/$providerId',
+    getParentRoute: () => ResourcesCategoryRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -225,10 +239,12 @@ export interface FileRoutesByFullPath {
   '/practical/share': typeof PracticalShareRoute
   '/practical/steps': typeof PracticalStepsRoute
   '/practical/texts': typeof PracticalTextsRoute
-  '/resources/$category': typeof ResourcesCategoryRoute
+  '/resources/$category': typeof ResourcesCategoryRouteWithChildren
   '/garden/': typeof GardenIndexRoute
   '/practical/': typeof PracticalIndexRoute
   '/resources/': typeof ResourcesIndexRoute
+  '/resources/$category/$providerId': typeof ResourcesCategoryProviderIdRoute
+  '/resources/confirm/$providerId': typeof ResourcesConfirmProviderIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -257,10 +273,12 @@ export interface FileRoutesByTo {
   '/practical/share': typeof PracticalShareRoute
   '/practical/steps': typeof PracticalStepsRoute
   '/practical/texts': typeof PracticalTextsRoute
-  '/resources/$category': typeof ResourcesCategoryRoute
+  '/resources/$category': typeof ResourcesCategoryRouteWithChildren
   '/garden': typeof GardenIndexRoute
   '/practical': typeof PracticalIndexRoute
   '/resources': typeof ResourcesIndexRoute
+  '/resources/$category/$providerId': typeof ResourcesCategoryProviderIdRoute
+  '/resources/confirm/$providerId': typeof ResourcesConfirmProviderIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -291,10 +309,12 @@ export interface FileRoutesById {
   '/practical/share': typeof PracticalShareRoute
   '/practical/steps': typeof PracticalStepsRoute
   '/practical/texts': typeof PracticalTextsRoute
-  '/resources/$category': typeof ResourcesCategoryRoute
+  '/resources/$category': typeof ResourcesCategoryRouteWithChildren
   '/garden/': typeof GardenIndexRoute
   '/practical/': typeof PracticalIndexRoute
   '/resources/': typeof ResourcesIndexRoute
+  '/resources/$category/$providerId': typeof ResourcesCategoryProviderIdRoute
+  '/resources/confirm/$providerId': typeof ResourcesConfirmProviderIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -330,6 +350,8 @@ export interface FileRouteTypes {
     | '/garden/'
     | '/practical/'
     | '/resources/'
+    | '/resources/$category/$providerId'
+    | '/resources/confirm/$providerId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -362,6 +384,8 @@ export interface FileRouteTypes {
     | '/garden'
     | '/practical'
     | '/resources'
+    | '/resources/$category/$providerId'
+    | '/resources/confirm/$providerId'
   id:
     | '__root__'
     | '/'
@@ -395,6 +419,8 @@ export interface FileRouteTypes {
     | '/garden/'
     | '/practical/'
     | '/resources/'
+    | '/resources/$category/$providerId'
+    | '/resources/confirm/$providerId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -417,9 +443,10 @@ export interface RootRouteChildren {
   WishesRoute: typeof WishesRoute
   ComposeZoneRoute: typeof ComposeZoneRoute
   GardenZoneRoute: typeof GardenZoneRoute
-  ResourcesCategoryRoute: typeof ResourcesCategoryRoute
+  ResourcesCategoryRoute: typeof ResourcesCategoryRouteWithChildren
   GardenIndexRoute: typeof GardenIndexRoute
   ResourcesIndexRoute: typeof ResourcesIndexRoute
+  ResourcesConfirmProviderIdRoute: typeof ResourcesConfirmProviderIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -641,6 +668,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComposeZoneRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/resources/confirm/$providerId': {
+      id: '/resources/confirm/$providerId'
+      path: '/resources/confirm/$providerId'
+      fullPath: '/resources/confirm/$providerId'
+      preLoaderRoute: typeof ResourcesConfirmProviderIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/resources/$category/$providerId': {
+      id: '/resources/$category/$providerId'
+      path: '/$providerId'
+      fullPath: '/resources/$category/$providerId'
+      preLoaderRoute: typeof ResourcesCategoryProviderIdRouteImport
+      parentRoute: typeof ResourcesCategoryRoute
+    }
   }
 }
 
@@ -672,6 +713,17 @@ const PracticalRouteWithChildren = PracticalRoute._addFileChildren(
   PracticalRouteChildren,
 )
 
+interface ResourcesCategoryRouteChildren {
+  ResourcesCategoryProviderIdRoute: typeof ResourcesCategoryProviderIdRoute
+}
+
+const ResourcesCategoryRouteChildren: ResourcesCategoryRouteChildren = {
+  ResourcesCategoryProviderIdRoute: ResourcesCategoryProviderIdRoute,
+}
+
+const ResourcesCategoryRouteWithChildren =
+  ResourcesCategoryRoute._addFileChildren(ResourcesCategoryRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CrisisRoute: CrisisRoute,
@@ -692,10 +744,20 @@ const rootRouteChildren: RootRouteChildren = {
   WishesRoute: WishesRoute,
   ComposeZoneRoute: ComposeZoneRoute,
   GardenZoneRoute: GardenZoneRoute,
-  ResourcesCategoryRoute: ResourcesCategoryRoute,
+  ResourcesCategoryRoute: ResourcesCategoryRouteWithChildren,
   GardenIndexRoute: GardenIndexRoute,
   ResourcesIndexRoute: ResourcesIndexRoute,
+  ResourcesConfirmProviderIdRoute: ResourcesConfirmProviderIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}
