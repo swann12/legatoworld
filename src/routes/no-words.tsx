@@ -1,8 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { Shell } from "@/components/legato/Shell";
-import { useLegato } from "@/lib/legato-state";
 import { similarAmbiances } from "@/lib/ambiance.functions";
 
 export const Route = createFileRoute("/no-words")({
@@ -11,6 +10,8 @@ export const Route = createFileRoute("/no-words")({
 });
 
 type Motion = "drift" | "ripple" | "pulse" | "rain" | "veil";
+type Tab = "souffles" | "respirer" | "lire";
+type BookTag = "deuil récent" | "long terme" | "anticipation" | "pour les enfants" | "philosophique" | "poétique" | "corps";
 
 type Texture = {
   id: string;
@@ -18,7 +19,8 @@ type Texture = {
   whisper: string;
   asmr: string;
   motion: Motion;
-  palette: [string, string, string];
+  bg: string; // page-level gradient (CSS)
+  tag: BookTag; // sensitivity → for cross-AI with Lire
   generated?: boolean;
 };
 
@@ -29,102 +31,155 @@ const BASE: Texture[] = [
     whisper: "Comme une main posée sur l'épaule.",
     asmr: "Souffle long, près d'un foyer",
     motion: "pulse",
-    palette: ["var(--peach)", "var(--rose)", "var(--lavender)"],
+    bg: "linear-gradient(160deg, #F8E4DD 0%, #F0CFC8 60%, #E5B8B5 100%)",
+    tag: "deuil récent",
   },
   {
-    id: "ocean",
-    title: "Marée intérieure",
-    whisper: "Aller, revenir, à votre rythme.",
-    asmr: "Vagues posées sur le sable",
-    motion: "ripple",
-    palette: ["var(--mist)", "var(--lavender)", "var(--paper)"],
+    id: "rain-fine",
+    title: "Pluie fine",
+    whisper: "Tout s'apaise, à l'abri.",
+    asmr: "Pluie légère sur une vitre",
+    motion: "rain",
+    bg: "linear-gradient(180deg, #DDE3EA 0%, #C3CCD6 100%)",
+    tag: "poétique",
   },
   {
-    id: "forest",
-    title: "Forêt qui respire",
-    whisper: "Le vert se balance, sans bruit.",
+    id: "leaves",
+    title: "Feuilles d'automne",
+    whisper: "Le temps se balance, sans bruit.",
     asmr: "Vent doux dans les feuilles",
     motion: "drift",
-    palette: ["var(--sage)", "var(--mist)", "var(--dusk)"],
+    bg: "linear-gradient(170deg, #F5E9D6 0%, #E8D4B5 100%)",
+    tag: "long terme",
   },
   {
-    id: "rain",
-    title: "Pluie au carreau",
-    whisper: "Tout s'apaise, à l'abri.",
-    asmr: "Pluie continue derrière la vitre",
-    motion: "rain",
-    palette: ["var(--mist)", "var(--dusk)", "var(--mist)"],
-  },
-  {
-    id: "moon",
-    title: "Veillée",
-    whisper: "Une lumière reste allumée pour vous.",
-    asmr: "Silence sous les étoiles",
-    motion: "veil",
-    palette: ["var(--lavender)", "var(--dusk)", "var(--paper)"],
-  },
-  {
-    id: "candle",
-    title: "Bougie qui veille",
-    whisper: "Une petite flamme suffit, ce soir.",
-    asmr: "Cire qui crépite à voix basse",
-    motion: "pulse",
-    palette: ["var(--peach)", "var(--rose)", "var(--paper)"],
-  },
-  {
-    id: "tea",
-    title: "Thé qui infuse",
-    whisper: "L'eau prend la couleur du temps.",
-    asmr: "Eau versée dans une tasse",
-    motion: "drift",
-    palette: ["var(--peach)", "var(--mist)", "var(--sage)"],
-  },
-  {
-    id: "wool",
-    title: "Laine épaisse",
-    whisper: "Posez tout, juste un instant.",
-    asmr: "Aiguilles qui tricotent doucement",
-    motion: "veil",
-    palette: ["var(--rose)", "var(--peach)", "var(--lavender)"],
-  },
-  {
-    id: "snow",
-    title: "Neige qui tombe",
+    id: "snow-morning",
+    title: "Matin de neige",
     whisper: "Le monde se feutre autour de vous.",
-    asmr: "Pas légers sur la neige fraîche",
-    motion: "rain",
-    palette: ["var(--paper)", "var(--mist)", "var(--lavender)"],
+    asmr: "Silence presque total, craquement léger",
+    motion: "veil",
+    bg: "linear-gradient(180deg, #F0F4F8 0%, #DDE5EE 100%)",
+    tag: "poétique",
   },
   {
-    id: "wind",
-    title: "Voile au vent",
-    whisper: "Quelque chose respire, dehors.",
-    asmr: "Tissu qui bouge à la fenêtre",
+    id: "seaside",
+    title: "Bord de mer",
+    whisper: "Aller, revenir, à votre rythme.",
+    asmr: "Vagues douces et régulières",
+    motion: "ripple",
+    bg: "linear-gradient(180deg, #DCE6E0 0%, #B6CCC2 100%)",
+    tag: "philosophique",
+  },
+  {
+    id: "forest-rain",
+    title: "Forêt après la pluie",
+    whisper: "Tout s'égoutte, doucement.",
+    asmr: "Gouttes sur les feuilles, oiseaux lointains",
+    motion: "ripple",
+    bg: "linear-gradient(170deg, #E4ECDF 0%, #C7D5BF 100%)",
+    tag: "poétique",
+  },
+  {
+    id: "afternoon-light",
+    title: "Lumière de fin d'après-midi",
+    whisper: "Une chaleur qui s'attarde.",
+    asmr: "Silence, léger bourdonnement d'été",
     motion: "drift",
-    palette: ["var(--mist)", "var(--paper)", "var(--lavender)"],
+    bg: "linear-gradient(170deg, #FBF1DC 0%, #F0DDB0 100%)",
+    tag: "philosophique",
+  },
+  {
+    id: "quiet-night",
+    title: "Nuit tranquille",
+    whisper: "Une lumière reste allumée pour vous.",
+    asmr: "Grillons lointains, vent doux",
+    motion: "veil",
+    bg: "linear-gradient(180deg, #1F2638 0%, #2A3550 100%)",
+    tag: "philosophique",
+  },
+  {
+    id: "fireplace",
+    title: "Feu de cheminée",
+    whisper: "Une petite flamme suffit, ce soir.",
+    asmr: "Crépitement doux d'un feu de bois",
+    motion: "pulse",
+    bg: "linear-gradient(160deg, #F4DCD0 0%, #E0B5A2 100%)",
+    tag: "deuil récent",
+  },
+  {
+    id: "wave",
+    title: "Vague de fond",
+    whisper: "Quelque chose vous porte, en dessous.",
+    asmr: "Basses fréquences très douces",
+    motion: "ripple",
+    bg: "linear-gradient(180deg, #E0DAEC 0%, #C4B8DC 100%)",
+    tag: "philosophique",
   },
 ];
 
-function bgFromPalette(p: [string, string, string], motion: Motion) {
-  if (motion === "pulse")
-    return `radial-gradient(circle at 30% 30%, ${p[0]}, ${p[1]} 55%, ${p[2]} 100%)`;
-  if (motion === "ripple")
-    return `linear-gradient(180deg, ${p[2]}, color-mix(in oklab, ${p[1]} 70%, ${p[0]}))`;
-  if (motion === "drift")
-    return `radial-gradient(ellipse at 60% 40%, ${p[0]}, color-mix(in oklab, ${p[1]} 60%, ${p[2]} 30%))`;
-  if (motion === "rain")
-    return `linear-gradient(180deg, color-mix(in oklab, ${p[1]} 70%, ${p[2]}), ${p[0]})`;
-  return `radial-gradient(circle at 60% 30%, color-mix(in oklab, ${p[0]} 70%, white), color-mix(in oklab, ${p[1]} 30%, ${p[2]}))`;
+const FAV_KEY = "legato.nowords.favorites";
+const READ_KEY = "legato.nowords.read";
+
+function loadFavorites(): string[] {
+  if (typeof window === "undefined") return [];
+  try { return JSON.parse(localStorage.getItem(FAV_KEY) || "[]"); } catch { return []; }
+}
+function saveFavorites(ids: string[]) {
+  if (typeof window === "undefined") return;
+  localStorage.setItem(FAV_KEY, JSON.stringify(ids));
 }
 
 function NoWords() {
-  const { t } = useLegato();
+  const [tab, setTab] = useState<Tab>("souffles");
+
+  return (
+    <Shell hideNav>
+      <div className="relative min-h-dvh flex flex-col select-none overflow-hidden">
+        {/* Top tabs */}
+        <div className="relative z-20 px-6 pt-7 pb-3 flex items-center justify-between">
+          <Link to="/home" className="text-[11px] uppercase tracking-[0.22em] text-dusk/55">
+            ← Foyer
+          </Link>
+          <nav className="flex items-center gap-1.5 backdrop-blur-md rounded-full px-1.5 py-1"
+               style={{ background: "color-mix(in oklab, var(--paper) 50%, transparent)" }}>
+            {(["souffles","respirer","lire"] as Tab[]).map((t) => (
+              <button
+                key={t}
+                onClick={() => setTab(t)}
+                className={`px-3.5 py-1.5 rounded-full text-[10.5px] uppercase tracking-[0.18em] transition-colors ${
+                  tab === t ? "bg-dusk/85 text-paper" : "text-dusk/65"
+                }`}
+              >
+                {t === "souffles" ? "Souffles" : t === "respirer" ? "Respirer" : "Lire"}
+              </button>
+            ))}
+          </nav>
+          <span className="w-10" />
+        </div>
+
+        <div className="relative z-10 flex-1 flex flex-col">
+          {tab === "souffles" && <SoufflesView />}
+          {tab === "respirer" && <RespirerView />}
+          {tab === "lire" && <LireView />}
+        </div>
+      </div>
+    </Shell>
+  );
+}
+
+/* ============================================================
+   ESPACE 1 — SOUFFLES
+   ============================================================ */
+function SoufflesView() {
   const [deck, setDeck] = useState<Texture[]>(BASE);
   const [index, setIndex] = useState(0);
   const [playing, setPlaying] = useState(false);
-  const [breathing, setBreathing] = useState(false);
+  const [favorites, setFavorites] = useState<string[]>(() => loadFavorites());
+  const [bloom, setBloom] = useState(false);
+  const [extendedMsg, setExtendedMsg] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
   const [aiError, setAiError] = useState<string | null>(null);
+  const [showSimilarCTA, setShowSimilarCTA] = useState(false);
   const startX = useRef<number | null>(null);
 
   const tex = deck[index];
@@ -133,24 +188,24 @@ function NoWords() {
 
   const fetchSimilar = useServerFn(similarAmbiances);
 
-  // ----- Ambient audio (procedural, Web Audio) -----
+  // Audio
   const audioRef = useRef<AmbientAudio | null>(null);
   const ctxRef = useRef<AudioContext | null>(null);
-  useEffect(() => {
-    return () => {
-      audioRef.current?.stop();
-      audioRef.current = null;
-      try { ctxRef.current?.close(); } catch {}
-      ctxRef.current = null;
-    };
+  useEffect(() => () => {
+    audioRef.current?.stop();
+    try { ctxRef.current?.close(); } catch {}
   }, []);
-  // When ambiance changes while playing, swap the sound design (ctx already unlocked)
   useEffect(() => {
     if (!playing || !ctxRef.current) return;
     audioRef.current?.stop();
     audioRef.current = createAmbientAudio(ctxRef.current, tex.motion);
     audioRef.current?.start();
-  }, [tex.motion, tex.id]);
+  }, [tex.motion, tex.id, playing]);
+
+  // Show similar CTA after 3 favorites
+  useEffect(() => {
+    if (favorites.length === 3) setShowSimilarCTA(true);
+  }, [favorites.length]);
 
   const togglePlay = () => {
     if (playing) {
@@ -159,72 +214,57 @@ function NoWords() {
       setPlaying(false);
       return;
     }
-    // Create AudioContext from inside the user gesture so browsers unlock it.
     if (!ctxRef.current) {
-      const Ctx =
-        (window.AudioContext as typeof AudioContext | undefined) ||
+      const Ctx = (window.AudioContext as typeof AudioContext | undefined) ||
         ((window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext);
-      if (!Ctx) {
-        setAiError("Le son n'est pas disponible sur ce navigateur.");
-        return;
-      }
+      if (!Ctx) return;
       ctxRef.current = new Ctx();
     }
-    const ctx = ctxRef.current;
-    if (ctx.state === "suspended") {
-      void ctx.resume();
-    }
-    audioRef.current = createAmbientAudio(ctx, tex.motion);
+    if (ctxRef.current.state === "suspended") void ctxRef.current.resume();
+    audioRef.current = createAmbientAudio(ctxRef.current, tex.motion);
     audioRef.current?.start();
     setPlaying(true);
   };
 
-  const onPointerDown = (e: React.PointerEvent) => {
-    startX.current = e.clientX;
+  const isFav = favorites.includes(tex.id);
+  const onKeep = () => {
+    if (isFav) return;
+    const nextFavs = [...favorites, tex.id];
+    setFavorites(nextFavs);
+    saveFavorites(nextFavs);
+    setBloom(true);
+    setTimeout(() => setBloom(false), 1800);
   };
+
+  const onStayMore = () => {
+    setExtendedMsg(true);
+    setTimeout(() => setExtendedMsg(false), 2400);
+  };
+
+  const onPointerDown = (e: React.PointerEvent) => { startX.current = e.clientX; };
   const onPointerUp = (e: React.PointerEvent) => {
     if (startX.current === null) return;
     const dx = e.clientX - startX.current;
-    if (dx < -40) next();
-    else if (dx > 40) prev();
+    if (dx < -40) next(); else if (dx > 40) prev();
     startX.current = null;
   };
 
-  useEffect(() => {
-    const h = (e: KeyboardEvent) => {
-      if (e.key === "ArrowRight") next();
-      if (e.key === "ArrowLeft") prev();
-      if (e.key === " ") togglePlay();
-    };
-    window.addEventListener("keydown", h);
-    return () => window.removeEventListener("keydown", h);
-  }, [deck.length]);
-
-  const onLoveAndExtend = async () => {
+  const onDiscoverSimilar = async () => {
     if (loadingMore) return;
-    setLoadingMore(true);
-    setAiError(null);
+    setLoadingMore(true); setAiError(null);
     try {
-      const res = await fetchSimilar({
-        data: {
-          title: tex.title,
-          whisper: tex.whisper,
-          asmr: tex.asmr,
-          motion: tex.motion,
-        },
-      });
+      const res = await fetchSimilar({ data: {
+        title: tex.title, whisper: tex.whisper, asmr: tex.asmr, motion: tex.motion,
+      }});
       if (res.error || !res.variations?.length) {
         setAiError(res.error ?? "Aucune variation pour l'instant.");
       } else {
         const newOnes: Texture[] = res.variations.map((v, i) => ({
           id: `ai-${Date.now()}-${i}`,
-          title: v.title,
-          whisper: v.whisper,
-          asmr: v.asmr,
-          motion: (["drift", "ripple", "pulse", "rain", "veil"].includes(v.motion)
-            ? v.motion
-            : tex.motion) as Motion,
-          palette: (v.palette.length === 3 ? v.palette : tex.palette) as [string, string, string],
+          title: v.title, whisper: v.whisper, asmr: v.asmr,
+          motion: (["drift","ripple","pulse","rain","veil"].includes(v.motion) ? v.motion : tex.motion) as Motion,
+          bg: tex.bg,
+          tag: tex.tag,
           generated: true,
         }));
         setDeck((d) => {
@@ -232,6 +272,7 @@ function NoWords() {
           copy.splice(index + 1, 0, ...newOnes);
           return copy;
         });
+        setShowSimilarCTA(false);
       }
     } catch {
       setAiError("Le service n'a pas répondu.");
@@ -240,133 +281,128 @@ function NoWords() {
     }
   };
 
+  const dark = tex.id === "quiet-night";
+
   return (
-    <Shell hideNav>
+    <div
+      className="relative flex-1 flex flex-col overflow-hidden"
+      onPointerDown={onPointerDown}
+      onPointerUp={onPointerUp}
+    >
+      {/* Background gradient — fades 2s between sequences */}
       <div
-        className="relative min-h-dvh flex flex-col select-none overflow-hidden"
-        onPointerDown={onPointerDown}
-        onPointerUp={onPointerUp}
-      >
-        {/* Immersive background — sits inside the page, above Shell's bg-paper */}
-        <div
-          className="absolute inset-0 transition-[background] duration-[1400ms] ease-out"
-          style={{ background: bgFromPalette(tex.palette, tex.motion) }}
-        />
-        <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <MotionLayer kind={tex.motion} accent={tex.palette[0]} />
-        </div>
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background:
-              "radial-gradient(ellipse at 50% 110%, rgba(40,30,40,0.18), transparent 55%)",
-          }}
-        />
-        <div className="relative z-10 flex flex-col flex-1 min-h-dvh">
-        {/* Top bar */}
-        <div className="px-6 pt-8 flex items-center justify-between">
-          <Link to="/home" className="text-[11px] uppercase tracking-[0.22em] text-dusk/60">
-            ← {t("nav.home")}
-          </Link>
-          <span className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">
-            {index + 1} / {deck.length}
-          </span>
-        </div>
+        className="absolute inset-0 -z-10 transition-[background] duration-[2000ms] ease-out"
+        style={{ background: tex.bg }}
+      />
+      <div className="absolute inset-0 pointer-events-none overflow-hidden -z-10">
+        <MotionLayer kind={tex.motion} />
+      </div>
 
-        <div className="px-7 pt-6">
-          <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/55">
-            {t("nowords.title")}
+      <div className={`flex-1 flex flex-col ${dark ? "text-paper" : "text-dusk"}`}>
+        {/* Title block — centered */}
+        <div className="px-7 pt-4 text-center">
+          <p className={`text-[10px] uppercase tracking-[0.22em] ${dark ? "text-paper/55" : "text-dusk/55"}`}>
+            {playing ? "Ambiance en cours" : "En silence"}
+            {tex.generated && <span className={`ml-2 ${dark ? "text-paper/40" : "text-dusk/40"}`}>· proposée pour vous</span>}
           </p>
-          <h1
-            className="mt-2 font-serif text-[1.55rem] leading-[1.18] font-light text-dusk max-w-[22ch]"
-            style={{ textWrap: "balance" }}
+          <h2
+            className="mt-3 font-serif italic text-[26px] leading-[1.15]"
+            style={{ textWrap: "balance", textShadow: dark ? "0 1px 18px rgba(0,0,0,0.4)" : "0 1px 18px rgba(255,255,255,0.45)" }}
           >
-            Laissez-vous porter, sans rien chercher.
-          </h1>
+            {tex.title}
+          </h2>
+          <p className={`mt-3 text-[14px] leading-relaxed font-light ${dark ? "text-paper/75" : "text-dusk/70"}`}
+             style={{ color: dark ? undefined : "#6B6560" }}>
+            {tex.whisper}
+          </p>
+          <p className={`mt-3 text-[11px] italic ${dark ? "text-paper/55" : "text-dusk/55"}`}>
+            Son · {tex.asmr.toLowerCase()}
+          </p>
         </div>
 
-        {/* Breathing guide overlay */}
-        {breathing && <BreathingGuide onClose={() => setBreathing(false)} />}
-
-        {/* Floating info — translucent, no opaque white panel */}
         <div className="flex-1" />
 
-        <div className="px-7 pb-2">
-          <div className="max-w-[34ch]">
-            <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/55">
-              {playing ? "Ambiance en cours" : "En silence"}
-              {tex.generated && <span className="ml-2 text-dusk/40">· proposée pour vous</span>}
-            </p>
-            <h2
-              className="mt-2 font-serif italic text-[26px] leading-[1.15] text-dusk"
-              style={{ textWrap: "balance", textShadow: "0 1px 18px rgba(255,255,255,0.45)" }}
-            >
-              {tex.title}
-            </h2>
-            <p
-              className="mt-2 text-[14px] leading-relaxed text-dusk/80"
-              style={{ textWrap: "pretty" }}
-            >
-              {tex.whisper}
-            </p>
-            <p className="mt-3 text-[12px] text-dusk/60 italic" style={{ textWrap: "pretty" }}>
-              Son · {tex.asmr.toLowerCase()}
-            </p>
+        {/* Floral bloom overlay when keeping a sequence */}
+        {bloom && (
+          <div className="pointer-events-none absolute inset-0 flex items-center justify-center z-10">
+            <BloomFlower />
           </div>
-        </div>
+        )}
 
-        {/* Controls */}
-        <div className="px-6 pt-5 pb-4 flex items-center gap-3">
+        {/* Suggestion after 3 favorites */}
+        {showSimilarCTA && (
+          <div className="px-7 pb-2">
+            <div className={`rounded-2xl px-4 py-3.5 backdrop-blur-md text-center`}
+                 style={{ background: dark ? "rgba(255,255,255,0.08)" : "color-mix(in oklab, var(--paper) 55%, transparent)" }}>
+              <p className={`text-[12.5px] leading-relaxed italic ${dark ? "text-paper/85" : "text-dusk/80"}`} style={{ textWrap: "pretty" }}>
+                Vous semblez aimer les ambiances {favoriteFamily(deck, favorites)}. On en a préparé d'autres dans cet esprit.
+              </p>
+              <button
+                onClick={onDiscoverSimilar}
+                disabled={loadingMore}
+                className={`mt-2 text-[12px] uppercase tracking-[0.2em] ${dark ? "text-paper" : "text-dusk"} disabled:opacity-60`}
+              >
+                {loadingMore ? "Une voix douce arrive…" : "Découvrir →"}
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Play controls */}
+        <div className="px-6 pt-3 pb-3 flex items-center gap-3">
           <button
             onClick={prev}
-            className="size-11 rounded-full flex items-center justify-center text-dusk/75 text-lg backdrop-blur-md"
-            style={{ background: "color-mix(in oklab, var(--paper) 32%, transparent)" }}
-            aria-label="Ambiance précédente"
-          >
-            ←
-          </button>
+            className={`size-11 rounded-full flex items-center justify-center text-lg backdrop-blur-md ${dark ? "text-paper/85" : "text-dusk/75"}`}
+            style={{ background: dark ? "rgba(255,255,255,0.1)" : "color-mix(in oklab, var(--paper) 32%, transparent)" }}
+            aria-label="Séquence précédente"
+          >←</button>
           <button
             onClick={togglePlay}
             className="flex-1 px-5 py-3.5 text-center backdrop-blur-md rounded-full"
             style={{
-              background: "color-mix(in oklab, var(--paper) 38%, transparent)",
-              boxShadow: "inset 0 1px 0 rgba(255,255,255,0.5)",
+              background: dark ? "rgba(255,255,255,0.12)" : "color-mix(in oklab, var(--paper) 38%, transparent)",
+              boxShadow: dark ? "inset 0 1px 0 rgba(255,255,255,0.15)" : "inset 0 1px 0 rgba(255,255,255,0.5)",
             }}
           >
-            <p className="font-serif italic text-dusk text-[15px]">
+            <p className={`font-serif italic text-[15px] ${dark ? "text-paper" : "text-dusk"}`}>
               {playing ? "Mettre en pause" : "Écouter ce son"}
             </p>
           </button>
           <button
             onClick={next}
-            className="size-11 rounded-full flex items-center justify-center text-dusk/75 text-lg backdrop-blur-md"
-            style={{ background: "color-mix(in oklab, var(--paper) 32%, transparent)" }}
-            aria-label="Ambiance suivante"
+            className={`size-11 rounded-full flex items-center justify-center text-lg backdrop-blur-md ${dark ? "text-paper/85" : "text-dusk/75"}`}
+            style={{ background: dark ? "rgba(255,255,255,0.1)" : "color-mix(in oklab, var(--paper) 32%, transparent)" }}
+            aria-label="Séquence suivante"
+          >→</button>
+        </div>
+
+        {/* Secondary actions: Garder / Rester encore */}
+        <div className="px-6 pb-3 flex items-center gap-3">
+          <button
+            onClick={onKeep}
+            disabled={isFav}
+            className={`flex-1 py-3 rounded-full text-[12.5px] backdrop-blur-md flex items-center justify-center gap-2 ${dark ? "text-paper/85" : "text-dusk/85"} ${isFav ? "opacity-70" : ""}`}
+            style={{ background: dark ? "rgba(255,255,255,0.1)" : "color-mix(in oklab, var(--paper) 28%, transparent)" }}
           >
-            →
+            <span aria-hidden>{isFav ? "♥" : "♡"}</span>
+            <span>{isFav ? "Gardée" : "Garder cette séquence"}</span>
+          </button>
+          <button
+            onClick={onStayMore}
+            className={`flex-1 py-3 rounded-full text-[12.5px] backdrop-blur-md ${dark ? "text-paper/85" : "text-dusk/85"}`}
+            style={{ background: dark ? "rgba(255,255,255,0.1)" : "color-mix(in oklab, var(--paper) 28%, transparent)" }}
+          >
+            Rester encore
           </button>
         </div>
 
-        {/* Secondary actions */}
-        <div className="px-6 pb-4 flex items-center gap-3">
-          <button
-            onClick={() => setBreathing(true)}
-            className="flex-1 py-3 rounded-full text-[12.5px] text-dusk/85 backdrop-blur-md"
-            style={{ background: "color-mix(in oklab, var(--paper) 28%, transparent)" }}
-          >
-            Respirer avec moi
-          </button>
-          <button
-            onClick={onLoveAndExtend}
-            disabled={loadingMore}
-            className="flex-1 py-3 rounded-full text-[12.5px] text-dusk/85 backdrop-blur-md disabled:opacity-60"
-            style={{ background: "color-mix(in oklab, var(--paper) 28%, transparent)" }}
-          >
-            {loadingMore ? "Une voix douce arrive…" : "♡ J'aime — prolonger"}
-          </button>
-        </div>
+        {extendedMsg && (
+          <p className={`px-7 pb-2 text-[11.5px] italic text-center ${dark ? "text-paper/70" : "text-dusk/65"}`}>
+            On reste avec vous, encore un moment.
+          </p>
+        )}
         {aiError && (
-          <p className="px-7 pb-3 text-[11px] text-dusk/60 italic">{aiError}</p>
+          <p className={`px-7 pb-3 text-[11px] italic text-center ${dark ? "text-paper/65" : "text-dusk/60"}`}>{aiError}</p>
         )}
 
         {/* Dots */}
@@ -375,122 +411,299 @@ function NoWords() {
             <span
               key={tx.id}
               className={`h-[3px] rounded-full transition-all ${
-                i === index ? "w-6 bg-dusk/70" : "w-2 bg-dusk/25"
+                i === index
+                  ? (dark ? "w-6 bg-paper/80" : "w-6 bg-dusk/70")
+                  : (dark ? "w-2 bg-paper/30" : "w-2 bg-dusk/25")
               }`}
             />
           ))}
         </div>
-        </div>
       </div>
-    </Shell>
+    </div>
   );
 }
 
-/* ---------- Breathing guide ----------
-   Refonte : un seul cercle qui grandit pendant l'inspiration,
-   se tient pendant la suspension, se rétracte pendant l'expiration.
-   Compte à rebours visible. Fond très sombre, lumière douce. */
-function BreathingGuide({ onClose }: { onClose: () => void }) {
-  type Phase = "in" | "hold" | "out";
-  const PHASES: { id: Phase; label: string; verb: string; seconds: number }[] = [
-    { id: "in",   label: "Inspirez",   verb: "Le cercle grandit — laissez l'air entrer par le nez.", seconds: 4 },
-    { id: "hold", label: "Suspendez",  verb: "Restez là, sans forcer.", seconds: 4 },
-    { id: "out",  label: "Expirez",    verb: "Le cercle se referme — soufflez doucement par la bouche.", seconds: 6 },
-  ];
+function favoriteFamily(deck: Texture[], favIds: string[]): string {
+  const tags = favIds.map((id) => deck.find((d) => d.id === id)?.tag).filter(Boolean) as BookTag[];
+  if (!tags.length) return "douces";
+  const counts = tags.reduce<Record<string, number>>((acc, t) => { acc[t] = (acc[t] || 0) + 1; return acc; }, {});
+  const top = Object.entries(counts).sort((a, b) => b[1] - a[1])[0][0];
+  if (top === "deuil récent") return "chaudes et enveloppantes";
+  if (top === "philosophique") return "vastes et calmes";
+  if (top === "poétique") return "feutrées et délicates";
+  if (top === "long terme") return "lentes et changeantes";
+  return "douces";
+}
+
+function BloomFlower() {
+  return (
+    <svg width="120" height="120" viewBox="0 0 120 120" className="animate-bloom" style={{ filter: "drop-shadow(0 4px 16px rgba(255,180,180,0.4))" }}>
+      <style>{`
+        @keyframes legato-bloom {
+          0%   { transform: scale(0.2); opacity: 0; }
+          30%  { opacity: 1; }
+          100% { transform: scale(1.4); opacity: 0; }
+        }
+        .animate-bloom { animation: legato-bloom 1.8s ease-out forwards; transform-origin: center; }
+      `}</style>
+      {[0, 60, 120, 180, 240, 300].map((deg) => (
+        <ellipse key={deg} cx="60" cy="38" rx="10" ry="20" fill="rgba(255,180,180,0.85)"
+                 transform={`rotate(${deg} 60 60)`} />
+      ))}
+      <circle cx="60" cy="60" r="7" fill="rgba(255,225,180,0.95)" />
+    </svg>
+  );
+}
+
+/* ============================================================
+   ESPACE 2 — RESPIRER
+   ============================================================ */
+type Rhythm = { id: "doux"|"profond"|"simple"; label: string; in: number; hold: number; out: number };
+const RHYTHMS: Rhythm[] = [
+  { id: "doux",    label: "Doux",    in: 4, hold: 4, out: 6 },
+  { id: "profond", label: "Profond", in: 4, hold: 7, out: 8 },
+  { id: "simple",  label: "Simple",  in: 3, hold: 3, out: 3 },
+];
+
+function RespirerView() {
+  const [rhythm, setRhythm] = useState<Rhythm>(RHYTHMS[0]);
+  const [closing, setClosing] = useState(false);
   const [step, setStep] = useState(0);
-  const [count, setCount] = useState(PHASES[0].seconds);
+  const [count, setCount] = useState(rhythm.in);
+
+  type PhaseInfo = { id: "in"|"hold"|"out"; label: string; seconds: number };
+  const phases: PhaseInfo[] = useMemo(() => ([
+    { id: "in",   label: "Inspirez...",      seconds: rhythm.in },
+    { id: "hold", label: "Tenez doucement.", seconds: rhythm.hold },
+    { id: "out",  label: "Laissez aller...", seconds: rhythm.out },
+  ]), [rhythm]);
 
   useEffect(() => {
-    setCount(PHASES[step].seconds);
+    setCount(phases[step].seconds);
     const tick = setInterval(() => {
       setCount((c) => {
         if (c <= 1) {
-          const nextStep = (step + 1) % PHASES.length;
-          setStep(nextStep);
-          return PHASES[nextStep].seconds;
+          const ns = (step + 1) % phases.length;
+          setStep(ns);
+          return phases[ns].seconds;
         }
         return c - 1;
       });
     }, 1000);
     return () => clearInterval(tick);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [step]);
+  }, [step, phases]);
 
-  const phase = PHASES[step];
-  // Scale endpoints per phase. The transition uses the FULL phase duration,
-  // so the circle visibly travels from one size to the next while you breathe.
-  const SCALE = { in: { from: 0.45, to: 1 }, hold: { from: 1, to: 1 }, out: { from: 1, to: 0.45 } } as const;
-  const target = SCALE[phase.id].to;
+  // Reset when rhythm changes
+  useEffect(() => { setStep(0); setCount(phases[0].seconds); }, [rhythm.id]);
+
+  const phase = phases[step];
+  const SCALE = phase.id === "in" ? { from: 0.57, to: 1 } : phase.id === "out" ? { from: 1, to: 0.57 } : { from: 1, to: 1 };
   const duration = phase.seconds * 1000;
 
+  // Letter-by-letter for in/out
+  const letters = phase.label.split("");
+
   return (
-    <div
-      className="fixed inset-0 z-30 flex flex-col items-center justify-center px-7"
-      style={{
-        background:
-          "radial-gradient(ellipse at 50% 45%, rgba(36,28,40,0.96), rgba(12,10,16,0.99))",
-      }}
-    >
+    <div className="relative flex-1 flex flex-col items-center" style={{ background: "#1A1F2E" }}>
+      {/* Rhythm pills */}
+      <div className="pt-2 pb-6 flex items-center gap-2">
+        {RHYTHMS.map((r) => (
+          <button
+            key={r.id}
+            onClick={() => setRhythm(r)}
+            className={`px-3.5 py-1.5 rounded-full text-[10.5px] uppercase tracking-[0.18em] transition-colors ${
+              r.id === rhythm.id ? "bg-paper text-dusk" : "text-paper/55 border border-paper/15"
+            }`}
+          >
+            {r.label}
+          </button>
+        ))}
+      </div>
+
+      {/* Close X — top-right of inner area */}
       <button
-        onClick={onClose}
-        className="absolute top-6 right-6 text-[11px] uppercase tracking-[0.22em] text-white/55"
+        onClick={() => setClosing(true)}
+        className="absolute top-2 right-6 size-9 rounded-full flex items-center justify-center text-paper/65 text-xl"
+        aria-label="Fermer"
       >
-        Fermer
+        ✕
       </button>
 
-      <p className="text-[10px] uppercase tracking-[0.28em] text-white/40 mb-10">
-        Respiration guidée
-      </p>
-
-      <div className="relative size-[280px] flex items-center justify-center">
-        {/* Reference circle — the maximum size, kept very faint */}
-        <div className="absolute inset-0 rounded-full border border-white/10" />
-
-        {/* Breathing orb — soft warm light, scales with the phase */}
+      {/* Breathing circle */}
+      <div className="relative size-[280px] flex items-center justify-center mt-6">
+        <div className="absolute inset-0 rounded-full"
+             style={{ border: "1px dashed rgba(200,216,232,0.18)", margin: "60px" }} />
         <div
-          key={phase.id + step}
-          className="absolute inset-0 rounded-full will-change-transform"
+          key={`${rhythm.id}-${step}`}
+          className="absolute rounded-full will-change-transform"
           style={{
-            background:
-              "radial-gradient(circle, rgba(255,205,170,0.55) 0%, rgba(255,180,150,0.18) 45%, rgba(255,180,150,0.02) 72%, transparent 80%)",
-            transform: `scale(${SCALE[phase.id].from})`,
-            animation: `legato-breath-phase ${duration}ms cubic-bezier(0.45, 0, 0.55, 1) forwards`,
-            // CSS variable fed to the keyframes
-            ['--to' as string]: String(target),
-            ['--from' as string]: String(SCALE[phase.id].from),
+            width: 280, height: 280,
+            background: "rgba(200,216,232,0.4)",
+            transform: `scale(${SCALE.from})`,
+            animation: `legato-resp ${duration}ms cubic-bezier(0.45,0,0.55,1) forwards`,
+            ['--from' as string]: String(SCALE.from),
+            ['--to' as string]: String(SCALE.to),
           } as React.CSSProperties}
         />
-
-        {/* Center label — phase + remaining seconds */}
         <div className="relative text-center">
-          <p className="font-serif italic text-white/90 text-[22px] leading-none">
-            {phase.label}
+          <p className="font-serif italic text-paper/90 text-[20px] leading-none flex justify-center">
+            {phase.id === "hold"
+              ? <span>{phase.label}</span>
+              : letters.map((ch, i) => (
+                  <span key={i} className="opacity-0 letter-in" style={{
+                    animationDelay: `${(i * (duration * 0.6)) / Math.max(letters.length, 1) / 1000}s`
+                  }}>{ch === " " ? "\u00A0" : ch}</span>
+                ))}
           </p>
-          <p className="mt-3 font-serif text-white/75 text-[52px] font-light leading-none tabular-nums">
-            {count}
+          <p className="mt-4 text-[10.5px] tracking-[0.3em] tabular-nums" style={{ color: "#8090A8" }}>
+            {Array.from({ length: phase.seconds }).map((_, i) => (
+              <span key={i} className={i < (phase.seconds - count + 1) ? "text-paper/85" : "text-paper/25"}>
+                {i + 1}{i < phase.seconds - 1 ? " · " : ""}
+              </span>
+            ))}
           </p>
         </div>
       </div>
 
-      <p className="mt-12 text-[13px] text-white/70 max-w-[30ch] text-center leading-relaxed" style={{ textWrap: "balance" }}>
-        {phase.verb}
-      </p>
-      <p className="mt-4 text-[10.5px] uppercase tracking-[0.28em] text-white/30">
-        4 · 4 · 6
+      <p className="mt-12 text-[12px] font-light text-center" style={{ color: "#8090A8" }}>
+        Inspirez {rhythm.in} · Tenez {rhythm.hold} · Expirez {rhythm.out}
       </p>
 
-      {/* Inline keyframes — scoped to this view */}
+      {closing && (
+        <div className="absolute inset-0 flex items-center justify-center" style={{ background: "rgba(26,31,46,0.92)" }}
+             onAnimationEnd={() => {}}>
+          <p className="font-serif italic text-paper/90 text-[22px] animate-fade-in">Bien. Prenez votre temps.</p>
+        </div>
+      )}
+      {closing && <CloseAfter onDone={() => { setClosing(false); }} />}
+
       <style>{`
-        @keyframes legato-breath-phase {
+        @keyframes legato-resp {
           from { transform: scale(var(--from)); }
           to   { transform: scale(var(--to)); }
         }
+        @keyframes letter-in {
+          from { opacity: 0; transform: translateY(2px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        .letter-in { animation: letter-in 0.35s ease-out forwards; }
       `}</style>
     </div>
   );
 }
 
-/* ---------- Procedural ambient audio (Web Audio) ---------- */
+function CloseAfter({ onDone }: { onDone: () => void }) {
+  useEffect(() => {
+    const t = setTimeout(onDone, 1500);
+    return () => clearTimeout(t);
+  }, [onDone]);
+  return null;
+}
+
+/* ============================================================
+   ESPACE 3 — LIRE
+   ============================================================ */
+type Book = {
+  title: string;
+  author: string;
+  tags: BookTag[];
+  why: string;
+  url: string;
+};
+
+const BOOKS: Book[] = [
+  { title: "Vivre le deuil au jour le jour", author: "Christophe Fauré", tags: ["deuil récent"],
+    why: "La référence française. Pas un manuel — une présence.",
+    url: "https://www.google.com/search?q=Vivre+le+deuil+au+jour+le+jour+Christophe+Faur%C3%A9" },
+  { title: "La Mort est une question de vie", author: "Boris Cyrulnik", tags: ["philosophique"],
+    why: "Comment la perte peut, lentement, devenir une force.",
+    url: "https://www.google.com/search?q=La+Mort+est+une+question+de+vie+Boris+Cyrulnik" },
+  { title: "Une année magique", author: "Joan Didion", tags: ["deuil récent","poétique"],
+    why: "Le plus honnête des livres sur la perte d'un conjoint.",
+    url: "https://www.google.com/search?q=L%27ann%C3%A9e+de+la+pens%C3%A9e+magique+Joan+Didion" },
+  { title: "Les Traversées du deuil", author: "Martine Spiesser", tags: ["deuil récent"],
+    why: "Écrit par une thérapeute française spécialisée.",
+    url: "https://www.google.com/search?q=Les+Travers%C3%A9es+du+deuil+Martine+Spiesser" },
+  { title: "Le Deuil, c'est la vie", author: "David Kessler", tags: ["long terme"],
+    why: "Par l'élève de Kübler-Ross. Sur la recherche de sens.",
+    url: "https://www.google.com/search?q=Le+Deuil+c%27est+la+vie+David+Kessler" },
+  { title: "Tout ce que je sais de toi", author: "Eric Chacour", tags: ["poétique","anticipation"],
+    why: "Un roman sur l'absence et ce qu'on garde.",
+    url: "https://www.google.com/search?q=Tout+ce+que+je+sais+de+toi+Eric+Chacour" },
+  { title: "La Consolation", author: "Sébastien Japrisot", tags: ["poétique"],
+    why: "Pour les jours où on veut juste être porté par les mots.",
+    url: "https://www.google.com/search?q=La+Consolation+Japrisot" },
+  { title: "Quand le corps dit non", author: "Gabor Maté", tags: ["long terme","corps"],
+    why: "Le deuil qui reste dans le corps, et comment l'écouter.",
+    url: "https://www.google.com/search?q=Quand+le+corps+dit+non+Gabor+Mat%C3%A9" },
+  { title: "Le Chagrin", author: "Lionel Duroy", tags: ["deuil récent","poétique"],
+    why: "Un récit intime. Pour ne pas se sentir seul dans la douleur.",
+    url: "https://www.google.com/search?q=Le+Chagrin+Lionel+Duroy" },
+  { title: "Consolations", author: "Michael Ignatieff", tags: ["philosophique"],
+    why: "Pour approcher la mort sans qu'elle pèse trop.",
+    url: "https://www.google.com/search?q=Consolations+Michael+Ignatieff" },
+];
+
+function LireView() {
+  const favorites = loadFavorites();
+  // Compute tag affinity from favorited sequences
+  const affinity = useMemo<Record<string, number>>(() => {
+    const counts: Record<string, number> = {};
+    favorites.forEach((id) => {
+      const t = BASE.find((b) => b.id === id)?.tag;
+      if (t) counts[t] = (counts[t] || 0) + 1;
+    });
+    return counts;
+  }, [favorites.join(",")]);
+
+  const sorted = useMemo(() => {
+    return [...BOOKS].sort((a, b) => {
+      const sa = a.tags.reduce((acc, t) => acc + (affinity[t] || 0), 0);
+      const sb = b.tags.reduce((acc, t) => acc + (affinity[t] || 0), 0);
+      return sb - sa;
+    });
+  }, [affinity]);
+
+  return (
+    <div className="flex-1 overflow-y-auto" style={{ background: "#F5EFE6" }}>
+      <div className="px-7 pt-4 pb-6">
+        <h2 className="font-serif text-[24px] leading-[1.2] text-dusk" style={{ textWrap: "balance" }}>
+          Des mots qui accompagnent.
+        </h2>
+        <p className="mt-2 text-[13px] font-light" style={{ color: "#6B6560", textWrap: "pretty" }}>
+          Pas pour tout expliquer. Pour être moins seul·e.
+        </p>
+      </div>
+      <ul className="px-5 pb-12 space-y-3">
+        {sorted.map((b) => (
+          <li key={b.title} className="rounded-2xl bg-paper/85 backdrop-blur px-5 py-4 border border-dusk/8">
+            <h3 className="font-serif text-[18px] text-dusk leading-snug">{b.title}</h3>
+            <p className="text-[13px] font-light mt-0.5" style={{ color: "#6B6560" }}>{b.author}</p>
+            <p className="mt-2 text-[13px] leading-relaxed text-dusk/85 italic" style={{ textWrap: "pretty" }}>
+              {b.why}
+            </p>
+            <div className="mt-3 flex flex-wrap items-center gap-1.5">
+              {b.tags.map((t) => (
+                <span key={t} className="text-[10px] uppercase tracking-[0.16em] px-2 py-0.5 rounded-full"
+                      style={{ background: "#EDE3D2", color: "#7A6F5E" }}>
+                  {t}
+                </span>
+              ))}
+            </div>
+            <a href={b.url} target="_blank" rel="noreferrer"
+               className="inline-block mt-3 text-[12px] uppercase tracking-[0.2em] text-dusk/75">
+              Trouver ce livre →
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+/* ============================================================
+   AUDIO ENGINE & MOTION (preserved from previous version)
+   ============================================================ */
 type AmbientAudio = { start: () => void; stop: () => void };
 
 function createAmbientAudio(ctx: AudioContext, motion: Motion): AmbientAudio | null {
@@ -498,8 +711,6 @@ function createAmbientAudio(ctx: AudioContext, motion: Motion): AmbientAudio | n
   const master = ctx.createGain();
   master.gain.value = 0;
   master.connect(ctx.destination);
-
-  // Build noise buffers — brown (warm) and white (sharp)
   const bufferSize = 3 * ctx.sampleRate;
   const brown = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
   const white = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
@@ -514,62 +725,35 @@ function createAmbientAudio(ctx: AudioContext, motion: Motion): AmbientAudio | n
       w[i] = r;
     }
   }
-
   const stops: Array<() => void> = [];
   const targetGain = 0.14;
-
-  const playNoise = (
-    buf: AudioBuffer,
-    type: BiquadFilterType,
-    freq: number,
-    q: number,
-    gain: number,
-  ) => {
+  const playNoise = (buf: AudioBuffer, type: BiquadFilterType, freq: number, q: number, gain: number) => {
     const src = ctx.createBufferSource();
-    src.buffer = buf;
-    src.loop = true;
+    src.buffer = buf; src.loop = true;
     const f = ctx.createBiquadFilter();
-    f.type = type;
-    f.frequency.value = freq;
-    f.Q.value = q;
-    const g = ctx.createGain();
-    g.gain.value = gain;
-    src.connect(f);
-    f.connect(g);
-    g.connect(master);
+    f.type = type; f.frequency.value = freq; f.Q.value = q;
+    const g = ctx.createGain(); g.gain.value = gain;
+    src.connect(f); f.connect(g); g.connect(master);
     src.start();
     stops.push(() => { try { src.stop(); } catch {} });
     return { f, g };
   };
-
-  // Per-motion sound design — each is unmistakably different.
   if (motion === "pulse") {
-    // Warm hearth — very deep brown noise, almost felt rather than heard
     playNoise(brown, "lowpass", 240, 0.3, 0.45);
-    const sub = ctx.createOscillator();
-    sub.type = "sine";
-    sub.frequency.value = 58;
-    const subG = ctx.createGain();
-    subG.gain.value = 0.025;
-    sub.connect(subG); subG.connect(master);
-    sub.start();
+    const sub = ctx.createOscillator(); sub.type = "sine"; sub.frequency.value = 58;
+    const subG = ctx.createGain(); subG.gain.value = 0.025;
+    sub.connect(subG); subG.connect(master); sub.start();
     stops.push(() => { try { sub.stop(); } catch {} });
-    // very slow swell — barely perceptible
-    const lfo = ctx.createOscillator();
-    const lfoG = ctx.createGain();
+    const lfo = ctx.createOscillator(); const lfoG = ctx.createGain();
     lfo.frequency.value = 0.08; lfoG.gain.value = 0.03;
-    lfo.connect(lfoG); lfoG.connect(master.gain);
-    lfo.start();
+    lfo.connect(lfoG); lfoG.connect(master.gain); lfo.start();
     stops.push(() => { try { lfo.stop(); } catch {} });
-    // Sparse, soft crackles — like embers in a hearth
     let cancelledP = false;
     const crackle = () => {
       if (cancelledP) return;
-      const o = ctx.createOscillator();
-      o.type = "triangle";
+      const o = ctx.createOscillator(); o.type = "triangle";
       o.frequency.value = 1100 + Math.random() * 900;
-      const f = ctx.createBiquadFilter();
-      f.type = "bandpass"; f.frequency.value = 1600; f.Q.value = 1.2;
+      const f = ctx.createBiquadFilter(); f.type = "bandpass"; f.frequency.value = 1600; f.Q.value = 1.2;
       const g = ctx.createGain();
       const t = ctx.currentTime;
       g.gain.setValueAtTime(0, t);
@@ -582,42 +766,29 @@ function createAmbientAudio(ctx: AudioContext, motion: Motion): AmbientAudio | n
     crackle();
     stops.push(() => { cancelledP = true; });
   } else if (motion === "ripple") {
-    // Ocean — distant surf with slow back-and-forth swell
     const { f, g } = playNoise(brown, "bandpass", 420, 0.4, 0.55);
-    const lfo = ctx.createOscillator();
-    const lfoG = ctx.createGain();
+    const lfo = ctx.createOscillator(); const lfoG = ctx.createGain();
     lfo.frequency.value = 0.09; lfoG.gain.value = 220;
-    lfo.connect(lfoG); lfoG.connect(f.frequency);
-    lfo.start();
+    lfo.connect(lfoG); lfoG.connect(f.frequency); lfo.start();
     stops.push(() => { try { lfo.stop(); } catch {} });
-    // Volume swell that mirrors the rings expanding/receding
-    const vol = ctx.createOscillator();
-    const volG = ctx.createGain();
+    const vol = ctx.createOscillator(); const volG = ctx.createGain();
     vol.frequency.value = 0.07; volG.gain.value = 0.18;
-    vol.connect(volG); volG.connect(g.gain);
-    vol.start();
+    vol.connect(volG); volG.connect(g.gain); vol.start();
     stops.push(() => { try { vol.stop(); } catch {} });
   } else if (motion === "drift") {
-    // Forest / wind — soft airy band, slow wobble. Warm, low hiss.
     const { f } = playNoise(brown, "bandpass", 720, 0.6, 0.4);
-    const lfo = ctx.createOscillator();
-    const lfoG = ctx.createGain();
+    const lfo = ctx.createOscillator(); const lfoG = ctx.createGain();
     lfo.frequency.value = 0.1; lfoG.gain.value = 320;
-    lfo.connect(lfoG); lfoG.connect(f.frequency);
-    lfo.start();
+    lfo.connect(lfoG); lfoG.connect(f.frequency); lfo.start();
     stops.push(() => { try { lfo.stop(); } catch {} });
-    // High whisper layer, very quiet — gives the "leaves" sparkle without harshness
     playNoise(white, "bandpass", 2400, 0.6, 0.05);
   } else if (motion === "rain") {
-    // Rain — soft veil of falling water + sparse, muted droplets close-by
     playNoise(white, "bandpass", 1600, 0.4, 0.2);
     playNoise(brown, "lowpass", 520, 0.3, 0.26);
     let cancelled = false;
     const drop = () => {
       if (cancelled) return;
-      // Soft round droplet — sine, lower pitch, slow decay → "plic" not "tic"
-      const o = ctx.createOscillator();
-      o.type = "sine";
+      const o = ctx.createOscillator(); o.type = "sine";
       o.frequency.value = 420 + Math.random() * 380;
       const g = ctx.createGain();
       const t = ctx.currentTime;
@@ -631,23 +802,17 @@ function createAmbientAudio(ctx: AudioContext, motion: Motion): AmbientAudio | n
     drop();
     stops.push(() => { cancelled = true; });
   } else {
-    // Veil / snow — quiet warm low-pass + barely audible airy halo
     playNoise(brown, "lowpass", 200, 0.25, 0.28);
     const { f } = playNoise(white, "bandpass", 3200, 0.7, 0.025);
-    // Very slow halo movement, almost imperceptible
-    const lfo = ctx.createOscillator();
-    const lfoG = ctx.createGain();
+    const lfo = ctx.createOscillator(); const lfoG = ctx.createGain();
     lfo.frequency.value = 0.05; lfoG.gain.value = 600;
-    lfo.connect(lfoG); lfoG.connect(f.frequency);
-    lfo.start();
+    lfo.connect(lfoG); lfoG.connect(f.frequency); lfo.start();
     stops.push(() => { try { lfo.stop(); } catch {} });
   }
-
   let started = false;
   return {
     start() {
-      if (started) return;
-      started = true;
+      if (started) return; started = true;
       try { ctx.resume(); } catch {}
       const now = ctx.currentTime;
       master.gain.cancelScheduledValues(now);
@@ -659,234 +824,150 @@ function createAmbientAudio(ctx: AudioContext, motion: Motion): AmbientAudio | n
         const now = ctx.currentTime;
         master.gain.cancelScheduledValues(now);
         master.gain.linearRampToValueAtTime(0, now + 1.2);
-        setTimeout(() => {
-          stops.forEach((fn) => fn());
-          // Do NOT close the context: it is reused across ambiances.
-        }, 1300);
+        setTimeout(() => { stops.forEach((fn) => fn()); }, 1300);
       } catch {}
     },
   };
 }
 
-/* ---------- Background motion (full screen) ---------- */
-function MotionLayer({ kind, accent }: { kind: Motion; accent: string }) {
-  // Shared, dark-friendly keyframes for all ambiances.
-  // Visual language: low-contrast, warm-tinted glow on top of accent, slow drifts,
-  // soft particles. Nothing strobes or contrasts harshly with a dark room.
+function MotionLayer({ kind }: { kind: Motion }) {
   const keyframes = (
     <style>{`
       @keyframes nw-breathe {
-        0%, 100% { transform: translate3d(0,0,0) scale(1);   opacity: var(--o, 0.32); }
-        50%      { transform: translate3d(0,0,0) scale(1.08); opacity: calc(var(--o, 0.32) * 1.35); }
-      }
-      @keyframes nw-float {
-        0%   { transform: translate3d(var(--fx,0),0,0) scale(1); }
-        50%  { transform: translate3d(calc(var(--fx,0) + 6vmin), -4vmin, 0) scale(1.04); }
-        100% { transform: translate3d(var(--fx,0),0,0) scale(1); }
+        0%, 100% { transform: scale(1); opacity: 0.3; }
+        50%      { transform: scale(1.08); opacity: 0.55; }
       }
       @keyframes nw-rise {
         0%   { transform: translate3d(0, 18vmin, 0) scale(0.8); opacity: 0; }
-        15%  { opacity: var(--o, 0.5); }
-        85%  { opacity: var(--o, 0.5); }
+        15%  { opacity: 0.5; } 85% { opacity: 0.5; }
         100% { transform: translate3d(2vmin, -22vmin, 0) scale(1.1); opacity: 0; }
       }
       @keyframes nw-ring {
         0%   { transform: translate(-50%, -50%) scale(0.2); opacity: 0; }
-        20%  { opacity: 0.55; }
-        100% { transform: translate(-50%, -50%) scale(2.4);  opacity: 0; }
+        20%  { opacity: 0.45; }
+        100% { transform: translate(-50%, -50%) scale(2.4); opacity: 0; }
       }
       @keyframes nw-fall {
         0%   { transform: translate3d(var(--dx,0), -12vh, 0); opacity: 0; }
-        12%  { opacity: var(--o, 0.7); }
-        88%  { opacity: var(--o, 0.7); }
+        12%  { opacity: 0.55; } 88% { opacity: 0.55; }
         100% { transform: translate3d(calc(var(--dx,0) + 1vw), 110vh, 0); opacity: 0; }
       }
       @keyframes nw-snow {
         0%   { transform: translate3d(0, -10vh, 0); opacity: 0; }
-        15%  { opacity: var(--o, 0.55); }
-        85%  { opacity: var(--o, 0.55); }
+        15%  { opacity: 0.55; } 85% { opacity: 0.55; }
         100% { transform: translate3d(8vmin, 110vh, 0); opacity: 0; }
       }
-      @keyframes nw-hue {
-        0%, 100% { opacity: 0.18; }
-        50%      { opacity: 0.28; }
+      @keyframes nw-leaf {
+        0%   { transform: translate3d(0, -10vh, 0) rotate(0deg); opacity: 0; }
+        10%  { opacity: 0.65; } 90% { opacity: 0.55; }
+        100% { transform: translate3d(12vmin, 110vh, 0) rotate(540deg); opacity: 0; }
+      }
+      @keyframes nw-float {
+        0% { transform: translate3d(0,0,0); }
+        50% { transform: translate3d(6vmin, -4vmin, 0); }
+        100% { transform: translate3d(0,0,0); }
       }
     `}</style>
   );
 
   if (kind === "pulse") {
-    // Hearth / candle — warm centered glow that breathes, with rising embers.
     return (
       <>
         {keyframes}
-        <div
-          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full halo-lg"
-          style={{
-            width: "88vmin", aspectRatio: "1",
-            background: `radial-gradient(circle, ${accent}, transparent 72%)`,
-            ['--o' as string]: "0.42",
-            animation: "nw-breathe 14s ease-in-out infinite",
-          } as React.CSSProperties}
-        />
-        <div
-          className="absolute left-1/2 top-[58%] -translate-x-1/2 -translate-y-1/2 rounded-full halo-lg"
-          style={{
-            width: "44vmin", aspectRatio: "1",
-            background: "radial-gradient(circle, rgba(255,205,170,0.55), transparent 70%)",
-            ['--o' as string]: "0.38",
-            animation: "nw-breathe 11s ease-in-out infinite",
-          } as React.CSSProperties}
-        />
-        {Array.from({ length: 12 }).map((_, i) => {
-          const left = 14 + (i * 73) % 72;
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
+             style={{ width: "70vmin", height: "70vmin",
+               background: "radial-gradient(circle, rgba(220,140,90,0.55), transparent 70%)",
+               animation: "nw-breathe 8s ease-in-out infinite", filter: "blur(8px)" }} />
+        {Array.from({ length: 10 }).map((_, i) => {
+          const left = 18 + (i * 71) % 64;
           const delay = (i * 1.7) % 14;
           const size = 4 + (i % 4) * 2;
           return (
-            <span
-              key={i}
-              className="absolute rounded-full"
-              style={{
-                left: `${left}%`, bottom: `${10 + (i % 5) * 6}%`,
-                width: `${size}px`, height: `${size}px`,
-                background: "radial-gradient(circle, rgba(255,205,170,0.85), rgba(255,170,130,0) 70%)",
-                ['--o' as string]: "0.45",
-                animation: `nw-rise ${14 + (i % 5) * 3}s ease-in ${delay}s infinite`,
-                filter: "blur(0.5px)",
-              } as React.CSSProperties}
-            />
+            <span key={i} className="absolute rounded-full"
+                  style={{ left: `${left}%`, bottom: `${10 + (i % 5) * 6}%`,
+                    width: `${size}px`, height: `${size}px`,
+                    background: "radial-gradient(circle, rgba(255,205,170,0.85), transparent 70%)",
+                    animation: `nw-rise ${14 + (i % 5) * 3}s ease-in ${delay}s infinite`,
+                    filter: "blur(0.5px)" }} />
           );
         })}
       </>
     );
   }
-
   if (kind === "ripple") {
-    // Tide — soft concentric rings expanding from below, like a stone in water.
     return (
       <>
         {keyframes}
-        <div
-          className="absolute inset-0"
-          style={{
-            background: `radial-gradient(ellipse at 50% 95%, ${accent}, transparent 60%)`,
-            animation: "nw-hue 9s ease-in-out infinite",
-          }}
-        />
         {[0, 1, 2, 3, 4].map((i) => (
-          <div
-            key={i}
-            className="absolute left-1/2 top-[88%] rounded-full border"
-            style={{
-              width: "20vmin", aspectRatio: "1",
-              borderColor: "rgba(255,255,255,0.18)",
-              animation: `nw-ring 14s ease-out ${i * 2.8}s infinite`,
-            }}
-          />
+          <div key={i} className="absolute left-1/2 top-[55%] rounded-full border"
+               style={{ width: "20vmin", height: "20vmin",
+                 borderColor: "rgba(70,90,120,0.18)",
+                 animation: `nw-ring 14s ease-out ${i * 2.8}s infinite` }} />
         ))}
       </>
     );
   }
-
   if (kind === "drift") {
-    // Forest / wind / tea — large blurred orbs floating very slowly.
-    const orbs = [
-      { top: "-12%", left: "-10%", size: "78vmin", color: accent, dur: "44s", o: 0.32, fx: "0" },
-      { top: "30%",  left: "62%",  size: "62vmin", color: "rgba(255,210,180,0.45)", dur: "52s", o: 0.26, fx: "-2vmin" },
-      { top: "60%",  left: "8%",   size: "70vmin", color: "rgba(190,200,220,0.45)", dur: "60s", o: 0.22, fx: "0" },
-    ];
+    // Falling leaves OR soft particles
     return (
       <>
         {keyframes}
-        {orbs.map((o, i) => (
-          <div
-            key={i}
-            className="absolute rounded-full halo-lg"
-            style={{
-              top: o.top, left: o.left,
-              width: o.size, aspectRatio: "1",
-              background: `radial-gradient(circle, ${o.color}, transparent 72%)`,
-              opacity: o.o,
-              ['--fx' as string]: o.fx,
-              animation: `nw-float ${o.dur} ease-in-out infinite`,
-            } as React.CSSProperties}
-          />
-        ))}
+        {Array.from({ length: 12 }).map((_, i) => {
+          const left = (i * 41) % 100;
+          const dur = 14 + (i % 5) * 3;
+          const delay = (i * 1.3) % dur;
+          const size = 8 + (i % 4) * 3;
+          return (
+            <span key={i} className="absolute"
+                  style={{ left: `${left}%`, top: 0,
+                    width: `${size}px`, height: `${size * 1.6}px`,
+                    background: "radial-gradient(ellipse at 50% 40%, rgba(200,150,90,0.7), rgba(180,110,60,0.2) 80%)",
+                    borderRadius: "60% 40% 60% 40%",
+                    animation: `nw-leaf ${dur}s linear ${delay}s infinite`,
+                    filter: "blur(0.4px)" }} />
+          );
+        })}
       </>
     );
   }
-
   if (kind === "rain") {
-    // Rain — soft slanted droplet streaks, plus mist gathered at the bottom.
     return (
       <>
         {keyframes}
-        <div
-          className="absolute inset-x-0 bottom-0 h-[40%]"
-          style={{
-            background: "linear-gradient(180deg, transparent, rgba(20,18,28,0.35))",
-          }}
-        />
         {Array.from({ length: 22 }).map((_, i) => {
           const left = (i * 41) % 100;
           const dx = ((i * 17) % 12) - 6;
           const dur = 4.5 + (i % 6) * 0.6;
           const delay = (i * 0.37) % dur;
           return (
-            <span
-              key={i}
-              className="absolute"
-              style={{
-                left: `${left}%`, top: 0,
-                width: "1px", height: "10vh",
-                background: "linear-gradient(180deg, transparent, rgba(220,225,240,0.55))",
-                ['--dx' as string]: `${dx}vw`,
-                ['--o' as string]: "0.5",
-                animation: `nw-fall ${dur}s linear ${delay}s infinite`,
-                filter: "blur(0.4px)",
-              } as React.CSSProperties}
-            />
+            <span key={i} className="absolute"
+                  style={{ left: `${left}%`, top: 0,
+                    width: "1px", height: "10vh",
+                    background: "linear-gradient(180deg, transparent, rgba(120,140,170,0.55))",
+                    ['--dx' as string]: `${dx}vw`,
+                    animation: `nw-fall ${dur}s linear ${delay}s infinite`,
+                    filter: "blur(0.4px)" } as React.CSSProperties} />
           );
         })}
       </>
     );
   }
-
-  // veil — moonlit / wool / snow : faint top glow + slow snow.
+  // veil — snow / stars
   return (
     <>
       {keyframes}
-      <div
-        className="absolute -top-[20vmin] left-1/2 -translate-x-1/2 rounded-full halo-lg"
-        style={{
-          width: "80vmin", aspectRatio: "1",
-          background: `radial-gradient(circle, ${accent}, transparent 70%)`,
-          opacity: 0.28,
-        }}
-      />
-      <div
-        className="absolute inset-0 mix-blend-soft-light"
-        style={{
-          background: "radial-gradient(ellipse at 50% 50%, rgba(255,255,255,0.18), transparent 60%)",
-        }}
-      />
       {Array.from({ length: 26 }).map((_, i) => {
         const left = (i * 53) % 100;
         const size = 2 + (i % 4);
         const dur = 18 + (i % 7) * 3;
         const delay = (i * 0.9) % dur;
         return (
-          <span
-            key={i}
-            className="absolute rounded-full"
-            style={{
-              left: `${left}%`, top: 0,
-              width: `${size}px`, height: `${size}px`,
-              background: "rgba(245,240,255,0.85)",
-              ['--o' as string]: "0.55",
-              animation: `nw-snow ${dur}s linear ${delay}s infinite`,
-              filter: "blur(0.6px)",
-            } as React.CSSProperties}
-          />
+          <span key={i} className="absolute rounded-full"
+                style={{ left: `${left}%`, top: 0,
+                  width: `${size}px`, height: `${size}px`,
+                  background: "rgba(245,240,255,0.85)",
+                  animation: `nw-snow ${dur}s linear ${delay}s infinite`,
+                  filter: "blur(0.6px)" }} />
         );
       })}
     </>
