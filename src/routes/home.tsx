@@ -24,7 +24,7 @@ function Home() {
   return (
     <Shell>
       <div
-        className="relative min-h-dvh -mx-7 px-7 transition-colors duration-[400ms] ease-out"
+        className="relative min-h-dvh px-7 transition-colors duration-[400ms] ease-out"
         style={{ backgroundColor: cfg.pageBg }}
       >
           <Halos mode={mode} variant={profile.halo} />
@@ -70,7 +70,7 @@ function Home() {
             >
               {cfg.subtitle}
             </p>
-            {branchMeta && false && <span>{modeAccompaniment(mode, branch, lang)}</span>}
+            {branchMeta ? null : null}
           </header>
 
           {/* Mode chips — always visible */}
