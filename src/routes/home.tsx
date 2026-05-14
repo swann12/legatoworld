@@ -19,19 +19,19 @@ function Home() {
   const { name, mode, branch, t, lang, setLang } = useLegato();
   const branchMeta = BRANCHES.find((b) => b.id === branch);
   const profile = modeProfile(mode);
-  const gap = profile.density === "tight" ? "mt-3" : profile.density === "open" ? "mt-6" : "mt-4";
-
-  // Re-order content blocks by mode
-  const blocks = orderForMode(profile.primary);
+  const cfg = MODE_HOME[mode];
 
   return (
     <Shell>
-      <div className="relative">
+      <div
+        className="relative min-h-dvh -mx-7 px-7 transition-colors duration-[400ms] ease-out"
+        style={{ backgroundColor: cfg.pageBg }}
+      >
           <Halos mode={mode} variant={profile.halo} />
 
         <div className="relative z-10">
           {/* top bar — language toggle + space */}
-          <div className="flex items-center justify-between px-7 pt-10">
+          <div className="flex items-center justify-between pt-10">
             <span className="font-serif text-xl italic text-dusk">Legato</span>
             <div className="flex items-center gap-3">
               <button
@@ -53,7 +53,7 @@ function Home() {
           </div>
 
           {/* greeting */}
-          <header className={`px-7 ${profile.density === "tight" ? "pt-8" : profile.density === "open" ? "pt-6" : "pt-7"}`}>
+          <header className="pt-7">
             <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">
               {t("home.aujourdhui")}
             </p>
@@ -63,37 +63,29 @@ function Home() {
             >
               Bonjour {name}, <span className="italic text-dusk/85">{t("home.greeting")}</span>
             </h1>
-            {branchMeta && (
-              <p
-                className="mt-5 max-w-[36ch] text-[14px] leading-relaxed text-dusk/60"
-                style={{ textWrap: "pretty" }}
-              >
-                {modeAccompaniment(mode, branch, lang)}
-              </p>
-            )}
+            <p
+              key={`sub-${mode}`}
+              className="mt-5 max-w-[36ch] text-[14px] leading-relaxed text-dusk/65 animate-fade-in"
+              style={{ textWrap: "pretty" }}
+            >
+              {cfg.subtitle}
+            </p>
+            {branchMeta && false && <span>{modeAccompaniment(mode, branch, lang)}</span>}
           </header>
 
           {/* Mode chips — always visible */}
-          <div className="mt-8">
+          <div className="mt-8 -mx-7">
             <ModeSelector compact />
           </div>
 
-          <Section className="mt-9">
-            {blocks.map((b, i) => (
-              <div key={b} className={i === 0 ? "" : gap}>
-                {b === "presence" && <PresenceBlock t={t} primary={profile.primary === "presence"} ctaLabel={profile.ctaLabel} />}
-                {b === "journal" && <JournalBlock t={t} primary={profile.primary === "journal"} lang={lang} />}
-                {b === "practical" && <PracticalBlock t={t} primary={profile.primary === "practical"} />}
-                {b === "relay" && <RelayBlock primary={profile.primary === "relay"} />}
-                {b === "nowords" && <NoWordsBlock t={t} />}
-                {b === "wishes" && <WishesBlock t={t} />}
-                {b === "inspiration" && <InspirationBlock t={t} />}
-              </div>
+          <div key={`cards-${mode}`} className="mt-9 space-y-3 animate-fade-in">
+            {cfg.cards.map((c) => (
+              <ModeCard key={c.id} card={c} />
             ))}
-          </Section>
+          </div>
 
           {/* Crisis door — always present, never loud */}
-          <Section className="mt-10">
+          <div className="mt-10">
             <Link
               to="/crisis"
               className="block border-t border-dusk/10 pt-6 flex items-baseline justify-between"
@@ -108,20 +100,142 @@ function Home() {
               </div>
               <span className="text-dusk/40 text-sm">→</span>
             </Link>
-          </Section>
+          </div>
         </div>
       </div>
     </Shell>
   );
 }
 
-type BlockId = "presence" | "journal" | "practical" | "relay" | "nowords" | "wishes" | "inspiration";
-function orderForMode(primary: "presence" | "practical" | "journal" | "relay"): BlockId[] {
-  const all: BlockId[] = ["presence", "journal", "practical", "inspiration", "nowords"];
-  if (primary === "relay") return ["relay", "practical", "presence", "journal", "nowords"];
-  // place primary first
-  const ordered = [primary as BlockId, ...all.filter((x) => x !== primary)];
-  return ordered;
+/* ─── Mode-driven home configuration ─────────────────────────────────
+ * Each mode controls: page background, subtitle, card order & per-card style.
+ */
+type CardId = "presence" | "nowords" | "journal" | "wishes" | "practical" | "relay";
+type CardStyle = "highlight" | "normal" | "muted";
+type CardCfg = {
+  id: CardId;
+  style: CardStyle;
+  title: string;       // overrides default
+  bg?: string;         // when highlight
+  accent?: string;     // left border color when highlight
+  hideArrow?: boolean;
+};
+type ModeHomeCfg = {
+  pageBg: string;
+  subtitle: string;
+  cards: CardCfg[];
+};
+
+const MODE_HOME: Record<Mode, ModeHomeCfg> = {
+  cocoon: {
+    pageBg: "#FDF6F3",
+    subtitle: "Se replier un peu, le souvenir tout près.",
+    cards: [
+      { id: "presence", style: "highlight", title: "Une oreille calme, à toute heure.", bg: "#FDF0F0", accent: "#E8A0A0" },
+      { id: "nowords",  style: "highlight", title: "Traverser sans avoir à dire.",      bg: "#FDF0F0", accent: "#E8A0A0" },
+      { id: "journal",  style: "normal",    title: "Déposer une pensée, sans relire." },
+      { id: "wishes",   style: "normal",    title: "Préparer, en douceur, ce que l'on voudrait." },
+      { id: "practical",style: "muted",     title: "Démarches concrètes — quand vous serez prêt·e.", hideArrow: true },
+    ],
+  },
+  anchoring: {
+    pageBg: "#F4F7F4",
+    subtitle: "Des repères simples, en pensant à elle, à lui.",
+    cards: [
+      { id: "practical",style: "highlight", title: "Avancer une étape à la fois.",       bg: "#F0F5F0", accent: "#90B090" },
+      { id: "journal",  style: "highlight", title: "Poser ce qui s'est passé aujourd'hui.", bg: "#F0F5F0", accent: "#90B090" },
+      { id: "presence", style: "normal",    title: "Une oreille calme, à toute heure." },
+      { id: "wishes",   style: "normal",    title: "Préparer, en douceur, ce que l'on voudrait." },
+      { id: "nowords",  style: "normal",    title: "Sons, lumières et souffles pour s'apaiser." },
+    ],
+  },
+  breath: {
+    pageBg: "#F4F6FA",
+    subtitle: "Un peu d'air entre les pensées.",
+    cards: [
+      { id: "nowords",  style: "highlight", title: "Sons, souffles et lumières lentes.", bg: "#F0F5FA", accent: "#A0B8D0" },
+      { id: "journal",  style: "highlight", title: "Laisser sortir, sans chercher les mots.", bg: "#F0F5FA", accent: "#A0B8D0" },
+      { id: "presence", style: "normal",    title: "Une oreille calme, à toute heure." },
+      { id: "practical",style: "normal",    title: "Avancer une étape à la fois." },
+      { id: "wishes",   style: "normal",    title: "Préparer, en douceur, ce que l'on voudrait." },
+    ],
+  },
+  relay: {
+    pageBg: "#F6F4FA",
+    subtitle: "Ne pas porter ce manque seul·e.",
+    cards: [
+      { id: "relay",    style: "highlight", title: "Proches, professionnels, ligne d'écoute.", bg: "#F5F0FA", accent: "#B0A0C8" },
+      { id: "presence", style: "highlight", title: "Une oreille calme, à toute heure.",        bg: "#F5F0FA", accent: "#B0A0C8" },
+      { id: "journal",  style: "normal",    title: "Déposer une pensée, sans relire." },
+      { id: "nowords",  style: "normal",    title: "Sons, lumières et souffles pour s'apaiser." },
+      { id: "practical",style: "normal",    title: "Avancer une étape à la fois." },
+    ],
+  },
+};
+
+const CARD_META: Record<CardId, { eyebrow: string; to: string }> = {
+  presence: { eyebrow: "Parler à une présence", to: "/presence" },
+  nowords:  { eyebrow: "Sans mots",             to: "/no-words" },
+  journal:  { eyebrow: "Journal intime",        to: "/journal" },
+  wishes:   { eyebrow: "Préparer",              to: "/wishes" },
+  practical:{ eyebrow: "Démarches concrètes",   to: "/practical" },
+  relay:    { eyebrow: "Demander un appui",     to: "/help" },
+};
+
+function ModeCard({ card }: { card: CardCfg }) {
+  const meta = CARD_META[card.id];
+  if (card.style === "muted") {
+    return (
+      <Link
+        to={meta.to}
+        className="block rounded-2xl px-5 py-4"
+        style={{ backgroundColor: "transparent" }}
+      >
+        <p className="text-[10px] uppercase tracking-[0.22em]" style={{ color: "#C8C0B8" }}>
+          {meta.eyebrow}
+        </p>
+        <p className="mt-1 font-serif italic text-[15px] leading-snug" style={{ color: "#C8C0B8" }}>
+          {card.title}
+        </p>
+      </Link>
+    );
+  }
+  if (card.style === "highlight") {
+    return (
+      <Link
+        to={meta.to}
+        className="block rounded-2xl px-5 py-5 relative overflow-hidden"
+        style={{
+          backgroundColor: card.bg,
+          borderLeft: `3px solid ${card.accent}`,
+        }}
+      >
+        <div className="flex items-baseline justify-between gap-3">
+          <div className="min-w-0">
+            <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/55">{meta.eyebrow}</p>
+            <p className="mt-1.5 font-serif italic text-[1.15rem] leading-snug text-dusk">
+              {card.title}
+            </p>
+          </div>
+          {!card.hideArrow && <span className="text-dusk/40 text-sm shrink-0">→</span>}
+        </div>
+      </Link>
+    );
+  }
+  // normal
+  return (
+    <Link to={meta.to} className="paper-card block p-5">
+      <div className="flex items-baseline justify-between gap-3">
+        <div className="min-w-0">
+          <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">{meta.eyebrow}</p>
+          <p className="mt-1.5 font-serif italic text-[1.05rem] leading-snug text-dusk">
+            {card.title}
+          </p>
+        </div>
+        {!card.hideArrow && <span className="text-dusk/40 text-sm shrink-0">→</span>}
+      </div>
+    </Link>
+  );
 }
 
 /* Phrase d'accompagnement par (mode × branche).
