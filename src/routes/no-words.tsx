@@ -2,7 +2,6 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { Shell } from "@/components/legato/Shell";
-import { useLegato } from "@/lib/legato-state";
 import { similarAmbiances } from "@/lib/ambiance.functions";
 
 export const Route = createFileRoute("/no-words")({
