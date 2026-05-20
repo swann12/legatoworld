@@ -590,7 +590,7 @@ const ORB_STYLES = `
    localement (saturation, contraste, micro-zoom). Aucune superposition de
    couleur — l'image elle-même respire sous le doigt. */
 .souffle-scene .touch-lens {
-  position: absolute; inset: -8%;
+  position: absolute; inset: 0;
   background-size: cover;
   background-position: center;
   pointer-events: none;
@@ -616,7 +616,7 @@ const ORB_STYLES = `
 }
 /* Deuxième passe : un cœur plus serré qui amplifie encore au point de contact */
 .souffle-scene .touch-lens-core {
-  position: absolute; inset: -8%;
+  position: absolute; inset: 0;
   background-size: cover;
   background-position: center;
   pointer-events: none;
