@@ -1,6 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
-import { Howl } from "howler";
 import { Shell } from "@/components/legato/Shell";
 import imgWarmth from "@/assets/souffle-warmth.jpg";
 import imgMorningSky from "@/assets/souffle-morning-sky.jpg";
@@ -37,7 +36,6 @@ type Sequence = {
   id: SceneId;
   title: string;
   tag: BookTag;
-  url: string;
   volume: number;
   fadeIn: number;
 };
@@ -47,7 +45,6 @@ const BASE: Sequence[] = [
     id: "warmth",
     title: "Chaleur lente",
     tag: "deuil récent",
-    url: "/api/public/souffle-sound/warmth.mp3",
     volume: 0.35,
     fadeIn: 4000,
   },
@@ -55,7 +52,6 @@ const BASE: Sequence[] = [
     id: "morning-sky",
     title: "Ciel du matin",
     tag: "philosophique",
-    url: "/api/public/souffle-sound/morning-sky.mp3",
     volume: 0.28,
     fadeIn: 4000,
   },
@@ -63,7 +59,6 @@ const BASE: Sequence[] = [
     id: "leaves",
     title: "Feuilles",
     tag: "long terme",
-    url: "/api/public/souffle-sound/leaves.mp3",
     volume: 0.30,
     fadeIn: 3500,
   },
@@ -71,7 +66,6 @@ const BASE: Sequence[] = [
     id: "rose-mist",
     title: "Brume rose",
     tag: "poétique",
-    url: "/api/public/souffle-sound/rose-mist.mp3",
     volume: 0.32,
     fadeIn: 4000,
   },
@@ -79,7 +73,6 @@ const BASE: Sequence[] = [
     id: "evening-gold",
     title: "Or du soir",
     tag: "philosophique",
-    url: "/api/public/souffle-sound/evening-gold.mp3",
     volume: 0.30,
     fadeIn: 4000,
   },
