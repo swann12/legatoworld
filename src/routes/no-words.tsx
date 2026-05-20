@@ -10,7 +10,7 @@ export const Route = createFileRoute("/no-words")({
 });
 
 type Motion = "drift" | "ripple" | "pulse" | "rain" | "veil";
-type Tab = "souffles" | "respirer" | "lire";
+type Tab = "souffles" | "respirer" | "lire" | "regarder";
 type BookTag = "deuil récent" | "long terme" | "anticipation" | "pour les enfants" | "philosophique" | "poétique" | "corps";
 
 type Texture = {
@@ -133,34 +133,34 @@ function NoWords() {
   const [tab, setTab] = useState<Tab>("souffles");
 
   return (
-    <Shell hideNav>
+    <Shell hideNav livingBg={false}>
       <div className="relative min-h-dvh flex flex-col select-none overflow-hidden">
         {/* Top tabs */}
-        <div className="relative z-20 px-6 pt-7 pb-3 flex items-center justify-between">
+        <div className="relative z-20 px-4 pt-7 pb-3 flex items-center justify-between gap-2">
           <Link to="/home" className="text-[11px] uppercase tracking-[0.22em] text-dusk/55">
             ← Foyer
           </Link>
-          <nav className="flex items-center gap-1.5 backdrop-blur-md rounded-full px-1.5 py-1"
-               style={{ background: "color-mix(in oklab, var(--paper) 50%, transparent)" }}>
-            {(["souffles","respirer","lire"] as Tab[]).map((t) => (
+          <nav className="glass-tabs flex items-center gap-1 px-1 py-1">
+            {(["souffles","respirer","lire","regarder"] as Tab[]).map((t) => (
               <button
                 key={t}
                 onClick={() => setTab(t)}
-                className={`px-3.5 py-1.5 rounded-full text-[10.5px] uppercase tracking-[0.18em] transition-colors ${
-                  tab === t ? "bg-dusk/85 text-paper" : "text-dusk/65"
+                className={`px-2.5 py-1.5 rounded-full text-[9.5px] uppercase tracking-[0.16em] transition-colors ${
+                  tab === t ? "glass-tab-active" : "text-dusk/65"
                 }`}
               >
-                {t === "souffles" ? "Souffles" : t === "respirer" ? "Respirer" : "Lire"}
+                {t === "souffles" ? "Souffles" : t === "respirer" ? "Respirer" : t === "lire" ? "Lire" : "Regarder"}
               </button>
             ))}
           </nav>
-          <span className="w-10" />
+          <span className="w-6" />
         </div>
 
         <div className="relative z-10 flex-1 flex flex-col">
           {tab === "souffles" && <SoufflesView />}
           {tab === "respirer" && <RespirerView />}
           {tab === "lire" && <LireView />}
+          {tab === "regarder" && <RegarderView />}
         </div>
       </div>
     </Shell>
