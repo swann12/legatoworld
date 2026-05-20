@@ -165,54 +165,6 @@ function NoWords() {
 /* ============================================================
    ESPACE 1 — SOUFFLES
    ============================================================ */
-/* 3 silhouettes organiques pour le morphing SMIL (6 points de contrôle).
- * ViewBox 200×200 : la forme respire et change lentement. */
-const BLOB_PATHS = [
-  "M 100 22 C 152 28 184 64 178 108 C 172 152 132 184 96 178 C 60 172 24 142 30 96 C 36 50 70 18 100 22 Z",
-  "M 100 28 C 148 32 178 72 172 112 C 178 158 128 178 92 172 C 56 168 30 132 36 92 C 30 56 66 28 100 28 Z",
-  "M 100 18 C 158 30 188 66 180 112 C 176 162 128 188 90 178 C 50 172 20 136 28 94 C 24 44 76 22 100 18 Z",
-];
-
-function MorphingBlob({
-  from,
-  to,
-  opacity,
-}: {
-  from: string;
-  to: string;
-  opacity: number;
-}) {
-  const gid = useMemo(() => `bg-${Math.random().toString(36).slice(2, 9)}`, []);
-  return (
-    <svg
-      viewBox="0 0 200 200"
-      width="100%"
-      height="100%"
-      preserveAspectRatio="xMidYMid meet"
-      style={{ filter: "blur(28px)", opacity }}
-      aria-hidden
-    >
-      <defs>
-        <radialGradient id={gid} cx="42%" cy="38%" r="62%">
-          <stop offset="0%" stopColor={to} stopOpacity="0.95" />
-          <stop offset="60%" stopColor={from} stopOpacity="0.85" />
-          <stop offset="100%" stopColor={from} stopOpacity="0.2" />
-        </radialGradient>
-      </defs>
-      <path fill={`url(#${gid})`} d={BLOB_PATHS[0]}>
-        <animate
-          attributeName="d"
-          dur="12s"
-          repeatCount="indefinite"
-          values={`${BLOB_PATHS[0]};${BLOB_PATHS[1]};${BLOB_PATHS[2]};${BLOB_PATHS[0]}`}
-          calcMode="spline"
-          keySplines="0.42 0 0.58 1; 0.42 0 0.58 1; 0.42 0 0.58 1"
-        />
-      </path>
-    </svg>
-  );
-}
-
 function BloomFlower() {
   return (
     <svg
