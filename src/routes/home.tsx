@@ -189,6 +189,36 @@ function ModeCard({ card }: { card: CardCfg }) {
     );
   }
   if (card.style === "highlight") {
+    if (card.id === "presence") {
+      return (
+        <Link
+          to={meta.to}
+          className="glass-card-accent block px-5 py-5 relative overflow-hidden"
+        >
+          <div className="flex items-center gap-4">
+            <div className="size-12 rounded-full glass-card flex items-center justify-center shrink-0">
+              <div
+                className="size-4 rounded-full breath"
+                style={{
+                  background: "radial-gradient(circle at 30% 30%, var(--peach), var(--rose))",
+                  boxShadow: "0 0 18px -2px color-mix(in oklab, var(--rose) 55%, transparent)",
+                }}
+              />
+            </div>
+            <div className="min-w-0 flex-1">
+              <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/62">{meta.eyebrow}</p>
+              <p className="mt-1.5 font-serif italic text-[1.18rem] leading-snug text-dusk" style={{ textWrap: "balance" }}>
+                {card.title}
+              </p>
+              <p className="mt-1.5 text-[12.5px] leading-relaxed text-dusk/65">
+                On vous écoute, sans jugement, sans réponse à donner.
+              </p>
+            </div>
+            {!card.hideArrow && <span className="text-dusk/58 text-sm shrink-0">→</span>}
+          </div>
+        </Link>
+      );
+    }
     return (
       <Link
         to={meta.to}
