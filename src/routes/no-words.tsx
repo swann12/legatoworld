@@ -180,7 +180,7 @@ function NoWords() {
   const isSouffles = tab === "souffles";
 
   return (
-    <Shell livingBg={false}>
+    <Shell livingBg={false} hideNav={isSouffles}>
       <div className="relative min-h-dvh flex flex-col select-none overflow-hidden">
         {/* Header — minimal sur Souffles (fond plein), classique ailleurs */}
         {isSouffles ? (
