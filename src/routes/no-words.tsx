@@ -541,7 +541,6 @@ function SoufflesView() {
     if (index === 0 && !soundRef.current) return;
     const current = soundRef.current;
     if (!current) return;
-    if (current.howl === undefined) return;
     // skip on first render
   }, [index]);
 
