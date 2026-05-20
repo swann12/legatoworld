@@ -25,7 +25,15 @@ type ShapeSpec = {
   dxAmp: number; dyAmp: number; dxDur: number; dyDur: number;
 };
 
-type SoundConfig = { freq: number; filterBase: number; noiseBase: number; lfoAmp: number };
+type SoundConfig = {
+  oscillator: { type: OscillatorType; frequency: number };
+  oscillator2?: { type: OscillatorType; frequency: number; gain: number } | null;
+  noise?: { gain: number; filter: { type: BiquadFilterType; frequency: number; Q: number } };
+  filter: { frequency: number; Q: number };
+  reverb: { duration: number; decay: number };
+  lfo: { frequency: number; depth: number };
+  master: number;
+};
 
 type Sequence = {
   id: string;
