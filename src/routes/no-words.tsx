@@ -124,14 +124,14 @@ const BASE: Sequence[] = [
   },
   {
     id: "rose-mist",
-    title: "Brume rose",
+    title: "Braise rose",
     tag: "poétique",
     volume: 0.32,
     fadeIn: 4000,
   },
   {
     id: "lumiere",
-    title: "Lumière tenue",
+    title: "Lumière douce",
     tag: "philosophique",
     volume: 0.30,
     fadeIn: 5000,
