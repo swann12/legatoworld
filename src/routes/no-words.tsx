@@ -6,6 +6,10 @@ import imgMorningSky from "@/assets/souffle-morning-sky.jpg";
 import imgLeaves from "@/assets/souffle-leaves.jpg";
 import imgRoseMist from "@/assets/souffle-rose-mist.jpg";
 import imgEveningGold from "@/assets/souffle-evening-gold.jpg";
+import imgOrSoirEau from "@/assets/souffle-or-soir-eau.jpg";
+import imgFeuillesVert from "@/assets/souffle-feuilles-vert.jpg";
+import imgFeuillesRose from "@/assets/souffle-feuilles-rose.jpg";
+import imgSoirFlou from "@/assets/souffle-soir-flou.jpg";
 
 const SCENE_IMAGES: Record<SceneId, string> = {
   "warmth": imgWarmth,
@@ -13,6 +17,15 @@ const SCENE_IMAGES: Record<SceneId, string> = {
   "leaves": imgLeaves,
   "rose-mist": imgRoseMist,
   "evening-gold": imgEveningGold,
+  "or-soir-eau": imgOrSoirEau,
+  "feuilles-vert": imgFeuillesVert,
+  "feuilles-rose": imgFeuillesRose,
+  "soir-flou": imgSoirFlou,
+  "perle": imgRoseMist,
+  "aurore": imgMorningSky,
+  "bougainvillier": imgFeuillesRose,
+  "lumiere": imgEveningGold,
+  "lune": imgSoirFlou,
 };
 
 export const Route = createFileRoute("/no-words")({
@@ -30,7 +43,10 @@ export const Route = createFileRoute("/no-words")({
 type Tab = "souffles" | "respirer" | "lire" | "regarder";
 type BookTag = "deuil récent" | "long terme" | "anticipation" | "pour les enfants" | "philosophique" | "poétique" | "corps";
 
-type SceneId = "warmth" | "morning-sky" | "leaves" | "rose-mist" | "evening-gold";
+type SceneId =
+  | "warmth" | "morning-sky" | "leaves" | "rose-mist" | "evening-gold"
+  | "or-soir-eau" | "feuilles-vert" | "feuilles-rose" | "soir-flou"
+  | "perle" | "aurore" | "bougainvillier" | "lumiere" | "lune";
 
 type Sequence = {
   id: SceneId;
@@ -49,11 +65,46 @@ const BASE: Sequence[] = [
     fadeIn: 4000,
   },
   {
+    id: "lune",
+    title: "Paysage lunaire",
+    tag: "philosophique",
+    volume: 0.32,
+    fadeIn: 4500,
+  },
+  {
+    id: "aurore",
+    title: "Aurore",
+    tag: "philosophique",
+    volume: 0.28,
+    fadeIn: 4000,
+  },
+  {
     id: "morning-sky",
     title: "Ciel du matin",
     tag: "philosophique",
     volume: 0.28,
     fadeIn: 4000,
+  },
+  {
+    id: "feuilles-vert",
+    title: "Frissons verts",
+    tag: "long terme",
+    volume: 0.28,
+    fadeIn: 3500,
+  },
+  {
+    id: "bougainvillier",
+    title: "Bougainvillier",
+    tag: "poétique",
+    volume: 0.27,
+    fadeIn: 4000,
+  },
+  {
+    id: "feuilles-rose",
+    title: "Feuilles roses",
+    tag: "poétique",
+    volume: 0.30,
+    fadeIn: 3800,
   },
   {
     id: "leaves",
@@ -63,11 +114,39 @@ const BASE: Sequence[] = [
     fadeIn: 3500,
   },
   {
+    id: "perle",
+    title: "Nacre",
+    tag: "poétique",
+    volume: 0.30,
+    fadeIn: 4500,
+  },
+  {
     id: "rose-mist",
     title: "Brume rose",
     tag: "poétique",
     volume: 0.32,
     fadeIn: 4000,
+  },
+  {
+    id: "lumiere",
+    title: "Lumière tenue",
+    tag: "philosophique",
+    volume: 0.30,
+    fadeIn: 5000,
+  },
+  {
+    id: "or-soir-eau",
+    title: "Or sur l'eau",
+    tag: "philosophique",
+    volume: 0.30,
+    fadeIn: 4500,
+  },
+  {
+    id: "soir-flou",
+    title: "Soir flou",
+    tag: "philosophique",
+    volume: 0.30,
+    fadeIn: 4500,
   },
   {
     id: "evening-gold",
@@ -101,7 +180,7 @@ function NoWords() {
   const isSouffles = tab === "souffles";
 
   return (
-    <Shell livingBg={false}>
+    <Shell livingBg={false} hideNav={isSouffles}>
       <div className="relative min-h-dvh flex flex-col select-none overflow-hidden">
         {/* Header — minimal sur Souffles (fond plein), classique ailleurs */}
         {isSouffles ? (
@@ -191,13 +270,58 @@ type SceneAudio = {
   lfoRate: number; // Hz, very slow modulation
   lfoDepth: number; // Hz, depth around base
   noise: "white" | "pink" | "brown";
+  /** Optional sustained tonal drone layered atop the noise bed. */
+  tone?: { freq: number; type: OscillatorType; gain: number; detune?: number };
+  /** Optional second tone for harmonic richness. */
+  tone2?: { freq: number; type: OscillatorType; gain: number; detune?: number };
 };
 const SCENE_AUDIO: Record<SceneId, SceneAudio> = {
-  warmth:        { type: "lowpass",  baseFreq: 380,  q: 0.7, lfoRate: 0.08, lfoDepth: 120, noise: "brown" },
-  "morning-sky": { type: "bandpass", baseFreq: 1800, q: 1.2, lfoRate: 0.06, lfoDepth: 500, noise: "pink"  },
-  leaves:        { type: "bandpass", baseFreq: 2400, q: 1.4, lfoRate: 0.10, lfoDepth: 700, noise: "pink"  },
-  "rose-mist":   { type: "lowpass",  baseFreq: 900,  q: 0.9, lfoRate: 0.05, lfoDepth: 300, noise: "pink"  },
-  "evening-gold":{ type: "lowpass",  baseFreq: 600,  q: 0.8, lfoRate: 0.07, lfoDepth: 220, noise: "brown" },
+  // Foyer chaud — basses très feutrées, drone grave organique
+  warmth:         { type: "lowpass",  baseFreq: 320,  q: 0.6, lfoRate: 0.07, lfoDepth: 90,  noise: "brown",
+                    tone: { freq: 65, type: "sine", gain: 0.06 } },
+  // Ciel matin — bandpass aigu, chant d'oiseaux suggéré par tons cristallins
+  "morning-sky":  { type: "bandpass", baseFreq: 2200, q: 1.6, lfoRate: 0.09, lfoDepth: 900, noise: "pink",
+                    tone: { freq: 880, type: "sine", gain: 0.012 },
+                    tone2: { freq: 1320, type: "sine", gain: 0.008, detune: 7 } },
+  // Feuilles — bruit pink filtré, plus de mouvement haute fréquence
+  leaves:         { type: "highpass", baseFreq: 1800, q: 0.8, lfoRate: 0.18, lfoDepth: 600, noise: "pink"  },
+  // Brume rose — lowpass + drone très doux
+  "rose-mist":    { type: "lowpass",  baseFreq: 700,  q: 0.9, lfoRate: 0.04, lfoDepth: 200, noise: "pink",
+                    tone: { freq: 220, type: "sine", gain: 0.025, detune: -3 } },
+  // Or du soir — vagues lentes, drone grave riche
+  "evening-gold": { type: "lowpass",  baseFreq: 480,  q: 0.7, lfoRate: 0.05, lfoDepth: 180, noise: "brown",
+                    tone: { freq: 110, type: "sine", gain: 0.04 },
+                    tone2: { freq: 165, type: "sine", gain: 0.018 } },
+  // Or du soir sur l'eau — bandpass médium, clapotis
+  "or-soir-eau":  { type: "bandpass", baseFreq: 1200, q: 1.0, lfoRate: 0.22, lfoDepth: 400, noise: "white",
+                    tone: { freq: 147, type: "triangle", gain: 0.02 } },
+  // Feuilles vertes — frissons aigus
+  "feuilles-vert":{ type: "highpass", baseFreq: 2600, q: 1.0, lfoRate: 0.25, lfoDepth: 800, noise: "pink"  },
+  // Feuilles roses — mélange aérien, drone mi-aigu
+  "feuilles-rose":{ type: "bandpass", baseFreq: 1500, q: 1.3, lfoRate: 0.12, lfoDepth: 500, noise: "pink",
+                    tone: { freq: 392, type: "sine", gain: 0.014 } },
+  // Soir flou — drone tenu, aérien, lent
+  "soir-flou":    { type: "lowpass",  baseFreq: 820,  q: 0.8, lfoRate: 0.03, lfoDepth: 150, noise: "pink",
+                    tone: { freq: 196, type: "sine", gain: 0.03 },
+                    tone2: { freq: 294, type: "sine", gain: 0.016, detune: 4 } },
+  // Perle — drone cristallin, très calme
+  perle:          { type: "lowpass",  baseFreq: 1100, q: 1.1, lfoRate: 0.04, lfoDepth: 250, noise: "pink",
+                    tone: { freq: 330, type: "sine", gain: 0.022 },
+                    tone2: { freq: 495, type: "sine", gain: 0.012, detune: -5 } },
+  // Aurore — montée lente, harmoniques claires
+  aurore:         { type: "bandpass", baseFreq: 1700, q: 1.4, lfoRate: 0.08, lfoDepth: 700, noise: "pink",
+                    tone: { freq: 523, type: "sine", gain: 0.018 } },
+  // Bougainvillier — chaleur méditerranéenne, cigales feutrées
+  bougainvillier: { type: "bandpass", baseFreq: 3000, q: 2.2, lfoRate: 0.30, lfoDepth: 200, noise: "white",
+                    tone: { freq: 174, type: "sine", gain: 0.025 } },
+  // Lumière — installation, drone tenu lumineux
+  lumiere:        { type: "lowpass",  baseFreq: 950,  q: 0.9, lfoRate: 0.02, lfoDepth: 120, noise: "pink",
+                    tone: { freq: 261, type: "sine", gain: 0.03 },
+                    tone2: { freq: 392, type: "sine", gain: 0.018, detune: 6 } },
+  // Lune — paysage lunaire, basses profondes, presque sub
+  lune:           { type: "lowpass",  baseFreq: 240,  q: 0.7, lfoRate: 0.03, lfoDepth: 60,  noise: "brown",
+                    tone: { freq: 55,  type: "sine", gain: 0.05 },
+                    tone2: { freq: 82,  type: "sine", gain: 0.025, detune: -8 } },
 };
 
 let sharedCtx: AudioContext | null = null;
@@ -255,6 +379,8 @@ function createSound(seq: Sequence): NatureSound {
   let filter: BiquadFilterNode | null = null;
   let lfo: OscillatorNode | null = null;
   let lfoGain: GainNode | null = null;
+  const tones: OscillatorNode[] = [];
+  const toneGains: GainNode[] = [];
 
   const fadeGain = (target: number, ms: number) => {
     if (!gain || !ctx) return;
@@ -285,6 +411,24 @@ function createSound(seq: Sequence): NatureSound {
     source.connect(filter).connect(gain).connect(ctx.destination);
     source.start();
     lfo.start();
+    // Optional sustained tones layered atop the noise bed
+    const addTone = (t: NonNullable<SceneAudio["tone"]>) => {
+      if (!ctx) return;
+      const osc = ctx.createOscillator();
+      osc.type = t.type;
+      osc.frequency.value = t.freq;
+      if (t.detune) osc.detune.value = t.detune;
+      const tg = ctx.createGain();
+      tg.gain.value = 0;
+      osc.connect(tg).connect(ctx.destination);
+      osc.start();
+      const now = ctx.currentTime;
+      tg.gain.linearRampToValueAtTime(t.gain * cfg.volume * 3, now + fadeMs / 1000);
+      tones.push(osc);
+      toneGains.push(tg);
+    };
+    if (scene.tone) addTone(scene.tone);
+    if (scene.tone2) addTone(scene.tone2);
     fadeGain(cfg.volume, fadeMs);
   };
 
@@ -296,6 +440,10 @@ function createSound(seq: Sequence): NatureSound {
     try { lfoGain?.disconnect(); } catch (e) { void e; }
     try { filter?.disconnect(); } catch (e) { void e; }
     try { gain?.disconnect(); } catch (e) { void e; }
+    tones.forEach((o) => { try { o.stop(); } catch (e) { void e; } try { o.disconnect(); } catch (e) { void e; } });
+    toneGains.forEach((g) => { try { g.disconnect(); } catch (e) { void e; } });
+    tones.length = 0;
+    toneGains.length = 0;
     source = lfo = null;
     lfoGain = filter = gain = null;
   };
@@ -305,6 +453,14 @@ function createSound(seq: Sequence): NatureSound {
     play() { start(cfg.fadeIn); },
     pause() {
       fadeGain(0, 1200);
+      if (ctx) {
+        const t = ctx.currentTime;
+        toneGains.forEach((g) => {
+          g.gain.cancelScheduledValues(t);
+          g.gain.setValueAtTime(g.gain.value, t);
+          g.gain.linearRampToValueAtTime(0, t + 1.2);
+        });
+      }
     },
     resume() {
       if (!started) { start(1500); return; }
@@ -468,6 +624,18 @@ const ORB_STYLES = `
 .scene-leaves        .scene-bg { background: linear-gradient(165deg, #EEF4E8 0%, #F8FBF4 100%); }
 .scene-rose-mist     .scene-bg { background: linear-gradient(150deg, #F8EEF4 0%, #F0ECF8 100%); }
 .scene-evening-gold  .scene-bg { background: linear-gradient(160deg, #FFF4E0 0%, #E8F0EC 100%); }
+.scene-or-soir-eau   .scene-bg { background: linear-gradient(180deg, #F6E8D8 0%, #DCE6F0 60%, #C8D8E8 100%); }
+.scene-feuilles-vert .scene-bg { background: linear-gradient(170deg, #E8F0E0 0%, #F4F8EC 100%); }
+.scene-feuilles-rose .scene-bg { background: linear-gradient(160deg, #F8E8E0 0%, #F0F4E8 100%); }
+.scene-soir-flou     .scene-bg { background: linear-gradient(180deg, #E8E4F0 0%, #F8E0E8 50%, #F4D8C8 100%); }
+.scene-perle         .scene-bg { background: linear-gradient(160deg, #ECEEF4 0%, #F4EEF0 100%); }
+.scene-aurore        .scene-bg { background: linear-gradient(180deg, #F8E4D8 0%, #E8DCEC 100%); }
+.scene-bougainvillier .scene-bg { background: linear-gradient(160deg, #F8DCE8 0%, #F4E8D8 100%); }
+.scene-lumiere       .scene-bg { background: linear-gradient(180deg, #FFF4D8 0%, #F4E0C8 100%); }
+.scene-lune          .scene-bg { background: linear-gradient(180deg, #2A2E3A 0%, #1A1E28 100%); }
+
+/* Lune scene — invert text overlay color for legibility on dark bg */
+.scene-lune .souffle-title { color: rgba(245, 240, 230, 0.92) !important; text-shadow: 0 1px 18px rgba(0,0,0,0.45) !important; }
 
 /* Couche A — photo principale, animation longue */
 .souffle-scene .layer-a {
@@ -507,6 +675,12 @@ const ORB_STYLES = `
 const SCENE_VIDEOS: Partial<Record<SceneId, string>> = {
   "rose-mist": "/souffles/rose-mist.mp4",
   "evening-gold": "/souffles/evening-gold.mp4",
+  "perle": "/souffles/perle-1.mp4",
+  "aurore": "/souffles/aurore.mp4",
+  "bougainvillier": "/souffles/bougainvillier.mp4",
+  "lumiere": "/souffles/lumiere.mp4",
+  "lune": "/souffles/lune.mp4",
+  "soir-flou": "/souffles/perle-2.mp4",
 };
 
 function SouffleOrbs({ id }: { id: SceneId }) {
@@ -742,7 +916,7 @@ function SoufflesView() {
       {/* Title */}
       <div className="relative z-10 pt-16 text-center pointer-events-none">
         <h2
-          className="font-serif italic text-[22px] leading-none text-dusk/85"
+          className="souffle-title font-serif italic text-[22px] leading-none text-dusk/85"
           style={{ textShadow: "0 1px 18px rgba(255,255,255,0.55)" }}
         >
           {seq.title}
@@ -757,32 +931,34 @@ function SoufflesView() {
         </div>
       )}
 
-      {/* Bottom — manual navigation only, no auto-advance */}
-      <div className="relative z-10 px-6 pb-6 flex flex-col gap-3">
-        <div className="flex items-center gap-3">
-          <button
-            onClick={prev}
-            className="size-11 rounded-full flex items-center justify-center text-lg backdrop-blur-md text-dusk/70"
-            style={{ background: "color-mix(in oklab, white 30%, transparent)" }}
-            aria-label="Séquence précédente"
-          >←</button>
-          <button
-            onClick={onKeep}
-            disabled={isFav}
-            className="flex-1 py-3 rounded-full text-[11px] uppercase tracking-[0.22em] backdrop-blur-md text-dusk/70"
-            style={{ background: "color-mix(in oklab, white 30%, transparent)" }}
-            aria-label={isFav ? "Séquence gardée" : "Garder cette séquence"}
-          >
-            {isFav ? "♥  gardée" : "♡  garder"}
-          </button>
-          <button
-            onClick={next}
-            className="size-11 rounded-full flex items-center justify-center text-lg backdrop-blur-md text-dusk/70"
-            style={{ background: "color-mix(in oklab, white 30%, transparent)" }}
-            aria-label="Séquence suivante"
-          >→</button>
-        </div>
-      </div>
+      {/* Edge tap-zones — invisible, swipe via tap to navigate scenes */}
+      <button
+        onClick={prev}
+        aria-label="Séquence précédente"
+        className="absolute left-0 top-1/4 bottom-1/4 w-[22%] z-20 bg-transparent"
+        style={{ outline: "none" }}
+      />
+      <button
+        onClick={next}
+        aria-label="Séquence suivante"
+        className="absolute right-0 top-1/4 bottom-1/4 w-[22%] z-20 bg-transparent"
+        style={{ outline: "none" }}
+      />
+
+      {/* Discreet heart — top-left, replaces the bottom bar */}
+      <button
+        onClick={onKeep}
+        disabled={isFav}
+        aria-label={isFav ? "Séquence gardée" : "Garder cette séquence"}
+        className="absolute top-5 left-16 z-30 size-9 rounded-full flex items-center justify-center text-[15px] text-dusk/75"
+        style={{
+          background: "rgba(255,255,255,0.28)",
+          backdropFilter: "blur(8px)",
+          WebkitBackdropFilter: "blur(8px)",
+        }}
+      >
+        {isFav ? "♥" : "♡"}
+      </button>
     </div>
   );
 }
