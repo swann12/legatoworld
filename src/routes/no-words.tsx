@@ -173,7 +173,7 @@ function NoWords() {
     tab === "lire" ? "Lire" : "Regarder";
 
   const isSouffles = tab === "souffles";
-  const isFullScreen = isSouffles || tab === "respirer";
+  const isFullScreen = isSouffles || tab === "respirer" || tab === "lire" || tab === "regarder";
 
   return (
     <Shell livingBg={false} hideNav={isFullScreen}>
