@@ -47,7 +47,7 @@ const BASE: Sequence[] = [
     id: "warmth",
     title: "Chaleur lente",
     tag: "deuil récent",
-    url: "https://assets.mixkit.co/active_storage/sfx/212/212-preview.mp3",
+    url: "/api/public/souffle-sound/warmth.mp3",
     volume: 0.35,
     fadeIn: 4000,
   },
@@ -55,7 +55,7 @@ const BASE: Sequence[] = [
     id: "morning-sky",
     title: "Ciel du matin",
     tag: "philosophique",
-    url: "https://assets.mixkit.co/active_storage/sfx/2515/2515-preview.mp3",
+    url: "/api/public/souffle-sound/morning-sky.mp3",
     volume: 0.28,
     fadeIn: 4000,
   },
@@ -63,7 +63,7 @@ const BASE: Sequence[] = [
     id: "leaves",
     title: "Feuilles",
     tag: "long terme",
-    url: "https://assets.mixkit.co/active_storage/sfx/2517/2517-preview.mp3",
+    url: "/api/public/souffle-sound/leaves.mp3",
     volume: 0.30,
     fadeIn: 3500,
   },
@@ -71,7 +71,7 @@ const BASE: Sequence[] = [
     id: "rose-mist",
     title: "Brume rose",
     tag: "poétique",
-    url: "https://assets.mixkit.co/active_storage/sfx/2523/2523-preview.mp3",
+    url: "/api/public/souffle-sound/rose-mist.mp3",
     volume: 0.32,
     fadeIn: 4000,
   },
@@ -79,7 +79,7 @@ const BASE: Sequence[] = [
     id: "evening-gold",
     title: "Or du soir",
     tag: "philosophique",
-    url: "https://assets.mixkit.co/active_storage/sfx/2516/2516-preview.mp3",
+    url: "/api/public/souffle-sound/evening-gold.mp3",
     volume: 0.30,
     fadeIn: 4000,
   },
@@ -240,7 +240,7 @@ function createSound(seq: Sequence): NatureSound {
 
 /* ─── Orbes CSS — animations plein écran ───────────────────── */
 const ORB_STYLES = `
-.souffle-scene { position: absolute; inset: 0; overflow: hidden; }
+.souffle-scene { position: absolute; inset: 0; overflow: hidden; touch-action: none; }
 .souffle-scene .scene-bg {
   position: absolute; inset: 0;
   transition: opacity 1.6s ease-in-out;
@@ -321,6 +321,33 @@ const ORB_STYLES = `
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
 }
 
+/* Touch halo — visible feedback that follows the finger / cursor */
+.souffle-scene .touch-halo {
+  position: absolute;
+  left: 0; top: 0;
+  width: 320px; height: 320px;
+  margin-left: -160px; margin-top: -160px;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate3d(var(--halo-x, 50vw), var(--halo-y, 50vh), 0) scale(0.6);
+  transition: opacity 0.6s ease-out, transform 0.18s ease-out;
+  mix-blend-mode: screen;
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 240, 220, 0.55) 0%,
+    rgba(255, 220, 200, 0.30) 30%,
+    rgba(255, 200, 200, 0.12) 55%,
+    transparent 75%
+  );
+  filter: blur(8px);
+  will-change: transform, opacity;
+}
+.souffle-scene.is-touching .touch-halo {
+  opacity: 1;
+  transform: translate3d(var(--halo-x, 50vw), var(--halo-y, 50vh), 0) scale(1);
+}
+
 /* Fond doux par scène (pour la marge -8% au-delà du cadre) */
 .scene-warmth        .scene-bg { background: linear-gradient(160deg, #FFE8DC 0%, #FFF4EE 100%); }
 .scene-morning-sky   .scene-bg { background: linear-gradient(180deg, #FFE8D8 0%, #E8DEEC 60%, #D8DEEC 100%); }
@@ -377,6 +404,7 @@ function SouffleOrbs({ id }: { id: SceneId }) {
       <div className="glow" />
       <div className="vignette" />
       <div className="grain" />
+      <div className="touch-halo" />
     </>
   );
 }
@@ -433,48 +461,65 @@ function SoufflesView() {
     return () => document.removeEventListener("visibilitychange", onVis);
   }, [playing]);
 
-  // Touch/mouse — gentle orb drift + tiny volume swell
+  // Pointer interaction — orbs drift, audio swells, visible halo follows finger
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
     const orbs = container.querySelectorAll<HTMLElement>(".photo-layer .inner");
 
     const apply = (clientX: number, clientY: number) => {
-      const cx = window.innerWidth / 2;
-      const cy = window.innerHeight / 2;
-      const dx = (clientX - cx) / cx;
-      const dy = (clientY - cy) / cy;
-      const factors = [0.10, 0.18];
+      const rect = container.getBoundingClientRect();
+      const localX = clientX - rect.left;
+      const localY = clientY - rect.top;
+      const cx = rect.width / 2;
+      const cy = rect.height / 2;
+      const dx = (localX - cx) / cx;
+      const dy = (localY - cy) / cy;
+      const factors = [0.12, 0.22];
       orbs.forEach((orb, i) => {
         const f = factors[i % factors.length];
-        orb.style.transition = "transform 2.4s ease-out";
-        orb.style.setProperty("--touch-x", `${dx * f * 60}px`);
-        orb.style.setProperty("--touch-y", `${dy * f * 50}px`);
+        orb.style.transition = "transform 1.6s ease-out";
+        orb.style.setProperty("--touch-x", `${dx * f * 70}px`);
+        orb.style.setProperty("--touch-y", `${dy * f * 60}px`);
       });
-      const pressure = 1 - Math.sqrt(dx * dx + dy * dy) * 0.7;
+      container.style.setProperty("--halo-x", `${localX}px`);
+      container.style.setProperty("--halo-y", `${localY}px`);
+      const pressure = 1 - Math.sqrt(dx * dx + dy * dy) * 0.6;
       soundRef.current?.onTouch(Math.max(0, Math.min(1, pressure)));
     };
     const release = () => {
       orbs.forEach((orb) => {
-        orb.style.transition = "transform 4s ease-out";
+        orb.style.transition = "transform 3.6s ease-out";
         orb.style.setProperty("--touch-x", "0px");
         orb.style.setProperty("--touch-y", "0px");
       });
+      container.classList.remove("is-touching");
       soundRef.current?.onTouchEnd();
     };
-    const onMove = (e: MouseEvent) => apply(e.clientX, e.clientY);
-    const onTouchMove = (e: TouchEvent) => {
-      const t = e.touches[0]; if (t) apply(t.clientX, t.clientY);
+    const onDown = (e: PointerEvent) => {
+      container.classList.add("is-touching");
+      apply(e.clientX, e.clientY);
     };
-    container.addEventListener("mousemove", onMove);
-    container.addEventListener("mouseleave", release);
-    container.addEventListener("touchmove", onTouchMove, { passive: true });
-    container.addEventListener("touchend", release);
+    const onMove = (e: PointerEvent) => {
+      // For mouse: hover always animates. For touch: only when pressed.
+      if (e.pointerType !== "mouse" && e.buttons === 0 && !container.classList.contains("is-touching")) return;
+      if (e.pointerType === "mouse") container.classList.add("is-touching");
+      apply(e.clientX, e.clientY);
+    };
+    const onUp = () => release();
+    const onLeave = () => release();
+
+    container.addEventListener("pointerdown", onDown);
+    container.addEventListener("pointermove", onMove);
+    container.addEventListener("pointerup", onUp);
+    container.addEventListener("pointercancel", onUp);
+    container.addEventListener("pointerleave", onLeave);
     return () => {
-      container.removeEventListener("mousemove", onMove);
-      container.removeEventListener("mouseleave", release);
-      container.removeEventListener("touchmove", onTouchMove);
-      container.removeEventListener("touchend", release);
+      container.removeEventListener("pointerdown", onDown);
+      container.removeEventListener("pointermove", onMove);
+      container.removeEventListener("pointerup", onUp);
+      container.removeEventListener("pointercancel", onUp);
+      container.removeEventListener("pointerleave", onLeave);
     };
   }, [seq.id]);
 
