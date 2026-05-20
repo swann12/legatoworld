@@ -514,9 +514,8 @@ function SoufflesView() {
   const [playing, setPlaying] = useState(false);
   const [favorites, setFavorites] = useState<string[]>([]);
   const [bloom, setBloom] = useState(false);
-  const [extendedMsg, setExtendedMsg] = useState(false);
-  const [showSimilarCTA, setShowSimilarCTA] = useState(false);
-  const startX = useRef<number | null>(null);
+  const [gyroOn, setGyroOn] = useState(false);
+  const [micOn, setMicOn] = useState(false);
 
   // Hydrate favorites after mount to avoid SSR mismatch
   useEffect(() => { setFavorites(loadFavorites()); }, []);
@@ -539,10 +538,6 @@ function SoufflesView() {
     audioRef.current = startSeqAudio(ctxRef.current, tex.audio);
     return () => { audioRef.current?.stop(); audioRef.current = null; };
   }, [tex.audio, tex.id, playing]);
-
-  useEffect(() => {
-    if (favorites.length === 3) setShowSimilarCTA(true);
-  }, [favorites.length]);
 
   const ensureCtx = useCallback(() => {
     if (ctxRef.current) return ctxRef.current;
@@ -583,78 +578,86 @@ function SoufflesView() {
     setBloom(true);
     setTimeout(() => setBloom(false), 1800);
   };
-  const onStayMore = () => {
-    setExtendedMsg(true);
-    setTimeout(() => setExtendedMsg(false), 2400);
-  };
 
-  const onPointerDown = (e: React.PointerEvent) => { startX.current = e.clientX; };
-  const onPointerUp = (e: React.PointerEvent) => {
-    if (startX.current === null) return;
-    const dx = e.clientX - startX.current;
-    if (dx < -50) next(); else if (dx > 50) prev();
-    startX.current = null;
+  const toggleGyro = async () => {
+    type DOEPerm = typeof DeviceOrientationEvent & {
+      requestPermission?: () => Promise<"granted" | "denied">;
+    };
+    const DOE = (typeof window !== "undefined" ? window.DeviceOrientationEvent : undefined) as DOEPerm | undefined;
+    if (!gyroOn && DOE && typeof DOE.requestPermission === "function") {
+      try {
+        const perm = await DOE.requestPermission();
+        if (perm !== "granted") return;
+      } catch { return; }
+    }
+    setGyroOn((v) => !v);
   };
 
   return (
-    <div
-      className="relative flex-1 flex flex-col overflow-hidden"
-      onPointerDown={onPointerDown}
-      onPointerUp={onPointerUp}
-    >
+    <div className="relative flex-1 flex flex-col overflow-hidden">
       <div
-        className="absolute inset-0 -z-10 transition-[background] duration-[2000ms] ease-out"
+        className="fixed inset-0 -z-10 transition-[background] duration-[2000ms] ease-out"
         style={{ background: tex.bg }}
       />
-      <SouffleScene tex={tex} ctxRef={ctxRef} onTouchPlay={onTouchPlay} />
+      <SouffleScene
+        tex={tex}
+        ctxRef={ctxRef}
+        onTouchPlay={onTouchPlay}
+        gyroOn={gyroOn}
+        micOn={micOn}
+      />
 
-      <div className="relative z-10 flex-1 flex flex-col text-dusk pointer-events-none">
-        <div className="px-7 pt-4 text-center">
-          <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/55">
-            {playing ? "Ambiance en cours" : "En silence"}
-          </p>
-          <h2
-            className="mt-3 font-serif italic text-[26px] leading-[1.15]"
-            style={{ textWrap: "balance", textShadow: "0 1px 18px rgba(255,255,255,0.55)" }}
+      {/* Titre — discret, en haut, centré */}
+      <div className="relative z-10 pt-16 text-center pointer-events-none">
+        <h2
+          className="font-serif italic text-[22px] leading-none text-dusk/85"
+          style={{ textShadow: "0 1px 18px rgba(255,255,255,0.55)" }}
+        >
+          {tex.title}
+        </h2>
+      </div>
+
+      <div className="flex-1" />
+
+      {bloom && (
+        <div className="pointer-events-none absolute inset-0 flex items-center justify-center z-10">
+          <BloomFlower />
+        </div>
+      )}
+
+      {/* Contrôles — bas de page, discrets */}
+      <div className="relative z-10 px-6 pb-6 flex flex-col gap-3">
+        {/* Capteurs : pastilles discrètes, alignées */}
+        <div className="flex items-center justify-center gap-2">
+          <button
+            onClick={() => void toggleGyro()}
+            className={`text-[10px] uppercase tracking-[0.18em] px-3 py-1.5 rounded-full backdrop-blur-md ${gyroOn ? "text-dusk" : "text-dusk/55"}`}
+            style={{ background: "color-mix(in oklab, white 38%, transparent)" }}
+            aria-pressed={gyroOn}
           >
-            {tex.title}
-          </h2>
-          <p className="mt-3 text-[14px] leading-relaxed font-light" style={{ color: "#6B6560" }}>
-            {tex.whisper}
-          </p>
-          <p className="mt-3 text-[11px] italic text-dusk/55">
-            Son · {tex.asmr}
-          </p>
+            Mouvement
+          </button>
+          <button
+            onClick={() => setMicOn((v) => !v)}
+            className={`text-[10px] uppercase tracking-[0.18em] px-3 py-1.5 rounded-full backdrop-blur-md ${micOn ? "text-dusk" : "text-dusk/55"}`}
+            style={{ background: "color-mix(in oklab, white 38%, transparent)" }}
+            aria-pressed={micOn}
+          >
+            Souffler
+          </button>
+          <button
+            onClick={onKeep}
+            disabled={isFav}
+            className={`text-[10px] uppercase tracking-[0.18em] px-3 py-1.5 rounded-full backdrop-blur-md ${isFav ? "text-dusk/80" : "text-dusk/55"}`}
+            style={{ background: "color-mix(in oklab, white 38%, transparent)" }}
+            aria-label={isFav ? "Séquence gardée" : "Garder cette séquence"}
+          >
+            {isFav ? "♥" : "♡"}
+          </button>
         </div>
 
-        <div className="flex-1" />
-
-        {bloom && (
-          <div className="pointer-events-none absolute inset-0 flex items-center justify-center z-10">
-            <BloomFlower />
-          </div>
-        )}
-
-        {showSimilarCTA && (
-          <div className="px-7 pb-2 pointer-events-auto">
-            <div
-              className="rounded-2xl px-4 py-3 backdrop-blur-md text-center"
-              style={{ background: "color-mix(in oklab, var(--paper) 55%, transparent)" }}
-            >
-              <p className="text-[12.5px] leading-relaxed italic text-dusk/80" style={{ textWrap: "pretty" }}>
-                On a préparé d'autres séquences dans cet esprit.
-              </p>
-              <button
-                onClick={() => setShowSimilarCTA(false)}
-                className="mt-2 text-[11px] uppercase tracking-[0.2em] text-dusk/70"
-              >
-                Découvrir bientôt →
-              </button>
-            </div>
-          </div>
-        )}
-
-        <div className="px-6 pt-3 pb-3 flex items-center gap-3 pointer-events-auto">
+        {/* Navigation + play */}
+        <div className="flex items-center gap-3">
           <button
             onClick={prev}
             className="size-11 rounded-full flex items-center justify-center text-lg backdrop-blur-md text-dusk/75"
@@ -670,7 +673,7 @@ function SoufflesView() {
             }}
           >
             <p className="font-serif italic text-[15px] text-dusk">
-              {playing ? "Mettre en pause" : "Écouter ce son"}
+              {playing ? "Pause" : "Écouter"}
             </p>
           </button>
           <button
@@ -681,37 +684,13 @@ function SoufflesView() {
           >→</button>
         </div>
 
-        <div className="px-6 pb-3 flex items-center gap-3 pointer-events-auto">
-          <button
-            onClick={onKeep}
-            disabled={isFav}
-            className={`flex-1 py-3 rounded-full text-[12.5px] backdrop-blur-md flex items-center justify-center gap-2 text-dusk/85 ${isFav ? "opacity-70" : ""}`}
-            style={{ background: "color-mix(in oklab, var(--paper) 28%, transparent)" }}
-          >
-            <span aria-hidden>{isFav ? "♥" : "♡"}</span>
-            <span>{isFav ? "Gardée" : "Garder cette séquence"}</span>
-          </button>
-          <button
-            onClick={onStayMore}
-            className="flex-1 py-3 rounded-full text-[12.5px] backdrop-blur-md text-dusk/85"
-            style={{ background: "color-mix(in oklab, var(--paper) 28%, transparent)" }}
-          >
-            Rester encore
-          </button>
-        </div>
-
-        {extendedMsg && (
-          <p className="px-7 pb-2 text-[11.5px] italic text-center text-dusk/65">
-            On reste avec vous, encore un moment.
-          </p>
-        )}
-
-        <div className="pb-7 pt-1 flex justify-center gap-1.5">
+        {/* Indicateurs de séquence */}
+        <div className="flex justify-center gap-1.5">
           {BASE.map((tx, i) => (
             <span
               key={tx.id}
-              className={`h-[6px] rounded-full transition-all ${
-                i === index ? "w-6 bg-dusk/70" : "w-[6px] bg-dusk/25"
+              className={`h-[5px] rounded-full transition-all ${
+                i === index ? "w-5 bg-dusk/70" : "w-[5px] bg-dusk/25"
               }`}
             />
           ))}
