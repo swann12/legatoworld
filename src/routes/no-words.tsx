@@ -704,6 +704,133 @@ function LireView() {
 /* ============================================================
    AUDIO ENGINE & MOTION (preserved from previous version)
    ============================================================ */
+/* ============================================================
+   ESPACE 4 — REGARDER
+   ============================================================ */
+type Work = {
+  title: string;
+  author: string;
+  format: string;        // "court-métrage 28min", "musique 10min", "peinture"…
+  context: string;       // phrase de contexte
+  tags: string[];
+  url: string;
+  bg: string;            // CSS gradient
+  textOnDark?: boolean;
+};
+
+const WORKS: Work[] = [
+  { title: "La Jetée", author: "Chris Marker", format: "Court-métrage · 28 min",
+    context: "Un homme remonte le temps pour retrouver une image.",
+    tags: ["mémoire", "passage"], textOnDark: true,
+    bg: "linear-gradient(160deg, #2C2830 0%, #48384C 100%)",
+    url: "https://www.google.com/search?q=La+Jet%C3%A9e+Chris+Marker" },
+  { title: "Paperman", author: "Disney · John Kahrs", format: "Court-métrage · 6 min",
+    context: "Une rencontre, un vent, des avions de papier.",
+    tags: ["présence", "légèreté"],
+    bg: "linear-gradient(160deg, #D8DDE8 0%, #E8E0D8 100%)",
+    url: "https://www.google.com/search?q=Paperman+Disney+short" },
+  { title: "Spiegel im Spiegel", author: "Arvo Pärt", format: "Musique · 10 min",
+    context: "Le silence entre les notes, plus grand que les notes.",
+    tags: ["silence", "souffle"],
+    bg: "linear-gradient(160deg, #F0EEF4 0%, #E8EAF0 100%)",
+    url: "https://www.google.com/search?q=Spiegel+im+Spiegel+Arvo+P%C3%A4rt" },
+  { title: "The Blue Room", author: "Yves Klein", format: "Peinture",
+    context: "Le bleu comme un endroit où poser le regard.",
+    tags: ["silence", "couleur"],
+    bg: "linear-gradient(160deg, #A8B8D8 0%, #C0C8E0 100%)",
+    url: "https://www.google.com/search?q=Yves+Klein+IKB" },
+  { title: "Scène des plumes", author: "Forrest Gump · Zemeckis", format: "Extrait · 3 min",
+    context: "Une plume qui descend, sans rien expliquer.",
+    tags: ["légèreté", "passage"],
+    bg: "linear-gradient(160deg, #E8F0E8 0%, #F0F4EC 100%)",
+    url: "https://www.google.com/search?q=Forrest+Gump+feather+scene" },
+  { title: "Nocturne en si bémol mineur", author: "Frédéric Chopin", format: "Musique · 6 min",
+    context: "Une nuit qui veille sur vous.",
+    tags: ["nuit", "présence"], textOnDark: true,
+    bg: "linear-gradient(160deg, #2A2835 0%, #3C3848 100%)",
+    url: "https://www.google.com/search?q=Chopin+Nocturne+B+flat+minor+op+9+no+1" },
+  { title: "The Tree of Life", author: "Terrence Malick", format: "Extrait nature · 5 min",
+    context: "La lumière qui traverse les arbres, comme une réponse.",
+    tags: ["passage", "lumière"],
+    bg: "linear-gradient(160deg, #D8E8D0 0%, #E8F0E0 100%)",
+    url: "https://www.google.com/search?q=Tree+of+Life+Malick+creation+sequence" },
+  { title: "Maman (Spider)", author: "Louise Bourgeois", format: "Installation",
+    context: "Une protection immense, et fragile.",
+    tags: ["mémoire", "protection"],
+    bg: "linear-gradient(160deg, #C8C0B8 0%, #D8D0C8 100%)",
+    url: "https://www.google.com/search?q=Louise+Bourgeois+Maman+spider" },
+  { title: "In the Mood for Love", author: "Wong Kar-Wai", format: "Extrait · 4 min",
+    context: "Ce qui se dit dans les silences entre deux personnes.",
+    tags: ["absence", "présence"], textOnDark: true,
+    bg: "linear-gradient(160deg, #4A2830 0%, #6A3840 100%)",
+    url: "https://www.google.com/search?q=In+the+Mood+for+Love+Wong+Kar-Wai" },
+  { title: "Grief is the Thing with Feathers", author: "Max Porter", format: "Extrait littéraire",
+    context: "Un corbeau s'invite chez ceux qui pleurent.",
+    tags: ["présence", "nuit"], textOnDark: true,
+    bg: "linear-gradient(160deg, #2C3040 0%, #404858 100%)",
+    url: "https://www.google.com/search?q=Grief+is+the+Thing+with+Feathers+Max+Porter" },
+];
+
+function RegarderView() {
+  return (
+    <div className="flex-1 overflow-y-auto" style={{ background: "#FAF7F4" }}>
+      <div className="px-7 pt-4 pb-6">
+        <h2 className="font-serif text-[24px] leading-[1.2] text-dusk" style={{ textWrap: "balance" }}>
+          Ce que les autres ont fait de leur chagrin.
+        </h2>
+        <p className="mt-2 text-[13px] font-light" style={{ color: "#6B6560", textWrap: "pretty" }}>
+          Des œuvres qui accompagnent. Pour ne pas être seul·e.
+        </p>
+      </div>
+      <ul className="px-5 pb-12 space-y-3">
+        {WORKS.map((w) => {
+          const dark = w.textOnDark;
+          const title = dark ? "text-paper" : "text-dusk";
+          const sub = dark ? "text-paper/70" : "";
+          return (
+            <li key={w.title}
+                className="rounded-2xl px-5 py-5 border overflow-hidden"
+                style={{
+                  background: w.bg,
+                  borderColor: dark ? "rgba(255,255,255,0.10)" : "rgba(0,0,0,0.05)",
+                }}>
+              <p className={`text-[10px] uppercase tracking-[0.22em] ${dark ? "text-paper/60" : "text-dusk/50"}`}>
+                {w.format}
+              </p>
+              <h3 className={`mt-1.5 font-serif text-[19px] leading-snug ${title}`} style={{ textWrap: "balance" }}>
+                {w.title}
+              </h3>
+              <p className={`text-[12.5px] font-light mt-0.5 ${sub}`} style={dark ? undefined : { color: "#6B6560" }}>
+                {w.author}
+              </p>
+              <p className={`mt-3 text-[13.5px] leading-relaxed italic ${dark ? "text-paper/85" : "text-dusk/85"}`}
+                 style={{ textWrap: "pretty" }}>
+                {w.context}
+              </p>
+              <div className="mt-3 flex flex-wrap items-center gap-1.5">
+                {w.tags.map((t) => (
+                  <span key={t}
+                        className="text-[10px] uppercase tracking-[0.16em] px-2 py-0.5 rounded-full"
+                        style={{
+                          background: dark ? "rgba(255,255,255,0.12)" : "rgba(255,255,255,0.55)",
+                          color: dark ? "rgba(255,255,255,0.85)" : "#7A6F5E",
+                        }}>
+                    {t}
+                  </span>
+                ))}
+              </div>
+              <a href={w.url} target="_blank" rel="noreferrer"
+                 className={`inline-block mt-4 text-[12px] uppercase tracking-[0.2em] ${dark ? "text-paper/90" : "text-dusk/80"}`}>
+                Voir cette œuvre →
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  );
+}
+
 type AmbientAudio = { start: () => void; stop: () => void };
 
 function createAmbientAudio(ctx: AudioContext, motion: Motion): AmbientAudio | null {
