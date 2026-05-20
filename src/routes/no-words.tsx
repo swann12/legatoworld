@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { Howl } from "howler";
 import { Shell } from "@/components/legato/Shell";
 
 export const Route = createFileRoute("/no-words")({
@@ -17,171 +18,57 @@ export const Route = createFileRoute("/no-words")({
 type Tab = "souffles" | "respirer" | "lire" | "regarder";
 type BookTag = "deuil récent" | "long terme" | "anticipation" | "pour les enfants" | "philosophique" | "poétique" | "corps";
 
-type ShapeSpec = {
-  xR: number; yR: number;
-  rBase: number; blur: number;
-  c1: string; c2: string;
-  opMin: number; opMax: number; pDur: number;
-  dxAmp: number; dyAmp: number; dxDur: number; dyDur: number;
-};
-
-type SoundConfig = {
-  oscillator: { type: OscillatorType; frequency: number };
-  oscillator2?: { type: OscillatorType; frequency: number; gain: number } | null;
-  noise?: { gain: number; filter: { type: BiquadFilterType; frequency: number; Q: number } };
-  nature?: {
-    gain: number;
-    filter: { type: BiquadFilterType; frequency: number; Q: number };
-    lfo?: { frequency: number; depth: number };
-  };
-  filter: { frequency: number; Q: number };
-  reverb: { duration: number; decay: number };
-  lfo: { frequency: number; depth: number };
-  master: number;
-};
+type SceneId = "warmth" | "morning-sky" | "leaves" | "rose-mist" | "evening-gold";
 
 type Sequence = {
-  id: string;
+  id: SceneId;
   title: string;
-  bg: string;
   tag: BookTag;
-  sound: SoundConfig;
-  shapes: ShapeSpec[];
+  url: string;
+  volume: number;
+  fadeIn: number;
 };
 
 const BASE: Sequence[] = [
   {
     id: "warmth",
     title: "Chaleur lente",
-    bg: "radial-gradient(120% 90% at 30% 35%, #FFD9C2 0%, #FBE6D8 40%, #FFF2EA 80%, #FFF7F1 100%)",
     tag: "deuil récent",
-    sound: {
-      oscillator: { type: "sine", frequency: 55 },
-      oscillator2: { type: "sine", frequency: 57.5, gain: 0.35 },
-      filter: { frequency: 220, Q: 1.2 },
-      reverb: { duration: 4.0, decay: 2.8 },
-      lfo: { frequency: 0.06, depth: 60 },
-      master: 0.20,
-      // Crépitement très lointain — comme des braises sous une couverture
-      nature: {
-        gain: 0.045,
-        filter: { type: "bandpass", frequency: 1800, Q: 2.4 },
-        lfo: { frequency: 2.8, depth: 0.035 },
-      },
-    },
-    shapes: [
-      { xR:0.52, yR:0.30, rBase:185, blur:75, c1:"rgba(255,200,170,", c2:"rgba(240,150,130,", opMin:0.32, opMax:0.52, pDur:16000, dxAmp:16, dyAmp:12, dxDur:18000, dyDur:14000 },
-      { xR:0.20, yR:0.20, rBase:100, blur:65, c1:"rgba(232,155,185,", c2:"rgba(210,120,150,", opMin:0.22, opMax:0.42, pDur:12000, dxAmp:20, dyAmp:16, dxDur:16000, dyDur:20000 },
-      { xR:0.72, yR:0.70, rBase:80,  blur:55, c1:"rgba(255,210,170,", c2:"rgba(240,180,120,", opMin:0.35, opMax:0.58, pDur:9000,  dxAmp:22, dyAmp:18, dxDur:11000, dyDur:9000 },
-      { xR:0.50, yR:0.55, rBase:260, blur:95, c1:"rgba(248,200,190,", c2:"rgba(240,170,160,", opMin:0.10, opMax:0.20, pDur:22000, dxAmp:8,  dyAmp:6,  dxDur:28000, dyDur:24000 },
-    ],
+    url: "https://assets.mixkit.co/active_storage/sfx/212/212-preview.mp3",
+    volume: 0.35,
+    fadeIn: 4000,
   },
   {
     id: "morning-sky",
     title: "Ciel du matin",
-    bg: "radial-gradient(110% 100% at 50% 25%, #EAF2F6 0%, #F2ECF6 55%, #F8F4F2 100%)",
     tag: "philosophique",
-    sound: {
-      oscillator: { type: "sine", frequency: 96 },
-      oscillator2: null,
-      filter: { frequency: 320, Q: 0.5 },
-      reverb: { duration: 8.0, decay: 5.0 },
-      lfo: { frequency: 0.04, depth: 90 },
-      master: 0.14,
-      // Souffle d'air haut, presque inaudible — air frais du matin
-      nature: {
-        gain: 0.035,
-        filter: { type: "highpass", frequency: 3800, Q: 0.6 },
-        lfo: { frequency: 0.08, depth: 0.025 },
-      },
-    },
-    shapes: [
-      { xR:0.52, yR:0.24, rBase:145, blur:55, c1:"rgba(255,220,210,", c2:"rgba(220,170,210,", opMin:0.40, opMax:0.62, pDur:18000, dxAmp:10, dyAmp:8,  dxDur:22000, dyDur:19000 },
-      { xR:0.52, yR:0.24, rBase:275, blur:80, c1:"rgba(220,200,240,", c2:"rgba(200,180,230,", opMin:0.08, opMax:0.18, pDur:18000, dxAmp:10, dyAmp:8,  dxDur:22000, dyDur:19000 },
-      { xR:0.25, yR:0.62, rBase:88,  blur:42, c1:"rgba(120,155,210,", c2:"rgba(100,130,195,", opMin:0.20, opMax:0.36, pDur:14000, dxAmp:8,  dyAmp:12, dxDur:13000, dyDur:17000 },
-      { xR:0.76, yR:0.44, rBase:150, blur:85, c1:"rgba(200,185,235,", c2:"rgba(180,160,220,", opMin:0.16, opMax:0.30, pDur:11000, dxAmp:14, dyAmp:10, dxDur:15000, dyDur:12000 },
-    ],
+    url: "https://assets.mixkit.co/active_storage/sfx/2515/2515-preview.mp3",
+    volume: 0.28,
+    fadeIn: 4000,
   },
   {
     id: "leaves",
     title: "Feuilles",
-    bg: "radial-gradient(120% 95% at 65% 40%, #DCEACB 0%, #ECF3DC 50%, #F6FBEF 100%)",
     tag: "long terme",
-    sound: {
-      oscillator: { type: "triangle", frequency: 65 },
-      oscillator2: null,
-      noise: { gain: 0.06, filter: { type: "bandpass", frequency: 600, Q: 0.8 } },
-      filter: { frequency: 260, Q: 1.5 },
-      reverb: { duration: 5.0, decay: 3.5 },
-      lfo: { frequency: 0.09, depth: 80 },
-      master: 0.18,
-      // Bruissement de feuillage — vent qui passe doucement
-      nature: {
-        gain: 0.085,
-        filter: { type: "bandpass", frequency: 2400, Q: 1.6 },
-        lfo: { frequency: 0.22, depth: 0.06 },
-      },
-    },
-    shapes: [
-      { xR:0.50, yR:0.46, rBase:210, blur:90, c1:"rgba(210,230,185,", c2:"rgba(185,215,160,", opMin:0.25, opMax:0.40, pDur:21000, dxAmp:10, dyAmp:8,  dxDur:24000, dyDur:20000 },
-      { xR:0.78, yR:0.18, rBase:70,  blur:50, c1:"rgba(195,225,165,", c2:"rgba(170,205,140,", opMin:0.20, opMax:0.38, pDur:13000, dxAmp:16, dyAmp:12, dxDur:14000, dyDur:17000 },
-      { xR:0.30, yR:0.65, rBase:140, blur:70, c1:"rgba(192,216,160,", c2:"rgba(208,224,176,", opMin:0.18, opMax:0.36, pDur:26000, dxAmp:14, dyAmp:10, dxDur:22000, dyDur:18000 },
-      { xR:0.65, yR:0.40, rBase:110, blur:60, c1:"rgba(168,200,136,", c2:"rgba(188,216,156,", opMin:0.12, opMax:0.24, pDur:19000, dxAmp:18, dyAmp:14, dxDur:20000, dyDur:23000 },
-    ],
+    url: "https://assets.mixkit.co/active_storage/sfx/2517/2517-preview.mp3",
+    volume: 0.30,
+    fadeIn: 3500,
   },
   {
     id: "rose-mist",
     title: "Brume rose",
-    bg: "radial-gradient(110% 100% at 40% 55%, #F8DDE8 0%, #F1E4F0 45%, #ECEAF6 100%)",
     tag: "poétique",
-    sound: {
-      oscillator: { type: "sine", frequency: 50 },
-      oscillator2: { type: "sine", frequency: 100, gain: 0.20 },
-      filter: { frequency: 180, Q: 0.6 },
-      reverb: { duration: 9.0, decay: 7.0 },
-      lfo: { frequency: 0.03, depth: 50 },
-      master: 0.16,
-      // Souffle lointain enveloppant — comme une respiration dans du coton
-      nature: {
-        gain: 0.05,
-        filter: { type: "bandpass", frequency: 900, Q: 0.7 },
-        lfo: { frequency: 0.06, depth: 0.03 },
-      },
-    },
-    shapes: [
-      { xR:0.35, yR:0.30, rBase:170, blur:70, c1:"rgba(232,168,195,", c2:"rgba(215,140,175,", opMin:0.30, opMax:0.50, pDur:15000, dxAmp:18, dyAmp:14, dxDur:17000, dyDur:13000 },
-      { xR:0.68, yR:0.55, rBase:130, blur:65, c1:"rgba(180,188,230,", c2:"rgba(160,165,218,", opMin:0.24, opMax:0.42, pDur:19000, dxAmp:14, dyAmp:16, dxDur:21000, dyDur:16000 },
-      { xR:0.50, yR:0.50, rBase:280, blur:100,c1:"rgba(240,210,230,", c2:"rgba(225,195,218,", opMin:0.08, opMax:0.16, pDur:25000, dxAmp:6,  dyAmp:5,  dxDur:30000, dyDur:26000 },
-      { xR:0.22, yR:0.72, rBase:65,  blur:48, c1:"rgba(248,185,210,", c2:"rgba(235,160,190,", opMin:0.28, opMax:0.50, pDur:10000, dxAmp:20, dyAmp:15, dxDur:12000, dyDur:10000 },
-    ],
+    url: "https://assets.mixkit.co/active_storage/sfx/2523/2523-preview.mp3",
+    volume: 0.32,
+    fadeIn: 4000,
   },
   {
     id: "evening-gold",
     title: "Or du soir",
-    bg: "radial-gradient(120% 95% at 50% 35%, #FFD7B0 0%, #FFE9C8 45%, #FFF4E2 80%, #FFFAF2 100%)",
     tag: "philosophique",
-    sound: {
-      oscillator: { type: "sine", frequency: 58 },
-      oscillator2: { type: "sine", frequency: 87, gain: 0.45 },
-      filter: { frequency: 280, Q: 1.8 },
-      reverb: { duration: 5.5, decay: 4.0 },
-      lfo: { frequency: 0.07, depth: 100 },
-      master: 0.22,
-      // Houle lointaine — chaleur dense qui respire
-      nature: {
-        gain: 0.07,
-        filter: { type: "lowpass", frequency: 520, Q: 0.9 },
-        lfo: { frequency: 0.12, depth: 0.045 },
-      },
-    },
-    shapes: [
-      { xR:0.50, yR:0.35, rBase:155, blur:60, c1:"rgba(255,215,140,", c2:"rgba(245,175,100,", opMin:0.36, opMax:0.56, pDur:13000, dxAmp:12, dyAmp:10, dxDur:16000, dyDur:13000 },
-      { xR:0.28, yR:0.18, rBase:90,  blur:58, c1:"rgba(248,185,130,", c2:"rgba(235,155,100,", opMin:0.28, opMax:0.48, pDur:11000, dxAmp:18, dyAmp:14, dxDur:13000, dyDur:16000 },
-      { xR:0.55, yR:0.50, rBase:270, blur:95, c1:"rgba(255,235,185,", c2:"rgba(248,210,160,", opMin:0.10, opMax:0.20, pDur:24000, dxAmp:7,  dyAmp:5,  dxDur:28000, dyDur:22000 },
-      { xR:0.18, yR:0.60, rBase:45,  blur:42, c1:"rgba(255,210,120,", c2:"rgba(240,170,80,",  opMin:0.18, opMax:0.36, pDur:8000,  dxAmp:18, dyAmp:14, dxDur:9000,  dyDur:11000 },
-      { xR:0.80, yR:0.38, rBase:55,  blur:46, c1:"rgba(255,210,120,", c2:"rgba(240,170,80,",  opMin:0.22, opMax:0.44, pDur:11000, dxAmp:22, dyAmp:18, dxDur:13000, dyDur:10000 },
-      { xR:0.42, yR:0.82, rBase:60,  blur:50, c1:"rgba(255,210,120,", c2:"rgba(240,170,80,",  opMin:0.20, opMax:0.40, pDur:14000, dxAmp:26, dyAmp:20, dxDur:15000, dyDur:13000 },
-    ],
+    url: "https://assets.mixkit.co/active_storage/sfx/2516/2516-preview.mp3",
+    volume: 0.30,
+    fadeIn: 4000,
   },
 ];
 
