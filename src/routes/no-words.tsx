@@ -1,6 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import { Shell } from "@/components/legato/Shell";
+import { useLegato } from "@/lib/legato-state";
+import { noOrphan } from "@/lib/text";
 import imgWarmth from "@/assets/souffle-warmth.jpg";
 import imgMorningSky from "@/assets/souffle-morning-sky.jpg";
 import imgOrSoirEau from "@/assets/souffle-or-soir-eau.jpg";
