@@ -449,6 +449,19 @@ const ORB_STYLES = `
   transform: translate3d(var(--halo-x, 50vw), var(--halo-y, 50vh), 0) scale(1);
 }
 
+/* Video layer — autoplay ambient motion (rose-mist, evening-gold) */
+.souffle-scene .photo-video {
+  position: absolute; inset: -6%;
+  width: 112%; height: 112%;
+  object-fit: cover;
+  pointer-events: none;
+  mix-blend-mode: lighten;
+  opacity: 0.78;
+  filter: blur(2px) saturate(1.05);
+  animation: souffle-drift 36s ease-in-out infinite;
+  will-change: transform;
+}
+
 /* Fond doux par scène (pour la marge -8% au-delà du cadre) */
 .scene-warmth        .scene-bg { background: linear-gradient(160deg, #FFE8DC 0%, #FFF4EE 100%); }
 .scene-morning-sky   .scene-bg { background: linear-gradient(180deg, #FFE8D8 0%, #E8DEEC 60%, #D8DEEC 100%); }
@@ -491,8 +504,14 @@ const ORB_STYLES = `
 }
 `;
 
+const SCENE_VIDEOS: Partial<Record<SceneId, string>> = {
+  "rose-mist": "/souffles/rose-mist.mp4",
+  "evening-gold": "/souffles/evening-gold.mp4",
+};
+
 function SouffleOrbs({ id }: { id: SceneId }) {
   const src = SCENE_IMAGES[id];
+  const videoSrc = SCENE_VIDEOS[id];
   const bg: CSSProperties = { backgroundImage: `url(${src})` };
   return (
     <>
@@ -502,6 +521,18 @@ function SouffleOrbs({ id }: { id: SceneId }) {
       <div className="photo-layer layer-b" style={bg}>
         <div className="inner" style={bg} />
       </div>
+      {videoSrc && (
+        <video
+          className="photo-video"
+          src={videoSrc}
+          poster={src}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+        />
+      )}
       <div className="glow" />
       <div className="vignette" />
       <div className="grain" />
