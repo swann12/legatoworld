@@ -739,17 +739,6 @@ function SoufflesView() {
             aria-label="Séquence suivante"
           >→</button>
         </div>
-
-        <div className="flex justify-center gap-1.5">
-          {BASE.map((s, i) => (
-            <span
-              key={s.id}
-              className={`h-[5px] rounded-full transition-all ${
-                i === index ? "w-5 bg-dusk/70" : "w-[5px] bg-dusk/25"
-              }`}
-            />
-          ))}
-        </div>
       </div>
     </div>
   );
