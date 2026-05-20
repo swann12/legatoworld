@@ -240,7 +240,7 @@ function createSound(seq: Sequence): NatureSound {
 
 /* ─── Orbes CSS — animations plein écran ───────────────────── */
 const ORB_STYLES = `
-.souffle-scene { position: absolute; inset: 0; overflow: hidden; }
+.souffle-scene { position: absolute; inset: 0; overflow: hidden; touch-action: none; }
 .souffle-scene .scene-bg {
   position: absolute; inset: 0;
   transition: opacity 1.6s ease-in-out;
@@ -319,6 +319,33 @@ const ORB_STYLES = `
   opacity: 0.08;
   mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+
+/* Touch halo — visible feedback that follows the finger / cursor */
+.souffle-scene .touch-halo {
+  position: absolute;
+  left: 0; top: 0;
+  width: 320px; height: 320px;
+  margin-left: -160px; margin-top: -160px;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate3d(var(--halo-x, 50vw), var(--halo-y, 50vh), 0) scale(0.6);
+  transition: opacity 0.6s ease-out, transform 0.18s ease-out;
+  mix-blend-mode: screen;
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 240, 220, 0.55) 0%,
+    rgba(255, 220, 200, 0.30) 30%,
+    rgba(255, 200, 200, 0.12) 55%,
+    transparent 75%
+  );
+  filter: blur(8px);
+  will-change: transform, opacity;
+}
+.souffle-scene.is-touching .touch-halo {
+  opacity: 1;
+  transform: translate3d(var(--halo-x, 50vw), var(--halo-y, 50vh), 0) scale(1);
 }
 
 /* Fond doux par scène (pour la marge -8% au-delà du cadre) */
