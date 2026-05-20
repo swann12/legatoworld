@@ -1,8 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useMemo, useRef, useState } from "react";
-import { useServerFn } from "@tanstack/react-start";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Shell } from "@/components/legato/Shell";
-import { similarAmbiances } from "@/lib/ambiance.functions";
 
 export const Route = createFileRoute("/no-words")({
   head: () => ({ meta: [{ title: "Sans mots — Legato" }] }),
@@ -17,6 +15,7 @@ export const Route = createFileRoute("/no-words")({
 });
 
 type Motion = "drift" | "ripple" | "pulse" | "rain" | "veil";
+type AudioKind = "warm-low" | "sine-432" | "noise-leaves" | "deep-sine" | "gold-bursts";
 type Tab = "souffles" | "respirer" | "lire" | "regarder";
 type BookTag = "deuil récent" | "long terme" | "anticipation" | "pour les enfants" | "philosophique" | "poétique" | "corps";
 
@@ -27,8 +26,9 @@ type Texture = {
   asmr: string;
   motion: Motion;
   bg: string; // page-level gradient (CSS)
+  blob: { from: string; to: string; opacity: number };
+  audio: AudioKind;
   tag: BookTag; // sensitivity → for cross-AI with Lire
-  generated?: boolean;
 };
 
 const BASE: Texture[] = [
@@ -36,90 +36,55 @@ const BASE: Texture[] = [
     id: "warmth",
     title: "Chaleur lente",
     whisper: "Comme une main posée sur l'épaule.",
-    asmr: "Souffle long, près d'un foyer",
+    asmr: "souffle long, près d'un foyer",
     motion: "pulse",
-    bg: "linear-gradient(160deg, #F8E4DD 0%, #F0CFC8 60%, #E5B8B5 100%)",
+    bg: "linear-gradient(145deg, #FFE8DC 0%, #FFF4EE 100%)",
+    blob: { from: "#F0A890", to: "#F8C8B0", opacity: 0.48 },
+    audio: "warm-low",
     tag: "deuil récent",
   },
   {
-    id: "rain-fine",
-    title: "Pluie fine",
-    whisper: "Tout s'apaise, à l'abri.",
-    asmr: "Pluie légère sur une vitre",
-    motion: "rain",
-    bg: "linear-gradient(180deg, #DDE3EA 0%, #C3CCD6 100%)",
-    tag: "poétique",
+    id: "morning-sky",
+    title: "Ciel du matin",
+    whisper: "Tout vient lentement, en douceur.",
+    asmr: "tonalité 432 Hz, halos lents",
+    motion: "veil",
+    bg: "linear-gradient(180deg, #EAF0F8 0%, #F4EEF8 100%)",
+    blob: { from: "#A8C0E0", to: "#C8B8E8", opacity: 0.42 },
+    audio: "sine-432",
+    tag: "philosophique",
   },
   {
     id: "leaves",
-    title: "Feuilles d'automne",
+    title: "Feuilles",
     whisper: "Le temps se balance, sans bruit.",
-    asmr: "Vent doux dans les feuilles",
+    asmr: "souffle filtré dans les feuilles",
     motion: "drift",
-    bg: "linear-gradient(170deg, #F5E9D6 0%, #E8D4B5 100%)",
+    bg: "linear-gradient(162deg, #EEF4E8 0%, #F8FBF4 100%)",
+    blob: { from: "#C0D4A8", to: "#D0E0B8", opacity: 0.36 },
+    audio: "noise-leaves",
     tag: "long terme",
   },
   {
-    id: "snow-morning",
-    title: "Matin de neige",
+    id: "rose-mist",
+    title: "Brume rose",
     whisper: "Le monde se feutre autour de vous.",
-    asmr: "Silence presque total, craquement léger",
+    asmr: "basse profonde, brume légère",
     motion: "veil",
-    bg: "linear-gradient(180deg, #F0F4F8 0%, #DDE5EE 100%)",
+    bg: "linear-gradient(148deg, #F8EEF4 0%, #F0ECF8 100%)",
+    blob: { from: "#E8B0C8", to: "#B8C0E8", opacity: 0.42 },
+    audio: "deep-sine",
     tag: "poétique",
   },
   {
-    id: "seaside",
-    title: "Bord de mer",
-    whisper: "Aller, revenir, à votre rythme.",
-    asmr: "Vagues douces et régulières",
-    motion: "ripple",
-    bg: "linear-gradient(180deg, #DCE6E0 0%, #B6CCC2 100%)",
-    tag: "philosophique",
-  },
-  {
-    id: "forest-rain",
-    title: "Forêt après la pluie",
-    whisper: "Tout s'égoutte, doucement.",
-    asmr: "Gouttes sur les feuilles, oiseaux lointains",
-    motion: "ripple",
-    bg: "linear-gradient(170deg, #E4ECDF 0%, #C7D5BF 100%)",
-    tag: "poétique",
-  },
-  {
-    id: "afternoon-light",
-    title: "Lumière de fin d'après-midi",
+    id: "evening-gold",
+    title: "Or du soir",
     whisper: "Une chaleur qui s'attarde.",
-    asmr: "Silence, léger bourdonnement d'été",
+    asmr: "petites bouffées dorées",
     motion: "drift",
-    bg: "linear-gradient(170deg, #FBF1DC 0%, #F0DDB0 100%)",
-    tag: "philosophique",
-  },
-  {
-    id: "quiet-night",
-    title: "Nuit tranquille",
-    whisper: "Une lumière reste allumée pour vous.",
-    asmr: "Grillons lointains, vent doux",
-    motion: "veil",
-    bg: "linear-gradient(180deg, #1F2638 0%, #2A3550 100%)",
-    tag: "philosophique",
-  },
-  {
-    id: "fireplace",
-    title: "Feu de cheminée",
-    whisper: "Une petite flamme suffit, ce soir.",
-    asmr: "Crépitement doux d'un feu de bois",
-    motion: "pulse",
-    bg: "linear-gradient(160deg, #F4DCD0 0%, #E0B5A2 100%)",
-    tag: "deuil récent",
-  },
-  {
-    id: "wave",
-    title: "Vague de fond",
-    whisper: "Quelque chose vous porte, en dessous.",
-    asmr: "Basses fréquences très douces",
-    motion: "ripple",
-    bg: "linear-gradient(180deg, #E0DAEC 0%, #C4B8DC 100%)",
+    bg: "linear-gradient(158deg, #FFF4E0 0%, #FFF8F0 100%)",
+    blob: { from: "#F0C870", to: "#F4C040", opacity: 0.38 },
+    audio: "gold-bursts",
     tag: "philosophique",
   },
 ];
