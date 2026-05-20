@@ -6,6 +6,13 @@ import { similarAmbiances } from "@/lib/ambiance.functions";
 
 export const Route = createFileRoute("/no-words")({
   head: () => ({ meta: [{ title: "Sans mots — Legato" }] }),
+  validateSearch: (search: Record<string, unknown>): { tab?: Tab } => {
+    const t = search.tab;
+    if (t === "souffles" || t === "respirer" || t === "lire" || t === "regarder") {
+      return { tab: t };
+    }
+    return {};
+  },
   component: NoWords,
 });
 
@@ -130,7 +137,11 @@ function saveFavorites(ids: string[]) {
 }
 
 function NoWords() {
-  const [tab, setTab] = useState<Tab>("souffles");
+  const search = Route.useSearch();
+  const [tab, setTab] = useState<Tab>(search.tab ?? "souffles");
+  useEffect(() => {
+    if (search.tab) setTab(search.tab);
+  }, [search.tab]);
 
   return (
     <Shell hideNav livingBg={false}>
