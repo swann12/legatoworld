@@ -100,18 +100,18 @@ const BASE: Sequence[] = [
     fadeIn: 4000,
   },
   {
-    id: "feuilles-rose",
-    title: "Feuilles roses",
-    tag: "poétique",
-    volume: 0.30,
-    fadeIn: 3800,
-  },
-  {
-    id: "leaves",
-    title: "Feuilles",
+    id: "rivage",
+    title: "Rivage",
     tag: "long terme",
     volume: 0.30,
     fadeIn: 3500,
+  },
+  {
+    id: "ressac",
+    title: "Ressac",
+    tag: "long terme",
+    volume: 0.32,
+    fadeIn: 4000,
   },
   {
     id: "perle",
@@ -137,13 +137,6 @@ const BASE: Sequence[] = [
   {
     id: "or-soir-eau",
     title: "Or sur l'eau",
-    tag: "philosophique",
-    volume: 0.30,
-    fadeIn: 4500,
-  },
-  {
-    id: "soir-flou",
-    title: "Soir flou",
     tag: "philosophique",
     volume: 0.30,
     fadeIn: 4500,
@@ -283,8 +276,12 @@ const SCENE_AUDIO: Record<SceneId, SceneAudio> = {
   "morning-sky":  { type: "bandpass", baseFreq: 2200, q: 1.6, lfoRate: 0.09, lfoDepth: 900, noise: "pink",
                     tone: { freq: 880, type: "sine", gain: 0.012 },
                     tone2: { freq: 1320, type: "sine", gain: 0.008, detune: 7 } },
-  // Feuilles — bruit pink filtré, plus de mouvement haute fréquence
-  leaves:         { type: "highpass", baseFreq: 1800, q: 0.8, lfoRate: 0.18, lfoDepth: 600, noise: "pink"  },
+  // Rivage — vagues douces, lowpass, eau lointaine
+  rivage:         { type: "lowpass",  baseFreq: 560,  q: 0.7, lfoRate: 0.11, lfoDepth: 220, noise: "brown",
+                    tone: { freq: 90, type: "sine", gain: 0.03 } },
+  // Ressac — vagues plus marquées, bandpass médium qui respire
+  ressac:         { type: "bandpass", baseFreq: 900,  q: 1.2, lfoRate: 0.16, lfoDepth: 480, noise: "white",
+                    tone: { freq: 130, type: "sine", gain: 0.028 } },
   // Brume rose — lowpass + drone très doux
   "rose-mist":    { type: "lowpass",  baseFreq: 700,  q: 0.9, lfoRate: 0.04, lfoDepth: 200, noise: "pink",
                     tone: { freq: 220, type: "sine", gain: 0.025, detune: -3 } },
@@ -297,13 +294,6 @@ const SCENE_AUDIO: Record<SceneId, SceneAudio> = {
                     tone: { freq: 147, type: "triangle", gain: 0.02 } },
   // Feuilles vertes — frissons aigus
   "feuilles-vert":{ type: "highpass", baseFreq: 2600, q: 1.0, lfoRate: 0.25, lfoDepth: 800, noise: "pink"  },
-  // Feuilles roses — mélange aérien, drone mi-aigu
-  "feuilles-rose":{ type: "bandpass", baseFreq: 1500, q: 1.3, lfoRate: 0.12, lfoDepth: 500, noise: "pink",
-                    tone: { freq: 392, type: "sine", gain: 0.014 } },
-  // Soir flou — drone tenu, aérien, lent
-  "soir-flou":    { type: "lowpass",  baseFreq: 820,  q: 0.8, lfoRate: 0.03, lfoDepth: 150, noise: "pink",
-                    tone: { freq: 196, type: "sine", gain: 0.03 },
-                    tone2: { freq: 294, type: "sine", gain: 0.016, detune: 4 } },
   // Perle — drone cristallin, très calme
   perle:          { type: "lowpass",  baseFreq: 1100, q: 1.1, lfoRate: 0.04, lfoDepth: 250, noise: "pink",
                     tone: { freq: 330, type: "sine", gain: 0.022 },
