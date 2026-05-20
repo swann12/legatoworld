@@ -756,6 +756,9 @@ function SouffleOrbs({ id }: { id: SceneId }) {
       <div className="vignette" />
       <div className="grain" />
       <div className="touch-halo" />
+      {/* Loupe locale qui suit le doigt — réveille la texture sous le contact */}
+      <div className="touch-lens" style={bg} />
+      <div className="touch-lens-core" style={bg} />
     </>
   );
 }
