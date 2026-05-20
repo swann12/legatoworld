@@ -916,7 +916,7 @@ function SoufflesView() {
       {/* Title */}
       <div className="relative z-10 pt-16 text-center pointer-events-none">
         <h2
-          className="font-serif italic text-[22px] leading-none text-dusk/85"
+          className="souffle-title font-serif italic text-[22px] leading-none text-dusk/85"
           style={{ textShadow: "0 1px 18px rgba(255,255,255,0.55)" }}
         >
           {seq.title}
@@ -931,32 +931,34 @@ function SoufflesView() {
         </div>
       )}
 
-      {/* Bottom — manual navigation only, no auto-advance */}
-      <div className="relative z-10 px-6 pb-6 flex flex-col gap-3">
-        <div className="flex items-center gap-3">
-          <button
-            onClick={prev}
-            className="size-11 rounded-full flex items-center justify-center text-lg backdrop-blur-md text-dusk/70"
-            style={{ background: "color-mix(in oklab, white 30%, transparent)" }}
-            aria-label="Séquence précédente"
-          >←</button>
-          <button
-            onClick={onKeep}
-            disabled={isFav}
-            className="flex-1 py-3 rounded-full text-[11px] uppercase tracking-[0.22em] backdrop-blur-md text-dusk/70"
-            style={{ background: "color-mix(in oklab, white 30%, transparent)" }}
-            aria-label={isFav ? "Séquence gardée" : "Garder cette séquence"}
-          >
-            {isFav ? "♥  gardée" : "♡  garder"}
-          </button>
-          <button
-            onClick={next}
-            className="size-11 rounded-full flex items-center justify-center text-lg backdrop-blur-md text-dusk/70"
-            style={{ background: "color-mix(in oklab, white 30%, transparent)" }}
-            aria-label="Séquence suivante"
-          >→</button>
-        </div>
-      </div>
+      {/* Edge tap-zones — invisible, swipe via tap to navigate scenes */}
+      <button
+        onClick={prev}
+        aria-label="Séquence précédente"
+        className="absolute left-0 top-1/4 bottom-1/4 w-[22%] z-20 bg-transparent"
+        style={{ outline: "none" }}
+      />
+      <button
+        onClick={next}
+        aria-label="Séquence suivante"
+        className="absolute right-0 top-1/4 bottom-1/4 w-[22%] z-20 bg-transparent"
+        style={{ outline: "none" }}
+      />
+
+      {/* Discreet heart — top-left, replaces the bottom bar */}
+      <button
+        onClick={onKeep}
+        disabled={isFav}
+        aria-label={isFav ? "Séquence gardée" : "Garder cette séquence"}
+        className="absolute top-5 left-16 z-30 size-9 rounded-full flex items-center justify-center text-[15px] text-dusk/75"
+        style={{
+          background: "rgba(255,255,255,0.28)",
+          backdropFilter: "blur(8px)",
+          WebkitBackdropFilter: "blur(8px)",
+        }}
+      >
+        {isFav ? "♥" : "♡"}
+      </button>
     </div>
   );
 }
