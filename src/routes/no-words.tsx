@@ -245,125 +245,151 @@ function BloomFlower() {
 /* ─── Moteur audio : drone continu, jamais de notes discrètes ─── */
 class AudioEngine {
   ctx: AudioContext;
-  osc1!: OscillatorNode; osc2!: OscillatorNode; osc3!: OscillatorNode;
-  noise!: AudioBufferSourceNode;
-  filter!: BiquadFilterNode;
-  noiseFilter!: BiquadFilterNode;
-  lfo!: OscillatorNode; lfoGain!: GainNode;
-  reverb!: ConvolverNode; reverbGain!: GainNode;
-  master!: GainNode;
-  baseFilterFreq = 300;
+  master: GainNode;
+  private cfg: SoundConfig | null = null;
+  private osc1: OscillatorNode | null = null;
+  private osc2: OscillatorNode | null = null;
+  private noiseSrc: AudioBufferSourceNode | null = null;
+  private lfo: OscillatorNode | null = null;
+  private filter: BiquadFilterNode | null = null;
+  private nodes: AudioNode[] = [];
 
   constructor(ctx: AudioContext) {
     this.ctx = ctx;
-    const c = ctx;
-    this.osc1 = c.createOscillator(); this.osc1.type = "sine"; this.osc1.frequency.value = 55;
-    this.osc2 = c.createOscillator(); this.osc2.type = "sine"; this.osc2.frequency.value = 82.5;
-    this.osc3 = c.createOscillator(); this.osc3.type = "triangle"; this.osc3.frequency.value = 27.5;
-
-    this.noise = this.createNoise();
-
-    this.filter = c.createBiquadFilter();
-    this.filter.type = "lowpass"; this.filter.Q.value = 2.0; this.filter.frequency.value = 300;
-
-    this.noiseFilter = c.createBiquadFilter();
-    this.noiseFilter.type = "bandpass"; this.noiseFilter.Q.value = 1.2; this.noiseFilter.frequency.value = 340;
-
-    this.lfo = c.createOscillator(); this.lfo.type = "sine"; this.lfo.frequency.value = 0.07;
-    this.lfoGain = c.createGain(); this.lfoGain.gain.value = 100;
-
-    this.reverb = this.createReverb(5.0);
-    this.reverbGain = c.createGain(); this.reverbGain.gain.value = 0.55;
-
-    this.master = c.createGain(); this.master.gain.value = 0;
-
-    this.lfo.connect(this.lfoGain); this.lfoGain.connect(this.filter.frequency);
-
-    const oscMix = c.createGain(); oscMix.gain.value = 0.35;
-    this.osc1.connect(oscMix); this.osc2.connect(oscMix); this.osc3.connect(oscMix);
-    oscMix.connect(this.filter);
-
-    this.noise.connect(this.noiseFilter);
-    const noiseMix = c.createGain(); noiseMix.gain.value = 0.10;
-    this.noiseFilter.connect(noiseMix);
-
-    this.filter.connect(this.reverb); this.filter.connect(this.master);
-    noiseMix.connect(this.reverb); noiseMix.connect(this.master);
-    this.reverb.connect(this.reverbGain); this.reverbGain.connect(this.master);
-
-    this.master.connect(c.destination);
-
-    this.osc1.start(); this.osc2.start(); this.osc3.start(); this.lfo.start();
+    this.master = ctx.createGain();
+    this.master.gain.value = 0;
+    this.master.connect(ctx.destination);
   }
 
-  private createNoise(): AudioBufferSourceNode {
+  private buildReverb(duration: number, decay: number): ConvolverNode {
     const c = this.ctx;
-    const buf = c.createBuffer(1, c.sampleRate * 4, c.sampleRate);
-    const d = buf.getChannelData(0);
-    for (let i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * 0.25;
-    const s = c.createBufferSource(); s.buffer = buf; s.loop = true; s.start();
-    return s;
-  }
-
-  private createReverb(duration: number): ConvolverNode {
-    const c = this.ctx;
-    const len = Math.floor(c.sampleRate * duration);
+    const len = Math.max(1, Math.floor(c.sampleRate * duration));
     const buf = c.createBuffer(2, len, c.sampleRate);
+    const decayRate = decay / duration;
     for (let ch = 0; ch < 2; ch++) {
       const d = buf.getChannelData(ch);
-      for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 2.2);
+      for (let i = 0; i < len; i++) {
+        d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 1 / Math.max(decayRate, 0.001));
+      }
     }
-    const conv = c.createConvolver(); conv.buffer = buf; return conv;
+    const conv = c.createConvolver();
+    conv.buffer = buf;
+    return conv;
   }
 
-  fadeIn(dur = 2.5) {
+  private teardown() {
+    try { this.osc1?.stop(); } catch (e) { void e; }
+    try { this.osc2?.stop(); } catch (e) { void e; }
+    try { this.noiseSrc?.stop(); } catch (e) { void e; }
+    try { this.lfo?.stop(); } catch (e) { void e; }
+    for (const n of this.nodes) { try { n.disconnect(); } catch (e) { void e; } }
+    this.osc1 = this.osc2 = this.lfo = null;
+    this.noiseSrc = null;
+    this.filter = null;
+    this.nodes = [];
+  }
+
+  setSequence(cfg: SoundConfig) {
+    this.teardown();
+    this.cfg = cfg;
+    const c = this.ctx;
+
+    const reverb = this.buildReverb(cfg.reverb.duration, cfg.reverb.decay);
+    const reverbGain = c.createGain(); reverbGain.gain.value = 0.6;
+    reverb.connect(reverbGain); reverbGain.connect(this.master);
+
+    const filter = c.createBiquadFilter();
+    filter.type = "lowpass";
+    filter.frequency.value = cfg.filter.frequency;
+    filter.Q.value = cfg.filter.Q;
+    filter.connect(reverb);
+    filter.connect(this.master);
+    this.filter = filter;
+
+    const lfo = c.createOscillator();
+    lfo.type = "sine";
+    lfo.frequency.value = cfg.lfo.frequency;
+    const lfoGain = c.createGain();
+    lfoGain.gain.value = cfg.lfo.depth;
+    lfo.connect(lfoGain);
+    lfoGain.connect(filter.frequency);
+    lfo.start();
+    this.lfo = lfo;
+
+    const osc1 = c.createOscillator();
+    osc1.type = cfg.oscillator.type;
+    osc1.frequency.value = cfg.oscillator.frequency;
+    const oscGain1 = c.createGain(); oscGain1.gain.value = 0.7;
+    osc1.connect(oscGain1); oscGain1.connect(filter);
+    osc1.start();
+    this.osc1 = osc1;
+
+    if (cfg.oscillator2) {
+      const osc2 = c.createOscillator();
+      osc2.type = cfg.oscillator2.type;
+      osc2.frequency.value = cfg.oscillator2.frequency;
+      const oscGain2 = c.createGain(); oscGain2.gain.value = cfg.oscillator2.gain;
+      osc2.connect(oscGain2); oscGain2.connect(filter);
+      osc2.start();
+      this.osc2 = osc2;
+      this.nodes.push(oscGain2);
+    }
+
+    if (cfg.noise) {
+      const nb = c.createBuffer(1, c.sampleRate * 3, c.sampleRate);
+      const nd = nb.getChannelData(0);
+      for (let i = 0; i < nd.length; i++) nd[i] = (Math.random() * 2 - 1) * 0.2;
+      const ns = c.createBufferSource();
+      ns.buffer = nb; ns.loop = true;
+      const nf = c.createBiquadFilter();
+      nf.type = cfg.noise.filter.type;
+      nf.frequency.value = cfg.noise.filter.frequency;
+      nf.Q.value = cfg.noise.filter.Q;
+      const ng = c.createGain();
+      ng.gain.value = cfg.noise.gain;
+      ns.connect(nf); nf.connect(ng); ng.connect(reverb);
+      ns.start();
+      this.noiseSrc = ns;
+      this.nodes.push(nf, ng);
+    }
+
+    this.nodes.push(reverb, reverbGain, filter, lfoGain, oscGain1);
+  }
+
+  fadeIn(dur = 3.0) {
+    if (!this.cfg) return;
     const now = this.ctx.currentTime;
     this.master.gain.cancelScheduledValues(now);
     this.master.gain.setValueAtTime(this.master.gain.value, now);
-    this.master.gain.linearRampToValueAtTime(0.24, now + dur);
+    this.master.gain.linearRampToValueAtTime(this.cfg.master, now + dur);
   }
 
-  fadeOut(dur = 1.8) {
+  fadeOut(dur = 2.0) {
     const now = this.ctx.currentTime;
     this.master.gain.cancelScheduledValues(now);
     this.master.gain.setValueAtTime(this.master.gain.value, now);
     this.master.gain.linearRampToValueAtTime(0, now + dur);
   }
 
-  setSequence(cfg: SoundConfig) {
+  onTouch(_x: number, y: number, _pressure: number) {
+    if (!this.cfg || !this.filter) return;
+    void _x; void _pressure;
+    const base = this.cfg.filter.frequency;
+    const target = Math.min(base * (1 + (1 - y) * 0.6), base * 1.7);
     const now = this.ctx.currentTime;
-    this.baseFilterFreq = cfg.filterBase;
-    this.osc1.frequency.linearRampToValueAtTime(cfg.freq, now + 2);
-    this.osc2.frequency.linearRampToValueAtTime(cfg.freq * 1.5, now + 2);
-    this.osc3.frequency.linearRampToValueAtTime(cfg.freq * 0.5, now + 2);
-    this.filter.frequency.linearRampToValueAtTime(cfg.filterBase, now + 2);
-    this.noiseFilter.frequency.linearRampToValueAtTime(cfg.noiseBase, now + 2);
-    this.lfoGain.gain.linearRampToValueAtTime(cfg.lfoAmp, now + 2);
-  }
-
-  onTouch(x: number, y: number, pressure: number) {
-    const now = this.ctx.currentTime;
-    const ramp = 0.12;
-    const targetFreq = this.baseFilterFreq * (1 + (0.5 - y) * 1.6);
-    this.filter.frequency.linearRampToValueAtTime(Math.max(60, Math.min(2000, targetFreq)), now + ramp);
-    this.filter.Q.linearRampToValueAtTime(1.5 + Math.abs(x - 0.5) * 3.5, now + ramp);
-    this.noiseFilter.frequency.linearRampToValueAtTime(180 + pressure * 700, now + ramp);
-    this.lfo.frequency.linearRampToValueAtTime(0.04 + (1 - pressure) * 0.05, now + 0.4);
+    this.filter.frequency.cancelScheduledValues(now);
+    this.filter.frequency.linearRampToValueAtTime(target, now + 0.3);
   }
 
   onTouchEnd() {
+    if (!this.cfg || !this.filter) return;
     const now = this.ctx.currentTime;
-    this.filter.frequency.linearRampToValueAtTime(this.baseFilterFreq, now + 1.8);
-    this.filter.Q.linearRampToValueAtTime(2.0, now + 1.5);
-    this.lfo.frequency.linearRampToValueAtTime(0.07, now + 2.5);
+    this.filter.frequency.linearRampToValueAtTime(this.cfg.filter.frequency, now + 2.0);
   }
 
   dispose() {
-    try { this.osc1.stop(); } catch (e) { void e; }
-    try { this.osc2.stop(); } catch (e) { void e; }
-    try { this.osc3.stop(); } catch (e) { void e; }
-    try { this.lfo.stop(); } catch (e) { void e; }
-    try { this.noise.stop(); } catch (e) { void e; }
+    this.teardown();
+    try { this.master.disconnect(); } catch (e) { void e; }
   }
 }
 
