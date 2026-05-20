@@ -904,7 +904,7 @@ function SoufflesView() {
       <button
         onClick={togglePlay}
         aria-label={playing ? "Pause" : "Reprendre"}
-        className="absolute top-5 right-5 z-30 size-9 rounded-full flex items-center justify-center text-dusk/75"
+        className="lune-ctrl absolute top-5 right-5 z-30 size-9 rounded-full flex items-center justify-center text-dusk/75"
         style={{
           background: "rgba(255,255,255,0.28)",
           backdropFilter: "blur(8px)",
@@ -953,14 +953,14 @@ function SoufflesView() {
         <div className="flex items-center gap-3">
           <button
             onClick={prev}
-            className="size-11 rounded-full flex items-center justify-center text-lg backdrop-blur-md text-dusk/70"
+            className="lune-ctrl size-11 rounded-full flex items-center justify-center text-lg backdrop-blur-md text-dusk/70"
             style={{ background: "color-mix(in oklab, white 30%, transparent)" }}
             aria-label="Séquence précédente"
           >←</button>
           <button
             onClick={onKeep}
             disabled={isFav}
-            className="flex-1 py-3 rounded-full text-[11px] uppercase tracking-[0.22em] backdrop-blur-md text-dusk/70"
+            className="lune-ctrl flex-1 py-3 rounded-full text-[11px] uppercase tracking-[0.22em] backdrop-blur-md text-dusk/70"
             style={{ background: "color-mix(in oklab, white 30%, transparent)" }}
             aria-label={isFav ? "Séquence gardée" : "Garder cette séquence"}
           >
@@ -968,7 +968,7 @@ function SoufflesView() {
           </button>
           <button
             onClick={next}
-            className="size-11 rounded-full flex items-center justify-center text-lg backdrop-blur-md text-dusk/70"
+            className="lune-ctrl size-11 rounded-full flex items-center justify-center text-lg backdrop-blur-md text-dusk/70"
             style={{ background: "color-mix(in oklab, white 30%, transparent)" }}
             aria-label="Séquence suivante"
           >→</button>
@@ -977,7 +977,7 @@ function SoufflesView() {
           <Link
             to="/no-words"
             search={{ tab: "lire" } as never}
-            className="text-center text-[10px] uppercase tracking-[0.22em] text-dusk/55 hover:text-dusk"
+            className="lune-link text-center text-[10px] uppercase tracking-[0.22em] text-dusk/55 hover:text-dusk"
           >
             Pour prolonger ce souffle&nbsp;→
           </Link>
