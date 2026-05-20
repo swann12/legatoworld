@@ -13,20 +13,25 @@ import imgRivage from "@/assets/souffle-rivage.jpg";
 import imgRessac from "@/assets/souffle-ressac.jpg";
 import imgBrumeRose from "@/assets/souffle-brume-rose.jpg";
 import imgOrDuSoir from "@/assets/souffle-or-du-soir.jpg";
+import imgSableCrepuscule from "@/assets/souffle-sable-crepuscule.jpg";
+import imgOrDuSoirV2 from "@/assets/souffle-or-du-soir-v2.jpg";
+import imgBraiseRoseV2 from "@/assets/souffle-braise-rose-v2.jpg";
+import imgLumiereDouce from "@/assets/souffle-lumiere-douce.jpg";
+import imgRessacV2 from "@/assets/souffle-ressac-v2.jpg";
 
 const SCENE_IMAGES: Record<SceneId, string> = {
   "warmth": imgWarmth,
   "morning-sky": imgMorningSky,
   "rivage": imgRivage,
-  "ressac": imgRessac,
-  "rose-mist": imgBrumeRose,
-  "evening-gold": imgOrDuSoir,
+  "ressac": imgRessacV2,
+  "rose-mist": imgBraiseRoseV2,
+  "evening-gold": imgOrDuSoirV2,
   "or-soir-eau": imgOrSoirEau,
   "feuilles-vert": imgFeuillesVert,
   "perle": imgOrSoirEau,
   "aurore": imgAurore,
-  "bougainvillier": imgBougainvillier,
-  "lumiere": imgAurore,
+  "bougainvillier": imgSableCrepuscule,
+  "lumiere": imgLumiereDouce,
   "lune": imgRessac,
 };
 
