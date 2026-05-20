@@ -86,7 +86,7 @@ function Presence() {
   };
 
   return (
-    <Shell hideNav>
+    <Shell>
       <div className="relative min-h-dvh flex flex-col">
         <Halos mode={mode} variant="rich" />
 
