@@ -510,14 +510,16 @@ const ORB_STYLES = `
   background-size: inherit;
   background-position: inherit;
   animation-fill-mode: both;
-  transform: translate3d(var(--touch-x, 0px), var(--touch-y, 0px), 0)
-             scale(var(--touch-scale, 1));
+  /* Utilise les propriétés CSS individuelles (translate/scale) pour ne pas
+     entrer en conflit avec le transform: posé par l'animation souffle-drift. */
+  translate: var(--touch-x, 0px) var(--touch-y, 0px);
+  scale: var(--touch-scale, 1);
   filter: blur(var(--touch-blur, 0px)) saturate(var(--touch-sat, 1));
-  transition: transform 2.6s ease-out, filter 2.4s ease-out;
-  will-change: transform, filter;
+  transition: translate 2.6s ease-out, scale 2.6s ease-out, filter 2.4s ease-out;
+  will-change: translate, scale, filter;
 }
 .souffle-scene.is-touching .photo-layer .inner {
-  transition: transform 0.16s ease-out, filter 0.32s ease-out;
+  transition: translate 0.16s ease-out, scale 0.16s ease-out, filter 0.32s ease-out;
 }
 
 /* Halo lumineux qui adoucit le tout */
