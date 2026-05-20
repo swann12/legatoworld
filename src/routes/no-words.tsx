@@ -449,6 +449,19 @@ const ORB_STYLES = `
   transform: translate3d(var(--halo-x, 50vw), var(--halo-y, 50vh), 0) scale(1);
 }
 
+/* Video layer — autoplay ambient motion (rose-mist, evening-gold) */
+.souffle-scene .photo-video {
+  position: absolute; inset: -6%;
+  width: 112%; height: 112%;
+  object-fit: cover;
+  pointer-events: none;
+  mix-blend-mode: lighten;
+  opacity: 0.78;
+  filter: blur(2px) saturate(1.05);
+  animation: souffle-drift 36s ease-in-out infinite;
+  will-change: transform;
+}
+
 /* Fond doux par scène (pour la marge -8% au-delà du cadre) */
 .scene-warmth        .scene-bg { background: linear-gradient(160deg, #FFE8DC 0%, #FFF4EE 100%); }
 .scene-morning-sky   .scene-bg { background: linear-gradient(180deg, #FFE8D8 0%, #E8DEEC 60%, #D8DEEC 100%); }
