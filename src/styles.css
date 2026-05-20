@@ -359,9 +359,94 @@
 
   /* Soft container — quieter than ceramic, more space */
   .paper-card {
-    background: color-mix(in oklab, var(--paper) 92%, white);
-    border: 1px solid color-mix(in oklab, var(--dusk) 6%, transparent);
+    background: rgba(255, 255, 255, 0.65);
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.40);
+    border-radius: 20px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
+  }
+
+  /* ─── Legato Glass system ───
+   * Single layer of glass per screen. Never stacked.
+   * Always over a living gradient background, never over white.
+   */
+  .glass-card {
+    background: rgba(255, 255, 255, 0.65);
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.40);
+    border-radius: 20px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
+  }
+  .glass-card-accent {
+    background: rgba(255, 255, 255, 0.65);
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.40);
+    border-left-width: 3px;
+    border-radius: 20px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
+  }
+  .glass-nav {
+    background: rgba(253, 249, 245, 0.80);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(255, 255, 255, 0.45);
     border-radius: 28px;
+  }
+  .glass-tabs {
+    background: rgba(255, 255, 255, 0.45);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border-radius: 50px;
+  }
+  .glass-tab-active {
+    background: rgba(44, 40, 37, 0.82);
+    color: #ffffff;
+  }
+  .glass-drawer {
+    background: rgba(255, 255, 255, 0.88);
+    -webkit-backdrop-filter: blur(28px);
+    backdrop-filter: blur(28px);
+    border-radius: 28px 28px 0 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.5);
+  }
+
+  /* ─── Living background blobs ───
+   * Use with absolute positioning over a radial-gradient page bg.
+   * Amplitude ±12-16px translate, very slow ease-in-out.
+   */
+  @keyframes legato-float-1 {
+    from { transform: translate(0, 0); }
+    to   { transform: translate(-14px, 12px); }
+  }
+  @keyframes legato-float-2 {
+    from { transform: rotate(-28deg) translate(0, 0); }
+    to   { transform: rotate(-28deg) translate(-10px, 14px); }
+  }
+  @keyframes legato-float-3 {
+    from { transform: translateX(-50%) translateY(0); }
+    to   { transform: translateX(-50%) translateY(16px); }
+  }
+  @keyframes legato-float-4 {
+    from { transform: translate(0, 0); }
+    to   { transform: translate(12px, 10px); }
+  }
+  @keyframes legato-float-5 {
+    from { transform: translate(0, 0); }
+    to   { transform: translate(-10px, -8px); }
+  }
+  .blob-float-1 { animation: legato-float-1 20s ease-in-out alternate infinite; }
+  .blob-float-2 { animation: legato-float-2 22s ease-in-out alternate infinite; }
+  .blob-float-3 { animation: legato-float-3 18s ease-in-out alternate infinite; }
+  .blob-float-4 { animation: legato-float-4 24s ease-in-out alternate infinite; }
+  .blob-float-5 { animation: legato-float-5 19s ease-in-out alternate infinite; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .blob-float-1, .blob-float-2, .blob-float-3, .blob-float-4, .blob-float-5 {
+      animation: none !important;
+    }
   }
 }
 

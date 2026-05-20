@@ -1,10 +1,26 @@
 import type { ReactNode } from "react";
 import { BottomNav } from "./BottomNav";
+import { ModeBackground } from "./ModeBackground";
+import { useLegato } from "@/lib/legato-state";
 
-export function Shell({ children, hideNav = false }: { children: ReactNode; hideNav?: boolean }) {
+export function Shell({
+  children,
+  hideNav = false,
+  livingBg = true,
+}: {
+  children: ReactNode;
+  hideNav?: boolean;
+  /** Render the mode-aware living background. Pages that paint their own
+   *  full-screen ambiance (no-words sequences, onboarding) should pass false. */
+  livingBg?: boolean;
+}) {
+  const { mode } = useLegato();
   return (
     <div className="min-h-dvh bg-paper text-dusk">
-      <div className="mobile-frame pb-32">{children}</div>
+      <div className="mobile-frame pb-32 relative">
+        {livingBg && <ModeBackground mode={mode} />}
+        <div className="relative" style={{ zIndex: 1 }}>{children}</div>
+      </div>
       {!hideNav && <BottomNav />}
     </div>
   );

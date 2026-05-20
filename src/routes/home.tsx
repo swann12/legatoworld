@@ -1,9 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Halos } from "@/components/legato/Halos";
-import { Shell, Section } from "@/components/legato/Shell";
+import { Shell } from "@/components/legato/Shell";
 import { ModeSelector } from "@/components/legato/ModeSelector";
-import { useLegato, BRANCHES, modeProfile } from "@/lib/legato-state";
-import type { Branch, Mode } from "@/lib/legato-state";
+import { useLegato, BRANCHES } from "@/lib/legato-state";
+import type { Mode, Branch } from "@/lib/legato-state";
 
 export const Route = createFileRoute("/home")({
   head: () => ({
@@ -16,34 +15,30 @@ export const Route = createFileRoute("/home")({
 });
 
 function Home() {
-  const { name, mode, branch, t, lang, setLang } = useLegato();
+  const { name, mode, t, lang, setLang } = useLegato();
+  // branchMeta kept to avoid breaking the FR/EN dictionaries — not displayed here.
+  const branch = useLegato().branch;
   const branchMeta = BRANCHES.find((b) => b.id === branch);
-  const profile = modeProfile(mode);
   const cfg = MODE_HOME[mode];
 
   return (
     <Shell>
-      <div
-        className="relative min-h-dvh px-7 transition-colors duration-[400ms] ease-out"
-        style={{ backgroundColor: cfg.pageBg }}
-      >
-          <Halos mode={mode} variant={profile.halo} />
-
-        <div className="relative z-10">
+      <div className="relative min-h-dvh px-7">
+        <div className="relative">
           {/* top bar — language toggle + space */}
           <div className="flex items-center justify-between pt-10">
             <span className="font-serif text-xl italic text-dusk">Legato</span>
             <div className="flex items-center gap-3">
               <button
                 onClick={() => setLang(lang === "fr" ? "en" : "fr")}
-                className="paper-card px-3 py-1.5 text-[10px] uppercase tracking-[0.18em] text-dusk/70"
+                className="glass-card px-3 py-1.5 text-[10px] uppercase tracking-[0.18em] text-dusk/70"
                 aria-label="Toggle language"
               >
                 {lang.toUpperCase()}
               </button>
               <Link
                 to="/space"
-                className="ceramic-soft size-10 rounded-full flex items-center justify-center"
+                className="glass-card size-10 rounded-full flex items-center justify-center !rounded-full"
               >
                 <span className="font-serif italic text-sm text-dusk">
                   {name.charAt(0).toUpperCase()}
@@ -121,53 +116,48 @@ type CardCfg = {
   hideArrow?: boolean;
 };
 type ModeHomeCfg = {
-  pageBg: string;
   subtitle: string;
   cards: CardCfg[];
 };
 
 const MODE_HOME: Record<Mode, ModeHomeCfg> = {
   cocoon: {
-    pageBg: "#FDF6F3",
     subtitle: "Se replier un peu, le souvenir tout près.",
     cards: [
-      { id: "presence", style: "highlight", title: "Une oreille calme, à toute heure.", bg: "#FDF0F0", accent: "#E8A0A0" },
-      { id: "nowords",  style: "highlight", title: "Traverser sans avoir à dire.",      bg: "#FDF0F0", accent: "#E8A0A0" },
+      { id: "presence", style: "highlight", title: "Une oreille calme, à toute heure.", accent: "#E8A0A0" },
+      { id: "nowords",  style: "highlight", title: "Traverser sans avoir à dire.",      accent: "#E8A0A0" },
       { id: "journal",  style: "normal",    title: "Déposer une pensée, sans relire." },
       { id: "wishes",   style: "normal",    title: "Préparer, en douceur, ce que l'on voudrait." },
       { id: "practical",style: "muted",     title: "Démarches concrètes — quand vous serez prêt·e.", hideArrow: true },
     ],
   },
   anchoring: {
-    pageBg: "#F4F7F4",
     subtitle: "Des repères simples, en pensant à elle, à lui.",
     cards: [
-      { id: "practical",style: "highlight", title: "Avancer une étape à la fois.",       bg: "#F0F5F0", accent: "#90B090" },
-      { id: "journal",  style: "highlight", title: "Poser ce qui s'est passé aujourd'hui.", bg: "#F0F5F0", accent: "#90B090" },
+      { id: "practical",style: "highlight", title: "Avancer une étape à la fois.",       accent: "#90B090" },
+      { id: "journal",  style: "highlight", title: "Poser ce qui s'est passé aujourd'hui.", accent: "#90B090" },
       { id: "presence", style: "normal",    title: "Une oreille calme, à toute heure." },
       { id: "wishes",   style: "normal",    title: "Préparer, en douceur, ce que l'on voudrait." },
-      { id: "nowords",  style: "normal",    title: "Sons, lumières et souffles pour s'apaiser." },
+      { id: "nowords",  style: "normal",    title: "Sons, souffles et lumières lentes." },
     ],
   },
   breath: {
-    pageBg: "#F4F6FA",
     subtitle: "Un peu d'air entre les pensées.",
     cards: [
-      { id: "nowords",  style: "highlight", title: "Sons, souffles et lumières lentes.", bg: "#F0F5FA", accent: "#A0B8D0" },
-      { id: "journal",  style: "highlight", title: "Laisser sortir, sans chercher les mots.", bg: "#F0F5FA", accent: "#A0B8D0" },
+      { id: "nowords",  style: "highlight", title: "Sons, souffles et lumières lentes.", accent: "#A8C4E0" },
+      { id: "journal",  style: "highlight", title: "Laisser sortir, sans chercher les mots.", accent: "#A8C4E0" },
       { id: "presence", style: "normal",    title: "Une oreille calme, à toute heure." },
       { id: "practical",style: "normal",    title: "Avancer une étape à la fois." },
       { id: "wishes",   style: "normal",    title: "Préparer, en douceur, ce que l'on voudrait." },
     ],
   },
   relay: {
-    pageBg: "#F6F4FA",
     subtitle: "Ne pas porter ce manque seul·e.",
     cards: [
-      { id: "relay",    style: "highlight", title: "Proches, professionnels, ligne d'écoute.", bg: "#F5F0FA", accent: "#B0A0C8" },
-      { id: "presence", style: "highlight", title: "Une oreille calme, à toute heure.",        bg: "#F5F0FA", accent: "#B0A0C8" },
+      { id: "relay",    style: "highlight", title: "Proches, professionnels, ligne d'écoute.", accent: "#C8B8E0" },
+      { id: "presence", style: "highlight", title: "Une oreille calme, à toute heure.",        accent: "#C8B8E0" },
       { id: "journal",  style: "normal",    title: "Déposer une pensée, sans relire." },
-      { id: "nowords",  style: "normal",    title: "Sons, lumières et souffles pour s'apaiser." },
+      { id: "nowords",  style: "normal",    title: "Sons, souffles et lumières lentes." },
       { id: "practical",style: "normal",    title: "Avancer une étape à la fois." },
     ],
   },
@@ -189,7 +179,7 @@ function ModeCard({ card }: { card: CardCfg }) {
       <Link
         to={meta.to}
         className="block rounded-2xl px-5 py-4"
-        style={{ backgroundColor: "transparent" }}
+        style={{ backgroundColor: "transparent", opacity: 0.45, pointerEvents: "none" }}
       >
         <p className="text-[10px] uppercase tracking-[0.22em]" style={{ color: "#C8C0B8" }}>
           {meta.eyebrow}
@@ -204,11 +194,8 @@ function ModeCard({ card }: { card: CardCfg }) {
     return (
       <Link
         to={meta.to}
-        className="block rounded-2xl px-5 py-5 relative overflow-hidden"
-        style={{
-          backgroundColor: card.bg,
-          borderLeft: `3px solid ${card.accent}`,
-        }}
+        className="glass-card-accent block px-5 py-5 relative overflow-hidden"
+        style={{ borderLeftColor: card.accent }}
       >
         <div className="flex items-baseline justify-between gap-3">
           <div className="min-w-0">
@@ -224,7 +211,7 @@ function ModeCard({ card }: { card: CardCfg }) {
   }
   // normal
   return (
-    <Link to={meta.to} className="paper-card block p-5">
+    <Link to={meta.to} className="glass-card block p-5">
       <div className="flex items-baseline justify-between gap-3">
         <div className="min-w-0">
           <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">{meta.eyebrow}</p>

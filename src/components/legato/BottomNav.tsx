@@ -16,7 +16,7 @@ export function BottomNav() {
       aria-label="Primary"
       className="fixed bottom-5 left-1/2 z-50 w-[calc(100%-2rem)] max-w-[400px] -translate-x-1/2"
     >
-      <div className="ceramic organic-radius-3 flex items-stretch justify-between gap-1 px-2.5 py-2 backdrop-blur-xl">
+      <div className="glass-nav flex items-stretch justify-between gap-1 px-2.5 py-2">
         {items.map(({ to, label, Icon }) => {
           const active =
             to === "/home"
