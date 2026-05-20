@@ -135,42 +135,455 @@ function NoWords() {
 /* ============================================================
    ESPACE 1 — SOUFFLES
    ============================================================ */
+/* 3 silhouettes organiques pour le morphing SMIL (6 points de contrôle).
+ * ViewBox 200×200 : la forme respire et change lentement. */
+const BLOB_PATHS = [
+  "M 100 22 C 152 28 184 64 178 108 C 172 152 132 184 96 178 C 60 172 24 142 30 96 C 36 50 70 18 100 22 Z",
+  "M 100 28 C 148 32 178 72 172 112 C 178 158 128 178 92 172 C 56 168 30 132 36 92 C 30 56 66 28 100 28 Z",
+  "M 100 18 C 158 30 188 66 180 112 C 176 162 128 188 90 178 C 50 172 20 136 28 94 C 24 44 76 22 100 18 Z",
+];
+
+function MorphingBlob({
+  from,
+  to,
+  opacity,
+}: {
+  from: string;
+  to: string;
+  opacity: number;
+}) {
+  const gid = useMemo(() => `bg-${Math.random().toString(36).slice(2, 9)}`, []);
+  return (
+    <svg
+      viewBox="0 0 200 200"
+      width="100%"
+      height="100%"
+      preserveAspectRatio="xMidYMid meet"
+      style={{ filter: "blur(28px)", opacity }}
+      aria-hidden
+    >
+      <defs>
+        <radialGradient id={gid} cx="42%" cy="38%" r="62%">
+          <stop offset="0%" stopColor={to} stopOpacity="0.95" />
+          <stop offset="60%" stopColor={from} stopOpacity="0.85" />
+          <stop offset="100%" stopColor={from} stopOpacity="0.2" />
+        </radialGradient>
+      </defs>
+      <path fill={`url(#${gid})`} d={BLOB_PATHS[0]}>
+        <animate
+          attributeName="d"
+          dur="12s"
+          repeatCount="indefinite"
+          values={`${BLOB_PATHS[0]};${BLOB_PATHS[1]};${BLOB_PATHS[2]};${BLOB_PATHS[0]}`}
+          calcMode="spline"
+          keySplines="0.42 0 0.58 1; 0.42 0 0.58 1; 0.42 0 0.58 1"
+        />
+      </path>
+    </svg>
+  );
+}
+
+function BloomFlower() {
+  return (
+    <svg
+      width="120"
+      height="120"
+      viewBox="0 0 120 120"
+      className="animate-bloom"
+      style={{ filter: "drop-shadow(0 4px 16px rgba(255,180,180,0.35))" }}
+    >
+      <style>{`
+        @keyframes legato-bloom {
+          0%   { transform: scale(0.2); opacity: 0; }
+          30%  { opacity: 1; }
+          100% { transform: scale(1.4); opacity: 0; }
+        }
+        .animate-bloom { animation: legato-bloom 1.8s ease-out forwards; transform-origin: center; }
+      `}</style>
+      {[0, 60, 120, 180, 240, 300].map((deg) => (
+        <ellipse
+          key={deg}
+          cx="60"
+          cy="38"
+          rx="9"
+          ry="20"
+          fill="rgba(255,200,200,0.78)"
+          transform={`rotate(${deg} 60 60)`}
+        />
+      ))}
+      <circle cx="60" cy="60" r="6" fill="rgba(255,225,180,0.92)" />
+    </svg>
+  );
+}
+
+/* ─── Audio engines ───────────────────────────────────────────────── */
+type AmbientHandle = { stop: () => void };
+
+function startSeqAudio(ctx: AudioContext, kind: AudioKind): AmbientHandle {
+  const master = ctx.createGain();
+  master.gain.value = 0;
+  master.connect(ctx.destination);
+  const now = ctx.currentTime;
+  master.gain.setValueAtTime(0, now);
+  master.gain.linearRampToValueAtTime(0.85, now + 2.4);
+  const stops: Array<() => void> = [];
+
+  const makeNoise = (color: "white" | "brown") => {
+    const size = 3 * ctx.sampleRate;
+    const buf = ctx.createBuffer(1, size, ctx.sampleRate);
+    const data = buf.getChannelData(0);
+    let last = 0;
+    for (let i = 0; i < size; i++) {
+      const r = Math.random() * 2 - 1;
+      if (color === "brown") {
+        last = (last + 0.02 * r) / 1.02;
+        data[i] = last * 3.5;
+      } else data[i] = r;
+    }
+    return buf;
+  };
+
+  if (kind === "warm-low") {
+    const src = ctx.createBufferSource();
+    src.buffer = makeNoise("brown");
+    src.loop = true;
+    const f = ctx.createBiquadFilter();
+    f.type = "lowpass";
+    f.frequency.value = 200;
+    const g = ctx.createGain();
+    g.gain.value = 0.034;
+    src.connect(f).connect(g).connect(master);
+    src.start();
+    const osc = ctx.createOscillator();
+    osc.type = "sine";
+    osc.frequency.value = 80;
+    const og = ctx.createGain();
+    og.gain.value = 0.028;
+    osc.connect(og).connect(master);
+    osc.start();
+    stops.push(() => {
+      try { src.stop(); } catch (e) { void e; }
+      try { osc.stop(); } catch (e) { void e; }
+    });
+  } else if (kind === "sine-432") {
+    const osc = ctx.createOscillator();
+    osc.type = "sine";
+    osc.frequency.value = 432;
+    const g = ctx.createGain();
+    g.gain.value = 0;
+    g.gain.setValueAtTime(0, now);
+    g.gain.linearRampToValueAtTime(0.018, now + 2);
+    osc.connect(g).connect(master);
+    osc.start();
+    stops.push(() => { try { osc.stop(); } catch (e) { void e; } });
+  } else if (kind === "noise-leaves") {
+    const src = ctx.createBufferSource();
+    src.buffer = makeNoise("white");
+    src.loop = true;
+    const f = ctx.createBiquadFilter();
+    f.type = "bandpass";
+    f.frequency.value = 800;
+    f.Q.value = 2;
+    const g = ctx.createGain();
+    g.gain.value = 0.022;
+    src.connect(f).connect(g).connect(master);
+    src.start();
+    const lfo = ctx.createOscillator();
+    lfo.frequency.value = 0.12;
+    const lfoG = ctx.createGain();
+    lfoG.gain.value = 280;
+    lfo.connect(lfoG).connect(f.frequency);
+    lfo.start();
+    stops.push(() => {
+      try { src.stop(); } catch (e) { void e; }
+      try { lfo.stop(); } catch (e) { void e; }
+    });
+  } else if (kind === "deep-sine") {
+    const osc = ctx.createOscillator();
+    osc.type = "sine";
+    osc.frequency.value = 60;
+    const g = ctx.createGain();
+    g.gain.value = 0.012;
+    osc.connect(g).connect(master);
+    osc.start();
+    const pad = ctx.createOscillator();
+    pad.type = "sine";
+    pad.frequency.value = 180;
+    const pg = ctx.createGain();
+    pg.gain.value = 0.008;
+    pad.connect(pg).connect(master);
+    pad.start();
+    stops.push(() => {
+      try { osc.stop(); } catch (e) { void e; }
+      try { pad.stop(); } catch (e) { void e; }
+    });
+  } else {
+    // gold-bursts
+    let cancelled = false;
+    const burst = () => {
+      if (cancelled) return;
+      const osc = ctx.createOscillator();
+      osc.type = "sine";
+      osc.frequency.value = 380 + Math.random() * 220;
+      const g = ctx.createGain();
+      const t = ctx.currentTime;
+      g.gain.setValueAtTime(0, t);
+      g.gain.linearRampToValueAtTime(0.018, t + 0.4);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + 1.6);
+      const f = ctx.createBiquadFilter();
+      f.type = "lowpass";
+      f.frequency.value = 900;
+      osc.connect(f).connect(g).connect(master);
+      osc.start(t);
+      osc.stop(t + 1.7);
+      setTimeout(burst, 800 + Math.random() * 1400);
+    };
+    burst();
+    stops.push(() => { cancelled = true; });
+  }
+
+  return {
+    stop() {
+      try {
+        const t = ctx.currentTime;
+        master.gain.cancelScheduledValues(t);
+        master.gain.linearRampToValueAtTime(0, t + 1.0);
+        setTimeout(() => stops.forEach((fn) => fn()), 1100);
+      } catch (e) { void e; }
+    },
+  };
+}
+
+function playTactileNote(ctx: AudioContext, freq: number) {
+  const osc = ctx.createOscillator();
+  osc.type = "sine";
+  osc.frequency.value = freq;
+  const g = ctx.createGain();
+  const t = ctx.currentTime;
+  g.gain.setValueAtTime(0.05, t);
+  g.gain.exponentialRampToValueAtTime(0.001, t + 0.25);
+  osc.connect(g).connect(ctx.destination);
+  osc.start(t);
+  osc.stop(t + 0.3);
+}
+
+/* ─── SouffleScene — la pièce centrale ─────────────────────────── */
+function SouffleScene({
+  tex,
+  ctxRef,
+  onTouchPlay,
+}: {
+  tex: Texture;
+  ctxRef: React.MutableRefObject<AudioContext | null>;
+  onTouchPlay: () => void;
+}) {
+  const sceneRef = useRef<HTMLDivElement>(null);
+  const [offset, setOffset] = useState({ x: 0, y: 0 });
+  const [gyro, setGyro] = useState({ x: 0, y: 0 });
+  const [scale, setScale] = useState(1);
+  const dragging = useRef(false);
+
+  // Gyroscope (passive, no permission requested here — opt-in via button below)
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const handler = (e: DeviceOrientationEvent) => {
+      setGyro({
+        x: Math.max(-18, Math.min(18, (e.gamma ?? 0) * 0.3)),
+        y: Math.max(-14, Math.min(14, (e.beta ?? 0) * 0.18)),
+      });
+    };
+    window.addEventListener("deviceorientation", handler);
+    return () => window.removeEventListener("deviceorientation", handler);
+  }, []);
+
+  const onPointerDown = (e: React.PointerEvent) => {
+    dragging.current = true;
+    onTouchPlay();
+    const rect = sceneRef.current?.getBoundingClientRect();
+    if (rect && ctxRef.current) {
+      const yRatio = (e.clientY - rect.top) / Math.max(rect.height, 1);
+      const freq = 260 + Math.max(0, Math.min(1, yRatio)) * 360;
+      playTactileNote(ctxRef.current, freq);
+    }
+    handleMove(e.clientX, e.clientY);
+  };
+  const onPointerMove = (e: React.PointerEvent) => {
+    if (!dragging.current) return;
+    handleMove(e.clientX, e.clientY);
+  };
+  const release = () => {
+    dragging.current = false;
+    setOffset({ x: 0, y: 0 });
+  };
+  const handleMove = (cx: number, cy: number) => {
+    const rect = sceneRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    const x = (cx - rect.left - rect.width / 2) * 0.18;
+    const y = (cy - rect.top - rect.height / 2) * 0.18;
+    setOffset({
+      x: Math.max(-46, Math.min(46, x)),
+      y: Math.max(-46, Math.min(46, y)),
+    });
+  };
+
+  // Mic souffle → temporary scale bump
+  const startMic = useCallback(async () => {
+    if (typeof window === "undefined") return false;
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const ctx = ctxRef.current ?? new AudioContext();
+      ctxRef.current = ctx;
+      const analyser = ctx.createAnalyser();
+      analyser.fftSize = 256;
+      ctx.createMediaStreamSource(stream).connect(analyser);
+      const data = new Uint8Array(analyser.frequencyBinCount);
+      let raf = 0;
+      const detect = () => {
+        analyser.getByteFrequencyData(data);
+        let sum = 0;
+        for (let i = 0; i < data.length; i++) sum += data[i];
+        const avg = sum / data.length;
+        if (avg > 22) {
+          setScale(1.18);
+          setTimeout(() => setScale(1), 700);
+        }
+        raf = requestAnimationFrame(detect);
+      };
+      detect();
+      return () => {
+        cancelAnimationFrame(raf);
+        stream.getTracks().forEach((t) => t.stop());
+      };
+    } catch {
+      return false;
+    }
+  }, [ctxRef]);
+
+  const [micOn, setMicOn] = useState(false);
+  const micCleanup = useRef<null | (() => void)>(null);
+  const toggleMic = async () => {
+    if (micOn) {
+      micCleanup.current?.();
+      micCleanup.current = null;
+      setMicOn(false);
+      return;
+    }
+    const r = await startMic();
+    if (typeof r === "function") {
+      micCleanup.current = r;
+      setMicOn(true);
+    }
+  };
+
+  const [gyroOn, setGyroOn] = useState(false);
+  const toggleGyro = async () => {
+    type DOEPerm = typeof DeviceOrientationEvent & {
+      requestPermission?: () => Promise<"granted" | "denied">;
+    };
+    const DOE = (typeof window !== "undefined" ? window.DeviceOrientationEvent : undefined) as DOEPerm | undefined;
+    if (DOE && typeof DOE.requestPermission === "function") {
+      try {
+        const perm = await DOE.requestPermission();
+        if (perm !== "granted") return;
+      } catch { return; }
+    }
+    setGyroOn((v) => !v);
+  };
+
+  return (
+    <div
+      ref={sceneRef}
+      className="absolute inset-0 touch-none"
+      onPointerDown={onPointerDown}
+      onPointerMove={onPointerMove}
+      onPointerUp={release}
+      onPointerCancel={release}
+      onPointerLeave={release}
+    >
+      <div
+        className="absolute"
+        style={{
+          left: "50%",
+          top: "50%",
+          width: "min(82vw, 420px)",
+          height: "min(82vw, 420px)",
+          transform: `translate(-50%, -50%) translate(${offset.x + (gyroOn ? gyro.x : 0)}px, ${offset.y + (gyroOn ? gyro.y : 0)}px) scale(${scale})`,
+          transition: dragging.current
+            ? "transform 80ms linear"
+            : "transform 900ms cubic-bezier(0.22, 0.61, 0.36, 1)",
+        }}
+      >
+        <MorphingBlob from={tex.blob.from} to={tex.blob.to} opacity={tex.blob.opacity} />
+      </div>
+
+      {/* Two optional toggles, very discreet, top-right */}
+      <div className="absolute top-3 right-3 flex flex-col items-end gap-1.5 pointer-events-auto">
+        <button
+          onClick={(e) => { e.stopPropagation(); void toggleGyro(); }}
+          className={`text-[10px] uppercase tracking-[0.18em] px-2.5 py-1 rounded-full backdrop-blur-md ${gyroOn ? "text-dusk" : "text-dusk/55"}`}
+          style={{ background: "color-mix(in oklab, white 45%, transparent)" }}
+          aria-pressed={gyroOn}
+        >
+          {gyroOn ? "Mouvement on" : "Mouvement"}
+        </button>
+        <button
+          onClick={(e) => { e.stopPropagation(); void toggleMic(); }}
+          className={`text-[10px] uppercase tracking-[0.18em] px-2.5 py-1 rounded-full backdrop-blur-md ${micOn ? "text-dusk" : "text-dusk/55"}`}
+          style={{ background: "color-mix(in oklab, white 45%, transparent)" }}
+          aria-pressed={micOn}
+          title="Rien n'est enregistré. Juste votre souffle."
+        >
+          {micOn ? "Souffle on" : "Souffler"}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/* ─── SoufflesView ─────────────────────────────────────────────── */
 function SoufflesView() {
-  const [deck, setDeck] = useState<Texture[]>(BASE);
   const [index, setIndex] = useState(0);
   const [playing, setPlaying] = useState(false);
-  const [favorites, setFavorites] = useState<string[]>(() => loadFavorites());
+  const [favorites, setFavorites] = useState<string[]>([]);
   const [bloom, setBloom] = useState(false);
   const [extendedMsg, setExtendedMsg] = useState(false);
-  const [loadingMore, setLoadingMore] = useState(false);
-  const [aiError, setAiError] = useState<string | null>(null);
   const [showSimilarCTA, setShowSimilarCTA] = useState(false);
   const startX = useRef<number | null>(null);
 
-  const tex = deck[index];
-  const next = () => setIndex((i) => (i + 1) % deck.length);
-  const prev = () => setIndex((i) => (i - 1 + deck.length) % deck.length);
+  // Hydrate favorites after mount to avoid SSR mismatch
+  useEffect(() => { setFavorites(loadFavorites()); }, []);
 
-  const fetchSimilar = useServerFn(similarAmbiances);
+  const tex = BASE[index];
+  const next = () => setIndex((i) => (i + 1) % BASE.length);
+  const prev = () => setIndex((i) => (i - 1 + BASE.length) % BASE.length);
 
-  // Audio
-  const audioRef = useRef<AmbientAudio | null>(null);
   const ctxRef = useRef<AudioContext | null>(null);
+  const audioRef = useRef<AmbientHandle | null>(null);
+
   useEffect(() => () => {
     audioRef.current?.stop();
-    try { ctxRef.current?.close(); } catch {}
+    try { ctxRef.current?.close(); } catch (e) { void e; }
   }, []);
+
   useEffect(() => {
     if (!playing || !ctxRef.current) return;
     audioRef.current?.stop();
-    audioRef.current = createAmbientAudio(ctxRef.current, tex.motion);
-    audioRef.current?.start();
-  }, [tex.motion, tex.id, playing]);
+    audioRef.current = startSeqAudio(ctxRef.current, tex.audio);
+    return () => { audioRef.current?.stop(); audioRef.current = null; };
+  }, [tex.audio, tex.id, playing]);
 
-  // Show similar CTA after 3 favorites
   useEffect(() => {
     if (favorites.length === 3) setShowSimilarCTA(true);
   }, [favorites.length]);
+
+  const ensureCtx = useCallback(() => {
+    if (ctxRef.current) return ctxRef.current;
+    const Ctx = (typeof window !== "undefined" ? window.AudioContext : undefined) ||
+      ((typeof window !== "undefined" ? (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext : undefined));
+    if (!Ctx) return null;
+    ctxRef.current = new Ctx();
+    return ctxRef.current;
+  }, []);
 
   const togglePlay = () => {
     if (playing) {
@@ -179,17 +592,19 @@ function SoufflesView() {
       setPlaying(false);
       return;
     }
-    if (!ctxRef.current) {
-      const Ctx = (window.AudioContext as typeof AudioContext | undefined) ||
-        ((window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext);
-      if (!Ctx) return;
-      ctxRef.current = new Ctx();
-    }
-    if (ctxRef.current.state === "suspended") void ctxRef.current.resume();
-    audioRef.current = createAmbientAudio(ctxRef.current, tex.motion);
-    audioRef.current?.start();
+    const ctx = ensureCtx();
+    if (!ctx) return;
+    if (ctx.state === "suspended") void ctx.resume();
+    audioRef.current = startSeqAudio(ctx, tex.audio);
     setPlaying(true);
   };
+
+  // Called by SouffleScene on first touch — resumes ctx and auto-starts ambient if needed
+  const onTouchPlay = useCallback(() => {
+    const ctx = ensureCtx();
+    if (!ctx) return;
+    if (ctx.state === "suspended") void ctx.resume();
+  }, [ensureCtx]);
 
   const isFav = favorites.includes(tex.id);
   const onKeep = () => {
@@ -200,7 +615,6 @@ function SoufflesView() {
     setBloom(true);
     setTimeout(() => setBloom(false), 1800);
   };
-
   const onStayMore = () => {
     setExtendedMsg(true);
     setTimeout(() => setExtendedMsg(false), 2400);
@@ -210,43 +624,9 @@ function SoufflesView() {
   const onPointerUp = (e: React.PointerEvent) => {
     if (startX.current === null) return;
     const dx = e.clientX - startX.current;
-    if (dx < -40) next(); else if (dx > 40) prev();
+    if (dx < -50) next(); else if (dx > 50) prev();
     startX.current = null;
   };
-
-  const onDiscoverSimilar = async () => {
-    if (loadingMore) return;
-    setLoadingMore(true); setAiError(null);
-    try {
-      const res = await fetchSimilar({ data: {
-        title: tex.title, whisper: tex.whisper, asmr: tex.asmr, motion: tex.motion,
-      }});
-      if (res.error || !res.variations?.length) {
-        setAiError(res.error ?? "Aucune variation pour l'instant.");
-      } else {
-        const newOnes: Texture[] = res.variations.map((v, i) => ({
-          id: `ai-${Date.now()}-${i}`,
-          title: v.title, whisper: v.whisper, asmr: v.asmr,
-          motion: (["drift","ripple","pulse","rain","veil"].includes(v.motion) ? v.motion : tex.motion) as Motion,
-          bg: tex.bg,
-          tag: tex.tag,
-          generated: true,
-        }));
-        setDeck((d) => {
-          const copy = [...d];
-          copy.splice(index + 1, 0, ...newOnes);
-          return copy;
-        });
-        setShowSimilarCTA(false);
-      }
-    } catch {
-      setAiError("Le service n'a pas répondu.");
-    } finally {
-      setLoadingMore(false);
-    }
-  };
-
-  const dark = tex.id === "quiet-night";
 
   return (
     <div
@@ -254,169 +634,122 @@ function SoufflesView() {
       onPointerDown={onPointerDown}
       onPointerUp={onPointerUp}
     >
-      {/* Background gradient — fades 2s between sequences */}
       <div
         className="absolute inset-0 -z-10 transition-[background] duration-[2000ms] ease-out"
         style={{ background: tex.bg }}
       />
-      <div className="absolute inset-0 pointer-events-none overflow-hidden -z-10">
-        <MotionLayer kind={tex.motion} />
-      </div>
+      <SouffleScene tex={tex} ctxRef={ctxRef} onTouchPlay={onTouchPlay} />
 
-      <div className={`flex-1 flex flex-col ${dark ? "text-paper" : "text-dusk"}`}>
-        {/* Title block — centered */}
+      <div className="relative z-10 flex-1 flex flex-col text-dusk pointer-events-none">
         <div className="px-7 pt-4 text-center">
-          <p className={`text-[10px] uppercase tracking-[0.22em] ${dark ? "text-paper/55" : "text-dusk/55"}`}>
+          <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/55">
             {playing ? "Ambiance en cours" : "En silence"}
-            {tex.generated && <span className={`ml-2 ${dark ? "text-paper/40" : "text-dusk/40"}`}>· proposée pour vous</span>}
           </p>
           <h2
             className="mt-3 font-serif italic text-[26px] leading-[1.15]"
-            style={{ textWrap: "balance", textShadow: dark ? "0 1px 18px rgba(0,0,0,0.4)" : "0 1px 18px rgba(255,255,255,0.45)" }}
+            style={{ textWrap: "balance", textShadow: "0 1px 18px rgba(255,255,255,0.55)" }}
           >
             {tex.title}
           </h2>
-          <p className={`mt-3 text-[14px] leading-relaxed font-light ${dark ? "text-paper/75" : "text-dusk/70"}`}
-             style={{ color: dark ? undefined : "#6B6560" }}>
+          <p className="mt-3 text-[14px] leading-relaxed font-light" style={{ color: "#6B6560" }}>
             {tex.whisper}
           </p>
-          <p className={`mt-3 text-[11px] italic ${dark ? "text-paper/55" : "text-dusk/55"}`}>
-            Son · {tex.asmr.toLowerCase()}
+          <p className="mt-3 text-[11px] italic text-dusk/55">
+            Son · {tex.asmr}
           </p>
         </div>
 
         <div className="flex-1" />
 
-        {/* Floral bloom overlay when keeping a sequence */}
         {bloom && (
           <div className="pointer-events-none absolute inset-0 flex items-center justify-center z-10">
             <BloomFlower />
           </div>
         )}
 
-        {/* Suggestion after 3 favorites */}
         {showSimilarCTA && (
-          <div className="px-7 pb-2">
-            <div className={`rounded-2xl px-4 py-3.5 backdrop-blur-md text-center`}
-                 style={{ background: dark ? "rgba(255,255,255,0.08)" : "color-mix(in oklab, var(--paper) 55%, transparent)" }}>
-              <p className={`text-[12.5px] leading-relaxed italic ${dark ? "text-paper/85" : "text-dusk/80"}`} style={{ textWrap: "pretty" }}>
-                Vous semblez aimer les ambiances {favoriteFamily(deck, favorites)}. On en a préparé d'autres dans cet esprit.
+          <div className="px-7 pb-2 pointer-events-auto">
+            <div
+              className="rounded-2xl px-4 py-3 backdrop-blur-md text-center"
+              style={{ background: "color-mix(in oklab, var(--paper) 55%, transparent)" }}
+            >
+              <p className="text-[12.5px] leading-relaxed italic text-dusk/80" style={{ textWrap: "pretty" }}>
+                On a préparé d'autres séquences dans cet esprit.
               </p>
               <button
-                onClick={onDiscoverSimilar}
-                disabled={loadingMore}
-                className={`mt-2 text-[12px] uppercase tracking-[0.2em] ${dark ? "text-paper" : "text-dusk"} disabled:opacity-60`}
+                onClick={() => setShowSimilarCTA(false)}
+                className="mt-2 text-[11px] uppercase tracking-[0.2em] text-dusk/70"
               >
-                {loadingMore ? "Une voix douce arrive…" : "Découvrir →"}
+                Découvrir bientôt →
               </button>
             </div>
           </div>
         )}
 
-        {/* Play controls */}
-        <div className="px-6 pt-3 pb-3 flex items-center gap-3">
+        <div className="px-6 pt-3 pb-3 flex items-center gap-3 pointer-events-auto">
           <button
             onClick={prev}
-            className={`size-11 rounded-full flex items-center justify-center text-lg backdrop-blur-md ${dark ? "text-paper/85" : "text-dusk/75"}`}
-            style={{ background: dark ? "rgba(255,255,255,0.1)" : "color-mix(in oklab, var(--paper) 32%, transparent)" }}
+            className="size-11 rounded-full flex items-center justify-center text-lg backdrop-blur-md text-dusk/75"
+            style={{ background: "color-mix(in oklab, var(--paper) 32%, transparent)" }}
             aria-label="Séquence précédente"
           >←</button>
           <button
             onClick={togglePlay}
             className="flex-1 px-5 py-3.5 text-center backdrop-blur-md rounded-full"
             style={{
-              background: dark ? "rgba(255,255,255,0.12)" : "color-mix(in oklab, var(--paper) 38%, transparent)",
-              boxShadow: dark ? "inset 0 1px 0 rgba(255,255,255,0.15)" : "inset 0 1px 0 rgba(255,255,255,0.5)",
+              background: "color-mix(in oklab, var(--paper) 38%, transparent)",
+              boxShadow: "inset 0 1px 0 rgba(255,255,255,0.5)",
             }}
           >
-            <p className={`font-serif italic text-[15px] ${dark ? "text-paper" : "text-dusk"}`}>
+            <p className="font-serif italic text-[15px] text-dusk">
               {playing ? "Mettre en pause" : "Écouter ce son"}
             </p>
           </button>
           <button
             onClick={next}
-            className={`size-11 rounded-full flex items-center justify-center text-lg backdrop-blur-md ${dark ? "text-paper/85" : "text-dusk/75"}`}
-            style={{ background: dark ? "rgba(255,255,255,0.1)" : "color-mix(in oklab, var(--paper) 32%, transparent)" }}
+            className="size-11 rounded-full flex items-center justify-center text-lg backdrop-blur-md text-dusk/75"
+            style={{ background: "color-mix(in oklab, var(--paper) 32%, transparent)" }}
             aria-label="Séquence suivante"
           >→</button>
         </div>
 
-        {/* Secondary actions: Garder / Rester encore */}
-        <div className="px-6 pb-3 flex items-center gap-3">
+        <div className="px-6 pb-3 flex items-center gap-3 pointer-events-auto">
           <button
             onClick={onKeep}
             disabled={isFav}
-            className={`flex-1 py-3 rounded-full text-[12.5px] backdrop-blur-md flex items-center justify-center gap-2 ${dark ? "text-paper/85" : "text-dusk/85"} ${isFav ? "opacity-70" : ""}`}
-            style={{ background: dark ? "rgba(255,255,255,0.1)" : "color-mix(in oklab, var(--paper) 28%, transparent)" }}
+            className={`flex-1 py-3 rounded-full text-[12.5px] backdrop-blur-md flex items-center justify-center gap-2 text-dusk/85 ${isFav ? "opacity-70" : ""}`}
+            style={{ background: "color-mix(in oklab, var(--paper) 28%, transparent)" }}
           >
             <span aria-hidden>{isFav ? "♥" : "♡"}</span>
             <span>{isFav ? "Gardée" : "Garder cette séquence"}</span>
           </button>
           <button
             onClick={onStayMore}
-            className={`flex-1 py-3 rounded-full text-[12.5px] backdrop-blur-md ${dark ? "text-paper/85" : "text-dusk/85"}`}
-            style={{ background: dark ? "rgba(255,255,255,0.1)" : "color-mix(in oklab, var(--paper) 28%, transparent)" }}
+            className="flex-1 py-3 rounded-full text-[12.5px] backdrop-blur-md text-dusk/85"
+            style={{ background: "color-mix(in oklab, var(--paper) 28%, transparent)" }}
           >
             Rester encore
           </button>
         </div>
 
         {extendedMsg && (
-          <p className={`px-7 pb-2 text-[11.5px] italic text-center ${dark ? "text-paper/70" : "text-dusk/65"}`}>
+          <p className="px-7 pb-2 text-[11.5px] italic text-center text-dusk/65">
             On reste avec vous, encore un moment.
           </p>
         )}
-        {aiError && (
-          <p className={`px-7 pb-3 text-[11px] italic text-center ${dark ? "text-paper/65" : "text-dusk/60"}`}>{aiError}</p>
-        )}
 
-        {/* Dots */}
         <div className="pb-7 pt-1 flex justify-center gap-1.5">
-          {deck.map((tx, i) => (
+          {BASE.map((tx, i) => (
             <span
               key={tx.id}
-              className={`h-[3px] rounded-full transition-all ${
-                i === index
-                  ? (dark ? "w-6 bg-paper/80" : "w-6 bg-dusk/70")
-                  : (dark ? "w-2 bg-paper/30" : "w-2 bg-dusk/25")
+              className={`h-[6px] rounded-full transition-all ${
+                i === index ? "w-6 bg-dusk/70" : "w-[6px] bg-dusk/25"
               }`}
             />
           ))}
         </div>
       </div>
     </div>
-  );
-}
-
-function favoriteFamily(deck: Texture[], favIds: string[]): string {
-  const tags = favIds.map((id) => deck.find((d) => d.id === id)?.tag).filter(Boolean) as BookTag[];
-  if (!tags.length) return "douces";
-  const counts = tags.reduce<Record<string, number>>((acc, t) => { acc[t] = (acc[t] || 0) + 1; return acc; }, {});
-  const top = Object.entries(counts).sort((a, b) => b[1] - a[1])[0][0];
-  if (top === "deuil récent") return "chaudes et enveloppantes";
-  if (top === "philosophique") return "vastes et calmes";
-  if (top === "poétique") return "feutrées et délicates";
-  if (top === "long terme") return "lentes et changeantes";
-  return "douces";
-}
-
-function BloomFlower() {
-  return (
-    <svg width="120" height="120" viewBox="0 0 120 120" className="animate-bloom" style={{ filter: "drop-shadow(0 4px 16px rgba(255,180,180,0.4))" }}>
-      <style>{`
-        @keyframes legato-bloom {
-          0%   { transform: scale(0.2); opacity: 0; }
-          30%  { opacity: 1; }
-          100% { transform: scale(1.4); opacity: 0; }
-        }
-        .animate-bloom { animation: legato-bloom 1.8s ease-out forwards; transform-origin: center; }
-      `}</style>
-      {[0, 60, 120, 180, 240, 300].map((deg) => (
-        <ellipse key={deg} cx="60" cy="38" rx="10" ry="20" fill="rgba(255,180,180,0.85)"
-                 transform={`rotate(${deg} 60 60)`} />
-      ))}
-      <circle cx="60" cy="60" r="7" fill="rgba(255,225,180,0.95)" />
-    </svg>
   );
 }
 
