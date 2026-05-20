@@ -31,7 +31,7 @@ function Home() {
             <div className="flex items-center gap-3">
               <button
                 onClick={() => setLang(lang === "fr" ? "en" : "fr")}
-                className="glass-card px-3 py-1.5 text-[10px] uppercase tracking-[0.18em] text-dusk/70"
+              className="glass-card px-3 py-1.5 text-[10px] uppercase tracking-[0.18em] text-dusk/78"
                 aria-label="Toggle language"
               >
                 {lang.toUpperCase()}
@@ -49,7 +49,7 @@ function Home() {
 
           {/* greeting */}
           <header className="pt-7">
-            <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">
+            <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/58">
               {t("home.aujourdhui")}
             </p>
             <h1
@@ -60,7 +60,7 @@ function Home() {
             </h1>
             <p
               key={`sub-${mode}`}
-              className="mt-5 max-w-[36ch] text-[14px] leading-relaxed text-dusk/65 animate-fade-in"
+              className="mt-5 max-w-[36ch] text-[14px] leading-relaxed text-dusk/72 animate-fade-in"
               style={{ textWrap: "pretty" }}
             >
               {cfg.subtitle}
@@ -86,14 +86,14 @@ function Home() {
               className="block border-t border-dusk/10 pt-6 flex items-baseline justify-between"
             >
               <div>
-                <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">
+             <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/58">
                   {t("home.crisis.label")}
                 </p>
                 <p className="mt-1 font-serif text-base italic text-dusk">
                   {t("home.crisis.title")}
                 </p>
               </div>
-              <span className="text-dusk/40 text-sm">→</span>
+              <span className="text-dusk/58 text-sm">→</span>
             </Link>
           </div>
         </div>
@@ -196,12 +196,12 @@ function ModeCard({ card }: { card: CardCfg }) {
       >
         <div className="flex items-baseline justify-between gap-3">
           <div className="min-w-0">
-            <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/55">{meta.eyebrow}</p>
+            <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/62">{meta.eyebrow}</p>
             <p className="mt-1.5 font-serif italic text-[1.15rem] leading-snug text-dusk">
               {card.title}
             </p>
           </div>
-          {!card.hideArrow && <span className="text-dusk/40 text-sm shrink-0">→</span>}
+          {!card.hideArrow && <span className="text-dusk/58 text-sm shrink-0">→</span>}
         </div>
       </Link>
     );
@@ -211,12 +211,12 @@ function ModeCard({ card }: { card: CardCfg }) {
     <Link to={meta.to} className="glass-card block p-5">
       <div className="flex items-baseline justify-between gap-3">
         <div className="min-w-0">
-          <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">{meta.eyebrow}</p>
+          <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/58">{meta.eyebrow}</p>
           <p className="mt-1.5 font-serif italic text-[1.05rem] leading-snug text-dusk">
             {card.title}
           </p>
         </div>
-        {!card.hideArrow && <span className="text-dusk/40 text-sm shrink-0">→</span>}
+        {!card.hideArrow && <span className="text-dusk/58 text-sm shrink-0">→</span>}
       </div>
     </Link>
   );
