@@ -158,7 +158,7 @@ const BASE: Sequence[] = [
   {
     id: "evening-gold",
     title: "Or du soir",
-    bg: "linear-gradient(158deg, #FFF4E0 0%, #FFF8F0 100%)",
+    bg: "radial-gradient(120% 95% at 50% 35%, #FFD7B0 0%, #FFE9C8 45%, #FFF4E2 80%, #FFFAF2 100%)",
     tag: "philosophique",
     sound: {
       oscillator: { type: "sine", frequency: 58 },
@@ -167,6 +167,12 @@ const BASE: Sequence[] = [
       reverb: { duration: 5.5, decay: 4.0 },
       lfo: { frequency: 0.07, depth: 100 },
       master: 0.22,
+      // Houle lointaine — chaleur dense qui respire
+      nature: {
+        gain: 0.07,
+        filter: { type: "lowpass", frequency: 520, Q: 0.9 },
+        lfo: { frequency: 0.12, depth: 0.045 },
+      },
     },
     shapes: [
       { xR:0.50, yR:0.35, rBase:155, blur:60, c1:"rgba(255,215,140,", c2:"rgba(245,175,100,", opMin:0.36, opMax:0.56, pDur:13000, dxAmp:12, dyAmp:10, dxDur:16000, dyDur:13000 },
