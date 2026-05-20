@@ -396,13 +396,13 @@
   }
   .glass-nav {
     background: linear-gradient(180deg,
-      rgba(255, 252, 248, 0.62) 0%,
-      rgba(255, 252, 248, 0.78) 100%);
+      rgba(255, 252, 248, 0.48) 0%,
+      rgba(255, 252, 248, 0.62) 100%);
     -webkit-backdrop-filter: blur(28px) saturate(160%);
     backdrop-filter: blur(28px) saturate(160%);
-    border-top: 1px solid rgba(255, 255, 255, 0.6);
+    border-top: 1px solid rgba(255, 255, 255, 0.5);
     border-radius: 32px;
-    box-shadow: 0 -8px 32px -12px rgba(60, 50, 70, 0.15);
+    box-shadow: 0 -8px 32px -12px rgba(60, 50, 70, 0.12);
   }
   .glass-tabs {
     background: rgba(255, 255, 255, 0.32);

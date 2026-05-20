@@ -31,7 +31,7 @@ function Space() {
           />
 
           <Section className="mt-8">
-            <div className="ceramic organic-radius-3 p-6 space-y-3">
+            <div className="ceramic organic-radius-3 p-6 space-y-3 opacity-85">
               <Row label="Présence tenue" value={branchLabel ?? ""} />
               <Row label="Mode" value={modeLabel ?? ""} />
               <Row label="Notifications" value="Silencieuses" />
@@ -43,7 +43,7 @@ function Space() {
           <Section className="mt-8">
             <Link
               to="/wishes"
-              className="ceramic organic-radius-3 block p-7 relative overflow-hidden"
+              className="ceramic organic-radius-3 block p-7 relative overflow-hidden opacity-90 hover:opacity-100 transition-opacity"
             >
               <div
                 aria-hidden
@@ -69,7 +69,7 @@ function Space() {
 
           <Section className="mt-8 space-y-3">
             {items.map((it) => (
-              <Link key={it.to} to={it.to} className="ceramic-soft organic-radius-3 p-5 flex items-center justify-between">
+              <Link key={it.to} to={it.to} className="ceramic-soft organic-radius-3 p-5 flex items-center justify-between opacity-80 hover:opacity-100 transition-opacity">
                 <div>
                   <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/40">{it.eyebrow}</p>
                   <p className="mt-1 font-serif text-lg italic text-dusk">{it.title}</p>
