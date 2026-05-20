@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { Howl } from "howler";
 import { Shell } from "@/components/legato/Shell";
 
 export const Route = createFileRoute("/no-words")({
@@ -17,171 +18,57 @@ export const Route = createFileRoute("/no-words")({
 type Tab = "souffles" | "respirer" | "lire" | "regarder";
 type BookTag = "deuil récent" | "long terme" | "anticipation" | "pour les enfants" | "philosophique" | "poétique" | "corps";
 
-type ShapeSpec = {
-  xR: number; yR: number;
-  rBase: number; blur: number;
-  c1: string; c2: string;
-  opMin: number; opMax: number; pDur: number;
-  dxAmp: number; dyAmp: number; dxDur: number; dyDur: number;
-};
-
-type SoundConfig = {
-  oscillator: { type: OscillatorType; frequency: number };
-  oscillator2?: { type: OscillatorType; frequency: number; gain: number } | null;
-  noise?: { gain: number; filter: { type: BiquadFilterType; frequency: number; Q: number } };
-  nature?: {
-    gain: number;
-    filter: { type: BiquadFilterType; frequency: number; Q: number };
-    lfo?: { frequency: number; depth: number };
-  };
-  filter: { frequency: number; Q: number };
-  reverb: { duration: number; decay: number };
-  lfo: { frequency: number; depth: number };
-  master: number;
-};
+type SceneId = "warmth" | "morning-sky" | "leaves" | "rose-mist" | "evening-gold";
 
 type Sequence = {
-  id: string;
+  id: SceneId;
   title: string;
-  bg: string;
   tag: BookTag;
-  sound: SoundConfig;
-  shapes: ShapeSpec[];
+  url: string;
+  volume: number;
+  fadeIn: number;
 };
 
 const BASE: Sequence[] = [
   {
     id: "warmth",
     title: "Chaleur lente",
-    bg: "radial-gradient(120% 90% at 30% 35%, #FFD9C2 0%, #FBE6D8 40%, #FFF2EA 80%, #FFF7F1 100%)",
     tag: "deuil récent",
-    sound: {
-      oscillator: { type: "sine", frequency: 55 },
-      oscillator2: { type: "sine", frequency: 57.5, gain: 0.35 },
-      filter: { frequency: 220, Q: 1.2 },
-      reverb: { duration: 4.0, decay: 2.8 },
-      lfo: { frequency: 0.06, depth: 60 },
-      master: 0.20,
-      // Crépitement très lointain — comme des braises sous une couverture
-      nature: {
-        gain: 0.045,
-        filter: { type: "bandpass", frequency: 1800, Q: 2.4 },
-        lfo: { frequency: 2.8, depth: 0.035 },
-      },
-    },
-    shapes: [
-      { xR:0.52, yR:0.30, rBase:185, blur:75, c1:"rgba(255,200,170,", c2:"rgba(240,150,130,", opMin:0.32, opMax:0.52, pDur:16000, dxAmp:16, dyAmp:12, dxDur:18000, dyDur:14000 },
-      { xR:0.20, yR:0.20, rBase:100, blur:65, c1:"rgba(232,155,185,", c2:"rgba(210,120,150,", opMin:0.22, opMax:0.42, pDur:12000, dxAmp:20, dyAmp:16, dxDur:16000, dyDur:20000 },
-      { xR:0.72, yR:0.70, rBase:80,  blur:55, c1:"rgba(255,210,170,", c2:"rgba(240,180,120,", opMin:0.35, opMax:0.58, pDur:9000,  dxAmp:22, dyAmp:18, dxDur:11000, dyDur:9000 },
-      { xR:0.50, yR:0.55, rBase:260, blur:95, c1:"rgba(248,200,190,", c2:"rgba(240,170,160,", opMin:0.10, opMax:0.20, pDur:22000, dxAmp:8,  dyAmp:6,  dxDur:28000, dyDur:24000 },
-    ],
+    url: "https://assets.mixkit.co/active_storage/sfx/212/212-preview.mp3",
+    volume: 0.35,
+    fadeIn: 4000,
   },
   {
     id: "morning-sky",
     title: "Ciel du matin",
-    bg: "radial-gradient(110% 100% at 50% 25%, #EAF2F6 0%, #F2ECF6 55%, #F8F4F2 100%)",
     tag: "philosophique",
-    sound: {
-      oscillator: { type: "sine", frequency: 96 },
-      oscillator2: null,
-      filter: { frequency: 320, Q: 0.5 },
-      reverb: { duration: 8.0, decay: 5.0 },
-      lfo: { frequency: 0.04, depth: 90 },
-      master: 0.14,
-      // Souffle d'air haut, presque inaudible — air frais du matin
-      nature: {
-        gain: 0.035,
-        filter: { type: "highpass", frequency: 3800, Q: 0.6 },
-        lfo: { frequency: 0.08, depth: 0.025 },
-      },
-    },
-    shapes: [
-      { xR:0.52, yR:0.24, rBase:145, blur:55, c1:"rgba(255,220,210,", c2:"rgba(220,170,210,", opMin:0.40, opMax:0.62, pDur:18000, dxAmp:10, dyAmp:8,  dxDur:22000, dyDur:19000 },
-      { xR:0.52, yR:0.24, rBase:275, blur:80, c1:"rgba(220,200,240,", c2:"rgba(200,180,230,", opMin:0.08, opMax:0.18, pDur:18000, dxAmp:10, dyAmp:8,  dxDur:22000, dyDur:19000 },
-      { xR:0.25, yR:0.62, rBase:88,  blur:42, c1:"rgba(120,155,210,", c2:"rgba(100,130,195,", opMin:0.20, opMax:0.36, pDur:14000, dxAmp:8,  dyAmp:12, dxDur:13000, dyDur:17000 },
-      { xR:0.76, yR:0.44, rBase:150, blur:85, c1:"rgba(200,185,235,", c2:"rgba(180,160,220,", opMin:0.16, opMax:0.30, pDur:11000, dxAmp:14, dyAmp:10, dxDur:15000, dyDur:12000 },
-    ],
+    url: "https://assets.mixkit.co/active_storage/sfx/2515/2515-preview.mp3",
+    volume: 0.28,
+    fadeIn: 4000,
   },
   {
     id: "leaves",
     title: "Feuilles",
-    bg: "radial-gradient(120% 95% at 65% 40%, #DCEACB 0%, #ECF3DC 50%, #F6FBEF 100%)",
     tag: "long terme",
-    sound: {
-      oscillator: { type: "triangle", frequency: 65 },
-      oscillator2: null,
-      noise: { gain: 0.06, filter: { type: "bandpass", frequency: 600, Q: 0.8 } },
-      filter: { frequency: 260, Q: 1.5 },
-      reverb: { duration: 5.0, decay: 3.5 },
-      lfo: { frequency: 0.09, depth: 80 },
-      master: 0.18,
-      // Bruissement de feuillage — vent qui passe doucement
-      nature: {
-        gain: 0.085,
-        filter: { type: "bandpass", frequency: 2400, Q: 1.6 },
-        lfo: { frequency: 0.22, depth: 0.06 },
-      },
-    },
-    shapes: [
-      { xR:0.50, yR:0.46, rBase:210, blur:90, c1:"rgba(210,230,185,", c2:"rgba(185,215,160,", opMin:0.25, opMax:0.40, pDur:21000, dxAmp:10, dyAmp:8,  dxDur:24000, dyDur:20000 },
-      { xR:0.78, yR:0.18, rBase:70,  blur:50, c1:"rgba(195,225,165,", c2:"rgba(170,205,140,", opMin:0.20, opMax:0.38, pDur:13000, dxAmp:16, dyAmp:12, dxDur:14000, dyDur:17000 },
-      { xR:0.30, yR:0.65, rBase:140, blur:70, c1:"rgba(192,216,160,", c2:"rgba(208,224,176,", opMin:0.18, opMax:0.36, pDur:26000, dxAmp:14, dyAmp:10, dxDur:22000, dyDur:18000 },
-      { xR:0.65, yR:0.40, rBase:110, blur:60, c1:"rgba(168,200,136,", c2:"rgba(188,216,156,", opMin:0.12, opMax:0.24, pDur:19000, dxAmp:18, dyAmp:14, dxDur:20000, dyDur:23000 },
-    ],
+    url: "https://assets.mixkit.co/active_storage/sfx/2517/2517-preview.mp3",
+    volume: 0.30,
+    fadeIn: 3500,
   },
   {
     id: "rose-mist",
     title: "Brume rose",
-    bg: "radial-gradient(110% 100% at 40% 55%, #F8DDE8 0%, #F1E4F0 45%, #ECEAF6 100%)",
     tag: "poétique",
-    sound: {
-      oscillator: { type: "sine", frequency: 50 },
-      oscillator2: { type: "sine", frequency: 100, gain: 0.20 },
-      filter: { frequency: 180, Q: 0.6 },
-      reverb: { duration: 9.0, decay: 7.0 },
-      lfo: { frequency: 0.03, depth: 50 },
-      master: 0.16,
-      // Souffle lointain enveloppant — comme une respiration dans du coton
-      nature: {
-        gain: 0.05,
-        filter: { type: "bandpass", frequency: 900, Q: 0.7 },
-        lfo: { frequency: 0.06, depth: 0.03 },
-      },
-    },
-    shapes: [
-      { xR:0.35, yR:0.30, rBase:170, blur:70, c1:"rgba(232,168,195,", c2:"rgba(215,140,175,", opMin:0.30, opMax:0.50, pDur:15000, dxAmp:18, dyAmp:14, dxDur:17000, dyDur:13000 },
-      { xR:0.68, yR:0.55, rBase:130, blur:65, c1:"rgba(180,188,230,", c2:"rgba(160,165,218,", opMin:0.24, opMax:0.42, pDur:19000, dxAmp:14, dyAmp:16, dxDur:21000, dyDur:16000 },
-      { xR:0.50, yR:0.50, rBase:280, blur:100,c1:"rgba(240,210,230,", c2:"rgba(225,195,218,", opMin:0.08, opMax:0.16, pDur:25000, dxAmp:6,  dyAmp:5,  dxDur:30000, dyDur:26000 },
-      { xR:0.22, yR:0.72, rBase:65,  blur:48, c1:"rgba(248,185,210,", c2:"rgba(235,160,190,", opMin:0.28, opMax:0.50, pDur:10000, dxAmp:20, dyAmp:15, dxDur:12000, dyDur:10000 },
-    ],
+    url: "https://assets.mixkit.co/active_storage/sfx/2523/2523-preview.mp3",
+    volume: 0.32,
+    fadeIn: 4000,
   },
   {
     id: "evening-gold",
     title: "Or du soir",
-    bg: "radial-gradient(120% 95% at 50% 35%, #FFD7B0 0%, #FFE9C8 45%, #FFF4E2 80%, #FFFAF2 100%)",
     tag: "philosophique",
-    sound: {
-      oscillator: { type: "sine", frequency: 58 },
-      oscillator2: { type: "sine", frequency: 87, gain: 0.45 },
-      filter: { frequency: 280, Q: 1.8 },
-      reverb: { duration: 5.5, decay: 4.0 },
-      lfo: { frequency: 0.07, depth: 100 },
-      master: 0.22,
-      // Houle lointaine — chaleur dense qui respire
-      nature: {
-        gain: 0.07,
-        filter: { type: "lowpass", frequency: 520, Q: 0.9 },
-        lfo: { frequency: 0.12, depth: 0.045 },
-      },
-    },
-    shapes: [
-      { xR:0.50, yR:0.35, rBase:155, blur:60, c1:"rgba(255,215,140,", c2:"rgba(245,175,100,", opMin:0.36, opMax:0.56, pDur:13000, dxAmp:12, dyAmp:10, dxDur:16000, dyDur:13000 },
-      { xR:0.28, yR:0.18, rBase:90,  blur:58, c1:"rgba(248,185,130,", c2:"rgba(235,155,100,", opMin:0.28, opMax:0.48, pDur:11000, dxAmp:18, dyAmp:14, dxDur:13000, dyDur:16000 },
-      { xR:0.55, yR:0.50, rBase:270, blur:95, c1:"rgba(255,235,185,", c2:"rgba(248,210,160,", opMin:0.10, opMax:0.20, pDur:24000, dxAmp:7,  dyAmp:5,  dxDur:28000, dyDur:22000 },
-      { xR:0.18, yR:0.60, rBase:45,  blur:42, c1:"rgba(255,210,120,", c2:"rgba(240,170,80,",  opMin:0.18, opMax:0.36, pDur:8000,  dxAmp:18, dyAmp:14, dxDur:9000,  dyDur:11000 },
-      { xR:0.80, yR:0.38, rBase:55,  blur:46, c1:"rgba(255,210,120,", c2:"rgba(240,170,80,",  opMin:0.22, opMax:0.44, pDur:11000, dxAmp:22, dyAmp:18, dxDur:13000, dyDur:10000 },
-      { xR:0.42, yR:0.82, rBase:60,  blur:50, c1:"rgba(255,210,120,", c2:"rgba(240,170,80,",  opMin:0.20, opMax:0.40, pDur:14000, dxAmp:26, dyAmp:20, dxDur:15000, dyDur:13000 },
-    ],
+    url: "https://assets.mixkit.co/active_storage/sfx/2516/2516-preview.mp3",
+    volume: 0.30,
+    fadeIn: 4000,
   },
 ];
 
@@ -277,442 +164,484 @@ function BloomFlower() {
   );
 }
 
-/* ─── Moteur audio : drone continu, jamais de notes discrètes ─── */
-class AudioEngine {
-  ctx: AudioContext;
-  master: GainNode;
-  private cfg: SoundConfig | null = null;
-  private osc1: OscillatorNode | null = null;
-  private osc2: OscillatorNode | null = null;
-  private noiseSrc: AudioBufferSourceNode | null = null;
-  private natureSrc: AudioBufferSourceNode | null = null;
-  private natureLfo: OscillatorNode | null = null;
-  private lfo: OscillatorNode | null = null;
-  private filter: BiquadFilterNode | null = null;
-  private nodes: AudioNode[] = [];
+/* ─── Audio : Howler — nappe naturelle continue ─────────────── */
+type NatureSound = {
+  play: () => void;
+  pause: () => void;
+  resume: () => void;
+  fadeTo: (next: NatureSound, duration?: number) => void;
+  onTouch: (pressure: number) => void;
+  onTouchEnd: () => void;
+  destroy: () => void;
+  readonly howl: Howl;
+  readonly cfg: { volume: number; fadeIn: number };
+};
 
-  constructor(ctx: AudioContext) {
-    this.ctx = ctx;
-    this.master = ctx.createGain();
-    this.master.gain.value = 0;
-    this.master.connect(ctx.destination);
-  }
+function createSound(seq: Sequence): NatureSound {
+  const cfg = { volume: seq.volume, fadeIn: seq.fadeIn };
+  const howl = new Howl({
+    src: [seq.url],
+    loop: true,
+    volume: 0,
+    html5: true,
+    preload: true,
+  });
 
-  private buildReverb(duration: number, decay: number): ConvolverNode {
-    const c = this.ctx;
-    const len = Math.max(1, Math.floor(c.sampleRate * duration));
-    const buf = c.createBuffer(2, len, c.sampleRate);
-    const decayRate = decay / duration;
-    for (let ch = 0; ch < 2; ch++) {
-      const d = buf.getChannelData(ch);
-      for (let i = 0; i < len; i++) {
-        d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 1 / Math.max(decayRate, 0.001));
-      }
-    }
-    const conv = c.createConvolver();
-    conv.buffer = buf;
-    return conv;
-  }
-
-  private teardown() {
-    try { this.osc1?.stop(); } catch (e) { void e; }
-    try { this.osc2?.stop(); } catch (e) { void e; }
-    try { this.noiseSrc?.stop(); } catch (e) { void e; }
-    try { this.natureSrc?.stop(); } catch (e) { void e; }
-    try { this.natureLfo?.stop(); } catch (e) { void e; }
-    try { this.lfo?.stop(); } catch (e) { void e; }
-    for (const n of this.nodes) { try { n.disconnect(); } catch (e) { void e; } }
-    this.osc1 = this.osc2 = this.lfo = null;
-    this.noiseSrc = null;
-    this.natureSrc = null;
-    this.natureLfo = null;
-    this.filter = null;
-    this.nodes = [];
-  }
-
-  setSequence(cfg: SoundConfig) {
-    this.teardown();
-    this.cfg = cfg;
-    const c = this.ctx;
-
-    const reverb = this.buildReverb(cfg.reverb.duration, cfg.reverb.decay);
-    const reverbGain = c.createGain(); reverbGain.gain.value = 0.6;
-    reverb.connect(reverbGain); reverbGain.connect(this.master);
-
-    const filter = c.createBiquadFilter();
-    filter.type = "lowpass";
-    filter.frequency.value = cfg.filter.frequency;
-    filter.Q.value = cfg.filter.Q;
-    filter.connect(reverb);
-    filter.connect(this.master);
-    this.filter = filter;
-
-    const lfo = c.createOscillator();
-    lfo.type = "sine";
-    lfo.frequency.value = cfg.lfo.frequency;
-    const lfoGain = c.createGain();
-    lfoGain.gain.value = cfg.lfo.depth;
-    lfo.connect(lfoGain);
-    lfoGain.connect(filter.frequency);
-    lfo.start();
-    this.lfo = lfo;
-
-    const osc1 = c.createOscillator();
-    osc1.type = cfg.oscillator.type;
-    osc1.frequency.value = cfg.oscillator.frequency;
-    const oscGain1 = c.createGain(); oscGain1.gain.value = 0.7;
-    osc1.connect(oscGain1); oscGain1.connect(filter);
-    osc1.start();
-    this.osc1 = osc1;
-
-    if (cfg.oscillator2) {
-      const osc2 = c.createOscillator();
-      osc2.type = cfg.oscillator2.type;
-      osc2.frequency.value = cfg.oscillator2.frequency;
-      const oscGain2 = c.createGain(); oscGain2.gain.value = cfg.oscillator2.gain;
-      osc2.connect(oscGain2); oscGain2.connect(filter);
-      osc2.start();
-      this.osc2 = osc2;
-      this.nodes.push(oscGain2);
-    }
-
-    if (cfg.noise) {
-      const nb = c.createBuffer(1, c.sampleRate * 3, c.sampleRate);
-      const nd = nb.getChannelData(0);
-      for (let i = 0; i < nd.length; i++) nd[i] = (Math.random() * 2 - 1) * 0.2;
-      const ns = c.createBufferSource();
-      ns.buffer = nb; ns.loop = true;
-      const nf = c.createBiquadFilter();
-      nf.type = cfg.noise.filter.type;
-      nf.frequency.value = cfg.noise.filter.frequency;
-      nf.Q.value = cfg.noise.filter.Q;
-      const ng = c.createGain();
-      ng.gain.value = cfg.noise.gain;
-      ns.connect(nf); nf.connect(ng); ng.connect(reverb);
-      ns.start();
-      this.noiseSrc = ns;
-      this.nodes.push(nf, ng);
-    }
-
-    if (cfg.nature) {
-      const nb = c.createBuffer(1, c.sampleRate * 4, c.sampleRate);
-      const nd = nb.getChannelData(0);
-      // Bruit légèrement coloré (rose-ish) pour un grain plus organique
-      let last = 0;
-      for (let i = 0; i < nd.length; i++) {
-        const w = Math.random() * 2 - 1;
-        last = 0.97 * last + 0.03 * w;
-        nd[i] = (w * 0.4 + last * 0.6) * 0.5;
-      }
-      const ns = c.createBufferSource();
-      ns.buffer = nb; ns.loop = true;
-      const nf = c.createBiquadFilter();
-      nf.type = cfg.nature.filter.type;
-      nf.frequency.value = cfg.nature.filter.frequency;
-      nf.Q.value = cfg.nature.filter.Q;
-      const ng = c.createGain();
-      ng.gain.value = cfg.nature.gain;
-      ns.connect(nf); nf.connect(ng); ng.connect(reverb); ng.connect(this.master);
-      ns.start();
-      this.natureSrc = ns;
-      this.nodes.push(nf, ng);
-      // LFO sur le gain pour donner le souffle organique (crépitement, vagues, brise)
-      if (cfg.nature.lfo) {
-        const nlfo = c.createOscillator();
-        nlfo.type = "sine";
-        nlfo.frequency.value = cfg.nature.lfo.frequency;
-        const nlfoGain = c.createGain();
-        nlfoGain.gain.value = cfg.nature.lfo.depth;
-        nlfo.connect(nlfoGain);
-        nlfoGain.connect(ng.gain);
-        nlfo.start();
-        this.natureLfo = nlfo;
-        this.nodes.push(nlfoGain);
-      }
-    }
-
-    this.nodes.push(reverb, reverbGain, filter, lfoGain, oscGain1);
-  }
-
-  fadeIn(dur = 3.0) {
-    if (!this.cfg) return;
-    const now = this.ctx.currentTime;
-    this.master.gain.cancelScheduledValues(now);
-    this.master.gain.setValueAtTime(this.master.gain.value, now);
-    this.master.gain.linearRampToValueAtTime(this.cfg.master, now + dur);
-  }
-
-  fadeOut(dur = 2.0) {
-    const now = this.ctx.currentTime;
-    this.master.gain.cancelScheduledValues(now);
-    this.master.gain.setValueAtTime(this.master.gain.value, now);
-    this.master.gain.linearRampToValueAtTime(0, now + dur);
-  }
-
-  onTouch(_x: number, y: number, _pressure: number) {
-    if (!this.cfg || !this.filter) return;
-    void _x; void _pressure;
-    const base = this.cfg.filter.frequency;
-    const target = Math.min(base * (1 + (1 - y) * 0.6), base * 1.7);
-    const now = this.ctx.currentTime;
-    this.filter.frequency.cancelScheduledValues(now);
-    this.filter.frequency.linearRampToValueAtTime(target, now + 0.3);
-  }
-
-  onTouchEnd() {
-    if (!this.cfg || !this.filter) return;
-    const now = this.ctx.currentTime;
-    this.filter.frequency.linearRampToValueAtTime(this.cfg.filter.frequency, now + 2.0);
-  }
-
-  dispose() {
-    this.teardown();
-    try { this.master.disconnect(); } catch (e) { void e; }
-  }
+  return {
+    howl,
+    cfg,
+    play() {
+      howl.play();
+      howl.fade(0, cfg.volume, cfg.fadeIn);
+    },
+    pause() {
+      howl.fade(howl.volume(), 0, 1500);
+      setTimeout(() => howl.pause(), 1500);
+    },
+    resume() {
+      howl.play();
+      howl.fade(0, cfg.volume, 1500);
+    },
+    fadeTo(next, duration = 3000) {
+      howl.fade(howl.volume(), 0, duration);
+      setTimeout(() => {
+        try { howl.stop(); } catch (e) { void e; }
+        next.play();
+      }, duration);
+    },
+    onTouch(pressure: number) {
+      const target = cfg.volume * (1 + pressure * 0.15);
+      howl.fade(howl.volume(), Math.min(target, 0.55), 800);
+    },
+    onTouchEnd() {
+      howl.fade(howl.volume(), cfg.volume, 2000);
+    },
+    destroy() {
+      try {
+        howl.fade(howl.volume(), 0, 1500);
+        setTimeout(() => { try { howl.unload(); } catch (e) { void e; } }, 1600);
+      } catch (e) { void e; }
+    },
+  };
 }
 
-/* ─── Forme canvas : nuage radial dérivant lentement ─── */
-class Shape {
-  x: number; y: number;
-  rBase: number; blur: number;
-  c1: string; c2: string;
-  opMin: number; opMax: number; pDur: number;
-  dxAmp: number; dyAmp: number; dxDur: number; dyDur: number;
-  ph: number;
-  cx = 0; cy = 0; r = 0; op = 0;
-
-  constructor(spec: ShapeSpec, W: number, H: number, ph: number) {
-    this.x = spec.xR * W; this.y = spec.yR * H;
-    this.rBase = spec.rBase; this.blur = spec.blur;
-    this.c1 = spec.c1; this.c2 = spec.c2;
-    this.opMin = spec.opMin; this.opMax = spec.opMax; this.pDur = spec.pDur;
-    this.dxAmp = spec.dxAmp; this.dyAmp = spec.dyAmp;
-    this.dxDur = spec.dxDur; this.dyDur = spec.dyDur;
-    this.ph = ph;
-  }
-
-  update(t: number, touch: { active: boolean; x: number; y: number }, W: number) {
-    this.cx = this.x + Math.sin(t / this.dxDur + this.ph) * this.dxAmp;
-    this.cy = this.y + Math.cos(t / this.dyDur + this.ph * 1.4) * this.dyAmp;
-    this.op = this.opMin + (this.opMax - this.opMin) * (0.5 + 0.5 * Math.sin(t / this.pDur + this.ph));
-    this.r = this.rBase * (0.94 + 0.06 * Math.sin(t / (this.pDur * 0.8) + this.ph));
-    if (touch.active) {
-      const dx = touch.x - this.cx, dy = touch.y - this.cy;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-      const infl = Math.max(0, 1 - dist / (W * 0.65));
-      this.cx += dx * infl * 0.06;
-      this.cy += dy * infl * 0.05;
-      this.op = Math.min(this.opMax * 1.3, this.op + infl * 0.15);
-      this.r *= 1 + infl * 0.18;
-    }
-  }
-
-  draw(ctx: CanvasRenderingContext2D) {
-    ctx.save();
-    ctx.filter = `blur(${this.blur}px)`;
-    const g = ctx.createRadialGradient(this.cx, this.cy, 0, this.cx, this.cy, this.r);
-    g.addColorStop(0, this.c1 + `${this.op})`);
-    g.addColorStop(0.5, this.c2 + `${this.op * 0.55})`);
-    g.addColorStop(1, "rgba(255,255,255,0)");
-    ctx.fillStyle = g;
-    ctx.beginPath();
-    ctx.arc(this.cx, this.cy, this.r, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.restore();
-  }
+/* ─── Orbes CSS — animations plein écran ───────────────────── */
+const ORB_STYLES = `
+.souffle-scene { position: absolute; inset: 0; overflow: hidden; }
+.souffle-scene .scene-bg {
+  position: absolute; inset: 0;
+  transition: opacity 1.5s ease-in-out;
+}
+.souffle-scene .orb {
+  position: absolute;
+  border-radius: 50%;
+  will-change: transform, opacity;
+  pointer-events: none;
+  animation-fill-mode: both;
+  transform: translate(var(--touch-x, 0px), var(--touch-y, 0px));
+  transition: transform 2s ease-out;
+}
+.souffle-scene .orb-inner {
+  width: 100%; height: 100%;
+  border-radius: inherit;
+  background: inherit;
+  animation-fill-mode: both;
+}
+@keyframes legato-float-a {
+  0%   { transform: translate(0px, 0px) scale(1.00); }
+  50%  { transform: translate(14px, 10px) scale(1.04); }
+  100% { transform: translate(-8px, 18px) scale(0.97); }
+}
+@keyframes legato-float-b {
+  0%   { transform: translate(0px, 0px) scale(1.02); }
+  50%  { transform: translate(-18px, 8px) scale(0.96); }
+  100% { transform: translate(10px, -14px) scale(1.05); }
+}
+@keyframes legato-float-c {
+  0%   { transform: translate(0px, 0px) scale(0.97); }
+  50%  { transform: translate(12px, -20px) scale(1.03); }
+  100% { transform: translate(-16px, 8px) scale(1.01); }
+}
+@keyframes legato-float-d {
+  0%   { transform: translate(0px, 0px) scale(1.03); }
+  50%  { transform: translate(-10px, 16px) scale(0.96); }
+  100% { transform: translate(20px, -6px) scale(1.02); }
+}
+@keyframes legato-float-diag {
+  0%   { transform: rotate(-28deg) translate(0px, 0px); }
+  50%  { transform: rotate(-28deg) translate(22px, -8px); }
+  100% { transform: rotate(-28deg) translate(-12px, 14px); }
+}
+@keyframes legato-breathe {
+  0%   { opacity: var(--op-min); }
+  50%  { opacity: var(--op-max); }
+  100% { opacity: var(--op-min); }
+}
+@keyframes legato-orb-enter {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
-/* ─── SouffleScene — canvas plein écran + interaction tactile ─── */
-function SouffleScene({
-  seq,
-  audioRef,
-  onFirstInteract,
-}: {
-  seq: Sequence;
-  audioRef: React.MutableRefObject<AudioEngine | null>;
-  onFirstInteract: () => void;
-}) {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const shapesRef = useRef<Shape[]>([]);
-  const touchRef = useRef({ active: false, x: 0, y: 0 });
-  const sizeRef = useRef({ w: 0, h: 0 });
-  const rafRef = useRef(0);
+/* ─── 1. Chaleur lente ─── */
+.scene-warmth .scene-bg { background: linear-gradient(158deg, #FFE8DC 0%, #FFF4EE 100%); }
+.scene-warmth .orb-1 {
+  width: 420px; height: 410px; top: -80px; left: 25%;
+  background: radial-gradient(circle at 40% 40%, rgba(255,185,145,0.85) 0%, rgba(240,130,100,0.55) 45%, transparent 72%);
+  filter: blur(75px);
+  --op-min: 0.30; --op-max: 0.52;
+  animation: legato-float-a 22s ease-in-out infinite alternate, legato-breathe 18s ease-in-out infinite;
+  animation-delay: 0s, -4s;
+}
+.scene-warmth .orb-2 {
+  width: 240px; height: 230px; top: 15%; left: -5%;
+  background: radial-gradient(circle at 50% 50%, rgba(230,145,175,0.80) 0%, rgba(210,110,145,0.50) 50%, transparent 72%);
+  filter: blur(68px);
+  --op-min: 0.20; --op-max: 0.40;
+  animation: legato-float-b 19s ease-in-out infinite alternate, legato-breathe 14s ease-in-out infinite;
+  animation-delay: -6s, -9s;
+}
+.scene-warmth .orb-3 {
+  width: 190px; height: 185px; bottom: 18%; right: 6%;
+  background: radial-gradient(circle at 45% 45%, rgba(255,210,150,0.85) 0%, rgba(240,170,100,0.55) 48%, transparent 72%);
+  filter: blur(58px);
+  --op-min: 0.32; --op-max: 0.58;
+  animation: legato-float-c 16s ease-in-out infinite alternate, legato-breathe 11s ease-in-out infinite;
+  animation-delay: -10s, -3s;
+}
+.scene-warmth .orb-4 {
+  width: 600px; height: 580px; top: 15%; left: 50%; margin-left: -300px;
+  background: radial-gradient(circle at 50% 50%, rgba(252,210,195,0.60) 0%, rgba(245,185,170,0.30) 40%, transparent 68%);
+  filter: blur(110px);
+  --op-min: 0.08; --op-max: 0.18;
+  animation: legato-breathe 32s ease-in-out infinite;
+  animation-delay: -15s;
+}
 
-  // Resize + DPR
-  useEffect(() => {
-    const cv = canvasRef.current, el = containerRef.current;
-    if (!cv || !el) return;
-    const resize = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      const w = el.clientWidth, h = el.clientHeight;
-      sizeRef.current = { w, h };
-      cv.width = w * dpr; cv.height = h * dpr;
-      cv.style.width = w + "px"; cv.style.height = h + "px";
-      const ctx = cv.getContext("2d");
-      ctx?.setTransform(dpr, 0, 0, dpr, 0, 0);
-    };
-    resize();
-    window.addEventListener("resize", resize);
-    return () => window.removeEventListener("resize", resize);
-  }, []);
+/* ─── 2. Ciel du matin ─── */
+.scene-morning-sky .scene-bg { background: linear-gradient(180deg, #EAF0F8 0%, #F4EEF8 100%); }
+.scene-morning-sky .orb-1 {
+  width: 310px; height: 305px; top: 5%; left: 50%; margin-left: -155px;
+  background: radial-gradient(circle at 48% 45%, rgba(255,222,212,0.90) 0%, rgba(220,172,215,0.60) 42%, transparent 70%);
+  filter: blur(55px);
+  --op-min: 0.38; --op-max: 0.62;
+  animation: legato-float-a 26s ease-in-out infinite alternate, legato-breathe 22s ease-in-out infinite;
+  animation-delay: 0s, -8s;
+}
+.scene-morning-sky .orb-halo {
+  width: 620px; height: 610px; top: -80px; left: 50%; margin-left: -310px;
+  background: radial-gradient(circle at 50% 50%, rgba(210,195,245,0.35) 0%, transparent 62%);
+  filter: blur(90px);
+  --op-min: 0.06; --op-max: 0.16;
+  animation: legato-breathe 22s ease-in-out infinite;
+  animation-delay: -3s;
+}
+.scene-morning-sky .orb-2 {
+  width: 200px; height: 195px; top: 52%; left: 12%;
+  background: radial-gradient(circle at 50% 50%, rgba(110,148,215,0.75) 0%, rgba(90,125,200,0.45) 48%, transparent 70%);
+  filter: blur(45px);
+  --op-min: 0.18; --op-max: 0.34;
+  animation: legato-float-d 21s ease-in-out infinite alternate, legato-breathe 17s ease-in-out infinite;
+  animation-delay: -7s, -5s;
+}
+.scene-morning-sky .orb-3 {
+  width: 100%; height: 110px; bottom: 20%; left: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(165,195,228,0.22) 25%, rgba(165,195,228,0.22) 75%, transparent 100%);
+  border-radius: 0;
+  filter: blur(40px);
+  --op-min: 0.10; --op-max: 0.22;
+  animation: legato-float-a 36s ease-in-out infinite alternate, legato-breathe 24s ease-in-out infinite;
+  animation-delay: -14s, -10s;
+}
+.scene-morning-sky .orb-4 {
+  width: 330px; height: 320px; top: 35%; right: -8%;
+  background: radial-gradient(circle at 50% 50%, rgba(195,178,238,0.70) 0%, rgba(175,155,225,0.40) 45%, transparent 70%);
+  filter: blur(88px);
+  --op-min: 0.14; --op-max: 0.28;
+  animation: legato-float-b 18s ease-in-out infinite alternate, legato-breathe 13s ease-in-out infinite;
+  animation-delay: -5s, -9s;
+}
 
-  // Rebuild shapes when sequence or size changes
-  useEffect(() => {
-    const el = containerRef.current; if (!el) return;
-    const W = el.clientWidth, H = el.clientHeight;
-    let specs = seq.shapes;
-    let blurMul = 1;
-    if (typeof navigator !== "undefined" && (navigator.hardwareConcurrency ?? 8) <= 4 && specs.length > 3) {
-      const largest = specs.reduce((m, s) => (s.rBase > m.rBase ? s : m), specs[0]);
-      specs = specs.filter((s) => s !== largest);
-      blurMul = 0.75;
-    }
-    shapesRef.current = specs.map((s, i) => new Shape({ ...s, blur: s.blur * blurMul }, W, H, i * 1.37));
-  }, [seq]);
+/* ─── 3. Feuilles ─── */
+.scene-leaves .scene-bg { background: linear-gradient(162deg, #EEF4E8 0%, #F8FBF4 100%); }
+.scene-leaves .orb-1 {
+  width: 145%; height: 190px; top: 22%; left: -25%;
+  background: linear-gradient(90deg, transparent 0%, rgba(185,215,155,0.38) 22%, rgba(205,230,175,0.38) 55%, rgba(190,218,158,0.28) 80%, transparent 100%);
+  border-radius: 50%;
+  filter: blur(62px);
+  --op-min: 0.16; --op-max: 0.34;
+  animation: legato-float-diag 30s ease-in-out infinite alternate, legato-breathe 20s ease-in-out infinite;
+  animation-delay: 0s, -6s;
+}
+.scene-leaves .orb-2 {
+  width: 145%; height: 140px; top: 50%; left: -25%;
+  background: linear-gradient(90deg, transparent 0%, rgba(165,200,135,0.30) 28%, rgba(178,212,148,0.30) 60%, transparent 100%);
+  border-radius: 50%;
+  filter: blur(55px);
+  --op-min: 0.10; --op-max: 0.22;
+  animation: legato-float-diag 24s ease-in-out infinite alternate, legato-breathe 16s ease-in-out infinite;
+  animation-delay: -5s, -10s;
+}
+.scene-leaves .orb-3 {
+  width: 460px; height: 445px; top: 18%; left: 50%; margin-left: -230px;
+  background: radial-gradient(circle at 50% 50%, rgba(200,228,175,0.65) 0%, rgba(178,215,152,0.38) 42%, transparent 68%);
+  filter: blur(95px);
+  --op-min: 0.22; --op-max: 0.38;
+  animation: legato-breathe 28s ease-in-out infinite;
+  animation-delay: -16s;
+}
+.scene-leaves .orb-4 {
+  width: 155px; height: 150px; top: 10%; right: 10%;
+  background: radial-gradient(circle at 50% 50%, rgba(178,222,148,0.80) 0%, rgba(155,205,125,0.50) 48%, transparent 70%);
+  filter: blur(50px);
+  --op-min: 0.20; --op-max: 0.40;
+  animation: legato-float-c 17s ease-in-out infinite alternate, legato-breathe 12s ease-in-out infinite;
+  animation-delay: -8s, -4s;
+}
 
-  // Animation loop + visibility handling
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduced) return;
+/* ─── 4. Brume rose ─── */
+.scene-rose-mist .scene-bg { background: linear-gradient(148deg, #F8EEF4 0%, #F0ECF8 100%); }
+.scene-rose-mist .orb-1 {
+  width: 375px; height: 365px; top: 10%; left: 3%;
+  background: radial-gradient(circle at 42% 40%, rgba(232,162,195,0.82) 0%, rgba(215,138,175,0.52) 42%, transparent 70%);
+  filter: blur(72px);
+  --op-min: 0.26; --op-max: 0.48;
+  animation: legato-float-a 20s ease-in-out infinite alternate, legato-breathe 16s ease-in-out infinite;
+  animation-delay: 0s, -5s;
+}
+.scene-rose-mist .orb-2 {
+  width: 295px; height: 288px; top: 42%; right: 0%;
+  background: radial-gradient(circle at 50% 50%, rgba(168,175,232,0.78) 0%, rgba(148,155,218,0.48) 45%, transparent 70%);
+  filter: blur(68px);
+  --op-min: 0.20; --op-max: 0.40;
+  animation: legato-float-d 23s ease-in-out infinite alternate, legato-breathe 19s ease-in-out infinite;
+  animation-delay: -9s, -6s;
+}
+.scene-rose-mist .orb-3 {
+  width: 620px; height: 600px; top: 18%; left: 50%; margin-left: -310px;
+  background: radial-gradient(circle at 50% 50%, rgba(242,215,235,0.55) 0%, rgba(228,198,225,0.28) 38%, transparent 65%);
+  filter: blur(105px);
+  --op-min: 0.07; --op-max: 0.15;
+  animation: legato-breathe 35s ease-in-out infinite;
+  animation-delay: -20s;
+}
+.scene-rose-mist .orb-4 {
+  width: 145px; height: 140px; bottom: 16%; left: 16%;
+  background: radial-gradient(circle at 50% 50%, rgba(250,180,215,0.85) 0%, rgba(238,155,195,0.55) 48%, transparent 70%);
+  filter: blur(50px);
+  --op-min: 0.26; --op-max: 0.50;
+  animation: legato-float-b 14s ease-in-out infinite alternate, legato-breathe 10s ease-in-out infinite;
+  animation-delay: -4s, -8s;
+}
 
-    const cv = canvasRef.current; if (!cv) return;
-    const ctx = cv.getContext("2d"); if (!ctx) return;
-    let running = true;
-    const start = performance.now();
-    const tick = (now: number) => {
-      if (!running) return;
-      const { w, h } = sizeRef.current;
-      ctx.clearRect(0, 0, w, h);
-      const t = now - start;
-      for (const s of shapesRef.current) {
-        s.update(t, touchRef.current, w);
-        s.draw(ctx);
-      }
-      rafRef.current = requestAnimationFrame(tick);
-    };
-    rafRef.current = requestAnimationFrame(tick);
+/* ─── 5. Or du soir ─── */
+.scene-evening-gold .scene-bg { background: linear-gradient(158deg, #FFF4E0 0%, #FFF8F0 100%); }
+.scene-evening-gold .orb-1 {
+  width: 345px; height: 335px; top: 12%; left: 50%; margin-left: -172px;
+  background: radial-gradient(circle at 48% 44%, rgba(255,212,128,0.88) 0%, rgba(245,172,88,0.58) 42%, transparent 70%);
+  filter: blur(62px);
+  --op-min: 0.33; --op-max: 0.55;
+  animation: legato-float-a 18s ease-in-out infinite alternate, legato-breathe 15s ease-in-out infinite;
+  animation-delay: 0s, -6s;
+}
+.scene-evening-gold .orb-2 {
+  width: 210px; height: 205px; top: 8%; left: 10%;
+  background: radial-gradient(circle at 50% 50%, rgba(250,188,128,0.80) 0%, rgba(235,152,95,0.52) 46%, transparent 70%);
+  filter: blur(60px);
+  --op-min: 0.26; --op-max: 0.48;
+  animation: legato-float-c 20s ease-in-out infinite alternate, legato-breathe 14s ease-in-out infinite;
+  animation-delay: -7s, -5s;
+}
+.scene-evening-gold .orb-3a {
+  width: 110px; height: 108px; bottom: 28%; left: 8%;
+  background: radial-gradient(circle at 50% 50%, rgba(255,208,90,0.82) 0%, rgba(242,175,55,0.52) 50%, transparent 72%);
+  filter: blur(44px);
+  --op-min: 0.20; --op-max: 0.44;
+  animation: legato-float-b 13s ease-in-out infinite alternate, legato-breathe 10s ease-in-out infinite;
+  animation-delay: -3s, -2s;
+}
+.scene-evening-gold .orb-3b {
+  width: 92px; height: 90px; bottom: 18%; right: 13%;
+  background: radial-gradient(circle at 50% 50%, rgba(255,195,75,0.80) 0%, rgba(238,158,40,0.50) 50%, transparent 72%);
+  filter: blur(40px);
+  --op-min: 0.18; --op-max: 0.40;
+  animation: legato-float-d 16s ease-in-out infinite alternate, legato-breathe 12s ease-in-out infinite;
+  animation-delay: -9s, -6s;
+}
+.scene-evening-gold .orb-3c {
+  width: 75px; height: 73px; top: 58%; left: 40%;
+  background: radial-gradient(circle at 50% 50%, rgba(255,225,110,0.78) 0%, rgba(245,195,65,0.48) 50%, transparent 72%);
+  filter: blur(38px);
+  --op-min: 0.16; --op-max: 0.36;
+  animation: legato-float-a 18s ease-in-out infinite alternate, legato-breathe 13s ease-in-out infinite;
+  animation-delay: -11s, -8s;
+}
+.scene-evening-gold .orb-4 {
+  width: 600px; height: 580px; top: 20%; left: 50%; margin-left: -300px;
+  background: radial-gradient(circle at 50% 50%, rgba(255,238,188,0.58) 0%, rgba(252,218,158,0.28) 38%, transparent 65%);
+  filter: blur(100px);
+  --op-min: 0.09; --op-max: 0.18;
+  animation: legato-breathe 32s ease-in-out infinite;
+  animation-delay: -24s;
+}
 
-    const onVis = () => {
-      if (document.hidden) {
-        running = false;
-        cancelAnimationFrame(rafRef.current);
-        audioRef.current?.fadeOut(0.4);
-      } else {
-        running = true;
-        rafRef.current = requestAnimationFrame(tick);
-        audioRef.current?.fadeIn(1.0);
-      }
-    };
-    document.addEventListener("visibilitychange", onVis);
-    return () => {
-      running = false;
-      cancelAnimationFrame(rafRef.current);
-      document.removeEventListener("visibilitychange", onVis);
-    };
-  }, [seq.id, audioRef]);
+@media (prefers-reduced-motion: reduce) {
+  .souffle-scene .orb { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
+}
+.souffle-paused .orb { animation-play-state: paused !important; }
+`;
 
-  const updateTouch = (clientX: number, clientY: number) => {
-    const rect = containerRef.current?.getBoundingClientRect(); if (!rect) return;
-    const cx = clientX - rect.left, cy = clientY - rect.top;
-    touchRef.current.x = cx; touchRef.current.y = cy;
-    const x = cx / rect.width, y = cy / rect.height;
-    const pressure = Math.max(0, 1 - Math.sqrt((x - 0.5) ** 2 + (y - 0.5) ** 2) * 1.4);
-    audioRef.current?.onTouch(x, y, pressure);
-  };
-
-  const onPointerDown = (e: React.PointerEvent) => {
-    onFirstInteract();
-    touchRef.current.active = true;
-    updateTouch(e.clientX, e.clientY);
-  };
-  const onPointerMove = (e: React.PointerEvent) => {
-    if (!touchRef.current.active) return;
-    updateTouch(e.clientX, e.clientY);
-  };
-  const onPointerUp = () => {
-    touchRef.current.active = false;
-    audioRef.current?.onTouchEnd();
-  };
-
+function SouffleOrbs({ id }: { id: SceneId }) {
+  // Each scene has a specific set of orbs
+  if (id === "evening-gold") {
+    return (
+      <>
+        <div className="orb orb-4" />
+        <div className="orb orb-1" />
+        <div className="orb orb-2" />
+        <div className="orb orb-3a" />
+        <div className="orb orb-3b" />
+        <div className="orb orb-3c" />
+      </>
+    );
+  }
+  if (id === "morning-sky") {
+    return (
+      <>
+        <div className="orb orb-halo" />
+        <div className="orb orb-4" />
+        <div className="orb orb-1" />
+        <div className="orb orb-2" />
+        <div className="orb orb-3" />
+      </>
+    );
+  }
   return (
-    <div
-      ref={containerRef}
-      className="absolute inset-0 touch-none"
-      onPointerDown={onPointerDown}
-      onPointerMove={onPointerMove}
-      onPointerUp={onPointerUp}
-      onPointerCancel={onPointerUp}
-      onPointerLeave={onPointerUp}
-    >
-      <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
-    </div>
+    <>
+      <div className="orb orb-4" />
+      <div className="orb orb-1" />
+      <div className="orb orb-2" />
+      <div className="orb orb-3" />
+    </>
   );
 }
 
-/* ─── SoufflesView ─────────────────────────────────────────────── */
+/* ─── SoufflesView ──────────────────────────────────────────── */
 function SoufflesView() {
   const [index, setIndex] = useState(0);
   const [favorites, setFavorites] = useState<string[]>([]);
   const [bloom, setBloom] = useState(false);
   const [playing, setPlaying] = useState(true);
-  const [fadedOut, setFadedOut] = useState(false);
-  const audioRef = useRef<AudioEngine | null>(null);
-  const touchStartX = useRef<number | null>(null);
+  const soundRef = useRef<NatureSound | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const seq = BASE[index];
 
   useEffect(() => { setFavorites(loadFavorites()); }, []);
 
-  // Initialise engine on mount
+  // Initialise sound on mount + cleanup
   useEffect(() => {
     if (typeof window === "undefined") return;
-    const Ctx = window.AudioContext ||
-      (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
-    if (!Ctx) return;
-    const ctx = new Ctx();
-    const eng = new AudioEngine(ctx);
-    audioRef.current = eng;
-    eng.setSequence(BASE[0].sound);
-    if (ctx.state !== "suspended") eng.fadeIn(2.5);
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const s = createSound(BASE[0]);
+    soundRef.current = s;
+    if (!reduced) s.play();
     return () => {
-      eng.fadeOut(0.8);
-      setTimeout(() => { eng.dispose(); try { ctx.close(); } catch (e) { void e; } }, 900);
+      soundRef.current?.destroy();
+      soundRef.current = null;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Resume context on first interaction (iOS)
-  const resumeAudio = useCallback(() => {
-    const eng = audioRef.current; if (!eng) return;
-    if (eng.ctx.state === "suspended") {
-      void eng.ctx.resume().then(() => { if (playing) eng.fadeIn(2.0); });
-    }
+  // Cross-fade when sequence changes (no auto-advance — manual only)
+  useEffect(() => {
+    if (index === 0 && !soundRef.current) return;
+    const current = soundRef.current;
+    if (!current) return;
+    if (current.howl === undefined) return;
+    // skip on first render
+  }, [index]);
+
+  // Visibility: pause animations + audio
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    const onVis = () => {
+      const el = containerRef.current;
+      if (document.hidden) {
+        el?.classList.add("souffle-paused");
+        soundRef.current?.pause();
+      } else {
+        el?.classList.remove("souffle-paused");
+        if (playing) soundRef.current?.resume();
+      }
+    };
+    document.addEventListener("visibilitychange", onVis);
+    return () => document.removeEventListener("visibilitychange", onVis);
   }, [playing]);
+
+  // Touch/mouse — gentle orb drift + tiny volume swell
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+    const orbs = container.querySelectorAll<HTMLElement>(".orb");
+
+    const apply = (clientX: number, clientY: number) => {
+      const cx = window.innerWidth / 2;
+      const cy = window.innerHeight / 2;
+      const dx = (clientX - cx) / cx;
+      const dy = (clientY - cy) / cy;
+      const factors = [0.05, 0.08, 0.04, 0.06, 0.05, 0.07];
+      orbs.forEach((orb, i) => {
+        const f = factors[i % factors.length];
+        orb.style.transition = "transform 2s ease-out, opacity 1.5s ease-out";
+        orb.style.setProperty("--touch-x", `${dx * f * 35}px`);
+        orb.style.setProperty("--touch-y", `${dy * f * 28}px`);
+      });
+      const pressure = 1 - Math.sqrt(dx * dx + dy * dy) * 0.7;
+      soundRef.current?.onTouch(Math.max(0, Math.min(1, pressure)));
+    };
+    const release = () => {
+      orbs.forEach((orb) => {
+        orb.style.transition = "transform 3.5s ease-out, opacity 2.5s ease-out";
+        orb.style.setProperty("--touch-x", "0px");
+        orb.style.setProperty("--touch-y", "0px");
+      });
+      soundRef.current?.onTouchEnd();
+    };
+    const onMove = (e: MouseEvent) => apply(e.clientX, e.clientY);
+    const onTouchMove = (e: TouchEvent) => {
+      const t = e.touches[0]; if (t) apply(t.clientX, t.clientY);
+    };
+    container.addEventListener("mousemove", onMove);
+    container.addEventListener("mouseleave", release);
+    container.addEventListener("touchmove", onTouchMove, { passive: true });
+    container.addEventListener("touchend", release);
+    return () => {
+      container.removeEventListener("mousemove", onMove);
+      container.removeEventListener("mouseleave", release);
+      container.removeEventListener("touchmove", onTouchMove);
+      container.removeEventListener("touchend", release);
+    };
+  }, [seq.id]);
 
   const changeIndex = (newIdx: number) => {
     if (newIdx === index) return;
-    const eng = audioRef.current;
-    if (!eng) { setIndex(newIdx); return; }
-    eng.fadeOut(0.7);
-    setFadedOut(true);
-    setTimeout(() => {
-      setIndex(newIdx);
-      setFadedOut(false);
-      eng.setSequence(BASE[newIdx].sound);
-      if (playing && eng.ctx.state !== "suspended") eng.fadeIn(2.0);
-    }, 500);
+    const current = soundRef.current;
+    const next = createSound(BASE[newIdx]);
+    if (current && playing) {
+      current.fadeTo(next, 3000);
+    } else {
+      try { current?.destroy(); } catch (e) { void e; }
+      if (playing) next.play();
+    }
+    soundRef.current = next;
+    setIndex(newIdx);
   };
   const next = () => changeIndex((index + 1) % BASE.length);
   const prev = () => changeIndex((index - 1 + BASE.length) % BASE.length);
 
   const togglePlay = () => {
-    const eng = audioRef.current; if (!eng) return;
-    if (playing) { eng.fadeOut(1.0); setPlaying(false); }
-    else {
-      if (eng.ctx.state === "suspended") void eng.ctx.resume();
-      eng.fadeIn(1.5); setPlaying(true);
-    }
+    const s = soundRef.current; if (!s) return;
+    if (playing) { s.pause(); setPlaying(false); }
+    else { s.resume(); setPlaying(true); }
   };
 
   const isFav = favorites.includes(seq.id);
@@ -724,34 +653,19 @@ function SoufflesView() {
     setTimeout(() => setBloom(false), 1800);
   };
 
-  const onTouchStart = (e: React.TouchEvent) => {
-    touchStartX.current = e.touches[0].clientX;
-    resumeAudio();
-  };
-  const onTouchEnd = (e: React.TouchEvent) => {
-    if (touchStartX.current == null) return;
-    const dx = e.changedTouches[0].clientX - touchStartX.current;
-    touchStartX.current = null;
-    if (Math.abs(dx) > 60) { if (dx < 0) next(); else prev(); }
-  };
-
   return (
     <div
-      className="relative flex-1 flex flex-col overflow-hidden"
-      onTouchStart={onTouchStart}
-      onTouchEnd={onTouchEnd}
+      ref={containerRef}
+      className={`souffle-scene scene-${seq.id} relative flex-1 flex flex-col overflow-hidden`}
     >
-      <div
-        className="fixed inset-0 -z-10 transition-[background] duration-[1800ms] ease-out"
-        style={{ background: seq.bg }}
-      />
-      <div
-        className={`absolute inset-0 transition-opacity duration-500 ${fadedOut ? "opacity-0" : "opacity-100"}`}
-      >
-        <SouffleScene seq={seq} audioRef={audioRef} onFirstInteract={resumeAudio} />
+      <style>{ORB_STYLES}</style>
+      <div className="scene-bg" />
+      {/* Orbs key forces remount per sequence so animations restart cleanly */}
+      <div key={seq.id} className="absolute inset-0">
+        <SouffleOrbs id={seq.id} />
       </div>
 
-      {/* Pause — coin haut-droit, glassmorphism léger */}
+      {/* Pause — top-right */}
       <button
         onClick={togglePlay}
         aria-label={playing ? "Pause" : "Reprendre"}
@@ -781,7 +695,7 @@ function SoufflesView() {
         )}
       </button>
 
-      {/* Titre — discret, en haut, centré */}
+      {/* Title */}
       <div className="relative z-10 pt-16 text-center pointer-events-none">
         <h2
           className="font-serif italic text-[22px] leading-none text-dusk/85"
@@ -799,7 +713,7 @@ function SoufflesView() {
         </div>
       )}
 
-      {/* Bas — navigation + favori, très discrets */}
+      {/* Bottom — manual navigation only, no auto-advance */}
       <div className="relative z-10 px-6 pb-6 flex flex-col gap-3">
         <div className="flex items-center gap-3">
           <button
