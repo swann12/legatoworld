@@ -285,6 +285,8 @@ class AudioEngine {
   private osc1: OscillatorNode | null = null;
   private osc2: OscillatorNode | null = null;
   private noiseSrc: AudioBufferSourceNode | null = null;
+  private natureSrc: AudioBufferSourceNode | null = null;
+  private natureLfo: OscillatorNode | null = null;
   private lfo: OscillatorNode | null = null;
   private filter: BiquadFilterNode | null = null;
   private nodes: AudioNode[] = [];
@@ -316,10 +318,14 @@ class AudioEngine {
     try { this.osc1?.stop(); } catch (e) { void e; }
     try { this.osc2?.stop(); } catch (e) { void e; }
     try { this.noiseSrc?.stop(); } catch (e) { void e; }
+    try { this.natureSrc?.stop(); } catch (e) { void e; }
+    try { this.natureLfo?.stop(); } catch (e) { void e; }
     try { this.lfo?.stop(); } catch (e) { void e; }
     for (const n of this.nodes) { try { n.disconnect(); } catch (e) { void e; } }
     this.osc1 = this.osc2 = this.lfo = null;
     this.noiseSrc = null;
+    this.natureSrc = null;
+    this.natureLfo = null;
     this.filter = null;
     this.nodes = [];
   }
@@ -386,6 +392,43 @@ class AudioEngine {
       ns.start();
       this.noiseSrc = ns;
       this.nodes.push(nf, ng);
+    }
+
+    if (cfg.nature) {
+      const nb = c.createBuffer(1, c.sampleRate * 4, c.sampleRate);
+      const nd = nb.getChannelData(0);
+      // Bruit légèrement coloré (rose-ish) pour un grain plus organique
+      let last = 0;
+      for (let i = 0; i < nd.length; i++) {
+        const w = Math.random() * 2 - 1;
+        last = 0.97 * last + 0.03 * w;
+        nd[i] = (w * 0.4 + last * 0.6) * 0.5;
+      }
+      const ns = c.createBufferSource();
+      ns.buffer = nb; ns.loop = true;
+      const nf = c.createBiquadFilter();
+      nf.type = cfg.nature.filter.type;
+      nf.frequency.value = cfg.nature.filter.frequency;
+      nf.Q.value = cfg.nature.filter.Q;
+      const ng = c.createGain();
+      ng.gain.value = cfg.nature.gain;
+      ns.connect(nf); nf.connect(ng); ng.connect(reverb); ng.connect(this.master);
+      ns.start();
+      this.natureSrc = ns;
+      this.nodes.push(nf, ng);
+      // LFO sur le gain pour donner le souffle organique (crépitement, vagues, brise)
+      if (cfg.nature.lfo) {
+        const nlfo = c.createOscillator();
+        nlfo.type = "sine";
+        nlfo.frequency.value = cfg.nature.lfo.frequency;
+        const nlfoGain = c.createGain();
+        nlfoGain.gain.value = cfg.nature.lfo.depth;
+        nlfo.connect(nlfoGain);
+        nlfoGain.connect(ng.gain);
+        nlfo.start();
+        this.natureLfo = nlfo;
+        this.nodes.push(nlfoGain);
+      }
     }
 
     this.nodes.push(reverb, reverbGain, filter, lfoGain, oscGain1);
