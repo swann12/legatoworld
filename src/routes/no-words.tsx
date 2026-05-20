@@ -385,10 +385,14 @@ function SouffleScene({
   tex,
   ctxRef,
   onTouchPlay,
+  gyroOn,
+  micOn,
 }: {
   tex: Texture;
   ctxRef: React.MutableRefObject<AudioContext | null>;
   onTouchPlay: () => void;
+  gyroOn: boolean;
+  micOn: boolean;
 }) {
   const sceneRef = useRef<HTMLDivElement>(null);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
@@ -439,69 +443,41 @@ function SouffleScene({
     });
   };
 
-  // Mic souffle → temporary scale bump
-  const startMic = useCallback(async () => {
-    if (typeof window === "undefined") return false;
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      const ctx = ctxRef.current ?? new AudioContext();
-      ctxRef.current = ctx;
-      const analyser = ctx.createAnalyser();
-      analyser.fftSize = 256;
-      ctx.createMediaStreamSource(stream).connect(analyser);
-      const data = new Uint8Array(analyser.frequencyBinCount);
-      let raf = 0;
-      const detect = () => {
-        analyser.getByteFrequencyData(data);
-        let sum = 0;
-        for (let i = 0; i < data.length; i++) sum += data[i];
-        const avg = sum / data.length;
-        if (avg > 22) {
-          setScale(1.18);
-          setTimeout(() => setScale(1), 700);
-        }
-        raf = requestAnimationFrame(detect);
-      };
-      detect();
-      return () => {
-        cancelAnimationFrame(raf);
-        stream.getTracks().forEach((t) => t.stop());
-      };
-    } catch {
-      return false;
-    }
-  }, [ctxRef]);
-
-  const [micOn, setMicOn] = useState(false);
-  const micCleanup = useRef<null | (() => void)>(null);
-  const toggleMic = async () => {
-    if (micOn) {
-      micCleanup.current?.();
-      micCleanup.current = null;
-      setMicOn(false);
-      return;
-    }
-    const r = await startMic();
-    if (typeof r === "function") {
-      micCleanup.current = r;
-      setMicOn(true);
-    }
-  };
-
-  const [gyroOn, setGyroOn] = useState(false);
-  const toggleGyro = async () => {
-    type DOEPerm = typeof DeviceOrientationEvent & {
-      requestPermission?: () => Promise<"granted" | "denied">;
-    };
-    const DOE = (typeof window !== "undefined" ? window.DeviceOrientationEvent : undefined) as DOEPerm | undefined;
-    if (DOE && typeof DOE.requestPermission === "function") {
+  // Mic souffle → temporary scale bump (driven by parent toggle)
+  useEffect(() => {
+    if (!micOn) return;
+    let stream: MediaStream | null = null;
+    let raf = 0;
+    let cancelled = false;
+    (async () => {
       try {
-        const perm = await DOE.requestPermission();
-        if (perm !== "granted") return;
-      } catch { return; }
-    }
-    setGyroOn((v) => !v);
-  };
+        stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        if (cancelled) { stream?.getTracks().forEach((t) => t.stop()); return; }
+        const ctx = ctxRef.current ?? new AudioContext();
+        ctxRef.current = ctx;
+        const analyser = ctx.createAnalyser();
+        analyser.fftSize = 256;
+        ctx.createMediaStreamSource(stream).connect(analyser);
+        const data = new Uint8Array(analyser.frequencyBinCount);
+        const detect = () => {
+          analyser.getByteFrequencyData(data);
+          let sum = 0;
+          for (let i = 0; i < data.length; i++) sum += data[i];
+          if (sum / data.length > 22) {
+            setScale(1.18);
+            setTimeout(() => setScale(1), 700);
+          }
+          raf = requestAnimationFrame(detect);
+        };
+        detect();
+      } catch { /* permission denied */ }
+    })();
+    return () => {
+      cancelled = true;
+      cancelAnimationFrame(raf);
+      stream?.getTracks().forEach((t) => t.stop());
+    };
+  }, [micOn, ctxRef]);
 
   return (
     <div
@@ -527,27 +503,6 @@ function SouffleScene({
         }}
       >
         <MorphingBlob from={tex.blob.from} to={tex.blob.to} opacity={tex.blob.opacity} />
-      </div>
-
-      {/* Two optional toggles, very discreet, top-right */}
-      <div className="absolute top-3 right-3 flex flex-col items-end gap-1.5 pointer-events-auto">
-        <button
-          onClick={(e) => { e.stopPropagation(); void toggleGyro(); }}
-          className={`text-[10px] uppercase tracking-[0.18em] px-2.5 py-1 rounded-full backdrop-blur-md ${gyroOn ? "text-dusk" : "text-dusk/55"}`}
-          style={{ background: "color-mix(in oklab, white 45%, transparent)" }}
-          aria-pressed={gyroOn}
-        >
-          {gyroOn ? "Mouvement on" : "Mouvement"}
-        </button>
-        <button
-          onClick={(e) => { e.stopPropagation(); void toggleMic(); }}
-          className={`text-[10px] uppercase tracking-[0.18em] px-2.5 py-1 rounded-full backdrop-blur-md ${micOn ? "text-dusk" : "text-dusk/55"}`}
-          style={{ background: "color-mix(in oklab, white 45%, transparent)" }}
-          aria-pressed={micOn}
-          title="Rien n'est enregistré. Juste votre souffle."
-        >
-          {micOn ? "Souffle on" : "Souffler"}
-        </button>
       </div>
     </div>
   );
