@@ -112,30 +112,6 @@ function StepBranch({ value, onChange }: { value: Branch; onChange: (b: Branch) 
         Modifiable à tout moment.
       </p>
 
-      {/* Practical-loss shortcut — same visual family as the others, with a discreet badge */}
-      <button
-        onClick={() => onChange(PRACTICAL_BRANCH.id)}
-        className={`w-full organic-radius-3 px-6 py-5 text-left transition-all ${
-          value === PRACTICAL_BRANCH.id ? "ceramic" : "ceramic-soft opacity-80"
-        }`}
-      >
-        <div className="flex items-baseline justify-between gap-4">
-          <span className="font-serif text-xl text-dusk">{PRACTICAL_BRANCH.label}</span>
-          <span className="text-[9px] uppercase tracking-[0.22em] text-dusk/50 shrink-0">
-            aide concrète
-          </span>
-        </div>
-        <p className="mt-1.5 text-[12px] leading-relaxed text-dusk/60">
-          {PRACTICAL_BRANCH.whisper}
-        </p>
-      </button>
-
-      <div className="flex items-center gap-3 text-[10px] uppercase tracking-[0.22em] text-dusk/35">
-        <span className="h-px flex-1 bg-dusk/10" />
-        ou bien
-        <span className="h-px flex-1 bg-dusk/10" />
-      </div>
-
       <div className="space-y-3">
         {BRANCHES.map((b) => {
           const active = value === b.id;
@@ -160,6 +136,30 @@ function StepBranch({ value, onChange }: { value: Branch; onChange: (b: Branch) 
           );
         })}
       </div>
+
+      <div className="flex items-center gap-3 text-[10px] uppercase tracking-[0.22em] text-dusk/35">
+        <span className="h-px flex-1 bg-dusk/10" />
+        ou bien
+        <span className="h-px flex-1 bg-dusk/10" />
+      </div>
+
+      {/* Practical-loss shortcut — placé à la fin */}
+      <button
+        onClick={() => onChange(PRACTICAL_BRANCH.id)}
+        className={`w-full organic-radius-3 px-6 py-5 text-left transition-all ${
+          value === PRACTICAL_BRANCH.id ? "ceramic" : "ceramic-soft opacity-80"
+        }`}
+      >
+        <div className="flex items-baseline justify-between gap-4">
+          <span className="font-serif text-xl text-dusk">{PRACTICAL_BRANCH.label}</span>
+          <span className="text-[9px] uppercase tracking-[0.22em] text-dusk/50 shrink-0">
+            aide concrète
+          </span>
+        </div>
+        <p className="mt-1.5 text-[12px] leading-relaxed text-dusk/60">
+          {PRACTICAL_BRANCH.whisper}
+        </p>
+      </button>
     </div>
   );
 }
