@@ -112,7 +112,6 @@ type CardCfg = {
   style: CardStyle;
   title: string;       // overrides default
   bg?: string;         // when highlight
-  accent?: string;     // left border color when highlight
   hideArrow?: boolean;
 };
 type ModeHomeCfg = {
@@ -124,8 +123,8 @@ const MODE_HOME: Record<Mode, ModeHomeCfg> = {
   cocoon: {
     subtitle: "Se replier un peu, le souvenir tout près.",
     cards: [
-      { id: "presence", style: "highlight", title: "Une oreille calme, à toute heure.", accent: "#E8A0A0" },
-      { id: "nowords",  style: "highlight", title: "Traverser sans avoir à dire.",      accent: "#E8A0A0" },
+      { id: "presence", style: "highlight", title: "Une oreille calme, à toute heure." },
+      { id: "nowords",  style: "highlight", title: "Traverser sans avoir à dire." },
       { id: "journal",  style: "normal",    title: "Déposer une pensée, sans relire." },
       { id: "wishes",   style: "normal",    title: "Préparer, en douceur, ce que l'on voudrait." },
       { id: "practical",style: "muted",     title: "Démarches concrètes — quand vous serez prêt·e.", hideArrow: true },
@@ -134,8 +133,8 @@ const MODE_HOME: Record<Mode, ModeHomeCfg> = {
   anchoring: {
     subtitle: "Des repères simples, en pensant à elle, à lui.",
     cards: [
-      { id: "practical",style: "highlight", title: "Avancer une étape à la fois.",       accent: "#90B090" },
-      { id: "journal",  style: "highlight", title: "Poser ce qui s'est passé aujourd'hui.", accent: "#90B090" },
+      { id: "practical",style: "highlight", title: "Avancer une étape à la fois." },
+      { id: "journal",  style: "highlight", title: "Poser ce qui s'est passé aujourd'hui." },
       { id: "presence", style: "normal",    title: "Une oreille calme, à toute heure." },
       { id: "wishes",   style: "normal",    title: "Préparer, en douceur, ce que l'on voudrait." },
       { id: "nowords",  style: "normal",    title: "Sons, souffles et lumières lentes." },
@@ -144,8 +143,8 @@ const MODE_HOME: Record<Mode, ModeHomeCfg> = {
   breath: {
     subtitle: "Un peu d'air entre les pensées.",
     cards: [
-      { id: "nowords",  style: "highlight", title: "Sons, souffles et lumières lentes.", accent: "#A8C4E0" },
-      { id: "journal",  style: "highlight", title: "Laisser sortir, sans chercher les mots.", accent: "#A8C4E0" },
+      { id: "nowords",  style: "highlight", title: "Sons, souffles et lumières lentes." },
+      { id: "journal",  style: "highlight", title: "Laisser sortir, sans chercher les mots." },
       { id: "presence", style: "normal",    title: "Une oreille calme, à toute heure." },
       { id: "practical",style: "normal",    title: "Avancer une étape à la fois." },
       { id: "wishes",   style: "normal",    title: "Préparer, en douceur, ce que l'on voudrait." },
@@ -154,8 +153,8 @@ const MODE_HOME: Record<Mode, ModeHomeCfg> = {
   relay: {
     subtitle: "Ne pas porter ce manque seul·e.",
     cards: [
-      { id: "relay",    style: "highlight", title: "Proches, professionnels, ligne d'écoute.", accent: "#C8B8E0" },
-      { id: "presence", style: "highlight", title: "Une oreille calme, à toute heure.",        accent: "#C8B8E0" },
+      { id: "relay",    style: "highlight", title: "Proches, professionnels, ligne d'écoute." },
+      { id: "presence", style: "highlight", title: "Une oreille calme, à toute heure." },
       { id: "journal",  style: "normal",    title: "Déposer une pensée, sans relire." },
       { id: "nowords",  style: "normal",    title: "Sons, souffles et lumières lentes." },
       { id: "practical",style: "normal",    title: "Avancer une étape à la fois." },
@@ -178,12 +177,12 @@ function ModeCard({ card }: { card: CardCfg }) {
     return (
       <Link
         to={meta.to}
-        className="block rounded-2xl px-5 py-4 border border-dashed border-dusk/15"
+        className="glass-card block px-5 py-4 opacity-85"
       >
-        <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">
+        <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/58">
           {meta.eyebrow}
         </p>
-        <p className="mt-1 font-serif italic text-[15px] leading-snug text-dusk/65">
+        <p className="mt-1 font-serif italic text-[15px] leading-snug text-dusk/78">
           {card.title}
         </p>
       </Link>
@@ -194,7 +193,6 @@ function ModeCard({ card }: { card: CardCfg }) {
       <Link
         to={meta.to}
         className="glass-card-accent block px-5 py-5 relative overflow-hidden"
-        style={{ borderLeftColor: card.accent }}
       >
         <div className="flex items-baseline justify-between gap-3">
           <div className="min-w-0">
