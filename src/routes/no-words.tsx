@@ -2,6 +2,19 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Howl } from "howler";
 import { Shell } from "@/components/legato/Shell";
+import imgWarmth from "@/assets/souffle-warmth.jpg";
+import imgMorningSky from "@/assets/souffle-morning-sky.jpg";
+import imgLeaves from "@/assets/souffle-leaves.jpg";
+import imgRoseMist from "@/assets/souffle-rose-mist.jpg";
+import imgEveningGold from "@/assets/souffle-evening-gold.jpg";
+
+const SCENE_IMAGES: Record<SceneId, string> = {
+  "warmth": imgWarmth,
+  "morning-sky": imgMorningSky,
+  "leaves": imgLeaves,
+  "rose-mist": imgRoseMist,
+  "evening-gold": imgEveningGold,
+};
 
 export const Route = createFileRoute("/no-words")({
   head: () => ({ meta: [{ title: "Sans mots — Legato" }] }),
