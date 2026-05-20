@@ -46,39 +46,47 @@ type Blob = {
 
 const MODE_BG: Record<Mode, { gradient: string; blobs: Blob[] }> = {
   cocoon: {
-    gradient: "radial-gradient(ellipse at 30% 20%, #FFD9CC 0%, #FBE4D8 45%, #F5E2D5 100%)",
+    // Aube douce — ciel rose qui glisse vers l'abricot
+    gradient:
+      "linear-gradient(180deg, #E8DDE4 0%, #F3D9D0 38%, #F8E2D3 72%, #F1DCCC 100%)",
     blobs: [
-      { width: 380, height: 320, color: "#F2A48E", blur: 90, opacity: 0.55,
-        top: -80, right: -100, anim: "blob-float-1" },
-      { width: 260, height: 260, color: "#F5C0B0", blur: 80, opacity: 0.40,
-        bottom: 80, left: -60, anim: "blob-float-2" },
+      { width: 520, height: 520, color: "#F4B8A4", blur: 120, opacity: 0.45,
+        top: -180, right: -160, anim: "blob-float-1" },
+      { width: 360, height: 360, color: "#E8C4D0", blur: 110, opacity: 0.35,
+        bottom: -100, left: -120, anim: "blob-float-2" },
     ],
   },
   anchoring: {
-    gradient: "radial-gradient(ellipse at 70% 25%, #D9E8D5 0%, #E8F0E2 50%, #EDF2E5 100%)",
+    // Brume de matin — ciel pâle qui pose sur sauge tendre
+    gradient:
+      "linear-gradient(180deg, #E4ECE5 0%, #EAF1E3 40%, #F0F2E0 72%, #EEEAD8 100%)",
     blobs: [
-      { width: 460, height: 220, color: "#9CC09C", blur: 100, opacity: 0.50,
-        top: -50, right: -120, transform: "rotate(-28deg)", anim: "blob-float-2" },
-      { width: 240, height: 240, color: "#B8D4B0", blur: 85, opacity: 0.38,
-        bottom: 60, right: -30, anim: "blob-float-3" },
+      { width: 540, height: 480, color: "#B8D2B0", blur: 130, opacity: 0.38,
+        top: -180, right: -140, anim: "blob-float-2" },
+      { width: 320, height: 320, color: "#D8E0BE", blur: 100, opacity: 0.34,
+        bottom: -80, left: -100, anim: "blob-float-3" },
     ],
   },
   breath: {
-    gradient: "radial-gradient(circle at 50% 35%, #CFE0F2 0%, #E2ECF6 55%, #EAEFF6 100%)",
+    // Ciel d'altitude — bleu lavé qui fond dans la lumière
+    gradient:
+      "linear-gradient(180deg, #BCCFE2 0%, #D5E1EC 38%, #ECEAE3 78%, #F0E5DA 100%)",
     blobs: [
-      { width: 340, height: 340, color: "#8FB5DD", blur: 80, opacity: 0.50,
-        top: 30, left: "50%", transform: "translateX(-50%)", anim: "blob-float-3" },
-      { width: 220, height: 220, color: "#A8C4E0", blur: 70, opacity: 0.42,
-        bottom: 120, left: -40, anim: "blob-float-4" },
+      { width: 600, height: 500, color: "#9FBDD8", blur: 140, opacity: 0.32,
+        top: -200, left: "50%", transform: "translateX(-50%)", anim: "blob-float-3" },
+      { width: 360, height: 360, color: "#E8D4C0", blur: 120, opacity: 0.35,
+        bottom: -120, right: -100, anim: "blob-float-4" },
     ],
   },
   relay: {
-    gradient: "radial-gradient(ellipse at 40% 55%, #E2D6F2 0%, #EFE6F8 55%, #F0E8F6 100%)",
+    // Crépuscule tendre — lavande qui descend vers la chaleur
+    gradient:
+      "linear-gradient(180deg, #D6CFE6 0%, #E2D6E8 40%, #EEDCD8 75%, #F0DCCC 100%)",
     blobs: [
-      { width: 280, height: 280, color: "#B59DDB", blur: 75, opacity: 0.50,
-        top: -40, left: -60, anim: "blob-float-4" },
-      { width: 220, height: 220, color: "#D4C0E8", blur: 70, opacity: 0.45,
-        bottom: 100, right: -40, anim: "blob-float-5" },
+      { width: 520, height: 460, color: "#B8A6D8", blur: 130, opacity: 0.36,
+        top: -160, left: -140, anim: "blob-float-4" },
+      { width: 360, height: 360, color: "#E8C0C8", blur: 115, opacity: 0.34,
+        bottom: -100, right: -120, anim: "blob-float-5" },
     ],
   },
 };
