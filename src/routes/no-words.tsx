@@ -14,78 +14,95 @@ export const Route = createFileRoute("/no-words")({
   component: NoWords,
 });
 
-type Motion = "drift" | "ripple" | "pulse" | "rain" | "veil";
-type AudioKind = "warm-low" | "sine-432" | "noise-leaves" | "deep-sine" | "gold-bursts";
 type Tab = "souffles" | "respirer" | "lire" | "regarder";
 type BookTag = "deuil récent" | "long terme" | "anticipation" | "pour les enfants" | "philosophique" | "poétique" | "corps";
 
-type Texture = {
-  id: string;
-  title: string;
-  whisper: string;
-  asmr: string;
-  motion: Motion;
-  bg: string; // page-level gradient (CSS)
-  blob: { from: string; to: string; opacity: number };
-  audio: AudioKind;
-  tag: BookTag; // sensitivity → for cross-AI with Lire
+type ShapeSpec = {
+  xR: number; yR: number;
+  rBase: number; blur: number;
+  c1: string; c2: string;
+  opMin: number; opMax: number; pDur: number;
+  dxAmp: number; dyAmp: number; dxDur: number; dyDur: number;
 };
 
-const BASE: Texture[] = [
+type SoundConfig = { freq: number; filterBase: number; noiseBase: number; lfoAmp: number };
+
+type Sequence = {
+  id: string;
+  title: string;
+  bg: string;
+  tag: BookTag;
+  sound: SoundConfig;
+  shapes: ShapeSpec[];
+};
+
+const BASE: Sequence[] = [
   {
     id: "warmth",
     title: "Chaleur lente",
-    whisper: "Comme une main posée sur l'épaule.",
-    asmr: "souffle long, près d'un foyer",
-    motion: "pulse",
-    bg: "linear-gradient(145deg, #FFE8DC 0%, #FFF4EE 100%)",
-    blob: { from: "#F0A890", to: "#F8C8B0", opacity: 0.48 },
-    audio: "warm-low",
+    bg: "linear-gradient(158deg, #FFE8DC 0%, #FFF4EE 100%)",
     tag: "deuil récent",
+    sound: { freq: 55, filterBase: 300, noiseBase: 340, lfoAmp: 100 },
+    shapes: [
+      { xR:0.52, yR:0.30, rBase:185, blur:75, c1:"rgba(255,200,170,", c2:"rgba(240,150,130,", opMin:0.32, opMax:0.52, pDur:16000, dxAmp:16, dyAmp:12, dxDur:18000, dyDur:14000 },
+      { xR:0.20, yR:0.20, rBase:100, blur:65, c1:"rgba(232,155,185,", c2:"rgba(210,120,150,", opMin:0.22, opMax:0.42, pDur:12000, dxAmp:20, dyAmp:16, dxDur:16000, dyDur:20000 },
+      { xR:0.72, yR:0.70, rBase:80,  blur:55, c1:"rgba(255,210,170,", c2:"rgba(240,180,120,", opMin:0.35, opMax:0.58, pDur:9000,  dxAmp:22, dyAmp:18, dxDur:11000, dyDur:9000 },
+      { xR:0.50, yR:0.55, rBase:260, blur:95, c1:"rgba(248,200,190,", c2:"rgba(240,170,160,", opMin:0.10, opMax:0.20, pDur:22000, dxAmp:8,  dyAmp:6,  dxDur:28000, dyDur:24000 },
+    ],
   },
   {
     id: "morning-sky",
     title: "Ciel du matin",
-    whisper: "Tout vient lentement, en douceur.",
-    asmr: "tonalité 432 Hz, halos lents",
-    motion: "veil",
     bg: "linear-gradient(180deg, #EAF0F8 0%, #F4EEF8 100%)",
-    blob: { from: "#A8C0E0", to: "#C8B8E8", opacity: 0.42 },
-    audio: "sine-432",
     tag: "philosophique",
+    sound: { freq: 48, filterBase: 260, noiseBase: 290, lfoAmp: 115 },
+    shapes: [
+      { xR:0.52, yR:0.24, rBase:145, blur:55, c1:"rgba(255,220,210,", c2:"rgba(220,170,210,", opMin:0.40, opMax:0.62, pDur:18000, dxAmp:10, dyAmp:8,  dxDur:22000, dyDur:19000 },
+      { xR:0.52, yR:0.24, rBase:275, blur:80, c1:"rgba(220,200,240,", c2:"rgba(200,180,230,", opMin:0.08, opMax:0.18, pDur:18000, dxAmp:10, dyAmp:8,  dxDur:22000, dyDur:19000 },
+      { xR:0.25, yR:0.62, rBase:88,  blur:42, c1:"rgba(120,155,210,", c2:"rgba(100,130,195,", opMin:0.20, opMax:0.36, pDur:14000, dxAmp:8,  dyAmp:12, dxDur:13000, dyDur:17000 },
+      { xR:0.76, yR:0.44, rBase:150, blur:85, c1:"rgba(200,185,235,", c2:"rgba(180,160,220,", opMin:0.16, opMax:0.30, pDur:11000, dxAmp:14, dyAmp:10, dxDur:15000, dyDur:12000 },
+    ],
   },
   {
     id: "leaves",
     title: "Feuilles",
-    whisper: "Le temps se balance, sans bruit.",
-    asmr: "souffle filtré dans les feuilles",
-    motion: "drift",
     bg: "linear-gradient(162deg, #EEF4E8 0%, #F8FBF4 100%)",
-    blob: { from: "#C0D4A8", to: "#D0E0B8", opacity: 0.36 },
-    audio: "noise-leaves",
     tag: "long terme",
+    sound: { freq: 65, filterBase: 400, noiseBase: 480, lfoAmp: 130 },
+    shapes: [
+      { xR:0.50, yR:0.46, rBase:210, blur:90, c1:"rgba(210,230,185,", c2:"rgba(185,215,160,", opMin:0.25, opMax:0.40, pDur:21000, dxAmp:10, dyAmp:8,  dxDur:24000, dyDur:20000 },
+      { xR:0.78, yR:0.18, rBase:70,  blur:50, c1:"rgba(195,225,165,", c2:"rgba(170,205,140,", opMin:0.20, opMax:0.38, pDur:13000, dxAmp:16, dyAmp:12, dxDur:14000, dyDur:17000 },
+      { xR:0.30, yR:0.65, rBase:140, blur:70, c1:"rgba(192,216,160,", c2:"rgba(208,224,176,", opMin:0.18, opMax:0.36, pDur:26000, dxAmp:14, dyAmp:10, dxDur:22000, dyDur:18000 },
+      { xR:0.65, yR:0.40, rBase:110, blur:60, c1:"rgba(168,200,136,", c2:"rgba(188,216,156,", opMin:0.12, opMax:0.24, pDur:19000, dxAmp:18, dyAmp:14, dxDur:20000, dyDur:23000 },
+    ],
   },
   {
     id: "rose-mist",
     title: "Brume rose",
-    whisper: "Le monde se feutre autour de vous.",
-    asmr: "basse profonde, brume légère",
-    motion: "veil",
     bg: "linear-gradient(148deg, #F8EEF4 0%, #F0ECF8 100%)",
-    blob: { from: "#E8B0C8", to: "#B8C0E8", opacity: 0.42 },
-    audio: "deep-sine",
     tag: "poétique",
+    sound: { freq: 52, filterBase: 280, noiseBase: 310, lfoAmp: 95 },
+    shapes: [
+      { xR:0.35, yR:0.30, rBase:170, blur:70, c1:"rgba(232,168,195,", c2:"rgba(215,140,175,", opMin:0.30, opMax:0.50, pDur:15000, dxAmp:18, dyAmp:14, dxDur:17000, dyDur:13000 },
+      { xR:0.68, yR:0.55, rBase:130, blur:65, c1:"rgba(180,188,230,", c2:"rgba(160,165,218,", opMin:0.24, opMax:0.42, pDur:19000, dxAmp:14, dyAmp:16, dxDur:21000, dyDur:16000 },
+      { xR:0.50, yR:0.50, rBase:280, blur:100,c1:"rgba(240,210,230,", c2:"rgba(225,195,218,", opMin:0.08, opMax:0.16, pDur:25000, dxAmp:6,  dyAmp:5,  dxDur:30000, dyDur:26000 },
+      { xR:0.22, yR:0.72, rBase:65,  blur:48, c1:"rgba(248,185,210,", c2:"rgba(235,160,190,", opMin:0.28, opMax:0.50, pDur:10000, dxAmp:20, dyAmp:15, dxDur:12000, dyDur:10000 },
+    ],
   },
   {
     id: "evening-gold",
     title: "Or du soir",
-    whisper: "Une chaleur qui s'attarde.",
-    asmr: "petites bouffées dorées",
-    motion: "drift",
     bg: "linear-gradient(158deg, #FFF4E0 0%, #FFF8F0 100%)",
-    blob: { from: "#F0C870", to: "#F4C040", opacity: 0.38 },
-    audio: "gold-bursts",
     tag: "philosophique",
+    sound: { freq: 62, filterBase: 360, noiseBase: 420, lfoAmp: 120 },
+    shapes: [
+      { xR:0.50, yR:0.35, rBase:155, blur:60, c1:"rgba(255,215,140,", c2:"rgba(245,175,100,", opMin:0.36, opMax:0.56, pDur:13000, dxAmp:12, dyAmp:10, dxDur:16000, dyDur:13000 },
+      { xR:0.28, yR:0.18, rBase:90,  blur:58, c1:"rgba(248,185,130,", c2:"rgba(235,155,100,", opMin:0.28, opMax:0.48, pDur:11000, dxAmp:18, dyAmp:14, dxDur:13000, dyDur:16000 },
+      { xR:0.55, yR:0.50, rBase:270, blur:95, c1:"rgba(255,235,185,", c2:"rgba(248,210,160,", opMin:0.10, opMax:0.20, pDur:24000, dxAmp:7,  dyAmp:5,  dxDur:28000, dyDur:22000 },
+      { xR:0.18, yR:0.60, rBase:45,  blur:42, c1:"rgba(255,210,120,", c2:"rgba(240,170,80,",  opMin:0.18, opMax:0.36, pDur:8000,  dxAmp:18, dyAmp:14, dxDur:9000,  dyDur:11000 },
+      { xR:0.80, yR:0.38, rBase:55,  blur:46, c1:"rgba(255,210,120,", c2:"rgba(240,170,80,",  opMin:0.22, opMax:0.44, pDur:11000, dxAmp:22, dyAmp:18, dxDur:13000, dyDur:10000 },
+      { xR:0.42, yR:0.82, rBase:60,  blur:50, c1:"rgba(255,210,120,", c2:"rgba(240,170,80,",  opMin:0.20, opMax:0.40, pDur:14000, dxAmp:26, dyAmp:20, dxDur:15000, dyDur:13000 },
+    ],
   },
 ];
 
@@ -148,54 +165,6 @@ function NoWords() {
 /* ============================================================
    ESPACE 1 — SOUFFLES
    ============================================================ */
-/* 3 silhouettes organiques pour le morphing SMIL (6 points de contrôle).
- * ViewBox 200×200 : la forme respire et change lentement. */
-const BLOB_PATHS = [
-  "M 100 22 C 152 28 184 64 178 108 C 172 152 132 184 96 178 C 60 172 24 142 30 96 C 36 50 70 18 100 22 Z",
-  "M 100 28 C 148 32 178 72 172 112 C 178 158 128 178 92 172 C 56 168 30 132 36 92 C 30 56 66 28 100 28 Z",
-  "M 100 18 C 158 30 188 66 180 112 C 176 162 128 188 90 178 C 50 172 20 136 28 94 C 24 44 76 22 100 18 Z",
-];
-
-function MorphingBlob({
-  from,
-  to,
-  opacity,
-}: {
-  from: string;
-  to: string;
-  opacity: number;
-}) {
-  const gid = useMemo(() => `bg-${Math.random().toString(36).slice(2, 9)}`, []);
-  return (
-    <svg
-      viewBox="0 0 200 200"
-      width="100%"
-      height="100%"
-      preserveAspectRatio="xMidYMid meet"
-      style={{ filter: "blur(28px)", opacity }}
-      aria-hidden
-    >
-      <defs>
-        <radialGradient id={gid} cx="42%" cy="38%" r="62%">
-          <stop offset="0%" stopColor={to} stopOpacity="0.95" />
-          <stop offset="60%" stopColor={from} stopOpacity="0.85" />
-          <stop offset="100%" stopColor={from} stopOpacity="0.2" />
-        </radialGradient>
-      </defs>
-      <path fill={`url(#${gid})`} d={BLOB_PATHS[0]}>
-        <animate
-          attributeName="d"
-          dur="12s"
-          repeatCount="indefinite"
-          values={`${BLOB_PATHS[0]};${BLOB_PATHS[1]};${BLOB_PATHS[2]};${BLOB_PATHS[0]}`}
-          calcMode="spline"
-          keySplines="0.42 0 0.58 1; 0.42 0 0.58 1; 0.42 0 0.58 1"
-        />
-      </path>
-    </svg>
-  );
-}
-
 function BloomFlower() {
   return (
     <svg
@@ -229,281 +198,307 @@ function BloomFlower() {
   );
 }
 
-/* ─── Audio engines ───────────────────────────────────────────────── */
-type AmbientHandle = { stop: () => void };
+/* ─── Moteur audio : drone continu, jamais de notes discrètes ─── */
+class AudioEngine {
+  ctx: AudioContext;
+  osc1!: OscillatorNode; osc2!: OscillatorNode; osc3!: OscillatorNode;
+  noise!: AudioBufferSourceNode;
+  filter!: BiquadFilterNode;
+  noiseFilter!: BiquadFilterNode;
+  lfo!: OscillatorNode; lfoGain!: GainNode;
+  reverb!: ConvolverNode; reverbGain!: GainNode;
+  master!: GainNode;
+  baseFilterFreq = 300;
 
-function startSeqAudio(ctx: AudioContext, kind: AudioKind): AmbientHandle {
-  const master = ctx.createGain();
-  master.gain.value = 0;
-  master.connect(ctx.destination);
-  const now = ctx.currentTime;
-  master.gain.setValueAtTime(0, now);
-  master.gain.linearRampToValueAtTime(0.85, now + 2.4);
-  const stops: Array<() => void> = [];
+  constructor(ctx: AudioContext) {
+    this.ctx = ctx;
+    const c = ctx;
+    this.osc1 = c.createOscillator(); this.osc1.type = "sine"; this.osc1.frequency.value = 55;
+    this.osc2 = c.createOscillator(); this.osc2.type = "sine"; this.osc2.frequency.value = 82.5;
+    this.osc3 = c.createOscillator(); this.osc3.type = "triangle"; this.osc3.frequency.value = 27.5;
 
-  const makeNoise = (color: "white" | "brown") => {
-    const size = 3 * ctx.sampleRate;
-    const buf = ctx.createBuffer(1, size, ctx.sampleRate);
-    const data = buf.getChannelData(0);
-    let last = 0;
-    for (let i = 0; i < size; i++) {
-      const r = Math.random() * 2 - 1;
-      if (color === "brown") {
-        last = (last + 0.02 * r) / 1.02;
-        data[i] = last * 3.5;
-      } else data[i] = r;
-    }
-    return buf;
-  };
+    this.noise = this.createNoise();
 
-  if (kind === "warm-low") {
-    const src = ctx.createBufferSource();
-    src.buffer = makeNoise("brown");
-    src.loop = true;
-    const f = ctx.createBiquadFilter();
-    f.type = "lowpass";
-    f.frequency.value = 200;
-    const g = ctx.createGain();
-    g.gain.value = 0.034;
-    src.connect(f).connect(g).connect(master);
-    src.start();
-    const osc = ctx.createOscillator();
-    osc.type = "sine";
-    osc.frequency.value = 80;
-    const og = ctx.createGain();
-    og.gain.value = 0.028;
-    osc.connect(og).connect(master);
-    osc.start();
-    stops.push(() => {
-      try { src.stop(); } catch (e) { void e; }
-      try { osc.stop(); } catch (e) { void e; }
-    });
-  } else if (kind === "sine-432") {
-    const osc = ctx.createOscillator();
-    osc.type = "sine";
-    osc.frequency.value = 432;
-    const g = ctx.createGain();
-    g.gain.value = 0;
-    g.gain.setValueAtTime(0, now);
-    g.gain.linearRampToValueAtTime(0.018, now + 2);
-    osc.connect(g).connect(master);
-    osc.start();
-    stops.push(() => { try { osc.stop(); } catch (e) { void e; } });
-  } else if (kind === "noise-leaves") {
-    const src = ctx.createBufferSource();
-    src.buffer = makeNoise("white");
-    src.loop = true;
-    const f = ctx.createBiquadFilter();
-    f.type = "bandpass";
-    f.frequency.value = 800;
-    f.Q.value = 2;
-    const g = ctx.createGain();
-    g.gain.value = 0.022;
-    src.connect(f).connect(g).connect(master);
-    src.start();
-    const lfo = ctx.createOscillator();
-    lfo.frequency.value = 0.12;
-    const lfoG = ctx.createGain();
-    lfoG.gain.value = 280;
-    lfo.connect(lfoG).connect(f.frequency);
-    lfo.start();
-    stops.push(() => {
-      try { src.stop(); } catch (e) { void e; }
-      try { lfo.stop(); } catch (e) { void e; }
-    });
-  } else if (kind === "deep-sine") {
-    const osc = ctx.createOscillator();
-    osc.type = "sine";
-    osc.frequency.value = 60;
-    const g = ctx.createGain();
-    g.gain.value = 0.012;
-    osc.connect(g).connect(master);
-    osc.start();
-    const pad = ctx.createOscillator();
-    pad.type = "sine";
-    pad.frequency.value = 180;
-    const pg = ctx.createGain();
-    pg.gain.value = 0.008;
-    pad.connect(pg).connect(master);
-    pad.start();
-    stops.push(() => {
-      try { osc.stop(); } catch (e) { void e; }
-      try { pad.stop(); } catch (e) { void e; }
-    });
-  } else {
-    // gold-bursts
-    let cancelled = false;
-    const burst = () => {
-      if (cancelled) return;
-      const osc = ctx.createOscillator();
-      osc.type = "sine";
-      osc.frequency.value = 380 + Math.random() * 220;
-      const g = ctx.createGain();
-      const t = ctx.currentTime;
-      g.gain.setValueAtTime(0, t);
-      g.gain.linearRampToValueAtTime(0.018, t + 0.4);
-      g.gain.exponentialRampToValueAtTime(0.0001, t + 1.6);
-      const f = ctx.createBiquadFilter();
-      f.type = "lowpass";
-      f.frequency.value = 900;
-      osc.connect(f).connect(g).connect(master);
-      osc.start(t);
-      osc.stop(t + 1.7);
-      setTimeout(burst, 800 + Math.random() * 1400);
-    };
-    burst();
-    stops.push(() => { cancelled = true; });
+    this.filter = c.createBiquadFilter();
+    this.filter.type = "lowpass"; this.filter.Q.value = 2.0; this.filter.frequency.value = 300;
+
+    this.noiseFilter = c.createBiquadFilter();
+    this.noiseFilter.type = "bandpass"; this.noiseFilter.Q.value = 1.2; this.noiseFilter.frequency.value = 340;
+
+    this.lfo = c.createOscillator(); this.lfo.type = "sine"; this.lfo.frequency.value = 0.07;
+    this.lfoGain = c.createGain(); this.lfoGain.gain.value = 100;
+
+    this.reverb = this.createReverb(5.0);
+    this.reverbGain = c.createGain(); this.reverbGain.gain.value = 0.55;
+
+    this.master = c.createGain(); this.master.gain.value = 0;
+
+    this.lfo.connect(this.lfoGain); this.lfoGain.connect(this.filter.frequency);
+
+    const oscMix = c.createGain(); oscMix.gain.value = 0.35;
+    this.osc1.connect(oscMix); this.osc2.connect(oscMix); this.osc3.connect(oscMix);
+    oscMix.connect(this.filter);
+
+    this.noise.connect(this.noiseFilter);
+    const noiseMix = c.createGain(); noiseMix.gain.value = 0.10;
+    this.noiseFilter.connect(noiseMix);
+
+    this.filter.connect(this.reverb); this.filter.connect(this.master);
+    noiseMix.connect(this.reverb); noiseMix.connect(this.master);
+    this.reverb.connect(this.reverbGain); this.reverbGain.connect(this.master);
+
+    this.master.connect(c.destination);
+
+    this.osc1.start(); this.osc2.start(); this.osc3.start(); this.lfo.start();
   }
 
-  return {
-    stop() {
-      try {
-        const t = ctx.currentTime;
-        master.gain.cancelScheduledValues(t);
-        master.gain.linearRampToValueAtTime(0, t + 1.0);
-        setTimeout(() => stops.forEach((fn) => fn()), 1100);
-      } catch (e) { void e; }
-    },
-  };
+  private createNoise(): AudioBufferSourceNode {
+    const c = this.ctx;
+    const buf = c.createBuffer(1, c.sampleRate * 4, c.sampleRate);
+    const d = buf.getChannelData(0);
+    for (let i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * 0.25;
+    const s = c.createBufferSource(); s.buffer = buf; s.loop = true; s.start();
+    return s;
+  }
+
+  private createReverb(duration: number): ConvolverNode {
+    const c = this.ctx;
+    const len = Math.floor(c.sampleRate * duration);
+    const buf = c.createBuffer(2, len, c.sampleRate);
+    for (let ch = 0; ch < 2; ch++) {
+      const d = buf.getChannelData(ch);
+      for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 2.2);
+    }
+    const conv = c.createConvolver(); conv.buffer = buf; return conv;
+  }
+
+  fadeIn(dur = 2.5) {
+    const now = this.ctx.currentTime;
+    this.master.gain.cancelScheduledValues(now);
+    this.master.gain.setValueAtTime(this.master.gain.value, now);
+    this.master.gain.linearRampToValueAtTime(0.24, now + dur);
+  }
+
+  fadeOut(dur = 1.8) {
+    const now = this.ctx.currentTime;
+    this.master.gain.cancelScheduledValues(now);
+    this.master.gain.setValueAtTime(this.master.gain.value, now);
+    this.master.gain.linearRampToValueAtTime(0, now + dur);
+  }
+
+  setSequence(cfg: SoundConfig) {
+    const now = this.ctx.currentTime;
+    this.baseFilterFreq = cfg.filterBase;
+    this.osc1.frequency.linearRampToValueAtTime(cfg.freq, now + 2);
+    this.osc2.frequency.linearRampToValueAtTime(cfg.freq * 1.5, now + 2);
+    this.osc3.frequency.linearRampToValueAtTime(cfg.freq * 0.5, now + 2);
+    this.filter.frequency.linearRampToValueAtTime(cfg.filterBase, now + 2);
+    this.noiseFilter.frequency.linearRampToValueAtTime(cfg.noiseBase, now + 2);
+    this.lfoGain.gain.linearRampToValueAtTime(cfg.lfoAmp, now + 2);
+  }
+
+  onTouch(x: number, y: number, pressure: number) {
+    const now = this.ctx.currentTime;
+    const ramp = 0.12;
+    const targetFreq = this.baseFilterFreq * (1 + (0.5 - y) * 1.6);
+    this.filter.frequency.linearRampToValueAtTime(Math.max(60, Math.min(2000, targetFreq)), now + ramp);
+    this.filter.Q.linearRampToValueAtTime(1.5 + Math.abs(x - 0.5) * 3.5, now + ramp);
+    this.noiseFilter.frequency.linearRampToValueAtTime(180 + pressure * 700, now + ramp);
+    this.lfo.frequency.linearRampToValueAtTime(0.04 + (1 - pressure) * 0.05, now + 0.4);
+  }
+
+  onTouchEnd() {
+    const now = this.ctx.currentTime;
+    this.filter.frequency.linearRampToValueAtTime(this.baseFilterFreq, now + 1.8);
+    this.filter.Q.linearRampToValueAtTime(2.0, now + 1.5);
+    this.lfo.frequency.linearRampToValueAtTime(0.07, now + 2.5);
+  }
+
+  dispose() {
+    try { this.osc1.stop(); } catch (e) { void e; }
+    try { this.osc2.stop(); } catch (e) { void e; }
+    try { this.osc3.stop(); } catch (e) { void e; }
+    try { this.lfo.stop(); } catch (e) { void e; }
+    try { this.noise.stop(); } catch (e) { void e; }
+  }
 }
 
-function playTactileNote(ctx: AudioContext, freq: number) {
-  const osc = ctx.createOscillator();
-  osc.type = "sine";
-  osc.frequency.value = freq;
-  const g = ctx.createGain();
-  const t = ctx.currentTime;
-  g.gain.setValueAtTime(0.05, t);
-  g.gain.exponentialRampToValueAtTime(0.001, t + 0.25);
-  osc.connect(g).connect(ctx.destination);
-  osc.start(t);
-  osc.stop(t + 0.3);
+/* ─── Forme canvas : nuage radial dérivant lentement ─── */
+class Shape {
+  x: number; y: number;
+  rBase: number; blur: number;
+  c1: string; c2: string;
+  opMin: number; opMax: number; pDur: number;
+  dxAmp: number; dyAmp: number; dxDur: number; dyDur: number;
+  ph: number;
+  cx = 0; cy = 0; r = 0; op = 0;
+
+  constructor(spec: ShapeSpec, W: number, H: number, ph: number) {
+    this.x = spec.xR * W; this.y = spec.yR * H;
+    this.rBase = spec.rBase; this.blur = spec.blur;
+    this.c1 = spec.c1; this.c2 = spec.c2;
+    this.opMin = spec.opMin; this.opMax = spec.opMax; this.pDur = spec.pDur;
+    this.dxAmp = spec.dxAmp; this.dyAmp = spec.dyAmp;
+    this.dxDur = spec.dxDur; this.dyDur = spec.dyDur;
+    this.ph = ph;
+  }
+
+  update(t: number, touch: { active: boolean; x: number; y: number }, W: number) {
+    this.cx = this.x + Math.sin(t / this.dxDur + this.ph) * this.dxAmp;
+    this.cy = this.y + Math.cos(t / this.dyDur + this.ph * 1.4) * this.dyAmp;
+    this.op = this.opMin + (this.opMax - this.opMin) * (0.5 + 0.5 * Math.sin(t / this.pDur + this.ph));
+    this.r = this.rBase * (0.94 + 0.06 * Math.sin(t / (this.pDur * 0.8) + this.ph));
+    if (touch.active) {
+      const dx = touch.x - this.cx, dy = touch.y - this.cy;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      const infl = Math.max(0, 1 - dist / (W * 0.65));
+      this.cx += dx * infl * 0.06;
+      this.cy += dy * infl * 0.05;
+      this.op = Math.min(this.opMax * 1.3, this.op + infl * 0.15);
+      this.r *= 1 + infl * 0.18;
+    }
+  }
+
+  draw(ctx: CanvasRenderingContext2D) {
+    ctx.save();
+    ctx.filter = `blur(${this.blur}px)`;
+    const g = ctx.createRadialGradient(this.cx, this.cy, 0, this.cx, this.cy, this.r);
+    g.addColorStop(0, this.c1 + `${this.op})`);
+    g.addColorStop(0.5, this.c2 + `${this.op * 0.55})`);
+    g.addColorStop(1, "rgba(255,255,255,0)");
+    ctx.fillStyle = g;
+    ctx.beginPath();
+    ctx.arc(this.cx, this.cy, this.r, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  }
 }
 
-/* ─── SouffleScene — la pièce centrale ─────────────────────────── */
+/* ─── SouffleScene — canvas plein écran + interaction tactile ─── */
 function SouffleScene({
-  tex,
-  ctxRef,
-  onTouchPlay,
-  gyroOn,
-  micOn,
+  seq,
+  audioRef,
+  onFirstInteract,
 }: {
-  tex: Texture;
-  ctxRef: React.MutableRefObject<AudioContext | null>;
-  onTouchPlay: () => void;
-  gyroOn: boolean;
-  micOn: boolean;
+  seq: Sequence;
+  audioRef: React.MutableRefObject<AudioEngine | null>;
+  onFirstInteract: () => void;
 }) {
-  const sceneRef = useRef<HTMLDivElement>(null);
-  const [offset, setOffset] = useState({ x: 0, y: 0 });
-  const [gyro, setGyro] = useState({ x: 0, y: 0 });
-  const [scale, setScale] = useState(1);
-  const dragging = useRef(false);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const shapesRef = useRef<Shape[]>([]);
+  const touchRef = useRef({ active: false, x: 0, y: 0 });
+  const sizeRef = useRef({ w: 0, h: 0 });
+  const rafRef = useRef(0);
 
-  // Gyroscope (passive, no permission requested here — opt-in via button below)
+  // Resize + DPR
   useEffect(() => {
-    if (typeof window === "undefined") return;
-    const handler = (e: DeviceOrientationEvent) => {
-      setGyro({
-        x: Math.max(-18, Math.min(18, (e.gamma ?? 0) * 0.3)),
-        y: Math.max(-14, Math.min(14, (e.beta ?? 0) * 0.18)),
-      });
+    const cv = canvasRef.current, el = containerRef.current;
+    if (!cv || !el) return;
+    const resize = () => {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const w = el.clientWidth, h = el.clientHeight;
+      sizeRef.current = { w, h };
+      cv.width = w * dpr; cv.height = h * dpr;
+      cv.style.width = w + "px"; cv.style.height = h + "px";
+      const ctx = cv.getContext("2d");
+      ctx?.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
-    window.addEventListener("deviceorientation", handler);
-    return () => window.removeEventListener("deviceorientation", handler);
+    resize();
+    window.addEventListener("resize", resize);
+    return () => window.removeEventListener("resize", resize);
   }, []);
 
-  const onPointerDown = (e: React.PointerEvent) => {
-    dragging.current = true;
-    onTouchPlay();
-    const rect = sceneRef.current?.getBoundingClientRect();
-    if (rect && ctxRef.current) {
-      const yRatio = (e.clientY - rect.top) / Math.max(rect.height, 1);
-      const freq = 260 + Math.max(0, Math.min(1, yRatio)) * 360;
-      playTactileNote(ctxRef.current, freq);
+  // Rebuild shapes when sequence or size changes
+  useEffect(() => {
+    const el = containerRef.current; if (!el) return;
+    const W = el.clientWidth, H = el.clientHeight;
+    let specs = seq.shapes;
+    let blurMul = 1;
+    if (typeof navigator !== "undefined" && (navigator.hardwareConcurrency ?? 8) <= 4 && specs.length > 3) {
+      const largest = specs.reduce((m, s) => (s.rBase > m.rBase ? s : m), specs[0]);
+      specs = specs.filter((s) => s !== largest);
+      blurMul = 0.75;
     }
-    handleMove(e.clientX, e.clientY);
-  };
-  const onPointerMove = (e: React.PointerEvent) => {
-    if (!dragging.current) return;
-    handleMove(e.clientX, e.clientY);
-  };
-  const release = () => {
-    dragging.current = false;
-    setOffset({ x: 0, y: 0 });
-  };
-  const handleMove = (cx: number, cy: number) => {
-    const rect = sceneRef.current?.getBoundingClientRect();
-    if (!rect) return;
-    const x = (cx - rect.left - rect.width / 2) * 0.18;
-    const y = (cy - rect.top - rect.height / 2) * 0.18;
-    setOffset({
-      x: Math.max(-46, Math.min(46, x)),
-      y: Math.max(-46, Math.min(46, y)),
-    });
+    shapesRef.current = specs.map((s, i) => new Shape({ ...s, blur: s.blur * blurMul }, W, H, i * 1.37));
+  }, [seq]);
+
+  // Animation loop + visibility handling
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduced) return;
+
+    const cv = canvasRef.current; if (!cv) return;
+    const ctx = cv.getContext("2d"); if (!ctx) return;
+    let running = true;
+    const start = performance.now();
+    const tick = (now: number) => {
+      if (!running) return;
+      const { w, h } = sizeRef.current;
+      ctx.clearRect(0, 0, w, h);
+      const t = now - start;
+      for (const s of shapesRef.current) {
+        s.update(t, touchRef.current, w);
+        s.draw(ctx);
+      }
+      rafRef.current = requestAnimationFrame(tick);
+    };
+    rafRef.current = requestAnimationFrame(tick);
+
+    const onVis = () => {
+      if (document.hidden) {
+        running = false;
+        cancelAnimationFrame(rafRef.current);
+        audioRef.current?.fadeOut(0.4);
+      } else {
+        running = true;
+        rafRef.current = requestAnimationFrame(tick);
+        audioRef.current?.fadeIn(1.0);
+      }
+    };
+    document.addEventListener("visibilitychange", onVis);
+    return () => {
+      running = false;
+      cancelAnimationFrame(rafRef.current);
+      document.removeEventListener("visibilitychange", onVis);
+    };
+  }, [seq.id, audioRef]);
+
+  const updateTouch = (clientX: number, clientY: number) => {
+    const rect = containerRef.current?.getBoundingClientRect(); if (!rect) return;
+    const cx = clientX - rect.left, cy = clientY - rect.top;
+    touchRef.current.x = cx; touchRef.current.y = cy;
+    const x = cx / rect.width, y = cy / rect.height;
+    const pressure = Math.max(0, 1 - Math.sqrt((x - 0.5) ** 2 + (y - 0.5) ** 2) * 1.4);
+    audioRef.current?.onTouch(x, y, pressure);
   };
 
-  // Mic souffle → temporary scale bump (driven by parent toggle)
-  useEffect(() => {
-    if (!micOn) return;
-    let stream: MediaStream | null = null;
-    let raf = 0;
-    let cancelled = false;
-    (async () => {
-      try {
-        stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        if (cancelled) { stream?.getTracks().forEach((t) => t.stop()); return; }
-        const ctx = ctxRef.current ?? new AudioContext();
-        ctxRef.current = ctx;
-        const analyser = ctx.createAnalyser();
-        analyser.fftSize = 256;
-        ctx.createMediaStreamSource(stream).connect(analyser);
-        const data = new Uint8Array(analyser.frequencyBinCount);
-        const detect = () => {
-          analyser.getByteFrequencyData(data);
-          let sum = 0;
-          for (let i = 0; i < data.length; i++) sum += data[i];
-          if (sum / data.length > 22) {
-            setScale(1.18);
-            setTimeout(() => setScale(1), 700);
-          }
-          raf = requestAnimationFrame(detect);
-        };
-        detect();
-      } catch { /* permission denied */ }
-    })();
-    return () => {
-      cancelled = true;
-      cancelAnimationFrame(raf);
-      stream?.getTracks().forEach((t) => t.stop());
-    };
-  }, [micOn, ctxRef]);
+  const onPointerDown = (e: React.PointerEvent) => {
+    onFirstInteract();
+    touchRef.current.active = true;
+    updateTouch(e.clientX, e.clientY);
+  };
+  const onPointerMove = (e: React.PointerEvent) => {
+    if (!touchRef.current.active) return;
+    updateTouch(e.clientX, e.clientY);
+  };
+  const onPointerUp = () => {
+    touchRef.current.active = false;
+    audioRef.current?.onTouchEnd();
+  };
 
   return (
     <div
-      ref={sceneRef}
+      ref={containerRef}
       className="absolute inset-0 touch-none"
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
-      onPointerUp={release}
-      onPointerCancel={release}
-      onPointerLeave={release}
+      onPointerUp={onPointerUp}
+      onPointerCancel={onPointerUp}
+      onPointerLeave={onPointerUp}
     >
-      <div
-        className="absolute"
-        style={{
-          left: "50%",
-          top: "50%",
-          width: "min(82vw, 420px)",
-          height: "min(82vw, 420px)",
-          transform: `translate(-50%, -50%) translate(${offset.x + (gyroOn ? gyro.x : 0)}px, ${offset.y + (gyroOn ? gyro.y : 0)}px) scale(${scale})`,
-          transition: dragging.current
-            ? "transform 80ms linear"
-            : "transform 900ms cubic-bezier(0.22, 0.61, 0.36, 1)",
-        }}
-      >
-        <MorphingBlob from={tex.blob.from} to={tex.blob.to} opacity={tex.blob.opacity} />
-      </div>
+      <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
     </div>
   );
 }
@@ -511,101 +506,132 @@ function SouffleScene({
 /* ─── SoufflesView ─────────────────────────────────────────────── */
 function SoufflesView() {
   const [index, setIndex] = useState(0);
-  const [playing, setPlaying] = useState(false);
   const [favorites, setFavorites] = useState<string[]>([]);
   const [bloom, setBloom] = useState(false);
-  const [gyroOn, setGyroOn] = useState(false);
-  const [micOn, setMicOn] = useState(false);
+  const [playing, setPlaying] = useState(true);
+  const [fadedOut, setFadedOut] = useState(false);
+  const audioRef = useRef<AudioEngine | null>(null);
+  const touchStartX = useRef<number | null>(null);
+  const seq = BASE[index];
 
-  // Hydrate favorites after mount to avoid SSR mismatch
   useEffect(() => { setFavorites(loadFavorites()); }, []);
 
-  const tex = BASE[index];
-  const next = () => setIndex((i) => (i + 1) % BASE.length);
-  const prev = () => setIndex((i) => (i - 1 + BASE.length) % BASE.length);
-
-  const ctxRef = useRef<AudioContext | null>(null);
-  const audioRef = useRef<AmbientHandle | null>(null);
-
-  useEffect(() => () => {
-    audioRef.current?.stop();
-    try { ctxRef.current?.close(); } catch (e) { void e; }
-  }, []);
-
+  // Initialise engine on mount
   useEffect(() => {
-    if (!playing || !ctxRef.current) return;
-    audioRef.current?.stop();
-    audioRef.current = startSeqAudio(ctxRef.current, tex.audio);
-    return () => { audioRef.current?.stop(); audioRef.current = null; };
-  }, [tex.audio, tex.id, playing]);
-
-  const ensureCtx = useCallback(() => {
-    if (ctxRef.current) return ctxRef.current;
-    const Ctx = (typeof window !== "undefined" ? window.AudioContext : undefined) ||
-      ((typeof window !== "undefined" ? (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext : undefined));
-    if (!Ctx) return null;
-    ctxRef.current = new Ctx();
-    return ctxRef.current;
+    if (typeof window === "undefined") return;
+    const Ctx = window.AudioContext ||
+      (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+    if (!Ctx) return;
+    const ctx = new Ctx();
+    const eng = new AudioEngine(ctx);
+    audioRef.current = eng;
+    eng.setSequence(BASE[0].sound);
+    if (ctx.state !== "suspended") eng.fadeIn(2.5);
+    return () => {
+      eng.fadeOut(0.8);
+      setTimeout(() => { eng.dispose(); try { ctx.close(); } catch (e) { void e; } }, 900);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // Resume context on first interaction (iOS)
+  const resumeAudio = useCallback(() => {
+    const eng = audioRef.current; if (!eng) return;
+    if (eng.ctx.state === "suspended") {
+      void eng.ctx.resume().then(() => { if (playing) eng.fadeIn(2.0); });
+    }
+  }, [playing]);
+
+  const changeIndex = (newIdx: number) => {
+    if (newIdx === index) return;
+    const eng = audioRef.current;
+    if (!eng) { setIndex(newIdx); return; }
+    eng.fadeOut(0.7);
+    setFadedOut(true);
+    setTimeout(() => {
+      setIndex(newIdx);
+      setFadedOut(false);
+      eng.setSequence(BASE[newIdx].sound);
+      if (playing && eng.ctx.state !== "suspended") eng.fadeIn(2.0);
+    }, 500);
+  };
+  const next = () => changeIndex((index + 1) % BASE.length);
+  const prev = () => changeIndex((index - 1 + BASE.length) % BASE.length);
 
   const togglePlay = () => {
-    if (playing) {
-      audioRef.current?.stop();
-      audioRef.current = null;
-      setPlaying(false);
-      return;
+    const eng = audioRef.current; if (!eng) return;
+    if (playing) { eng.fadeOut(1.0); setPlaying(false); }
+    else {
+      if (eng.ctx.state === "suspended") void eng.ctx.resume();
+      eng.fadeIn(1.5); setPlaying(true);
     }
-    const ctx = ensureCtx();
-    if (!ctx) return;
-    if (ctx.state === "suspended") void ctx.resume();
-    audioRef.current = startSeqAudio(ctx, tex.audio);
-    setPlaying(true);
   };
 
-  // Called by SouffleScene on first touch — resumes ctx and auto-starts ambient if needed
-  const onTouchPlay = useCallback(() => {
-    const ctx = ensureCtx();
-    if (!ctx) return;
-    if (ctx.state === "suspended") void ctx.resume();
-  }, [ensureCtx]);
-
-  const isFav = favorites.includes(tex.id);
+  const isFav = favorites.includes(seq.id);
   const onKeep = () => {
     if (isFav) return;
-    const nextFavs = [...favorites, tex.id];
-    setFavorites(nextFavs);
-    saveFavorites(nextFavs);
+    const nx = [...favorites, seq.id];
+    setFavorites(nx); saveFavorites(nx);
     setBloom(true);
     setTimeout(() => setBloom(false), 1800);
   };
 
-  const toggleGyro = async () => {
-    type DOEPerm = typeof DeviceOrientationEvent & {
-      requestPermission?: () => Promise<"granted" | "denied">;
-    };
-    const DOE = (typeof window !== "undefined" ? window.DeviceOrientationEvent : undefined) as DOEPerm | undefined;
-    if (!gyroOn && DOE && typeof DOE.requestPermission === "function") {
-      try {
-        const perm = await DOE.requestPermission();
-        if (perm !== "granted") return;
-      } catch { return; }
-    }
-    setGyroOn((v) => !v);
+  const onTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+    resumeAudio();
+  };
+  const onTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current == null) return;
+    const dx = e.changedTouches[0].clientX - touchStartX.current;
+    touchStartX.current = null;
+    if (Math.abs(dx) > 60) { if (dx < 0) next(); else prev(); }
   };
 
   return (
-    <div className="relative flex-1 flex flex-col overflow-hidden">
+    <div
+      className="relative flex-1 flex flex-col overflow-hidden"
+      onTouchStart={onTouchStart}
+      onTouchEnd={onTouchEnd}
+    >
       <div
-        className="fixed inset-0 -z-10 transition-[background] duration-[2000ms] ease-out"
-        style={{ background: tex.bg }}
+        className="fixed inset-0 -z-10 transition-[background] duration-[1800ms] ease-out"
+        style={{ background: seq.bg }}
       />
-      <SouffleScene
-        tex={tex}
-        ctxRef={ctxRef}
-        onTouchPlay={onTouchPlay}
-        gyroOn={gyroOn}
-        micOn={micOn}
-      />
+      <div
+        className={`absolute inset-0 transition-opacity duration-500 ${fadedOut ? "opacity-0" : "opacity-100"}`}
+      >
+        <SouffleScene seq={seq} audioRef={audioRef} onFirstInteract={resumeAudio} />
+      </div>
+
+      {/* Pause — coin haut-droit, glassmorphism léger */}
+      <button
+        onClick={togglePlay}
+        aria-label={playing ? "Pause" : "Reprendre"}
+        className="absolute top-5 right-5 z-30 size-9 rounded-full flex items-center justify-center text-dusk/75"
+        style={{
+          background: "rgba(255,255,255,0.28)",
+          backdropFilter: "blur(8px)",
+          WebkitBackdropFilter: "blur(8px)",
+        }}
+      >
+        {playing ? (
+          <span className="flex gap-[3px]">
+            <span className="block w-[3px] h-[12px] bg-current rounded-sm" />
+            <span className="block w-[3px] h-[12px] bg-current rounded-sm" />
+          </span>
+        ) : (
+          <span
+            className="block"
+            style={{
+              width: 0, height: 0,
+              borderTop: "6px solid transparent",
+              borderBottom: "6px solid transparent",
+              borderLeft: "9px solid currentColor",
+              marginLeft: 2,
+            }}
+          />
+        )}
+      </button>
 
       {/* Titre — discret, en haut, centré */}
       <div className="relative z-10 pt-16 text-center pointer-events-none">
@@ -613,7 +639,7 @@ function SoufflesView() {
           className="font-serif italic text-[22px] leading-none text-dusk/85"
           style={{ textShadow: "0 1px 18px rgba(255,255,255,0.55)" }}
         >
-          {tex.title}
+          {seq.title}
         </h2>
       </div>
 
@@ -625,70 +651,36 @@ function SoufflesView() {
         </div>
       )}
 
-      {/* Contrôles — bas de page, discrets */}
+      {/* Bas — navigation + favori, très discrets */}
       <div className="relative z-10 px-6 pb-6 flex flex-col gap-3">
-        {/* Capteurs : pastilles discrètes, alignées */}
-        <div className="flex items-center justify-center gap-2">
-          <button
-            onClick={() => void toggleGyro()}
-            className={`text-[10px] uppercase tracking-[0.18em] px-3 py-1.5 rounded-full backdrop-blur-md ${gyroOn ? "text-dusk" : "text-dusk/55"}`}
-            style={{ background: "color-mix(in oklab, white 38%, transparent)" }}
-            aria-pressed={gyroOn}
-          >
-            Mouvement
-          </button>
-          <button
-            onClick={() => setMicOn((v) => !v)}
-            className={`text-[10px] uppercase tracking-[0.18em] px-3 py-1.5 rounded-full backdrop-blur-md ${micOn ? "text-dusk" : "text-dusk/55"}`}
-            style={{ background: "color-mix(in oklab, white 38%, transparent)" }}
-            aria-pressed={micOn}
-          >
-            Souffler
-          </button>
-          <button
-            onClick={onKeep}
-            disabled={isFav}
-            className={`text-[10px] uppercase tracking-[0.18em] px-3 py-1.5 rounded-full backdrop-blur-md ${isFav ? "text-dusk/80" : "text-dusk/55"}`}
-            style={{ background: "color-mix(in oklab, white 38%, transparent)" }}
-            aria-label={isFav ? "Séquence gardée" : "Garder cette séquence"}
-          >
-            {isFav ? "♥" : "♡"}
-          </button>
-        </div>
-
-        {/* Navigation + play */}
         <div className="flex items-center gap-3">
           <button
             onClick={prev}
-            className="size-11 rounded-full flex items-center justify-center text-lg backdrop-blur-md text-dusk/75"
-            style={{ background: "color-mix(in oklab, var(--paper) 32%, transparent)" }}
+            className="size-11 rounded-full flex items-center justify-center text-lg backdrop-blur-md text-dusk/70"
+            style={{ background: "color-mix(in oklab, white 30%, transparent)" }}
             aria-label="Séquence précédente"
           >←</button>
           <button
-            onClick={togglePlay}
-            className="flex-1 px-5 py-3.5 text-center backdrop-blur-md rounded-full"
-            style={{
-              background: "color-mix(in oklab, var(--paper) 38%, transparent)",
-              boxShadow: "inset 0 1px 0 rgba(255,255,255,0.5)",
-            }}
+            onClick={onKeep}
+            disabled={isFav}
+            className="flex-1 py-3 rounded-full text-[11px] uppercase tracking-[0.22em] backdrop-blur-md text-dusk/70"
+            style={{ background: "color-mix(in oklab, white 30%, transparent)" }}
+            aria-label={isFav ? "Séquence gardée" : "Garder cette séquence"}
           >
-            <p className="font-serif italic text-[15px] text-dusk">
-              {playing ? "Pause" : "Écouter"}
-            </p>
+            {isFav ? "♥  gardée" : "♡  garder"}
           </button>
           <button
             onClick={next}
-            className="size-11 rounded-full flex items-center justify-center text-lg backdrop-blur-md text-dusk/75"
-            style={{ background: "color-mix(in oklab, var(--paper) 32%, transparent)" }}
+            className="size-11 rounded-full flex items-center justify-center text-lg backdrop-blur-md text-dusk/70"
+            style={{ background: "color-mix(in oklab, white 30%, transparent)" }}
             aria-label="Séquence suivante"
           >→</button>
         </div>
 
-        {/* Indicateurs de séquence */}
         <div className="flex justify-center gap-1.5">
-          {BASE.map((tx, i) => (
+          {BASE.map((s, i) => (
             <span
-              key={tx.id}
+              key={s.id}
               className={`h-[5px] rounded-full transition-all ${
                 i === index ? "w-5 bg-dusk/70" : "w-[5px] bg-dusk/25"
               }`}
@@ -1076,272 +1068,3 @@ function RegarderView() {
   );
 }
 
-type AmbientAudio = { start: () => void; stop: () => void };
-
-function createAmbientAudio(ctx: AudioContext, motion: Motion): AmbientAudio | null {
-  if (typeof window === "undefined") return null;
-  const master = ctx.createGain();
-  master.gain.value = 0;
-  master.connect(ctx.destination);
-  const bufferSize = 3 * ctx.sampleRate;
-  const brown = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-  const white = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-  {
-    const b = brown.getChannelData(0);
-    const w = white.getChannelData(0);
-    let last = 0;
-    for (let i = 0; i < bufferSize; i++) {
-      const r = Math.random() * 2 - 1;
-      last = (last + 0.02 * r) / 1.02;
-      b[i] = last * 3.5;
-      w[i] = r;
-    }
-  }
-  const stops: Array<() => void> = [];
-  const targetGain = 0.14;
-  const playNoise = (buf: AudioBuffer, type: BiquadFilterType, freq: number, q: number, gain: number) => {
-    const src = ctx.createBufferSource();
-    src.buffer = buf; src.loop = true;
-    const f = ctx.createBiquadFilter();
-    f.type = type; f.frequency.value = freq; f.Q.value = q;
-    const g = ctx.createGain(); g.gain.value = gain;
-    src.connect(f); f.connect(g); g.connect(master);
-    src.start();
-    stops.push(() => { try { src.stop(); } catch {} });
-    return { f, g };
-  };
-  if (motion === "pulse") {
-    playNoise(brown, "lowpass", 240, 0.3, 0.45);
-    const sub = ctx.createOscillator(); sub.type = "sine"; sub.frequency.value = 58;
-    const subG = ctx.createGain(); subG.gain.value = 0.025;
-    sub.connect(subG); subG.connect(master); sub.start();
-    stops.push(() => { try { sub.stop(); } catch {} });
-    const lfo = ctx.createOscillator(); const lfoG = ctx.createGain();
-    lfo.frequency.value = 0.08; lfoG.gain.value = 0.03;
-    lfo.connect(lfoG); lfoG.connect(master.gain); lfo.start();
-    stops.push(() => { try { lfo.stop(); } catch {} });
-    let cancelledP = false;
-    const crackle = () => {
-      if (cancelledP) return;
-      const o = ctx.createOscillator(); o.type = "triangle";
-      o.frequency.value = 1100 + Math.random() * 900;
-      const f = ctx.createBiquadFilter(); f.type = "bandpass"; f.frequency.value = 1600; f.Q.value = 1.2;
-      const g = ctx.createGain();
-      const t = ctx.currentTime;
-      g.gain.setValueAtTime(0, t);
-      g.gain.linearRampToValueAtTime(0.014, t + 0.005);
-      g.gain.exponentialRampToValueAtTime(0.0001, t + 0.09);
-      o.connect(f); f.connect(g); g.connect(master);
-      o.start(t); o.stop(t + 0.12);
-      setTimeout(crackle, 1200 + Math.random() * 4200);
-    };
-    crackle();
-    stops.push(() => { cancelledP = true; });
-  } else if (motion === "ripple") {
-    const { f, g } = playNoise(brown, "bandpass", 420, 0.4, 0.55);
-    const lfo = ctx.createOscillator(); const lfoG = ctx.createGain();
-    lfo.frequency.value = 0.09; lfoG.gain.value = 220;
-    lfo.connect(lfoG); lfoG.connect(f.frequency); lfo.start();
-    stops.push(() => { try { lfo.stop(); } catch {} });
-    const vol = ctx.createOscillator(); const volG = ctx.createGain();
-    vol.frequency.value = 0.07; volG.gain.value = 0.18;
-    vol.connect(volG); volG.connect(g.gain); vol.start();
-    stops.push(() => { try { vol.stop(); } catch {} });
-  } else if (motion === "drift") {
-    const { f } = playNoise(brown, "bandpass", 720, 0.6, 0.4);
-    const lfo = ctx.createOscillator(); const lfoG = ctx.createGain();
-    lfo.frequency.value = 0.1; lfoG.gain.value = 320;
-    lfo.connect(lfoG); lfoG.connect(f.frequency); lfo.start();
-    stops.push(() => { try { lfo.stop(); } catch {} });
-    playNoise(white, "bandpass", 2400, 0.6, 0.05);
-  } else if (motion === "rain") {
-    playNoise(white, "bandpass", 1600, 0.4, 0.2);
-    playNoise(brown, "lowpass", 520, 0.3, 0.26);
-    let cancelled = false;
-    const drop = () => {
-      if (cancelled) return;
-      const o = ctx.createOscillator(); o.type = "sine";
-      o.frequency.value = 420 + Math.random() * 380;
-      const g = ctx.createGain();
-      const t = ctx.currentTime;
-      g.gain.setValueAtTime(0, t);
-      g.gain.linearRampToValueAtTime(0.022, t + 0.03);
-      g.gain.exponentialRampToValueAtTime(0.0001, t + 0.45);
-      o.connect(g); g.connect(master);
-      o.start(t); o.stop(t + 0.5);
-      setTimeout(drop, 220 + Math.random() * 520);
-    };
-    drop();
-    stops.push(() => { cancelled = true; });
-  } else {
-    playNoise(brown, "lowpass", 200, 0.25, 0.28);
-    const { f } = playNoise(white, "bandpass", 3200, 0.7, 0.025);
-    const lfo = ctx.createOscillator(); const lfoG = ctx.createGain();
-    lfo.frequency.value = 0.05; lfoG.gain.value = 600;
-    lfo.connect(lfoG); lfoG.connect(f.frequency); lfo.start();
-    stops.push(() => { try { lfo.stop(); } catch {} });
-  }
-  let started = false;
-  return {
-    start() {
-      if (started) return; started = true;
-      try { ctx.resume(); } catch {}
-      const now = ctx.currentTime;
-      master.gain.cancelScheduledValues(now);
-      master.gain.setValueAtTime(0, now);
-      master.gain.linearRampToValueAtTime(targetGain, now + 2.4);
-    },
-    stop() {
-      try {
-        const now = ctx.currentTime;
-        master.gain.cancelScheduledValues(now);
-        master.gain.linearRampToValueAtTime(0, now + 1.2);
-        setTimeout(() => { stops.forEach((fn) => fn()); }, 1300);
-      } catch {}
-    },
-  };
-}
-
-function MotionLayer({ kind }: { kind: Motion }) {
-  const keyframes = (
-    <style>{`
-      @keyframes nw-breathe {
-        0%, 100% { transform: scale(1); opacity: 0.3; }
-        50%      { transform: scale(1.08); opacity: 0.55; }
-      }
-      @keyframes nw-rise {
-        0%   { transform: translate3d(0, 18vmin, 0) scale(0.8); opacity: 0; }
-        15%  { opacity: 0.5; } 85% { opacity: 0.5; }
-        100% { transform: translate3d(2vmin, -22vmin, 0) scale(1.1); opacity: 0; }
-      }
-      @keyframes nw-ring {
-        0%   { transform: translate(-50%, -50%) scale(0.2); opacity: 0; }
-        20%  { opacity: 0.45; }
-        100% { transform: translate(-50%, -50%) scale(2.4); opacity: 0; }
-      }
-      @keyframes nw-fall {
-        0%   { transform: translate3d(var(--dx,0), -12vh, 0); opacity: 0; }
-        12%  { opacity: 0.55; } 88% { opacity: 0.55; }
-        100% { transform: translate3d(calc(var(--dx,0) + 1vw), 110vh, 0); opacity: 0; }
-      }
-      @keyframes nw-snow {
-        0%   { transform: translate3d(0, -10vh, 0); opacity: 0; }
-        15%  { opacity: 0.55; } 85% { opacity: 0.55; }
-        100% { transform: translate3d(8vmin, 110vh, 0); opacity: 0; }
-      }
-      @keyframes nw-leaf {
-        0%   { transform: translate3d(0, -10vh, 0) rotate(0deg); opacity: 0; }
-        10%  { opacity: 0.65; } 90% { opacity: 0.55; }
-        100% { transform: translate3d(12vmin, 110vh, 0) rotate(540deg); opacity: 0; }
-      }
-      @keyframes nw-float {
-        0% { transform: translate3d(0,0,0); }
-        50% { transform: translate3d(6vmin, -4vmin, 0); }
-        100% { transform: translate3d(0,0,0); }
-      }
-    `}</style>
-  );
-
-  if (kind === "pulse") {
-    return (
-      <>
-        {keyframes}
-        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
-             style={{ width: "70vmin", height: "70vmin",
-               background: "radial-gradient(circle, rgba(220,140,90,0.55), transparent 70%)",
-               animation: "nw-breathe 8s ease-in-out infinite", filter: "blur(8px)" }} />
-        {Array.from({ length: 10 }).map((_, i) => {
-          const left = 18 + (i * 71) % 64;
-          const delay = (i * 1.7) % 14;
-          const size = 4 + (i % 4) * 2;
-          return (
-            <span key={i} className="absolute rounded-full"
-                  style={{ left: `${left}%`, bottom: `${10 + (i % 5) * 6}%`,
-                    width: `${size}px`, height: `${size}px`,
-                    background: "radial-gradient(circle, rgba(255,205,170,0.85), transparent 70%)",
-                    animation: `nw-rise ${14 + (i % 5) * 3}s ease-in ${delay}s infinite`,
-                    filter: "blur(0.5px)" }} />
-          );
-        })}
-      </>
-    );
-  }
-  if (kind === "ripple") {
-    return (
-      <>
-        {keyframes}
-        {[0, 1, 2, 3, 4].map((i) => (
-          <div key={i} className="absolute left-1/2 top-[55%] rounded-full border"
-               style={{ width: "20vmin", height: "20vmin",
-                 borderColor: "rgba(70,90,120,0.18)",
-                 animation: `nw-ring 14s ease-out ${i * 2.8}s infinite` }} />
-        ))}
-      </>
-    );
-  }
-  if (kind === "drift") {
-    // Falling leaves OR soft particles
-    return (
-      <>
-        {keyframes}
-        {Array.from({ length: 12 }).map((_, i) => {
-          const left = (i * 41) % 100;
-          const dur = 14 + (i % 5) * 3;
-          const delay = (i * 1.3) % dur;
-          const size = 8 + (i % 4) * 3;
-          return (
-            <span key={i} className="absolute"
-                  style={{ left: `${left}%`, top: 0,
-                    width: `${size}px`, height: `${size * 1.6}px`,
-                    background: "radial-gradient(ellipse at 50% 40%, rgba(200,150,90,0.7), rgba(180,110,60,0.2) 80%)",
-                    borderRadius: "60% 40% 60% 40%",
-                    animation: `nw-leaf ${dur}s linear ${delay}s infinite`,
-                    filter: "blur(0.4px)" }} />
-          );
-        })}
-      </>
-    );
-  }
-  if (kind === "rain") {
-    return (
-      <>
-        {keyframes}
-        {Array.from({ length: 22 }).map((_, i) => {
-          const left = (i * 41) % 100;
-          const dx = ((i * 17) % 12) - 6;
-          const dur = 4.5 + (i % 6) * 0.6;
-          const delay = (i * 0.37) % dur;
-          return (
-            <span key={i} className="absolute"
-                  style={{ left: `${left}%`, top: 0,
-                    width: "1px", height: "10vh",
-                    background: "linear-gradient(180deg, transparent, rgba(120,140,170,0.55))",
-                    ['--dx' as string]: `${dx}vw`,
-                    animation: `nw-fall ${dur}s linear ${delay}s infinite`,
-                    filter: "blur(0.4px)" } as React.CSSProperties} />
-          );
-        })}
-      </>
-    );
-  }
-  // veil — snow / stars
-  return (
-    <>
-      {keyframes}
-      {Array.from({ length: 26 }).map((_, i) => {
-        const left = (i * 53) % 100;
-        const size = 2 + (i % 4);
-        const dur = 18 + (i % 7) * 3;
-        const delay = (i * 0.9) % dur;
-        return (
-          <span key={i} className="absolute rounded-full"
-                style={{ left: `${left}%`, top: 0,
-                  width: `${size}px`, height: `${size}px`,
-                  background: "rgba(245,240,255,0.85)",
-                  animation: `nw-snow ${dur}s linear ${delay}s infinite`,
-                  filter: "blur(0.6px)" }} />
-        );
-      })}
-    </>
-  );
-}
