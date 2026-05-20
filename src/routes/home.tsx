@@ -178,13 +178,12 @@ function ModeCard({ card }: { card: CardCfg }) {
     return (
       <Link
         to={meta.to}
-        className="block rounded-2xl px-5 py-4"
-        style={{ backgroundColor: "transparent", opacity: 0.45, pointerEvents: "none" }}
+        className="block rounded-2xl px-5 py-4 border border-dashed border-dusk/15"
       >
-        <p className="text-[10px] uppercase tracking-[0.22em]" style={{ color: "#C8C0B8" }}>
+        <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">
           {meta.eyebrow}
         </p>
-        <p className="mt-1 font-serif italic text-[15px] leading-snug" style={{ color: "#C8C0B8" }}>
+        <p className="mt-1 font-serif italic text-[15px] leading-snug text-dusk/65">
           {card.title}
         </p>
       </Link>
