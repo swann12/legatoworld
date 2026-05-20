@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Shell } from "@/components/legato/Shell";
 import { ModeSelector } from "@/components/legato/ModeSelector";
 import { useLegato, BRANCHES } from "@/lib/legato-state";
-import type { Mode } from "@/lib/legato-state";
+import type { Mode, Branch } from "@/lib/legato-state";
 
 export const Route = createFileRoute("/home")({
   head: () => ({
