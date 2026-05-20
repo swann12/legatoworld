@@ -437,26 +437,26 @@ function SoufflesView() {
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
-    const orbs = container.querySelectorAll<HTMLElement>(".orb");
+    const orbs = container.querySelectorAll<HTMLElement>(".photo-layer .inner");
 
     const apply = (clientX: number, clientY: number) => {
       const cx = window.innerWidth / 2;
       const cy = window.innerHeight / 2;
       const dx = (clientX - cx) / cx;
       const dy = (clientY - cy) / cy;
-      const factors = [0.05, 0.08, 0.04, 0.06, 0.05, 0.07];
+      const factors = [0.10, 0.18];
       orbs.forEach((orb, i) => {
         const f = factors[i % factors.length];
-        orb.style.transition = "transform 2s ease-out, opacity 1.5s ease-out";
-        orb.style.setProperty("--touch-x", `${dx * f * 35}px`);
-        orb.style.setProperty("--touch-y", `${dy * f * 28}px`);
+        orb.style.transition = "transform 2.4s ease-out";
+        orb.style.setProperty("--touch-x", `${dx * f * 60}px`);
+        orb.style.setProperty("--touch-y", `${dy * f * 50}px`);
       });
       const pressure = 1 - Math.sqrt(dx * dx + dy * dy) * 0.7;
       soundRef.current?.onTouch(Math.max(0, Math.min(1, pressure)));
     };
     const release = () => {
       orbs.forEach((orb) => {
-        orb.style.transition = "transform 3.5s ease-out, opacity 2.5s ease-out";
+        orb.style.transition = "transform 4s ease-out";
         orb.style.setProperty("--touch-x", "0px");
         orb.style.setProperty("--touch-y", "0px");
       });
