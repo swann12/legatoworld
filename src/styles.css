@@ -76,8 +76,8 @@
   --paper: oklch(0.985 0.008 75);          /* warm off-white */
   --clay: oklch(0.955 0.012 60);           /* soft clay */
   --whisper: oklch(0.97 0.008 70);
-  --dusk: oklch(0.32 0.015 40);            /* warm graphite */
-  --ink: oklch(0.25 0.012 50);
+  --dusk: oklch(0.34 0.035 48);            /* warm umber, never grey */
+  --ink: oklch(0.27 0.028 48);
   --rose: oklch(0.91 0.035 18);            /* fresh dusty rose */
   --peach: oklch(0.94 0.04 60);            /* luminous peach */
   --sage: oklch(0.91 0.028 150);           /* fresh pale sage */
@@ -98,7 +98,7 @@
   --secondary: var(--clay);
   --secondary-foreground: var(--dusk);
   --muted: var(--whisper);
-  --muted-foreground: oklch(0.5 0.015 50);
+  --muted-foreground: oklch(0.52 0.028 48);
   --accent: var(--rose);
   --accent-foreground: var(--dusk);
   --destructive: oklch(0.55 0.12 25);

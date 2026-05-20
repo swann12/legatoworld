@@ -27,13 +27,10 @@ export function ModeSelector({ compact = false }: { compact?: boolean }) {
               mode === m.id ? "glass-card-accent" : "glass-card opacity-75 hover:opacity-100"
             }`}
           >
-            <div className="flex items-center gap-2">
-              <span
-                className={`size-2 rounded-full bg-dusk/28 ${mode === m.id ? "breath" : ""}`}
-              />
+            <div className="flex items-center">
               <span className="font-serif text-xl text-dusk">{m.label}</span>
             </div>
-            <p className="mt-2 text-[12px] leading-relaxed text-dusk/55">{m.whisper}</p>
+            <p className="mt-2 text-[12px] leading-relaxed text-dusk/68">{m.whisper}</p>
           </button>
         ))}
       </div>
@@ -57,10 +54,7 @@ function ModeChip({
         active ? "glass-card-accent" : "glass-card opacity-70"
       }`}
     >
-      <div className="flex items-center gap-2">
-        <span
-          className={`size-1.5 rounded-full bg-dusk/25 ${active ? "breath" : ""}`}
-        />
+      <div className="flex items-center">
         <span className="text-[11px] font-medium uppercase tracking-[0.18em] text-dusk/82">
           {m.label}
         </span>
