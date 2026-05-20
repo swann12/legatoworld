@@ -514,7 +514,11 @@ const ORB_STYLES = `
      entrer en conflit avec le transform: posé par l'animation souffle-drift. */
   translate: var(--touch-x, 0px) var(--touch-y, 0px);
   scale: var(--touch-scale, 1);
-  filter: blur(var(--touch-blur, 0px)) saturate(var(--touch-sat, 1));
+  filter: blur(var(--touch-blur, 0px))
+          saturate(var(--touch-sat, 1))
+          hue-rotate(var(--touch-hue, 0deg))
+          brightness(var(--touch-bright, 1))
+          contrast(var(--touch-contrast, 1));
   transition: translate 2.6s ease-out, scale 2.6s ease-out, filter 2.4s ease-out;
   will-change: translate, scale, filter;
 }
@@ -577,37 +581,16 @@ const ORB_STYLES = `
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
 }
 
-/* Touch halo — visible feedback that follows the finger / cursor */
-.souffle-scene .touch-halo {
-  position: absolute;
-  left: 0; top: 0;
-  width: 320px; height: 320px;
-  margin-left: -160px; margin-top: -160px;
-  border-radius: 50%;
-  pointer-events: none;
-  opacity: 0;
-  transform: translate3d(var(--halo-x, 50vw), var(--halo-y, 50vh), 0) scale(0.6);
-  transition: opacity 0.6s ease-out, transform 0.18s ease-out;
-  mix-blend-mode: screen;
-  background: radial-gradient(
-    circle at center,
-    rgba(255, 240, 220, 0.55) 0%,
-    rgba(255, 220, 200, 0.30) 30%,
-    rgba(255, 200, 200, 0.12) 55%,
-    transparent 75%
-  );
-  filter: blur(8px);
-  will-change: transform, opacity;
-}
-.souffle-scene.is-touching .touch-halo {
-  opacity: 1;
-  transform: translate3d(var(--halo-x, 50vw), var(--halo-y, 50vh), 0) scale(1);
-}
-/* Pendant le toucher, on déforme aussi le halo lumineux pour intensifier la réaction */
+/* Plus de halo blanc — la réaction passe entièrement par la texture */
+.souffle-scene .touch-halo { display: none; }
+
+/* Glow réactif : opère sur la teinte/saturation, sans superposition blanche */
 .souffle-scene.is-touching .glow {
-  opacity: 1;
-  transform: scale(calc(1 + var(--touch-intensity, 0) * 0.08));
-  transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+  opacity: calc(0.6 + var(--touch-intensity, 0) * 0.4);
+  transform: scale(calc(1 + var(--touch-intensity, 0) * 0.18));
+  filter: hue-rotate(calc(var(--touch-intensity, 0) * 30deg))
+          saturate(calc(1 + var(--touch-intensity, 0) * 0.6));
+  transition: transform 0.2s ease-out, opacity 0.2s ease-out, filter 0.3s ease-out;
 }
 
 /* Video layer — autoplay ambient motion (rose-mist, evening-gold) */
@@ -814,11 +797,13 @@ function SoufflesView() {
     const container = containerRef.current;
     if (!container) return;
     const orbs = Array.from(container.querySelectorAll<HTMLElement>(".photo-layer .inner"));
-    // Plus intense que la version précédente — la texture se déforme franchement
-    // au contact, sans toucher au son ni à la typo.
-    const TRANSLATE_FACTORS = [0.20, 0.34];
-    const SCALE_FACTORS     = [0.05, 0.09];
-    const BLUR_FACTORS      = [1.8, 4.0];
+    // Très intense : la texture se déplace, gonfle, change de teinte au contact.
+    const TRANSLATE_FACTORS = [0.45, 0.75];   // px max ≈ ft * 200
+    const SCALE_FACTORS     = [0.18, 0.28];   // jusqu'à +28% par couche
+    const BLUR_FACTORS      = [4.0, 9.0];     // px de flou max
+    const HUE_FACTORS       = [22, 48];       // degrés de rotation de teinte
+    const BRIGHT_FACTORS    = [0.18, 0.28];   // ±28% luminosité
+    const CONTRAST_FACTORS  = [0.15, 0.22];
 
     let lastX = 0;
     let lastY = 0;
@@ -841,16 +826,24 @@ function SoufflesView() {
       const dist = Math.min(1, Math.sqrt(dx * dx + dy * dy));
       const pressure = Math.max(0, 1 - dist * 0.6);
       // Écriture batchée des variables CSS — un seul reflow par frame.
+      // Direction de la teinte selon la position horizontale (gauche → -, droite → +)
+      const hueDir = Math.sign(dx) || 1;
       for (let i = 0; i < orbs.length; i++) {
         const orb = orbs[i];
         const ft = TRANSLATE_FACTORS[i % TRANSLATE_FACTORS.length];
         const fs = SCALE_FACTORS[i % SCALE_FACTORS.length];
         const fb = BLUR_FACTORS[i % BLUR_FACTORS.length];
-        orb.style.setProperty("--touch-x",     `${dx * ft * 120}px`);
-        orb.style.setProperty("--touch-y",     `${dy * ft * 100}px`);
-        orb.style.setProperty("--touch-scale", String(1 + pressure * fs));
-        orb.style.setProperty("--touch-blur",  `${pressure * fb}px`);
-        orb.style.setProperty("--touch-sat",   String(1 + pressure * 0.12));
+        const fh = HUE_FACTORS[i % HUE_FACTORS.length];
+        const fbr = BRIGHT_FACTORS[i % BRIGHT_FACTORS.length];
+        const fc = CONTRAST_FACTORS[i % CONTRAST_FACTORS.length];
+        orb.style.setProperty("--touch-x",        `${dx * ft * 200}px`);
+        orb.style.setProperty("--touch-y",        `${dy * ft * 170}px`);
+        orb.style.setProperty("--touch-scale",    String(1 + pressure * fs));
+        orb.style.setProperty("--touch-blur",     `${pressure * fb}px`);
+        orb.style.setProperty("--touch-sat",      String(1 + pressure * 0.45));
+        orb.style.setProperty("--touch-hue",      `${hueDir * pressure * fh}deg`);
+        orb.style.setProperty("--touch-bright",   String(1 + (dy * -1) * pressure * fbr));
+        orb.style.setProperty("--touch-contrast", String(1 + pressure * fc));
       }
       container.style.setProperty("--halo-x", `${localX}px`);
       container.style.setProperty("--halo-y", `${localY}px`);
@@ -874,6 +867,9 @@ function SoufflesView() {
         orb.style.setProperty("--touch-scale", "1");
         orb.style.setProperty("--touch-blur", "0px");
         orb.style.setProperty("--touch-sat", "1");
+        orb.style.setProperty("--touch-hue", "0deg");
+        orb.style.setProperty("--touch-bright", "1");
+        orb.style.setProperty("--touch-contrast", "1");
       }
       container.style.setProperty("--touch-intensity", "0");
       soundRef.current?.onTouchEnd();
