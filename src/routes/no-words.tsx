@@ -171,15 +171,16 @@ function NoWords() {
     tab === "lire" ? "Lire" : "Regarder";
 
   const isSouffles = tab === "souffles";
+  const isFullScreen = isSouffles || tab === "respirer";
 
   return (
-    <Shell livingBg={false} hideNav={isSouffles}>
+    <Shell livingBg={false} hideNav={isFullScreen}>
       <div className="relative min-h-dvh flex flex-col select-none overflow-hidden">
-        {/* Header — minimal sur Souffles (fond plein), classique ailleurs */}
-        {isSouffles ? (
+        {/* Header — minimal sur pages plein écran, simple ailleurs (sans lien Foyer) */}
+        {isFullScreen ? (
           <Link
             to="/home"
-            aria-label="Retour au Foyer"
+            aria-label="Retour"
             className="absolute top-5 left-5 z-30 size-9 rounded-full backdrop-blur-md flex items-center justify-center text-dusk/70 hover:text-dusk"
             style={{ background: "color-mix(in oklab, white 40%, transparent)" }}
           >
@@ -187,11 +188,9 @@ function NoWords() {
           </Link>
         ) : (
           <div className="relative z-20 px-5 pt-7 pb-3 flex items-center justify-between gap-2">
-            <Link to="/home" className="text-[11px] uppercase tracking-[0.22em] text-dusk/55 hover:text-dusk">
-              ← Foyer
-            </Link>
+            <Link to="/home" aria-label="Retour" className="text-dusk/55 hover:text-dusk text-lg">←</Link>
             <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/55">{title}</p>
-            <span className="w-12" />
+            <span className="w-6" />
           </div>
         )}
 
@@ -611,18 +610,28 @@ const ORB_STYLES = `
 /* Fond doux par scène (pour la marge -8% au-delà du cadre) */
 .scene-warmth        .scene-bg { background: linear-gradient(160deg, #FFE8DC 0%, #FFF4EE 100%); }
 .scene-morning-sky   .scene-bg { background: linear-gradient(180deg, #FFE8D8 0%, #E8DEEC 60%, #D8DEEC 100%); }
-.scene-leaves        .scene-bg { background: linear-gradient(165deg, #EEF4E8 0%, #F8FBF4 100%); }
+.scene-rivage        .scene-bg { background: linear-gradient(180deg, #E8DCC8 0%, #C8D8E8 60%, #B8CCE0 100%); }
+.scene-ressac        .scene-bg { background: linear-gradient(170deg, #D8E4DC 0%, #B8CCC4 60%, #98B0A8 100%); }
 .scene-rose-mist     .scene-bg { background: linear-gradient(150deg, #F8EEF4 0%, #F0ECF8 100%); }
 .scene-evening-gold  .scene-bg { background: linear-gradient(160deg, #FFF4E0 0%, #E8F0EC 100%); }
 .scene-or-soir-eau   .scene-bg { background: linear-gradient(180deg, #F6E8D8 0%, #DCE6F0 60%, #C8D8E8 100%); }
 .scene-feuilles-vert .scene-bg { background: linear-gradient(170deg, #E8F0E0 0%, #F4F8EC 100%); }
-.scene-feuilles-rose .scene-bg { background: linear-gradient(160deg, #F8E8E0 0%, #F0F4E8 100%); }
-.scene-soir-flou     .scene-bg { background: linear-gradient(180deg, #E8E4F0 0%, #F8E0E8 50%, #F4D8C8 100%); }
 .scene-perle         .scene-bg { background: linear-gradient(160deg, #ECEEF4 0%, #F4EEF0 100%); }
 .scene-aurore        .scene-bg { background: linear-gradient(180deg, #F8E4D8 0%, #E8DCEC 100%); }
 .scene-bougainvillier .scene-bg { background: linear-gradient(160deg, #F8DCE8 0%, #F4E8D8 100%); }
 .scene-lumiere       .scene-bg { background: linear-gradient(180deg, #FFF4D8 0%, #F4E0C8 100%); }
-.scene-lune          .scene-bg { background: linear-gradient(180deg, #2A2E3A 0%, #1A1E28 100%); }
+.scene-lune          .scene-bg { background: radial-gradient(ellipse at 50% 35%, #2C3142 0%, #14182A 55%, #0A0D18 100%); }
+
+/* Lune — masquer les couches photo pour garder un vrai paysage nocturne */
+.scene-lune .photo-layer,
+.scene-lune .photo-video,
+.scene-lune .grain { display: none; }
+.scene-lune .glow {
+  background: radial-gradient(ellipse at 50% 30%, rgba(180,195,225,0.18) 0%, rgba(120,140,180,0.08) 40%, transparent 75%);
+}
+.scene-lune .vignette {
+  background: radial-gradient(ellipse at 50% 50%, transparent 50%, rgba(0,0,0,0.35) 90%, rgba(0,0,0,0.55) 100%);
+}
 
 /* Lune scene — invert text overlay color for legibility on dark bg */
 .scene-lune .souffle-title { color: rgba(245, 240, 230, 0.92) !important; text-shadow: 0 1px 18px rgba(0,0,0,0.45) !important; }
