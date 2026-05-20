@@ -1066,7 +1066,7 @@ function RespirerView() {
         <div className="relative text-center">
           <p className="font-serif italic text-paper/90 text-[20px] leading-none flex justify-center">
             {phase.id === "hold"
-              ? <span>{phase.label}</span>
+              ? <span>{noOrphan(phase.label)}</span>
               : letters.map((ch, i) => (
                   <span key={i} className="opacity-0 letter-in" style={{
                     animationDelay: `${(i * (duration * 0.6)) / Math.max(letters.length, 1) / 1000}s`
