@@ -584,13 +584,66 @@ const ORB_STYLES = `
 /* Plus de halo blanc — la réaction passe entièrement par la texture */
 .souffle-scene .touch-halo { display: none; }
 
-/* Glow réactif : opère sur la teinte/saturation, sans superposition blanche */
-.souffle-scene.is-touching .glow {
-  opacity: calc(0.6 + var(--touch-intensity, 0) * 0.4);
-  transform: scale(calc(1 + var(--touch-intensity, 0) * 0.18));
-  filter: hue-rotate(calc(var(--touch-intensity, 0) * 30deg))
-          saturate(calc(1 + var(--touch-intensity, 0) * 0.6));
-  transition: transform 0.2s ease-out, opacity 0.2s ease-out, filter 0.3s ease-out;
+/* Glow global : reste calme, ne réagit pas au toucher (la réaction est locale) */
+
+/* ─── Touch-lens : un cercle souple suit le doigt et réveille la texture
+   localement (saturation, contraste, micro-zoom). Aucune superposition de
+   couleur — l'image elle-même respire sous le doigt. */
+.souffle-scene .touch-lens {
+  position: absolute; inset: 0;
+  background-size: cover;
+  background-position: center;
+  pointer-events: none;
+  opacity: 0;
+  mix-blend-mode: soft-light;
+  filter: saturate(2) contrast(1.18) brightness(1.05);
+  -webkit-mask-image: radial-gradient(
+    circle 150px at var(--halo-x, 50%) var(--halo-y, 50%),
+    rgba(0,0,0,1) 0%,
+    rgba(0,0,0,0.85) 28%,
+    rgba(0,0,0,0.35) 60%,
+    transparent 80%
+  );
+          mask-image: radial-gradient(
+    circle 150px at var(--halo-x, 50%) var(--halo-y, 50%),
+    rgba(0,0,0,1) 0%,
+    rgba(0,0,0,0.85) 28%,
+    rgba(0,0,0,0.35) 60%,
+    transparent 80%
+  );
+  transition: opacity 0.7s ease-out;
+  will-change: opacity, mask-image, -webkit-mask-image;
+}
+/* Deuxième passe : un cœur plus serré qui amplifie encore au point de contact */
+.souffle-scene .touch-lens-core {
+  position: absolute; inset: 0;
+  background-size: cover;
+  background-position: center;
+  pointer-events: none;
+  opacity: 0;
+  mix-blend-mode: overlay;
+  filter: saturate(1.6) contrast(1.1);
+  -webkit-mask-image: radial-gradient(
+    circle 60px at var(--halo-x, 50%) var(--halo-y, 50%),
+    rgba(0,0,0,0.9) 0%,
+    rgba(0,0,0,0.4) 50%,
+    transparent 100%
+  );
+          mask-image: radial-gradient(
+    circle 60px at var(--halo-x, 50%) var(--halo-y, 50%),
+    rgba(0,0,0,0.9) 0%,
+    rgba(0,0,0,0.4) 50%,
+    transparent 100%
+  );
+  transition: opacity 0.5s ease-out;
+}
+.souffle-scene.is-touching .touch-lens {
+  opacity: calc(0.55 + var(--touch-intensity, 0) * 0.45);
+  transition: opacity 0.25s ease-out;
+}
+.souffle-scene.is-touching .touch-lens-core {
+  opacity: calc(0.35 + var(--touch-intensity, 0) * 0.5);
+  transition: opacity 0.18s ease-out;
 }
 
 /* Video layer — autoplay ambient motion (rose-mist, evening-gold) */
@@ -703,6 +756,9 @@ function SouffleOrbs({ id }: { id: SceneId }) {
       <div className="vignette" />
       <div className="grain" />
       <div className="touch-halo" />
+      {/* Loupe locale qui suit le doigt — réveille la texture sous le contact */}
+      <div className="touch-lens" style={bg} />
+      <div className="touch-lens-core" style={bg} />
     </>
   );
 }
@@ -797,13 +853,14 @@ function SoufflesView() {
     const container = containerRef.current;
     if (!container) return;
     const orbs = Array.from(container.querySelectorAll<HTMLElement>(".photo-layer .inner"));
-    // Très intense : la texture se déplace, gonfle, change de teinte au contact.
-    const TRANSLATE_FACTORS = [0.45, 0.75];   // px max ≈ ft * 200
-    const SCALE_FACTORS     = [0.18, 0.28];   // jusqu'à +28% par couche
-    const BLUR_FACTORS      = [4.0, 9.0];     // px de flou max
-    const HUE_FACTORS       = [22, 48];       // degrés de rotation de teinte
-    const BRIGHT_FACTORS    = [0.18, 0.28];   // ±28% luminosité
-    const CONTRAST_FACTORS  = [0.15, 0.22];
+    // Déformation globale : très discrète. Le gros de la réaction est portée
+    // par la « loupe » locale qui suit le doigt (.touch-lens / -core).
+    const TRANSLATE_FACTORS = [0.06, 0.10];   // micro-dérive
+    const SCALE_FACTORS     = [0.015, 0.025]; // souffle quasi imperceptible
+    const BLUR_FACTORS      = [0, 0];
+    const HUE_FACTORS       = [0, 0];
+    const BRIGHT_FACTORS    = [0, 0];
+    const CONTRAST_FACTORS  = [0, 0];
 
     let lastX = 0;
     let lastY = 0;
