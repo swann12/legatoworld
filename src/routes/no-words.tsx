@@ -6,6 +6,10 @@ import imgMorningSky from "@/assets/souffle-morning-sky.jpg";
 import imgLeaves from "@/assets/souffle-leaves.jpg";
 import imgRoseMist from "@/assets/souffle-rose-mist.jpg";
 import imgEveningGold from "@/assets/souffle-evening-gold.jpg";
+import imgOrSoirEau from "@/assets/souffle-or-soir-eau.jpg";
+import imgFeuillesVert from "@/assets/souffle-feuilles-vert.jpg";
+import imgFeuillesRose from "@/assets/souffle-feuilles-rose.jpg";
+import imgSoirFlou from "@/assets/souffle-soir-flou.jpg";
 
 const SCENE_IMAGES: Record<SceneId, string> = {
   "warmth": imgWarmth,
@@ -13,6 +17,15 @@ const SCENE_IMAGES: Record<SceneId, string> = {
   "leaves": imgLeaves,
   "rose-mist": imgRoseMist,
   "evening-gold": imgEveningGold,
+  "or-soir-eau": imgOrSoirEau,
+  "feuilles-vert": imgFeuillesVert,
+  "feuilles-rose": imgFeuillesRose,
+  "soir-flou": imgSoirFlou,
+  "perle": imgRoseMist,
+  "aurore": imgMorningSky,
+  "bougainvillier": imgFeuillesRose,
+  "lumiere": imgEveningGold,
+  "lune": imgSoirFlou,
 };
 
 export const Route = createFileRoute("/no-words")({
