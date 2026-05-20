@@ -624,6 +624,18 @@ const ORB_STYLES = `
 .scene-leaves        .scene-bg { background: linear-gradient(165deg, #EEF4E8 0%, #F8FBF4 100%); }
 .scene-rose-mist     .scene-bg { background: linear-gradient(150deg, #F8EEF4 0%, #F0ECF8 100%); }
 .scene-evening-gold  .scene-bg { background: linear-gradient(160deg, #FFF4E0 0%, #E8F0EC 100%); }
+.scene-or-soir-eau   .scene-bg { background: linear-gradient(180deg, #F6E8D8 0%, #DCE6F0 60%, #C8D8E8 100%); }
+.scene-feuilles-vert .scene-bg { background: linear-gradient(170deg, #E8F0E0 0%, #F4F8EC 100%); }
+.scene-feuilles-rose .scene-bg { background: linear-gradient(160deg, #F8E8E0 0%, #F0F4E8 100%); }
+.scene-soir-flou     .scene-bg { background: linear-gradient(180deg, #E8E4F0 0%, #F8E0E8 50%, #F4D8C8 100%); }
+.scene-perle         .scene-bg { background: linear-gradient(160deg, #ECEEF4 0%, #F4EEF0 100%); }
+.scene-aurore        .scene-bg { background: linear-gradient(180deg, #F8E4D8 0%, #E8DCEC 100%); }
+.scene-bougainvillier .scene-bg { background: linear-gradient(160deg, #F8DCE8 0%, #F4E8D8 100%); }
+.scene-lumiere       .scene-bg { background: linear-gradient(180deg, #FFF4D8 0%, #F4E0C8 100%); }
+.scene-lune          .scene-bg { background: linear-gradient(180deg, #2A2E3A 0%, #1A1E28 100%); }
+
+/* Lune scene — invert text overlay color for legibility on dark bg */
+.scene-lune .souffle-title { color: rgba(245, 240, 230, 0.92) !important; text-shadow: 0 1px 18px rgba(0,0,0,0.45) !important; }
 
 /* Couche A — photo principale, animation longue */
 .souffle-scene .layer-a {
