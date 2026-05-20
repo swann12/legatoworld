@@ -243,392 +243,140 @@ const ORB_STYLES = `
 .souffle-scene { position: absolute; inset: 0; overflow: hidden; }
 .souffle-scene .scene-bg {
   position: absolute; inset: 0;
-  transition: opacity 1.5s ease-in-out;
+  transition: opacity 1.6s ease-in-out;
 }
-.souffle-scene .orb {
-  position: absolute;
-  border-radius: 50%;
-  will-change: transform, opacity;
+
+/* Couches d'image — chacune dérive lentement avec une déformation organique */
+.souffle-scene .photo-layer {
+  position: absolute; inset: -8%;
+  background-size: cover;
+  background-position: center;
+  will-change: transform, opacity, filter;
   pointer-events: none;
+  transform-origin: 50% 50%;
+  transition: transform 2.8s ease-out;
+}
+.souffle-scene .photo-layer .inner {
+  position: absolute; inset: 0;
+  background: inherit;
+  background-size: inherit;
+  background-position: inherit;
   animation-fill-mode: both;
   transform: translate(var(--touch-x, 0px), var(--touch-y, 0px));
-  transition: transform 2s ease-out;
-}
-@keyframes legato-petal-a {
-  0%   { transform: translate(0px, 0px) rotate(var(--r, 0deg)) scale(1.00); }
-  33%  { transform: translate(12px, -8px) rotate(calc(var(--r, 0deg) + 3deg)) scale(1.04); }
-  66%  { transform: translate(-8px, 14px) rotate(calc(var(--r, 0deg) - 2deg)) scale(0.97); }
-  100% { transform: translate(4px, -4px) rotate(var(--r, 0deg)) scale(1.02); }
-}
-@keyframes legato-petal-b {
-  0%   { transform: translate(0px, 0px) rotate(var(--r, 0deg)) scale(1.02); }
-  40%  { transform: translate(-16px, 6px) rotate(calc(var(--r, 0deg) - 4deg)) scale(0.96); }
-  70%  { transform: translate(8px, -12px) rotate(calc(var(--r, 0deg) + 2deg)) scale(1.05); }
-  100% { transform: translate(-4px, 8px) rotate(var(--r, 0deg)) scale(0.99); }
-}
-@keyframes legato-leaf-sway {
-  0%   { transform: rotate(var(--r, 0deg)) translate(0px, 0px); }
-  50%  { transform: rotate(calc(var(--r, 0deg) + 5deg)) translate(18px, -6px); }
-  100% { transform: rotate(calc(var(--r, 0deg) - 3deg)) translate(-10px, 10px); }
-}
-@keyframes legato-stem-sway {
-  0%, 100% { transform: rotate(var(--r, 0deg)) skewX(0deg); }
-  50%      { transform: rotate(calc(var(--r, 0deg) + 3deg)) skewX(1deg); }
-}
-@keyframes legato-breathe {
-  0%   { opacity: var(--op-min); }
-  50%  { opacity: var(--op-max); }
-  100% { opacity: var(--op-min); }
+  transition: transform 2.6s ease-out;
 }
 
-/* ─── 1. Chaleur lente — pivoines roses & pêche dans lumière ambrée ─── */
-.scene-warmth .scene-bg { background: linear-gradient(158deg, #FFE8DC 0%, #FFF4EE 100%); }
-.scene-warmth .orb-1 {
-  width: 380px; height: 420px; top: -60px; left: 22%;
-  border-radius: 60% 40% 70% 30% / 50% 65% 35% 50%;
-  background: radial-gradient(ellipse at 42% 38%,
-    rgba(255,175,145,0.92) 0%, rgba(245,128,108,0.68) 35%,
-    rgba(232,168,148,0.38) 62%, transparent 78%);
-  filter: blur(52px);
-  --r: -8deg; --op-min: 0.28; --op-max: 0.50;
-  animation: legato-petal-a 24s ease-in-out infinite, legato-breathe 20s ease-in-out infinite;
-  animation-delay: 0s, -6s;
+/* Halo lumineux qui adoucit le tout */
+.souffle-scene .glow {
+  position: absolute; inset: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  background: radial-gradient(
+    ellipse at 50% 40%,
+    rgba(255,245,230,0.35) 0%,
+    rgba(255,235,225,0.18) 40%,
+    transparent 75%
+  );
 }
-.scene-warmth .orb-2 {
-  width: 240px; height: 285px; top: 8%; left: -6%;
-  border-radius: 50% 50% 40% 60% / 70% 30% 70% 30%;
-  background: radial-gradient(ellipse at 48% 45%,
-    rgba(232,138,178,0.88) 0%, rgba(215,108,152,0.58) 42%, transparent 72%);
-  filter: blur(62px);
-  --r: 12deg; --op-min: 0.20; --op-max: 0.42;
-  animation: legato-petal-b 19s ease-in-out infinite, legato-breathe 15s ease-in-out infinite;
-  animation-delay: -8s, -4s;
+/* Vignette douce pour cadrer */
+.souffle-scene .vignette {
+  position: absolute; inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at 50% 50%,
+    transparent 55%,
+    rgba(255,255,255,0.18) 88%,
+    rgba(255,255,255,0.32) 100%
+  );
 }
-.scene-warmth .orb-3 {
-  width: 12px; height: 200px; top: 45%; left: 46%;
-  border-radius: 50%;
-  background: linear-gradient(180deg,
-    rgba(188,108,88,0) 0%, rgba(188,108,88,0.40) 30%,
-    rgba(168,128,98,0.35) 70%, rgba(148,128,98,0) 100%);
-  filter: blur(6px);
-  --r: 5deg; --op-min: 0.7; --op-max: 0.9;
-  animation: legato-stem-sway 22s ease-in-out infinite;
-  animation-delay: -10s;
+
+/* Déformations très lentes — comme une respiration sous verre dépoli */
+@keyframes souffle-breathe-a {
+  0%   { transform: scale(1.00) rotate(0deg) translate(0%, 0%); filter: blur(14px) saturate(1.00); }
+  33%  { transform: scale(1.06) rotate(0.8deg) translate(1.2%, -1%); filter: blur(18px) saturate(1.05); }
+  66%  { transform: scale(1.03) rotate(-0.6deg) translate(-1%, 1.4%); filter: blur(16px) saturate(0.98); }
+  100% { transform: scale(1.00) rotate(0deg) translate(0%, 0%); filter: blur(14px) saturate(1.00); }
 }
-.scene-warmth .orb-4 {
-  width: 580px; height: 560px; top: 18%; left: 50%; margin-left: -290px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 50% 50%,
-    rgba(252,205,185,0.55) 0%, rgba(245,178,158,0.25) 45%, transparent 68%);
-  filter: blur(100px);
-  --op-min: 0.07; --op-max: 0.16;
-  animation: legato-breathe 34s ease-in-out infinite;
+@keyframes souffle-breathe-b {
+  0%   { transform: scale(1.08) rotate(0deg) translate(0%, 0%); filter: blur(22px) saturate(1.05); }
+  50%  { transform: scale(1.14) rotate(-1.2deg) translate(-1.6%, 1.2%); filter: blur(26px) saturate(1.12); }
+  100% { transform: scale(1.08) rotate(0deg) translate(0%, 0%); filter: blur(22px) saturate(1.05); }
+}
+@keyframes souffle-drift {
+  0%   { transform: translate(0%, 0%) scale(1.00); }
+  50%  { transform: translate(0.8%, -1.2%) scale(1.02); }
+  100% { transform: translate(0%, 0%) scale(1.00); }
+}
+@keyframes souffle-glow-pulse {
+  0%, 100% { opacity: 0.55; }
+  50%      { opacity: 0.85; }
+}
+
+/* Grain organique très léger en surimpression */
+.souffle-scene .grain {
+  position: absolute; inset: 0;
+  pointer-events: none;
+  opacity: 0.08;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+
+/* Fond doux par scène (pour la marge -8% au-delà du cadre) */
+.scene-warmth        .scene-bg { background: linear-gradient(160deg, #FFE8DC 0%, #FFF4EE 100%); }
+.scene-morning-sky   .scene-bg { background: linear-gradient(180deg, #FFE8D8 0%, #E8DEEC 60%, #D8DEEC 100%); }
+.scene-leaves        .scene-bg { background: linear-gradient(165deg, #EEF4E8 0%, #F8FBF4 100%); }
+.scene-rose-mist     .scene-bg { background: linear-gradient(150deg, #F8EEF4 0%, #F0ECF8 100%); }
+.scene-evening-gold  .scene-bg { background: linear-gradient(160deg, #FFF4E0 0%, #E8F0EC 100%); }
+
+/* Couche A — photo principale, animation longue */
+.souffle-scene .layer-a {
+  animation: souffle-breathe-a 42s ease-in-out infinite;
+  opacity: 0.96;
+}
+.souffle-scene .layer-a .inner {
+  animation: souffle-drift 30s ease-in-out infinite;
+}
+/* Couche B — même image, plus floue, décalée, en surimpression douce */
+.souffle-scene .layer-b {
+  animation: souffle-breathe-b 56s ease-in-out infinite;
   animation-delay: -18s;
+  opacity: 0.55;
+  mix-blend-mode: lighten;
 }
-.scene-warmth .orb-5 {
-  width: 160px; height: 145px; bottom: 20%; right: 8%;
-  border-radius: 73% 27% 58% 42% / 44% 62% 38% 56%;
-  background: radial-gradient(ellipse at 50% 50%,
-    rgba(255,215,148,0.85) 0%, rgba(242,178,105,0.55) 48%, transparent 72%);
-  filter: blur(45px);
-  --r: -15deg; --op-min: 0.32; --op-max: 0.56;
-  animation: legato-petal-a 16s ease-in-out infinite, legato-breathe 12s ease-in-out infinite;
-  animation-delay: -5s, -9s;
-}
-
-/* ─── 2. Ciel du matin — tulipes bleu & orange, soleil de brume ─── */
-.scene-morning-sky .scene-bg { background: linear-gradient(180deg, #EAF0F8 0%, #F4EEF8 100%); }
-.scene-morning-sky .orb-halo {
-  width: 555px; height: 545px; top: -88px; left: 50%; margin-left: -277px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 50% 50%,
-    rgba(212,195,248,0.32) 0%, transparent 62%);
-  filter: blur(90px);
-  --op-min: 0.06; --op-max: 0.16;
-  animation: legato-breathe 22s ease-in-out infinite;
-  animation-delay: -3s;
-}
-.scene-morning-sky .orb-sun {
-  width: 295px; height: 288px; top: 4%; left: 50%; margin-left: -147px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 48% 45%,
-    rgba(255,218,208,0.92) 0%, rgba(228,172,218,0.68) 38%,
-    rgba(205,185,238,0.35) 62%, transparent 78%);
-  filter: blur(55px);
-  --op-min: 0.38; --op-max: 0.62;
-  animation: legato-breathe 22s ease-in-out infinite;
+.souffle-scene .layer-b .inner {
+  animation: souffle-drift 38s ease-in-out infinite;
   animation-delay: -10s;
 }
-.scene-morning-sky .orb-tulip-l {
-  width: 175px; height: 245px; top: 18%; left: 20%;
-  border-radius: 50% 50% 45% 55% / 65% 65% 35% 35%;
-  background: radial-gradient(ellipse at 45% 40%,
-    rgba(108,145,218,0.88) 0%, rgba(88,118,198,0.62) 38%,
-    rgba(148,168,228,0.28) 65%, transparent 80%);
-  filter: blur(42px);
-  --r: -6deg; --op-min: 0.32; --op-max: 0.58;
-  animation: legato-petal-a 20s ease-in-out infinite, legato-breathe 16s ease-in-out infinite;
-  animation-delay: 0s, -5s;
-}
-.scene-morning-sky .orb-stem-l {
-  width: 8px; height: 165px; top: 52%; left: calc(20% + 84px);
-  border-radius: 50%;
-  background: linear-gradient(180deg,
-    rgba(88,118,188,0) 0%, rgba(88,118,188,0.35) 25%,
-    rgba(68,98,158,0.30) 75%, rgba(68,98,158,0) 100%);
-  filter: blur(5px);
-  --r: -2deg; --op-min: 0.7; --op-max: 0.9;
-  animation: legato-stem-sway 24s ease-in-out infinite;
-}
-.scene-morning-sky .orb-tulip-r {
-  width: 148px; height: 208px; top: 22%; left: 56%;
-  border-radius: 48% 52% 42% 58% / 62% 62% 38% 38%;
-  background: radial-gradient(ellipse at 48% 42%,
-    rgba(242,162,128,0.85) 0%, rgba(228,138,105,0.58) 40%,
-    rgba(218,168,148,0.28) 65%, transparent 80%);
-  filter: blur(40px);
-  --r: 4deg; --op-min: 0.28; --op-max: 0.52;
-  animation: legato-petal-b 23s ease-in-out infinite, legato-breathe 18s ease-in-out infinite;
-  animation-delay: -7s, -3s;
-}
-.scene-morning-sky .orb-stem-r {
-  width: 7px; height: 148px; top: 56%; left: calc(56% + 72px);
-  border-radius: 50%;
-  background: linear-gradient(180deg,
-    rgba(178,128,98,0) 0%, rgba(178,128,98,0.32) 28%,
-    rgba(148,108,78,0.28) 72%, rgba(148,108,78,0) 100%);
-  filter: blur(5px);
-  --r: 2deg; --op-min: 0.7; --op-max: 0.9;
-  animation: legato-stem-sway 20s ease-in-out infinite;
-  animation-delay: -8s;
-}
-.scene-morning-sky .orb-lily {
-  width: 310px; height: 128px; bottom: 22%; left: 8%;
-  border-radius: 50% 50% 50% 50% / 30% 30% 70% 70%;
-  background: radial-gradient(ellipse at 50% 45%,
-    rgba(112,148,222,0.75) 0%, rgba(88,122,205,0.48) 45%, transparent 72%);
-  filter: blur(48px);
-  --r: -5deg; --op-min: 0.22; --op-max: 0.40;
-  animation: legato-leaf-sway 28s ease-in-out infinite, legato-breathe 19s ease-in-out infinite;
-  animation-delay: -12s, -6s;
-}
-
-/* ─── 3. Feuilles — stries diagonales très floues ─── */
-.scene-leaves .scene-bg { background: linear-gradient(162deg, #EEF4E8 0%, #F8FBF4 100%); }
-.scene-leaves .orb-1 {
-  width: 140%; height: 175px; top: 20%; left: -20%;
-  border-radius: 40% 60% 60% 40% / 50% 50% 50% 50%;
-  background: linear-gradient(92deg,
-    transparent 0%, rgba(182,218,148,0.42) 18%,
-    rgba(208,238,172,0.48) 45%, rgba(192,225,158,0.42) 75%, transparent 100%);
-  filter: blur(58px);
-  --r: -28deg; --op-min: 0.18; --op-max: 0.38;
-  animation: legato-leaf-sway 30s ease-in-out infinite, legato-breathe 22s ease-in-out infinite;
-  animation-delay: 0s, -8s;
-}
-.scene-leaves .orb-2 {
-  width: 140%; height: 130px; top: 48%; left: -20%;
-  border-radius: 40% 60% 60% 40% / 50% 50% 50% 50%;
-  background: linear-gradient(92deg,
-    transparent 0%, rgba(158,202,128,0.34) 22%,
-    rgba(175,215,145,0.34) 58%, transparent 100%);
-  filter: blur(52px);
-  --r: -20deg; --op-min: 0.12; --op-max: 0.28;
-  animation: legato-leaf-sway 24s ease-in-out infinite, legato-breathe 17s ease-in-out infinite;
-  animation-delay: -5s, -12s;
-}
-.scene-leaves .orb-3 {
-  width: 80px; height: 340px; top: 10%; left: 62%;
-  border-radius: 40% 60% 60% 40% / 50% 50% 50% 50%;
-  background: radial-gradient(ellipse at 50% 50%,
-    rgba(195,232,165,0.72) 0%, rgba(172,218,142,0.45) 48%, transparent 72%);
-  filter: blur(46px);
-  --r: -18deg; --op-min: 0.20; --op-max: 0.38;
-  animation: legato-leaf-sway 21s ease-in-out infinite, legato-breathe 15s ease-in-out infinite;
-  animation-delay: -9s, -4s;
-}
-.scene-leaves .orb-4 {
-  width: 450px; height: 438px; top: 20%; left: 50%; margin-left: -225px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 50% 50%,
-    rgba(198,232,168,0.62) 0%, rgba(175,218,145,0.32) 42%, transparent 68%);
-  filter: blur(95px);
-  --op-min: 0.20; --op-max: 0.36;
-  animation: legato-breathe 28s ease-in-out infinite;
-  animation-delay: -16s;
-}
-.scene-leaves .orb-5 {
-  width: 55px; height: 188px; top: 12%; right: 12%;
-  border-radius: 50% 50% 45% 55% / 65% 65% 35% 35%;
-  background: radial-gradient(ellipse at 50% 50%,
-    rgba(175,218,142,0.78) 0%, rgba(152,202,118,0.48) 50%, transparent 72%);
-  filter: blur(38px);
-  --r: -10deg; --op-min: 0.22; --op-max: 0.42;
-  animation: legato-petal-b 17s ease-in-out infinite, legato-breathe 13s ease-in-out infinite;
-  animation-delay: -6s, -3s;
-}
-
-/* ─── 4. Brume rose — macro intérieur de pétale ─── */
-.scene-rose-mist .scene-bg { background: linear-gradient(148deg, #F8EEF4 0%, #F0ECF8 100%); }
-.scene-rose-mist .orb-1 {
-  width: 105%; height: 108%; top: -4%; left: -2%;
-  border-radius: 73% 27% 58% 42% / 44% 62% 38% 56%;
-  background: radial-gradient(ellipse at 38% 35%,
-    rgba(238,162,198,0.78) 0%, rgba(218,132,172,0.52) 32%,
-    rgba(232,175,205,0.28) 58%, transparent 78%);
-  filter: blur(65px);
-  --r: 8deg; --op-min: 0.55; --op-max: 0.75;
-  animation: legato-petal-a 26s ease-in-out infinite, legato-breathe 20s ease-in-out infinite;
-  animation-delay: 0s, -7s;
-}
-.scene-rose-mist .orb-2 {
-  width: 85%; height: 65%; bottom: -10%; left: 8%;
-  border-radius: 50% 50% 50% 50% / 30% 30% 70% 70%;
-  background: radial-gradient(ellipse at 55% 60%,
-    rgba(138,188,178,0.62) 0%, rgba(115,165,205,0.40) 42%, transparent 70%);
-  filter: blur(75px);
-  --r: -5deg; --op-min: 0.35; --op-max: 0.55;
-  animation: legato-petal-b 22s ease-in-out infinite, legato-breathe 17s ease-in-out infinite;
-  animation-delay: -9s, -5s;
-}
-.scene-rose-mist .orb-3 {
-  width: 185px; height: 172px; top: 38%; left: 42%;
-  border-radius: 60% 40% 65% 35% / 55% 58% 42% 45%;
-  background: radial-gradient(ellipse at 50% 50%,
-    rgba(255,225,138,0.90) 0%, rgba(248,198,108,0.65) 40%, transparent 70%);
-  filter: blur(42px);
-  --r: -12deg; --op-min: 0.40; --op-max: 0.65;
-  animation: legato-petal-a 18s ease-in-out infinite, legato-breathe 14s ease-in-out infinite;
-  animation-delay: -4s, -10s;
-}
-.scene-rose-mist .orb-4 {
-  width: 98%; height: 95%; top: 5%; left: 1%;
-  border-radius: 50%;
-  background: radial-gradient(circle at 65% 45%,
-    rgba(195,178,242,0.38) 0%, transparent 62%);
-  filter: blur(85px);
-  --op-min: 0.18; --op-max: 0.32;
-  animation: legato-breathe 30s ease-in-out infinite;
-  animation-delay: -14s;
-}
-
-/* ─── 5. Or du soir — fleurs orange-rouge flottantes ─── */
-.scene-evening-gold .scene-bg { background: linear-gradient(158deg, #FFF4E0 0%, #FFF8F0 100%); }
-.scene-evening-gold .orb-1 {
-  width: 328px; height: 358px; top: -40px; left: 18%;
-  border-radius: 60% 40% 55% 45% / 52% 62% 38% 48%;
-  background: radial-gradient(ellipse at 42% 38%,
-    rgba(252,142,88,0.88) 0%, rgba(238,112,68,0.62) 32%,
-    rgba(248,168,118,0.32) 58%, transparent 78%);
-  filter: blur(55px);
-  --r: -5deg; --op-min: 0.32; --op-max: 0.58;
-  animation: legato-petal-a 20s ease-in-out infinite, legato-breathe 16s ease-in-out infinite;
-  animation-delay: 0s, -6s;
-}
-.scene-evening-gold .orb-2 {
-  width: 225px; height: 248px; top: 5%; right: 8%;
-  border-radius: 55% 45% 62% 38% / 48% 58% 42% 52%;
-  background: radial-gradient(ellipse at 46% 42%,
-    rgba(248,118,72,0.82) 0%, rgba(232,95,55,0.55) 38%,
-    rgba(242,148,98,0.28) 62%, transparent 78%);
-  filter: blur(52px);
-  --r: 10deg; --op-min: 0.25; --op-max: 0.48;
-  animation: legato-petal-b 17s ease-in-out infinite, legato-breathe 13s ease-in-out infinite;
-  animation-delay: -8s, -4s;
-}
-.scene-evening-gold .orb-3 {
-  width: 10px; height: 225px; top: 42%; left: 45%;
-  border-radius: 50%;
-  background: linear-gradient(180deg,
-    rgba(172,118,68,0) 0%, rgba(172,118,68,0.38) 25%,
-    rgba(152,108,58,0.32) 72%, rgba(152,108,58,0) 100%);
-  filter: blur(6px);
-  --r: 3deg; --op-min: 0.7; --op-max: 0.9;
-  animation: legato-stem-sway 25s ease-in-out infinite;
-  animation-delay: -12s;
-}
-.scene-evening-gold .orb-4 {
-  width: 258px; height: 252px; top: 30%; left: 50%; margin-left: -129px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 48% 46%,
-    rgba(255,218,108,0.90) 0%, rgba(248,188,75,0.65) 35%,
-    rgba(252,208,138,0.32) 58%, transparent 75%);
-  filter: blur(58px);
-  --op-min: 0.35; --op-max: 0.58;
-  animation: legato-breathe 17s ease-in-out infinite;
-  animation-delay: -7s;
-}
-.scene-evening-gold .orb-5 {
-  width: 580px; height: 565px; top: 18%; left: 50%; margin-left: -290px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 50% 50%,
-    rgba(252,215,188,0.52) 0%, rgba(248,195,162,0.24) 42%, transparent 68%);
-  filter: blur(105px);
-  --op-min: 0.08; --op-max: 0.18;
-  animation: legato-breathe 36s ease-in-out infinite;
-  animation-delay: -22s;
-}
+.souffle-scene .glow { animation: souffle-glow-pulse 18s ease-in-out infinite; }
 
 @media (prefers-reduced-motion: reduce) {
-  .souffle-scene .orb { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
+  .souffle-scene .photo-layer,
+  .souffle-scene .photo-layer .inner,
+  .souffle-scene .glow {
+    animation: none !important;
+  }
 }
-.souffle-paused .orb { animation-play-state: paused !important; }
+.souffle-paused .photo-layer,
+.souffle-paused .photo-layer .inner,
+.souffle-paused .glow {
+  animation-play-state: paused !important;
+}
 `;
 
 function SouffleOrbs({ id }: { id: SceneId }) {
-  if (id === "warmth") {
-    return (
-      <>
-        <div className="orb orb-4" />
-        <div className="orb orb-1" />
-        <div className="orb orb-2" />
-        <div className="orb orb-3" />
-        <div className="orb orb-5" />
-      </>
-    );
-  }
-  if (id === "morning-sky") {
-    return (
-      <>
-        <div className="orb orb-halo" />
-        <div className="orb orb-sun" />
-        <div className="orb orb-lily" />
-        <div className="orb orb-stem-l" />
-        <div className="orb orb-tulip-l" />
-        <div className="orb orb-stem-r" />
-        <div className="orb orb-tulip-r" />
-      </>
-    );
-  }
-  if (id === "leaves") {
-    return (
-      <>
-        <div className="orb orb-4" />
-        <div className="orb orb-1" />
-        <div className="orb orb-2" />
-        <div className="orb orb-3" />
-        <div className="orb orb-5" />
-      </>
-    );
-  }
-  if (id === "rose-mist") {
-    return (
-      <>
-        <div className="orb orb-4" />
-        <div className="orb orb-1" />
-        <div className="orb orb-2" />
-        <div className="orb orb-3" />
-      </>
-    );
-  }
-  // evening-gold
+  const src = SCENE_IMAGES[id];
+  const bg = { backgroundImage: `url(${src})` } as React.CSSProperties;
   return (
     <>
-      <div className="orb orb-5" />
-      <div className="orb orb-4" />
-      <div className="orb orb-1" />
-      <div className="orb orb-2" />
-      <div className="orb orb-3" />
+      <div className="photo-layer layer-a" style={bg}>
+        <div className="inner" style={bg} />
+      </div>
+      <div className="photo-layer layer-b" style={bg}>
+        <div className="inner" style={bg} />
+      </div>
+      <div className="glow" />
+      <div className="vignette" />
+      <div className="grain" />
     </>
   );
 }
