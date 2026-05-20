@@ -20,6 +20,7 @@ function Home() {
   const branch = useLegato().branch;
   const branchMeta = BRANCHES.find((b) => b.id === branch);
   const cfg = MODE_HOME[mode];
+  const cards = filterCardsByBranch(cfg.cards, branch);
 
   return (
     <Shell>
@@ -73,8 +74,8 @@ function Home() {
             <ModeSelector compact />
           </div>
 
-          <div key={`cards-${mode}`} className="mt-9 space-y-3 animate-fade-in">
-            {cfg.cards.map((c, i) => (
+          <div key={`cards-${mode}-${branch}`} className="mt-9 space-y-3 animate-fade-in">
+            {cards.map((c, i) => (
               <ModeCard key={c.id} card={c} hero={i === 0} />
             ))}
           </div>
