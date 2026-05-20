@@ -853,13 +853,14 @@ function SoufflesView() {
     const container = containerRef.current;
     if (!container) return;
     const orbs = Array.from(container.querySelectorAll<HTMLElement>(".photo-layer .inner"));
-    // Très intense : la texture se déplace, gonfle, change de teinte au contact.
-    const TRANSLATE_FACTORS = [0.45, 0.75];   // px max ≈ ft * 200
-    const SCALE_FACTORS     = [0.18, 0.28];   // jusqu'à +28% par couche
-    const BLUR_FACTORS      = [4.0, 9.0];     // px de flou max
-    const HUE_FACTORS       = [22, 48];       // degrés de rotation de teinte
-    const BRIGHT_FACTORS    = [0.18, 0.28];   // ±28% luminosité
-    const CONTRAST_FACTORS  = [0.15, 0.22];
+    // Déformation globale : très discrète. Le gros de la réaction est portée
+    // par la « loupe » locale qui suit le doigt (.touch-lens / -core).
+    const TRANSLATE_FACTORS = [0.06, 0.10];   // micro-dérive
+    const SCALE_FACTORS     = [0.015, 0.025]; // souffle quasi imperceptible
+    const BLUR_FACTORS      = [0, 0];
+    const HUE_FACTORS       = [0, 0];
+    const BRIGHT_FACTORS    = [0, 0];
+    const CONTRAST_FACTORS  = [0, 0];
 
     let lastX = 0;
     let lastY = 0;
