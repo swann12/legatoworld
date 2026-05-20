@@ -14,78 +14,95 @@ export const Route = createFileRoute("/no-words")({
   component: NoWords,
 });
 
-type Motion = "drift" | "ripple" | "pulse" | "rain" | "veil";
-type AudioKind = "warm-low" | "sine-432" | "noise-leaves" | "deep-sine" | "gold-bursts";
 type Tab = "souffles" | "respirer" | "lire" | "regarder";
 type BookTag = "deuil récent" | "long terme" | "anticipation" | "pour les enfants" | "philosophique" | "poétique" | "corps";
 
-type Texture = {
-  id: string;
-  title: string;
-  whisper: string;
-  asmr: string;
-  motion: Motion;
-  bg: string; // page-level gradient (CSS)
-  blob: { from: string; to: string; opacity: number };
-  audio: AudioKind;
-  tag: BookTag; // sensitivity → for cross-AI with Lire
+type ShapeSpec = {
+  xR: number; yR: number;
+  rBase: number; blur: number;
+  c1: string; c2: string;
+  opMin: number; opMax: number; pDur: number;
+  dxAmp: number; dyAmp: number; dxDur: number; dyDur: number;
 };
 
-const BASE: Texture[] = [
+type SoundConfig = { freq: number; filterBase: number; noiseBase: number; lfoAmp: number };
+
+type Sequence = {
+  id: string;
+  title: string;
+  bg: string;
+  tag: BookTag;
+  sound: SoundConfig;
+  shapes: ShapeSpec[];
+};
+
+const BASE: Sequence[] = [
   {
     id: "warmth",
     title: "Chaleur lente",
-    whisper: "Comme une main posée sur l'épaule.",
-    asmr: "souffle long, près d'un foyer",
-    motion: "pulse",
-    bg: "linear-gradient(145deg, #FFE8DC 0%, #FFF4EE 100%)",
-    blob: { from: "#F0A890", to: "#F8C8B0", opacity: 0.48 },
-    audio: "warm-low",
+    bg: "linear-gradient(158deg, #FFE8DC 0%, #FFF4EE 100%)",
     tag: "deuil récent",
+    sound: { freq: 55, filterBase: 300, noiseBase: 340, lfoAmp: 100 },
+    shapes: [
+      { xR:0.52, yR:0.30, rBase:185, blur:75, c1:"rgba(255,200,170,", c2:"rgba(240,150,130,", opMin:0.32, opMax:0.52, pDur:16000, dxAmp:16, dyAmp:12, dxDur:18000, dyDur:14000 },
+      { xR:0.20, yR:0.20, rBase:100, blur:65, c1:"rgba(232,155,185,", c2:"rgba(210,120,150,", opMin:0.22, opMax:0.42, pDur:12000, dxAmp:20, dyAmp:16, dxDur:16000, dyDur:20000 },
+      { xR:0.72, yR:0.70, rBase:80,  blur:55, c1:"rgba(255,210,170,", c2:"rgba(240,180,120,", opMin:0.35, opMax:0.58, pDur:9000,  dxAmp:22, dyAmp:18, dxDur:11000, dyDur:9000 },
+      { xR:0.50, yR:0.55, rBase:260, blur:95, c1:"rgba(248,200,190,", c2:"rgba(240,170,160,", opMin:0.10, opMax:0.20, pDur:22000, dxAmp:8,  dyAmp:6,  dxDur:28000, dyDur:24000 },
+    ],
   },
   {
     id: "morning-sky",
     title: "Ciel du matin",
-    whisper: "Tout vient lentement, en douceur.",
-    asmr: "tonalité 432 Hz, halos lents",
-    motion: "veil",
     bg: "linear-gradient(180deg, #EAF0F8 0%, #F4EEF8 100%)",
-    blob: { from: "#A8C0E0", to: "#C8B8E8", opacity: 0.42 },
-    audio: "sine-432",
     tag: "philosophique",
+    sound: { freq: 48, filterBase: 260, noiseBase: 290, lfoAmp: 115 },
+    shapes: [
+      { xR:0.52, yR:0.24, rBase:145, blur:55, c1:"rgba(255,220,210,", c2:"rgba(220,170,210,", opMin:0.40, opMax:0.62, pDur:18000, dxAmp:10, dyAmp:8,  dxDur:22000, dyDur:19000 },
+      { xR:0.52, yR:0.24, rBase:275, blur:80, c1:"rgba(220,200,240,", c2:"rgba(200,180,230,", opMin:0.08, opMax:0.18, pDur:18000, dxAmp:10, dyAmp:8,  dxDur:22000, dyDur:19000 },
+      { xR:0.25, yR:0.62, rBase:88,  blur:42, c1:"rgba(120,155,210,", c2:"rgba(100,130,195,", opMin:0.20, opMax:0.36, pDur:14000, dxAmp:8,  dyAmp:12, dxDur:13000, dyDur:17000 },
+      { xR:0.76, yR:0.44, rBase:150, blur:85, c1:"rgba(200,185,235,", c2:"rgba(180,160,220,", opMin:0.16, opMax:0.30, pDur:11000, dxAmp:14, dyAmp:10, dxDur:15000, dyDur:12000 },
+    ],
   },
   {
     id: "leaves",
     title: "Feuilles",
-    whisper: "Le temps se balance, sans bruit.",
-    asmr: "souffle filtré dans les feuilles",
-    motion: "drift",
     bg: "linear-gradient(162deg, #EEF4E8 0%, #F8FBF4 100%)",
-    blob: { from: "#C0D4A8", to: "#D0E0B8", opacity: 0.36 },
-    audio: "noise-leaves",
     tag: "long terme",
+    sound: { freq: 65, filterBase: 400, noiseBase: 480, lfoAmp: 130 },
+    shapes: [
+      { xR:0.50, yR:0.46, rBase:210, blur:90, c1:"rgba(210,230,185,", c2:"rgba(185,215,160,", opMin:0.25, opMax:0.40, pDur:21000, dxAmp:10, dyAmp:8,  dxDur:24000, dyDur:20000 },
+      { xR:0.78, yR:0.18, rBase:70,  blur:50, c1:"rgba(195,225,165,", c2:"rgba(170,205,140,", opMin:0.20, opMax:0.38, pDur:13000, dxAmp:16, dyAmp:12, dxDur:14000, dyDur:17000 },
+      { xR:0.30, yR:0.65, rBase:140, blur:70, c1:"rgba(192,216,160,", c2:"rgba(208,224,176,", opMin:0.18, opMax:0.36, pDur:26000, dxAmp:14, dyAmp:10, dxDur:22000, dyDur:18000 },
+      { xR:0.65, yR:0.40, rBase:110, blur:60, c1:"rgba(168,200,136,", c2:"rgba(188,216,156,", opMin:0.12, opMax:0.24, pDur:19000, dxAmp:18, dyAmp:14, dxDur:20000, dyDur:23000 },
+    ],
   },
   {
     id: "rose-mist",
     title: "Brume rose",
-    whisper: "Le monde se feutre autour de vous.",
-    asmr: "basse profonde, brume légère",
-    motion: "veil",
     bg: "linear-gradient(148deg, #F8EEF4 0%, #F0ECF8 100%)",
-    blob: { from: "#E8B0C8", to: "#B8C0E8", opacity: 0.42 },
-    audio: "deep-sine",
     tag: "poétique",
+    sound: { freq: 52, filterBase: 280, noiseBase: 310, lfoAmp: 95 },
+    shapes: [
+      { xR:0.35, yR:0.30, rBase:170, blur:70, c1:"rgba(232,168,195,", c2:"rgba(215,140,175,", opMin:0.30, opMax:0.50, pDur:15000, dxAmp:18, dyAmp:14, dxDur:17000, dyDur:13000 },
+      { xR:0.68, yR:0.55, rBase:130, blur:65, c1:"rgba(180,188,230,", c2:"rgba(160,165,218,", opMin:0.24, opMax:0.42, pDur:19000, dxAmp:14, dyAmp:16, dxDur:21000, dyDur:16000 },
+      { xR:0.50, yR:0.50, rBase:280, blur:100,c1:"rgba(240,210,230,", c2:"rgba(225,195,218,", opMin:0.08, opMax:0.16, pDur:25000, dxAmp:6,  dyAmp:5,  dxDur:30000, dyDur:26000 },
+      { xR:0.22, yR:0.72, rBase:65,  blur:48, c1:"rgba(248,185,210,", c2:"rgba(235,160,190,", opMin:0.28, opMax:0.50, pDur:10000, dxAmp:20, dyAmp:15, dxDur:12000, dyDur:10000 },
+    ],
   },
   {
     id: "evening-gold",
     title: "Or du soir",
-    whisper: "Une chaleur qui s'attarde.",
-    asmr: "petites bouffées dorées",
-    motion: "drift",
     bg: "linear-gradient(158deg, #FFF4E0 0%, #FFF8F0 100%)",
-    blob: { from: "#F0C870", to: "#F4C040", opacity: 0.38 },
-    audio: "gold-bursts",
     tag: "philosophique",
+    sound: { freq: 62, filterBase: 360, noiseBase: 420, lfoAmp: 120 },
+    shapes: [
+      { xR:0.50, yR:0.35, rBase:155, blur:60, c1:"rgba(255,215,140,", c2:"rgba(245,175,100,", opMin:0.36, opMax:0.56, pDur:13000, dxAmp:12, dyAmp:10, dxDur:16000, dyDur:13000 },
+      { xR:0.28, yR:0.18, rBase:90,  blur:58, c1:"rgba(248,185,130,", c2:"rgba(235,155,100,", opMin:0.28, opMax:0.48, pDur:11000, dxAmp:18, dyAmp:14, dxDur:13000, dyDur:16000 },
+      { xR:0.55, yR:0.50, rBase:270, blur:95, c1:"rgba(255,235,185,", c2:"rgba(248,210,160,", opMin:0.10, opMax:0.20, pDur:24000, dxAmp:7,  dyAmp:5,  dxDur:28000, dyDur:22000 },
+      { xR:0.18, yR:0.60, rBase:45,  blur:42, c1:"rgba(255,210,120,", c2:"rgba(240,170,80,",  opMin:0.18, opMax:0.36, pDur:8000,  dxAmp:18, dyAmp:14, dxDur:9000,  dyDur:11000 },
+      { xR:0.80, yR:0.38, rBase:55,  blur:46, c1:"rgba(255,210,120,", c2:"rgba(240,170,80,",  opMin:0.22, opMax:0.44, pDur:11000, dxAmp:22, dyAmp:18, dxDur:13000, dyDur:10000 },
+      { xR:0.42, yR:0.82, rBase:60,  blur:50, c1:"rgba(255,210,120,", c2:"rgba(240,170,80,",  opMin:0.20, opMax:0.40, pDur:14000, dxAmp:26, dyAmp:20, dxDur:15000, dyDur:13000 },
+    ],
   },
 ];
 
