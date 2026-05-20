@@ -101,7 +101,7 @@ const BASE: Sequence[] = [
   },
   {
     id: "bougainvillier",
-    title: "Bougainvillier",
+    title: "Sable au crépuscule",
     tag: "poétique",
     volume: 0.27,
     fadeIn: 4000,
@@ -188,8 +188,12 @@ function NoWords() {
           <Link
             to="/home"
             aria-label="Retour"
-            className="absolute top-5 left-5 z-30 size-9 rounded-full backdrop-blur-md flex items-center justify-center text-white/90 hover:text-white mix-blend-difference"
-            style={{ background: "rgba(255,255,255,0.18)" }}
+            className="lune-ctrl absolute top-5 left-5 z-30 size-9 rounded-full flex items-center justify-center text-dusk/75"
+            style={{
+              background: "rgba(255,255,255,0.28)",
+              backdropFilter: "blur(8px)",
+              WebkitBackdropFilter: "blur(8px)",
+            }}
           >
             ←
           </Link>
@@ -677,14 +681,14 @@ const ORB_STYLES = `
 .scene-aurore        .scene-bg { background: linear-gradient(180deg, #F8E4D8 0%, #E8DCEC 100%); }
 .scene-bougainvillier .scene-bg { background: linear-gradient(160deg, #F8DCE8 0%, #F4E8D8 100%); }
 .scene-lumiere       .scene-bg { background: linear-gradient(180deg, #FFF4D8 0%, #F4E0C8 100%); }
-.scene-lune          .scene-bg { background: radial-gradient(ellipse at 50% 35%, #2C3142 0%, #14182A 55%, #0A0D18 100%); }
+.scene-lune          .scene-bg { background: radial-gradient(ellipse at 50% 35%, #4A3A52 0%, #2A1F38 55%, #14101F 100%); }
 
 /* Lune — masquer les couches photo pour garder un vrai paysage nocturne */
 .scene-lune .photo-layer,
 .scene-lune .photo-video,
 .scene-lune .grain { display: none; }
 .scene-lune .glow {
-  background: radial-gradient(ellipse at 50% 30%, rgba(180,195,225,0.18) 0%, rgba(120,140,180,0.08) 40%, transparent 75%);
+  background: radial-gradient(ellipse at 50% 30%, rgba(230,200,210,0.22) 0%, rgba(160,130,170,0.10) 40%, transparent 75%);
 }
 .scene-lune .vignette {
   background: radial-gradient(ellipse at 50% 50%, transparent 50%, rgba(0,0,0,0.35) 90%, rgba(0,0,0,0.55) 100%);
