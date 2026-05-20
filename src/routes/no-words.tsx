@@ -3,29 +3,29 @@ import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react"
 import { Shell } from "@/components/legato/Shell";
 import imgWarmth from "@/assets/souffle-warmth.jpg";
 import imgMorningSky from "@/assets/souffle-morning-sky.jpg";
-import imgLeaves from "@/assets/souffle-leaves.jpg";
-import imgRoseMist from "@/assets/souffle-rose-mist.jpg";
-import imgEveningGold from "@/assets/souffle-evening-gold.jpg";
 import imgOrSoirEau from "@/assets/souffle-or-soir-eau.jpg";
 import imgFeuillesVert from "@/assets/souffle-feuilles-vert.jpg";
-import imgFeuillesRose from "@/assets/souffle-feuilles-rose.jpg";
-import imgSoirFlou from "@/assets/souffle-soir-flou.jpg";
+import imgAurore from "@/assets/souffle-aurore.jpg";
+import imgBougainvillier from "@/assets/souffle-bougainvillier.jpg";
+import imgRivage from "@/assets/souffle-rivage.jpg";
+import imgRessac from "@/assets/souffle-ressac.jpg";
+import imgBrumeRose from "@/assets/souffle-brume-rose.jpg";
+import imgOrDuSoir from "@/assets/souffle-or-du-soir.jpg";
 
 const SCENE_IMAGES: Record<SceneId, string> = {
   "warmth": imgWarmth,
   "morning-sky": imgMorningSky,
-  "leaves": imgLeaves,
-  "rose-mist": imgRoseMist,
-  "evening-gold": imgEveningGold,
+  "rivage": imgRivage,
+  "ressac": imgRessac,
+  "rose-mist": imgBrumeRose,
+  "evening-gold": imgOrDuSoir,
   "or-soir-eau": imgOrSoirEau,
   "feuilles-vert": imgFeuillesVert,
-  "feuilles-rose": imgFeuillesRose,
-  "soir-flou": imgSoirFlou,
-  "perle": imgRoseMist,
-  "aurore": imgMorningSky,
-  "bougainvillier": imgFeuillesRose,
-  "lumiere": imgEveningGold,
-  "lune": imgSoirFlou,
+  "perle": imgOrSoirEau,
+  "aurore": imgAurore,
+  "bougainvillier": imgBougainvillier,
+  "lumiere": imgAurore,
+  "lune": imgRessac,
 };
 
 export const Route = createFileRoute("/no-words")({
@@ -44,8 +44,8 @@ type Tab = "souffles" | "respirer" | "lire" | "regarder";
 type BookTag = "deuil récent" | "long terme" | "anticipation" | "pour les enfants" | "philosophique" | "poétique" | "corps";
 
 type SceneId =
-  | "warmth" | "morning-sky" | "leaves" | "rose-mist" | "evening-gold"
-  | "or-soir-eau" | "feuilles-vert" | "feuilles-rose" | "soir-flou"
+  | "warmth" | "morning-sky" | "rivage" | "ressac" | "rose-mist" | "evening-gold"
+  | "or-soir-eau" | "feuilles-vert"
   | "perle" | "aurore" | "bougainvillier" | "lumiere" | "lune";
 
 type Sequence = {
@@ -100,18 +100,18 @@ const BASE: Sequence[] = [
     fadeIn: 4000,
   },
   {
-    id: "feuilles-rose",
-    title: "Feuilles roses",
-    tag: "poétique",
-    volume: 0.30,
-    fadeIn: 3800,
-  },
-  {
-    id: "leaves",
-    title: "Feuilles",
+    id: "rivage",
+    title: "Rivage",
     tag: "long terme",
     volume: 0.30,
     fadeIn: 3500,
+  },
+  {
+    id: "ressac",
+    title: "Ressac",
+    tag: "long terme",
+    volume: 0.32,
+    fadeIn: 4000,
   },
   {
     id: "perle",
@@ -137,13 +137,6 @@ const BASE: Sequence[] = [
   {
     id: "or-soir-eau",
     title: "Or sur l'eau",
-    tag: "philosophique",
-    volume: 0.30,
-    fadeIn: 4500,
-  },
-  {
-    id: "soir-flou",
-    title: "Soir flou",
     tag: "philosophique",
     volume: 0.30,
     fadeIn: 4500,
@@ -178,15 +171,16 @@ function NoWords() {
     tab === "lire" ? "Lire" : "Regarder";
 
   const isSouffles = tab === "souffles";
+  const isFullScreen = isSouffles || tab === "respirer";
 
   return (
-    <Shell livingBg={false} hideNav={isSouffles}>
+    <Shell livingBg={false} hideNav={isFullScreen}>
       <div className="relative min-h-dvh flex flex-col select-none overflow-hidden">
-        {/* Header — minimal sur Souffles (fond plein), classique ailleurs */}
-        {isSouffles ? (
+        {/* Header — minimal sur pages plein écran, simple ailleurs (sans lien Foyer) */}
+        {isFullScreen ? (
           <Link
             to="/home"
-            aria-label="Retour au Foyer"
+            aria-label="Retour"
             className="absolute top-5 left-5 z-30 size-9 rounded-full backdrop-blur-md flex items-center justify-center text-dusk/70 hover:text-dusk"
             style={{ background: "color-mix(in oklab, white 40%, transparent)" }}
           >
@@ -194,11 +188,9 @@ function NoWords() {
           </Link>
         ) : (
           <div className="relative z-20 px-5 pt-7 pb-3 flex items-center justify-between gap-2">
-            <Link to="/home" className="text-[11px] uppercase tracking-[0.22em] text-dusk/55 hover:text-dusk">
-              ← Foyer
-            </Link>
+            <Link to="/home" aria-label="Retour" className="text-dusk/55 hover:text-dusk text-lg">←</Link>
             <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/55">{title}</p>
-            <span className="w-12" />
+            <span className="w-6" />
           </div>
         )}
 
@@ -283,8 +275,12 @@ const SCENE_AUDIO: Record<SceneId, SceneAudio> = {
   "morning-sky":  { type: "bandpass", baseFreq: 2200, q: 1.6, lfoRate: 0.09, lfoDepth: 900, noise: "pink",
                     tone: { freq: 880, type: "sine", gain: 0.012 },
                     tone2: { freq: 1320, type: "sine", gain: 0.008, detune: 7 } },
-  // Feuilles — bruit pink filtré, plus de mouvement haute fréquence
-  leaves:         { type: "highpass", baseFreq: 1800, q: 0.8, lfoRate: 0.18, lfoDepth: 600, noise: "pink"  },
+  // Rivage — vagues douces, lowpass, eau lointaine
+  rivage:         { type: "lowpass",  baseFreq: 560,  q: 0.7, lfoRate: 0.11, lfoDepth: 220, noise: "brown",
+                    tone: { freq: 90, type: "sine", gain: 0.03 } },
+  // Ressac — vagues plus marquées, bandpass médium qui respire
+  ressac:         { type: "bandpass", baseFreq: 900,  q: 1.2, lfoRate: 0.16, lfoDepth: 480, noise: "white",
+                    tone: { freq: 130, type: "sine", gain: 0.028 } },
   // Brume rose — lowpass + drone très doux
   "rose-mist":    { type: "lowpass",  baseFreq: 700,  q: 0.9, lfoRate: 0.04, lfoDepth: 200, noise: "pink",
                     tone: { freq: 220, type: "sine", gain: 0.025, detune: -3 } },
@@ -297,13 +293,6 @@ const SCENE_AUDIO: Record<SceneId, SceneAudio> = {
                     tone: { freq: 147, type: "triangle", gain: 0.02 } },
   // Feuilles vertes — frissons aigus
   "feuilles-vert":{ type: "highpass", baseFreq: 2600, q: 1.0, lfoRate: 0.25, lfoDepth: 800, noise: "pink"  },
-  // Feuilles roses — mélange aérien, drone mi-aigu
-  "feuilles-rose":{ type: "bandpass", baseFreq: 1500, q: 1.3, lfoRate: 0.12, lfoDepth: 500, noise: "pink",
-                    tone: { freq: 392, type: "sine", gain: 0.014 } },
-  // Soir flou — drone tenu, aérien, lent
-  "soir-flou":    { type: "lowpass",  baseFreq: 820,  q: 0.8, lfoRate: 0.03, lfoDepth: 150, noise: "pink",
-                    tone: { freq: 196, type: "sine", gain: 0.03 },
-                    tone2: { freq: 294, type: "sine", gain: 0.016, detune: 4 } },
   // Perle — drone cristallin, très calme
   perle:          { type: "lowpass",  baseFreq: 1100, q: 1.1, lfoRate: 0.04, lfoDepth: 250, noise: "pink",
                     tone: { freq: 330, type: "sine", gain: 0.022 },
@@ -621,18 +610,28 @@ const ORB_STYLES = `
 /* Fond doux par scène (pour la marge -8% au-delà du cadre) */
 .scene-warmth        .scene-bg { background: linear-gradient(160deg, #FFE8DC 0%, #FFF4EE 100%); }
 .scene-morning-sky   .scene-bg { background: linear-gradient(180deg, #FFE8D8 0%, #E8DEEC 60%, #D8DEEC 100%); }
-.scene-leaves        .scene-bg { background: linear-gradient(165deg, #EEF4E8 0%, #F8FBF4 100%); }
+.scene-rivage        .scene-bg { background: linear-gradient(180deg, #E8DCC8 0%, #C8D8E8 60%, #B8CCE0 100%); }
+.scene-ressac        .scene-bg { background: linear-gradient(170deg, #D8E4DC 0%, #B8CCC4 60%, #98B0A8 100%); }
 .scene-rose-mist     .scene-bg { background: linear-gradient(150deg, #F8EEF4 0%, #F0ECF8 100%); }
 .scene-evening-gold  .scene-bg { background: linear-gradient(160deg, #FFF4E0 0%, #E8F0EC 100%); }
 .scene-or-soir-eau   .scene-bg { background: linear-gradient(180deg, #F6E8D8 0%, #DCE6F0 60%, #C8D8E8 100%); }
 .scene-feuilles-vert .scene-bg { background: linear-gradient(170deg, #E8F0E0 0%, #F4F8EC 100%); }
-.scene-feuilles-rose .scene-bg { background: linear-gradient(160deg, #F8E8E0 0%, #F0F4E8 100%); }
-.scene-soir-flou     .scene-bg { background: linear-gradient(180deg, #E8E4F0 0%, #F8E0E8 50%, #F4D8C8 100%); }
 .scene-perle         .scene-bg { background: linear-gradient(160deg, #ECEEF4 0%, #F4EEF0 100%); }
 .scene-aurore        .scene-bg { background: linear-gradient(180deg, #F8E4D8 0%, #E8DCEC 100%); }
 .scene-bougainvillier .scene-bg { background: linear-gradient(160deg, #F8DCE8 0%, #F4E8D8 100%); }
 .scene-lumiere       .scene-bg { background: linear-gradient(180deg, #FFF4D8 0%, #F4E0C8 100%); }
-.scene-lune          .scene-bg { background: linear-gradient(180deg, #2A2E3A 0%, #1A1E28 100%); }
+.scene-lune          .scene-bg { background: radial-gradient(ellipse at 50% 35%, #2C3142 0%, #14182A 55%, #0A0D18 100%); }
+
+/* Lune — masquer les couches photo pour garder un vrai paysage nocturne */
+.scene-lune .photo-layer,
+.scene-lune .photo-video,
+.scene-lune .grain { display: none; }
+.scene-lune .glow {
+  background: radial-gradient(ellipse at 50% 30%, rgba(180,195,225,0.18) 0%, rgba(120,140,180,0.08) 40%, transparent 75%);
+}
+.scene-lune .vignette {
+  background: radial-gradient(ellipse at 50% 50%, transparent 50%, rgba(0,0,0,0.35) 90%, rgba(0,0,0,0.55) 100%);
+}
 
 /* Lune scene — invert text overlay color for legibility on dark bg */
 .scene-lune .souffle-title { color: rgba(245, 240, 230, 0.92) !important; text-shadow: 0 1px 18px rgba(0,0,0,0.45) !important; }
