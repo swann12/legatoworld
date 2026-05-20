@@ -109,17 +109,30 @@ function NoWords() {
     tab === "respirer" ? "Respirer" :
     tab === "lire" ? "Lire" : "Regarder";
 
+  const isSouffles = tab === "souffles";
+
   return (
     <Shell livingBg={false}>
       <div className="relative min-h-dvh flex flex-col select-none overflow-hidden">
-        {/* Header sobre — pas d'onglets, chaque rubrique vit dans le Foyer (mode Souffle) */}
-        <div className="relative z-20 px-5 pt-7 pb-3 flex items-center justify-between gap-2">
-          <Link to="/home" className="text-[11px] uppercase tracking-[0.22em] text-dusk/55 hover:text-dusk">
-            ← Foyer
+        {/* Header — minimal sur Souffles (fond plein), classique ailleurs */}
+        {isSouffles ? (
+          <Link
+            to="/home"
+            aria-label="Retour au Foyer"
+            className="absolute top-5 left-5 z-30 size-9 rounded-full backdrop-blur-md flex items-center justify-center text-dusk/70 hover:text-dusk"
+            style={{ background: "color-mix(in oklab, white 40%, transparent)" }}
+          >
+            ←
           </Link>
-          <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/55">{title}</p>
-          <span className="w-12" />
-        </div>
+        ) : (
+          <div className="relative z-20 px-5 pt-7 pb-3 flex items-center justify-between gap-2">
+            <Link to="/home" className="text-[11px] uppercase tracking-[0.22em] text-dusk/55 hover:text-dusk">
+              ← Foyer
+            </Link>
+            <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/55">{title}</p>
+            <span className="w-12" />
+          </div>
+        )}
 
         <div className="relative z-10 flex-1 flex flex-col">
           {tab === "souffles" && <SoufflesView />}
