@@ -166,6 +166,9 @@ function Start() {
                 >
                   Continuer en tant qu'invité·e
                 </button>
+                <p className="text-center text-[10.5px] italic text-dusk/45 -mt-1.5 max-w-[34ch] mx-auto leading-snug">
+                  Ce que vous écrivez ici ne sera pas gardé.
+                </p>
               </div>
             )}
 

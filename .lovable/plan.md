@@ -1,79 +1,77 @@
-# Refonte UX writing, hiérarchie & différenciation des modes
+# Plan
 
-Cette refonte est large. Pour rester maîtrisable et te permettre de valider visuellement entre chaque étape, je propose de la découper en **5 livraisons cohérentes**, dans cet ordre. Tu pourras m'arrêter ou ajuster à tout moment.
+## 1. Correctifs rapides (déterministes)
 
----
+**a. Brume rose sans vidéo**
+- `src/routes/no-words.tsx` : retirer `rose-mist` de `SCENE_VIDEOS` (garder uniquement l'image).
 
-## Livraison 1 — Socle global (français + mise en page + barre du bas)
+**b. Pas de mots orphelins (veuves) sur les libellés de la page Souffles**
+- Remplacer les espaces avant les mots courts (≤4 lettres environ) par des `&nbsp;` (`\u00A0`) dans les titres / sous-titres / légendes des scènes : "3 minutes", "main posée", etc.
+- Appliquer aussi `text-wrap: pretty` / `text-wrap: balance` sur les blocs concernés.
 
-Ce qui change partout, sur toutes les pages :
+**c. Bouton "← Retour" cassé après "Aide concrète"**
+- `src/routes/onboarding.tsx` : quand on choisit `practical`, on saute directement vers `/practical` via `navigate({ to: "/practical" })`. Mais le bouton "Retour" suivant utilise `step - 1` ou `/`, donc depuis `/practical` le bouton retour ramène à la home, pas à l'onboarding step 1.
+- Audit similaire : vérifier dans `practical.index.tsx`, `home.tsx`, etc. que les boutons "Retour" / "←" pointent au bon endroit (en particulier après les shortcuts).
+- Fix : sur `/practical` (et ses sous-pages), le bouton retour doit revenir à l'onboarding step Branch, pas à `/home` ou `/`.
 
-- **Français** : relecture complète des titres, sous-titres, micro-textes, boutons, vides, messages d'erreur. Suppression des tournures qui sonnent traduites ("avec une personne tout près", "déposez ce souvenir", etc.). Phrases courtes, naturelles, justes.
-- **Veuves typographiques** : je passe les titres et phrases longues sous `text-wrap: pretty` + `text-balance` ciblé, et je réécris à la main les cas où un mot reste seul à la ligne (ex. "voix.", "souvenir.").
-- **Marges et respirations** : harmonisation des paddings de page (`px-7 pt-12 pb-14` → tokens `--page-x`, `--page-top`, `--page-bottom`), gouttières verticales entre sections (`space-y-10` au lieu de `space-y-3/4` mélangés), titres détachés du haut d'écran.
-- **Barre du bas** : "Accueil" → icône maison, "Espace" → icône cercle/lune. Je ne garde de mot que sur l'élément actif (label révélé). Ça libère de la marge et de l'élégance.
+**d. Page Start — mode Invité**
+- `src/routes/start.tsx` (ou `index.tsx` selon où vit le mode Invité) : ajouter le micro-texte « Ce que vous écrivez ici ne sera pas gardé. » sous le bouton/zone Invité.
 
-## Livraison 2 — Différenciation réelle des 4 modes (Cocon, Ancrage, Souffle, Relais)
+## 2. Sans Mots — séquences adaptatives + IA
 
-Chaque mode aura **sa propre structure d'accueil**, pas seulement une couleur :
+État actuel : 10 scènes statiques (`SCENES` dans `no-words.tsx`), les "likes" (`isFav`) sont stockés localement mais ne nourrissent rien.
 
-- **Cocon** — état repli. Une seule proposition à la fois, grandes respirations blanches, "Sans mots" mis en avant en premier, journal et jardin discrets.
-- **Ancrage** — état solide. Liste structurée (souvenirs, jardin, démarches), rythme plus dense, "Concret" remonte en tête.
-- **Souffle** — état mouvement. Inspirations et compositions au premier plan, animations un peu plus présentes, ton plus ouvert.
-- **Relais** — état accompagné. Mise en avant du partage, des proches, de "Mes volontés", ton qui inclut la deuxième personne.
+Changements :
+- **Capture des likes** : persister les scènes likées dans `memories-store` ou un petit store dédié (`souffles-store`).
+- **Pondération** : à chaque entrée dans Souffles, prioriser les scènes proches des likes (même ambiance audio / palette) en tête de liste, et raréfier celles "skip".
+- **Adaptation à l'humeur** : utiliser `mode` de `useLegato` (cocoon / anchoring / breath / lavender) pour filtrer/réordonner la liste — chaque scène reçoit un tag d'affinité par mode.
+- **Suggestions de lecture** : sous chaque scène, ajouter un petit bloc « Pour prolonger » avec 1 référence (texte court, poème, citation) choisi dans `resources-data` ou via une nouvelle server function `souffle-companion.functions.ts` qui appelle Lovable AI (google/gemini-2.5-flash) avec le contexte de la scène + mode + likes.
+- **Lien IA ↔ likes** : la server function reçoit `{ likedScenes, mode, branch }` et propose la prochaine scène + une courte phrase d'accueil personnalisée.
 
-Concrètement : je refactore `home.tsx` pour qu'il lise le mode et compose l'écran à partir de blocs réutilisables, avec ordre + densité + tonalité par mode.
+## 3. Adaptation UI/UX et IA par branche d'onboarding
 
-## Livraison 3 — "Parler à la présence" + "Sans mots"
+Branches existantes (`legato-state.tsx`) : `person`, `animal`, `fear`, `anxiety`, `practical`, `unknown`.
 
-**Parler à la présence** (`presence.tsx`) :
-- Mise en page recentrée, typographie plus aérée, ponctuation revue.
-- Halo qui respire derrière le champ de saisie (animation lente, déjà disponible via `breath`).
-- Indication temporelle douce ("quelques minutes, à votre rythme") au lieu de "quelques minutes tranquilles".
-- Sensation plus précieuse : carte légèrement surélevée, fond papier plus chaud.
+Principe : la branche choisie conditionne **(a)** les rubriques visibles dans la nav, **(b)** le vocabulaire dans les écrans, **(c)** le contexte système envoyé à l'IA.
 
-**Sans mots** (`no-words.tsx`) :
-- Fond moins opaque (passage en `paper-card` translucide sur halo coloré).
-- Cartes son/ambiance avec mise en page deux lignes propres (titre / ressenti), plus de typographie qui s'étale.
-- Plus d'options : ajout de 6–8 ambiances supplémentaires (foyer, pluie tiède, souffle long, voix murmurée, cloche lointaine, vent dans les feuilles, ressac, silence dense).
-- Mode guidé "respirer" : un cercle qui grandit/diminue 4-7-8, sans texte, qu'on peut lancer depuis n'importe quelle ambiance.
-- **Continuité sensorielle** : quand un son/ambiance plaît, bouton discret "rester dans cette atmosphère" qui appelle l'IA (Lovable AI Gateway, déjà branché via `inspiration.functions.ts` — j'ajoute une fonction `nearbyAmbiances`) pour proposer 3 variations proches sans sortir de l'état.
+Changements :
 
-## Livraison 4 — "Si aujourd'hui est trop lourd" + accompagnement IA des proches
+**a. Navigation conditionnelle (`Shell.tsx` / `BottomNav.tsx`)**
+- `person` (être humain perdu) : nav complète actuelle.
+- `animal` : remplacer "Volontés / Pratique" par "Souvenirs" + "Rituel". Ajuster libellés ("être aimé" → "compagnon").
+- `fear` / `anxiety` (questions sur la mort, anxiété) : nav réduite — Souffles, Journal, "Mes volontés", IA confidente. Cacher "Pratique", "Ressources funéraires", "Dates", "Présence".
+- `practical` : déjà géré, branche "aide concrète".
+- `unknown` : nav par défaut, légèrement épurée.
 
-**`crisis.tsx`** : refonte complète.
-- Titre plus juste : "Si aujourd'hui pèse trop".
-- Hiérarchie claire : 1) une respiration immédiate, 2) une voix humaine (numéros), 3) écrire à quelqu'un, 4) revenir doucement.
-- Français revu, plus de phrases bancales, espacements généreux.
-- Couleur d'arrière-plan plus enveloppante (rose poudré très pâle).
+**b. Vocabulaire**
+- Centraliser dans `src/lib/legato-state.tsx` (ou nouveau `branch-copy.ts`) un mapping `branch → { lovedOne, lossWord, presenceWord, ... }` réutilisé dans Home, Journal, Confide, Souffles.
 
-**Décrire une personne** (`inspiration.tsx` + `inspiration.functions.ts`) :
-- Formulaire enrichi (lien, âge approximatif, ce qu'elle aimait, un détail concret, ce qui vous manque le plus).
-- Prompt IA réécrit pour produire des suggestions **incarnées** : un objet précis, un geste précis, un lieu précis, une phrase à écrire — jamais "pensez à elle", toujours quelque chose à faire ou à toucher.
-- Affichage des résultats en cartes douces, avec une suite possible ("composer un jardin à partir de ceci", "garder cette piste").
+**c. Conditionnement IA**
+- Toutes les server functions qui appellent Lovable AI (`practical-ai`, `practical-suggestions`, `inspiration`, `compose-auto`, `presence`, `rituals`, `ambiance`, futur `souffle-companion`) doivent recevoir `branch` et l'injecter dans le system prompt :
+  - "Tu parles à quelqu'un qui a perdu son chien/chat. N'utilise jamais le mot 'personne'..."
+  - "Tu parles à quelqu'un qui se questionne sur la mort. Ne suppose pas un deuil…"
+- Ajouter un helper `buildBranchContext(branch, mode)` partagé.
 
-## Livraison 5 — Repositionner "Mes volontés"
+## 4. Audit des boutons "Retour"
 
-**Constat** : `wishes.tsx` est aujourd'hui mêlé au reste, alors que c'est une rubrique grave et personnelle.
+Vérifier tous les boutons "←" / "Retour" :
+- `practical.tsx` et ses sous-pages
+- `no-words.tsx`
+- `respirer`, `lire`, `regarder`
+- `journal.tsx`, `memories.tsx`, `wishes.tsx`
+- corriger ceux qui pointent en dur vers `/home` au lieu d'utiliser l'historique ou la vraie page parente.
 
-**Proposition** :
-- Sortir "Mes volontés" du flux principal.
-- L'ancrer dans **Espace** (la vue intime de l'utilisateur), accessible par une carte distincte, avec une introduction qui explique qu'on peut y déposer, à son rythme, ses souhaits pour soi-même ou pour les autres.
-- Ajouter un seuil doux à l'entrée : un court texte d'accueil, et la possibilité de revenir en arrière sans rien écrire.
-- Supprimer toute mention "obligatoire" dans le parcours principal.
+## Hors plan (non touché)
+- Pas de changement de modèle IA, pas de nouvelles tables Cloud sauf si nécessaire pour persister les likes côté serveur (sinon localStorage).
 
----
-
-## Détails techniques (pour info)
-
-- Tokens de page ajoutés dans `src/styles.css` : `--page-x`, `--page-top`, `--page-bottom`, `--stack-lg`.
-- `BottomNav.tsx` passe en mode "icône + label actif".
-- Nouveau composant `src/components/legato/ModeFrame.tsx` qui compose les blocs d'accueil selon le mode.
-- Nouvelles fonctions IA : `nearbyAmbiances` (no-words) et un prompt enrichi pour `describePersonForPaths` (inspiration). Toutes via Lovable AI Gateway, aucune clé à fournir.
-- Pas de changement de schéma de données ni de migration. Tout reste local sauf les appels IA déjà existants.
+## Validation
+- Build, puis QA visuelle rapide des pages : onboarding → practical → retour, Souffles (Brume rose, libellés), Start (mode Invité), navigation par branche (animal, fear).
 
 ---
 
-## Comment je procède
+**Question avant de lancer** : la partie 2 et 3 sont substantielles (plusieurs heures d'édition multi-fichiers). Veux-tu que je :
 
-Je te propose de commencer par la **Livraison 1** seule : tu vois le résultat sur l'app, tu valides ou tu corriges le ton, et on enchaîne avec la 2. Si tu préfères que j'attaque plusieurs livraisons d'un coup, dis-le moi.
+- **(A)** Fasse tout d'un coup (1 → 4),
+- **(B)** Commence par les correctifs rapides (1) + audit retours (4), puis on traite Sans Mots adaptatif (2) et la branche-aware UX (3) dans des passes séparées ?
+
+L'option B est plus sûre pour vérifier chaque morceau visuellement avant d'enchaîner.

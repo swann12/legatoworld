@@ -60,7 +60,7 @@ function Practical() {
         <Halos mode={mode} variant={profile.halo === "rich" ? "default" : "calm"} />
         <div className="relative z-10">
           <div className="px-7 pt-10 flex items-center justify-between">
-            <Link to="/home" className="text-[11px] uppercase tracking-[0.22em] text-dusk/50">← Accueil</Link>
+            <Link to="/onboarding" className="text-[11px] uppercase tracking-[0.22em] text-dusk/50">← Retour</Link>
             <span className="text-[10px] uppercase tracking-[0.22em] text-dusk/40">{h.eyebrow}</span>
           </div>
 

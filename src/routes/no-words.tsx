@@ -1,6 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import { Shell } from "@/components/legato/Shell";
+import { useLegato } from "@/lib/legato-state";
+import { noOrphan } from "@/lib/text";
 import imgWarmth from "@/assets/souffle-warmth.jpg";
 import imgMorningSky from "@/assets/souffle-morning-sky.jpg";
 import imgOrSoirEau from "@/assets/souffle-or-soir-eau.jpg";
@@ -672,7 +674,6 @@ const ORB_STYLES = `
 `;
 
 const SCENE_VIDEOS: Partial<Record<SceneId, string>> = {
-  "rose-mist": "/souffles/rose-mist.mp4",
   "evening-gold": "/souffles/evening-gold.mp4",
 };
 
@@ -710,13 +711,35 @@ function SouffleOrbs({ id }: { id: SceneId }) {
 
 /* ─── SoufflesView ──────────────────────────────────────────── */
 function SoufflesView() {
+  const { mode } = useLegato();
   const [index, setIndex] = useState(0);
   const [favorites, setFavorites] = useState<string[]>([]);
   const [bloom, setBloom] = useState(false);
   const [playing, setPlaying] = useState(true);
   const soundRef = useRef<NatureSound | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const seq = BASE[index];
+
+  // Réordonne les souffles selon l'humeur active et les séquences likées.
+  const sequence = useMemo<Sequence[]>(() => {
+    const tagBonusByMode: Record<typeof mode, Partial<Record<BookTag, number>>> = {
+      cocoon:    { "deuil récent": 3, "poétique": 2, "corps": 1 },
+      anchoring: { "long terme": 3, "philosophique": 2 },
+      breath:    { "philosophique": 3, "poétique": 2 },
+      relay:     { "deuil récent": 2, "long terme": 2, "poétique": 1 },
+    };
+    const favTagCounts: Partial<Record<BookTag, number>> = {};
+    favorites.forEach((id) => {
+      const t = BASE.find((b) => b.id === id)?.tag;
+      if (t) favTagCounts[t] = (favTagCounts[t] || 0) + 1;
+    });
+    return [...BASE].sort((a, b) => {
+      const sa = (tagBonusByMode[mode][a.tag] || 0) + (favTagCounts[a.tag] || 0) * 2;
+      const sb = (tagBonusByMode[mode][b.tag] || 0) + (favTagCounts[b.tag] || 0) * 2;
+      return sb - sa;
+    });
+  }, [mode, favorites.join(",")]);
+
+  const seq = sequence[index] ?? sequence[0];
 
   useEffect(() => { setFavorites(loadFavorites()); }, []);
 
@@ -724,7 +747,7 @@ function SoufflesView() {
   useEffect(() => {
     if (typeof window === "undefined") return;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const s = createSound(BASE[0]);
+    const s = createSound(sequence[0]);
     soundRef.current = s;
     if (!reduced) s.play();
     // Browsers require a user gesture to start audio. Resume the context on first interaction.
@@ -836,7 +859,7 @@ function SoufflesView() {
   const changeIndex = (newIdx: number) => {
     if (newIdx === index) return;
     const current = soundRef.current;
-    const next = createSound(BASE[newIdx]);
+    const next = createSound(sequence[newIdx]);
     if (current && playing) {
       current.fadeTo(next, 3000);
     } else {
@@ -846,8 +869,8 @@ function SoufflesView() {
     soundRef.current = next;
     setIndex(newIdx);
   };
-  const next = () => changeIndex((index + 1) % BASE.length);
-  const prev = () => changeIndex((index - 1 + BASE.length) % BASE.length);
+  const next = () => changeIndex((index + 1) % sequence.length);
+  const prev = () => changeIndex((index - 1 + sequence.length) % sequence.length);
 
   const togglePlay = () => {
     const s = soundRef.current; if (!s) return;
@@ -912,7 +935,7 @@ function SoufflesView() {
           className="souffle-title font-serif italic text-[22px] leading-none text-dusk/85"
           style={{ textShadow: "0 1px 18px rgba(255,255,255,0.55)" }}
         >
-          {seq.title}
+          {noOrphan(seq.title)}
         </h2>
       </div>
 
@@ -949,6 +972,15 @@ function SoufflesView() {
             aria-label="Séquence suivante"
           >→</button>
         </div>
+        {favorites.length > 0 && (
+          <Link
+            to="/no-words"
+            search={{ tab: "lire" } as never}
+            className="text-center text-[10px] uppercase tracking-[0.22em] text-dusk/55 hover:text-dusk"
+          >
+            Pour prolonger ce souffle&nbsp;→
+          </Link>
+        )}
       </div>
 
     </div>

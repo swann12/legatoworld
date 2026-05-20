@@ -20,6 +20,7 @@ function Home() {
   const branch = useLegato().branch;
   const branchMeta = BRANCHES.find((b) => b.id === branch);
   const cfg = MODE_HOME[mode];
+  const cards = filterCardsByBranch(cfg.cards, branch);
 
   return (
     <Shell>
@@ -73,8 +74,8 @@ function Home() {
             <ModeSelector compact />
           </div>
 
-          <div key={`cards-${mode}`} className="mt-9 space-y-3 animate-fade-in">
-            {cfg.cards.map((c, i) => (
+          <div key={`cards-${mode}-${branch}`} className="mt-9 space-y-3 animate-fade-in">
+            {cards.map((c, i) => (
               <ModeCard key={c.id} card={c} hero={i === 0} />
             ))}
           </div>
@@ -188,6 +189,22 @@ const CARD_META: Record<
   "nw-lire":     { eyebrow: "Lire",      to: "/no-words", search: { tab: "lire" } },
   "nw-regarder": { eyebrow: "Regarder",  to: "/no-words", search: { tab: "regarder" } },
 };
+
+/* Selon ce que la personne porte (branche), certaines portes n'ont pas
+ * de sens. On masque sans dramatiser. */
+function filterCardsByBranch(cards: CardCfg[], branch: Branch): CardCfg[] {
+  // ids à masquer par branche
+  const hide: Record<Branch, CardId[]> = {
+    person:    [],
+    practical: [],
+    unknown:   [],
+    animal:    ["practical", "wishes"],
+    fear:      ["practical"],
+    anxiety:   ["practical", "wishes"],
+  };
+  const drop = new Set(hide[branch]);
+  return cards.filter((c) => !drop.has(c.id));
+}
 
 const HERO_VISUAL: Record<CardId, { gradient: string; glow: string }> = {
   presence: {
