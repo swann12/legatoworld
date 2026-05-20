@@ -29,6 +29,11 @@ type SoundConfig = {
   oscillator: { type: OscillatorType; frequency: number };
   oscillator2?: { type: OscillatorType; frequency: number; gain: number } | null;
   noise?: { gain: number; filter: { type: BiquadFilterType; frequency: number; Q: number } };
+  nature?: {
+    gain: number;
+    filter: { type: BiquadFilterType; frequency: number; Q: number };
+    lfo?: { frequency: number; depth: number };
+  };
   filter: { frequency: number; Q: number };
   reverb: { duration: number; decay: number };
   lfo: { frequency: number; depth: number };
@@ -48,7 +53,7 @@ const BASE: Sequence[] = [
   {
     id: "warmth",
     title: "Chaleur lente",
-    bg: "linear-gradient(158deg, #FFE8DC 0%, #FFF4EE 100%)",
+    bg: "radial-gradient(120% 90% at 30% 35%, #FFD9C2 0%, #FBE6D8 40%, #FFF2EA 80%, #FFF7F1 100%)",
     tag: "deuil récent",
     sound: {
       oscillator: { type: "sine", frequency: 55 },
@@ -57,6 +62,12 @@ const BASE: Sequence[] = [
       reverb: { duration: 4.0, decay: 2.8 },
       lfo: { frequency: 0.06, depth: 60 },
       master: 0.20,
+      // Crépitement très lointain — comme des braises sous une couverture
+      nature: {
+        gain: 0.045,
+        filter: { type: "bandpass", frequency: 1800, Q: 2.4 },
+        lfo: { frequency: 2.8, depth: 0.035 },
+      },
     },
     shapes: [
       { xR:0.52, yR:0.30, rBase:185, blur:75, c1:"rgba(255,200,170,", c2:"rgba(240,150,130,", opMin:0.32, opMax:0.52, pDur:16000, dxAmp:16, dyAmp:12, dxDur:18000, dyDur:14000 },
@@ -68,7 +79,7 @@ const BASE: Sequence[] = [
   {
     id: "morning-sky",
     title: "Ciel du matin",
-    bg: "linear-gradient(180deg, #EAF0F8 0%, #F4EEF8 100%)",
+    bg: "radial-gradient(110% 100% at 50% 25%, #EAF2F6 0%, #F2ECF6 55%, #F8F4F2 100%)",
     tag: "philosophique",
     sound: {
       oscillator: { type: "sine", frequency: 96 },
@@ -77,6 +88,12 @@ const BASE: Sequence[] = [
       reverb: { duration: 8.0, decay: 5.0 },
       lfo: { frequency: 0.04, depth: 90 },
       master: 0.14,
+      // Souffle d'air haut, presque inaudible — air frais du matin
+      nature: {
+        gain: 0.035,
+        filter: { type: "highpass", frequency: 3800, Q: 0.6 },
+        lfo: { frequency: 0.08, depth: 0.025 },
+      },
     },
     shapes: [
       { xR:0.52, yR:0.24, rBase:145, blur:55, c1:"rgba(255,220,210,", c2:"rgba(220,170,210,", opMin:0.40, opMax:0.62, pDur:18000, dxAmp:10, dyAmp:8,  dxDur:22000, dyDur:19000 },
@@ -88,7 +105,7 @@ const BASE: Sequence[] = [
   {
     id: "leaves",
     title: "Feuilles",
-    bg: "linear-gradient(162deg, #EEF4E8 0%, #F8FBF4 100%)",
+    bg: "radial-gradient(120% 95% at 65% 40%, #DCEACB 0%, #ECF3DC 50%, #F6FBEF 100%)",
     tag: "long terme",
     sound: {
       oscillator: { type: "triangle", frequency: 65 },
@@ -98,6 +115,12 @@ const BASE: Sequence[] = [
       reverb: { duration: 5.0, decay: 3.5 },
       lfo: { frequency: 0.09, depth: 80 },
       master: 0.18,
+      // Bruissement de feuillage — vent qui passe doucement
+      nature: {
+        gain: 0.085,
+        filter: { type: "bandpass", frequency: 2400, Q: 1.6 },
+        lfo: { frequency: 0.22, depth: 0.06 },
+      },
     },
     shapes: [
       { xR:0.50, yR:0.46, rBase:210, blur:90, c1:"rgba(210,230,185,", c2:"rgba(185,215,160,", opMin:0.25, opMax:0.40, pDur:21000, dxAmp:10, dyAmp:8,  dxDur:24000, dyDur:20000 },
@@ -109,7 +132,7 @@ const BASE: Sequence[] = [
   {
     id: "rose-mist",
     title: "Brume rose",
-    bg: "linear-gradient(148deg, #F8EEF4 0%, #F0ECF8 100%)",
+    bg: "radial-gradient(110% 100% at 40% 55%, #F8DDE8 0%, #F1E4F0 45%, #ECEAF6 100%)",
     tag: "poétique",
     sound: {
       oscillator: { type: "sine", frequency: 50 },
@@ -118,6 +141,12 @@ const BASE: Sequence[] = [
       reverb: { duration: 9.0, decay: 7.0 },
       lfo: { frequency: 0.03, depth: 50 },
       master: 0.16,
+      // Souffle lointain enveloppant — comme une respiration dans du coton
+      nature: {
+        gain: 0.05,
+        filter: { type: "bandpass", frequency: 900, Q: 0.7 },
+        lfo: { frequency: 0.06, depth: 0.03 },
+      },
     },
     shapes: [
       { xR:0.35, yR:0.30, rBase:170, blur:70, c1:"rgba(232,168,195,", c2:"rgba(215,140,175,", opMin:0.30, opMax:0.50, pDur:15000, dxAmp:18, dyAmp:14, dxDur:17000, dyDur:13000 },
@@ -129,7 +158,7 @@ const BASE: Sequence[] = [
   {
     id: "evening-gold",
     title: "Or du soir",
-    bg: "linear-gradient(158deg, #FFF4E0 0%, #FFF8F0 100%)",
+    bg: "radial-gradient(120% 95% at 50% 35%, #FFD7B0 0%, #FFE9C8 45%, #FFF4E2 80%, #FFFAF2 100%)",
     tag: "philosophique",
     sound: {
       oscillator: { type: "sine", frequency: 58 },
@@ -138,6 +167,12 @@ const BASE: Sequence[] = [
       reverb: { duration: 5.5, decay: 4.0 },
       lfo: { frequency: 0.07, depth: 100 },
       master: 0.22,
+      // Houle lointaine — chaleur dense qui respire
+      nature: {
+        gain: 0.07,
+        filter: { type: "lowpass", frequency: 520, Q: 0.9 },
+        lfo: { frequency: 0.12, depth: 0.045 },
+      },
     },
     shapes: [
       { xR:0.50, yR:0.35, rBase:155, blur:60, c1:"rgba(255,215,140,", c2:"rgba(245,175,100,", opMin:0.36, opMax:0.56, pDur:13000, dxAmp:12, dyAmp:10, dxDur:16000, dyDur:13000 },
@@ -250,6 +285,8 @@ class AudioEngine {
   private osc1: OscillatorNode | null = null;
   private osc2: OscillatorNode | null = null;
   private noiseSrc: AudioBufferSourceNode | null = null;
+  private natureSrc: AudioBufferSourceNode | null = null;
+  private natureLfo: OscillatorNode | null = null;
   private lfo: OscillatorNode | null = null;
   private filter: BiquadFilterNode | null = null;
   private nodes: AudioNode[] = [];
@@ -281,10 +318,14 @@ class AudioEngine {
     try { this.osc1?.stop(); } catch (e) { void e; }
     try { this.osc2?.stop(); } catch (e) { void e; }
     try { this.noiseSrc?.stop(); } catch (e) { void e; }
+    try { this.natureSrc?.stop(); } catch (e) { void e; }
+    try { this.natureLfo?.stop(); } catch (e) { void e; }
     try { this.lfo?.stop(); } catch (e) { void e; }
     for (const n of this.nodes) { try { n.disconnect(); } catch (e) { void e; } }
     this.osc1 = this.osc2 = this.lfo = null;
     this.noiseSrc = null;
+    this.natureSrc = null;
+    this.natureLfo = null;
     this.filter = null;
     this.nodes = [];
   }
@@ -351,6 +392,43 @@ class AudioEngine {
       ns.start();
       this.noiseSrc = ns;
       this.nodes.push(nf, ng);
+    }
+
+    if (cfg.nature) {
+      const nb = c.createBuffer(1, c.sampleRate * 4, c.sampleRate);
+      const nd = nb.getChannelData(0);
+      // Bruit légèrement coloré (rose-ish) pour un grain plus organique
+      let last = 0;
+      for (let i = 0; i < nd.length; i++) {
+        const w = Math.random() * 2 - 1;
+        last = 0.97 * last + 0.03 * w;
+        nd[i] = (w * 0.4 + last * 0.6) * 0.5;
+      }
+      const ns = c.createBufferSource();
+      ns.buffer = nb; ns.loop = true;
+      const nf = c.createBiquadFilter();
+      nf.type = cfg.nature.filter.type;
+      nf.frequency.value = cfg.nature.filter.frequency;
+      nf.Q.value = cfg.nature.filter.Q;
+      const ng = c.createGain();
+      ng.gain.value = cfg.nature.gain;
+      ns.connect(nf); nf.connect(ng); ng.connect(reverb); ng.connect(this.master);
+      ns.start();
+      this.natureSrc = ns;
+      this.nodes.push(nf, ng);
+      // LFO sur le gain pour donner le souffle organique (crépitement, vagues, brise)
+      if (cfg.nature.lfo) {
+        const nlfo = c.createOscillator();
+        nlfo.type = "sine";
+        nlfo.frequency.value = cfg.nature.lfo.frequency;
+        const nlfoGain = c.createGain();
+        nlfoGain.gain.value = cfg.nature.lfo.depth;
+        nlfo.connect(nlfoGain);
+        nlfoGain.connect(ng.gain);
+        nlfo.start();
+        this.natureLfo = nlfo;
+        this.nodes.push(nlfoGain);
+      }
     }
 
     this.nodes.push(reverb, reverbGain, filter, lfoGain, oscGain1);
