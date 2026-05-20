@@ -74,8 +74,8 @@ function Home() {
           </div>
 
           <div key={`cards-${mode}`} className="mt-9 space-y-3 animate-fade-in">
-            {cfg.cards.map((c) => (
-              <ModeCard key={c.id} card={c} />
+            {cfg.cards.map((c, i) => (
+              <ModeCard key={c.id} card={c} hero={i === 0} />
             ))}
           </div>
 
@@ -171,7 +171,43 @@ const CARD_META: Record<CardId, { eyebrow: string; to: string }> = {
   relay:    { eyebrow: "Demander un appui",     to: "/help" },
 };
 
-function ModeCard({ card }: { card: CardCfg }) {
+const HERO_VISUAL: Record<CardId, { gradient: string; glow: string }> = {
+  presence: {
+    gradient: "radial-gradient(circle at 30% 30%, var(--peach), var(--rose))",
+    glow: "color-mix(in oklab, var(--rose) 55%, transparent)",
+  },
+  practical: {
+    gradient: "radial-gradient(circle at 30% 30%, #F0E2C8, #D8C49A)",
+    glow: "color-mix(in oklab, #D8C49A 55%, transparent)",
+  },
+  nowords: {
+    gradient: "radial-gradient(circle at 30% 30%, #E4EEF2, #BCD2DE)",
+    glow: "color-mix(in oklab, #BCD2DE 60%, transparent)",
+  },
+  journal: {
+    gradient: "radial-gradient(circle at 30% 30%, #F2E6D6, #E0C7AE)",
+    glow: "color-mix(in oklab, #E0C7AE 55%, transparent)",
+  },
+  wishes: {
+    gradient: "radial-gradient(circle at 30% 30%, #F4E1D6, #E5C2B4)",
+    glow: "color-mix(in oklab, #E5C2B4 55%, transparent)",
+  },
+  relay: {
+    gradient: "radial-gradient(circle at 30% 30%, #F2D8CC, #E2B5A4)",
+    glow: "color-mix(in oklab, #E2B5A4 55%, transparent)",
+  },
+};
+
+const HERO_SUBTITLE: Partial<Record<CardId, string>> = {
+  presence: "On vous écoute, sans jugement, sans réponse à donner.",
+  practical: "Un pas à la fois, à votre rythme. Rien à finir aujourd'hui.",
+  nowords:   "Des sons, des souffles, des lumières — sans rien à dire.",
+  journal:   "Une page qui reçoit, sans vous relire ni vous juger.",
+  wishes:    "Préparer, en douceur, ce que vous voudriez laisser.",
+  relay:     "Des proches, des professionnels, une ligne d'écoute.",
+};
+
+function ModeCard({ card, hero = false }: { card: CardCfg; hero?: boolean }) {
   const meta = CARD_META[card.id];
   if (card.style === "muted") {
     return (
@@ -189,7 +225,9 @@ function ModeCard({ card }: { card: CardCfg }) {
     );
   }
   if (card.style === "highlight") {
-    if (card.id === "presence") {
+    if (hero) {
+      const visual = HERO_VISUAL[card.id];
+      const subtitle = HERO_SUBTITLE[card.id];
       return (
         <Link
           to={meta.to}
@@ -200,8 +238,8 @@ function ModeCard({ card }: { card: CardCfg }) {
               <div
                 className="size-4 rounded-full breath"
                 style={{
-                  background: "radial-gradient(circle at 30% 30%, var(--peach), var(--rose))",
-                  boxShadow: "0 0 18px -2px color-mix(in oklab, var(--rose) 55%, transparent)",
+                  background: visual.gradient,
+                  boxShadow: `0 0 18px -2px ${visual.glow}`,
                 }}
               />
             </div>
@@ -210,9 +248,11 @@ function ModeCard({ card }: { card: CardCfg }) {
               <p className="mt-1.5 font-serif italic text-[1.18rem] leading-snug text-dusk" style={{ textWrap: "balance" }}>
                 {card.title}
               </p>
-              <p className="mt-1.5 text-[12.5px] leading-relaxed text-dusk/65">
-                On vous écoute, sans jugement, sans réponse à donner.
-              </p>
+              {subtitle && (
+                <p className="mt-1.5 text-[12.5px] leading-relaxed text-dusk/65">
+                  {subtitle}
+                </p>
+              )}
             </div>
             {!card.hideArrow && <span className="text-dusk/58 text-sm shrink-0">→</span>}
           </div>
