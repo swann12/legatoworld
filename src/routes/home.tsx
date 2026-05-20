@@ -105,7 +105,17 @@ function Home() {
 /* ─── Mode-driven home configuration ─────────────────────────────────
  * Each mode controls: page background, subtitle, card order & per-card style.
  */
-type CardId = "presence" | "nowords" | "journal" | "wishes" | "practical" | "relay";
+type CardId =
+  | "presence"
+  | "nowords"
+  | "journal"
+  | "wishes"
+  | "practical"
+  | "relay"
+  | "nw-souffles"
+  | "nw-respirer"
+  | "nw-lire"
+  | "nw-regarder";
 type CardStyle = "highlight" | "normal" | "muted";
 type CardCfg = {
   id: CardId;
@@ -143,11 +153,12 @@ const MODE_HOME: Record<Mode, ModeHomeCfg> = {
   breath: {
     subtitle: "Un peu d'air entre les pensées.",
     cards: [
-      { id: "nowords",  style: "highlight", title: "Sons, souffles et lumières lentes." },
-      { id: "journal",  style: "highlight", title: "Laisser sortir, sans chercher les mots." },
-      { id: "presence", style: "normal",    title: "Une oreille calme, à toute heure." },
-      { id: "practical",style: "normal",    title: "Avancer une étape à la fois." },
-      { id: "wishes",   style: "normal",    title: "Préparer, en douceur, ce que l'on voudrait." },
+      { id: "nw-souffles", style: "highlight", title: "Des paysages qui respirent avec vous." },
+      { id: "nw-respirer", style: "highlight", title: "Suivre un souffle, quelques minutes." },
+      { id: "nw-lire",     style: "normal",    title: "Quelques lignes, comme une main posée." },
+      { id: "nw-regarder", style: "normal",    title: "Laisser les yeux se poser, sans rien chercher." },
+      { id: "journal",     style: "normal",    title: "Laisser sortir, sans chercher les mots." },
+      { id: "presence",    style: "normal",    title: "Une oreille calme, à toute heure." },
     ],
   },
   relay: {
@@ -162,13 +173,20 @@ const MODE_HOME: Record<Mode, ModeHomeCfg> = {
   },
 };
 
-const CARD_META: Record<CardId, { eyebrow: string; to: string }> = {
+const CARD_META: Record<
+  CardId,
+  { eyebrow: string; to: string; search?: Record<string, string> }
+> = {
   presence: { eyebrow: "Parler à une présence", to: "/presence" },
   nowords:  { eyebrow: "Sans mots",             to: "/no-words" },
   journal:  { eyebrow: "Journal intime",        to: "/journal" },
   wishes:   { eyebrow: "Préparer",              to: "/wishes" },
   practical:{ eyebrow: "Démarches concrètes",   to: "/practical" },
   relay:    { eyebrow: "Demander un appui",     to: "/help" },
+  "nw-souffles": { eyebrow: "Souffles",  to: "/no-words", search: { tab: "souffles" } },
+  "nw-respirer": { eyebrow: "Respirer",  to: "/no-words", search: { tab: "respirer" } },
+  "nw-lire":     { eyebrow: "Lire",      to: "/no-words", search: { tab: "lire" } },
+  "nw-regarder": { eyebrow: "Regarder",  to: "/no-words", search: { tab: "regarder" } },
 };
 
 const HERO_VISUAL: Record<CardId, { gradient: string; glow: string }> = {
@@ -196,6 +214,22 @@ const HERO_VISUAL: Record<CardId, { gradient: string; glow: string }> = {
     gradient: "radial-gradient(circle at 30% 30%, #F2D8CC, #E2B5A4)",
     glow: "color-mix(in oklab, #E2B5A4 55%, transparent)",
   },
+  "nw-souffles": {
+    gradient: "radial-gradient(circle at 30% 30%, #E4EEF2, #BCD2DE)",
+    glow: "color-mix(in oklab, #BCD2DE 60%, transparent)",
+  },
+  "nw-respirer": {
+    gradient: "radial-gradient(circle at 30% 30%, #E8F0EC, #C2D6CB)",
+    glow: "color-mix(in oklab, #C2D6CB 60%, transparent)",
+  },
+  "nw-lire": {
+    gradient: "radial-gradient(circle at 30% 30%, #F2E6D6, #E0C7AE)",
+    glow: "color-mix(in oklab, #E0C7AE 55%, transparent)",
+  },
+  "nw-regarder": {
+    gradient: "radial-gradient(circle at 30% 30%, #ECE4F0, #C9BCD6)",
+    glow: "color-mix(in oklab, #C9BCD6 55%, transparent)",
+  },
 };
 
 const HERO_SUBTITLE: Partial<Record<CardId, string>> = {
@@ -205,6 +239,10 @@ const HERO_SUBTITLE: Partial<Record<CardId, string>> = {
   journal:   "Une page qui reçoit, sans vous relire ni vous juger.",
   wishes:    "Préparer, en douceur, ce que vous voudriez laisser.",
   relay:     "Des proches, des professionnels, une ligne d'écoute.",
+  "nw-souffles": "Des paysages sonores pour se laisser porter.",
+  "nw-respirer": "Un cercle qui guide l'inspiration et l'expiration.",
+  "nw-lire":     "Quelques lignes choisies, à votre rythme.",
+  "nw-regarder": "Des images lentes, rien à comprendre.",
 };
 
 function ModeCard({ card, hero = false }: { card: CardCfg; hero?: boolean }) {
@@ -213,6 +251,7 @@ function ModeCard({ card, hero = false }: { card: CardCfg; hero?: boolean }) {
     return (
       <Link
         to={meta.to}
+        search={meta.search as never}
         className="glass-card block px-5 py-4 opacity-85"
       >
         <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/58">
@@ -231,6 +270,7 @@ function ModeCard({ card, hero = false }: { card: CardCfg; hero?: boolean }) {
       return (
         <Link
           to={meta.to}
+          search={meta.search as never}
           className="glass-card-accent block px-5 py-5 relative overflow-hidden"
         >
           <div className="flex items-center gap-4">
@@ -262,6 +302,7 @@ function ModeCard({ card, hero = false }: { card: CardCfg; hero?: boolean }) {
     return (
       <Link
         to={meta.to}
+        search={meta.search as never}
         className="glass-card-accent block px-5 py-5 relative overflow-hidden"
       >
         <div className="flex items-baseline justify-between gap-3">
@@ -278,7 +319,7 @@ function ModeCard({ card, hero = false }: { card: CardCfg; hero?: boolean }) {
   }
   // normal
   return (
-    <Link to={meta.to} className="glass-card block p-5">
+    <Link to={meta.to} search={meta.search as never} className="glass-card block p-5">
       <div className="flex items-baseline justify-between gap-3">
         <div className="min-w-0">
           <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/58">{meta.eyebrow}</p>
