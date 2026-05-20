@@ -183,8 +183,8 @@ function NoWords() {
           <Link
             to="/home"
             aria-label="Retour"
-            className="absolute top-5 left-5 z-30 size-9 rounded-full backdrop-blur-md flex items-center justify-center text-dusk/70 hover:text-dusk"
-            style={{ background: "color-mix(in oklab, white 40%, transparent)" }}
+            className="absolute top-5 left-5 z-30 size-9 rounded-full backdrop-blur-md flex items-center justify-center text-white/90 hover:text-white mix-blend-difference"
+            style={{ background: "rgba(255,255,255,0.18)" }}
           >
             ←
           </Link>
