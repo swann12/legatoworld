@@ -1083,8 +1083,8 @@ function RespirerView() {
         </div>
       </div>
 
-      <p className="mt-12 text-[12px] font-light text-center" style={{ color: "#8090A8" }}>
-        Inspirez {rhythm.in} · Tenez {rhythm.hold} · Expirez {rhythm.out}
+      <p className="mt-12 text-[12px] font-light text-center" style={{ color: "#8090A8", textWrap: "balance" }}>
+        {noOrphan(`Inspirez ${rhythm.in} · Tenez ${rhythm.hold} · Expirez ${rhythm.out}`)}
       </p>
 
       <div className="flex-1" />
@@ -1212,10 +1212,10 @@ function LireView() {
       <ul className="px-5 pb-12 space-y-3">
         {sorted.map((b) => (
           <li key={b.title} className="rounded-2xl bg-paper/85 backdrop-blur px-5 py-4 border border-dusk/8">
-            <h3 className="font-serif text-[18px] text-dusk leading-snug">{b.title}</h3>
-            <p className="text-[13px] font-light mt-0.5" style={{ color: "#6B6560" }}>{b.author}</p>
+            <h3 className="font-serif text-[18px] text-dusk leading-snug" style={{ textWrap: "balance" }}>{noOrphan(b.title)}</h3>
+            <p className="text-[13px] font-light mt-0.5" style={{ color: "#6B6560" }}>{noOrphan(b.author)}</p>
             <p className="mt-2 text-[13px] leading-relaxed text-dusk/85 italic" style={{ textWrap: "pretty" }}>
-              {b.why}
+              {noOrphan(b.why)}
             </p>
             <div className="mt-3 flex flex-wrap items-center gap-1.5">
               {b.tags.map((t) => (
@@ -1330,17 +1330,17 @@ function RegarderView() {
                   borderColor: dark ? "rgba(255,255,255,0.10)" : "rgba(0,0,0,0.05)",
                 }}>
               <p className={`text-[10px] uppercase tracking-[0.22em] ${dark ? "text-paper/60" : "text-dusk/50"}`}>
-                {w.format}
+                {w.format.replace(/ /g, "\u00A0")}
               </p>
               <h3 className={`mt-1.5 font-serif text-[19px] leading-snug ${title}`} style={{ textWrap: "balance" }}>
-                {w.title}
+                {noOrphan(w.title)}
               </h3>
               <p className={`text-[12.5px] font-light mt-0.5 ${sub}`} style={dark ? undefined : { color: "#6B6560" }}>
-                {w.author}
+                {noOrphan(w.author)}
               </p>
               <p className={`mt-3 text-[13.5px] leading-relaxed italic ${dark ? "text-paper/85" : "text-dusk/85"}`}
                  style={{ textWrap: "pretty" }}>
-                {w.context}
+                {noOrphan(w.context)}
               </p>
               <div className="mt-3 flex flex-wrap items-center gap-1.5">
                 {w.tags.map((t) => (

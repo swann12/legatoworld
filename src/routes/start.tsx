@@ -159,16 +159,18 @@ function Start() {
                 >
                   Me reconnecter
                 </button>
-                <button
-                  type="button"
-                  onClick={goNext}
-                  className="text-center text-[11px] uppercase tracking-[0.22em] text-dusk/45 hover:text-dusk transition-colors py-2"
-                >
-                  Continuer en tant qu'invité·e
-                </button>
-                <p className="text-center text-[10.5px] italic text-dusk/45 -mt-1.5 max-w-[34ch] mx-auto leading-snug">
-                  Ce que vous écrivez ici ne sera pas gardé.
-                </p>
+                <div className="-mt-1 flex flex-col items-center">
+                  <button
+                    type="button"
+                    onClick={goNext}
+                    className="text-center text-[11px] uppercase tracking-[0.22em] text-dusk/45 hover:text-dusk transition-colors py-1.5"
+                  >
+                    Continuer en tant qu'invité·e
+                  </button>
+                  <p className="text-center text-[10.5px] italic text-dusk/45 max-w-[34ch] leading-snug -mt-0.5">
+                    Ce que vous écrivez ici ne sera pas gardé.
+                  </p>
+                </div>
               </div>
             )}
 
