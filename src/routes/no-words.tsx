@@ -3,29 +3,29 @@ import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react"
 import { Shell } from "@/components/legato/Shell";
 import imgWarmth from "@/assets/souffle-warmth.jpg";
 import imgMorningSky from "@/assets/souffle-morning-sky.jpg";
-import imgLeaves from "@/assets/souffle-leaves.jpg";
-import imgRoseMist from "@/assets/souffle-rose-mist.jpg";
-import imgEveningGold from "@/assets/souffle-evening-gold.jpg";
 import imgOrSoirEau from "@/assets/souffle-or-soir-eau.jpg";
 import imgFeuillesVert from "@/assets/souffle-feuilles-vert.jpg";
-import imgFeuillesRose from "@/assets/souffle-feuilles-rose.jpg";
-import imgSoirFlou from "@/assets/souffle-soir-flou.jpg";
+import imgAurore from "@/assets/souffle-aurore.jpg";
+import imgBougainvillier from "@/assets/souffle-bougainvillier.jpg";
+import imgRivage from "@/assets/souffle-rivage.jpg";
+import imgRessac from "@/assets/souffle-ressac.jpg";
+import imgBrumeRose from "@/assets/souffle-brume-rose.jpg";
+import imgOrDuSoir from "@/assets/souffle-or-du-soir.jpg";
 
 const SCENE_IMAGES: Record<SceneId, string> = {
   "warmth": imgWarmth,
   "morning-sky": imgMorningSky,
-  "leaves": imgLeaves,
-  "rose-mist": imgRoseMist,
-  "evening-gold": imgEveningGold,
+  "rivage": imgRivage,
+  "ressac": imgRessac,
+  "rose-mist": imgBrumeRose,
+  "evening-gold": imgOrDuSoir,
   "or-soir-eau": imgOrSoirEau,
   "feuilles-vert": imgFeuillesVert,
-  "feuilles-rose": imgFeuillesRose,
-  "soir-flou": imgSoirFlou,
-  "perle": imgRoseMist,
-  "aurore": imgMorningSky,
-  "bougainvillier": imgFeuillesRose,
-  "lumiere": imgEveningGold,
-  "lune": imgSoirFlou,
+  "perle": imgOrSoirEau,
+  "aurore": imgAurore,
+  "bougainvillier": imgBougainvillier,
+  "lumiere": imgAurore,
+  "lune": imgRessac,
 };
 
 export const Route = createFileRoute("/no-words")({
