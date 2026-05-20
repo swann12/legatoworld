@@ -251,6 +251,7 @@ function ModeCard({ card, hero = false }: { card: CardCfg; hero?: boolean }) {
     return (
       <Link
         to={meta.to}
+        search={meta.search as never}
         className="glass-card block px-5 py-4 opacity-85"
       >
         <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/58">
@@ -269,6 +270,7 @@ function ModeCard({ card, hero = false }: { card: CardCfg; hero?: boolean }) {
       return (
         <Link
           to={meta.to}
+          search={meta.search as never}
           className="glass-card-accent block px-5 py-5 relative overflow-hidden"
         >
           <div className="flex items-center gap-4">
@@ -300,6 +302,7 @@ function ModeCard({ card, hero = false }: { card: CardCfg; hero?: boolean }) {
     return (
       <Link
         to={meta.to}
+        search={meta.search as never}
         className="glass-card-accent block px-5 py-5 relative overflow-hidden"
       >
         <div className="flex items-baseline justify-between gap-3">
@@ -316,7 +319,7 @@ function ModeCard({ card, hero = false }: { card: CardCfg; hero?: boolean }) {
   }
   // normal
   return (
-    <Link to={meta.to} className="glass-card block p-5">
+    <Link to={meta.to} search={meta.search as never} className="glass-card block p-5">
       <div className="flex items-baseline justify-between gap-3">
         <div className="min-w-0">
           <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/58">{meta.eyebrow}</p>
