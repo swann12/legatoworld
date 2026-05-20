@@ -359,14 +359,14 @@
 
   /* Soft container — quieter than ceramic, more space */
   .paper-card {
-    background: rgba(255, 255, 255, 0.42);
-    -webkit-backdrop-filter: blur(22px) saturate(140%);
-    backdrop-filter: blur(22px) saturate(140%);
-    border: 1px solid rgba(255, 255, 255, 0.55);
+    background: rgba(255, 255, 255, 0.64);
+    -webkit-backdrop-filter: blur(24px) saturate(112%);
+    backdrop-filter: blur(24px) saturate(112%);
+    border: 1px solid rgba(255, 255, 255, 0.78);
     border-radius: 22px;
     box-shadow:
-      0 1px 0 rgba(255, 255, 255, 0.7) inset,
-      0 12px 36px -18px rgba(60, 50, 70, 0.18);
+      0 1px 0 rgba(255, 255, 255, 0.78) inset,
+      0 10px 32px -24px rgba(120, 82, 58, 0.16);
   }
 
   /* ─── Legato Glass system ───
@@ -374,26 +374,25 @@
    * Posé sur un dégradé vivant — jamais sur du blanc.
    */
   .glass-card {
-    background: rgba(255, 255, 255, 0.38);
-    -webkit-backdrop-filter: blur(22px) saturate(135%);
-    backdrop-filter: blur(22px) saturate(135%);
-    border: 1px solid rgba(255, 255, 255, 0.55);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.62), rgba(255, 252, 248, 0.44));
+    -webkit-backdrop-filter: blur(24px) saturate(118%);
+    backdrop-filter: blur(24px) saturate(118%);
+    border: 1px solid rgba(255, 255, 255, 0.76);
     border-radius: 22px;
     box-shadow:
-      0 1px 0 rgba(255, 255, 255, 0.6) inset,
-      0 6px 24px -14px rgba(80, 60, 50, 0.10);
+      0 1px 0 rgba(255, 255, 255, 0.72) inset,
+      0 10px 34px -26px rgba(120, 82, 58, 0.16);
   }
   .glass-card-accent {
-    /* Carte principale — verre clair, plus présent mais toujours lumineux */
-    background: rgba(255, 255, 255, 0.55);
-    -webkit-backdrop-filter: blur(26px) saturate(140%);
-    backdrop-filter: blur(26px) saturate(140%);
-    border: 1px solid rgba(255, 255, 255, 0.65);
-    border-left-width: 2px;
+    /* Carte principale — verre clair sans liseré coloré */
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(255, 253, 250, 0.50));
+    -webkit-backdrop-filter: blur(28px) saturate(120%);
+    backdrop-filter: blur(28px) saturate(120%);
+    border: 1px solid rgba(255, 255, 255, 0.82);
     border-radius: 22px;
     box-shadow:
-      0 1px 0 rgba(255, 255, 255, 0.75) inset,
-      0 8px 28px -16px rgba(80, 60, 50, 0.12);
+      0 1px 0 rgba(255, 255, 255, 0.82) inset,
+      0 14px 42px -30px rgba(120, 82, 58, 0.18);
   }
   .glass-nav {
     background: linear-gradient(180deg,
