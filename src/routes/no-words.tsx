@@ -1038,32 +1038,17 @@ function RespirerView() {
 
   return (
     <div className="relative flex-1 flex flex-col items-center" style={{ background: "#1A1F2E" }}>
-      {/* Rhythm pills */}
-      <div className="pt-2 pb-6 flex items-center gap-2">
-        {RHYTHMS.map((r) => (
-          <button
-            key={r.id}
-            onClick={() => setRhythm(r)}
-            className={`px-3.5 py-1.5 rounded-full text-[10.5px] uppercase tracking-[0.18em] transition-colors ${
-              r.id === rhythm.id ? "bg-paper text-dusk" : "text-paper/55 border border-paper/15"
-            }`}
-          >
-            {r.label}
-          </button>
-        ))}
-      </div>
-
       {/* Close X — top-right of inner area */}
       <button
         onClick={() => setClosing(true)}
-        className="absolute top-2 right-6 size-9 rounded-full flex items-center justify-center text-paper/65 text-xl"
+        className="absolute top-5 right-6 size-9 rounded-full flex items-center justify-center text-paper/65 text-xl z-20"
         aria-label="Fermer"
       >
         ✕
       </button>
 
       {/* Breathing circle */}
-      <div className="relative size-[280px] flex items-center justify-center mt-6">
+      <div className="relative size-[280px] flex items-center justify-center mt-20">
         <div className="absolute inset-0 rounded-full"
              style={{ border: "1px dashed rgba(200,216,232,0.18)", margin: "60px" }} />
         <div
@@ -1101,6 +1086,23 @@ function RespirerView() {
       <p className="mt-12 text-[12px] font-light text-center" style={{ color: "#8090A8" }}>
         Inspirez {rhythm.in} · Tenez {rhythm.hold} · Expirez {rhythm.out}
       </p>
+
+      <div className="flex-1" />
+
+      {/* Rhythm pills — en bas */}
+      <div className="pb-10 pt-6 flex items-center gap-2 justify-center">
+        {RHYTHMS.map((r) => (
+          <button
+            key={r.id}
+            onClick={() => setRhythm(r)}
+            className={`px-4 py-2 rounded-full text-[10.5px] uppercase tracking-[0.18em] transition-colors ${
+              r.id === rhythm.id ? "bg-paper text-dusk" : "text-paper/55 border border-paper/15"
+            }`}
+          >
+            {r.label}
+          </button>
+        ))}
+      </div>
 
       {closing && (
         <div className="absolute inset-0 flex items-center justify-center" style={{ background: "rgba(26,31,46,0.92)" }}
