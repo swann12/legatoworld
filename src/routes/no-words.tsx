@@ -124,14 +124,14 @@ const BASE: Sequence[] = [
   },
   {
     id: "rose-mist",
-    title: "Brume rose",
+    title: "Braise rose",
     tag: "poétique",
     volume: 0.32,
     fadeIn: 4000,
   },
   {
     id: "lumiere",
-    title: "Lumière tenue",
+    title: "Lumière douce",
     tag: "philosophique",
     volume: 0.30,
     fadeIn: 5000,
@@ -173,7 +173,7 @@ function NoWords() {
     tab === "lire" ? "Lire" : "Regarder";
 
   const isSouffles = tab === "souffles";
-  const isFullScreen = isSouffles || tab === "respirer";
+  const isFullScreen = isSouffles || tab === "respirer" || tab === "lire" || tab === "regarder";
 
   return (
     <Shell livingBg={false} hideNav={isFullScreen}>
@@ -183,8 +183,8 @@ function NoWords() {
           <Link
             to="/home"
             aria-label="Retour"
-            className="absolute top-5 left-5 z-30 size-9 rounded-full backdrop-blur-md flex items-center justify-center text-dusk/70 hover:text-dusk"
-            style={{ background: "color-mix(in oklab, white 40%, transparent)" }}
+            className="absolute top-5 left-5 z-30 size-9 rounded-full backdrop-blur-md flex items-center justify-center text-white/90 hover:text-white mix-blend-difference"
+            style={{ background: "rgba(255,255,255,0.18)" }}
           >
             ←
           </Link>
@@ -636,7 +636,10 @@ const ORB_STYLES = `
 }
 
 /* Lune scene — invert text overlay color for legibility on dark bg */
-.scene-lune .souffle-title { color: rgba(245, 240, 230, 0.92) !important; text-shadow: 0 1px 18px rgba(0,0,0,0.45) !important; }
+.scene-lune .souffle-title { color: rgba(248, 244, 235, 0.95) !important; text-shadow: 0 1px 18px rgba(0,0,0,0.55) !important; }
+/* Lune — contrôles (flèches, pause, garder, retour) en clair */
+.scene-lune .lune-ctrl { color: rgba(248,244,235,0.92) !important; background: rgba(255,255,255,0.10) !important; }
+.scene-lune .lune-link { color: rgba(248,244,235,0.72) !important; }
 
 /* Couche A — photo principale, animation longue */
 .souffle-scene .layer-a {
@@ -673,9 +676,7 @@ const ORB_STYLES = `
 }
 `;
 
-const SCENE_VIDEOS: Partial<Record<SceneId, string>> = {
-  "evening-gold": "/souffles/evening-gold.mp4",
-};
+const SCENE_VIDEOS: Partial<Record<SceneId, string>> = {};
 
 function SouffleOrbs({ id }: { id: SceneId }) {
   const src = SCENE_IMAGES[id];
@@ -903,7 +904,7 @@ function SoufflesView() {
       <button
         onClick={togglePlay}
         aria-label={playing ? "Pause" : "Reprendre"}
-        className="absolute top-5 right-5 z-30 size-9 rounded-full flex items-center justify-center text-dusk/75"
+        className="lune-ctrl absolute top-5 right-5 z-30 size-9 rounded-full flex items-center justify-center text-dusk/75"
         style={{
           background: "rgba(255,255,255,0.28)",
           backdropFilter: "blur(8px)",
@@ -952,14 +953,14 @@ function SoufflesView() {
         <div className="flex items-center gap-3">
           <button
             onClick={prev}
-            className="size-11 rounded-full flex items-center justify-center text-lg backdrop-blur-md text-dusk/70"
+            className="lune-ctrl size-11 rounded-full flex items-center justify-center text-lg backdrop-blur-md text-dusk/70"
             style={{ background: "color-mix(in oklab, white 30%, transparent)" }}
             aria-label="Séquence précédente"
           >←</button>
           <button
             onClick={onKeep}
             disabled={isFav}
-            className="flex-1 py-3 rounded-full text-[11px] uppercase tracking-[0.22em] backdrop-blur-md text-dusk/70"
+            className="lune-ctrl flex-1 py-3 rounded-full text-[11px] uppercase tracking-[0.22em] backdrop-blur-md text-dusk/70"
             style={{ background: "color-mix(in oklab, white 30%, transparent)" }}
             aria-label={isFav ? "Séquence gardée" : "Garder cette séquence"}
           >
@@ -967,7 +968,7 @@ function SoufflesView() {
           </button>
           <button
             onClick={next}
-            className="size-11 rounded-full flex items-center justify-center text-lg backdrop-blur-md text-dusk/70"
+            className="lune-ctrl size-11 rounded-full flex items-center justify-center text-lg backdrop-blur-md text-dusk/70"
             style={{ background: "color-mix(in oklab, white 30%, transparent)" }}
             aria-label="Séquence suivante"
           >→</button>
@@ -976,7 +977,7 @@ function SoufflesView() {
           <Link
             to="/no-words"
             search={{ tab: "lire" } as never}
-            className="text-center text-[10px] uppercase tracking-[0.22em] text-dusk/55 hover:text-dusk"
+            className="lune-link text-center text-[10px] uppercase tracking-[0.22em] text-dusk/55 hover:text-dusk"
           >
             Pour prolonger ce souffle&nbsp;→
           </Link>
@@ -1037,32 +1038,17 @@ function RespirerView() {
 
   return (
     <div className="relative flex-1 flex flex-col items-center" style={{ background: "#1A1F2E" }}>
-      {/* Rhythm pills */}
-      <div className="pt-2 pb-6 flex items-center gap-2">
-        {RHYTHMS.map((r) => (
-          <button
-            key={r.id}
-            onClick={() => setRhythm(r)}
-            className={`px-3.5 py-1.5 rounded-full text-[10.5px] uppercase tracking-[0.18em] transition-colors ${
-              r.id === rhythm.id ? "bg-paper text-dusk" : "text-paper/55 border border-paper/15"
-            }`}
-          >
-            {r.label}
-          </button>
-        ))}
-      </div>
-
       {/* Close X — top-right of inner area */}
       <button
         onClick={() => setClosing(true)}
-        className="absolute top-2 right-6 size-9 rounded-full flex items-center justify-center text-paper/65 text-xl"
+        className="absolute top-5 right-6 size-9 rounded-full flex items-center justify-center text-paper/65 text-xl z-20"
         aria-label="Fermer"
       >
         ✕
       </button>
 
       {/* Breathing circle */}
-      <div className="relative size-[280px] flex items-center justify-center mt-6">
+      <div className="relative size-[280px] flex items-center justify-center mt-20">
         <div className="absolute inset-0 rounded-full"
              style={{ border: "1px dashed rgba(200,216,232,0.18)", margin: "60px" }} />
         <div
@@ -1080,7 +1066,7 @@ function RespirerView() {
         <div className="relative text-center">
           <p className="font-serif italic text-paper/90 text-[20px] leading-none flex justify-center">
             {phase.id === "hold"
-              ? <span>{phase.label}</span>
+              ? <span>{noOrphan(phase.label)}</span>
               : letters.map((ch, i) => (
                   <span key={i} className="opacity-0 letter-in" style={{
                     animationDelay: `${(i * (duration * 0.6)) / Math.max(letters.length, 1) / 1000}s`
@@ -1100,6 +1086,23 @@ function RespirerView() {
       <p className="mt-12 text-[12px] font-light text-center" style={{ color: "#8090A8" }}>
         Inspirez {rhythm.in} · Tenez {rhythm.hold} · Expirez {rhythm.out}
       </p>
+
+      <div className="flex-1" />
+
+      {/* Rhythm pills — en bas */}
+      <div className="pb-10 pt-6 flex items-center gap-2 justify-center">
+        {RHYTHMS.map((r) => (
+          <button
+            key={r.id}
+            onClick={() => setRhythm(r)}
+            className={`px-4 py-2 rounded-full text-[10.5px] uppercase tracking-[0.18em] transition-colors ${
+              r.id === rhythm.id ? "bg-paper text-dusk" : "text-paper/55 border border-paper/15"
+            }`}
+          >
+            {r.label}
+          </button>
+        ))}
+      </div>
 
       {closing && (
         <div className="absolute inset-0 flex items-center justify-center" style={{ background: "rgba(26,31,46,0.92)" }}

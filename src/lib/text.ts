@@ -5,6 +5,11 @@
  */
 export function noOrphan(input: string): string {
   if (!input) return input;
-  // capture le dernier espace suivi d'un mot court + ponctuation optionnelle
-  return input.replace(/ (\S{1,4})([.,;:!?»\)\]\u2026]*)$/u, "\u00A0$1$2");
+  // 1) Liaison du dernier espace si le dernier mot est court (≤5 lettres).
+  let out = input.replace(/ (\S{1,5})([.,;:!?»\)\]\u2026]*)$/u, "\u00A0$1$2");
+  // 2) Liaison des espaces autour des mots de liaison courants (insécables typographiques).
+  out = out.replace(/ (à|au|aux|de|des|du|en|et|la|le|les|ne|ou|par|pour|que|qui|sa|se|si|son|sur|ta|te|un|une|y) /giu, "\u00A0$1 ");
+  // 3) Espace insécable avant les ponctuations doubles françaises.
+  out = out.replace(/ ([;:!?»])/g, "\u00A0$1");
+  return out;
 }
