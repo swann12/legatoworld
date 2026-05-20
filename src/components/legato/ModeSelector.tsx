@@ -1,4 +1,4 @@
-import { MODES, useLegato, type Mode } from "@/lib/legato-state";
+import { MODES, useLegato } from "@/lib/legato-state";
 
 export function ModeSelector({ compact = false }: { compact?: boolean }) {
   const { mode, setMode } = useLegato();
