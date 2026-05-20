@@ -42,6 +42,7 @@ import { Route as GardenZoneRouteImport } from './routes/garden.$zone'
 import { Route as ComposeZoneRouteImport } from './routes/compose.$zone'
 import { Route as ResourcesConfirmProviderIdRouteImport } from './routes/resources.confirm.$providerId'
 import { Route as ResourcesCategoryProviderIdRouteImport } from './routes/resources.$category.$providerId'
+import { Route as ApiPublicSouffleSoundIdRouteImport } from './routes/api/public/souffle-sound.$id'
 
 const WishesRoute = WishesRouteImport.update({
   id: '/wishes',
@@ -210,6 +211,11 @@ const ResourcesCategoryProviderIdRoute =
     path: '/$providerId',
     getParentRoute: () => ResourcesCategoryRoute,
   } as any)
+const ApiPublicSouffleSoundIdRoute = ApiPublicSouffleSoundIdRouteImport.update({
+  id: '/api/public/souffle-sound/$id',
+  path: '/api/public/souffle-sound/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -245,6 +251,7 @@ export interface FileRoutesByFullPath {
   '/resources/': typeof ResourcesIndexRoute
   '/resources/$category/$providerId': typeof ResourcesCategoryProviderIdRoute
   '/resources/confirm/$providerId': typeof ResourcesConfirmProviderIdRoute
+  '/api/public/souffle-sound/$id': typeof ApiPublicSouffleSoundIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -279,6 +286,7 @@ export interface FileRoutesByTo {
   '/resources': typeof ResourcesIndexRoute
   '/resources/$category/$providerId': typeof ResourcesCategoryProviderIdRoute
   '/resources/confirm/$providerId': typeof ResourcesConfirmProviderIdRoute
+  '/api/public/souffle-sound/$id': typeof ApiPublicSouffleSoundIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -315,6 +323,7 @@ export interface FileRoutesById {
   '/resources/': typeof ResourcesIndexRoute
   '/resources/$category/$providerId': typeof ResourcesCategoryProviderIdRoute
   '/resources/confirm/$providerId': typeof ResourcesConfirmProviderIdRoute
+  '/api/public/souffle-sound/$id': typeof ApiPublicSouffleSoundIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -352,6 +361,7 @@ export interface FileRouteTypes {
     | '/resources/'
     | '/resources/$category/$providerId'
     | '/resources/confirm/$providerId'
+    | '/api/public/souffle-sound/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -386,6 +396,7 @@ export interface FileRouteTypes {
     | '/resources'
     | '/resources/$category/$providerId'
     | '/resources/confirm/$providerId'
+    | '/api/public/souffle-sound/$id'
   id:
     | '__root__'
     | '/'
@@ -421,6 +432,7 @@ export interface FileRouteTypes {
     | '/resources/'
     | '/resources/$category/$providerId'
     | '/resources/confirm/$providerId'
+    | '/api/public/souffle-sound/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -447,6 +459,7 @@ export interface RootRouteChildren {
   GardenIndexRoute: typeof GardenIndexRoute
   ResourcesIndexRoute: typeof ResourcesIndexRoute
   ResourcesConfirmProviderIdRoute: typeof ResourcesConfirmProviderIdRoute
+  ApiPublicSouffleSoundIdRoute: typeof ApiPublicSouffleSoundIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -682,6 +695,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResourcesCategoryProviderIdRouteImport
       parentRoute: typeof ResourcesCategoryRoute
     }
+    '/api/public/souffle-sound/$id': {
+      id: '/api/public/souffle-sound/$id'
+      path: '/api/public/souffle-sound/$id'
+      fullPath: '/api/public/souffle-sound/$id'
+      preLoaderRoute: typeof ApiPublicSouffleSoundIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -748,6 +768,7 @@ const rootRouteChildren: RootRouteChildren = {
   GardenIndexRoute: GardenIndexRoute,
   ResourcesIndexRoute: ResourcesIndexRoute,
   ResourcesConfirmProviderIdRoute: ResourcesConfirmProviderIdRoute,
+  ApiPublicSouffleSoundIdRoute: ApiPublicSouffleSoundIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
