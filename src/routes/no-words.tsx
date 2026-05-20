@@ -674,7 +674,6 @@ const ORB_STYLES = `
 `;
 
 const SCENE_VIDEOS: Partial<Record<SceneId, string>> = {
-  "rose-mist": "/souffles/rose-mist.mp4",
   "evening-gold": "/souffles/evening-gold.mp4",
 };
 
