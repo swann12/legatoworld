@@ -29,6 +29,11 @@ type SoundConfig = {
   oscillator: { type: OscillatorType; frequency: number };
   oscillator2?: { type: OscillatorType; frequency: number; gain: number } | null;
   noise?: { gain: number; filter: { type: BiquadFilterType; frequency: number; Q: number } };
+  nature?: {
+    gain: number;
+    filter: { type: BiquadFilterType; frequency: number; Q: number };
+    lfo?: { frequency: number; depth: number };
+  };
   filter: { frequency: number; Q: number };
   reverb: { duration: number; decay: number };
   lfo: { frequency: number; depth: number };
