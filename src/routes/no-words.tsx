@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import { Howl } from "howler";
 import { Shell } from "@/components/legato/Shell";
 import imgWarmth from "@/assets/souffle-warmth.jpg";
@@ -365,7 +365,7 @@ const ORB_STYLES = `
 
 function SouffleOrbs({ id }: { id: SceneId }) {
   const src = SCENE_IMAGES[id];
-  const bg = { backgroundImage: `url(${src})` } as React.CSSProperties;
+  const bg: CSSProperties = { backgroundImage: `url(${src})` };
   return (
     <>
       <div className="photo-layer layer-a" style={bg}>
