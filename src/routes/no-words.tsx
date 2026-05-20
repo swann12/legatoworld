@@ -179,54 +179,162 @@ type NatureSound = {
   onTouch: (pressure: number) => void;
   onTouchEnd: () => void;
   destroy: () => void;
-  readonly howl: Howl;
   readonly cfg: { volume: number; fadeIn: number };
 };
 
+/* Procedural ambient generator — Web Audio API, no external assets.
+   Each scene has a distinct character based on filtered noise + slow LFOs. */
+type SceneAudio = {
+  type: "lowpass" | "bandpass" | "highpass";
+  baseFreq: number; // Hz, filter center
+  q: number;
+  lfoRate: number; // Hz, very slow modulation
+  lfoDepth: number; // Hz, depth around base
+  noise: "white" | "pink" | "brown";
+};
+const SCENE_AUDIO: Record<SceneId, SceneAudio> = {
+  warmth:        { type: "lowpass",  baseFreq: 380,  q: 0.7, lfoRate: 0.08, lfoDepth: 120, noise: "brown" },
+  "morning-sky": { type: "bandpass", baseFreq: 1800, q: 1.2, lfoRate: 0.06, lfoDepth: 500, noise: "pink"  },
+  leaves:        { type: "bandpass", baseFreq: 2400, q: 1.4, lfoRate: 0.10, lfoDepth: 700, noise: "pink"  },
+  "rose-mist":   { type: "lowpass",  baseFreq: 900,  q: 0.9, lfoRate: 0.05, lfoDepth: 300, noise: "pink"  },
+  "evening-gold":{ type: "lowpass",  baseFreq: 600,  q: 0.8, lfoRate: 0.07, lfoDepth: 220, noise: "brown" },
+};
+
+let sharedCtx: AudioContext | null = null;
+function getCtx(): AudioContext | null {
+  if (typeof window === "undefined") return null;
+  if (!sharedCtx) {
+    const W = window as unknown as { AudioContext?: typeof AudioContext; webkitAudioContext?: typeof AudioContext };
+    const Ctor = W.AudioContext || W.webkitAudioContext;
+    if (!Ctor) return null;
+    sharedCtx = new Ctor();
+  }
+  return sharedCtx;
+}
+
+function makeNoiseBuffer(ctx: AudioContext, kind: SceneAudio["noise"]): AudioBuffer {
+  const seconds = 4;
+  const length = ctx.sampleRate * seconds;
+  const buf = ctx.createBuffer(1, length, ctx.sampleRate);
+  const d = buf.getChannelData(0);
+  if (kind === "white") {
+    for (let i = 0; i < length; i++) d[i] = Math.random() * 2 - 1;
+  } else if (kind === "pink") {
+    // Paul Kellet's pink noise
+    let b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0;
+    for (let i = 0; i < length; i++) {
+      const white = Math.random() * 2 - 1;
+      b0 = 0.99886 * b0 + white * 0.0555179;
+      b1 = 0.99332 * b1 + white * 0.0750759;
+      b2 = 0.96900 * b2 + white * 0.1538520;
+      b3 = 0.86650 * b3 + white * 0.3104856;
+      b4 = 0.55000 * b4 + white * 0.5329522;
+      b5 = -0.7616 * b5 - white * 0.0168980;
+      d[i] = (b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362) * 0.11;
+      b6 = white * 0.115926;
+    }
+  } else {
+    let last = 0;
+    for (let i = 0; i < length; i++) {
+      const white = Math.random() * 2 - 1;
+      last = (last + 0.02 * white) / 1.02;
+      d[i] = last * 3.5;
+    }
+  }
+  return buf;
+}
+
 function createSound(seq: Sequence): NatureSound {
   const cfg = { volume: seq.volume, fadeIn: seq.fadeIn };
-  const howl = new Howl({
-    src: [seq.url],
-    loop: true,
-    volume: 0,
-    html5: true,
-    preload: true,
-  });
+  const ctx = getCtx();
+  const scene = SCENE_AUDIO[seq.id];
+  let started = false;
+  let stopped = false;
+  let source: AudioBufferSourceNode | null = null;
+  let gain: GainNode | null = null;
+  let filter: BiquadFilterNode | null = null;
+  let lfo: OscillatorNode | null = null;
+  let lfoGain: GainNode | null = null;
+
+  const fadeGain = (target: number, ms: number) => {
+    if (!gain || !ctx) return;
+    const t = ctx.currentTime;
+    gain.gain.cancelScheduledValues(t);
+    gain.gain.setValueAtTime(gain.gain.value, t);
+    gain.gain.linearRampToValueAtTime(target, t + ms / 1000);
+  };
+
+  const start = (fadeMs: number) => {
+    if (!ctx || started || stopped) return;
+    started = true;
+    if (ctx.state === "suspended") ctx.resume().catch(() => {});
+    source = ctx.createBufferSource();
+    source.buffer = makeNoiseBuffer(ctx, scene.noise);
+    source.loop = true;
+    filter = ctx.createBiquadFilter();
+    filter.type = scene.type;
+    filter.frequency.value = scene.baseFreq;
+    filter.Q.value = scene.q;
+    lfo = ctx.createOscillator();
+    lfo.frequency.value = scene.lfoRate;
+    lfoGain = ctx.createGain();
+    lfoGain.gain.value = scene.lfoDepth;
+    lfo.connect(lfoGain).connect(filter.frequency);
+    gain = ctx.createGain();
+    gain.gain.value = 0;
+    source.connect(filter).connect(gain).connect(ctx.destination);
+    source.start();
+    lfo.start();
+    fadeGain(cfg.volume, fadeMs);
+  };
+
+  const cleanup = () => {
+    try { source?.stop(); } catch (e) { void e; }
+    try { lfo?.stop(); } catch (e) { void e; }
+    try { source?.disconnect(); } catch (e) { void e; }
+    try { lfo?.disconnect(); } catch (e) { void e; }
+    try { lfoGain?.disconnect(); } catch (e) { void e; }
+    try { filter?.disconnect(); } catch (e) { void e; }
+    try { gain?.disconnect(); } catch (e) { void e; }
+    source = lfo = null;
+    lfoGain = filter = gain = null;
+  };
 
   return {
-    howl,
     cfg,
-    play() {
-      howl.play();
-      howl.fade(0, cfg.volume, cfg.fadeIn);
-    },
+    play() { start(cfg.fadeIn); },
     pause() {
-      howl.fade(howl.volume(), 0, 1500);
-      setTimeout(() => howl.pause(), 1500);
+      fadeGain(0, 1200);
     },
     resume() {
-      howl.play();
-      howl.fade(0, cfg.volume, 1500);
+      if (!started) { start(1500); return; }
+      fadeGain(cfg.volume, 1500);
     },
     fadeTo(next, duration = 3000) {
-      howl.fade(howl.volume(), 0, duration);
+      fadeGain(0, duration);
       setTimeout(() => {
-        try { howl.stop(); } catch (e) { void e; }
+        stopped = true;
+        cleanup();
         next.play();
       }, duration);
     },
     onTouch(pressure: number) {
-      const target = cfg.volume * (1 + pressure * 0.15);
-      howl.fade(howl.volume(), Math.min(target, 0.55), 800);
+      if (!gain || !ctx) return;
+      const target = Math.min(cfg.volume * (1 + pressure * 0.5), 0.6);
+      fadeGain(target, 600);
+      if (filter) {
+        const t = ctx.currentTime;
+        filter.frequency.cancelScheduledValues(t);
+        filter.frequency.linearRampToValueAtTime(scene.baseFreq * (1 + pressure * 0.3), t + 0.6);
+      }
     },
     onTouchEnd() {
-      howl.fade(howl.volume(), cfg.volume, 2000);
+      fadeGain(cfg.volume, 2000);
     },
     destroy() {
-      try {
-        howl.fade(howl.volume(), 0, 1500);
-        setTimeout(() => { try { howl.unload(); } catch (e) { void e; } }, 1600);
-      } catch (e) { void e; }
+      stopped = true;
+      fadeGain(0, 1200);
+      setTimeout(cleanup, 1300);
     },
   };
 }
