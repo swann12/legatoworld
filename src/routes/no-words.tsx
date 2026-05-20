@@ -461,48 +461,65 @@ function SoufflesView() {
     return () => document.removeEventListener("visibilitychange", onVis);
   }, [playing]);
 
-  // Touch/mouse — gentle orb drift + tiny volume swell
+  // Pointer interaction — orbs drift, audio swells, visible halo follows finger
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
     const orbs = container.querySelectorAll<HTMLElement>(".photo-layer .inner");
 
     const apply = (clientX: number, clientY: number) => {
-      const cx = window.innerWidth / 2;
-      const cy = window.innerHeight / 2;
-      const dx = (clientX - cx) / cx;
-      const dy = (clientY - cy) / cy;
-      const factors = [0.10, 0.18];
+      const rect = container.getBoundingClientRect();
+      const localX = clientX - rect.left;
+      const localY = clientY - rect.top;
+      const cx = rect.width / 2;
+      const cy = rect.height / 2;
+      const dx = (localX - cx) / cx;
+      const dy = (localY - cy) / cy;
+      const factors = [0.12, 0.22];
       orbs.forEach((orb, i) => {
         const f = factors[i % factors.length];
-        orb.style.transition = "transform 2.4s ease-out";
-        orb.style.setProperty("--touch-x", `${dx * f * 60}px`);
-        orb.style.setProperty("--touch-y", `${dy * f * 50}px`);
+        orb.style.transition = "transform 1.6s ease-out";
+        orb.style.setProperty("--touch-x", `${dx * f * 70}px`);
+        orb.style.setProperty("--touch-y", `${dy * f * 60}px`);
       });
-      const pressure = 1 - Math.sqrt(dx * dx + dy * dy) * 0.7;
+      container.style.setProperty("--halo-x", `${localX}px`);
+      container.style.setProperty("--halo-y", `${localY}px`);
+      const pressure = 1 - Math.sqrt(dx * dx + dy * dy) * 0.6;
       soundRef.current?.onTouch(Math.max(0, Math.min(1, pressure)));
     };
     const release = () => {
       orbs.forEach((orb) => {
-        orb.style.transition = "transform 4s ease-out";
+        orb.style.transition = "transform 3.6s ease-out";
         orb.style.setProperty("--touch-x", "0px");
         orb.style.setProperty("--touch-y", "0px");
       });
+      container.classList.remove("is-touching");
       soundRef.current?.onTouchEnd();
     };
-    const onMove = (e: MouseEvent) => apply(e.clientX, e.clientY);
-    const onTouchMove = (e: TouchEvent) => {
-      const t = e.touches[0]; if (t) apply(t.clientX, t.clientY);
+    const onDown = (e: PointerEvent) => {
+      container.classList.add("is-touching");
+      apply(e.clientX, e.clientY);
     };
-    container.addEventListener("mousemove", onMove);
-    container.addEventListener("mouseleave", release);
-    container.addEventListener("touchmove", onTouchMove, { passive: true });
-    container.addEventListener("touchend", release);
+    const onMove = (e: PointerEvent) => {
+      // For mouse: hover always animates. For touch: only when pressed.
+      if (e.pointerType !== "mouse" && e.buttons === 0 && !container.classList.contains("is-touching")) return;
+      if (e.pointerType === "mouse") container.classList.add("is-touching");
+      apply(e.clientX, e.clientY);
+    };
+    const onUp = () => release();
+    const onLeave = () => release();
+
+    container.addEventListener("pointerdown", onDown);
+    container.addEventListener("pointermove", onMove);
+    container.addEventListener("pointerup", onUp);
+    container.addEventListener("pointercancel", onUp);
+    container.addEventListener("pointerleave", onLeave);
     return () => {
-      container.removeEventListener("mousemove", onMove);
-      container.removeEventListener("mouseleave", release);
-      container.removeEventListener("touchmove", onTouchMove);
-      container.removeEventListener("touchend", release);
+      container.removeEventListener("pointerdown", onDown);
+      container.removeEventListener("pointermove", onMove);
+      container.removeEventListener("pointerup", onUp);
+      container.removeEventListener("pointercancel", onUp);
+      container.removeEventListener("pointerleave", onLeave);
     };
   }, [seq.id]);
 
