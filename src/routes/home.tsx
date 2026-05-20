@@ -190,6 +190,22 @@ const CARD_META: Record<
   "nw-regarder": { eyebrow: "Regarder",  to: "/no-words", search: { tab: "regarder" } },
 };
 
+/* Selon ce que la personne porte (branche), certaines portes n'ont pas
+ * de sens. On masque sans dramatiser. */
+function filterCardsByBranch(cards: CardCfg[], branch: Branch): CardCfg[] {
+  // ids à masquer par branche
+  const hide: Record<Branch, CardId[]> = {
+    person:    [],
+    practical: [],
+    unknown:   [],
+    animal:    ["practical", "wishes"],
+    fear:      ["practical"],
+    anxiety:   ["practical", "wishes"],
+  };
+  const drop = new Set(hide[branch]);
+  return cards.filter((c) => !drop.has(c.id));
+}
+
 const HERO_VISUAL: Record<CardId, { gradient: string; glow: string }> = {
   presence: {
     gradient: "radial-gradient(circle at 30% 30%, var(--peach), var(--rose))",
