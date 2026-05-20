@@ -529,7 +529,19 @@ function SoufflesView() {
     const s = createSound(BASE[0]);
     soundRef.current = s;
     if (!reduced) s.play();
+    // Browsers require a user gesture to start audio. Resume the context on first interaction.
+    const resumeOnGesture = () => {
+      const ctx = getCtx();
+      if (ctx && ctx.state === "suspended") ctx.resume().catch(() => {});
+      if (!reduced) soundRef.current?.resume();
+    };
+    window.addEventListener("pointerdown", resumeOnGesture, { once: true });
+    window.addEventListener("touchstart", resumeOnGesture, { once: true });
+    window.addEventListener("keydown", resumeOnGesture, { once: true });
     return () => {
+      window.removeEventListener("pointerdown", resumeOnGesture);
+      window.removeEventListener("touchstart", resumeOnGesture);
+      window.removeEventListener("keydown", resumeOnGesture);
       soundRef.current?.destroy();
       soundRef.current = null;
     };
