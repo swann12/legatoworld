@@ -86,7 +86,7 @@ function Presence() {
   };
 
   return (
-    <Shell hideNav>
+    <Shell>
       <div className="relative min-h-dvh flex flex-col">
         <Halos mode={mode} variant="rich" />
 
@@ -166,7 +166,7 @@ function Presence() {
             ))}
           </div>
 
-          <div className="px-5 pb-8">
+          <div className="px-5 pb-28">
             <form onSubmit={(e) => { e.preventDefault(); send(); }} className="ceramic organic-radius-3 flex items-center gap-3 px-5 py-3">
               <input
                 value={draft}
