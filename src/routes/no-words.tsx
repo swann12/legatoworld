@@ -44,8 +44,8 @@ type Tab = "souffles" | "respirer" | "lire" | "regarder";
 type BookTag = "deuil récent" | "long terme" | "anticipation" | "pour les enfants" | "philosophique" | "poétique" | "corps";
 
 type SceneId =
-  | "warmth" | "morning-sky" | "leaves" | "rose-mist" | "evening-gold"
-  | "or-soir-eau" | "feuilles-vert" | "feuilles-rose" | "soir-flou"
+  | "warmth" | "morning-sky" | "rivage" | "ressac" | "rose-mist" | "evening-gold"
+  | "or-soir-eau" | "feuilles-vert"
   | "perle" | "aurore" | "bougainvillier" | "lumiere" | "lune";
 
 type Sequence = {
