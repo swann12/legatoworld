@@ -316,6 +316,8 @@ function createSound(seq: Sequence): NatureSound {
   let filter: BiquadFilterNode | null = null;
   let lfo: OscillatorNode | null = null;
   let lfoGain: GainNode | null = null;
+  const tones: OscillatorNode[] = [];
+  const toneGains: GainNode[] = [];
 
   const fadeGain = (target: number, ms: number) => {
     if (!gain || !ctx) return;
@@ -346,6 +348,24 @@ function createSound(seq: Sequence): NatureSound {
     source.connect(filter).connect(gain).connect(ctx.destination);
     source.start();
     lfo.start();
+    // Optional sustained tones layered atop the noise bed
+    const addTone = (t: NonNullable<SceneAudio["tone"]>) => {
+      if (!ctx) return;
+      const osc = ctx.createOscillator();
+      osc.type = t.type;
+      osc.frequency.value = t.freq;
+      if (t.detune) osc.detune.value = t.detune;
+      const tg = ctx.createGain();
+      tg.gain.value = 0;
+      osc.connect(tg).connect(ctx.destination);
+      osc.start();
+      const now = ctx.currentTime;
+      tg.gain.linearRampToValueAtTime(t.gain * cfg.volume * 3, now + fadeMs / 1000);
+      tones.push(osc);
+      toneGains.push(tg);
+    };
+    if (scene.tone) addTone(scene.tone);
+    if (scene.tone2) addTone(scene.tone2);
     fadeGain(cfg.volume, fadeMs);
   };
 
@@ -357,6 +377,10 @@ function createSound(seq: Sequence): NatureSound {
     try { lfoGain?.disconnect(); } catch (e) { void e; }
     try { filter?.disconnect(); } catch (e) { void e; }
     try { gain?.disconnect(); } catch (e) { void e; }
+    tones.forEach((o) => { try { o.stop(); } catch (e) { void e; } try { o.disconnect(); } catch (e) { void e; } });
+    toneGains.forEach((g) => { try { g.disconnect(); } catch (e) { void e; } });
+    tones.length = 0;
+    toneGains.length = 0;
     source = lfo = null;
     lfoGain = filter = gain = null;
   };
@@ -366,6 +390,14 @@ function createSound(seq: Sequence): NatureSound {
     play() { start(cfg.fadeIn); },
     pause() {
       fadeGain(0, 1200);
+      if (ctx) {
+        const t = ctx.currentTime;
+        toneGains.forEach((g) => {
+          g.gain.cancelScheduledValues(t);
+          g.gain.setValueAtTime(g.gain.value, t);
+          g.gain.linearRampToValueAtTime(0, t + 1.2);
+        });
+      }
     },
     resume() {
       if (!started) { start(1500); return; }
