@@ -207,13 +207,58 @@ type SceneAudio = {
   lfoRate: number; // Hz, very slow modulation
   lfoDepth: number; // Hz, depth around base
   noise: "white" | "pink" | "brown";
+  /** Optional sustained tonal drone layered atop the noise bed. */
+  tone?: { freq: number; type: OscillatorType; gain: number; detune?: number };
+  /** Optional second tone for harmonic richness. */
+  tone2?: { freq: number; type: OscillatorType; gain: number; detune?: number };
 };
 const SCENE_AUDIO: Record<SceneId, SceneAudio> = {
-  warmth:        { type: "lowpass",  baseFreq: 380,  q: 0.7, lfoRate: 0.08, lfoDepth: 120, noise: "brown" },
-  "morning-sky": { type: "bandpass", baseFreq: 1800, q: 1.2, lfoRate: 0.06, lfoDepth: 500, noise: "pink"  },
-  leaves:        { type: "bandpass", baseFreq: 2400, q: 1.4, lfoRate: 0.10, lfoDepth: 700, noise: "pink"  },
-  "rose-mist":   { type: "lowpass",  baseFreq: 900,  q: 0.9, lfoRate: 0.05, lfoDepth: 300, noise: "pink"  },
-  "evening-gold":{ type: "lowpass",  baseFreq: 600,  q: 0.8, lfoRate: 0.07, lfoDepth: 220, noise: "brown" },
+  // Foyer chaud — basses très feutrées, drone grave organique
+  warmth:         { type: "lowpass",  baseFreq: 320,  q: 0.6, lfoRate: 0.07, lfoDepth: 90,  noise: "brown",
+                    tone: { freq: 65, type: "sine", gain: 0.06 } },
+  // Ciel matin — bandpass aigu, chant d'oiseaux suggéré par tons cristallins
+  "morning-sky":  { type: "bandpass", baseFreq: 2200, q: 1.6, lfoRate: 0.09, lfoDepth: 900, noise: "pink",
+                    tone: { freq: 880, type: "sine", gain: 0.012 },
+                    tone2: { freq: 1320, type: "sine", gain: 0.008, detune: 7 } },
+  // Feuilles — bruit pink filtré, plus de mouvement haute fréquence
+  leaves:         { type: "highpass", baseFreq: 1800, q: 0.8, lfoRate: 0.18, lfoDepth: 600, noise: "pink"  },
+  // Brume rose — lowpass + drone très doux
+  "rose-mist":    { type: "lowpass",  baseFreq: 700,  q: 0.9, lfoRate: 0.04, lfoDepth: 200, noise: "pink",
+                    tone: { freq: 220, type: "sine", gain: 0.025, detune: -3 } },
+  // Or du soir — vagues lentes, drone grave riche
+  "evening-gold": { type: "lowpass",  baseFreq: 480,  q: 0.7, lfoRate: 0.05, lfoDepth: 180, noise: "brown",
+                    tone: { freq: 110, type: "sine", gain: 0.04 },
+                    tone2: { freq: 165, type: "sine", gain: 0.018 } },
+  // Or du soir sur l'eau — bandpass médium, clapotis
+  "or-soir-eau":  { type: "bandpass", baseFreq: 1200, q: 1.0, lfoRate: 0.22, lfoDepth: 400, noise: "white",
+                    tone: { freq: 147, type: "triangle", gain: 0.02 } },
+  // Feuilles vertes — frissons aigus
+  "feuilles-vert":{ type: "highpass", baseFreq: 2600, q: 1.0, lfoRate: 0.25, lfoDepth: 800, noise: "pink"  },
+  // Feuilles roses — mélange aérien, drone mi-aigu
+  "feuilles-rose":{ type: "bandpass", baseFreq: 1500, q: 1.3, lfoRate: 0.12, lfoDepth: 500, noise: "pink",
+                    tone: { freq: 392, type: "sine", gain: 0.014 } },
+  // Soir flou — drone tenu, aérien, lent
+  "soir-flou":    { type: "lowpass",  baseFreq: 820,  q: 0.8, lfoRate: 0.03, lfoDepth: 150, noise: "pink",
+                    tone: { freq: 196, type: "sine", gain: 0.03 },
+                    tone2: { freq: 294, type: "sine", gain: 0.016, detune: 4 } },
+  // Perle — drone cristallin, très calme
+  perle:          { type: "lowpass",  baseFreq: 1100, q: 1.1, lfoRate: 0.04, lfoDepth: 250, noise: "pink",
+                    tone: { freq: 330, type: "sine", gain: 0.022 },
+                    tone2: { freq: 495, type: "sine", gain: 0.012, detune: -5 } },
+  // Aurore — montée lente, harmoniques claires
+  aurore:         { type: "bandpass", baseFreq: 1700, q: 1.4, lfoRate: 0.08, lfoDepth: 700, noise: "pink",
+                    tone: { freq: 523, type: "sine", gain: 0.018 } },
+  // Bougainvillier — chaleur méditerranéenne, cigales feutrées
+  bougainvillier: { type: "bandpass", baseFreq: 3000, q: 2.2, lfoRate: 0.30, lfoDepth: 200, noise: "white",
+                    tone: { freq: 174, type: "sine", gain: 0.025 } },
+  // Lumière — installation, drone tenu lumineux
+  lumiere:        { type: "lowpass",  baseFreq: 950,  q: 0.9, lfoRate: 0.02, lfoDepth: 120, noise: "pink",
+                    tone: { freq: 261, type: "sine", gain: 0.03 },
+                    tone2: { freq: 392, type: "sine", gain: 0.018, detune: 6 } },
+  // Lune — paysage lunaire, basses profondes, presque sub
+  lune:           { type: "lowpass",  baseFreq: 240,  q: 0.7, lfoRate: 0.03, lfoDepth: 60,  noise: "brown",
+                    tone: { freq: 55,  type: "sine", gain: 0.05 },
+                    tone2: { freq: 82,  type: "sine", gain: 0.025, detune: -8 } },
 };
 
 let sharedCtx: AudioContext | null = null;
