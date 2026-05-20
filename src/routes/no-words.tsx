@@ -636,7 +636,10 @@ const ORB_STYLES = `
 }
 
 /* Lune scene — invert text overlay color for legibility on dark bg */
-.scene-lune .souffle-title { color: rgba(245, 240, 230, 0.92) !important; text-shadow: 0 1px 18px rgba(0,0,0,0.45) !important; }
+.scene-lune .souffle-title { color: rgba(248, 244, 235, 0.95) !important; text-shadow: 0 1px 18px rgba(0,0,0,0.55) !important; }
+/* Lune — contrôles (flèches, pause, garder, retour) en clair */
+.scene-lune .lune-ctrl { color: rgba(248,244,235,0.92) !important; background: rgba(255,255,255,0.10) !important; }
+.scene-lune .lune-link { color: rgba(248,244,235,0.72) !important; }
 
 /* Couche A — photo principale, animation longue */
 .souffle-scene .layer-a {
