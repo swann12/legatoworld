@@ -359,46 +359,71 @@
 
   /* Soft container — quieter than ceramic, more space */
   .paper-card {
-    background: rgba(255, 255, 255, 0.65);
-    -webkit-backdrop-filter: blur(16px);
-    backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.40);
-    border-radius: 20px;
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
+    background: rgba(255, 255, 255, 0.42);
+    -webkit-backdrop-filter: blur(22px) saturate(140%);
+    backdrop-filter: blur(22px) saturate(140%);
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    border-radius: 22px;
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.7) inset,
+      0 12px 36px -18px rgba(60, 50, 70, 0.18);
   }
 
   /* ─── Legato Glass system ───
-   * Single layer of glass per screen. Never stacked.
-   * Always over a living gradient background, never over white.
+   * Verre aérien, légèrement teinté, inspiré du widget météo iOS.
+   * Posé sur un dégradé vivant — jamais sur du blanc.
    */
   .glass-card {
-    background: rgba(255, 255, 255, 0.65);
-    -webkit-backdrop-filter: blur(16px);
-    backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.40);
-    border-radius: 20px;
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
+    background: linear-gradient(180deg,
+      rgba(255, 255, 255, 0.55) 0%,
+      rgba(255, 255, 255, 0.32) 100%);
+    -webkit-backdrop-filter: blur(24px) saturate(150%);
+    backdrop-filter: blur(24px) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 22px;
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.75) inset,
+      0 10px 32px -16px rgba(60, 50, 70, 0.18);
   }
   .glass-card-accent {
-    background: rgba(255, 255, 255, 0.65);
-    -webkit-backdrop-filter: blur(16px);
-    backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.40);
+    /* Carte principale — verre fumé inspiré du widget météo */
+    background: linear-gradient(180deg,
+      rgba(60, 52, 60, 0.34) 0%,
+      rgba(60, 52, 60, 0.22) 100%);
+    -webkit-backdrop-filter: blur(28px) saturate(160%);
+    backdrop-filter: blur(28px) saturate(160%);
+    border: 1px solid rgba(255, 255, 255, 0.32);
     border-left-width: 3px;
-    border-radius: 20px;
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
+    border-radius: 24px;
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.35) inset,
+      0 16px 40px -20px rgba(40, 30, 50, 0.30);
+    color: #FBF6F0;
   }
+  .glass-card-accent p,
+  .glass-card-accent h1,
+  .glass-card-accent h2,
+  .glass-card-accent h3,
+  .glass-card-accent span { color: #FBF6F0 !important; }
+  .glass-card-accent .text-dusk\/55,
+  .glass-card-accent .text-dusk\/45,
+  .glass-card-accent .text-dusk\/40 { color: rgba(251, 246, 240, 0.72) !important; }
+
   .glass-nav {
-    background: rgba(253, 249, 245, 0.80);
-    -webkit-backdrop-filter: blur(20px);
-    backdrop-filter: blur(20px);
-    border-top: 1px solid rgba(255, 255, 255, 0.45);
-    border-radius: 28px;
+    background: linear-gradient(180deg,
+      rgba(255, 252, 248, 0.62) 0%,
+      rgba(255, 252, 248, 0.78) 100%);
+    -webkit-backdrop-filter: blur(28px) saturate(160%);
+    backdrop-filter: blur(28px) saturate(160%);
+    border-top: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 32px;
+    box-shadow: 0 -8px 32px -12px rgba(60, 50, 70, 0.15);
   }
   .glass-tabs {
-    background: rgba(255, 255, 255, 0.45);
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.32);
+    -webkit-backdrop-filter: blur(18px) saturate(150%);
+    backdrop-filter: blur(18px) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, 0.5);
     border-radius: 50px;
   }
   .glass-tab-active {
