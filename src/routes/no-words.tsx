@@ -686,7 +686,9 @@ const ORB_STYLES = `
 /* Lune — masquer les couches photo pour garder un vrai paysage nocturne */
 .scene-lune .photo-layer,
 .scene-lune .photo-video,
-.scene-lune .grain { display: none; }
+.scene-lune .grain,
+.scene-lune .touch-lens,
+.scene-lune .touch-lens-core { display: none; }
 .scene-lune .glow {
   background: radial-gradient(ellipse at 50% 30%, rgba(230,200,210,0.22) 0%, rgba(160,130,170,0.10) 40%, transparent 75%);
 }
