@@ -510,8 +510,14 @@ const ORB_STYLES = `
   background-size: inherit;
   background-position: inherit;
   animation-fill-mode: both;
-  transform: translate(var(--touch-x, 0px), var(--touch-y, 0px));
-  transition: transform 2.6s ease-out;
+  transform: translate3d(var(--touch-x, 0px), var(--touch-y, 0px), 0)
+             scale(var(--touch-scale, 1));
+  filter: blur(var(--touch-blur, 0px)) saturate(var(--touch-sat, 1));
+  transition: transform 2.6s ease-out, filter 2.4s ease-out;
+  will-change: transform, filter;
+}
+.souffle-scene.is-touching .photo-layer .inner {
+  transition: transform 0.16s ease-out, filter 0.32s ease-out;
 }
 
 /* Halo lumineux qui adoucit le tout */
@@ -594,6 +600,12 @@ const ORB_STYLES = `
 .souffle-scene.is-touching .touch-halo {
   opacity: 1;
   transform: translate3d(var(--halo-x, 50vw), var(--halo-y, 50vh), 0) scale(1);
+}
+/* Pendant le toucher, on déforme aussi le halo lumineux pour intensifier la réaction */
+.souffle-scene.is-touching .glow {
+  opacity: 1;
+  transform: scale(calc(1 + var(--touch-intensity, 0) * 0.08));
+  transition: transform 0.2s ease-out, opacity 0.2s ease-out;
 }
 
 /* Video layer — autoplay ambient motion (rose-mist, evening-gold) */
@@ -799,61 +811,103 @@ function SoufflesView() {
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
-    const orbs = container.querySelectorAll<HTMLElement>(".photo-layer .inner");
+    const orbs = Array.from(container.querySelectorAll<HTMLElement>(".photo-layer .inner"));
+    // Plus intense que la version précédente — la texture se déforme franchement
+    // au contact, sans toucher au son ni à la typo.
+    const TRANSLATE_FACTORS = [0.20, 0.34];
+    const SCALE_FACTORS     = [0.05, 0.09];
+    const BLUR_FACTORS      = [1.8, 4.0];
 
-    const apply = (clientX: number, clientY: number) => {
-      const rect = container.getBoundingClientRect();
-      const localX = clientX - rect.left;
-      const localY = clientY - rect.top;
+    let lastX = 0;
+    let lastY = 0;
+    let rafId = 0;
+    let rect = container.getBoundingClientRect();
+    let touching = false;
+
+    const refreshRect = () => { rect = container.getBoundingClientRect(); };
+    window.addEventListener("resize", refreshRect, { passive: true });
+    window.addEventListener("scroll", refreshRect, { passive: true });
+
+    const flush = () => {
+      rafId = 0;
+      const localX = lastX - rect.left;
+      const localY = lastY - rect.top;
       const cx = rect.width / 2;
       const cy = rect.height / 2;
       const dx = (localX - cx) / cx;
       const dy = (localY - cy) / cy;
-      const factors = [0.12, 0.22];
-      orbs.forEach((orb, i) => {
-        const f = factors[i % factors.length];
-        orb.style.transition = "transform 1.6s ease-out";
-        orb.style.setProperty("--touch-x", `${dx * f * 70}px`);
-        orb.style.setProperty("--touch-y", `${dy * f * 60}px`);
-      });
+      const dist = Math.min(1, Math.sqrt(dx * dx + dy * dy));
+      const pressure = Math.max(0, 1 - dist * 0.6);
+      // Écriture batchée des variables CSS — un seul reflow par frame.
+      for (let i = 0; i < orbs.length; i++) {
+        const orb = orbs[i];
+        const ft = TRANSLATE_FACTORS[i % TRANSLATE_FACTORS.length];
+        const fs = SCALE_FACTORS[i % SCALE_FACTORS.length];
+        const fb = BLUR_FACTORS[i % BLUR_FACTORS.length];
+        orb.style.setProperty("--touch-x",     `${dx * ft * 120}px`);
+        orb.style.setProperty("--touch-y",     `${dy * ft * 100}px`);
+        orb.style.setProperty("--touch-scale", String(1 + pressure * fs));
+        orb.style.setProperty("--touch-blur",  `${pressure * fb}px`);
+        orb.style.setProperty("--touch-sat",   String(1 + pressure * 0.12));
+      }
       container.style.setProperty("--halo-x", `${localX}px`);
       container.style.setProperty("--halo-y", `${localY}px`);
-      const pressure = 1 - Math.sqrt(dx * dx + dy * dy) * 0.6;
-      soundRef.current?.onTouch(Math.max(0, Math.min(1, pressure)));
+      container.style.setProperty("--touch-intensity", String(pressure));
+      soundRef.current?.onTouch(pressure);
     };
+
+    const schedule = (x: number, y: number) => {
+      lastX = x; lastY = y;
+      if (!rafId) rafId = requestAnimationFrame(flush);
+    };
+
     const release = () => {
-      orbs.forEach((orb) => {
-        orb.style.transition = "transform 3.6s ease-out";
+      if (rafId) { cancelAnimationFrame(rafId); rafId = 0; }
+      touching = false;
+      container.classList.remove("is-touching");
+      for (let i = 0; i < orbs.length; i++) {
+        const orb = orbs[i];
         orb.style.setProperty("--touch-x", "0px");
         orb.style.setProperty("--touch-y", "0px");
-      });
-      container.classList.remove("is-touching");
+        orb.style.setProperty("--touch-scale", "1");
+        orb.style.setProperty("--touch-blur", "0px");
+        orb.style.setProperty("--touch-sat", "1");
+      }
+      container.style.setProperty("--touch-intensity", "0");
       soundRef.current?.onTouchEnd();
     };
+
     const onDown = (e: PointerEvent) => {
+      touching = true;
+      refreshRect();
       container.classList.add("is-touching");
-      apply(e.clientX, e.clientY);
+      schedule(e.clientX, e.clientY);
     };
     const onMove = (e: PointerEvent) => {
-      // For mouse: hover always animates. For touch: only when pressed.
-      if (e.pointerType !== "mouse" && e.buttons === 0 && !container.classList.contains("is-touching")) return;
-      if (e.pointerType === "mouse") container.classList.add("is-touching");
-      apply(e.clientX, e.clientY);
+      // Souris : on suit le survol. Tactile : uniquement quand le doigt est posé.
+      if (e.pointerType !== "mouse" && !touching) return;
+      if (e.pointerType === "mouse" && !touching) {
+        touching = true;
+        container.classList.add("is-touching");
+      }
+      schedule(e.clientX, e.clientY);
     };
     const onUp = () => release();
-    const onLeave = () => release();
 
-    container.addEventListener("pointerdown", onDown);
-    container.addEventListener("pointermove", onMove);
-    container.addEventListener("pointerup", onUp);
-    container.addEventListener("pointercancel", onUp);
-    container.addEventListener("pointerleave", onLeave);
+    container.addEventListener("pointerdown", onDown, { passive: true });
+    container.addEventListener("pointermove", onMove, { passive: true });
+    container.addEventListener("pointerup", onUp, { passive: true });
+    container.addEventListener("pointercancel", onUp, { passive: true });
+    container.addEventListener("pointerleave", onUp, { passive: true });
     return () => {
+      if (rafId) cancelAnimationFrame(rafId);
+      window.removeEventListener("resize", refreshRect);
+      window.removeEventListener("scroll", refreshRect);
       container.removeEventListener("pointerdown", onDown);
       container.removeEventListener("pointermove", onMove);
       container.removeEventListener("pointerup", onUp);
       container.removeEventListener("pointercancel", onUp);
-      container.removeEventListener("pointerleave", onLeave);
+      container.removeEventListener("pointerleave", onUp);
     };
   }, [seq.id]);
 
