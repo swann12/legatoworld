@@ -673,9 +673,7 @@ const ORB_STYLES = `
 }
 `;
 
-const SCENE_VIDEOS: Partial<Record<SceneId, string>> = {
-  "evening-gold": "/souffles/evening-gold.mp4",
-};
+const SCENE_VIDEOS: Partial<Record<SceneId, string>> = {};
 
 function SouffleOrbs({ id }: { id: SceneId }) {
   const src = SCENE_IMAGES[id];
