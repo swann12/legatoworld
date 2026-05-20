@@ -17,7 +17,7 @@ export function Shell({
   const { mode } = useLegato();
   return (
     <div className="min-h-dvh bg-paper text-dusk">
-      <div className="mobile-frame pb-32 relative">
+      <div className={`mobile-frame relative ${hideNav ? "pb-0" : "pb-32"}`}>
         {livingBg && <ModeBackground mode={mode} />}
         <div className="relative" style={{ zIndex: 1 }}>{children}</div>
       </div>
