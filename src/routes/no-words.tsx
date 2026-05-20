@@ -663,6 +663,12 @@ const ORB_STYLES = `
 const SCENE_VIDEOS: Partial<Record<SceneId, string>> = {
   "rose-mist": "/souffles/rose-mist.mp4",
   "evening-gold": "/souffles/evening-gold.mp4",
+  "perle": "/souffles/perle-1.mp4",
+  "aurore": "/souffles/aurore.mp4",
+  "bougainvillier": "/souffles/bougainvillier.mp4",
+  "lumiere": "/souffles/lumiere.mp4",
+  "lune": "/souffles/lune.mp4",
+  "soir-flou": "/souffles/perle-2.mp4",
 };
 
 function SouffleOrbs({ id }: { id: SceneId }) {
