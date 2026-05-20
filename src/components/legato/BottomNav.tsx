@@ -28,17 +28,17 @@ export function BottomNav() {
               to={to}
               aria-label={label}
               className={`group flex flex-1 flex-col items-center justify-center gap-1 rounded-full px-2 py-1.5 transition-all ${
-                active ? "bg-dusk/8" : "hover:bg-dusk/4"
+                active ? "bg-white/52 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)]" : "hover:bg-white/28"
               }`}
             >
               <Icon
                 size={17}
                 strokeWidth={1.6}
-                className={active ? "text-dusk" : "text-dusk/60 group-hover:text-dusk/85"}
+                className={active ? "text-dusk" : "text-dusk/68 group-hover:text-dusk/88"}
               />
               <span
                 className={`text-[9px] uppercase tracking-[0.18em] whitespace-nowrap leading-none ${
-                  active ? "text-dusk" : "text-dusk/55"
+                  active ? "text-dusk" : "text-dusk/68"
                 }`}
               >
                 {label}

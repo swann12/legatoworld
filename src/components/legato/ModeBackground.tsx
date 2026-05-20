@@ -46,39 +46,39 @@ type Blob = {
 
 const MODE_BG: Record<Mode, { gradient: string; blobs: Blob[] }> = {
   cocoon: {
-    // Aube — ciel beige rosé presque imperceptible
+    // Aube lactée — chaleur intime, presque blanche
     gradient:
-      "linear-gradient(180deg, #F4ECE4 0%, #F6EAE0 50%, #F4E4D8 100%)",
+      "linear-gradient(180deg, #FFF9F4 0%, #F8EEE6 52%, #F5E6DA 100%)",
     blobs: [
-      { width: 460, height: 460, color: "#F0CFC2", blur: 140, opacity: 0.22,
-        top: -200, right: -180, anim: "blob-float-1" },
+      { width: 520, height: 420, color: "#F4D8C9", blur: 170, opacity: 0.18,
+        top: -230, right: -220, anim: "blob-float-1" },
     ],
   },
   anchoring: {
-    // Brume claire — beige avec un soupçon de sauge
+    // Lin clair — sol doux, sans gris
     gradient:
-      "linear-gradient(180deg, #EFEFE6 0%, #F1EFE2 50%, #F3ECDC 100%)",
+      "linear-gradient(180deg, #FFFBF2 0%, #F7F1E4 52%, #F2EAD8 100%)",
     blobs: [
-      { width: 480, height: 420, color: "#CFD7C0", blur: 150, opacity: 0.20,
-        top: -200, right: -160, anim: "blob-float-2" },
+      { width: 520, height: 420, color: "#E4E4C9", blur: 175, opacity: 0.18,
+        top: -220, right: -180, anim: "blob-float-2" },
     ],
   },
   breath: {
-    // Ciel d'altitude — bleu pâle qui s'efface dans le beige chaud
+    // Ciel chaud — bleu très lavé, jamais froid
     gradient:
-      "linear-gradient(180deg, #DCE4EC 0%, #ECE9E1 55%, #F3E8D8 100%)",
+      "linear-gradient(180deg, #F7FBFC 0%, #EEF3F1 45%, #F7EBDD 100%)",
     blobs: [
-      { width: 540, height: 440, color: "#BDCFE0", blur: 150, opacity: 0.22,
-        top: -220, left: "50%", transform: "translateX(-50%)", anim: "blob-float-3" },
+      { width: 580, height: 430, color: "#D7E7EC", blur: 180, opacity: 0.18,
+        top: -240, left: "48%", transform: "translateX(-50%)", anim: "blob-float-3" },
     ],
   },
   relay: {
-    // Chaleur partagée — terre rose, ambre tendre, jamais violet
+    // Chaleur partagée — abricot clair, sans violet
     gradient:
-      "linear-gradient(180deg, #F2E4DB 0%, #F2DCCE 55%, #EFD0C0 100%)",
+      "linear-gradient(180deg, #FFF8F0 0%, #F8E8DA 52%, #F2DCCA 100%)",
     blobs: [
-      { width: 500, height: 440, color: "#E8B8A4", blur: 150, opacity: 0.22,
-        top: -180, left: -140, anim: "blob-float-4" },
+      { width: 540, height: 420, color: "#F0C8B6", blur: 175, opacity: 0.18,
+        top: -220, left: -190, anim: "blob-float-4" },
     ],
   },
 };
