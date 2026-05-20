@@ -404,6 +404,7 @@ function SouffleOrbs({ id }: { id: SceneId }) {
       <div className="glow" />
       <div className="vignette" />
       <div className="grain" />
+      <div className="touch-halo" />
     </>
   );
 }
