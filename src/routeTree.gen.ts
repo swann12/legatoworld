@@ -29,6 +29,7 @@ import { Route as CommunityRouteImport } from './routes/community'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ResourcesIndexRouteImport } from './routes/resources.index'
 import { Route as PracticalIndexRouteImport } from './routes/practical.index'
+import { Route as HelpIndexRouteImport } from './routes/help.index'
 import { Route as GardenIndexRouteImport } from './routes/garden.index'
 import { Route as ResourcesCategoryRouteImport } from './routes/resources.$category'
 import { Route as PracticalTextsRouteImport } from './routes/practical.texts'
@@ -149,6 +150,11 @@ const PracticalIndexRoute = PracticalIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => PracticalRoute,
+} as any)
+const HelpIndexRoute = HelpIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => HelpRoute,
 } as any)
 const GardenIndexRoute = GardenIndexRouteImport.update({
   id: '/garden/',
@@ -285,6 +291,7 @@ export interface FileRoutesByFullPath {
   '/practical/texts': typeof PracticalTextsRoute
   '/resources/$category': typeof ResourcesCategoryRouteWithChildren
   '/garden/': typeof GardenIndexRoute
+  '/help/': typeof HelpIndexRoute
   '/practical/': typeof PracticalIndexRoute
   '/resources/': typeof ResourcesIndexRoute
   '/help/corps/eau': typeof HelpCorpsEauRoute
@@ -300,7 +307,6 @@ export interface FileRoutesByTo {
   '/community': typeof CommunityRoute
   '/crisis': typeof CrisisRoute
   '/dates': typeof DatesRoute
-  '/help': typeof HelpRouteWithChildren
   '/home': typeof HomeRoute
   '/inspiration': typeof InspirationRoute
   '/journal': typeof JournalRoute
@@ -326,6 +332,7 @@ export interface FileRoutesByTo {
   '/practical/texts': typeof PracticalTextsRoute
   '/resources/$category': typeof ResourcesCategoryRouteWithChildren
   '/garden': typeof GardenIndexRoute
+  '/help': typeof HelpIndexRoute
   '/practical': typeof PracticalIndexRoute
   '/resources': typeof ResourcesIndexRoute
   '/help/corps/eau': typeof HelpCorpsEauRoute
@@ -369,6 +376,7 @@ export interface FileRoutesById {
   '/practical/texts': typeof PracticalTextsRoute
   '/resources/$category': typeof ResourcesCategoryRouteWithChildren
   '/garden/': typeof GardenIndexRoute
+  '/help/': typeof HelpIndexRoute
   '/practical/': typeof PracticalIndexRoute
   '/resources/': typeof ResourcesIndexRoute
   '/help/corps/eau': typeof HelpCorpsEauRoute
@@ -413,6 +421,7 @@ export interface FileRouteTypes {
     | '/practical/texts'
     | '/resources/$category'
     | '/garden/'
+    | '/help/'
     | '/practical/'
     | '/resources/'
     | '/help/corps/eau'
@@ -428,7 +437,6 @@ export interface FileRouteTypes {
     | '/community'
     | '/crisis'
     | '/dates'
-    | '/help'
     | '/home'
     | '/inspiration'
     | '/journal'
@@ -454,6 +462,7 @@ export interface FileRouteTypes {
     | '/practical/texts'
     | '/resources/$category'
     | '/garden'
+    | '/help'
     | '/practical'
     | '/resources'
     | '/help/corps/eau'
@@ -496,6 +505,7 @@ export interface FileRouteTypes {
     | '/practical/texts'
     | '/resources/$category'
     | '/garden/'
+    | '/help/'
     | '/practical/'
     | '/resources/'
     | '/help/corps/eau'
@@ -677,6 +687,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PracticalIndexRouteImport
       parentRoute: typeof PracticalRoute
     }
+    '/help/': {
+      id: '/help/'
+      path: '/'
+      fullPath: '/help/'
+      preLoaderRoute: typeof HelpIndexRouteImport
+      parentRoute: typeof HelpRoute
+    }
     '/garden/': {
       id: '/garden/'
       path: '/garden'
@@ -840,10 +857,12 @@ const HelpCorpsRouteWithChildren = HelpCorpsRoute._addFileChildren(
 
 interface HelpRouteChildren {
   HelpCorpsRoute: typeof HelpCorpsRouteWithChildren
+  HelpIndexRoute: typeof HelpIndexRoute
 }
 
 const HelpRouteChildren: HelpRouteChildren = {
   HelpCorpsRoute: HelpCorpsRouteWithChildren,
+  HelpIndexRoute: HelpIndexRoute,
 }
 
 const HelpRouteWithChildren = HelpRoute._addFileChildren(HelpRouteChildren)
@@ -917,3 +936,12 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}
