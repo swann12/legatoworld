@@ -3,7 +3,7 @@ import { Halos } from "@/components/legato/Halos";
 import { Shell, ScreenHeader, Section } from "@/components/legato/Shell";
 import { useLegato } from "@/lib/legato-state";
 
-export const Route = createFileRoute("/help")({
+export const Route = createFileRoute("/help/")({
   head: () => ({ meta: [{ title: "Aide et accompagnement — Legato" }] }),
   component: Help,
 });
