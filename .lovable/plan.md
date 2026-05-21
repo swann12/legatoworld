@@ -1,77 +1,73 @@
-# Plan
+Ta demande contient deux blocs très différents en volume. Je propose de la découper pour avancer proprement, sinon on va casser des choses ailleurs. Dis-moi ce que tu veux qu'on fasse en premier — je peux tout faire, mais pas dans une seule passe.
 
-## 1. Correctifs rapides (déterministes)
+## Bloc A — Corrections transverses (rapide, 1 passe)
 
-**a. Brume rose sans vidéo**
-- `src/routes/no-words.tsx` : retirer `rose-mist` de `SCENE_VIDEOS` (garder uniquement l'image).
+1. **Navigation cassée**
+   - Bug "Retour" depuis sous-pages de RELAIS qui ramène à la première page → corriger les `<Link to="/onboarding">` codés en dur, utiliser l'historique du router (`router.history.back()`) ou un retour contextuel selon le mode.
+   - Page `/help` : ajouter un bouton retour, et faire que "Accueil" ramène au mode courant (`/home?mode=relais` etc.) et non systématiquement à COCON.
+   - Audit complet des `<Link>` dans `practical.*`, `help`, `resources.*`, `garden.*`, `compose.*` pour vérifier que chaque "← Retour" pointe au bon endroit.
 
-**b. Pas de mots orphelins (veuves) sur les libellés de la page Souffles**
-- Remplacer les espaces avant les mots courts (≤4 lettres environ) par des `&nbsp;` (`\u00A0`) dans les titres / sous-titres / légendes des scènes : "3 minutes", "main posée", etc.
-- Appliquer aussi `text-wrap: pretty` / `text-wrap: balance` sur les blocs concernés.
+2. **Traduction EN**
+   - Identifier où vit le système i18n actuel (ou s'il n'existe pas — dans ce cas dire ce qu'on met en place : `lib/i18n.ts` simple avec un dictionnaire FR/EN).
+   - Couvrir toutes les chaînes des écrans principaux.
 
-**c. Bouton "← Retour" cassé après "Aide concrète"**
-- `src/routes/onboarding.tsx` : quand on choisit `practical`, on saute directement vers `/practical` via `navigate({ to: "/practical" })`. Mais le bouton "Retour" suivant utilise `step - 1` ou `/`, donc depuis `/practical` le bouton retour ramène à la home, pas à l'onboarding step 1.
-- Audit similaire : vérifier dans `practical.index.tsx`, `home.tsx`, etc. que les boutons "Retour" / "←" pointent au bon endroit (en particulier après les shortcuts).
-- Fix : sur `/practical` (et ses sous-pages), le bouton retour doit revenir à l'onboarding step Branch, pas à `/home` ou `/`.
+3. **Mode "nuit" dark**
+   - Ajouter un toggle (probablement dans `legato-state`), ajouter une classe `dark` sur `<html>`, dériver les tokens dans `src/styles.css` (`:root.dark { ... }`).
+   - Adapter les composants `paper-card`, `ceramic`, `Halos`, etc.
 
-**d. Page Start — mode Invité**
-- `src/routes/start.tsx` (ou `index.tsx` selon où vit le mode Invité) : ajouter le micro-texte « Ce que vous écrivez ici ne sera pas gardé. » sous le bouton/zone Invité.
+4. **Page HELP — corrections rapides**
+   - Plus de padding intérieur dans les encarts (`p-5` → `p-6` ou `px-7 py-6`).
+   - Bouton retour visible.
+   - Remplacer "JOURNAL INTIME" par "RESSOURCE ET ACCOMPAGNEMENT" dans RELAIS (à confirmer : où exactement — la liste `RELAY` de `/help` ou ailleurs ?).
+   - Supprimer l'item "Paroles" ou le déplacer dans "Choses concrètes".
+   - Remplacer les liens cassés (ex. "Quand le corps oublie de manger" → /no-words) par les nouvelles routes (voir Bloc B).
 
-## 2. Sans Mots — séquences adaptatives + IA
+5. **Pages "Bienvenue" après sélection de mode**
+   - Étoffer le contenu pour chaque mode (cocoon / anchoring / breath / relay) : une vraie explication du mode + ce qu'on va trouver dedans.
 
-État actuel : 10 scènes statiques (`SCENES` dans `no-words.tsx`), les "likes" (`isFav`) sont stockés localement mais ne nourrissent rien.
+## Bloc B — Refonte module "Aide et accompagnement" (RELAIS uniquement)
 
-Changements :
-- **Capture des likes** : persister les scènes likées dans `memories-store` ou un petit store dédié (`souffles-store`).
-- **Pondération** : à chaque entrée dans Souffles, prioriser les scènes proches des likes (même ambiance audio / palette) en tête de liste, et raréfier celles "skip".
-- **Adaptation à l'humeur** : utiliser `mode` de `useLegato` (cocoon / anchoring / breath / lavender) pour filtrer/réordonner la liste — chaque scène reçoit un tag d'affinité par mode.
-- **Suggestions de lecture** : sous chaque scène, ajouter un petit bloc « Pour prolonger » avec 1 référence (texte court, poème, citation) choisi dans `resources-data` ou via une nouvelle server function `souffle-companion.functions.ts` qui appelle Lovable AI (google/gemini-2.5-flash) avec le contexte de la scène + mode + likes.
-- **Lien IA ↔ likes** : la server function reçoit `{ likedScenes, mode, branch }` et propose la prochaine scène + une courte phrase d'accueil personnalisée.
+Création de tout un nouveau parcours, **sans toucher aux autres modes ni aux écrans existants** :
 
-## 3. Adaptation UI/UX et IA par branche d'onboarding
+### Structure de routes
+```
+src/routes/
+  help.tsx                          (déjà là, à retravailler)
+  help.corps.tsx                    (hub des 4 espaces CORPS)
+  help.corps.manger.tsx             (Espace 1)
+  help.corps.eau.tsx                (Espace 2)
+  help.corps.habiller.tsx           (Espace 3)
+  help.corps.nuits.tsx              (Espace 4)
+  help.maison.tsx                   (hub MAISON)
+  help.maison.attendre.tsx          (Espace 1)
+  help.maison.aide.tsx              (Espace 2)
+  help.maison.succession.tsx        (Espace 3)
+  help.maison.affaires.tsx          (Espace 4)
+  community.tsx                     (nouvelle page Communauté)
+```
 
-Branches existantes (`legato-state.tsx`) : `person`, `animal`, `fear`, `anxiety`, `practical`, `unknown`.
+### Pour chaque espace
+- En-tête Cormorant italic + sous-titre Inter Light, palettes exactes du brief.
+- Cartes glassmorphism cochables avec persistance localStorage (`help-corps-manger`, etc.).
+- Micro-animation "fleur" réutilisée du Jardin (à factoriser dans `components/legato/BloomFlower.tsx`).
+- Messages de complétion doux ("C'est fait.", "Bien.", "C'est suffisant.").
+- Liens contextuels vers Jardin / Journal / Sans mots quand le brief le demande.
 
-Principe : la branche choisie conditionne **(a)** les rubriques visibles dans la nav, **(b)** le vocabulaire dans les écrans, **(c)** le contexte système envoyé à l'IA.
+### Mécaniques transverses du module
+- Composant `<BackToHelp />` (bouton "← AIDE" en haut-gauche).
+- Composant `<StepCard />` pour les parcours séquentiels (Eau, Manger section 2).
+- Composant `<CheckableCard />` avec fleur + message bas écran.
+- Pour "S'habiller" → notification matinale : la persistance d'une préférence locale + un texte explicatif (les vraies push notifications nécessitent un service worker + permission, je peux soit faire une vraie implémentation, soit juste persister la préférence et expliquer que ça arrive bientôt — à décider).
 
-Changements :
+### Connexions entre modules
+- Crochets discrets en bas de chaque espace (proposition Jardin, lien vers MAISON, etc.) tels que décrits.
 
-**a. Navigation conditionnelle (`Shell.tsx` / `BottomNav.tsx`)**
-- `person` (être humain perdu) : nav complète actuelle.
-- `animal` : remplacer "Volontés / Pratique" par "Souvenirs" + "Rituel". Ajuster libellés ("être aimé" → "compagnon").
-- `fear` / `anxiety` (questions sur la mort, anxiété) : nav réduite — Souffles, Journal, "Mes volontés", IA confidente. Cacher "Pratique", "Ressources funéraires", "Dates", "Présence".
-- `practical` : déjà géré, branche "aide concrète".
-- `unknown` : nav par défaut, légèrement épurée.
+## Ce qu'il me faut de toi avant de coder
 
-**b. Vocabulaire**
-- Centraliser dans `src/lib/legato-state.tsx` (ou nouveau `branch-copy.ts`) un mapping `branch → { lovedOne, lossWord, presenceWord, ... }` réutilisé dans Home, Journal, Confide, Souffles.
+1. **Priorité** : on attaque Bloc A en premier (corrections + nettoyage HELP), puis Bloc B en plusieurs sous-passes ? Ou tu veux tout en un, quitte à ce que la session soit très longue ?
+2. **Mode nuit** : tu veux un toggle visible dans l'UI (où ? bouton dans la BottomNav ?) ou détection auto du `prefers-color-scheme` ?
+3. **Notifications "S'habiller"** : vraies push web (avec demande de permission), ou simple préférence persistée + texte explicatif pour l'instant ?
+4. **Traductions EN** : il existe déjà un système quelque part dans le code, ou je pars de zéro avec un petit dictionnaire ?
+5. **Marketplace Legato** (cartes débarras, ménage, courses, etc.) : ce sont des cartes statiques pour l'instant (liens vers `/resources`) ou tu as déjà des données fournisseurs à brancher ?
 
-**c. Conditionnement IA**
-- Toutes les server functions qui appellent Lovable AI (`practical-ai`, `practical-suggestions`, `inspiration`, `compose-auto`, `presence`, `rituals`, `ambiance`, futur `souffle-companion`) doivent recevoir `branch` et l'injecter dans le system prompt :
-  - "Tu parles à quelqu'un qui a perdu son chien/chat. N'utilise jamais le mot 'personne'..."
-  - "Tu parles à quelqu'un qui se questionne sur la mort. Ne suppose pas un deuil…"
-- Ajouter un helper `buildBranchContext(branch, mode)` partagé.
-
-## 4. Audit des boutons "Retour"
-
-Vérifier tous les boutons "←" / "Retour" :
-- `practical.tsx` et ses sous-pages
-- `no-words.tsx`
-- `respirer`, `lire`, `regarder`
-- `journal.tsx`, `memories.tsx`, `wishes.tsx`
-- corriger ceux qui pointent en dur vers `/home` au lieu d'utiliser l'historique ou la vraie page parente.
-
-## Hors plan (non touché)
-- Pas de changement de modèle IA, pas de nouvelles tables Cloud sauf si nécessaire pour persister les likes côté serveur (sinon localStorage).
-
-## Validation
-- Build, puis QA visuelle rapide des pages : onboarding → practical → retour, Souffles (Brume rose, libellés), Start (mode Invité), navigation par branche (animal, fear).
-
----
-
-**Question avant de lancer** : la partie 2 et 3 sont substantielles (plusieurs heures d'édition multi-fichiers). Veux-tu que je :
-
-- **(A)** Fasse tout d'un coup (1 → 4),
-- **(B)** Commence par les correctifs rapides (1) + audit retours (4), puis on traite Sans Mots adaptatif (2) et la branche-aware UX (3) dans des passes séparées ?
-
-L'option B est plus sûre pour vérifier chaque morceau visuellement avant d'enchaîner.
+Dis-moi par où on commence et je m'y mets immédiatement.
