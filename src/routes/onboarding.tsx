@@ -1,6 +1,14 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { BRANCHES, MODES, PRACTICAL_BRANCH, useLegato, type Branch, type Mode } from "@/lib/legato-state";
+import {
+  BRANCHES,
+  MODES,
+  PRACTICAL_BRANCH,
+  LOST_NAME_LABEL,
+  useLegato,
+  type Branch,
+  type Mode,
+} from "@/lib/legato-state";
 
 export const Route = createFileRoute("/onboarding")({
   head: () => ({
@@ -12,19 +20,18 @@ export const Route = createFileRoute("/onboarding")({
   component: Onboarding,
 });
 
-type Step = 0 | 1 | 2 | 3;
+type Step = 0 | 1 | 2 | 3 | 4;
+const TOTAL_STEPS = 5;
 
 function Onboarding() {
-  const [step, setStep] = useState<Step>(0);
-  const { name, setName, branch, setBranch, mode, setMode } = useLegato();
+  // Si un prénom est déjà connu (auth, retour), on saute l'étape 0.
+  const { name, setName, branch, setBranch, mode, setMode, lostName, setLostName } = useLegato();
+  const initialStep: Step = name && name.trim().length > 0 ? 1 : 0;
+  const [step, setStep] = useState<Step>(initialStep);
   const navigate = useNavigate();
 
   const next = () => {
-    if (step === 3) navigate({ to: "/home" });
-    else if (step === 1 && branch === "practical") {
-      // shortcut into the practical companion
-      navigate({ to: "/practical" });
-    }
+    if (step === 4) navigate({ to: "/home" });
     else setStep(((step + 1) as Step));
   };
 
@@ -33,7 +40,7 @@ function Onboarding() {
       <div className="mobile-frame relative flex min-h-dvh flex-col">
         <div className="relative z-10 flex items-center justify-between px-7 pt-10">
           <button
-            onClick={() => (step === 0 ? navigate({ to: "/" }) : setStep(((step - 1) as Step)))}
+            onClick={() => (step === initialStep ? navigate({ to: "/" }) : setStep(((step - 1) as Step)))}
             className="text-[10px] uppercase tracking-[0.24em] text-dusk/50 hover:text-dusk"
             style={{ fontFamily: "var(--font-mono)" }}
           >
@@ -51,8 +58,11 @@ function Onboarding() {
         <div className="relative z-10 flex flex-1 flex-col px-7 pt-14">
           {step === 0 && <StepWelcome name={name} setName={setName} />}
           {step === 1 && <StepBranch value={branch} onChange={setBranch} />}
-          {step === 2 && <StepMode value={mode} onChange={setMode} />}
-          {step === 3 && <StepClosing name={name} branch={branch} mode={mode} />}
+          {step === 2 && (
+            <StepLostName branch={branch} value={lostName} onChange={setLostName} />
+          )}
+          {step === 3 && <StepMode value={mode} onChange={setMode} />}
+          {step === 4 && <StepClosing name={name} lostName={lostName} branch={branch} mode={mode} />}
 
           <div className="mt-auto pb-14 pt-12">
             <button
@@ -61,7 +71,7 @@ function Onboarding() {
               style={{ background: "var(--bordeaux)" }}
             >
               <span className="font-serif text-[20px] italic">
-                {step === 3 ? "Entrer" : "Continuer"}
+                {step === 4 ? "Entrer" : step === 2 && !lostName ? "Passer" : "Continuer"}
               </span>
             </button>
           </div>
@@ -74,7 +84,7 @@ function Onboarding() {
 function Progress({ step }: { step: number }) {
   return (
     <div className="flex gap-1.5">
-      {[0, 1, 2, 3].map((i) => (
+      {Array.from({ length: TOTAL_STEPS }, (_, i) => i).map((i) => (
         <span
           key={i}
           className={`h-[2px] w-5 rounded-full transition-all ${
@@ -130,7 +140,7 @@ function StepBranch({ value, onChange }: { value: Branch; onChange: (b: Branch) 
       </p>
 
       <div className="space-y-2.5">
-        {BRANCHES.map((b) => {
+        {[...BRANCHES, PRACTICAL_BRANCH].map((b) => {
           const active = value === b.id;
           return (
             <button
@@ -155,38 +165,53 @@ function StepBranch({ value, onChange }: { value: Branch; onChange: (b: Branch) 
           );
         })}
       </div>
+    </div>
+  );
+}
 
-      <div
-        className="flex items-center gap-3 text-[10px] uppercase tracking-[0.24em] text-dusk/40"
+function StepLostName({
+  branch,
+  value,
+  onChange,
+}: {
+  branch: Branch;
+  value: string;
+  onChange: (s: string) => void;
+}) {
+  const cfg = LOST_NAME_LABEL[branch];
+  const isAbsence = branch === "person" || branch === "animal" || branch === "practical";
+  return (
+    <div className="space-y-7">
+      <p
+        className="text-[10px] uppercase tracking-[0.3em] text-dusk/50"
         style={{ fontFamily: "var(--font-mono)" }}
       >
-        <span className="h-px flex-1 bg-dusk/10" />
-        ou bien
-        <span className="h-px flex-1 bg-dusk/10" />
-      </div>
-
-      {/* Practical-loss shortcut — placé à la fin */}
-      <button
-        onClick={() => onChange(PRACTICAL_BRANCH.id)}
-        className={`w-full rounded-[14px] px-5 py-4 text-left transition-all border ${
-          value === PRACTICAL_BRANCH.id
-            ? "border-dusk/30 bg-clay"
-            : "border-dusk/12 bg-paper hover:bg-clay/40"
-        }`}
-      >
-        <div className="flex items-baseline justify-between gap-4">
-          <span className="font-serif text-[19px] text-dusk">{PRACTICAL_BRANCH.label}</span>
-          <span
-            className="text-[9px] uppercase tracking-[0.24em] text-dusk/50 shrink-0"
-            style={{ fontFamily: "var(--font-mono)" }}
-          >
-            aide concrète
-          </span>
-        </div>
-        <p className="mt-1.5 text-[12.5px] leading-[1.5] text-dusk/60">
-          {PRACTICAL_BRANCH.whisper}
+        Étape 3 · {isAbsence ? "Qui manque" : "Ce qui pèse"}
+      </p>
+      <h2 className="font-serif text-[36px] leading-[1.04] font-light text-balance">
+        {isAbsence ? (
+          <>Avez-vous envie de <span className="italic">le nommer ?</span></>
+        ) : (
+          <>Y a-t-il <span className="italic">un mot pour ça ?</span></>
+        )}
+      </h2>
+      <p className="text-[13.5px] text-dusk/60 max-w-[34ch]">
+        Vous pouvez passer. Le nom guide juste le ton du jardin et de la présence.
+      </p>
+      <div className="rounded-[14px] border border-dusk/15 bg-paper px-5 py-4">
+        <p
+          className="text-[10px] uppercase tracking-[0.24em] text-dusk/45 mb-1.5"
+          style={{ fontFamily: "var(--font-mono)" }}
+        >
+          {cfg.fr}
         </p>
-      </button>
+        <input
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder={cfg.placeholder}
+          className="w-full bg-transparent font-serif text-[22px] italic text-dusk placeholder:text-dusk/30 outline-none"
+        />
+      </div>
     </div>
   );
 }
@@ -198,7 +223,7 @@ function StepMode({ value, onChange }: { value: Mode; onChange: (m: Mode) => voi
         className="text-[10px] uppercase tracking-[0.3em] text-dusk/50"
         style={{ fontFamily: "var(--font-mono)" }}
       >
-        Étape 3 · Ambiance
+        Étape 4 · Ambiance
       </p>
       <h2 className="font-serif text-[36px] leading-[1.04] font-light text-balance">
         Comment vous sentez-vous <span className="italic">aujourd'hui ?</span>
@@ -244,7 +269,17 @@ function StepMode({ value, onChange }: { value: Mode; onChange: (m: Mode) => voi
   );
 }
 
-function StepClosing({ name, branch, mode }: { name: string; branch: Branch; mode: Mode }) {
+function StepClosing({
+  name,
+  lostName,
+  branch,
+  mode,
+}: {
+  name: string;
+  lostName: string;
+  branch: Branch;
+  mode: Mode;
+}) {
   const modeLabel = MODES.find((m) => m.id === mode)?.label.toLowerCase();
   const branchPhrase: Record<Branch, string> = {
     person:    "celle ou celui qui manque",
@@ -254,6 +289,7 @@ function StepClosing({ name, branch, mode }: { name: string; branch: Branch; mod
     practical: "ces premiers jours",
     unknown:   "ce qui n'a pas de nom",
   };
+  const named = lostName?.trim();
   return (
     <div className="space-y-7">
       <p
@@ -267,7 +303,9 @@ function StepClosing({ name, branch, mode }: { name: string; branch: Branch; mod
       </h2>
       <div className="space-y-4 text-[14.5px] leading-[1.6] text-dusk/65 max-w-[34ch]">
         <p style={{ textWrap: "pretty" }}>
-          Un espace pour <span className="italic">{branchPhrase[branch]}</span>, en <span className="italic">{modeLabel}</span>.
+          Un espace pour{" "}
+          <span className="italic">{named ? named : branchPhrase[branch]}</span>, en{" "}
+          <span className="italic">{modeLabel}</span>.
         </p>
         <p style={{ textWrap: "pretty" }}>
           Vous donnez le rythme.
