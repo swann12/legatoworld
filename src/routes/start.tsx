@@ -117,57 +117,87 @@ function Start() {
   return (
     <main className="min-h-dvh bg-paper text-dusk">
       <div className="mobile-frame relative flex min-h-dvh flex-col">
-        <div className="relative z-10 flex flex-1 flex-col justify-center px-8 py-10">
-          <p className="text-[10px] font-medium uppercase tracking-[0.32em] text-dusk/45">
+        <header className="px-7 pt-10 flex items-center justify-between">
+          <p
+            className="text-[10px] uppercase tracking-[0.3em] text-dusk/50"
+            style={{ fontFamily: "var(--font-mono)" }}
+          >
             Legato
           </p>
+          <p
+            className="text-[10px] uppercase tracking-[0.3em] text-dusk/40"
+            style={{ fontFamily: "var(--font-mono)" }}
+          >
+            {mode === "signin" ? "Se reconnecter" : mode === "signup" ? "Créer un espace" : "Entrer"}
+          </p>
+        </header>
 
-          <div className="mt-6 mb-8 max-w-[24ch]">
-            <h1
-              className="font-serif text-[2.6rem] leading-[1.08] font-light text-dusk"
-              style={{ textWrap: "balance" }}
-            >
-              Préparer un adieu, <span className="italic">garder une présence.</span>
-            </h1>
-            <p
-              className="mt-4 max-w-[32ch] text-[13.5px] leading-snug text-dusk/60"
-              style={{ textWrap: "balance" }}
-            >
-              Composer une cérémonie, écrire ce qui compte, faire vivre le souvenir. À votre rythme.
-            </p>
-          </div>
+        <div className="relative z-10 flex flex-1 flex-col justify-center px-7 pb-12 pt-10">
+          <p
+            className="text-[10px] uppercase tracking-[0.3em] text-dusk/50"
+            style={{ fontFamily: "var(--font-mono)" }}
+          >
+            Bienvenue
+          </p>
+          <h1
+            className="mt-4 font-serif text-[40px] leading-[1.02] text-dusk font-light"
+            style={{ textWrap: "balance" }}
+          >
+            Préparer un adieu,
+            <br />
+            <span className="italic text-dusk/80">garder une présence.</span>
+          </h1>
+          <p
+            className="mt-6 max-w-[34ch] text-[14.5px] leading-[1.6] text-dusk/65"
+            style={{ textWrap: "balance" }}
+          >
+            Composer une cérémonie, écrire ce qui compte, faire vivre le souvenir. À votre rythme.
+          </p>
 
-          <div className="flex flex-col gap-3.5">
+          <div className="mt-10 flex flex-col gap-3">
             {mode === "choice" && (
-              <div className="flex flex-col gap-4 animate-fade-in">
+              <div className="flex flex-col gap-3 animate-fade-in">
                 <button
                   type="button"
                   onClick={() => { setMode("signup"); setError(null); setInfo(null); }}
-                  className="ceramic organic-radius-3 px-7 py-5 text-center transition-transform hover:scale-[1.01]"
+                  className="block rounded-[18px] overflow-hidden text-[color:var(--paper)] text-left px-6 py-5"
+                  style={{ background: "var(--bordeaux)" }}
                 >
-                  <span className="block font-serif text-[1.25rem] italic text-dusk">
+                  <span
+                    className="block text-[10px] uppercase tracking-[0.28em] text-[color:var(--paper)]/60"
+                    style={{ fontFamily: "var(--font-mono)" }}
+                  >
+                    Pour conserver vos souvenirs
+                  </span>
+                  <span className="mt-3 block font-serif italic text-[24px] leading-tight">
                     Créer un espace
                   </span>
-                  <span className="mt-1.5 block text-[10px] uppercase tracking-[0.22em] text-dusk/50">
-                    Pour conserver vos souvenirs
+                  <span
+                    className="mt-4 flex items-center justify-between text-[11px] uppercase tracking-[0.24em] text-[color:var(--paper)]/80"
+                    style={{ fontFamily: "var(--font-mono)" }}
+                  >
+                    Commencer
+                    <span className="text-[color:var(--paper)]/70">→</span>
                   </span>
                 </button>
                 <button
                   type="button"
                   onClick={() => { setMode("signin"); setError(null); setInfo(null); }}
-                  className="rounded-full border border-dusk/20 bg-paper/60 px-7 py-3.5 text-center text-[12px] uppercase tracking-[0.24em] text-dusk/70 hover:bg-clay/40 transition-colors"
+                  className="rounded-full border border-dusk/20 bg-paper px-7 py-3.5 text-center text-[11px] uppercase tracking-[0.24em] text-dusk/70 hover:bg-dusk/5 transition-colors"
+                  style={{ fontFamily: "var(--font-mono)" }}
                 >
                   Me reconnecter
                 </button>
-                <div className="-mt-1 flex flex-col items-center">
+                <div className="mt-3 flex flex-col items-center gap-1">
                   <button
                     type="button"
                     onClick={goNext}
-                    className="text-center text-[11px] uppercase tracking-[0.22em] text-dusk/45 hover:text-dusk transition-colors py-1.5"
+                    className="text-center text-[10px] uppercase tracking-[0.24em] text-dusk/45 hover:text-dusk transition-colors py-1"
+                    style={{ fontFamily: "var(--font-mono)" }}
                   >
                     Continuer en tant qu'invité·e
                   </button>
-                  <p className="text-center text-[10.5px] italic text-dusk/45 max-w-[34ch] leading-snug -mt-0.5">
+                  <p className="text-center text-[11px] italic font-serif text-dusk/50 max-w-[34ch] leading-snug">
                     Ce que vous écrivez ici ne sera pas gardé.
                   </p>
                 </div>
@@ -213,9 +243,10 @@ function Start() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="ceramic organic-radius-3 px-7 py-4 text-center disabled:opacity-50"
+                  className="block rounded-[16px] text-[color:var(--paper)] px-6 py-4 text-center disabled:opacity-50"
+                  style={{ background: "var(--bordeaux)" }}
                 >
-                  <span className="block font-serif text-[1.1rem] italic text-dusk">
+                  <span className="block font-serif italic text-[18px]">
                     {loading
                       ? "Un instant…"
                       : mode === "signin"
@@ -226,7 +257,10 @@ function Start() {
 
                 <div className="flex items-center gap-3 py-1">
                   <span className="h-px flex-1 bg-dusk/15" />
-                  <span className="text-[9.5px] uppercase tracking-[0.28em] text-dusk/40">
+                  <span
+                    className="text-[9.5px] uppercase tracking-[0.28em] text-dusk/40"
+                    style={{ fontFamily: "var(--font-mono)" }}
+                  >
                     ou
                   </span>
                   <span className="h-px flex-1 bg-dusk/15" />
@@ -236,7 +270,8 @@ function Start() {
                   type="button"
                   onClick={handleGoogle}
                   disabled={loading}
-                  className="rounded-full border border-dusk/20 bg-paper/60 px-7 py-3.5 text-center text-[12px] uppercase tracking-[0.22em] text-dusk/75 hover:bg-clay/40 transition-colors disabled:opacity-50"
+                  className="rounded-full border border-dusk/20 bg-paper px-7 py-3.5 text-center text-[11px] uppercase tracking-[0.24em] text-dusk/75 hover:bg-dusk/5 transition-colors disabled:opacity-50"
+                  style={{ fontFamily: "var(--font-mono)" }}
                 >
                   Continuer avec Google
                 </button>
@@ -244,7 +279,8 @@ function Start() {
                 <button
                   type="button"
                   onClick={() => { setMode("choice"); setError(null); setInfo(null); }}
-                  className="mt-1 text-center text-[11px] uppercase tracking-[0.22em] text-dusk/45 hover:text-dusk transition-colors py-1"
+                  className="mt-1 text-center text-[10px] uppercase tracking-[0.24em] text-dusk/45 hover:text-dusk transition-colors py-1"
+                  style={{ fontFamily: "var(--font-mono)" }}
                 >
                   Retour
                 </button>
@@ -263,12 +299,15 @@ function SoftInput({
 }: React.InputHTMLAttributes<HTMLInputElement> & { label: string }) {
   return (
     <label className="block">
-      <span className="mb-1.5 block text-[10px] uppercase tracking-[0.24em] text-dusk/50">
+      <span
+        className="mb-1.5 block text-[10px] uppercase tracking-[0.24em] text-dusk/50"
+        style={{ fontFamily: "var(--font-mono)" }}
+      >
         {label}
       </span>
       <input
         {...props}
-        className="w-full rounded-2xl border border-dusk/15 bg-paper/70 px-4 py-3 text-[14px] text-dusk placeholder:text-dusk/30 outline-none transition-colors focus:border-dusk/40 focus:bg-paper"
+        className="w-full rounded-[14px] border border-dusk/15 bg-paper px-4 py-3 text-[14px] text-dusk placeholder:text-dusk/30 outline-none transition-colors focus:border-dusk/40"
       />
     </label>
   );

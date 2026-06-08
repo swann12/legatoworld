@@ -15,9 +15,9 @@ export function BottomNav() {
   return (
     <nav
       aria-label="Primary"
-      className="fixed bottom-5 left-1/2 z-50 w-[calc(100%-2rem)] max-w-[400px] -translate-x-1/2"
+      className="fixed bottom-0 left-1/2 z-50 w-full max-w-[420px] -translate-x-1/2 border-t border-dusk/10 bg-paper"
     >
-      <div className="glass-nav flex items-stretch justify-between gap-1 px-2.5 py-2">
+      <div className="flex items-stretch justify-between px-2 pt-2.5 pb-[max(env(safe-area-inset-bottom),0.5rem)]">
         {items.map(({ to, label, Icon }) => {
           const active =
             to === "/home"
@@ -28,19 +28,18 @@ export function BottomNav() {
               key={to}
               to={to}
               aria-label={label}
-              className={`group flex flex-1 flex-col items-center justify-center gap-1 rounded-full px-2 py-1.5 transition-all ${
-                active ? "bg-white/52 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)]" : "hover:bg-white/28"
-              }`}
+              className="group flex flex-1 flex-col items-center justify-center gap-1.5 px-2 py-1.5 transition-colors"
             >
               <Icon
-                size={17}
+                size={18}
                 strokeWidth={1.6}
-                className={active ? "text-dusk" : "text-dusk/68 group-hover:text-dusk/88"}
+                className={active ? "text-dusk" : "text-dusk/45 group-hover:text-dusk/75"}
               />
               <span
-                className={`text-[9px] uppercase tracking-[0.18em] whitespace-nowrap leading-none ${
-                  active ? "text-dusk" : "text-dusk/68"
+                className={`text-[9px] uppercase tracking-[0.22em] whitespace-nowrap leading-none ${
+                  active ? "text-dusk" : "text-dusk/45"
                 }`}
+                style={{ fontFamily: "var(--font-mono)" }}
               >
                 {label}
               </span>

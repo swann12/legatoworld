@@ -205,19 +205,12 @@
   /* Sculptural ceramic surface: hand-thrown bowl holding light */
   .ceramic {
     background: linear-gradient(160deg, color-mix(in oklab, var(--clay) 70%, white), var(--clay));
-    box-shadow:
-      inset 0 1px 1.5px rgba(255, 255, 255, 0.85),
-      inset 0 -6px 16px color-mix(in oklab, var(--dusk) 8%, transparent),
-      0 18px 40px -22px color-mix(in oklab, var(--dusk) 35%, transparent);
-    border: 1px solid color-mix(in oklab, white 50%, transparent);
+    border: 1px solid color-mix(in oklab, var(--dusk) 10%, transparent);
   }
 
   .ceramic-soft {
     background: linear-gradient(160deg, color-mix(in oklab, var(--paper) 90%, white), var(--clay));
-    box-shadow:
-      inset 0 1px 1px rgba(255, 255, 255, 0.9),
-      0 8px 24px -14px color-mix(in oklab, var(--dusk) 25%, transparent);
-    border: 1px solid color-mix(in oklab, white 40%, transparent);
+    border: 1px solid color-mix(in oklab, var(--dusk) 8%, transparent);
   }
 
   /* Organic asymmetric radii — nothing perfectly geometric */
@@ -392,9 +385,6 @@
     backdrop-filter: blur(24px) saturate(112%);
     border: 1px solid rgba(255, 255, 255, 0.78);
     border-radius: 22px;
-    box-shadow:
-      0 1px 0 rgba(255, 255, 255, 0.78) inset,
-      0 10px 32px -24px rgba(120, 82, 58, 0.16);
   }
 
   /* ─── Legato Glass system ───
@@ -407,9 +397,6 @@
     backdrop-filter: blur(24px) saturate(118%);
     border: 1px solid rgba(255, 255, 255, 0.76);
     border-radius: 22px;
-    box-shadow:
-      0 1px 0 rgba(255, 255, 255, 0.72) inset,
-      0 10px 34px -26px rgba(120, 82, 58, 0.16);
   }
   .glass-card-accent {
     /* Carte principale — verre clair sans liseré coloré */
@@ -418,19 +405,10 @@
     backdrop-filter: blur(28px) saturate(120%);
     border: 1px solid rgba(255, 255, 255, 0.82);
     border-radius: 22px;
-    box-shadow:
-      0 1px 0 rgba(255, 255, 255, 0.82) inset,
-      0 14px 42px -30px rgba(120, 82, 58, 0.18);
   }
   .glass-nav {
-    background: linear-gradient(180deg,
-      rgba(255, 252, 248, 0.48) 0%,
-      rgba(255, 252, 248, 0.62) 100%);
-    -webkit-backdrop-filter: blur(28px) saturate(160%);
-    backdrop-filter: blur(28px) saturate(160%);
-    border-top: 1px solid rgba(255, 255, 255, 0.5);
-    border-radius: 32px;
-    box-shadow: 0 -8px 32px -12px rgba(60, 50, 70, 0.12);
+    background: var(--paper);
+    border-top: 1px solid color-mix(in oklab, var(--dusk) 12%, transparent);
   }
   .glass-tabs {
     background: rgba(255, 255, 255, 0.32);
@@ -490,8 +468,6 @@
 
 /* ─── Practical / Confide dock ─── */
 .dock-halo {
-  box-shadow: 0 8px 30px -10px color-mix(in oklab, var(--rose) 55%, transparent),
-              0 2px 8px -2px color-mix(in oklab, var(--dusk) 18%, transparent);
   animation: breathe 8s ease-in-out infinite;
 }
 .ceramic-warm {
