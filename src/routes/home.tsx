@@ -306,7 +306,7 @@ function Home() {
 
 /* ─── data ─── */
 
-const DOORS: {
+const INNER_DOORS: {
   to: string;
   bg: string;
   eyebrow: { fr: string; en: string };
@@ -319,16 +319,16 @@ const DOORS: {
     title: { fr: "Déposer une pensée.", en: "Set a thought down." },
   },
   {
-    to: "/practical",
-    bg: "var(--sage)",
-    eyebrow: { fr: "Avancer", en: "Move forward" },
-    title: { fr: "Un seul pas, à votre rythme.", en: "One step, your pace." },
-  },
-  {
     to: "/no-words",
     bg: "var(--sky)",
     eyebrow: { fr: "Sans mots", en: "Without words" },
     title: { fr: "Respirer, écouter.", en: "Breathe, listen." },
+  },
+  {
+    to: "/memories",
+    bg: "var(--rose)",
+    eyebrow: { fr: "Souvenirs", en: "Memories" },
+    title: { fr: "Garder une trace douce.", en: "Keep a soft trace." },
   },
 ];
 
