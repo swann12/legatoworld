@@ -1,6 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Halos } from "@/components/legato/Halos";
 import { Shell } from "@/components/legato/Shell";
 import { ConfideDock } from "@/components/legato/ConfideDock";
 import { useLegato, modeProfile, type Mode } from "@/lib/legato-state";
@@ -57,31 +56,58 @@ function Practical() {
   return (
     <Shell hideNav>
       <div className="relative">
-        <Halos mode={mode} variant={profile.halo === "rich" ? "default" : "calm"} />
         <div className="relative z-10">
           <div className="px-7 pt-10 flex items-center justify-between">
-            <Link to="/home" className="text-[11px] uppercase tracking-[0.22em] text-dusk/50">← Accueil</Link>
-            <span className="text-[10px] uppercase tracking-[0.22em] text-dusk/40">{h.eyebrow}</span>
+            <Link
+              to="/home"
+              className="text-[10px] uppercase tracking-[0.3em] text-dusk/55 hover:text-dusk"
+              style={{ fontFamily: "var(--font-mono)" }}
+            >
+              ← Accueil
+            </Link>
+            <span
+              className="text-[10px] uppercase tracking-[0.3em] text-dusk/50"
+              style={{ fontFamily: "var(--font-mono)" }}
+            >
+              {h.eyebrow}
+            </span>
           </div>
 
-          <header className="px-7 pt-12">
-            <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">Compagnon d'organisation</p>
-            <h1 className="mt-3 font-serif text-[2.1rem] leading-[1.08] font-light text-dusk text-balance">
+          <header className="px-7 pt-14">
+            <p
+              className="text-[10px] uppercase tracking-[0.3em] text-dusk/50"
+              style={{ fontFamily: "var(--font-mono)" }}
+            >
+              Compagnon d'organisation
+            </p>
+            <h1 className="mt-4 font-serif text-[36px] leading-[1.05] font-light text-dusk text-balance">
               {h.title}
             </h1>
-            <p className="mt-5 max-w-[34ch] text-[14px] leading-relaxed text-dusk/65">{h.sub}</p>
+            <p className="mt-6 max-w-[34ch] text-[14.5px] leading-[1.6] text-dusk/65">{h.sub}</p>
           </header>
 
-          <div className={`px-5 mt-10 ${gap}`}>
+          <div className={`px-7 mt-10 ${gap}`}>
             {doors.map((d, i) => (
-              <Link key={d.key} to={d.to} className="paper-card p-6 flex items-baseline gap-4 group">
-                <span className="font-serif text-[24px] font-light text-dusk/35 leading-none w-7 shrink-0">
+              <Link
+                key={d.key}
+                to={d.to}
+                className="block rounded-[16px] border border-dusk/12 bg-paper p-5 flex items-baseline gap-4 group hover:bg-dusk/[0.02] transition-colors"
+              >
+                <span
+                  className="text-[11px] tracking-[0.18em] text-dusk/45 leading-none w-7 shrink-0"
+                  style={{ fontFamily: "var(--font-mono)" }}
+                >
                   0{i + 1}
                 </span>
                 <div className="flex-1 min-w-0">
-                  <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">{d.eyebrow}</p>
-                  <h3 className="mt-1.5 font-serif text-[18px] italic text-dusk leading-snug">{d.title}</h3>
-                  <p className="mt-2 text-[13px] leading-relaxed text-dusk/65">{d.body}</p>
+                  <p
+                    className="text-[10px] uppercase tracking-[0.26em] text-dusk/50"
+                    style={{ fontFamily: "var(--font-mono)" }}
+                  >
+                    {d.eyebrow}
+                  </p>
+                  <h3 className="mt-1.5 font-serif text-[19px] italic text-dusk leading-snug">{d.title}</h3>
+                  <p className="mt-2 text-[13px] leading-[1.55] text-dusk/65">{d.body}</p>
                 </div>
                 <span className="text-dusk/40 group-hover:text-dusk transition">→</span>
               </Link>
@@ -89,11 +115,19 @@ function Practical() {
           </div>
 
           {/* Budget — repliable, pas en premier plan */}
-          <div className="px-5 mt-8">
-            <button onClick={() => setBudgetOpen((o) => !o)} className="w-full paper-card p-5 text-left">
+          <div className="px-7 mt-8">
+            <button
+              onClick={() => setBudgetOpen((o) => !o)}
+              className="w-full rounded-[16px] border border-dusk/12 bg-paper p-5 text-left hover:bg-dusk/[0.02] transition-colors"
+            >
               <div className="flex items-baseline justify-between">
                 <div>
-                  <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">Budget indicatif</p>
+                  <p
+                    className="text-[10px] uppercase tracking-[0.26em] text-dusk/50"
+                    style={{ fontFamily: "var(--font-mono)" }}
+                  >
+                    Budget indicatif
+                  </p>
                   <p className="mt-1 font-serif italic text-[15px] text-dusk">
                     {budget ? BUDGET_LABELS[budget].label : "À votre rythme — vous pouvez sauter cette étape"}
                   </p>
