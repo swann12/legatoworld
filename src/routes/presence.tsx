@@ -17,6 +17,7 @@ const BRANCH_GREETING: Record<Branch, (name: string, lostName: string) => string
   fear:      ()      => "Je suis là. Pas besoin d'anticiper. Que ressens-tu, juste maintenant ?",
   anxiety:   ()      => "Je suis là. On peut s'approcher tout doucement, sans rien décider.",
   practical: (n)     => `Je suis là, ${n || ""}. Pas de démarches ici — juste un instant à respirer.`,
+  wishes:    (n)     => `Je suis là, ${n || ""}. Si tu veux, on peut poser ensemble ce que tu voudrais — sans rien décider.`,
   unknown:   ()      => "Je suis là. Rien à dire, simplement présent·e.",
 };
 
@@ -26,6 +27,7 @@ const BRANCH_SUGGESTIONS: Record<Branch, string[]> = {
   fear:      ["Cette peur qui revient", "Ce que je n'arrive pas à dire", "Comment être présent·e"],
   anxiety:   ["Apprivoiser cette idée", "Ce qui m'angoisse en silence", "Juste respirer un peu"],
   practical: ["Cette journée, en deux mots", "Un seul tout petit pas", "Je suis épuisé·e"],
+  wishes:    ["Mettre des mots sur ce que je voudrais", "Ce qui compte pour moi", "Je préfère juste parler"],
   unknown:   ["Raconter cette journée", "Je n'ai pas de mots", "Mettre des mots, doucement"],
 };
 
