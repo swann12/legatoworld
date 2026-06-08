@@ -1,38 +1,43 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import {
-  BRANCHES,
-  MODES,
-  PRACTICAL_BRANCH,
-  LOST_NAME_LABEL,
-  useLegato,
-  type Branch,
-  type Mode,
-} from "@/lib/legato-state";
+import { BRANCHES, useLegato, type Branch, type Mode } from "@/lib/legato-state";
 
 export const Route = createFileRoute("/onboarding")({
   head: () => ({
     meta: [
       { title: "Commencer doucement — Legato" },
-      { name: "description", content: "Quelques questions tranquilles pour accorder votre espace." },
+      { name: "description", content: "Quelques questions tranquilles pour vous accueillir." },
     ],
   }),
   component: Onboarding,
 });
 
-type Step = 0 | 1 | 2 | 3 | 4;
-const TOTAL_STEPS = 5;
+type Step = 0 | 1 | 2 | 3;
+const TOTAL_STEPS = 4;
+
+/** Six réponses simples pour l'état du jour, mappées vers les modes existants. */
+const TODAY_STATES: { id: string; label: string; mode: Mode }[] = [
+  { id: "calm",        label: "J'ai besoin de calme",    mode: "cocoon"    },
+  { id: "overwhelmed", label: "Je me sens submergé·e",   mode: "cocoon"    },
+  { id: "anchor",      label: "J'ai besoin de repères",  mode: "anchoring" },
+  { id: "breathe",     label: "J'ai besoin de souffler", mode: "breath"    },
+  { id: "help",        label: "J'ai besoin d'aide",      mode: "relay"     },
+  { id: "later",       label: "Je ne sais pas encore",   mode: "cocoon"    },
+];
 
 function Onboarding() {
-  // Si un prénom est déjà connu (auth, retour), on saute l'étape 0.
-  const { name, setName, branch, setBranch, mode, setMode, lostName, setLostName } = useLegato();
+  const { name, setName, branch, setBranch, setMode } = useLegato();
   const initialStep: Step = name && name.trim().length > 0 ? 1 : 0;
   const [step, setStep] = useState<Step>(initialStep);
+  const [todayId, setTodayId] = useState<string>("calm");
   const navigate = useNavigate();
 
-  const next = () => {
-    if (step === 4) navigate({ to: "/home" });
-    else setStep(((step + 1) as Step));
+  const goNext = () => { if (step < 3) setStep(((step + 1) as Step)); };
+
+  const finish = (where: "accompany" | "practical" | "home") => {
+    const chosen = TODAY_STATES.find((t) => t.id === todayId);
+    if (chosen) setMode(chosen.mode);
+    navigate({ to: where === "accompany" ? "/accompany" : where === "practical" ? "/practical" : "/home" });
   };
 
   return (
@@ -56,25 +61,23 @@ function Onboarding() {
         </div>
 
         <div className="relative z-10 flex flex-1 flex-col px-7 pt-14">
-          {step === 0 && <StepWelcome name={name} setName={setName} />}
+          {step === 0 && <StepName name={name} setName={setName} />}
           {step === 1 && <StepBranch value={branch} onChange={setBranch} />}
-          {step === 2 && (
-            <StepLostName branch={branch} value={lostName} onChange={setLostName} />
-          )}
-          {step === 3 && <StepMode value={mode} onChange={setMode} />}
-          {step === 4 && <StepClosing name={name} lostName={lostName} branch={branch} mode={mode} />}
+          {step === 2 && <StepToday value={todayId} onChange={setTodayId} />}
+          {step === 3 && <StepNeed name={name} onChoose={finish} />}
 
-          <div className="mt-auto pb-14 pt-12">
-            <button
-              onClick={next}
-              className="block w-full rounded-[18px] text-[color:var(--paper)] px-6 py-5 text-center"
-              style={{ background: "var(--bordeaux)" }}
-            >
-              <span className="font-serif text-[20px] italic">
-                {step === 4 ? "Entrer" : step === 2 && !lostName ? "Passer" : "Continuer"}
-              </span>
-            </button>
-          </div>
+          {step < 3 && (
+            <div className="mt-auto pb-14 pt-12">
+              <button
+                onClick={goNext}
+                disabled={step === 0 && !name.trim()}
+                className="block w-full rounded-[18px] text-[color:var(--paper)] px-6 py-5 text-center disabled:opacity-50"
+                style={{ background: "var(--bordeaux)" }}
+              >
+                <span className="font-serif text-[20px] italic">Continuer</span>
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </main>
@@ -96,26 +99,23 @@ function Progress({ step }: { step: number }) {
   );
 }
 
-function StepWelcome({ name, setName }: { name: string; setName: (s: string) => void }) {
+function StepName({ name, setName }: { name: string; setName: (s: string) => void }) {
   return (
     <div className="space-y-8">
-      <p
-        className="text-[10px] uppercase tracking-[0.3em] text-dusk/50"
-        style={{ fontFamily: "var(--font-mono)" }}
-      >
+      <p className="text-[10px] uppercase tracking-[0.3em] text-dusk/50" style={{ fontFamily: "var(--font-mono)" }}>
         Étape 1 · Prénom
       </p>
       <h2 className="font-serif text-[40px] leading-[1.02] font-light text-balance">
-        Avant tout, <span className="italic">comment vous nommer ?</span>
+        Comment souhaitez-vous <span className="italic">être appelé·e ?</span>
       </h2>
       <p className="text-[14.5px] leading-[1.6] text-dusk/65 max-w-[34ch]">
-        Un prénom, pour vous accueillir.
+        Un prénom suffit pour vous accueillir.
       </p>
       <div className="rounded-[14px] border border-dusk/15 bg-paper px-5 py-4">
         <input
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="Votre prénom"
+          placeholder="Swann"
           className="w-full bg-transparent font-serif text-[24px] italic text-dusk placeholder:text-dusk/30 outline-none"
         />
       </div>
@@ -126,39 +126,29 @@ function StepWelcome({ name, setName }: { name: string; setName: (s: string) => 
 function StepBranch({ value, onChange }: { value: Branch; onChange: (b: Branch) => void }) {
   return (
     <div className="space-y-7">
-      <p
-        className="text-[10px] uppercase tracking-[0.3em] text-dusk/50"
-        style={{ fontFamily: "var(--font-mono)" }}
-      >
-        Étape 2 · Ce qui vous amène
+      <p className="text-[10px] uppercase tracking-[0.3em] text-dusk/50" style={{ fontFamily: "var(--font-mono)" }}>
+        Étape 2 · Situation
       </p>
       <h2 className="font-serif text-[36px] leading-[1.04] font-light text-balance">
-        Qu'est-ce qui vous amène, <span className="italic">en ce moment ?</span>
+        Qu'est-ce qui vous amène <span className="italic">en ce moment ?</span>
       </h2>
       <p className="text-[13.5px] text-dusk/60 max-w-[34ch]">
-        Modifiable à tout moment.
+        Vous pourrez modifier votre réponse à tout moment.
       </p>
-
       <div className="space-y-2.5">
-        {[...BRANCHES, PRACTICAL_BRANCH].map((b) => {
+        {BRANCHES.map((b) => {
           const active = value === b.id;
           return (
             <button
               key={b.id}
               onClick={() => onChange(b.id)}
               className={`w-full rounded-[14px] px-5 py-4 text-left transition-all border ${
-                active
-                  ? "border-dusk/30 bg-clay"
-                  : "border-dusk/12 bg-paper hover:bg-clay/40"
+                active ? "border-dusk/30 bg-clay" : "border-dusk/12 bg-paper hover:bg-clay/40"
               }`}
             >
               <div className="flex items-baseline justify-between gap-4">
                 <span className="font-serif text-[19px] text-dusk">{b.label}</span>
-                <span
-                  className={`size-1.5 rounded-full transition-opacity ${
-                    active ? "bg-terracotta breath" : "bg-dusk/0"
-                  }`}
-                />
+                <span className={`size-1.5 rounded-full transition-opacity ${active ? "bg-terracotta breath" : "bg-dusk/0"}`} />
               </div>
               <p className="mt-1.5 text-[12.5px] leading-[1.5] text-dusk/60">{b.whisper}</p>
             </button>
@@ -169,98 +159,33 @@ function StepBranch({ value, onChange }: { value: Branch; onChange: (b: Branch) 
   );
 }
 
-function StepLostName({
-  branch,
-  value,
-  onChange,
-}: {
-  branch: Branch;
-  value: string;
-  onChange: (s: string) => void;
-}) {
-  const cfg = LOST_NAME_LABEL[branch];
-  const isAbsence = branch === "person" || branch === "animal" || branch === "practical";
+function StepToday({ value, onChange }: { value: string; onChange: (s: string) => void }) {
   return (
     <div className="space-y-7">
-      <p
-        className="text-[10px] uppercase tracking-[0.3em] text-dusk/50"
-        style={{ fontFamily: "var(--font-mono)" }}
-      >
-        Étape 3 · {isAbsence ? "Qui manque" : "Ce qui pèse"}
-      </p>
-      <h2 className="font-serif text-[36px] leading-[1.04] font-light text-balance">
-        {isAbsence ? (
-          <>Avez-vous envie de <span className="italic">le nommer ?</span></>
-        ) : (
-          <>Y a-t-il <span className="italic">un mot pour ça ?</span></>
-        )}
-      </h2>
-      <p className="text-[13.5px] text-dusk/60 max-w-[34ch]">
-        Vous pouvez passer. Le nom guide juste le ton du jardin et de la présence.
-      </p>
-      <div className="rounded-[14px] border border-dusk/15 bg-paper px-5 py-4">
-        <p
-          className="text-[10px] uppercase tracking-[0.24em] text-dusk/45 mb-1.5"
-          style={{ fontFamily: "var(--font-mono)" }}
-        >
-          {cfg.fr}
-        </p>
-        <input
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          placeholder={cfg.placeholder}
-          className="w-full bg-transparent font-serif text-[22px] italic text-dusk placeholder:text-dusk/30 outline-none"
-        />
-      </div>
-    </div>
-  );
-}
-
-function StepMode({ value, onChange }: { value: Mode; onChange: (m: Mode) => void }) {
-  return (
-    <div className="space-y-7">
-      <p
-        className="text-[10px] uppercase tracking-[0.3em] text-dusk/50"
-        style={{ fontFamily: "var(--font-mono)" }}
-      >
-        Étape 4 · Ambiance
+      <p className="text-[10px] uppercase tracking-[0.3em] text-dusk/50" style={{ fontFamily: "var(--font-mono)" }}>
+        Étape 3 · État du jour
       </p>
       <h2 className="font-serif text-[36px] leading-[1.04] font-light text-balance">
         Comment vous sentez-vous <span className="italic">aujourd'hui ?</span>
       </h2>
       <p className="text-[13.5px] text-dusk/60 max-w-[34ch]">
-        Choisissez l'ambiance. Tout s'ajustera autour.
+        Choisissez ce qui vous ressemble le plus. Vous pourrez changer d'avis à tout moment.
       </p>
-      <div className="grid grid-cols-2 gap-2.5">
-        {MODES.map((m) => {
-          const active = value === m.id;
+      <div className="space-y-2.5">
+        {TODAY_STATES.map((t) => {
+          const active = value === t.id;
           return (
             <button
-              key={m.id}
-              onClick={() => onChange(m.id)}
-              className={`rounded-[14px] p-4 text-left transition-all border ${
-                active
-                  ? "border-dusk/30 bg-clay"
-                  : "border-dusk/12 bg-paper hover:bg-clay/40"
+              key={t.id}
+              onClick={() => onChange(t.id)}
+              className={`w-full rounded-[14px] px-5 py-4 text-left transition-all border ${
+                active ? "border-dusk/30 bg-clay" : "border-dusk/12 bg-paper hover:bg-clay/40"
               }`}
             >
-              <div className="flex items-center gap-2">
-                <span
-                  className={`size-2 rounded-full ${active ? "breath" : ""}`}
-                  style={{
-                    background:
-                      m.id === "cocoon"
-                        ? "var(--rose)"
-                        : m.id === "anchoring"
-                          ? "var(--sage)"
-                          : m.id === "breath"
-                            ? "var(--mist)"
-                            : "var(--lavender)",
-                  }}
-                />
-                <span className="font-serif text-[17px] text-dusk">{m.label}</span>
+              <div className="flex items-baseline justify-between gap-4">
+                <span className="font-serif text-[18px] text-dusk">{t.label}</span>
+                <span className={`size-1.5 rounded-full transition-opacity ${active ? "bg-terracotta breath" : "bg-dusk/0"}`} />
               </div>
-              <p className="mt-2 text-[11.5px] leading-[1.5] text-dusk/60">{m.whisper}</p>
             </button>
           );
         })}
@@ -269,48 +194,53 @@ function StepMode({ value, onChange }: { value: Mode; onChange: (m: Mode) => voi
   );
 }
 
-function StepClosing({
+function StepNeed({
   name,
-  lostName,
-  branch,
-  mode,
+  onChoose,
 }: {
   name: string;
-  lostName: string;
-  branch: Branch;
-  mode: Mode;
+  onChoose: (where: "accompany" | "practical" | "home") => void;
 }) {
-  const modeLabel = MODES.find((m) => m.id === mode)?.label.toLowerCase();
-  const branchPhrase: Record<Branch, string> = {
-    person:    "celle ou celui qui manque",
-    animal:    "ce compagnon fidèle",
-    fear:      "un proche fragile",
-    anxiety:   "ce qui passe en silence",
-    practical: "ces premiers jours",
-    unknown:   "ce qui n'a pas de nom",
-  };
-  const named = lostName?.trim();
   return (
-    <div className="space-y-7">
-      <p
-        className="text-[10px] uppercase tracking-[0.3em] text-dusk/50"
+    <div className="flex flex-col h-full">
+      <p className="text-[10px] uppercase tracking-[0.3em] text-dusk/50" style={{ fontFamily: "var(--font-mono)" }}>
+        Étape 4 · Besoin principal
+      </p>
+      <h2 className="mt-4 font-serif text-[36px] leading-[1.04] font-light text-balance">
+        De quoi avez-vous besoin, <span className="italic">{name || "vous"}, maintenant ?</span>
+      </h2>
+
+      <div className="mt-8 space-y-3">
+        <button
+          onClick={() => onChoose("accompany")}
+          className="block w-full rounded-[18px] text-[color:var(--paper)] px-6 py-6 text-left"
+          style={{ background: "var(--bordeaux)" }}
+        >
+          <p className="font-serif italic text-[22px]">Être accompagné·e</p>
+          <p className="mt-2 text-[13.5px] leading-[1.5] text-[color:var(--paper)]/75">
+            Pour parler, respirer, écrire ou simplement vous poser.
+          </p>
+        </button>
+
+        <button
+          onClick={() => onChoose("practical")}
+          className="block w-full rounded-[18px] px-6 py-6 text-left"
+          style={{ background: "var(--sage)" }}
+        >
+          <p className="font-serif italic text-[22px] text-dusk">Avancer concrètement</p>
+          <p className="mt-2 text-[13.5px] leading-[1.5] text-dusk/70">
+            Pour être guidé·e dans les démarches et l'organisation.
+          </p>
+        </button>
+      </div>
+
+      <button
+        onClick={() => onChoose("home")}
+        className="mt-6 text-center text-[12px] tracking-[0.18em] text-dusk/55 hover:text-dusk uppercase py-3"
         style={{ fontFamily: "var(--font-mono)" }}
       >
-        Tout est prêt
-      </p>
-      <h2 className="font-serif text-[40px] leading-[1.02] font-light text-balance">
-        Bienvenue, <span className="italic">{name || "vous"}.</span>
-      </h2>
-      <div className="space-y-4 text-[14.5px] leading-[1.6] text-dusk/65 max-w-[34ch]">
-        <p style={{ textWrap: "pretty" }}>
-          Un espace pour{" "}
-          <span className="italic">{named ? named : branchPhrase[branch]}</span>, en{" "}
-          <span className="italic">{modeLabel}</span>.
-        </p>
-        <p style={{ textWrap: "pretty" }}>
-          Vous donnez le rythme.
-        </p>
-      </div>
+        Je préfère découvrir tranquillement
+      </button>
     </div>
   );
 }

@@ -6,6 +6,7 @@ export type Branch =
   | "fear"
   | "anxiety"
   | "practical"
+  | "wishes"
   | "unknown";
 
 export type Mode = "cocoon" | "anchoring" | "breath" | "relay";
@@ -41,19 +42,18 @@ const EMPTY_WISHES: Wishes = {
   toLovedOnes: "", sharedWith: [],
 };
 
+/** Six situations proposées à l'onboarding (cohérentes graphiquement). */
 export const BRANCHES: { id: Branch; label: string; whisper: string }[] = [
-  { id: "person",  label: "Une personne qui me manque",   whisper: "Une absence qui se fait sentir." },
-  { id: "animal",  label: "Un animal aimé",               whisper: "Une présence fidèle, qui compte." },
-  { id: "fear",    label: "La peur de perdre quelqu'un",  whisper: "Un être cher fragile, gardé en pensée." },
-  { id: "anxiety", label: "Vivre avec l'idée de la mort", whisper: "Approcher la question, sans qu'elle pèse." },
-  { id: "unknown", label: "Je ne sais pas encore",        whisper: "Rien à nommer, et c'est très bien." },
+  { id: "person",    label: "Une personne me manque",        whisper: "Une absence qui se fait sentir." },
+  { id: "animal",    label: "Un animal aimé me manque",      whisper: "Une présence fidèle, qui compte." },
+  { id: "fear",      label: "J'ai peur de perdre quelqu'un", whisper: "Un être cher fragile, gardé en pensée." },
+  { id: "practical", label: "Je traverse une perte récente", whisper: "Traverser les premiers jours, sans tout porter d'un coup." },
+  { id: "wishes",    label: "Je souhaite préparer mes volontés", whisper: "Poser doucement ce que l'on voudrait." },
+  { id: "unknown",   label: "Je ne sais pas encore",         whisper: "Rien à nommer, et c'est très bien." },
 ];
 
-export const PRACTICAL_BRANCH = {
-  id: "practical" as const,
-  label: "Une perte récente",
-  whisper: "Traverser les premiers jours, sans tout porter d'un coup.",
-};
+/** Kept for backward compat — `practical` is now part of BRANCHES. */
+export const PRACTICAL_BRANCH = BRANCHES.find((b) => b.id === "practical")!;
 
 /** Suggested label for the "who is missing" step, per branch. */
 export const LOST_NAME_LABEL: Record<Branch, { fr: string; en: string; placeholder: string }> = {
@@ -62,6 +62,7 @@ export const LOST_NAME_LABEL: Record<Branch, { fr: string; en: string; placehold
   fear:      { fr: "Le prénom de ce proche",      en: "Their first name",       placeholder: "Prénom…" },
   anxiety:   { fr: "Un mot pour ce qui pèse",     en: "A word for what weighs", placeholder: "Un mot…" },
   practical: { fr: "Son prénom",                  en: "Their first name",       placeholder: "Prénom…" },
+  wishes:    { fr: "Un mot, si vous voulez",      en: "A word, if you wish",    placeholder: "Un mot…" },
   unknown:   { fr: "Un mot, si vous voulez",      en: "A word, if you wish",    placeholder: "Un mot…" },
 };
 
