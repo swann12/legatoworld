@@ -55,6 +55,16 @@ export const PRACTICAL_BRANCH = {
   whisper: "Traverser les premiers jours, sans tout porter d'un coup.",
 };
 
+/** Suggested label for the "who is missing" step, per branch. */
+export const LOST_NAME_LABEL: Record<Branch, { fr: string; en: string; placeholder: string }> = {
+  person:    { fr: "Son prénom",                  en: "Their first name",       placeholder: "Prénom…" },
+  animal:    { fr: "Son nom",                     en: "Their name",             placeholder: "Nom…" },
+  fear:      { fr: "Le prénom de ce proche",      en: "Their first name",       placeholder: "Prénom…" },
+  anxiety:   { fr: "Un mot pour ce qui pèse",     en: "A word for what weighs", placeholder: "Un mot…" },
+  practical: { fr: "Son prénom",                  en: "Their first name",       placeholder: "Prénom…" },
+  unknown:   { fr: "Un mot, si vous voulez",      en: "A word, if you wish",    placeholder: "Un mot…" },
+};
+
 export const MODES: { id: Mode; label: string; whisper: string; tint: string }[] = [
   { id: "cocoon",    label: "Cocon",    whisper: "Se replier un instant, sans rien devoir.",        tint: "rose" },
   { id: "anchoring", label: "Ancrage",  whisper: "Un pied sur la terre, des repères simples.",      tint: "sage" },
