@@ -1,15 +1,16 @@
 import { Link, useLocation } from "@tanstack/react-router";
-import { Home, Flower2, BookOpen, Heart } from "lucide-react";
+import { Sun, Flower2, BookOpen, Compass, Heart } from "lucide-react";
 import { useLegato } from "@/lib/legato-state";
 
 export function BottomNav() {
   const { pathname } = useLocation();
   const { t } = useLegato();
   const items = [
-    { to: "/home" as const,     label: t("nav.home"),     Icon: Home },
-    { to: "/garden" as const,   label: t("nav.garden"),   Icon: Flower2 },
-    { to: "/journal" as const,  label: t("nav.journal"),  Icon: BookOpen },
-    { to: "/presence" as const, label: t("nav.presence"), Icon: Heart },
+    { to: "/home" as const,      label: t("nav.today"),    Icon: Sun },
+    { to: "/garden" as const,    label: t("nav.garden"),   Icon: Flower2 },
+    { to: "/journal" as const,   label: t("nav.journal"),  Icon: BookOpen },
+    { to: "/practical" as const, label: t("nav.avancer"),  Icon: Compass },
+    { to: "/presence" as const,  label: t("nav.presence"), Icon: Heart },
   ];
   return (
     <nav

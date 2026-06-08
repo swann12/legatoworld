@@ -72,19 +72,19 @@
 :root {
   --radius: 1.5rem;
 
-  /* Legato base palette */
-  --paper: oklch(0.985 0.008 75);          /* warm off-white */
-  --clay: oklch(0.955 0.012 60);           /* soft clay */
-  --whisper: oklch(0.97 0.008 70);
-  --dusk: oklch(0.34 0.035 48);            /* warm umber, never grey */
-  --ink: oklch(0.27 0.028 48);
-  --rose: oklch(0.91 0.035 18);            /* fresh dusty rose */
+  /* Legato palette — Jardin crépuscule (cream · plum · sage · lavender) */
+  --paper: oklch(0.985 0.006 80);          /* warm cream */
+  --clay: oklch(0.955 0.012 300);          /* paper rose */
+  --whisper: oklch(0.97 0.008 295);
+  --dusk: oklch(0.34 0.045 305);           /* deep plum, the editorial ink */
+  --ink: oklch(0.26 0.04 305);
+  --rose: oklch(0.90 0.038 18);            /* dusty rose accent */
   --peach: oklch(0.94 0.04 60);            /* luminous peach */
-  --sage: oklch(0.91 0.028 150);           /* fresh pale sage */
-  --mist: oklch(0.93 0.028 225);           /* clearer mist blue */
-  --lavender: oklch(0.91 0.03 290);        /* fresh lavender */
-  --bloom-fresh: oklch(0.95 0.035 130);    /* delicate green-bloom */
-  --bloom-mist: oklch(0.96 0.02 220);      /* atmospheric haze */
+  --sage: oklch(0.88 0.038 148);           /* fresh moss-sage */
+  --mist: oklch(0.93 0.028 225);           /* atmospheric haze */
+  --lavender: oklch(0.86 0.045 295);       /* powdered lavender — primary accent */
+  --bloom-fresh: oklch(0.93 0.04 130);     /* delicate green-bloom */
+  --bloom-mist: oklch(0.96 0.02 220);
 
   /* Shadcn semantic tokens mapped to Legato */
   --background: var(--paper);
@@ -122,38 +122,47 @@
 }
 
 .dark {
-  --background: oklch(0.129 0.042 264.695);
-  --foreground: oklch(0.984 0.003 247.858);
-  --card: oklch(0.208 0.042 265.755);
-  --card-foreground: oklch(0.984 0.003 247.858);
-  --popover: oklch(0.208 0.042 265.755);
-  --popover-foreground: oklch(0.984 0.003 247.858);
-  --primary: oklch(0.929 0.013 255.508);
-  --primary-foreground: oklch(0.208 0.042 265.755);
-  --secondary: oklch(0.279 0.041 260.031);
-  --secondary-foreground: oklch(0.984 0.003 247.858);
-  --muted: oklch(0.279 0.041 260.031);
-  --muted-foreground: oklch(0.704 0.04 256.788);
-  --accent: oklch(0.279 0.041 260.031);
-  --accent-foreground: oklch(0.984 0.003 247.858);
-  --destructive: oklch(0.704 0.191 22.216);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.551 0.027 264.364);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.208 0.042 265.755);
-  --sidebar-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.279 0.041 260.031);
-  --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
+  /* Legato — Jardin crépuscule, mode nuit */
+  --paper: oklch(0.20 0.025 305);
+  --clay: oklch(0.25 0.03 305);
+  --whisper: oklch(0.27 0.025 295);
+  --dusk: oklch(0.95 0.015 80);
+  --ink: oklch(0.97 0.01 80);
+  --rose: oklch(0.55 0.06 18);
+  --peach: oklch(0.6 0.07 60);
+  --sage: oklch(0.55 0.05 148);
+  --mist: oklch(0.55 0.04 225);
+  --lavender: oklch(0.7 0.08 295);
+  --bloom-fresh: oklch(0.55 0.05 130);
+  --bloom-mist: oklch(0.45 0.03 220);
+
+  --background: var(--paper);
+  --foreground: var(--dusk);
+  --card: var(--clay);
+  --card-foreground: var(--dusk);
+  --popover: var(--clay);
+  --popover-foreground: var(--dusk);
+  --primary: var(--lavender);
+  --primary-foreground: oklch(0.18 0.025 305);
+  --secondary: var(--whisper);
+  --secondary-foreground: var(--dusk);
+  --muted: var(--whisper);
+  --muted-foreground: oklch(0.75 0.02 295);
+  --accent: var(--lavender);
+  --accent-foreground: oklch(0.18 0.025 305);
+  --destructive: oklch(0.6 0.14 25);
+  --destructive-foreground: var(--dusk);
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 16%);
+  --ring: oklch(0.7 0.04 295);
+  --sidebar: var(--clay);
+  --sidebar-foreground: var(--dusk);
+  --sidebar-primary: var(--lavender);
+  --sidebar-primary-foreground: oklch(0.18 0.025 305);
+  --sidebar-accent: var(--whisper);
+  --sidebar-accent-foreground: var(--dusk);
   --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.551 0.027 264.364);
+  --sidebar-ring: oklch(0.7 0.04 295);
 }
 
 @layer base {

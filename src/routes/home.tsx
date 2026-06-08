@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Shell } from "@/components/legato/Shell";
 import { ModeSelector } from "@/components/legato/ModeSelector";
+import { ThemeToggle } from "@/components/legato/ThemeToggle";
 import { useLegato, BRANCHES } from "@/lib/legato-state";
 import type { Mode, Branch } from "@/lib/legato-state";
 
@@ -30,6 +31,7 @@ function Home() {
           <div className="flex items-center justify-between pt-10">
             <span className="font-serif text-xl italic text-dusk">Legato</span>
             <div className="flex items-center gap-3">
+              <ThemeToggle />
               <button
                 onClick={() => setLang(lang === "fr" ? "en" : "fr")}
               className="glass-card px-3 py-1.5 text-[10px] uppercase tracking-[0.18em] text-dusk/78"
