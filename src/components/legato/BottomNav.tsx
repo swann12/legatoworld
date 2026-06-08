@@ -1,26 +1,18 @@
 import { Link, useLocation } from "@tanstack/react-router";
-import { Sun, Heart, ListChecks, User } from "lucide-react";
+import { Sun, Flower2, BookOpen, ListChecks, Heart } from "lucide-react";
 import { useLegato } from "@/lib/legato-state";
 
 export function BottomNav() {
   const { pathname } = useLocation();
-  const { t, lang } = useLegato();
-  // Deux univers clairement dissociés : Intérieur (présence, journal, jardin, sans-mots)
-  // vs Concret (démarches, cérémonie, volontés). Plus « Aujourd'hui » et « Espace ».
-  const interiorActive =
-    pathname.startsWith("/presence") ||
-    pathname.startsWith("/journal") ||
-    pathname.startsWith("/garden") ||
-    pathname.startsWith("/no-words");
-  const concreteActive =
-    pathname.startsWith("/practical") ||
-    pathname.startsWith("/wishes") ||
-    pathname.startsWith("/resources");
+  const { t } = useLegato();
+  // Cinq onglets, conformes au cahier des charges UX :
+  // Aujourd'hui · Jardin · Journal · Avancer · Présence.
   const items = [
-    { to: "/home" as const,     label: t("nav.today"),                     Icon: Sun,        forcedActive: pathname === "/home" || pathname === "/" },
-    { to: "/presence" as const, label: lang === "fr" ? "Intérieur" : "Inner", Icon: Heart,   forcedActive: interiorActive },
-    { to: "/practical" as const, label: lang === "fr" ? "Concret" : "Concrete", Icon: ListChecks, forcedActive: concreteActive },
-    { to: "/space" as const,    label: t("nav.space"),                     Icon: User,       forcedActive: pathname.startsWith("/space") },
+    { to: "/home"     as const, label: t("nav.today"),   Icon: Sun,        forcedActive: pathname === "/home" || pathname === "/" },
+    { to: "/garden"   as const, label: t("nav.garden"),  Icon: Flower2,    forcedActive: pathname.startsWith("/garden") },
+    { to: "/journal"  as const, label: t("nav.journal"), Icon: BookOpen,   forcedActive: pathname.startsWith("/journal") },
+    { to: "/practical" as const, label: t("nav.avancer"), Icon: ListChecks, forcedActive: pathname.startsWith("/practical") || pathname.startsWith("/wishes") || pathname.startsWith("/resources") },
+    { to: "/presence" as const, label: t("nav.presence"), Icon: Heart,     forcedActive: pathname.startsWith("/presence") || pathname.startsWith("/accompany") || pathname.startsWith("/no-words") },
   ];
   return (
     <nav
@@ -35,15 +27,15 @@ export function BottomNav() {
               key={to}
               to={to}
               aria-label={label}
-              className="group flex flex-1 flex-col items-center justify-center gap-1.5 px-2 py-1.5 transition-colors"
+              className="group flex flex-1 flex-col items-center justify-center gap-1 px-1 py-1.5 transition-colors"
             >
               <Icon
-                size={18}
+                size={17}
                 strokeWidth={1.6}
                 className={active ? "text-dusk" : "text-dusk/45 group-hover:text-dusk/75"}
               />
               <span
-                className={`text-[9px] uppercase tracking-[0.22em] whitespace-nowrap leading-none ${
+                className={`text-[8.5px] uppercase tracking-[0.18em] whitespace-nowrap leading-none ${
                   active ? "text-dusk" : "text-dusk/45"
                 }`}
                 style={{ fontFamily: "var(--font-mono)" }}
