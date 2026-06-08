@@ -202,15 +202,17 @@
 }
 
 @layer components {
-  /* Sculptural ceramic surface: hand-thrown bowl holding light */
+  /* Editorial pass: ceramic surfaces flattened to paper for full consistency. */
   .ceramic {
-    background: linear-gradient(160deg, color-mix(in oklab, var(--clay) 70%, white), var(--clay));
-    border: 1px solid color-mix(in oklab, var(--dusk) 10%, transparent);
+    background: var(--paper);
+    border: 1px solid color-mix(in oklab, var(--dusk) 12%, transparent);
+    border-radius: 16px;
   }
 
   .ceramic-soft {
-    background: linear-gradient(160deg, color-mix(in oklab, var(--paper) 90%, white), var(--clay));
-    border: 1px solid color-mix(in oklab, var(--dusk) 8%, transparent);
+    background: var(--paper);
+    border: 1px solid color-mix(in oklab, var(--dusk) 10%, transparent);
+    border-radius: 16px;
   }
 
   /* Organic asymmetric radii — nothing perfectly geometric */
@@ -462,9 +464,9 @@
   animation: breathe 8s ease-in-out infinite;
 }
 .ceramic-warm {
-  background: linear-gradient(180deg, color-mix(in oklab, var(--peach) 30%, var(--paper)),
-                                       color-mix(in oklab, var(--clay) 60%, var(--paper)));
-  border: 1px solid color-mix(in oklab, var(--dusk) 8%, transparent);
+  background: var(--paper);
+  border: 1px solid color-mix(in oklab, var(--dusk) 12%, transparent);
+  border-radius: 16px;
 }
 
 /* Booklet print */
