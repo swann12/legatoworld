@@ -34,19 +34,19 @@ function Home() {
     <Shell>
       <div className="min-h-dvh bg-paper text-dusk pb-32">
         {/* ─── Bandeau éditorial ─── */}
-        <header className="px-6 pt-8">
+        <header className="px-7 pt-10">
           <div className="flex items-center justify-between">
             <p
-              className="text-[10px] uppercase tracking-[0.28em] text-dusk/55"
+              className="text-[10px] uppercase tracking-[0.3em] text-dusk/50"
               style={{ fontFamily: "var(--font-mono)" }}
             >
-              N°01 · {today}
+              Legato · {today}
             </p>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1">
               <ThemeToggle />
               <button
                 onClick={() => setLang(lang === "fr" ? "en" : "fr")}
-                className="text-[10px] uppercase tracking-[0.22em] text-dusk/60 px-2 py-1"
+                className="text-[10px] uppercase tracking-[0.22em] text-dusk/55 px-2 py-1"
                 style={{ fontFamily: "var(--font-mono)" }}
                 aria-label="Toggle language"
               >
@@ -54,50 +54,40 @@ function Home() {
               </button>
               <Link
                 to="/space"
-                className="size-9 rounded-full border border-dusk/15 flex items-center justify-center hover:bg-dusk/5 transition-colors"
+                className="size-8 rounded-full border border-dusk/20 flex items-center justify-center hover:bg-dusk/5 transition-colors"
                 aria-label="Mon espace"
               >
-                <span className="font-serif italic text-[15px] text-dusk">
+                <span className="font-serif italic text-[14px] text-dusk">
                   {name.charAt(0).toUpperCase()}
                 </span>
               </Link>
             </div>
           </div>
-
-          <p
-            className="mt-10 font-serif italic text-[44px] leading-[0.95] text-dusk"
-            style={{ textWrap: "balance" }}
-          >
-            Legato
-          </p>
-          <p className="mt-2 text-[12px] tracking-wide text-dusk/55">
-            {lang === "fr" ? "Traverser, se souvenir, avancer." : "Carry on, remember, move forward."}
-          </p>
         </header>
 
         {/* ─── Salutation éditoriale ─── */}
-        <section className="px-6 pt-12">
+        <section className="px-7 pt-16">
           <p
-            className="text-[10px] uppercase tracking-[0.28em] text-dusk/55"
+            className="text-[10px] uppercase tracking-[0.3em] text-dusk/50"
             style={{ fontFamily: "var(--font-mono)" }}
           >
             {lang === "fr" ? "Aujourd'hui" : "Today"}
           </p>
           <h1
-            className="mt-3 font-serif text-[36px] leading-[1.05] text-dusk"
+            className="mt-4 font-serif text-[40px] leading-[1.02] text-dusk font-light"
             style={{ textWrap: "balance" }}
           >
             {lang === "fr" ? <>Bonjour {name},</> : <>Hello {name},</>}
             <br />
             <span className="italic text-dusk/80">{intent.greeting}</span>
           </h1>
-          <p className="mt-5 max-w-[32ch] text-[14.5px] leading-[1.55] text-dusk/70">
+          <p className="mt-6 max-w-[32ch] text-[14.5px] leading-[1.6] text-dusk/65">
             {intent.sub}
           </p>
         </section>
 
         {/* ─── Carte feature — bordeaux profond, esprit LeLiv ─── */}
-        <section className="px-6 pt-10">
+        <section className="px-7 pt-12">
           <Link
             to="/presence"
             className="block rounded-[18px] overflow-hidden text-[color:var(--paper)] relative"
@@ -147,13 +137,13 @@ function Home() {
         </section>
 
         {/* ─── Grille magazine — quatre portes ─── */}
-        <section className="px-6 pt-6">
+        <section className="px-7 pt-3">
           <div className="grid grid-cols-2 gap-3">
             {DOORS.map((d) => (
               <Link
                 key={d.to}
                 to={d.to as never}
-                className="block rounded-[14px] p-4 min-h-[150px] flex flex-col justify-between"
+                className="block rounded-[14px] p-5 min-h-[148px] flex flex-col justify-between"
                 style={{ background: d.bg }}
               >
                 <p
@@ -163,7 +153,7 @@ function Home() {
                   {d.eyebrow[lang]}
                 </p>
                 <p
-                  className="font-serif italic text-[19px] leading-[1.15] text-dusk"
+                  className="font-serif italic text-[19px] leading-[1.2] text-dusk"
                   style={{ textWrap: "balance" }}
                 >
                   {d.title[lang]}
@@ -174,7 +164,7 @@ function Home() {
         </section>
 
         {/* ─── Bandeau jardin — souvenir vivant ─── */}
-        <section className="px-6 pt-10">
+        <section className="px-7 pt-10">
           <Link
             to="/garden"
             className="block border-y border-dusk/15 py-6 flex items-baseline justify-between gap-4"
@@ -196,7 +186,7 @@ function Home() {
         </section>
 
         {/* ─── Mode discret — chips minces ─── */}
-        <section className="px-6 pt-8">
+        <section className="px-7 pt-8">
           <p
             className="text-[10px] uppercase tracking-[0.28em] text-dusk/55"
             style={{ fontFamily: "var(--font-mono)" }}
@@ -211,7 +201,7 @@ function Home() {
         </section>
 
         {/* ─── Porte de crise — toujours là, jamais bruyante ─── */}
-        <section className="px-6 pt-10">
+        <section className="px-7 pt-10">
           <Link
             to="/crisis"
             className="block border-t border-dusk/15 pt-5 flex items-baseline justify-between"
