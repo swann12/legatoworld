@@ -86,11 +86,29 @@ function Home() {
           </p>
         </section>
 
-        {/* ─── Carte feature — bordeaux profond, esprit LeLiv ─── */}
-        <section className="px-7 pt-12">
+        {/* ═══════════ UNIVERS 1 — INTÉRIEUR ═══════════
+         * Tout ce qui touche au ressenti, au lien, à la traversée intime.
+         * Présence (oreille calme), Journal, Jardin de souvenir, Sans-mots. */}
+        <section className="px-7 pt-14">
+          <div className="flex items-baseline gap-3">
+            <span
+              className="text-[10px] uppercase tracking-[0.3em] text-[color:var(--bordeaux)]"
+              style={{ fontFamily: "var(--font-mono)" }}
+            >
+              {lang === "fr" ? "I · Intérieur" : "I · Inner"}
+            </span>
+            <span className="flex-1 h-px bg-dusk/15" />
+          </div>
+          <p className="mt-4 font-serif italic text-[17px] leading-snug text-dusk/75 max-w-[32ch]">
+            {lang === "fr"
+              ? "Ce qui se vit en dedans. Une oreille, une page, un souvenir."
+              : "What is lived inside. An ear, a page, a memory."}
+          </p>
+
+          {/* Carte feature Présence — bordeaux profond */}
           <Link
             to="/presence"
-            className="block rounded-[18px] overflow-hidden text-[color:var(--paper)] relative"
+            className="mt-6 block rounded-[18px] overflow-hidden text-[color:var(--paper)]"
             style={{ background: "var(--bordeaux)" }}
           >
             <div className="px-6 pt-7 pb-6">
@@ -98,30 +116,19 @@ function Home() {
                 className="text-[10px] uppercase tracking-[0.28em] text-[color:var(--paper)]/60"
                 style={{ fontFamily: "var(--font-mono)" }}
               >
-                {lang === "fr" ? "La porte calme" : "The quiet door"}
+                {lang === "fr" ? "Présence · accompagnement intime" : "Presence · inner companion"}
               </p>
-              <p
-                className="mt-4 font-serif text-[28px] leading-[1.1]"
-                style={{ textWrap: "balance" }}
-              >
+              <p className="mt-4 font-serif text-[26px] leading-[1.1]" style={{ textWrap: "balance" }}>
                 {lang === "fr" ? (
-                  <>
-                    Parler à une présence,
-                    <br />
-                    <span className="italic">sans rien devoir dire.</span>
-                  </>
+                  <>Parler à une présence,<br /><span className="italic">sans rien devoir dire.</span></>
                 ) : (
-                  <>
-                    Speak to a presence,
-                    <br />
-                    <span className="italic">with nothing owed.</span>
-                  </>
+                  <>Speak to a presence,<br /><span className="italic">with nothing owed.</span></>
                 )}
               </p>
               <p className="mt-4 text-[13.5px] leading-[1.55] text-[color:var(--paper)]/72 max-w-[34ch]">
                 {lang === "fr"
-                  ? "Une oreille calme, à toute heure. Vous racontez, ou pas. On vous accompagne."
-                  : "A quiet ear, anytime. You speak, or not. We stay close."}
+                  ? "Une oreille calme, à toute heure. Vous racontez, ou pas."
+                  : "A quiet ear, anytime. You speak, or not."}
               </p>
               <div className="mt-6 flex items-center justify-between">
                 <span
@@ -134,28 +141,24 @@ function Home() {
               </div>
             </div>
           </Link>
-        </section>
 
-        {/* ─── Grille magazine — trois portes ─── */}
-        <section className="px-7 pt-3">
-          <div className="grid grid-cols-2 gap-3">
-            {DOORS.map((d, i) => (
+          {/* Trois portes intérieures, sous la carte */}
+          <div className="mt-3 grid grid-cols-3 gap-3">
+            {INNER_DOORS.map((d) => (
               <Link
                 key={d.to}
                 to={d.to as never}
-                className={`block rounded-[14px] p-5 min-h-[148px] flex flex-col justify-between ${
-                  i === 0 ? "col-span-2" : ""
-                }`}
+                className="block rounded-[14px] p-4 min-h-[110px] flex flex-col justify-between"
                 style={{ background: d.bg }}
               >
                 <p
-                  className="text-[9px] uppercase tracking-[0.26em] text-dusk/60"
+                  className="text-[9px] uppercase tracking-[0.24em] text-dusk/60"
                   style={{ fontFamily: "var(--font-mono)" }}
                 >
                   {d.eyebrow[lang]}
                 </p>
                 <p
-                  className="font-serif italic text-[19px] leading-[1.2] text-dusk"
+                  className="font-serif italic text-[15px] leading-[1.2] text-dusk"
                   style={{ textWrap: "balance" }}
                 >
                   {d.title[lang]}
@@ -163,13 +166,11 @@ function Home() {
               </Link>
             ))}
           </div>
-        </section>
 
-        {/* ─── Bandeau jardin — souvenir vivant ─── */}
-        <section className="px-7 pt-10">
+          {/* Lien jardin — souvenir vivant lié à la personne */}
           <Link
             to="/garden"
-            className="block border-y border-dusk/15 py-6 flex items-baseline justify-between gap-4"
+            className="mt-4 block border-t border-dusk/15 pt-4 flex items-baseline justify-between gap-4"
           >
             <div>
               <p
@@ -177,10 +178,86 @@ function Home() {
                 style={{ fontFamily: "var(--font-mono)" }}
               >
                 {lang === "fr" ? "Le jardin de" : "The garden of"}{" "}
-                <span className="not-italic text-dusk/75">{lostName}</span>
+                <span className="text-dusk/75">{lostName}</span>
               </p>
-              <p className="mt-2 font-serif text-[22px] leading-tight text-dusk">
-                <span className="italic">{lang === "fr" ? "Y déposer un souvenir." : "Plant a memory there."}</span>
+              <p className="mt-1 font-serif italic text-[17px] text-dusk">
+                {lang === "fr" ? "Y déposer un souvenir." : "Plant a memory there."}
+              </p>
+            </div>
+            <span className="text-dusk/55 text-sm shrink-0">→</span>
+          </Link>
+        </section>
+
+        {/* ═══════════ UNIVERS 2 — CONCRET ═══════════
+         * Tout ce qui s'organise, se décide, se transmet.
+         * Démarches, cérémonie, volontés, ressources. */}
+        <section className="px-7 pt-16">
+          <div className="flex items-baseline gap-3">
+            <span
+              className="text-[10px] uppercase tracking-[0.3em] text-[color:var(--sage-deep,var(--dusk))]"
+              style={{ fontFamily: "var(--font-mono)" }}
+            >
+              {lang === "fr" ? "II · Concret" : "II · Concrete"}
+            </span>
+            <span className="flex-1 h-px bg-dusk/15" />
+          </div>
+          <p className="mt-4 font-serif italic text-[17px] leading-snug text-dusk/75 max-w-[32ch]">
+            {lang === "fr"
+              ? "Ce qui s'organise dehors. Un seul pas à la fois, sans urgence."
+              : "What is arranged outside. One step at a time, no rush."}
+          </p>
+
+          {/* Carte feature Avancer — sage profond */}
+          <Link
+            to="/practical"
+            className="mt-6 block rounded-[18px] overflow-hidden"
+            style={{ background: "var(--sage)" }}
+          >
+            <div className="px-6 pt-7 pb-6">
+              <p
+                className="text-[10px] uppercase tracking-[0.28em] text-dusk/55"
+                style={{ fontFamily: "var(--font-mono)" }}
+              >
+                {lang === "fr" ? "Avancer · accompagnement concret" : "Move on · concrete steps"}
+              </p>
+              <p className="mt-4 font-serif text-[26px] leading-[1.1] text-dusk" style={{ textWrap: "balance" }}>
+                {lang === "fr" ? (
+                  <>Les démarches,<br /><span className="italic">un pas à la fois.</span></>
+                ) : (
+                  <>The steps,<br /><span className="italic">one at a time.</span></>
+                )}
+              </p>
+              <p className="mt-4 text-[13.5px] leading-[1.55] text-dusk/70 max-w-[34ch]">
+                {lang === "fr"
+                  ? "Démarches, cérémonie, atmosphère, partage. Quatre portes claires, jamais imposées."
+                  : "Paperwork, ceremony, atmosphere, sharing. Four clear doors, never imposed."}
+              </p>
+              <div className="mt-6 flex items-center justify-between">
+                <span
+                  className="text-[11px] uppercase tracking-[0.24em] text-dusk/75"
+                  style={{ fontFamily: "var(--font-mono)" }}
+                >
+                  {lang === "fr" ? "Ouvrir" : "Open"}
+                </span>
+                <span className="text-dusk/60 text-base">→</span>
+              </div>
+            </div>
+          </Link>
+
+          {/* Volontés — secondaire, en lien sobre */}
+          <Link
+            to="/wishes"
+            className="mt-4 block border-t border-dusk/15 pt-4 flex items-baseline justify-between gap-4"
+          >
+            <div>
+              <p
+                className="text-[10px] uppercase tracking-[0.28em] text-dusk/55"
+                style={{ fontFamily: "var(--font-mono)" }}
+              >
+                {lang === "fr" ? "Mes volontés" : "My wishes"}
+              </p>
+              <p className="mt-1 font-serif italic text-[17px] text-dusk">
+                {lang === "fr" ? "Écrire ce que je voudrais, pour le jour venu." : "Write what I would wish, when the day comes."}
               </p>
             </div>
             <span className="text-dusk/55 text-sm shrink-0">→</span>
@@ -188,7 +265,7 @@ function Home() {
         </section>
 
         {/* ─── Mode discret — chips minces ─── */}
-        <section className="px-7 pt-8">
+        <section className="px-7 pt-14">
           <p
             className="text-[10px] uppercase tracking-[0.28em] text-dusk/55"
             style={{ fontFamily: "var(--font-mono)" }}
@@ -229,7 +306,7 @@ function Home() {
 
 /* ─── data ─── */
 
-const DOORS: {
+const INNER_DOORS: {
   to: string;
   bg: string;
   eyebrow: { fr: string; en: string };
@@ -242,16 +319,16 @@ const DOORS: {
     title: { fr: "Déposer une pensée.", en: "Set a thought down." },
   },
   {
-    to: "/practical",
-    bg: "var(--sage)",
-    eyebrow: { fr: "Avancer", en: "Move forward" },
-    title: { fr: "Un seul pas, à votre rythme.", en: "One step, your pace." },
-  },
-  {
     to: "/no-words",
     bg: "var(--sky)",
     eyebrow: { fr: "Sans mots", en: "Without words" },
     title: { fr: "Respirer, écouter.", en: "Breathe, listen." },
+  },
+  {
+    to: "/memories",
+    bg: "var(--rose)",
+    eyebrow: { fr: "Souvenirs", en: "Memories" },
+    title: { fr: "Garder une trace douce.", en: "Keep a soft trace." },
   },
 ];
 
