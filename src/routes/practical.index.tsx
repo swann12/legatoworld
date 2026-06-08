@@ -47,6 +47,7 @@ function Practical() {
   const doors = reorderForMode(mode);
   const [budget, setBudget] = useState<Budget>("");
   const [budgetOpen, setBudgetOpen] = useState(false);
+  const [moreOpen, setMoreOpen] = useState(false);
 
   useEffect(() => { setBudget(loadPractical().budget); }, []);
   const updateBudget = (b: Budget) => { setBudget(b); savePractical({ budget: b }); };
@@ -114,66 +115,98 @@ function Practical() {
             ))}
           </div>
 
-          {/* Budget — repliable, pas en premier plan */}
-          <div className="px-7 mt-8">
+          {/* « Pour aller plus loin » — replié par défaut, ne dispute pas la hiérarchie */}
+          <div className="px-7 mt-10">
             <button
-              onClick={() => setBudgetOpen((o) => !o)}
-              className="w-full rounded-[16px] border border-dusk/12 bg-paper p-5 text-left hover:bg-dusk/[0.02] transition-colors"
+              onClick={() => setMoreOpen((o) => !o)}
+              className="w-full border-t border-dusk/15 pt-5 flex items-baseline justify-between text-left"
             >
-              <div className="flex items-baseline justify-between">
-                <div>
-                  <p
-                    className="text-[10px] uppercase tracking-[0.26em] text-dusk/50"
-                    style={{ fontFamily: "var(--font-mono)" }}
-                  >
-                    Budget indicatif
-                  </p>
-                  <p className="mt-1 font-serif italic text-[15px] text-dusk">
-                    {budget ? BUDGET_LABELS[budget].label : "À votre rythme — vous pouvez sauter cette étape"}
-                  </p>
-                </div>
-                <span className="text-dusk/40">{budgetOpen ? "−" : "+"}</span>
-              </div>
-              {budgetOpen && (
-                <div className="mt-4 grid grid-cols-3 gap-2">
-                  {(Object.keys(BUDGET_LABELS) as (keyof typeof BUDGET_LABELS)[]).map((k) => (
-                    <button
-                      key={k}
-                      onClick={(e) => { e.stopPropagation(); updateBudget(k); }}
-                      className={`p-3 organic-radius text-left ${budget === k ? "ceramic" : "ceramic-soft opacity-80"}`}
-                    >
-                      <p className="text-[12px] font-medium text-dusk">{BUDGET_LABELS[k].label}</p>
-                      <p className="text-[10px] text-dusk/55 mt-0.5">{BUDGET_LABELS[k].range}</p>
-                    </button>
-                  ))}
-                </div>
-              )}
+              <p
+                className="text-[10px] uppercase tracking-[0.28em] text-dusk/55"
+                style={{ fontFamily: "var(--font-mono)" }}
+              >
+                Pour aller plus loin
+              </p>
+              <span className="text-dusk/40 text-sm">{moreOpen ? "−" : "+"}</span>
             </button>
-          </div>
 
-          {/* Volontés + inspiration */}
-          <div className="px-5 mt-6 grid grid-cols-1 gap-3">
-            <Link to="/wishes" className="paper-card p-5 flex items-baseline justify-between">
-              <div>
-                <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">Mes volontés</p>
-                <p className="mt-1 font-serif italic text-[15px] text-dusk">Écrire ce que je voudrais, pour le jour venu</p>
+            {moreOpen && (
+              <div className="mt-5 space-y-3">
+                <button
+                  onClick={() => setBudgetOpen((o) => !o)}
+                  className="w-full rounded-[16px] border border-dusk/12 bg-paper p-5 text-left hover:bg-dusk/[0.02] transition-colors"
+                >
+                  <div className="flex items-baseline justify-between">
+                    <div>
+                      <p
+                        className="text-[10px] uppercase tracking-[0.26em] text-dusk/50"
+                        style={{ fontFamily: "var(--font-mono)" }}
+                      >
+                        Budget indicatif
+                      </p>
+                      <p className="mt-1 font-serif italic text-[15px] text-dusk">
+                        {budget ? BUDGET_LABELS[budget].label : "À votre rythme — facultatif"}
+                      </p>
+                    </div>
+                    <span className="text-dusk/40">{budgetOpen ? "−" : "+"}</span>
+                  </div>
+                  {budgetOpen && (
+                    <div className="mt-4 grid grid-cols-3 gap-2">
+                      {(Object.keys(BUDGET_LABELS) as (keyof typeof BUDGET_LABELS)[]).map((k) => (
+                        <button
+                          key={k}
+                          onClick={(e) => { e.stopPropagation(); updateBudget(k); }}
+                          className={`p-3 rounded-[12px] border text-left ${
+                            budget === k
+                              ? "border-dusk/30 bg-clay"
+                              : "border-dusk/12 bg-paper"
+                          }`}
+                        >
+                          <p className="text-[12px] font-medium text-dusk">{BUDGET_LABELS[k].label}</p>
+                          <p className="text-[10px] text-dusk/55 mt-0.5">{BUDGET_LABELS[k].range}</p>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </button>
+
+                <Link
+                  to="/wishes"
+                  className="block rounded-[16px] border border-dusk/12 bg-paper p-5 flex items-baseline justify-between"
+                >
+                  <div>
+                    <p
+                      className="text-[10px] uppercase tracking-[0.26em] text-dusk/50"
+                      style={{ fontFamily: "var(--font-mono)" }}
+                    >
+                      Mes volontés
+                    </p>
+                    <p className="mt-1 font-serif italic text-[15px] text-dusk">
+                      Écrire ce que je voudrais, pour le jour venu
+                    </p>
+                  </div>
+                  <span className="text-dusk/40">→</span>
+                </Link>
+
+                <Link
+                  to="/resources"
+                  className="block rounded-[16px] border border-dusk/12 bg-paper p-5 flex items-baseline justify-between"
+                >
+                  <div>
+                    <p
+                      className="text-[10px] uppercase tracking-[0.26em] text-dusk/50"
+                      style={{ fontFamily: "var(--font-mono)" }}
+                    >
+                      Ressources & accompagnement
+                    </p>
+                    <p className="mt-1 font-serif italic text-[15px] text-dusk">
+                      Des personnes de confiance, recommandées par Legato
+                    </p>
+                  </div>
+                  <span className="text-dusk/40">→</span>
+                </Link>
               </div>
-              <span className="text-dusk/40">→</span>
-            </Link>
-            <Link to="/resources" className="paper-card p-5 flex items-baseline justify-between">
-              <div>
-                <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">Ressources & accompagnement</p>
-                <p className="mt-1 font-serif italic text-[15px] text-dusk">Des personnes de confiance, recommandées par Legato</p>
-              </div>
-              <span className="text-dusk/40">→</span>
-            </Link>
-            <Link to="/presence" className="paper-card p-5 flex items-baseline justify-between">
-              <div>
-                <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">Parler en parallèle</p>
-                <p className="mt-1 font-serif italic text-[15px] text-dusk">Une présence qui écoute, à tout moment</p>
-              </div>
-              <span className="text-dusk/40">→</span>
-            </Link>
+            )}
           </div>
 
           <div className="px-7 mt-10 mb-6 text-center">
