@@ -41,14 +41,47 @@ function Presence() {
   );
   const suggestions = BRANCH_SUGGESTIONS[branch];
 
-  const [messages, setMessages] = useState<{ role: "you" | "presence"; text: string }[]>([
-    { role: "presence", text: greeting },
-  ]);
+  const storageKey = `legato.presence.${branch}.${lostName || "_"}`;
 
-  // Reset opening line if the user changes branch/mode while on the page
+  const [messages, setMessages] = useState<{ role: "you" | "presence"; text: string }[]>(() => {
+    if (typeof window === "undefined") return [{ role: "presence", text: greeting }];
+    try {
+      const raw = localStorage.getItem(storageKey);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      }
+    } catch {/* noop */}
+    return [{ role: "presence", text: greeting }];
+  });
+
+  // Si on change de branche / d'être, on bascule sur la conversation associée
   useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      const raw = localStorage.getItem(storageKey);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed) && parsed.length > 0) { setMessages(parsed); return; }
+      }
+    } catch {/* noop */}
     setMessages([{ role: "presence", text: greeting }]);
-  }, [greeting]);
+  }, [storageKey, greeting]);
+
+  // Persistance
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try { localStorage.setItem(storageKey, JSON.stringify(messages)); } catch {/* noop */}
+  }, [storageKey, messages]);
+
+  const startNew = () => {
+    if (typeof window !== "undefined") {
+      try { localStorage.removeItem(storageKey); } catch {/* noop */}
+    }
+    setMessages([{ role: "presence", text: greeting }]);
+  };
+
+  const compact = messages.length > 1;
 
   const scrollerRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -111,24 +144,48 @@ function Presence() {
             </Link>
           </div>
 
-          <div className="px-8 pt-14 flex flex-col items-center text-center">
-            <div className="relative size-32">
-              <div
-                className="absolute inset-0 rounded-full breath"
-                style={{
-                  background: "radial-gradient(circle at 30% 30%, var(--peach), var(--rose))",
-                  animationDuration: "7s",
-                }}
-              />
+          {compact ? (
+            <div className="px-8 pt-6 pb-2 flex items-center justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <div
+                  className="size-7 rounded-full breath"
+                  style={{
+                    background: "radial-gradient(circle at 30% 30%, var(--peach), var(--rose))",
+                    animationDuration: "7s",
+                  }}
+                />
+                <p className="font-serif italic text-[15px] text-dusk/70">
+                  Je suis là, <span className="text-dusk">{name}</span>.
+                </p>
+              </div>
+              <button
+                onClick={startNew}
+                className="text-[10px] uppercase tracking-[0.24em] text-dusk/45 hover:text-dusk transition-colors"
+                style={{ fontFamily: "var(--font-mono)" }}
+              >
+                Nouveau silence
+              </button>
             </div>
-            <h1
-              className="mt-10 font-serif text-[32px] font-light text-dusk max-w-[22ch] leading-[1.1]"
-              style={{ textWrap: "balance" }}
-            >
-              Je suis là, <span className="italic">{name}</span>.
-              <span className="block mt-1 italic text-dusk/70 text-[24px]">Tout le temps qu'il faut.</span>
-            </h1>
-          </div>
+          ) : (
+            <div className="px-8 pt-10 flex flex-col items-center text-center">
+              <div className="relative size-24">
+                <div
+                  className="absolute inset-0 rounded-full breath"
+                  style={{
+                    background: "radial-gradient(circle at 30% 30%, var(--peach), var(--rose))",
+                    animationDuration: "7s",
+                  }}
+                />
+              </div>
+              <h1
+                className="mt-8 font-serif text-[28px] font-light text-dusk max-w-[22ch] leading-[1.1]"
+                style={{ textWrap: "balance" }}
+              >
+                Je suis là, <span className="italic">{name}</span>.
+                <span className="block mt-1 italic text-dusk/70 text-[20px]">Tout le temps qu'il faut.</span>
+              </h1>
+            </div>
+          )}
 
           <div ref={scrollerRef} className="flex-1 px-7 pt-10 pb-4 space-y-3 overflow-y-auto no-scrollbar">
             {messages.map((m, i) =>

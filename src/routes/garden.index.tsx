@@ -14,7 +14,7 @@ export const Route = createFileRoute("/garden/")({
   component: Garden,
 });
 
-type Being = {
+export type Being = {
   id: string;
   name: string;
   kind: "person" | "animal";
@@ -24,31 +24,34 @@ type Being = {
   blooms: { tint: string; tint2: string }[];
 };
 
-/** Positions calibrated to the painted garden image (5 main beds). */
+/** 5 parcelles peintes — pour l'instant seule la première est habitée par
+ *  l'être choisi à l'onboarding ; les autres restent à inviter. */
+const BED_POSITIONS = [
+  { cx: 16, cy: 23, rx: 16, ry: 18 },
+  { cx: 82, cy: 22, rx: 16, ry: 18 },
+  { cx: 16, cy: 75, rx: 16, ry: 18 },
+  { cx: 82, cy: 47, rx: 16, ry: 16 },
+  { cx: 50, cy: 82, rx: 18, ry: 14 },
+];
+const DEFAULT_BLOOMS = [
+  { tint: "var(--rose)",     tint2: "var(--peach)" },
+  { tint: "var(--peach)",    tint2: "var(--rose)"  },
+];
+
+/** Compatibility: detail page imports BEINGS; we expose a single seeded bed. */
 export const BEINGS: Being[] = [
-  { id: "elise", name: "Élise", kind: "person", cx: 16, cy: 23, rx: 16, ry: 18,
-    blooms: [{ tint: "var(--rose)", tint2: "var(--peach)" }, { tint: "var(--peach)", tint2: "var(--rose)" }] },
-  { id: "papa",  name: "Thomas",  kind: "person", cx: 82, cy: 22, rx: 16, ry: 18,
-    blooms: [{ tint: "var(--clay)", tint2: "var(--peach)" }, { tint: "var(--lavender)", tint2: "var(--mist)" }] },
-  { id: "leon",  name: "Léon",  kind: "animal", cx: 16, cy: 75, rx: 16, ry: 18,
-    blooms: [{ tint: "var(--lavender)", tint2: "var(--mist)" }, { tint: "var(--sage)", tint2: "var(--paper)" }] },
-  { id: "mamie", name: "Mamie", kind: "person", cx: 82, cy: 47, rx: 16, ry: 16,
-    blooms: [{ tint: "var(--rose)", tint2: "var(--peach)" }, { tint: "var(--peach)", tint2: "var(--paper)" }] },
-  { id: "theo",  name: "Théo",  kind: "person", cx: 50, cy: 82, rx: 18, ry: 14,
-    blooms: [{ tint: "var(--sage)", tint2: "var(--clay)" }, { tint: "var(--peach)", tint2: "var(--rose)" }] },
+  { id: "main", name: "—", kind: "person", ...BED_POSITIONS[0], blooms: DEFAULT_BLOOMS },
 ];
 
 function Garden() {
   const { lostName, t, lang } = useLegato();
   const [hovered, setHovered] = useState<string | null>(null);
-  const activeBeing = BEINGS.find((b) => b.id === hovered) ?? null;
-
-  /** Extra parcelles in the painting that don't (yet) belong to a being.
-   *  They still glow on hover, but are not clickable. */
-  const EXTRA_PARCELLES = [
-    { id: "_extra-top",    cx: 48, cy: 14, rx: 12, ry: 10 },
-    { id: "_extra-center", cx: 50, cy: 50, rx: 16, ry: 18 },
+  // Une seule parcelle habitée pour l'instant — celle de l'être choisi à l'onboarding.
+  const beings: Being[] = [
+    { id: "main", name: lostName || (lang === "fr" ? "votre être" : "your being"),
+      kind: "person", ...BED_POSITIONS[0], blooms: DEFAULT_BLOOMS },
   ];
+  const activeBeing = beings.find((b) => b.id === hovered) ?? null;
 
   return (
     <Shell>
@@ -92,7 +95,7 @@ function Garden() {
               />
 
               {/* Hotspots — local lift on hover, gentle dim on the others */}
-              {BEINGS.map((p) => (
+              {beings.map((p) => (
                 <Link
                   key={p.id}
                   to="/garden/$zone"
@@ -105,25 +108,6 @@ function Garden() {
                   className={`absolute group focus:outline-none cursor-pointer garden-tile-hover ${
                     hovered === p.id ? "is-hot" : hovered ? "is-faded" : ""
                   }`}
-                  style={{
-                    left: `${p.cx - p.rx}%`,
-                    top: `${p.cy - p.ry}%`,
-                    width: `${p.rx * 2}%`,
-                    height: `${p.ry * 2}%`,
-                    borderRadius: "50%",
-                    touchAction: "manipulation",
-                  }}
-                />
-              ))}
-
-              {/* Hover-only spots for the unassigned parcelles */}
-              {EXTRA_PARCELLES.map((p) => (
-                <div
-                  key={p.id}
-                  onMouseEnter={() => setHovered(p.id)}
-                  onMouseLeave={() => setHovered((h: string | null) => (h === p.id ? null : h))}
-                  aria-hidden
-                  className="absolute"
                   style={{
                     left: `${p.cx - p.rx}%`,
                     top: `${p.cy - p.ry}%`,
@@ -150,6 +134,16 @@ function Garden() {
                   : lang === "fr"
                     ? "effleurez une floraison"
                     : "brush a bloom"}
+              </p>
+            </div>
+
+            {/* CTA discret pour les autres parcelles, à venir */}
+            <div className="px-7 mt-6 text-center">
+              <p
+                className="text-[10px] uppercase tracking-[0.28em] text-dusk/45"
+                style={{ fontFamily: "var(--font-mono)" }}
+              >
+                {lang === "fr" ? "Inviter un autre être — bientôt" : "Invite another being — soon"}
               </p>
             </div>
           </div>

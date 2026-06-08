@@ -136,14 +136,16 @@ function Home() {
           </Link>
         </section>
 
-        {/* ─── Grille magazine — quatre portes ─── */}
+        {/* ─── Grille magazine — trois portes ─── */}
         <section className="px-7 pt-3">
           <div className="grid grid-cols-2 gap-3">
-            {DOORS.map((d) => (
+            {DOORS.map((d, i) => (
               <Link
                 key={d.to}
                 to={d.to as never}
-                className="block rounded-[14px] p-5 min-h-[148px] flex flex-col justify-between"
+                className={`block rounded-[14px] p-5 min-h-[148px] flex flex-col justify-between ${
+                  i === 0 ? "col-span-2" : ""
+                }`}
                 style={{ background: d.bg }}
               >
                 <p
@@ -240,22 +242,16 @@ const DOORS: {
     title: { fr: "Déposer une pensée.", en: "Set a thought down." },
   },
   {
-    to: "/no-words",
-    bg: "var(--sky)",
-    eyebrow: { fr: "Sans mots", en: "Without words" },
-    title: { fr: "Respirer, écouter.", en: "Breathe, listen." },
-  },
-  {
     to: "/practical",
     bg: "var(--sage)",
     eyebrow: { fr: "Avancer", en: "Move forward" },
     title: { fr: "Un seul pas, à votre rythme.", en: "One step, your pace." },
   },
   {
-    to: "/wishes",
-    bg: "var(--blush)",
-    eyebrow: { fr: "Préparer", en: "Prepare" },
-    title: { fr: "Mes volontés, en douceur.", en: "My wishes, gently." },
+    to: "/no-words",
+    bg: "var(--sky)",
+    eyebrow: { fr: "Sans mots", en: "Without words" },
+    title: { fr: "Respirer, écouter.", en: "Breathe, listen." },
   },
 ];
 
