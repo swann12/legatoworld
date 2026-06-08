@@ -55,17 +55,20 @@ function Garden() {
       <div className="relative pb-10 garden-page-bg">
         <div className="relative z-10">
           <header className="px-7 pt-12">
-            <p className="text-[10px] uppercase tracking-[0.24em] text-dusk/45">
+            <p
+              className="text-[10px] uppercase tracking-[0.3em] text-dusk/50"
+              style={{ fontFamily: "var(--font-mono)" }}
+            >
               {t("garden.belong")} · <span className="not-italic">{lostName}</span>
             </p>
-            <h1 className="mt-3 font-serif text-[2.2rem] leading-[1.05] font-light text-dusk text-balance">
+            <h1 className="mt-4 font-serif text-[40px] leading-[1.02] font-light text-dusk text-balance">
               {lang === "fr" ? (
                 <>Un paysage <span className="italic">qui se souvient.</span></>
               ) : (
                 <>A landscape that <span className="italic">remembers.</span></>
               )}
             </h1>
-            <p className="mt-4 max-w-[32ch] text-[13.5px] leading-relaxed text-dusk/60">
+            <p className="mt-6 max-w-[32ch] text-[14.5px] leading-[1.6] text-dusk/65">
               {lang === "fr"
                 ? "Une peinture vivante. Effleurez une floraison pour entrer dans le jardin de l'être qui l'habite."
                 : "A living painting. Brush a bloom to enter the garden of the being who dwells there."}

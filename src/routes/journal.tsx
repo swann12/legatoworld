@@ -1,6 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { Halos } from "@/components/legato/Halos";
 import { Shell } from "@/components/legato/Shell";
 import { useLegato } from "@/lib/legato-state";
 
@@ -10,7 +9,7 @@ export const Route = createFileRoute("/journal")({
 });
 
 function Journal() {
-  const { mode, t, journal, addJournalEntry, lostName, lang } = useLegato();
+  const { t, journal, addJournalEntry, lostName, lang } = useLegato();
   const [body, setBody] = useState("");
   const [to, setTo] = useState<"self" | "them" | "free">("free");
   const [openId, setOpenId] = useState<string | null>(null);
@@ -47,34 +46,41 @@ function Journal() {
   return (
     <Shell>
       <div className="relative pb-12">
-        <Halos mode={mode} variant="calm" />
         <div className="relative z-10">
           <header className="px-7 pt-12">
-            <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">
+            <p
+              className="text-[10px] uppercase tracking-[0.3em] text-dusk/50"
+              style={{ fontFamily: "var(--font-mono)" }}
+            >
               {t("journal.title")}
             </p>
             <h1
-              className="mt-3 font-serif text-[2.2rem] leading-[1.1] font-light text-dusk max-w-[20ch]"
+              className="mt-4 font-serif text-[40px] leading-[1.02] font-light text-dusk max-w-[20ch]"
               style={{ textWrap: "balance" }}
             >
-              {lang === "fr"
-                ? "Une page rien qu'à vous, sans titre."
-                : "A page just for you, untitled."}
+              {lang === "fr" ? (
+                <>Une page <span className="italic text-dusk/80">rien qu'à vous.</span></>
+              ) : (
+                <>A page <span className="italic text-dusk/80">just for you.</span></>
+              )}
             </h1>
-            <p className="mt-4 max-w-[34ch] text-[14px] leading-relaxed text-dusk/60">
+            <p className="mt-6 max-w-[34ch] text-[14.5px] leading-[1.6] text-dusk/65">
               {t("journal.subtitle")}
             </p>
           </header>
 
           {/* Address selector */}
-          <div className="px-7 mt-8 flex gap-2">
+          <div className="px-7 mt-10 flex gap-2">
             {(["free", "self", "them"] as const).map((k) => (
               <button
                 key={k}
                 onClick={() => setTo(k)}
-                className={`px-4 py-1.5 rounded-full text-[11px] tracking-[0.06em] transition-all ${
-                  to === k ? "bg-dusk text-paper" : "paper-card text-dusk/60"
+                className={`px-3.5 py-1.5 rounded-full text-[11px] tracking-wide border transition-colors ${
+                  to === k
+                    ? "bg-dusk text-paper border-dusk"
+                    : "border-dusk/20 text-dusk/70 hover:bg-dusk/5"
                 }`}
+                style={{ fontFamily: "var(--font-sans)" }}
               >
                 {t(`journal.to.${k}`)}
               </button>
@@ -82,14 +88,10 @@ function Journal() {
           </div>
 
           {/* Writing surface — soft notebook page, no lines, autosize */}
-          <div className="px-5 mt-5">
+          <div className="px-7 mt-5">
             <div
-              className="paper-card relative overflow-hidden"
-              style={{
-                borderRadius: 28,
-                background:
-                  "linear-gradient(180deg, color-mix(in oklab, var(--paper) 97%, white) 0%, color-mix(in oklab, var(--clay) 22%, var(--paper)) 100%)",
-              }}
+              className="relative overflow-hidden rounded-[16px] border border-dusk/12"
+              style={{ background: "var(--whisper)" }}
             >
               <textarea
                 ref={taRef}
@@ -97,55 +99,64 @@ function Journal() {
                 onChange={(e) => setBody(e.target.value)}
                 placeholder={placeholder}
                 rows={6}
-                className="relative w-full bg-transparent resize-none outline-none px-7 py-7 font-serif italic text-[18px] leading-[30px] text-dusk placeholder:text-dusk/30 overflow-hidden"
+                className="relative w-full bg-transparent resize-none outline-none px-6 py-6 font-serif italic text-[18px] leading-[30px] text-dusk placeholder:text-dusk/30 overflow-hidden"
                 style={{ minHeight: 240 }}
               />
             </div>
           </div>
 
-          <div className="px-5 mt-4">
+          <div className="px-7 mt-4">
             <button
               onClick={save}
               disabled={!body.trim()}
-              className={`ceramic organic-radius-3 w-full px-7 py-5 text-center transition-opacity ${
+              className={`w-full rounded-[16px] px-6 py-4 text-center text-[color:var(--paper)] transition-opacity ${
                 body.trim() ? "opacity-100" : "opacity-40"
               }`}
+              style={{ background: "var(--bordeaux)" }}
             >
-              <span className="font-serif text-xl italic text-dusk">{t("journal.save")}</span>
+              <span className="font-serif text-[18px] italic">{t("journal.save")}</span>
             </button>
           </div>
 
           {/* Past entries */}
           <div className="px-7 mt-12">
-            <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/40 mb-4">
+            <p
+              className="text-[10px] uppercase tracking-[0.3em] text-dusk/50 mb-5"
+              style={{ fontFamily: "var(--font-mono)" }}
+            >
               {lang === "fr" ? "Pages précédentes" : "Previous pages"}
             </p>
 
             {journal.length === 0 ? (
-              <p className="text-[13.5px] italic text-dusk/55 max-w-[34ch]">
+              <p className="font-serif text-[14px] italic text-dusk/60 max-w-[34ch]">
                 {t("journal.empty")}
               </p>
             ) : (
-              <div className="space-y-3">
+              <div className="divide-y divide-dusk/10">
                 {journal.map((e) => {
                   const open = openId === e.id;
                   return (
                     <button
                       key={e.id}
                       onClick={() => setOpenId(open ? null : e.id)}
-                      className="w-full text-left paper-card p-5 transition-all"
-                      style={{ borderRadius: 22 }}
+                      className="w-full text-left py-5 transition-all hover:bg-dusk/[0.02]"
                     >
                       <div className="flex items-baseline justify-between gap-3">
-                        <p className="text-[10px] uppercase tracking-[0.2em] text-dusk/45">
+                        <p
+                          className="text-[10px] uppercase tracking-[0.26em] text-dusk/50"
+                          style={{ fontFamily: "var(--font-mono)" }}
+                        >
                           {e.to ? t(`journal.to.${e.to}`) : ""}
                         </p>
-                        <p className="text-[10px] tracking-[0.06em] text-dusk/45">
+                        <p
+                          className="text-[10px] tracking-[0.06em] text-dusk/45"
+                          style={{ fontFamily: "var(--font-mono)" }}
+                        >
                           {formatDate(e.date)}
                         </p>
                       </div>
                       <p
-                        className={`mt-2 font-serif italic text-[15.5px] leading-[26px] text-dusk ${
+                        className={`mt-2 font-serif italic text-[16px] leading-[26px] text-dusk/85 ${
                           open ? "" : "line-clamp-3"
                         }`}
                       >
@@ -160,10 +171,13 @@ function Journal() {
 
           <div className="px-7 mt-12">
             <Link to="/presence" className="block border-t border-dusk/10 pt-6 text-center">
-              <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">
+              <p
+                className="text-[10px] uppercase tracking-[0.3em] text-dusk/50"
+                style={{ fontFamily: "var(--font-mono)" }}
+              >
                 {lang === "fr" ? "Si vous voulez en parler" : "If you want to talk about it"}
               </p>
-              <p className="mt-1 font-serif text-base italic text-dusk">
+              <p className="mt-2 font-serif text-[17px] italic text-dusk">
                 {lang === "fr" ? "Ouvrir la Présence →" : "Open the Presence →"}
               </p>
             </Link>
