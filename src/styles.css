@@ -214,9 +214,11 @@
   }
 
   /* Organic asymmetric radii — nothing perfectly geometric */
-  .organic-radius { border-radius: 48px 48px 36px 36px; }
-  .organic-radius-2 { border-radius: 64% 36% 60% 40% / 50% 60% 40% 50%; }
-  .organic-radius-3 { border-radius: 56px 32px 56px 32px; }
+  /* Tamed for the editorial language — kept available for legacy callers
+   * but rendered as clean rounded surfaces, not asymmetric blobs. */
+  .organic-radius { border-radius: 18px; }
+  .organic-radius-2 { border-radius: 18px; }
+  .organic-radius-3 { border-radius: 16px; }
 
   /* Soft luminous halos */
   .halo { filter: blur(60px); pointer-events: none; }
@@ -380,11 +382,9 @@
 
   /* Soft container — quieter than ceramic, more space */
   .paper-card {
-    background: rgba(255, 255, 255, 0.64);
-    -webkit-backdrop-filter: blur(24px) saturate(112%);
-    backdrop-filter: blur(24px) saturate(112%);
-    border: 1px solid rgba(255, 255, 255, 0.78);
-    border-radius: 22px;
+    background: var(--paper);
+    border: 1px solid color-mix(in oklab, var(--dusk) 10%, transparent);
+    border-radius: 16px;
   }
 
   /* ─── Legato Glass system ───
@@ -392,41 +392,32 @@
    * Posé sur un dégradé vivant — jamais sur du blanc.
    */
   .glass-card {
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.62), rgba(255, 252, 248, 0.44));
-    -webkit-backdrop-filter: blur(24px) saturate(118%);
-    backdrop-filter: blur(24px) saturate(118%);
-    border: 1px solid rgba(255, 255, 255, 0.76);
-    border-radius: 22px;
+    background: var(--paper);
+    border: 1px solid color-mix(in oklab, var(--dusk) 10%, transparent);
+    border-radius: 16px;
   }
   .glass-card-accent {
-    /* Carte principale — verre clair sans liseré coloré */
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(255, 253, 250, 0.50));
-    -webkit-backdrop-filter: blur(28px) saturate(120%);
-    backdrop-filter: blur(28px) saturate(120%);
-    border: 1px solid rgba(255, 255, 255, 0.82);
-    border-radius: 22px;
+    background: var(--clay);
+    border: 1px solid color-mix(in oklab, var(--dusk) 12%, transparent);
+    border-radius: 18px;
   }
   .glass-nav {
     background: var(--paper);
     border-top: 1px solid color-mix(in oklab, var(--dusk) 12%, transparent);
   }
   .glass-tabs {
-    background: rgba(255, 255, 255, 0.32);
-    -webkit-backdrop-filter: blur(18px) saturate(150%);
-    backdrop-filter: blur(18px) saturate(150%);
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    border-radius: 50px;
+    background: var(--paper);
+    border: 1px solid color-mix(in oklab, var(--dusk) 10%, transparent);
+    border-radius: 999px;
   }
   .glass-tab-active {
-    background: rgba(44, 40, 37, 0.82);
-    color: #ffffff;
+    background: var(--dusk);
+    color: var(--paper);
   }
   .glass-drawer {
-    background: rgba(255, 255, 255, 0.88);
-    -webkit-backdrop-filter: blur(28px);
-    backdrop-filter: blur(28px);
-    border-radius: 28px 28px 0 0;
-    border-top: 1px solid rgba(255, 255, 255, 0.5);
+    background: var(--paper);
+    border-radius: 22px 22px 0 0;
+    border-top: 1px solid color-mix(in oklab, var(--dusk) 12%, transparent);
   }
 
   /* ─── Living background blobs ───
