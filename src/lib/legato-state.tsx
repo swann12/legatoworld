@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 
 export type Branch =
   | "person"
@@ -10,6 +10,7 @@ export type Branch =
 
 export type Mode = "cocoon" | "anchoring" | "breath" | "relay";
 export type Lang = "fr" | "en";
+export type ThemeMode = "auto" | "light" | "dark";
 
 export type JournalEntry = {
   id: string;
@@ -85,6 +86,8 @@ const DICT: Dict = {
   "nav.garden":   { fr: "Jardin",    en: "Garden" },
   "nav.journal":  { fr: "Journal",   en: "Journal" },
   "nav.presence": { fr: "Présence",  en: "Presence" },
+  "nav.avancer":  { fr: "Avancer",   en: "Move on" },
+  "nav.today":    { fr: "Aujourd'hui", en: "Today" },
   "nav.space":    { fr: "Mon espace",en: "My space" },
   "common.back":  { fr: "Retour",    en: "Back" },
   "common.continue":{ fr: "Continuer", en: "Continue" },
@@ -141,6 +144,9 @@ type Ctx = {
   setLostName: (s: string) => void;
   lang: Lang;
   setLang: (l: Lang) => void;
+  theme: ThemeMode;
+  setTheme: (t: ThemeMode) => void;
+  resolvedTheme: "light" | "dark";
   t: (key: string) => string;
   journal: JournalEntry[];
   addJournalEntry: (e: Omit<JournalEntry, "id" | "date">) => void;
@@ -156,6 +162,31 @@ export function LegatoProvider({ children }: { children: ReactNode }) {
   const [name, setName] = useState<string>("Swann");
   const [lostName, setLostName] = useState<string>("Élise");
   const [lang, setLang] = useState<Lang>("fr");
+  const [theme, setThemeState] = useState<ThemeMode>(() => {
+    if (typeof window === "undefined") return "auto";
+    return (localStorage.getItem("legato-theme") as ThemeMode | null) ?? "auto";
+  });
+  const [systemDark, setSystemDark] = useState<boolean>(() => {
+    if (typeof window === "undefined") return false;
+    return window.matchMedia?.("(prefers-color-scheme: dark)").matches ?? false;
+  });
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const mq = window.matchMedia("(prefers-color-scheme: dark)");
+    const onChange = (e: MediaQueryListEvent) => setSystemDark(e.matches);
+    mq.addEventListener?.("change", onChange);
+    return () => mq.removeEventListener?.("change", onChange);
+  }, []);
+  const resolvedTheme: "light" | "dark" =
+    theme === "auto" ? (systemDark ? "dark" : "light") : theme;
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    document.documentElement.classList.toggle("dark", resolvedTheme === "dark");
+  }, [resolvedTheme]);
+  const setTheme = (t: ThemeMode) => {
+    setThemeState(t);
+    if (typeof window !== "undefined") localStorage.setItem("legato-theme", t);
+  };
   const [journal, setJournal] = useState<JournalEntry[]>([
     {
       id: "j-seed-1",
@@ -182,6 +213,7 @@ export function LegatoProvider({ children }: { children: ReactNode }) {
         name, setName,
         lostName, setLostName,
         lang, setLang, t,
+        theme, setTheme, resolvedTheme,
         journal, addJournalEntry,
         wishes, setWishes,
       }}
