@@ -16,7 +16,6 @@ import { Route as SpaceRouteImport } from './routes/space'
 import { Route as PresentationRouteImport } from './routes/presentation'
 import { Route as PresenceRouteImport } from './routes/presence'
 import { Route as PracticalRouteImport } from './routes/practical'
-import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as NoWordsRouteImport } from './routes/no-words'
 import { Route as MemoriesRouteImport } from './routes/memories'
 import { Route as JournalRouteImport } from './routes/journal'
@@ -84,11 +83,6 @@ const PresenceRoute = PresenceRouteImport.update({
 const PracticalRoute = PracticalRouteImport.update({
   id: '/practical',
   path: '/practical',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const OnboardingRoute = OnboardingRouteImport.update({
-  id: '/onboarding',
-  path: '/onboarding',
   getParentRoute: () => rootRouteImport,
 } as any)
 const NoWordsRoute = NoWordsRouteImport.update({
@@ -270,7 +264,6 @@ export interface FileRoutesByFullPath {
   '/journal': typeof JournalRoute
   '/memories': typeof MemoriesRoute
   '/no-words': typeof NoWordsRoute
-  '/onboarding': typeof OnboardingRoute
   '/practical': typeof PracticalRouteWithChildren
   '/presence': typeof PresenceRoute
   '/presentation': typeof PresentationRoute
@@ -312,7 +305,6 @@ export interface FileRoutesByTo {
   '/journal': typeof JournalRoute
   '/memories': typeof MemoriesRoute
   '/no-words': typeof NoWordsRoute
-  '/onboarding': typeof OnboardingRoute
   '/presence': typeof PresenceRoute
   '/presentation': typeof PresentationRoute
   '/space': typeof SpaceRoute
@@ -355,7 +347,6 @@ export interface FileRoutesById {
   '/journal': typeof JournalRoute
   '/memories': typeof MemoriesRoute
   '/no-words': typeof NoWordsRoute
-  '/onboarding': typeof OnboardingRoute
   '/practical': typeof PracticalRouteWithChildren
   '/presence': typeof PresenceRoute
   '/presentation': typeof PresentationRoute
@@ -400,7 +391,6 @@ export interface FileRouteTypes {
     | '/journal'
     | '/memories'
     | '/no-words'
-    | '/onboarding'
     | '/practical'
     | '/presence'
     | '/presentation'
@@ -442,7 +432,6 @@ export interface FileRouteTypes {
     | '/journal'
     | '/memories'
     | '/no-words'
-    | '/onboarding'
     | '/presence'
     | '/presentation'
     | '/space'
@@ -484,7 +473,6 @@ export interface FileRouteTypes {
     | '/journal'
     | '/memories'
     | '/no-words'
-    | '/onboarding'
     | '/practical'
     | '/presence'
     | '/presentation'
@@ -528,7 +516,6 @@ export interface RootRouteChildren {
   JournalRoute: typeof JournalRoute
   MemoriesRoute: typeof MemoriesRoute
   NoWordsRoute: typeof NoWordsRoute
-  OnboardingRoute: typeof OnboardingRoute
   PracticalRoute: typeof PracticalRouteWithChildren
   PresenceRoute: typeof PresenceRoute
   PresentationRoute: typeof PresentationRoute
@@ -594,13 +581,6 @@ declare module '@tanstack/react-router' {
       path: '/practical'
       fullPath: '/practical'
       preLoaderRoute: typeof PracticalRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/onboarding': {
-      id: '/onboarding'
-      path: '/onboarding'
-      fullPath: '/onboarding'
-      preLoaderRoute: typeof OnboardingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/no-words': {
@@ -917,7 +897,6 @@ const rootRouteChildren: RootRouteChildren = {
   JournalRoute: JournalRoute,
   MemoriesRoute: MemoriesRoute,
   NoWordsRoute: NoWordsRoute,
-  OnboardingRoute: OnboardingRoute,
   PracticalRoute: PracticalRouteWithChildren,
   PresenceRoute: PresenceRoute,
   PresentationRoute: PresentationRoute,
@@ -936,3 +915,12 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}
