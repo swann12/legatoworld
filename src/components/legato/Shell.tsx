@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { Link } from "@tanstack/react-router";
 import { BottomNav } from "./BottomNav";
 import { ModeBackground } from "./ModeBackground";
 import { ConfideDock } from "./ConfideDock";
@@ -38,18 +39,25 @@ export function ScreenHeader({
   eyebrow,
   title,
   subtitle,
+  back,
 }: {
   eyebrow?: string;
   title: ReactNode;
   subtitle?: ReactNode;
+  /** Retour vers le parent (filet mono discret au-dessus du titre). */
+  back?: { to: string; label?: string };
 }) {
   return (
     <header className="px-7 pt-12">
-      {eyebrow && (
-        <p className="mb-3 text-[10px] uppercase tracking-[0.28em] text-dusk/50" style={{ fontFamily: "var(--font-mono)" }}>
-          {eyebrow}
-        </p>
+      {back && (
+        <Link
+          to={back.to}
+          className="eyebrow inline-block mb-6 text-dusk/55 hover:text-dusk transition-colors"
+        >
+          ← {back.label ?? "Retour"}
+        </Link>
       )}
+      {eyebrow && <p className="eyebrow mb-3">{eyebrow}</p>}
       <h1 className="font-serif text-[30px] leading-[1.06] font-light text-balance text-dusk">
         {title}
       </h1>
@@ -62,4 +70,82 @@ export function ScreenHeader({
 
 export function Section({ children, className = "" }: { children: ReactNode; className?: string }) {
   return <section className={`px-7 ${className}`}>{children}</section>;
+}
+
+/** Carte cliquable standard : eyebrow mono · titre serif · corps sans · chevron.
+ *  Une seule affordance partout dans l'app. */
+export function NavCard({
+  to,
+  params,
+  eyebrow,
+  title,
+  body,
+  action = "Ouvrir",
+}: {
+  to: string;
+  params?: Record<string, string>;
+  eyebrow: string;
+  title: string;
+  body?: string;
+  action?: string;
+}) {
+  return (
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    <Link
+      to={to as any}
+      params={params as any}
+      className="surface block p-5 hover:bg-dusk/[0.02] transition-colors group"
+    >
+      <div className="flex items-start gap-4">
+        <div className="flex-1 min-w-0">
+          <p className="eyebrow">{eyebrow}</p>
+          <h3 className="mt-2 font-serif text-[19px] font-light text-dusk leading-snug">
+            {title}
+          </h3>
+          {body && (
+            <p className="mt-2 text-[13px] leading-[1.55] text-dusk/65">{body}</p>
+          )}
+        </div>
+        <span className="text-dusk/40 group-hover:text-dusk transition-colors text-base shrink-0 mt-1">
+          →
+        </span>
+      </div>
+      <span className="sr-only">{action}</span>
+    </Link>
+  );
+}
+
+/** Filet horizontal cliquable : pour les liens secondaires (« Découvrir… », crise). */
+export function NavLine({
+  to,
+  eyebrow,
+  title,
+  tone = "neutral",
+}: {
+  to: string;
+  eyebrow: string;
+  title: string;
+  tone?: "neutral" | "alert";
+}) {
+  const eyebrowColor =
+    tone === "alert" ? "text-[color:var(--terracotta)]" : "text-dusk/55";
+  const lineColor =
+    tone === "alert"
+      ? "border-[color:var(--terracotta)]/30"
+      : "border-dusk/15";
+  return (
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    <Link
+      to={to as any}
+      className={`block border-t ${lineColor} pt-4 flex items-baseline justify-between gap-4 group`}
+    >
+      <div className="min-w-0">
+        <p className={`eyebrow ${eyebrowColor}`}>{eyebrow}</p>
+        <p className="mt-1.5 font-sans text-[15px] text-dusk leading-snug">
+          {title}
+        </p>
+      </div>
+      <span className="text-dusk/40 group-hover:text-dusk text-sm shrink-0">→</span>
+    </Link>
+  );
 }
