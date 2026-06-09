@@ -389,6 +389,73 @@
     border-radius: 16px;
   }
 
+  /* ─── Typographic + surface helpers (single source of truth) ───
+   * Three roles, three families, no inline overrides on the page:
+   *  - eyebrow  → mono, uppercase, dusk/55, 10px, tracking 0.26em
+   *  - serif headings via <h1>/<h2 className="font-serif font-light">
+   *  - everything else → sans (default)
+   */
+  .eyebrow {
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.26em;
+    font-size: 10px;
+    line-height: 1;
+    color: color-mix(in oklab, var(--dusk) 55%, transparent);
+  }
+  .eyebrow-sm {
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    font-size: 9px;
+    color: color-mix(in oklab, var(--dusk) 45%, transparent);
+  }
+  .label-mono {
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    font-size: 11px;
+  }
+
+  /* Carte de surface unique : paper + filet dusk/12, rayon 16. */
+  .surface {
+    background: var(--paper);
+    border: 1px solid color-mix(in oklab, var(--dusk) 12%, transparent);
+    border-radius: 16px;
+  }
+  /* Surface « feature » unique par page : bordeaux profond, texte cream. */
+  .surface-feature {
+    background: var(--bordeaux);
+    color: var(--paper);
+    border-radius: 16px;
+  }
+
+  /* Bouton primaire — sans, uppercase mono pour l'étiquette. */
+  .btn-primary {
+    background: var(--bordeaux);
+    color: var(--paper);
+    border-radius: 999px;
+    padding: 0.75rem 1.25rem;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    font-size: 11px;
+    transition: opacity 0.2s ease;
+  }
+  .btn-primary:hover { opacity: 0.92; }
+  .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+  .btn-ghost {
+    background: transparent;
+    color: var(--dusk);
+    border: 1px solid color-mix(in oklab, var(--dusk) 20%, transparent);
+    border-radius: 999px;
+    padding: 0.6rem 1.1rem;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    font-size: 11px;
+  }
+
   /* ─── Legato Glass system ───
    * Verre aérien, légèrement teinté, inspiré du widget météo iOS.
    * Posé sur un dégradé vivant — jamais sur du blanc.
