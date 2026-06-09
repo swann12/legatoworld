@@ -25,9 +25,9 @@ export function BottomNav() {
   return (
     <nav
       aria-label="Primary"
-      className="fixed bottom-0 left-1/2 z-50 w-full max-w-[420px] -translate-x-1/2 border-t border-dusk/10 bg-paper"
+      className="fixed bottom-0 left-1/2 z-50 w-full max-w-[420px] -translate-x-1/2 border-t border-dusk/8 bg-paper/95 backdrop-blur-md"
     >
-      <div className="flex items-stretch justify-between px-6 pt-3 pb-[max(env(safe-area-inset-bottom),0.6rem)]">
+      <div className="flex items-stretch justify-between px-8 pt-3.5 pb-[max(env(safe-area-inset-bottom),0.7rem)]">
         {items.map(({ to, label, Icon, forcedActive }) => {
           const active = forcedActive;
           return (
