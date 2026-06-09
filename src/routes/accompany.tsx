@@ -1,5 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Shell, ScreenHeader, Section } from "@/components/legato/Shell";
+import { SpaceSwitcher } from "@/components/legato/SpaceSwitcher";
+import { useLegato } from "@/lib/legato-state";
+import { useEffect } from "react";
 
 export const Route = createFileRoute("/accompany")({
   head: () => ({
@@ -20,6 +23,11 @@ const DOORS: Door[] = [
 ];
 
 function Accompany() {
+  const { space, setSpace } = useLegato();
+  // Si l'utilisateur arrive ici, on est dans l'espace psy.
+  useEffect(() => {
+    if (space !== "psy") setSpace("psy");
+  }, [space, setSpace]);
   return (
     <Shell>
       <div className="px-7 pt-10 flex items-center justify-between">
@@ -30,12 +38,7 @@ function Accompany() {
         >
           ← Accueil
         </Link>
-        <span
-          className="text-[10px] uppercase tracking-[0.3em] text-dusk/50"
-          style={{ fontFamily: "var(--font-mono)" }}
-        >
-          Accompagnement
-        </span>
+        <SpaceSwitcher />
       </div>
 
       <ScreenHeader
