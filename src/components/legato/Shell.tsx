@@ -1,18 +1,25 @@
 import type { ReactNode } from "react";
 import { BottomNav } from "./BottomNav";
 import { ModeBackground } from "./ModeBackground";
+import { ConfideDock } from "./ConfideDock";
 import { useLegato } from "@/lib/legato-state";
 
 export function Shell({
   children,
   hideNav = false,
   livingBg = true,
+  hideConfide = false,
+  confideStep,
 }: {
   children: ReactNode;
   hideNav?: boolean;
   /** Render the mode-aware living background. Pages that paint their own
    *  full-screen ambiance (no-words sequences, onboarding) should pass false. */
   livingBg?: boolean;
+  /** Hide the floating Présence dock (e.g. for the onboarding/intro screens). */
+  hideConfide?: boolean;
+  /** Optional context label sent to the Présence dock. */
+  confideStep?: string;
 }) {
   const { mode } = useLegato();
   return (
@@ -22,6 +29,7 @@ export function Shell({
         <div className="relative" style={{ zIndex: 1 }}>{children}</div>
       </div>
       {!hideNav && <BottomNav />}
+      {!hideConfide && <ConfideDock step={confideStep} />}
     </div>
   );
 }
