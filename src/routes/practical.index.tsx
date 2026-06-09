@@ -25,7 +25,7 @@ const HEADER = {
 const MAIN_LINKS = [
   { to: "/plan",      eyebrow: "Plan",      title: "Voir mon plan",     body: "Vos étapes, par priorité. À votre rythme." },
   { to: "/resources", eyebrow: "Aide",      title: "Trouver une aide",  body: "Pompes funèbres, notaires, thérapeutes, célébrant·es." },
-  { to: "/practical/steps", eyebrow: "Documents", title: "Mes documents", body: "Pièce d'identité, livret de famille, certificat, contrats." },
+  { to: "/documents", eyebrow: "Documents", title: "Mes documents", body: "Pièce d'identité, livret de famille, certificat, contrats." },
 ] as const;
 
 /** Autres portes (préparation cérémonie, ambiance, partage), discrètes. */
