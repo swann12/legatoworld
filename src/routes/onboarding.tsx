@@ -154,20 +154,22 @@ function StepName({ name, setName }: { name: string; setName: (s: string) => voi
 
 /** Étape 2 — Bifurcation explicite (principe non négociable du brief). */
 function StepSpace({ value, onChange }: { value: Space; onChange: (s: Space) => void }) {
-  const OPTIONS: { id: Exclude<Space, null>; title: string; body: string; tint: string; fg: string }[] = [
+  const OPTIONS: { id: Exclude<Space, null>; title: string; body: string; activeBg: string; activeBorder: string; activeFg: string }[] = [
     {
       id: "psy",
       title: "Accompagnement psychologique",
-      body: "Pour traverser ce qui est ressenti, trouver une présence et avancer à son rythme.",
-      tint: "var(--bordeaux)",
-      fg: "var(--paper)",
+      body: "Traverser, ressentir, déposer.",
+      activeBg: "var(--bordeaux-wash)",
+      activeBorder: "var(--bordeaux-soft)",
+      activeFg: "var(--bordeaux)",
     },
     {
       id: "concrete",
       title: "Aide concrète",
-      body: "Pour organiser, comprendre les démarches et avancer pas à pas sans avoir à tout porter.",
-      tint: "var(--sage)",
-      fg: "var(--dusk)",
+      body: "Organiser, comprendre, avancer.",
+      activeBg: "color-mix(in oklab, var(--bloom-sage) 35%, var(--paper))",
+      activeBorder: "var(--olive)",
+      activeFg: "var(--dusk)",
     },
   ];
   return (
@@ -179,7 +181,7 @@ function StepSpace({ value, onChange }: { value: Space; onChange: (s: Space) => 
         Aujourd'hui, vous cherchez <span className="italic">plutôt…</span>
       </h2>
       <p className="text-[13.5px] text-dusk/60 max-w-[34ch]">
-        Vous pourrez basculer d'un espace à l'autre à tout moment.
+        Vous pourrez changer à tout moment.
       </p>
       <div className="space-y-3">
         {OPTIONS.map((o) => {
@@ -188,15 +190,30 @@ function StepSpace({ value, onChange }: { value: Space; onChange: (s: Space) => 
             <button
               key={o.id}
               onClick={() => onChange(o.id)}
-              className={`block w-full rounded-[18px] px-6 py-6 text-left transition-all ${
-                active ? "ring-2 ring-dusk/30" : "opacity-95 hover:opacity-100"
-              }`}
-              style={{ background: o.tint, color: o.fg }}
+              aria-pressed={active}
+              className="block w-full rounded-[16px] px-6 py-5 text-left transition-all border-2"
+              style={{
+                background: active ? o.activeBg : "var(--paper)",
+                borderColor: active ? o.activeBorder : "color-mix(in oklab, var(--dusk) 12%, transparent)",
+                color: "var(--dusk)",
+              }}
             >
-              <p className="font-serif italic text-[22px]">{o.title}</p>
-              <p className="mt-2 text-[13px] leading-[1.55]" style={{ color: o.fg, opacity: 0.78 }}>
-                {o.body}
-              </p>
+              <div className="flex items-center justify-between gap-3">
+                <p className="font-serif italic text-[20px] leading-tight" style={{ color: active ? o.activeFg : "var(--dusk)" }}>
+                  {o.title}
+                </p>
+                <span
+                  aria-hidden
+                  className="shrink-0 size-4 rounded-full border-2 flex items-center justify-center"
+                  style={{
+                    borderColor: active ? o.activeBorder : "color-mix(in oklab, var(--dusk) 25%, transparent)",
+                    background: active ? o.activeBorder : "transparent",
+                  }}
+                >
+                  {active && <span className="size-1.5 rounded-full bg-[color:var(--paper)]" />}
+                </span>
+              </div>
+              <p className="mt-2 text-[13px] leading-[1.5] text-dusk/65">{o.body}</p>
             </button>
           );
         })}
@@ -214,11 +231,12 @@ function StepBranch({
   onChange: (b: Branch) => void;
   space: Space;
 }) {
-  // Filtrage selon l'espace : on retire les situations qui n'ont pas de sens
-  // dans l'aide concrète (peur, ne sait pas encore, animal aimé).
+  // Filtrage selon l'espace.
+  // - Aide concrète : on garde les démarches, le décès d'un proche et la préparation des volontés.
+  // - Psy : on retire « préparer mes volontés » (relève du concret, brief point 14).
   const list = space === "concrete"
     ? BRANCHES.filter((b) => b.id === "person" || b.id === "practical" || b.id === "wishes")
-    : BRANCHES;
+    : BRANCHES.filter((b) => b.id !== "wishes");
   return (
     <div className="space-y-7">
       <p className="text-[10px] uppercase tracking-[0.3em] text-dusk/50" style={{ fontFamily: "var(--font-mono)" }}>
@@ -292,13 +310,13 @@ function StepPriority({
   return (
     <div className="space-y-7">
       <p className="text-[10px] uppercase tracking-[0.3em] text-dusk/50" style={{ fontFamily: "var(--font-mono)" }}>
-        Étape 3 · Aujourd'hui, en priorité
+        Étape 3 · Par où commencer
       </p>
       <h2 className="font-serif text-[34px] leading-[1.05] font-light text-balance">
-        Qu'est-ce qui est <span className="italic">le plus urgent ?</span>
+        Par où souhaitez-vous <span className="italic">être guidé·e ?</span>
       </h2>
       <p className="text-[13.5px] text-dusk/60 max-w-[34ch]">
-        Nous construirons votre plan autour de ce point, triable à tout moment.
+        Nous organiserons les étapes pour vous, dans l'ordre et avec les délais qui comptent.
       </p>
       <div className="space-y-2.5">
         {CONCRETE_PRIORITIES.map((p) => {

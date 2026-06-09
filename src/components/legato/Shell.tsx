@@ -49,14 +49,17 @@ export function ScreenHeader({
 }) {
   return (
     <header className="px-7 pt-12">
-      {back && (
-        <Link
-          to={back.to}
-          className="eyebrow inline-block mb-6 text-dusk/55 hover:text-dusk transition-colors"
-        >
-          ← {back.label ?? "Retour"}
-        </Link>
-      )}
+      <div className="mb-6 flex items-center justify-between">
+        {back ? (
+          <Link
+            to={back.to}
+            className="eyebrow text-dusk/55 hover:text-dusk transition-colors"
+          >
+            ← {back.label ?? "Retour"}
+          </Link>
+        ) : <span />}
+        <span className="eyebrow text-dusk/45 tracking-[0.32em]">L</span>
+      </div>
       {eyebrow && <p className="eyebrow mb-3">{eyebrow}</p>}
       <h1 className="font-serif text-[30px] leading-[1.06] font-light text-balance text-dusk">
         {title}
