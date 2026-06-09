@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Halos } from "@/components/legato/Halos";
 import { Shell, ScreenHeader, Section } from "@/components/legato/Shell";
-import { useLegato, MODES, BRANCHES } from "@/lib/legato-state";
+import { useLegato, BRANCHES, TODAY_STATES } from "@/lib/legato-state";
 
 export const Route = createFileRoute("/space")({
   head: () => ({ meta: [{ title: "Espace — Legato" }] }),
@@ -9,9 +9,11 @@ export const Route = createFileRoute("/space")({
 });
 
 function Space() {
-  const { name, mode, branch } = useLegato();
-  const modeLabel = MODES.find((m) => m.id === mode)?.label;
+  const { name, branch, space, todayState, mode } = useLegato();
   const branchLabel = BRANCHES.find((b) => b.id === branch)?.label;
+  const todayLabel = TODAY_STATES.find((t) => t.id === todayState)?.label;
+  const spaceLabel =
+    space === "concrete" ? "Aide concrète" : space === "psy" ? "Accompagnement" : "—";
 
   const items: { to: "/memories" | "/dates" | "/onboarding" | "/crisis"; eyebrow: string; title: string }[] = [
     { to: "/memories", eyebrow: "Bibliothèque", title: "Ce que vous avez gardé" },
@@ -32,8 +34,9 @@ function Space() {
 
           <Section className="mt-8">
             <div className="ceramic organic-radius-3 p-6 space-y-3 opacity-85">
-              <Row label="Présence tenue" value={branchLabel ?? ""} />
-              <Row label="Mode" value={modeLabel ?? ""} />
+              <Row label="Espace actif" value={spaceLabel} />
+              <Row label="Situation" value={branchLabel ?? ""} />
+              <Row label="État du jour" value={todayLabel ?? "—"} />
               <Row label="Notifications" value="Silencieuses" />
               <Row label="Langue" value="Français" />
             </div>

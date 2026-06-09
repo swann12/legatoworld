@@ -21,6 +21,23 @@ export const Route = createFileRoute("/resources/$category")({
 });
 
 type Filter = "tous" | "visio" | "presentiel";
+type When = "tous" | "rapide" | "flexible";
+type Price = "tous" | "doux" | "moyen" | "premium";
+
+/** Heuristique simple sur nextSlot (« demain », « lundi 12 »…) */
+function isQuickSlot(slot: string) {
+  const s = slot.toLowerCase();
+  return s.includes("demain") || s.includes("24h") || s.includes("aujourd");
+}
+/** Heuristique prix sur la première offre. */
+function priceBucket(p: { offers: { price: string }[] }): Price {
+  const raw = p.offers[0]?.price ?? "";
+  const n = parseInt(raw.replace(/[^0-9]/g, ""), 10);
+  if (Number.isNaN(n)) return "moyen";
+  if (n < 80) return "doux";
+  if (n < 300) return "moyen";
+  return "premium";
+}
 
 function CategoryPage() {
   const { category } = Route.useParams();
@@ -29,6 +46,8 @@ function CategoryPage() {
 
   const all = providersByCategory(category as CategoryId);
   const [filter, setFilter] = useState<Filter>("tous");
+  const [when, setWhen] = useState<When>("tous");
+  const [price, setPrice] = useState<Price>("tous");
   const [city, setCity] = useState("");
   const [showAll, setShowAll] = useState(false);
 
@@ -37,6 +56,9 @@ function CategoryPage() {
     if (filter === "presentiel" && !p.modes.some((m) => m === "cabinet" || m === "domicile"))
       return false;
     if (city.trim() && !p.city.toLowerCase().includes(city.trim().toLowerCase())) return false;
+    if (when === "rapide" && !isQuickSlot(p.nextSlot)) return false;
+    if (when === "flexible" && isQuickSlot(p.nextSlot)) return false;
+    if (price !== "tous" && priceBucket(p) !== price) return false;
     return true;
   });
   const visible = showAll ? list : list.slice(0, 3);
@@ -75,6 +97,43 @@ function CategoryPage() {
                 filter === id
                   ? "bg-dusk text-paper"
                   : "paper-card text-dusk/65 hover:text-dusk"
+              }`}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+        {/* Disponibilité */}
+        <div className="mt-2 flex flex-wrap gap-2">
+          {([
+            ["tous", "Quand vous voulez"],
+            ["rapide", "Disponible cette semaine"],
+            ["flexible", "Plus tard, sans urgence"],
+          ] as const).map(([id, label]) => (
+            <button
+              key={id}
+              onClick={() => setWhen(id)}
+              className={`rounded-full px-3.5 py-1.5 text-[11px] tracking-wide transition-all ${
+                when === id ? "bg-dusk text-paper" : "paper-card text-dusk/65 hover:text-dusk"
+              }`}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+        {/* Budget */}
+        <div className="mt-2 flex flex-wrap gap-2">
+          {([
+            ["tous", "Tous budgets"],
+            ["doux", "Doux · < 80 €"],
+            ["moyen", "Moyen · 80–300 €"],
+            ["premium", "Sur mesure · 300 €+"],
+          ] as const).map(([id, label]) => (
+            <button
+              key={id}
+              onClick={() => setPrice(id)}
+              className={`rounded-full px-3.5 py-1.5 text-[11px] tracking-wide transition-all ${
+                price === id ? "bg-dusk text-paper" : "paper-card text-dusk/65 hover:text-dusk"
               }`}
             >
               {label}
