@@ -1,59 +1,44 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { Shell } from "@/components/legato/Shell";
-import { Halos } from "@/components/legato/Halos";
+import { createFileRoute } from "@tanstack/react-router";
+import { Shell, ScreenHeader, Section, NavCard, NavLine } from "@/components/legato/Shell";
 import { PersonalSuggestions } from "@/components/legato/PersonalSuggestions";
-import { useLegato } from "@/lib/legato-state";
 
 export const Route = createFileRoute("/practical/atmosphere")({
   head: () => ({ meta: [{ title: "Atmosphère — Legato" }] }),
   component: Atmosphere,
 });
 
-const TILES = [
-  { to: "/practical/flowers", eyebrow: "Fleurs",   title: "Composer un bouquet, une couronne, une ambiance" },
-  { to: "/practical/texts",   eyebrow: "Textes",   title: "Poèmes, lectures, paroles" },
-  { to: "/practical/objects", eyebrow: "Objets",   title: "Cercueil, urne, plaque, livret, rituels" },
+const DOORS = [
+  { to: "/practical/flowers", eyebrow: "Fleurs",   title: "Composer une ambiance florale", body: "Bouquet, couronne, palette." },
+  { to: "/practical/ceremony", eyebrow: "Cérémonie", title: "Préparer le déroulé",         body: "Lieu, format, intervenants." },
+  { to: "/practical/booklet", eyebrow: "Livret",   title: "Le livret de cérémonie",        body: "Mettre en page, exporter en PDF." },
 ];
 
 function Atmosphere() {
-  const { mode } = useLegato();
   return (
-    <Shell hideNav>
-      <div className="relative pb-12">
-        <Halos mode={mode} variant="calm" />
-        <div className="relative z-10">
-          <div className="px-7 pt-10 flex items-center justify-between">
-            <Link to="/practical" className="text-[11px] uppercase tracking-[0.22em] text-dusk/50">← Aides concrètes</Link>
-            <span className="text-[10px] uppercase tracking-[0.22em] text-dusk/40">Atmosphère</span>
-          </div>
-          <header className="px-7 pt-12">
-            <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">Fleurs · textes · objets</p>
-            <h1 className="mt-3 font-serif text-[2.1rem] leading-[1.08] font-light text-dusk text-balance">
-              Composer une ambiance,<br/><span className="italic">avec délicatesse.</span>
-            </h1>
-            <p className="mt-5 max-w-[36ch] text-[14px] leading-relaxed text-dusk/65">
-              Trois portes simples. Vous pouvez tout sauter — et revenir plus tard.
-            </p>
-          </header>
-          <div className="px-5 mt-8 space-y-3">
-            {TILES.map((t) => (
-              <Link key={t.to} to={t.to} className="paper-card p-6 flex items-baseline justify-between">
-                <div>
-                  <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">{t.eyebrow}</p>
-                  <p className="mt-1.5 font-serif italic text-[16px] text-dusk">{t.title}</p>
-                </div>
-                <span className="text-dusk/40">→</span>
-              </Link>
-            ))}
-          </div>
+    <Shell>
+      <ScreenHeader
+        back={{ to: "/practical", label: "Aide concrète" }}
+        eyebrow="Atmosphère"
+        title="Composer ce qui lui ressemble."
+        subtitle="Trois portes simples. Vous pouvez tout sauter et revenir plus tard."
+      />
+      <Section className="mt-10 space-y-3">
+        {DOORS.map((d) => (
+          <NavCard key={d.to} to={d.to} eyebrow={d.eyebrow} title={d.title} body={d.body} />
+        ))}
+      </Section>
 
-          <PersonalSuggestions
-            topic="ceremony"
-            eyebrow="Tout déléguer à l'IA"
-            cta="Composer une trame de cérémonie"
-          />
-        </div>
-      </div>
-      </Shell>
+      <Section className="mt-10">
+        <PersonalSuggestions
+          topic="ceremony"
+          eyebrow="Déléguer à Legato"
+          cta="Composer une trame de cérémonie"
+        />
+      </Section>
+
+      <Section className="mt-10 mb-10">
+        <NavLine to="/circle" eyebrow="Proches" title="Confier une partie de l'atmosphère" />
+      </Section>
+    </Shell>
   );
 }
