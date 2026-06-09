@@ -13,6 +13,30 @@ export type Mode = "cocoon" | "anchoring" | "breath" | "relay";
 export type Lang = "fr" | "en";
 export type ThemeMode = "auto" | "light" | "dark";
 
+/** Les deux espaces strictement séparés du brief.
+ *  `null` = l'utilisateur n'a pas encore choisi (avant la bifurcation). */
+export type Space = "psy" | "concrete" | null;
+
+/** État émotionnel déclaré le jour même (espace psy).
+ *  Pilote le ton, l'ordre des cartes et la densité. */
+export type TodayState =
+  | "stunned" | "exhausted" | "anxious" | "sad"
+  | "angry" | "empty" | "isolated" | "overwhelmed"
+  | "soothed" | "undecided";
+
+export const TODAY_STATES: { id: TodayState; label: string; mode: Mode }[] = [
+  { id: "stunned",      label: "Sidéré·e",                 mode: "cocoon"    },
+  { id: "exhausted",    label: "Épuisé·e",                 mode: "cocoon"    },
+  { id: "anxious",      label: "Anxieux·se",               mode: "breath"    },
+  { id: "sad",          label: "Triste",                   mode: "cocoon"    },
+  { id: "angry",        label: "En colère",                mode: "anchoring" },
+  { id: "empty",        label: "Vide",                     mode: "cocoon"    },
+  { id: "isolated",     label: "Isolé·e",                  mode: "relay"     },
+  { id: "overwhelmed",  label: "Submergé·e",               mode: "relay"     },
+  { id: "soothed",      label: "Apaisé·e par moments",     mode: "breath"    },
+  { id: "undecided",    label: "Je ne sais pas choisir",   mode: "cocoon"    },
+];
+
 export type JournalEntry = {
   id: string;
   date: string;       // ISO
@@ -163,14 +187,55 @@ type Ctx = {
   addJournalEntry: (e: Omit<JournalEntry, "id" | "date">) => void;
   wishes: Wishes;
   setWishes: (w: Partial<Wishes>) => void;
+  /** Espace actif. `null` tant que la bifurcation n'a pas eu lieu. */
+  space: Space;
+  setSpace: (s: Space) => void;
+  /** État émotionnel du jour (espace psy). */
+  todayState: TodayState;
+  setTodayState: (t: TodayState) => void;
 };
 
 const LegatoContext = createContext<Ctx | null>(null);
 
 export function LegatoProvider({ children }: { children: ReactNode }) {
-  const [branch, setBranch] = useState<Branch>("person");
-  const [mode, setMode] = useState<Mode>("cocoon");
-  const [name, setName] = useState<string>("Swann");
+  const [branch, setBranchState] = useState<Branch>("person");
+  const [mode, setModeState] = useState<Mode>("cocoon");
+  const [name, setNameState] = useState<string>("Swann");
+  const [space, setSpaceState] = useState<Space>(null);
+  const [todayState, setTodayStateState] = useState<TodayState>("undecided");
+
+  // Hydrate from localStorage (one-shot)
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      const raw = localStorage.getItem("legato-profile");
+      if (!raw) return;
+      const p = JSON.parse(raw) as Partial<{
+        space: Space; branch: Branch; mode: Mode; name: string; todayState: TodayState;
+      }>;
+      if (p.space === "psy" || p.space === "concrete") setSpaceState(p.space);
+      if (p.branch) setBranchState(p.branch);
+      if (p.mode) setModeState(p.mode);
+      if (p.name) setNameState(p.name);
+      if (p.todayState) setTodayStateState(p.todayState);
+    } catch { /* ignore */ }
+  }, []);
+  // Persist
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      localStorage.setItem(
+        "legato-profile",
+        JSON.stringify({ space, branch, mode, name, todayState }),
+      );
+    } catch { /* ignore */ }
+  }, [space, branch, mode, name, todayState]);
+
+  const setBranch = (b: Branch) => setBranchState(b);
+  const setMode = (m: Mode) => setModeState(m);
+  const setName = (s: string) => setNameState(s);
+  const setSpace = (s: Space) => setSpaceState(s);
+  const setTodayState = (t: TodayState) => setTodayStateState(t);
   const [lostName, setLostName] = useState<string>("Élise");
   const [lang, setLang] = useState<Lang>("fr");
   const [theme, setThemeState] = useState<ThemeMode>(() => {
@@ -227,6 +292,8 @@ export function LegatoProvider({ children }: { children: ReactNode }) {
         theme, setTheme, resolvedTheme,
         journal, addJournalEntry,
         wishes, setWishes,
+        space, setSpace,
+        todayState, setTodayState,
       }}
     >
       {children}
