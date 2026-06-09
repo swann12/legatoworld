@@ -25,21 +25,13 @@ function Documents() {
   return (
     <Shell>
       <div className="px-7 pt-10 flex items-center justify-between">
-        <Link
-          to="/home"
-          className="text-[10px] uppercase tracking-[0.3em] text-dusk/55 hover:text-dusk"
-          style={{ fontFamily: "var(--font-mono)" }}
-        >
-          ← Aujourd'hui
-        </Link>
+        <Link to="/home" className="eyebrow hover:text-dusk">← Aujourd'hui</Link>
         <SpaceSwitcher />
       </div>
       <header className="px-7 pt-12">
-        <p className="text-[10px] uppercase tracking-[0.28em] text-dusk/55" style={{ fontFamily: "var(--font-mono)" }}>
-          Mes documents
-        </p>
-        <h1 className="mt-3 font-serif text-[34px] leading-[1.05] font-light text-dusk text-balance">
-          Tout retrouver, <span className="italic">au bon moment.</span>
+        <p className="eyebrow">Mes documents</p>
+        <h1 className="mt-3 font-serif text-[30px] leading-[1.06] font-light text-dusk text-balance">
+          Tout retrouver, au bon moment.
         </h1>
         <p className="mt-4 max-w-[34ch] text-[14px] leading-[1.6] text-dusk/65">
           Rangez ce qui est utile, par catégorie. Vous pouvez partager une catégorie avec un proche.
@@ -49,21 +41,14 @@ function Documents() {
         {CATS.map((c) => (
           <div
             key={c.title}
-            className="rounded-[16px] border border-dusk/12 bg-paper p-5 flex items-baseline justify-between gap-4"
+            className="surface p-5 flex items-baseline justify-between gap-4"
           >
             <div>
-              <p className="text-[10px] uppercase tracking-[0.26em] text-dusk/50" style={{ fontFamily: "var(--font-mono)" }}>
-                {c.eyebrow}
-              </p>
-              <h3 className="mt-1.5 font-serif text-[18px] italic text-dusk leading-snug">{c.title}</h3>
+              <p className="eyebrow">{c.eyebrow}</p>
+              <h3 className="mt-2 font-serif text-[18px] font-light text-dusk leading-snug">{c.title}</h3>
               <p className="mt-1.5 text-[12.5px] leading-[1.5] text-dusk/65 max-w-[34ch]">{c.body}</p>
             </div>
-            <button
-              className="rounded-full border border-dusk/20 px-3 py-1.5 text-[10px] uppercase tracking-[0.18em] text-dusk/65 hover:bg-dusk/5"
-              style={{ fontFamily: "var(--font-mono)" }}
-            >
-              Ajouter
-            </button>
+            <button className="btn-ghost shrink-0">Ajouter</button>
           </div>
         ))}
       </section>
