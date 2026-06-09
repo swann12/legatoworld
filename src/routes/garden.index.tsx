@@ -59,20 +59,14 @@ function Garden() {
       <div className="relative pb-10 garden-page-bg">
         <div className="relative z-10">
           <header className="px-7 pt-12">
-            <p
-              className="text-[10px] uppercase tracking-[0.3em] text-dusk/50"
-              style={{ fontFamily: "var(--font-mono)" }}
-            >
-              {t("garden.belong")} · <span className="not-italic">{lostName}</span>
+            <Link to="/home" className="eyebrow inline-block mb-6 hover:text-dusk">← Aujourd'hui</Link>
+            <p className="eyebrow">
+              {t("garden.belong")} · {lostName}
             </p>
-            <h1 className="mt-4 font-serif text-[40px] leading-[1.02] font-light text-dusk text-balance">
-              {lang === "fr" ? (
-                <>Un paysage <span className="italic">qui se souvient.</span></>
-              ) : (
-                <>A landscape that <span className="italic">remembers.</span></>
-              )}
+            <h1 className="mt-3 font-serif text-[30px] leading-[1.06] font-light text-dusk text-balance">
+              {lang === "fr" ? "Un paysage qui se souvient." : "A landscape that remembers."}
             </h1>
-            <p className="mt-6 max-w-[32ch] text-[14.5px] leading-[1.6] text-dusk/65">
+            <p className="mt-4 max-w-[32ch] text-[14px] leading-[1.6] text-dusk/65">
               {lang === "fr"
                 ? "Une peinture vivante. Effleurez une floraison pour entrer dans le jardin de l'être qui l'habite."
                 : "A living painting. Brush a bloom to enter the garden of the being who dwells there."}
@@ -162,11 +156,7 @@ function Garden() {
 
             {/* CTA discret pour planter un nouveau lopin */}
             <div className="px-7 mt-6 text-center">
-              <Link
-                to="/space"
-                className="text-[10px] uppercase tracking-[0.28em] text-dusk/55 hover:text-dusk"
-                style={{ fontFamily: "var(--font-mono)" }}
-              >
+              <Link to="/space" className="eyebrow hover:text-dusk">
                 {lang === "fr"
                   ? `Planter un autre lopin · ${freeBeds.length} libres`
                   : `Plant another patch · ${freeBeds.length} free`}

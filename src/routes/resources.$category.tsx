@@ -67,23 +67,18 @@ function CategoryPage() {
   return (
     <Shell>
       <div className="px-7 pt-10">
-        <Link
-          to="/resources"
-          className="inline-flex items-center gap-1 text-[12px] uppercase tracking-[0.18em] text-dusk/55"
-        >
-          <ChevronLeft size={14} /> Retour
+        <Link to="/resources" className="eyebrow inline-flex items-center gap-1 hover:text-dusk">
+          <ChevronLeft size={12} /> Ressources
         </Link>
-        <p className="mt-6 text-[10px] uppercase tracking-[0.22em] text-dusk/45">{cat.label}</p>
-        <h1 className="mt-2 font-serif text-[1.9rem] italic leading-tight text-dusk">
+        <p className="mt-8 eyebrow">{cat.label}</p>
+        <h1 className="mt-3 font-serif text-[30px] leading-[1.06] font-light text-dusk text-balance">
           {cat.intent}
         </h1>
       </div>
 
       {/* Filtres doux */}
       <div className="mt-8 px-7">
-        <p className="text-[11px] uppercase tracking-[0.2em] text-dusk/50">
-          Trouver ce qui vous correspond
-        </p>
+        <p className="eyebrow">Trouver ce qui vous correspond</p>
         <div className="mt-3 flex flex-wrap gap-2">
           {([
             ["tous", "Toutes les approches"],
@@ -155,25 +150,21 @@ function CategoryPage() {
           </p>
         )}
         {visible.length > 0 && (
-          <p className="text-[11px] uppercase tracking-[0.2em] text-dusk/50">
-            Trois personnes, choisies pour vous
-          </p>
+          <p className="eyebrow">Trois personnes, choisies pour vous</p>
         )}
         {visible.map((p) => (
-          <article key={p.id} className="paper-card overflow-hidden">
+          <article key={p.id} className="surface overflow-hidden">
             <div className="flex gap-4 p-4">
               <div
-                className="ceramic-soft size-20 shrink-0 rounded-2xl"
+                className="size-16 shrink-0 rounded-2xl"
                 aria-hidden
-                style={{
-                  background: `linear-gradient(160deg, color-mix(in oklab, ${cat.tint} 35%, var(--paper)), color-mix(in oklab, ${cat.tint} 65%, var(--clay)))`,
-                }}
+                style={{ background: `color-mix(in oklab, ${cat.tint} 30%, var(--paper))` }}
               />
               <div className="flex-1 min-w-0">
-                <p className="font-serif text-[1.2rem] leading-tight text-dusk">
+                <p className="font-serif text-[18px] font-light leading-tight text-dusk">
                   {p.firstName} {p.lastName}
                 </p>
-                <p className="mt-1 text-[12px] italic text-dusk/65">{p.speciality}</p>
+                <p className="mt-1 text-[12.5px] text-dusk/65">{p.speciality}</p>
                 <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-dusk/55">
                   <span className="inline-flex items-center gap-1">
                     <MapPin size={11} /> {p.city}
@@ -195,18 +186,18 @@ function CategoryPage() {
               </div>
             </div>
 
-            <div className="flex items-center justify-between border-t border-dusk/8 px-4 py-3">
+            <div className="flex items-center justify-between border-t border-dusk/10 px-4 py-3">
               <span
-                className="group inline-flex items-center gap-1.5 text-[10px] uppercase tracking-[0.18em] text-dusk/55"
+                className="inline-flex items-center gap-1.5 eyebrow-sm"
                 title="Rencontré·e et choisi·e pour son approche."
               >
-                <Sparkles size={11} className="text-dusk/45" />
-                Recommandé par Legato
+                <Sparkles size={10} className="text-dusk/45" />
+                Recommandé
               </span>
               <Link
                 to="/resources/$category/$providerId"
                 params={{ category, providerId: p.id }}
-                className="text-[12px] italic text-dusk underline-offset-4 hover:underline"
+                className="text-[12px] text-dusk underline-offset-4 hover:underline"
               >
                 Voir les disponibilités →
               </Link>
