@@ -11,31 +11,14 @@ function Crisis() {
     <Shell hideNav>
       <div className="relative min-h-dvh flex flex-col bg-paper">
         <div className="relative z-10 flex flex-1 flex-col items-center px-7 pt-10 text-center">
-          <Link
-            to="/home"
-            className="self-start text-[10px] uppercase tracking-[0.3em] text-dusk/55 hover:text-dusk"
-            style={{ fontFamily: "var(--font-mono)" }}
-          >
-            ← Accueil
-          </Link>
+          <Link to="/home" className="self-start eyebrow hover:text-dusk">← Aujourd'hui</Link>
 
           <div className="mt-14 max-w-[26ch]">
-            <p
-              className="text-[10px] uppercase tracking-[0.3em] text-[color:var(--terracotta)]"
-              style={{ fontFamily: "var(--font-mono)" }}
-            >
-              Ici, doucement
-            </p>
-            <h1
-              className="mt-5 font-serif text-[36px] leading-[1.05] font-light text-dusk"
-              style={{ textWrap: "balance" }}
-            >
-              Vous êtes là, <span className="italic text-dusk/80">c'est déjà beaucoup.</span>
+            <p className="eyebrow text-[color:var(--terracotta)]">Ici, doucement</p>
+            <h1 className="mt-5 font-serif text-[30px] leading-[1.06] font-light text-dusk text-balance">
+              Vous êtes là, c'est déjà beaucoup.
             </h1>
-            <p
-              className="mt-6 text-[14.5px] leading-[1.6] text-dusk/65 max-w-[28ch] mx-auto"
-              style={{ textWrap: "balance" }}
-            >
+            <p className="mt-5 text-[14px] leading-[1.6] text-dusk/65 max-w-[28ch] mx-auto text-balance">
               Respirez avec ce point lumineux. Une porte s'ouvrira quand vous voudrez.
             </p>
           </div>
@@ -51,47 +34,24 @@ function Crisis() {
           </div>
 
           <div className="w-full space-y-3 pb-14 text-left">
-            <Link
-              to="/no-words"
-              className="block rounded-[18px] px-6 py-5 text-[color:var(--paper)]"
-              style={{ background: "var(--bordeaux)" }}
-            >
-              <span
-                className="block text-[10px] uppercase tracking-[0.28em] text-[color:var(--paper)]/60"
-                style={{ fontFamily: "var(--font-mono)" }}
-              >
+            <Link to="/no-words" className="surface-feature block px-6 py-5">
+              <span className="block eyebrow text-[color:var(--paper)]/65">
                 Un souffle, une lumière
               </span>
-              <span className="mt-2 block font-serif italic text-[22px]">Respirer, sans parler</span>
+              <span className="mt-2 block font-serif text-[20px] font-light">
+                Respirer, sans parler
+              </span>
             </Link>
-            <a
-              href="tel:3114"
-              className="block rounded-[16px] border border-dusk/15 bg-paper px-6 py-4"
-            >
-              <span
-                className="block text-[10px] uppercase tracking-[0.26em] text-dusk/50"
-                style={{ fontFamily: "var(--font-mono)" }}
-              >
-                Écoute gratuite, confidentielle
-              </span>
-              <span className="mt-1.5 block font-serif italic text-[18px] text-dusk">Une voix humaine</span>
+            <a href="tel:3114" className="surface block px-6 py-4">
+              <span className="block eyebrow">Écoute gratuite, confidentielle</span>
+              <span className="mt-2 block font-serif text-[17px] font-light text-dusk">Une voix humaine</span>
             </a>
-            <button className="w-full rounded-[16px] border border-dusk/15 bg-paper px-6 py-4 text-left">
-              <span
-                className="block text-[10px] uppercase tracking-[0.26em] text-dusk/50"
-                style={{ fontFamily: "var(--font-mono)" }}
-              >
-                Quelques mots déjà prêts
-              </span>
-              <span className="mt-1.5 block font-serif italic text-[18px] text-dusk">Prévenir un proche</span>
+            <button className="w-full surface px-6 py-4 text-left">
+              <span className="block eyebrow">Quelques mots déjà prêts</span>
+              <span className="mt-2 block font-serif text-[17px] font-light text-dusk">Prévenir un proche</span>
             </button>
-            <Link to="/home" className="block px-6 py-4 text-center">
-              <span
-                className="text-[10px] uppercase tracking-[0.26em] text-dusk/50"
-                style={{ fontFamily: "var(--font-mono)" }}
-              >
-                Revenir à l'accueil
-              </span>
+            <Link to="/home" className="block px-6 py-4 text-center eyebrow hover:text-dusk">
+              Revenir à l'aujourd'hui
             </Link>
           </div>
         </div>
