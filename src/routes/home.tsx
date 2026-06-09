@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Shell } from "@/components/legato/Shell";
-import { useLegato, MODES, TODAY_STATES, type Mode, type TodayState } from "@/lib/legato-state";
+import { useLegato, TODAY_STATES, CONCRETE_PRIORITIES, type TodayState } from "@/lib/legato-state";
 
 export const Route = createFileRoute("/home")({
   head: () => ({
@@ -41,17 +41,17 @@ const PSY_GREETING_BY_STATE: Record<TodayState, string> = {
 };
 
 function Home() {
-  const { name, mode, lang, space, todayState } = useLegato();
+  const { name, lang, space, todayState, concretePriority } = useLegato();
   const today = new Intl.DateTimeFormat(lang === "fr" ? "fr-FR" : "en-US", {
     day: "2-digit", month: "long",
   }).format(new Date());
   const isConcrete = space === "concrete";
   const primary = PSY_PRIMARY_BY_STATE[todayState];
+  const priority = CONCRETE_PRIORITIES.find((p) => p.id === concretePriority) ?? CONCRETE_PRIORITIES[0];
   const greeting = isConcrete
-    ? "Un seul pas suffit pour aujourd'hui."
+    ? `Aujourd'hui, ${priority.label.toLowerCase()}.`
     : PSY_GREETING_BY_STATE[todayState];
   const todayLabel = TODAY_STATES.find((t) => t.id === todayState)?.label ?? "";
-  const modeLabel = MODES.find((m) => m.id === mode)?.label ?? "";
   const spaceLabel = isConcrete ? "Aide concrète" : "Accompagnement";
 
   return (
@@ -107,7 +107,7 @@ function Home() {
         </section>
 
         {/* ─── Contenu adapté à l'espace ─── */}
-        {isConcrete ? <ConcreteHome /> : <PsyHome primary={primary} />}
+        {isConcrete ? <ConcreteHome priority={priority} /> : <PsyHome primary={primary} />}
 
         {/* ─── Pied : état du jour ─── */}
         <section className="px-6 pt-10">
@@ -117,10 +117,10 @@ function Home() {
                 className="text-[9px] uppercase tracking-[0.24em] text-dusk/45"
                 style={{ fontFamily: "var(--font-mono)" }}
               >
-                {isConcrete ? "Espace actif" : "État du jour"}
+                {isConcrete ? "Priorité du jour" : "État du jour"}
               </span>
               <span className="font-serif italic text-[15px] text-dusk">
-                {isConcrete ? spaceLabel : (todayLabel || modeLabel)}
+                {isConcrete ? priority.label : todayLabel}
               </span>
             </div>
             <Link
@@ -206,7 +206,8 @@ function PsyHome({ primary }: { primary: Primary }) {
   );
 }
 
-function ConcreteHome() {
+function ConcreteHome({ priority }: { priority: (typeof CONCRETE_PRIORITIES)[number] }) {
+  const next = priority.next;
   return (
     <>
       <section className="px-6 pt-10">
@@ -220,16 +221,16 @@ function ConcreteHome() {
               className="text-[10px] uppercase tracking-[0.28em] text-[color:var(--paper)]/60"
               style={{ fontFamily: "var(--font-mono)" }}
             >
-              Votre prochaine étape · 10 min
+              Votre prochaine étape · {next.duration}
             </p>
             <p
               className="mt-6 font-serif text-[28px] leading-[1.1] italic"
               style={{ textWrap: "balance" }}
             >
-              Contacter une entreprise de pompes funèbres
+              {next.title}
             </p>
             <p className="mt-3 text-[13.5px] leading-[1.55] text-[color:var(--paper)]/75 max-w-[34ch]">
-              Premier rendez-vous pour organiser la mise en bière et la cérémonie.
+              {next.why}
             </p>
             <div className="mt-10 flex items-end justify-between">
               <span

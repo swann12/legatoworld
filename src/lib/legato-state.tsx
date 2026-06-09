@@ -37,6 +37,41 @@ export const TODAY_STATES: { id: TodayState; label: string; mode: Mode }[] = [
   { id: "undecided",    label: "Je ne sais pas choisir",   mode: "cocoon"    },
 ];
 
+/** Priorités du jour pour l'espace concret (brief §4.1 step 12).
+ *  Sert à construire automatiquement le plan et la « prochaine étape ». */
+export type ConcretePriority =
+  | "first-steps" | "ceremony" | "documents" | "tell-loved-ones"
+  | "accounts"    | "housing"  | "estate"    | "budget"
+  | "find-pro"    | "unsure";
+
+export const CONCRETE_PRIORITIES: {
+  id: ConcretePriority;
+  label: string;
+  whisper: string;
+  next: { title: string; why: string; duration: string };
+}[] = [
+  { id: "first-steps", label: "Premières démarches", whisper: "Constat, mairie, employeur — l'essentiel des premiers jours.",
+    next: { title: "Faire établir le constat de décès", why: "Première étape officielle, faite par un médecin.", duration: "15 min" } },
+  { id: "ceremony", label: "Organiser la cérémonie", whisper: "Inhumation ou crémation, lieu, déroulé, intervenants.",
+    next: { title: "Contacter une entreprise de pompes funèbres", why: "Premier rendez-vous pour organiser la mise en bière et la cérémonie.", duration: "10 min" } },
+  { id: "documents", label: "Rassembler les documents", whisper: "Pièce d'identité, livret de famille, contrats.",
+    next: { title: "Réunir les documents essentiels", why: "Ils seront demandés pour la plupart des démarches à venir.", duration: "1 h" } },
+  { id: "tell-loved-ones", label: "Prévenir les proches", whisper: "À votre rythme. On peut préparer un message ensemble.",
+    next: { title: "Prévenir les proches", why: "On peut préparer un message court à envoyer.", duration: "20 min" } },
+  { id: "accounts", label: "Comptes et abonnements", whisper: "Téléphone, énergie, banque, presse. Sans urgence.",
+    next: { title: "Lister les comptes et abonnements à clôturer", why: "Pour avancer ensuite, un à un, sans précipitation.", duration: "30 min" } },
+  { id: "housing", label: "Logement", whisper: "Clés, bail, assurance, objets importants.",
+    next: { title: "Faire le point sur le logement", why: "Quelques décisions simples, à étaler dans le temps.", duration: "à votre rythme" } },
+  { id: "estate", label: "Succession et droits", whisper: "Orientation vers notaire, étapes et aides.",
+    next: { title: "Prendre rendez-vous chez un notaire", why: "Pour la succession. Dans les semaines à venir.", duration: "1 h" } },
+  { id: "budget", label: "Budget", whisper: "Estimer, comparer, choisir sans se précipiter.",
+    next: { title: "Définir un budget indicatif", why: "Pour vous repérer dans les devis et propositions.", duration: "20 min" } },
+  { id: "find-pro", label: "Trouver un professionnel", whisper: "Pompes funèbres, célébrant·e, fleuriste, notaire.",
+    next: { title: "Trouver un·e professionnel·le près de chez vous", why: "Filtres clairs, disponibilité, budget.", duration: "10 min" } },
+  { id: "unsure", label: "Je ne sais pas par où commencer", whisper: "On vous propose la suite, pas à pas.",
+    next: { title: "Commencer par une seule chose", why: "On vous propose la prochaine étape la plus utile aujourd'hui.", duration: "5 min" } },
+];
+
 export type JournalEntry = {
   id: string;
   date: string;       // ISO
@@ -193,6 +228,9 @@ type Ctx = {
   /** État émotionnel du jour (espace psy). */
   todayState: TodayState;
   setTodayState: (t: TodayState) => void;
+  /** Priorité du jour (espace concret). */
+  concretePriority: ConcretePriority;
+  setConcretePriority: (p: ConcretePriority) => void;
 };
 
 const LegatoContext = createContext<Ctx | null>(null);
@@ -203,6 +241,7 @@ export function LegatoProvider({ children }: { children: ReactNode }) {
   const [name, setNameState] = useState<string>("Swann");
   const [space, setSpaceState] = useState<Space>(null);
   const [todayState, setTodayStateState] = useState<TodayState>("undecided");
+  const [concretePriority, setConcretePriorityState] = useState<ConcretePriority>("first-steps");
 
   // Hydrate from localStorage (one-shot)
   useEffect(() => {
@@ -211,13 +250,15 @@ export function LegatoProvider({ children }: { children: ReactNode }) {
       const raw = localStorage.getItem("legato-profile");
       if (!raw) return;
       const p = JSON.parse(raw) as Partial<{
-        space: Space; branch: Branch; mode: Mode; name: string; todayState: TodayState;
+        space: Space; branch: Branch; mode: Mode; name: string;
+        todayState: TodayState; concretePriority: ConcretePriority;
       }>;
       if (p.space === "psy" || p.space === "concrete") setSpaceState(p.space);
       if (p.branch) setBranchState(p.branch);
       if (p.mode) setModeState(p.mode);
       if (p.name) setNameState(p.name);
       if (p.todayState) setTodayStateState(p.todayState);
+      if (p.concretePriority) setConcretePriorityState(p.concretePriority);
     } catch { /* ignore */ }
   }, []);
   // Persist
@@ -226,16 +267,17 @@ export function LegatoProvider({ children }: { children: ReactNode }) {
     try {
       localStorage.setItem(
         "legato-profile",
-        JSON.stringify({ space, branch, mode, name, todayState }),
+        JSON.stringify({ space, branch, mode, name, todayState, concretePriority }),
       );
     } catch { /* ignore */ }
-  }, [space, branch, mode, name, todayState]);
+  }, [space, branch, mode, name, todayState, concretePriority]);
 
   const setBranch = (b: Branch) => setBranchState(b);
   const setMode = (m: Mode) => setModeState(m);
   const setName = (s: string) => setNameState(s);
   const setSpace = (s: Space) => setSpaceState(s);
   const setTodayState = (t: TodayState) => setTodayStateState(t);
+  const setConcretePriority = (p: ConcretePriority) => setConcretePriorityState(p);
   const [lostName, setLostName] = useState<string>("Élise");
   const [lang, setLang] = useState<Lang>("fr");
   const [theme, setThemeState] = useState<ThemeMode>(() => {
@@ -294,6 +336,7 @@ export function LegatoProvider({ children }: { children: ReactNode }) {
         wishes, setWishes,
         space, setSpace,
         todayState, setTodayState,
+        concretePriority, setConcretePriority,
       }}
     >
       {children}
