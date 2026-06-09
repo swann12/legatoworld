@@ -286,6 +286,44 @@ function StepToday({ value, onChange }: { value: TodayState; onChange: (s: Today
   );
 }
 
+function StepPriority({
+  value, onChange,
+}: { value: ConcretePriority; onChange: (p: ConcretePriority) => void }) {
+  return (
+    <div className="space-y-7">
+      <p className="text-[10px] uppercase tracking-[0.3em] text-dusk/50" style={{ fontFamily: "var(--font-mono)" }}>
+        Étape 3 · Aujourd'hui, en priorité
+      </p>
+      <h2 className="font-serif text-[34px] leading-[1.05] font-light text-balance">
+        Qu'est-ce qui est <span className="italic">le plus urgent ?</span>
+      </h2>
+      <p className="text-[13.5px] text-dusk/60 max-w-[34ch]">
+        Nous construirons votre plan autour de ce point, triable à tout moment.
+      </p>
+      <div className="space-y-2.5">
+        {CONCRETE_PRIORITIES.map((p) => {
+          const active = value === p.id;
+          return (
+            <button
+              key={p.id}
+              onClick={() => onChange(p.id)}
+              className={`w-full rounded-[14px] px-5 py-4 text-left transition-all border ${
+                active ? "border-dusk/30 bg-clay" : "border-dusk/12 bg-paper hover:bg-clay/40"
+              }`}
+            >
+              <div className="flex items-baseline justify-between gap-4">
+                <span className="font-serif text-[18px] text-dusk">{p.label}</span>
+                <span className={`size-1.5 rounded-full transition-opacity ${active ? "bg-terracotta breath" : "bg-dusk/0"}`} />
+              </div>
+              <p className="mt-1.5 text-[12.5px] leading-[1.5] text-dusk/60">{p.whisper}</p>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 // Conservé pour compat éventuelle, non utilisé par le nouvel onboarding.
 function _StepToday_legacy({ value, onChange }: { value: string; onChange: (s: string) => void }) {
   return (
