@@ -27,6 +27,7 @@ import { Route as HelpRouteImport } from './routes/help'
 import { Route as DatesRouteImport } from './routes/dates'
 import { Route as CrisisRouteImport } from './routes/crisis'
 import { Route as CommunityRouteImport } from './routes/community'
+import { Route as CircleRouteImport } from './routes/circle'
 import { Route as AccompanyRouteImport } from './routes/accompany'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ResourcesIndexRouteImport } from './routes/resources.index'
@@ -141,6 +142,11 @@ const CrisisRoute = CrisisRouteImport.update({
 const CommunityRoute = CommunityRouteImport.update({
   id: '/community',
   path: '/community',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CircleRoute = CircleRouteImport.update({
+  id: '/circle',
+  path: '/circle',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AccompanyRoute = AccompanyRouteImport.update({
@@ -274,6 +280,7 @@ const ApiPublicSouffleSoundIdRoute = ApiPublicSouffleSoundIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/accompany': typeof AccompanyRoute
+  '/circle': typeof CircleRoute
   '/community': typeof CommunityRoute
   '/crisis': typeof CrisisRoute
   '/dates': typeof DatesRoute
@@ -319,6 +326,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/accompany': typeof AccompanyRoute
+  '/circle': typeof CircleRoute
   '/community': typeof CommunityRoute
   '/crisis': typeof CrisisRoute
   '/dates': typeof DatesRoute
@@ -363,6 +371,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/accompany': typeof AccompanyRoute
+  '/circle': typeof CircleRoute
   '/community': typeof CommunityRoute
   '/crisis': typeof CrisisRoute
   '/dates': typeof DatesRoute
@@ -410,6 +419,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/accompany'
+    | '/circle'
     | '/community'
     | '/crisis'
     | '/dates'
@@ -455,6 +465,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/accompany'
+    | '/circle'
     | '/community'
     | '/crisis'
     | '/dates'
@@ -498,6 +509,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/accompany'
+    | '/circle'
     | '/community'
     | '/crisis'
     | '/dates'
@@ -544,6 +556,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AccompanyRoute: typeof AccompanyRoute
+  CircleRoute: typeof CircleRoute
   CommunityRoute: typeof CommunityRoute
   CrisisRoute: typeof CrisisRoute
   DatesRoute: typeof DatesRoute
@@ -697,6 +710,13 @@ declare module '@tanstack/react-router' {
       path: '/community'
       fullPath: '/community'
       preLoaderRoute: typeof CommunityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/circle': {
+      id: '/circle'
+      path: '/circle'
+      fullPath: '/circle'
+      preLoaderRoute: typeof CircleRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/accompany': {
@@ -949,6 +969,7 @@ const ResourcesCategoryRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AccompanyRoute: AccompanyRoute,
+  CircleRoute: CircleRoute,
   CommunityRoute: CommunityRoute,
   CrisisRoute: CrisisRoute,
   DatesRoute: DatesRoute,
