@@ -1,7 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Shell } from "@/components/legato/Shell";
-import { ThemeToggle } from "@/components/legato/ThemeToggle";
-import { SpaceSwitcher } from "@/components/legato/SpaceSwitcher";
 import { useLegato, MODES, TODAY_STATES, type Mode, type TodayState } from "@/lib/legato-state";
 
 export const Route = createFileRoute("/home")({
@@ -43,9 +41,9 @@ const PSY_GREETING_BY_STATE: Record<TodayState, string> = {
 };
 
 function Home() {
-  const { name, mode, lang, setLang, space, todayState } = useLegato();
+  const { name, mode, lang, space, todayState } = useLegato();
   const today = new Intl.DateTimeFormat(lang === "fr" ? "fr-FR" : "en-US", {
-    weekday: "long", day: "numeric", month: "long",
+    day: "2-digit", month: "long",
   }).format(new Date());
   const isConcrete = space === "concrete";
   const primary = PSY_PRIMARY_BY_STATE[todayState];
@@ -54,68 +52,80 @@ function Home() {
     : PSY_GREETING_BY_STATE[todayState];
   const todayLabel = TODAY_STATES.find((t) => t.id === todayState)?.label ?? "";
   const modeLabel = MODES.find((m) => m.id === mode)?.label ?? "";
+  const spaceLabel = isConcrete ? "Aide concrète" : "Accompagnement";
 
   return (
     <Shell>
       <div className="min-h-dvh bg-paper text-dusk pb-32">
-        {/* ─── Bandeau ─── */}
-        <header className="px-7 pt-10 flex items-center justify-between">
-          <p className="text-[10px] uppercase tracking-[0.3em] text-dusk/50" style={{ fontFamily: "var(--font-mono)" }}>
-            Legato · {today}
-          </p>
-          <div className="flex items-center gap-2">
-            <SpaceSwitcher />
-            <ThemeToggle />
-            <button
-              onClick={() => setLang(lang === "fr" ? "en" : "fr")}
-              className="text-[10px] uppercase tracking-[0.22em] text-dusk/55 px-2 py-1"
+        {/* ─── Header sobre : date + identité, le reste vit dans /space ─── */}
+        <header className="px-6 pt-12 flex items-start justify-between">
+          <div className="flex flex-col">
+            <span
+              className="text-[10px] uppercase tracking-[0.28em] text-dusk/55"
               style={{ fontFamily: "var(--font-mono)" }}
-              aria-label="Toggle language"
             >
-              {lang.toUpperCase()}
-            </button>
+              Legato · {today}
+            </span>
             <Link
               to="/space"
-              className="size-8 rounded-full border border-dusk/20 flex items-center justify-center hover:bg-dusk/5 transition-colors"
-              aria-label="Mon espace"
+              className="mt-4 inline-flex items-baseline gap-2 hover:opacity-80 transition-opacity"
             >
-              <span className="font-serif italic text-[14px] text-dusk">
-                {(name || "S").charAt(0).toUpperCase()}
+              <span
+                className="text-[10px] uppercase tracking-[0.22em] text-dusk/50"
+                style={{ fontFamily: "var(--font-mono)" }}
+              >
+                Espace · {spaceLabel}
               </span>
+              <span className="text-dusk/30 text-[10px]">↔</span>
             </Link>
           </div>
+          <Link
+            to="/space"
+            aria-label="Mon espace"
+            className="size-9 rounded-full border border-dusk/15 flex items-center justify-center hover:bg-dusk/[0.04] transition-colors"
+          >
+            <span className="font-serif italic text-[14px] text-dusk">
+              {(name || "S").charAt(0).toUpperCase()}
+            </span>
+          </Link>
         </header>
 
         {/* ─── Salutation ─── */}
-        <section className="px-7 pt-16">
-          <h1 className="font-serif text-[40px] leading-[1.02] text-dusk font-light" style={{ textWrap: "balance" }}>
+        <section className="px-6 pt-16">
+          <h1
+            className="font-serif text-[44px] leading-[1.0] text-dusk font-light"
+            style={{ textWrap: "balance" }}
+          >
             Bonjour {name || "Swann"}.
           </h1>
-          <p className="mt-5 max-w-[32ch] font-serif italic text-[20px] leading-snug text-dusk/75" style={{ textWrap: "balance" }}>
+          <p
+            className="mt-3 max-w-[32ch] font-serif italic text-[19px] leading-snug text-dusk/70"
+            style={{ textWrap: "balance" }}
+          >
             {greeting}
           </p>
         </section>
 
-        {/* ─── Contenu strictement adapté à l'espace actif (brief §1, §7) ─── */}
+        {/* ─── Contenu adapté à l'espace ─── */}
         {isConcrete ? <ConcreteHome /> : <PsyHome primary={primary} />}
 
-        {/* ─── Pied : état du jour (psy) ou bascule (concret), toujours discret ─── */}
-        <section className="px-7 pt-10">
-          <div className="border-t border-dusk/15 pt-5 flex items-baseline justify-between">
-            {isConcrete ? (
-              <p className="text-[11px] tracking-[0.22em] text-dusk/55" style={{ fontFamily: "var(--font-mono)" }}>
-                <span className="uppercase">Espace :</span>{" "}
-                <span className="text-dusk font-serif text-[15px] tracking-normal">Aide concrète</span>
-              </p>
-            ) : (
-              <p className="text-[11px] tracking-[0.22em] text-dusk/55" style={{ fontFamily: "var(--font-mono)" }}>
-                <span className="uppercase">État du jour :</span>{" "}
-                <span className="text-dusk font-serif text-[15px] tracking-normal">{todayLabel || modeLabel}</span>
-              </p>
-            )}
+        {/* ─── Pied : état du jour ─── */}
+        <section className="px-6 pt-10">
+          <div className="border-t border-dusk/12 pt-5 flex items-baseline justify-between">
+            <div className="flex flex-col gap-1">
+              <span
+                className="text-[9px] uppercase tracking-[0.24em] text-dusk/45"
+                style={{ fontFamily: "var(--font-mono)" }}
+              >
+                {isConcrete ? "Espace actif" : "État du jour"}
+              </span>
+              <span className="font-serif italic text-[15px] text-dusk">
+                {isConcrete ? spaceLabel : (todayLabel || modeLabel)}
+              </span>
+            </div>
             <Link
               to="/space"
-              className="text-[10px] uppercase tracking-[0.24em] text-dusk/55 hover:text-dusk"
+              className="text-[9px] uppercase tracking-[0.24em] text-dusk/50 hover:text-dusk border-b border-transparent hover:border-dusk/40 pb-0.5"
               style={{ fontFamily: "var(--font-mono)" }}
             >
               Modifier
@@ -123,16 +133,26 @@ function Home() {
           </div>
         </section>
 
-        {/* ─── Porte de crise ─── */}
-        <section className="px-7 pt-8">
-          <Link to="/crisis" className="block border-t border-dusk/15 pt-5 flex items-baseline justify-between">
-            <div>
-              <p className="text-[10px] uppercase tracking-[0.28em] text-[color:var(--terracotta)]" style={{ fontFamily: "var(--font-mono)" }}>
+        {/* ─── Porte de crise — filet terracotta ─── */}
+        <section className="px-6 pt-8">
+          <Link
+            to="/crisis"
+            className="block group"
+            aria-label="Si aujourd'hui pèse trop"
+          >
+            <div className="flex items-center gap-3 text-[color:var(--terracotta)]">
+              <span
+                className="text-[9px] uppercase tracking-[0.22em] whitespace-nowrap"
+                style={{ fontFamily: "var(--font-mono)" }}
+              >
                 Si aujourd'hui pèse trop
-              </p>
-              <p className="mt-1 font-serif italic text-[17px] text-dusk">Une porte calme, ouverte.</p>
+              </span>
+              <span className="h-px flex-1 bg-[color:var(--terracotta)]/25" />
+              <span className="text-[12px]">→</span>
             </div>
-            <span className="text-dusk/55 text-sm">→</span>
+            <p className="mt-1.5 font-serif italic text-[17px] text-dusk group-hover:opacity-80 transition-opacity">
+              Une porte calme, ouverte.
+            </p>
           </Link>
         </section>
       </div>
@@ -140,28 +160,36 @@ function Home() {
   );
 }
 
-/** Espace psy — UNE seule suggestion principale + accès doux à Présence/Journal/Jardin. */
 function PsyHome({ primary }: { primary: Primary }) {
   return (
     <>
-      <section className="px-7 pt-12">
+      <section className="px-6 pt-10">
         <Link
           to={primary.to}
-          className="block rounded-[20px] overflow-hidden text-[color:var(--paper)]"
+          className="block rounded-[2px] overflow-hidden text-[color:var(--paper)] shadow-sm"
           style={{ background: "var(--bordeaux)" }}
         >
-          <div className="px-6 pt-8 pb-7">
-            <p className="text-[10px] uppercase tracking-[0.28em] text-[color:var(--paper)]/60" style={{ fontFamily: "var(--font-mono)" }}>
+          <div className="px-8 pt-8 pb-8">
+            <p
+              className="text-[10px] uppercase tracking-[0.28em] text-[color:var(--paper)]/60"
+              style={{ fontFamily: "var(--font-mono)" }}
+            >
               {primary.eyebrow}
             </p>
-            <p className="mt-4 font-serif text-[30px] leading-[1.1] italic" style={{ textWrap: "balance" }}>
+            <p
+              className="mt-6 font-serif text-[30px] leading-[1.08] italic"
+              style={{ textWrap: "balance" }}
+            >
               {primary.title}
             </p>
-            <p className="mt-4 text-[14px] leading-[1.55] text-[color:var(--paper)]/75 max-w-[34ch]">
+            <p className="mt-3 text-[13.5px] leading-[1.55] text-[color:var(--paper)]/75 max-w-[34ch]">
               {primary.sub}
             </p>
-            <div className="mt-6 flex items-center justify-between">
-              <span className="text-[11px] uppercase tracking-[0.24em] text-[color:var(--paper)]/80" style={{ fontFamily: "var(--font-mono)" }}>
+            <div className="mt-10 flex items-end justify-between">
+              <span
+                className="text-[10px] uppercase tracking-[0.26em] text-[color:var(--paper)] border-b border-[color:var(--paper)]/30 pb-1"
+                style={{ fontFamily: "var(--font-mono)" }}
+              >
                 Commencer
               </span>
               <span className="text-[color:var(--paper)]/70 text-base">→</span>
@@ -170,66 +198,75 @@ function PsyHome({ primary }: { primary: Primary }) {
         </Link>
       </section>
 
-      <section className="px-7 pt-6 space-y-3">
-        <SoftLink to="/accompany" eyebrow="Soutien"   title="Être accompagné·e" body="Parler, respirer, écrire, retrouver un peu d'espace." />
-        <SoftLink to="/garden"    eyebrow="Mémoire"   title="Le jardin"          body="Vos parcelles, vos souvenirs, ce qui pousse doucement." />
+      <section className="px-6 pt-4 grid grid-cols-2 gap-3">
+        <HairlineTile to="/accompany" eyebrow="Soutien" title="Être accompagné·e" />
+        <HairlineTile to="/garden"    eyebrow="Mémoire" title="Le jardin" />
       </section>
     </>
   );
 }
 
-/** Espace concret — Prochaine étape + checklist courte + accès Plan / Pros / Documents. */
 function ConcreteHome() {
   return (
     <>
-      <section className="px-7 pt-12">
+      <section className="px-6 pt-10">
         <Link
           to="/plan"
-          className="block rounded-[20px] overflow-hidden text-[color:var(--paper)]"
+          className="block rounded-[2px] overflow-hidden text-[color:var(--paper)] shadow-sm"
           style={{ background: "var(--bordeaux)" }}
         >
-          <div className="px-6 pt-8 pb-7">
-            <p className="text-[10px] uppercase tracking-[0.28em] text-[color:var(--paper)]/60" style={{ fontFamily: "var(--font-mono)" }}>
+          <div className="px-8 pt-8 pb-8">
+            <p
+              className="text-[10px] uppercase tracking-[0.28em] text-[color:var(--paper)]/60"
+              style={{ fontFamily: "var(--font-mono)" }}
+            >
               Votre prochaine étape · 10 min
             </p>
-            <p className="mt-4 font-serif text-[28px] leading-[1.1] italic" style={{ textWrap: "balance" }}>
+            <p
+              className="mt-6 font-serif text-[28px] leading-[1.1] italic"
+              style={{ textWrap: "balance" }}
+            >
               Contacter une entreprise de pompes funèbres
             </p>
-            <p className="mt-4 text-[14px] leading-[1.55] text-[color:var(--paper)]/75 max-w-[34ch]">
+            <p className="mt-3 text-[13.5px] leading-[1.55] text-[color:var(--paper)]/75 max-w-[34ch]">
               Premier rendez-vous pour organiser la mise en bière et la cérémonie.
             </p>
-            <div className="mt-6 flex flex-wrap items-center gap-2">
-              <span className="rounded-full bg-[color:var(--paper)] text-dusk px-4 py-2 text-[11px] tracking-[0.18em] uppercase" style={{ fontFamily: "var(--font-mono)" }}>
-                Voir cette étape →
+            <div className="mt-10 flex items-end justify-between">
+              <span
+                className="text-[10px] uppercase tracking-[0.26em] text-[color:var(--paper)] border-b border-[color:var(--paper)]/30 pb-1"
+                style={{ fontFamily: "var(--font-mono)" }}
+              >
+                Voir cette étape
               </span>
+              <span className="text-[color:var(--paper)]/70 text-base">→</span>
             </div>
           </div>
         </Link>
       </section>
 
-      <section className="px-7 pt-6 space-y-3">
-        <SoftLink to="/plan"      eyebrow="Plan"       title="Voir mon plan"      body="Vos étapes, par priorité. À votre rythme." />
-        <SoftLink to="/resources" eyebrow="Pros"       title="Trouver une aide"   body="Pompes funèbres, notaires, thérapeutes." />
-        <SoftLink to="/documents" eyebrow="Documents"  title="Mes documents"      body="Stocker, retrouver, partager les pièces utiles." />
+      <section className="px-6 pt-4 grid grid-cols-2 gap-3">
+        <HairlineTile to="/plan"      eyebrow="Plan"      title="Voir mon plan" />
+        <HairlineTile to="/resources" eyebrow="Pros"      title="Trouver une aide" />
+        <HairlineTile to="/documents" eyebrow="Documents" title="Mes documents" />
+        <HairlineTile to="/circle"    eyebrow="Proches"   title="Mon cercle" />
       </section>
     </>
   );
 }
 
-function SoftLink({ to, eyebrow, title, body }: { to: string; eyebrow: string; title: string; body: string }) {
+function HairlineTile({ to, eyebrow, title }: { to: string; eyebrow: string; title: string }) {
   return (
     <Link
       to={to}
-      className="block rounded-[16px] border border-dusk/12 bg-paper p-5 flex items-baseline justify-between gap-4 hover:bg-dusk/[0.02] transition-colors"
+      className="block border border-dusk/12 p-5 h-32 flex flex-col justify-between bg-paper hover:bg-dusk/[0.02] transition-colors"
     >
-      <div>
-        <p className="text-[10px] uppercase tracking-[0.26em] text-dusk/50" style={{ fontFamily: "var(--font-mono)" }}>
-          {eyebrow}
-        </p>
-        <p className="mt-1.5 font-serif italic text-[19px] text-dusk leading-snug">{title}</p>
-        <p className="mt-1.5 text-[13px] leading-[1.5] text-dusk/65 max-w-[34ch]">{body}</p>
-      </div>
-      <span className="text-dusk/40 shrink-0">→</span>
+      <span
+        className="text-[9px] uppercase tracking-[0.24em] text-dusk/45"
+        style={{ fontFamily: "var(--font-mono)" }}
+      >
+        {eyebrow}
+      </span>
+      <h3 className="font-serif italic text-[18px] text-dusk leading-tight">{title}</h3>
     </Link>
   );
 }
