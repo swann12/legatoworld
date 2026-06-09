@@ -77,7 +77,6 @@ function Ceremony() {
           </div>
         </div>
       </div>
-      <ConfideDock step="cérémonie" />
-    </Shell>
+      </Shell>
   );
 }

@@ -75,7 +75,6 @@ function Texts() {
           />
         </div>
       </div>
-      <ConfideDock step="textes" />
-    </Shell>
+      </Shell>
   );
 }

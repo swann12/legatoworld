@@ -215,7 +215,6 @@ function Practical() {
           </div>
         </div>
       </div>
-      <ConfideDock step="accueil" />
-    </Shell>
+      </Shell>
   );
 }

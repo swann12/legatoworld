@@ -78,7 +78,6 @@ function Share() {
           </div>
         </div>
       </div>
-      <ConfideDock step="partage" />
-    </Shell>
+      </Shell>
   );
 }

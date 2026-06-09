@@ -71,7 +71,6 @@ function Steps() {
           </ol>
         </div>
       </div>
-      <ConfideDock step="démarches" />
-    </Shell>
+      </Shell>
   );
 }

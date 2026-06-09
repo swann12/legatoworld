@@ -96,7 +96,6 @@ function Booklet() {
           </div>
         </div>
       </div>
-      <ConfideDock step="livret" />
-    </Shell>
+      </Shell>
   );
 }

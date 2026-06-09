@@ -90,7 +90,6 @@ function Flowers() {
           />
         </div>
       </div>
-      <ConfideDock step="fleurs" />
-    </Shell>
+      </Shell>
   );
 }

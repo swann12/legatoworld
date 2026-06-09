@@ -54,7 +54,6 @@ function Atmosphere() {
           />
         </div>
       </div>
-      <ConfideDock step="atmosphère" />
-    </Shell>
+      </Shell>
   );
 }

@@ -119,7 +119,6 @@ function Objects() {
           />
         </div>
       </div>
-      <ConfideDock step="objets" />
-    </Shell>
+      </Shell>
   );
 }

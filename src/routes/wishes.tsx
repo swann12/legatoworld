@@ -153,7 +153,6 @@ function WishesPage() {
           </div>
         </div>
       </div>
-      <ConfideDock step="volontés" />
-    </Shell>
+      </Shell>
   );
 }
