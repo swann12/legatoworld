@@ -2,7 +2,6 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Shell } from "@/components/legato/Shell";
 import { Halos } from "@/components/legato/Halos";
-import { ConfideDock } from "@/components/legato/ConfideDock";
 import { useLegato } from "@/lib/legato-state";
 import { loadPractical } from "@/lib/practical-store";
 
@@ -79,7 +78,6 @@ function Share() {
           </div>
         </div>
       </div>
-      <ConfideDock step="partage" />
-    </Shell>
+      </Shell>
   );
 }

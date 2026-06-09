@@ -16,6 +16,7 @@ import { Route as SpaceRouteImport } from './routes/space'
 import { Route as PresentationRouteImport } from './routes/presentation'
 import { Route as PresenceRouteImport } from './routes/presence'
 import { Route as PracticalRouteImport } from './routes/practical'
+import { Route as PlanRouteImport } from './routes/plan'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as NoWordsRouteImport } from './routes/no-words'
 import { Route as MemoriesRouteImport } from './routes/memories'
@@ -26,6 +27,7 @@ import { Route as HelpRouteImport } from './routes/help'
 import { Route as DatesRouteImport } from './routes/dates'
 import { Route as CrisisRouteImport } from './routes/crisis'
 import { Route as CommunityRouteImport } from './routes/community'
+import { Route as CircleRouteImport } from './routes/circle'
 import { Route as AccompanyRouteImport } from './routes/accompany'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ResourcesIndexRouteImport } from './routes/resources.index'
@@ -87,6 +89,11 @@ const PracticalRoute = PracticalRouteImport.update({
   path: '/practical',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PlanRoute = PlanRouteImport.update({
+  id: '/plan',
+  path: '/plan',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const OnboardingRoute = OnboardingRouteImport.update({
   id: '/onboarding',
   path: '/onboarding',
@@ -135,6 +142,11 @@ const CrisisRoute = CrisisRouteImport.update({
 const CommunityRoute = CommunityRouteImport.update({
   id: '/community',
   path: '/community',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CircleRoute = CircleRouteImport.update({
+  id: '/circle',
+  path: '/circle',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AccompanyRoute = AccompanyRouteImport.update({
@@ -268,6 +280,7 @@ const ApiPublicSouffleSoundIdRoute = ApiPublicSouffleSoundIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/accompany': typeof AccompanyRoute
+  '/circle': typeof CircleRoute
   '/community': typeof CommunityRoute
   '/crisis': typeof CrisisRoute
   '/dates': typeof DatesRoute
@@ -278,6 +291,7 @@ export interface FileRoutesByFullPath {
   '/memories': typeof MemoriesRoute
   '/no-words': typeof NoWordsRoute
   '/onboarding': typeof OnboardingRoute
+  '/plan': typeof PlanRoute
   '/practical': typeof PracticalRouteWithChildren
   '/presence': typeof PresenceRoute
   '/presentation': typeof PresentationRoute
@@ -312,6 +326,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/accompany': typeof AccompanyRoute
+  '/circle': typeof CircleRoute
   '/community': typeof CommunityRoute
   '/crisis': typeof CrisisRoute
   '/dates': typeof DatesRoute
@@ -321,6 +336,7 @@ export interface FileRoutesByTo {
   '/memories': typeof MemoriesRoute
   '/no-words': typeof NoWordsRoute
   '/onboarding': typeof OnboardingRoute
+  '/plan': typeof PlanRoute
   '/presence': typeof PresenceRoute
   '/presentation': typeof PresentationRoute
   '/space': typeof SpaceRoute
@@ -355,6 +371,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/accompany': typeof AccompanyRoute
+  '/circle': typeof CircleRoute
   '/community': typeof CommunityRoute
   '/crisis': typeof CrisisRoute
   '/dates': typeof DatesRoute
@@ -365,6 +382,7 @@ export interface FileRoutesById {
   '/memories': typeof MemoriesRoute
   '/no-words': typeof NoWordsRoute
   '/onboarding': typeof OnboardingRoute
+  '/plan': typeof PlanRoute
   '/practical': typeof PracticalRouteWithChildren
   '/presence': typeof PresenceRoute
   '/presentation': typeof PresentationRoute
@@ -401,6 +419,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/accompany'
+    | '/circle'
     | '/community'
     | '/crisis'
     | '/dates'
@@ -411,6 +430,7 @@ export interface FileRouteTypes {
     | '/memories'
     | '/no-words'
     | '/onboarding'
+    | '/plan'
     | '/practical'
     | '/presence'
     | '/presentation'
@@ -445,6 +465,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/accompany'
+    | '/circle'
     | '/community'
     | '/crisis'
     | '/dates'
@@ -454,6 +475,7 @@ export interface FileRouteTypes {
     | '/memories'
     | '/no-words'
     | '/onboarding'
+    | '/plan'
     | '/presence'
     | '/presentation'
     | '/space'
@@ -487,6 +509,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/accompany'
+    | '/circle'
     | '/community'
     | '/crisis'
     | '/dates'
@@ -497,6 +520,7 @@ export interface FileRouteTypes {
     | '/memories'
     | '/no-words'
     | '/onboarding'
+    | '/plan'
     | '/practical'
     | '/presence'
     | '/presentation'
@@ -532,6 +556,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AccompanyRoute: typeof AccompanyRoute
+  CircleRoute: typeof CircleRoute
   CommunityRoute: typeof CommunityRoute
   CrisisRoute: typeof CrisisRoute
   DatesRoute: typeof DatesRoute
@@ -542,6 +567,7 @@ export interface RootRouteChildren {
   MemoriesRoute: typeof MemoriesRoute
   NoWordsRoute: typeof NoWordsRoute
   OnboardingRoute: typeof OnboardingRoute
+  PlanRoute: typeof PlanRoute
   PracticalRoute: typeof PracticalRouteWithChildren
   PresenceRoute: typeof PresenceRoute
   PresentationRoute: typeof PresentationRoute
@@ -607,6 +633,13 @@ declare module '@tanstack/react-router' {
       path: '/practical'
       fullPath: '/practical'
       preLoaderRoute: typeof PracticalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/plan': {
+      id: '/plan'
+      path: '/plan'
+      fullPath: '/plan'
+      preLoaderRoute: typeof PlanRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/onboarding': {
@@ -677,6 +710,13 @@ declare module '@tanstack/react-router' {
       path: '/community'
       fullPath: '/community'
       preLoaderRoute: typeof CommunityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/circle': {
+      id: '/circle'
+      path: '/circle'
+      fullPath: '/circle'
+      preLoaderRoute: typeof CircleRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/accompany': {
@@ -929,6 +969,7 @@ const ResourcesCategoryRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AccompanyRoute: AccompanyRoute,
+  CircleRoute: CircleRoute,
   CommunityRoute: CommunityRoute,
   CrisisRoute: CrisisRoute,
   DatesRoute: DatesRoute,
@@ -939,6 +980,7 @@ const rootRouteChildren: RootRouteChildren = {
   MemoriesRoute: MemoriesRoute,
   NoWordsRoute: NoWordsRoute,
   OnboardingRoute: OnboardingRoute,
+  PlanRoute: PlanRoute,
   PracticalRoute: PracticalRouteWithChildren,
   PresenceRoute: PresenceRoute,
   PresentationRoute: PresentationRoute,

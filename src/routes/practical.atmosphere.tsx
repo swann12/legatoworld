@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Shell } from "@/components/legato/Shell";
 import { Halos } from "@/components/legato/Halos";
-import { ConfideDock } from "@/components/legato/ConfideDock";
 import { PersonalSuggestions } from "@/components/legato/PersonalSuggestions";
 import { useLegato } from "@/lib/legato-state";
 
@@ -55,7 +54,6 @@ function Atmosphere() {
           />
         </div>
       </div>
-      <ConfideDock step="atmosphère" />
-    </Shell>
+      </Shell>
   );
 }
