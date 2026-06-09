@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Shell } from "@/components/legato/Shell";
 import { SpaceSwitcher } from "@/components/legato/SpaceSwitcher";
-import { useLegato, type Mode } from "@/lib/legato-state";
+import { useLegato, CONCRETE_PRIORITIES, type Mode } from "@/lib/legato-state";
 import { BUDGET_LABELS, loadPractical, savePractical, type Budget } from "@/lib/practical-store";
 
 export const Route = createFileRoute("/practical/")({
@@ -15,19 +15,10 @@ export const Route = createFileRoute("/practical/")({
   component: Practical,
 });
 
-const HEADERS: Record<Mode, { eyebrow: string; title: string; sub: string }> = {
-  cocoon:    { eyebrow: "Avancer concrètement", title: "Une seule chose suffit.",           sub: "Nous vous guidons étape par étape. Rien ne doit être terminé aujourd'hui." },
-  anchoring: { eyebrow: "Avancer concrètement", title: "Tout est là, dans l'ordre.",        sub: "Nous vous guidons étape par étape. Rien ne doit être terminé aujourd'hui." },
-  breath:    { eyebrow: "Avancer concrètement", title: "Avancer d'un pas, doucement.",      sub: "Nous vous guidons étape par étape. Rien ne doit être terminé aujourd'hui." },
-  relay:     { eyebrow: "Avancer concrètement", title: "Vous pouvez partager le poids.",    sub: "Nous vous guidons étape par étape. Rien ne doit être terminé aujourd'hui." },
-};
-
-/** « Votre prochaine étape » — une seule action en haut de page. */
-const NEXT_STEP = {
-  title: "Contacter une entreprise de pompes funèbres",
-  why: "Premier rendez-vous pour organiser la mise en bière et la cérémonie.",
-  duration: "10 minutes",
-  to: "/plan" as const,
+/** Titre éditorial commun, sans variation gratuite (brief §6 : moins de tailles). */
+const HEADER = {
+  title: "Une seule chose suffit.",
+  sub: "Nous vous guidons étape par étape. Rien ne doit être terminé aujourd'hui.",
 };
 
 /** Trois accès principaux, sous la prochaine étape. */
@@ -46,12 +37,14 @@ const DOORS = [
 ] as const;
 
 function Practical() {
-  const { mode, space, setSpace } = useLegato();
+  const { space, setSpace, concretePriority } = useLegato();
   // Atterrir ici fixe l'espace concret.
   useEffect(() => {
     if (space !== "concrete") setSpace("concrete");
   }, [space, setSpace]);
-  const h = HEADERS[mode];
+  const h = HEADER;
+  const priority = CONCRETE_PRIORITIES.find((p) => p.id === concretePriority) ?? CONCRETE_PRIORITIES[0];
+  const NEXT_STEP = { ...priority.next, to: "/plan" as const };
   const [budget, setBudget] = useState<Budget>("");
   const [budgetOpen, setBudgetOpen] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
@@ -74,11 +67,14 @@ function Practical() {
             <SpaceSwitcher />
           </div>
 
-          <header className="px-7 pt-14">
-            <h1 className="font-serif text-[36px] leading-[1.05] font-light text-dusk text-balance">
+          <header className="px-7 pt-12">
+            <p className="text-[10px] uppercase tracking-[0.28em] text-dusk/50" style={{ fontFamily: "var(--font-mono)" }}>
+              Mon plan · {priority.label}
+            </p>
+            <h1 className="mt-4 font-serif text-[30px] leading-[1.06] font-light text-dusk text-balance">
               {h.title}
             </h1>
-            <p className="mt-6 max-w-[34ch] text-[14.5px] leading-[1.6] text-dusk/65">{h.sub}</p>
+            <p className="mt-4 max-w-[34ch] text-[14px] leading-[1.6] text-dusk/65">{h.sub}</p>
           </header>
 
           {/* Votre prochaine étape */}
