@@ -68,10 +68,15 @@
   --color-bordeaux: var(--bordeaux);
   --color-blush: var(--blush);
   --color-sky: var(--sky);
+  --color-bordeaux-soft: var(--bordeaux-soft);
+  --color-bordeaux-tint: var(--bordeaux-tint);
+  --color-bordeaux-wash: var(--bordeaux-wash);
+  --color-bloom-rose: var(--bloom-rose);
+  --color-bloom-sage: var(--bloom-sage);
 
   --font-serif: "Instrument Serif", "Cormorant Garamond", ui-serif, Georgia, serif;
-  --font-sans: "Work Sans", "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --font-sans: "Geist", "Inter Tight", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Geist Mono", "JetBrains Mono", ui-monospace, monospace;
 }
 
 :root {
@@ -97,6 +102,11 @@
   --sky: oklch(0.90 0.040 230);            /* ciel doux pour cards */
   --lavender: oklch(0.88 0.035 295);       /* lavande pâle pour cards */
   --bordeaux: oklch(0.28 0.060 25);        /* surfaces feature profondes */
+  --bordeaux-soft: oklch(0.42 0.085 25);   /* bordeaux moyen — accents, filets affirmés */
+  --bordeaux-tint: oklch(0.82 0.045 25);   /* bordeaux clair — fonds doux */
+  --bordeaux-wash: oklch(0.95 0.018 25);   /* bordeaux lavé — surfaces calmes */
+  --bloom-rose: oklch(0.88 0.040 20);      /* rose poudré (animation florale) */
+  --bloom-sage: oklch(0.86 0.030 145);     /* sauge tendre (animation florale) */
   --bloom-fresh: oklch(0.93 0.04 130);
   --bloom-mist: oklch(0.96 0.02 220);
 
