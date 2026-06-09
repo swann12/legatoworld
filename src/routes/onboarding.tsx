@@ -1,6 +1,9 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { BRANCHES, useLegato, type Branch, type Mode } from "@/lib/legato-state";
+import {
+  BRANCHES, TODAY_STATES, useLegato,
+  type Branch, type Space, type TodayState,
+} from "@/lib/legato-state";
 
 export const Route = createFileRoute("/onboarding")({
   head: () => ({
@@ -12,32 +15,48 @@ export const Route = createFileRoute("/onboarding")({
   component: Onboarding,
 });
 
+/** 0 Prénom · 1 Bifurcation · 2 Situation · 3 État du jour (psy uniquement). */
 type Step = 0 | 1 | 2 | 3;
-const TOTAL_STEPS = 4;
-
-/** Six réponses simples pour l'état du jour, mappées vers les modes existants. */
-const TODAY_STATES: { id: string; label: string; mode: Mode }[] = [
-  { id: "calm",        label: "J'ai besoin de calme",    mode: "cocoon"    },
-  { id: "overwhelmed", label: "Je me sens submergé·e",   mode: "cocoon"    },
-  { id: "anchor",      label: "J'ai besoin de repères",  mode: "anchoring" },
-  { id: "breathe",     label: "J'ai besoin de souffler", mode: "breath"    },
-  { id: "help",        label: "J'ai besoin d'aide",      mode: "relay"     },
-  { id: "later",       label: "Je ne sais pas encore",   mode: "cocoon"    },
-];
 
 function Onboarding() {
-  const { name, setName, branch, setBranch, setMode } = useLegato();
+  const {
+    name, setName,
+    branch, setBranch,
+    space, setSpace,
+    todayState, setTodayState,
+    setMode,
+  } = useLegato();
   const initialStep: Step = name && name.trim().length > 0 ? 1 : 0;
   const [step, setStep] = useState<Step>(initialStep);
-  const [todayId, setTodayId] = useState<string>("calm");
+  const [localSpace, setLocalSpace] = useState<Space>(space);
+  const [localToday, setLocalToday] = useState<TodayState>(todayState);
   const navigate = useNavigate();
 
-  const goNext = () => { if (step < 3) setStep(((step + 1) as Step)); };
+  // Total dynamique : 4 étapes pour psy, 3 pour concret.
+  const total = localSpace === "concrete" ? 3 : 4;
 
-  const finish = (where: "accompany" | "practical" | "home") => {
-    const chosen = TODAY_STATES.find((t) => t.id === todayId);
-    if (chosen) setMode(chosen.mode);
-    navigate({ to: where === "accompany" ? "/accompany" : where === "practical" ? "/practical" : "/home" });
+  const canContinue =
+    (step === 0 && !!name.trim()) ||
+    (step === 1 && (localSpace === "psy" || localSpace === "concrete")) ||
+    (step === 2 && !!branch) ||
+    (step === 3 && !!localToday);
+
+  const finish = () => {
+    setSpace(localSpace);
+    if (localSpace === "psy") {
+      setTodayState(localToday);
+      const chosen = TODAY_STATES.find((t) => t.id === localToday);
+      if (chosen) setMode(chosen.mode);
+      navigate({ to: "/accompany" });
+    } else {
+      navigate({ to: "/practical" });
+    }
+  };
+
+  const goNext = () => {
+    if (step === 2 && localSpace === "concrete") { finish(); return; }
+    if (step === 3) { finish(); return; }
+    setStep(((step + 1) as Step));
   };
 
   return (
@@ -57,37 +76,39 @@ function Onboarding() {
           >
             Legato
           </p>
-          <Progress step={step} />
+          <Progress step={step} total={total} />
         </div>
 
         <div className="relative z-10 flex flex-1 flex-col px-7 pt-14">
           {step === 0 && <StepName name={name} setName={setName} />}
-          {step === 1 && <StepBranch value={branch} onChange={setBranch} />}
-          {step === 2 && <StepToday value={todayId} onChange={setTodayId} />}
-          {step === 3 && <StepNeed name={name} onChoose={finish} />}
-
-          {step < 3 && (
-            <div className="mt-auto pb-14 pt-12">
-              <button
-                onClick={goNext}
-                disabled={step === 0 && !name.trim()}
-                className="block w-full rounded-[18px] text-[color:var(--paper)] px-6 py-5 text-center disabled:opacity-50"
-                style={{ background: "var(--bordeaux)" }}
-              >
-                <span className="font-serif text-[20px] italic">Continuer</span>
-              </button>
-            </div>
+          {step === 1 && <StepSpace value={localSpace} onChange={setLocalSpace} />}
+          {step === 2 && <StepBranch value={branch} onChange={setBranch} space={localSpace} />}
+          {step === 3 && localSpace === "psy" && (
+            <StepToday value={localToday} onChange={setLocalToday} />
           )}
+
+          <div className="mt-auto pb-14 pt-12">
+            <button
+              onClick={goNext}
+              disabled={!canContinue}
+              className="block w-full rounded-[18px] text-[color:var(--paper)] px-6 py-5 text-center disabled:opacity-40"
+              style={{ background: "var(--bordeaux)" }}
+            >
+              <span className="font-serif text-[20px] italic">
+                {(step === 2 && localSpace === "concrete") || step === 3 ? "Entrer" : "Continuer"}
+              </span>
+            </button>
+          </div>
         </div>
       </div>
     </main>
   );
 }
 
-function Progress({ step }: { step: number }) {
+function Progress({ step, total }: { step: number; total: number }) {
   return (
     <div className="flex gap-1.5">
-      {Array.from({ length: TOTAL_STEPS }, (_, i) => i).map((i) => (
+      {Array.from({ length: total }, (_, i) => i).map((i) => (
         <span
           key={i}
           className={`h-[2px] w-5 rounded-full transition-all ${
@@ -123,11 +144,77 @@ function StepName({ name, setName }: { name: string; setName: (s: string) => voi
   );
 }
 
-function StepBranch({ value, onChange }: { value: Branch; onChange: (b: Branch) => void }) {
+/** Étape 2 — Bifurcation explicite (principe non négociable du brief). */
+function StepSpace({ value, onChange }: { value: Space; onChange: (s: Space) => void }) {
+  const OPTIONS: { id: Exclude<Space, null>; title: string; body: string; tint: string; fg: string }[] = [
+    {
+      id: "psy",
+      title: "Accompagnement psychologique",
+      body: "Pour traverser ce qui est ressenti, trouver une présence et avancer à son rythme.",
+      tint: "var(--bordeaux)",
+      fg: "var(--paper)",
+    },
+    {
+      id: "concrete",
+      title: "Aide concrète",
+      body: "Pour organiser, comprendre les démarches et avancer pas à pas sans avoir à tout porter.",
+      tint: "var(--sage)",
+      fg: "var(--dusk)",
+    },
+  ];
   return (
     <div className="space-y-7">
       <p className="text-[10px] uppercase tracking-[0.3em] text-dusk/50" style={{ fontFamily: "var(--font-mono)" }}>
-        Étape 2 · Situation
+        Étape 2 · Choisir un espace
+      </p>
+      <h2 className="font-serif text-[34px] leading-[1.05] font-light text-balance">
+        Aujourd'hui, vous cherchez <span className="italic">plutôt…</span>
+      </h2>
+      <p className="text-[13.5px] text-dusk/60 max-w-[34ch]">
+        Vous pourrez basculer d'un espace à l'autre à tout moment.
+      </p>
+      <div className="space-y-3">
+        {OPTIONS.map((o) => {
+          const active = value === o.id;
+          return (
+            <button
+              key={o.id}
+              onClick={() => onChange(o.id)}
+              className={`block w-full rounded-[18px] px-6 py-6 text-left transition-all ${
+                active ? "ring-2 ring-dusk/30" : "opacity-95 hover:opacity-100"
+              }`}
+              style={{ background: o.tint, color: o.fg }}
+            >
+              <p className="font-serif italic text-[22px]">{o.title}</p>
+              <p className="mt-2 text-[13px] leading-[1.55]" style={{ color: o.fg, opacity: 0.78 }}>
+                {o.body}
+              </p>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function StepBranch({
+  value,
+  onChange,
+  space,
+}: {
+  value: Branch;
+  onChange: (b: Branch) => void;
+  space: Space;
+}) {
+  // Filtrage selon l'espace : on retire les situations qui n'ont pas de sens
+  // dans l'aide concrète (peur, ne sait pas encore, animal aimé).
+  const list = space === "concrete"
+    ? BRANCHES.filter((b) => b.id === "person" || b.id === "practical" || b.id === "wishes")
+    : BRANCHES;
+  return (
+    <div className="space-y-7">
+      <p className="text-[10px] uppercase tracking-[0.3em] text-dusk/50" style={{ fontFamily: "var(--font-mono)" }}>
+        Étape 3 · Qui est concerné·e ?
       </p>
       <h2 className="font-serif text-[36px] leading-[1.04] font-light text-balance">
         Qu'est-ce qui vous amène <span className="italic">en ce moment ?</span>
@@ -136,7 +223,7 @@ function StepBranch({ value, onChange }: { value: Branch; onChange: (b: Branch) 
         Vous pourrez modifier votre réponse à tout moment.
       </p>
       <div className="space-y-2.5">
-        {BRANCHES.map((b) => {
+        {list.map((b) => {
           const active = value === b.id;
           return (
             <button
@@ -159,18 +246,42 @@ function StepBranch({ value, onChange }: { value: Branch; onChange: (b: Branch) 
   );
 }
 
-function StepToday({ value, onChange }: { value: string; onChange: (s: string) => void }) {
+function StepToday({ value, onChange }: { value: TodayState; onChange: (s: TodayState) => void }) {
   return (
     <div className="space-y-7">
       <p className="text-[10px] uppercase tracking-[0.3em] text-dusk/50" style={{ fontFamily: "var(--font-mono)" }}>
-        Étape 3 · État du jour
+        Étape 4 · Comment vous sentez-vous ?
       </p>
       <h2 className="font-serif text-[36px] leading-[1.04] font-light text-balance">
-        Comment vous sentez-vous <span className="italic">aujourd'hui ?</span>
+        Aujourd'hui, plutôt <span className="italic">comment ?</span>
       </h2>
       <p className="text-[13.5px] text-dusk/60 max-w-[34ch]">
-        Choisissez ce qui vous ressemble le plus. Vous pourrez changer d'avis à tout moment.
+        Cela nous aide à adapter le ton, l'ordre des cartes et l'intensité.
       </p>
+      <div className="grid grid-cols-2 gap-2">
+        {TODAY_STATES.map((tst) => {
+          const active = value === tst.id;
+          return (
+            <button
+              key={tst.id}
+              onClick={() => onChange(tst.id)}
+              className={`rounded-[12px] px-4 py-3 text-left transition-all border ${
+                active ? "border-dusk/30 bg-clay" : "border-dusk/12 bg-paper hover:bg-clay/40"
+              }`}
+            >
+              <span className="font-serif text-[16px] text-dusk">{tst.label}</span>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+// Conservé pour compat éventuelle, non utilisé par le nouvel onboarding.
+function _StepToday_legacy({ value, onChange }: { value: string; onChange: (s: string) => void }) {
+  return (
+    <div className="space-y-7">
       <div className="space-y-2.5">
         {TODAY_STATES.map((t) => {
           const active = value === t.id;
@@ -194,7 +305,7 @@ function StepToday({ value, onChange }: { value: string; onChange: (s: string) =
   );
 }
 
-function StepNeed({
+function _StepNeed_unused({
   name,
   onChoose,
 }: {
