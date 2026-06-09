@@ -57,26 +57,15 @@ function Home() {
   return (
     <Shell>
       <div className="min-h-dvh bg-paper text-dusk pb-32">
-        {/* ─── Header sobre : date + identité, le reste vit dans /space ─── */}
+        {/* ─── Header sobre : date + identité ─── */}
         <header className="px-6 pt-12 flex items-start justify-between">
           <div className="flex flex-col">
-            <span
-              className="text-[10px] uppercase tracking-[0.28em] text-dusk/55"
-              style={{ fontFamily: "var(--font-mono)" }}
-            >
-              Legato · {today}
-            </span>
+            <span className="eyebrow">Legato · {today}</span>
             <Link
               to="/space"
-              className="mt-4 inline-flex items-baseline gap-2 hover:opacity-80 transition-opacity"
+              className="eyebrow mt-3 text-dusk/55 hover:text-dusk transition-colors"
             >
-              <span
-                className="text-[10px] uppercase tracking-[0.22em] text-dusk/50"
-                style={{ fontFamily: "var(--font-mono)" }}
-              >
-                Espace · {spaceLabel}
-              </span>
-              <span className="text-dusk/30 text-[10px]">↔</span>
+              Espace · {spaceLabel} ↔
             </Link>
           </div>
           <Link
@@ -84,24 +73,20 @@ function Home() {
             aria-label="Mon espace"
             className="size-9 rounded-full border border-dusk/15 flex items-center justify-center hover:bg-dusk/[0.04] transition-colors"
           >
-            <span className="font-serif italic text-[14px] text-dusk">
+            <span className="text-[13px] text-dusk">
               {(name || "S").charAt(0).toUpperCase()}
             </span>
           </Link>
         </header>
 
         {/* ─── Salutation ─── */}
-        <section className="px-6 pt-16">
+        <section className="px-6 pt-14">
           <h1
-            className="font-serif text-[44px] leading-[1.0] text-dusk font-light"
-            style={{ textWrap: "balance" }}
+            className="font-serif text-[36px] leading-[1.05] text-dusk font-light text-balance"
           >
             Bonjour {name || "Swann"}.
           </h1>
-          <p
-            className="mt-3 max-w-[32ch] font-serif italic text-[19px] leading-snug text-dusk/70"
-            style={{ textWrap: "balance" }}
-          >
+          <p className="mt-3 max-w-[32ch] text-[15px] leading-[1.55] text-dusk/65 text-balance">
             {greeting}
           </p>
         </section>
@@ -112,22 +97,15 @@ function Home() {
         {/* ─── Pied : état du jour ─── */}
         <section className="px-6 pt-10">
           <div className="border-t border-dusk/12 pt-5 flex items-baseline justify-between">
-            <div className="flex flex-col gap-1">
-              <span
-                className="text-[9px] uppercase tracking-[0.24em] text-dusk/45"
-                style={{ fontFamily: "var(--font-mono)" }}
-              >
+            <div className="flex flex-col gap-1.5">
+              <span className="eyebrow-sm">
                 {isConcrete ? "Priorité du jour" : "État du jour"}
               </span>
-              <span className="font-serif italic text-[15px] text-dusk">
+              <span className="text-[14px] text-dusk">
                 {isConcrete ? priority.label : todayLabel}
               </span>
             </div>
-            <Link
-              to="/space"
-              className="text-[9px] uppercase tracking-[0.24em] text-dusk/50 hover:text-dusk border-b border-transparent hover:border-dusk/40 pb-0.5"
-              style={{ fontFamily: "var(--font-mono)" }}
-            >
+            <Link to="/space" className="eyebrow-sm hover:text-dusk">
               Modifier
             </Link>
           </div>
@@ -135,22 +113,15 @@ function Home() {
 
         {/* ─── Porte de crise — filet terracotta ─── */}
         <section className="px-6 pt-8">
-          <Link
-            to="/crisis"
-            className="block group"
-            aria-label="Si aujourd'hui pèse trop"
-          >
+          <Link to="/crisis" className="block group" aria-label="Si aujourd'hui pèse trop">
             <div className="flex items-center gap-3 text-[color:var(--terracotta)]">
-              <span
-                className="text-[9px] uppercase tracking-[0.22em] whitespace-nowrap"
-                style={{ fontFamily: "var(--font-mono)" }}
-              >
+              <span className="eyebrow whitespace-nowrap text-[color:var(--terracotta)]">
                 Si aujourd'hui pèse trop
               </span>
               <span className="h-px flex-1 bg-[color:var(--terracotta)]/25" />
               <span className="text-[12px]">→</span>
             </div>
-            <p className="mt-1.5 font-serif italic text-[17px] text-dusk group-hover:opacity-80 transition-opacity">
+            <p className="mt-2 text-[15px] text-dusk group-hover:opacity-80 transition-opacity">
               Une porte calme, ouverte.
             </p>
           </Link>
@@ -164,36 +135,19 @@ function PsyHome({ primary }: { primary: Primary }) {
   return (
     <>
       <section className="px-6 pt-10">
-        <Link
-          to={primary.to}
-          className="block rounded-[2px] overflow-hidden text-[color:var(--paper)] shadow-sm"
-          style={{ background: "var(--bordeaux)" }}
-        >
-          <div className="px-8 pt-8 pb-8">
-            <p
-              className="text-[10px] uppercase tracking-[0.28em] text-[color:var(--paper)]/60"
-              style={{ fontFamily: "var(--font-mono)" }}
-            >
-              {primary.eyebrow}
-            </p>
-            <p
-              className="mt-6 font-serif text-[30px] leading-[1.08] italic"
-              style={{ textWrap: "balance" }}
-            >
-              {primary.title}
-            </p>
-            <p className="mt-3 text-[13.5px] leading-[1.55] text-[color:var(--paper)]/75 max-w-[34ch]">
-              {primary.sub}
-            </p>
-            <div className="mt-10 flex items-end justify-between">
-              <span
-                className="text-[10px] uppercase tracking-[0.26em] text-[color:var(--paper)] border-b border-[color:var(--paper)]/30 pb-1"
-                style={{ fontFamily: "var(--font-mono)" }}
-              >
-                Commencer
-              </span>
-              <span className="text-[color:var(--paper)]/70 text-base">→</span>
-            </div>
+        <Link to={primary.to} className="surface-feature block px-8 py-8">
+          <p className="eyebrow text-[color:var(--paper)]/65">{primary.eyebrow}</p>
+          <p className="mt-5 font-serif text-[26px] leading-[1.12] font-light text-balance">
+            {primary.title}
+          </p>
+          <p className="mt-3 text-[13.5px] leading-[1.55] text-[color:var(--paper)]/75 max-w-[34ch]">
+            {primary.sub}
+          </p>
+          <div className="mt-8 flex items-center justify-between">
+            <span className="eyebrow text-[color:var(--paper)] border-b border-[color:var(--paper)]/30 pb-1">
+              Commencer
+            </span>
+            <span className="text-[color:var(--paper)]/70 text-base">→</span>
           </div>
         </Link>
       </section>
@@ -211,36 +165,21 @@ function ConcreteHome({ priority }: { priority: (typeof CONCRETE_PRIORITIES)[num
   return (
     <>
       <section className="px-6 pt-10">
-        <Link
-          to="/plan"
-          className="block rounded-[2px] overflow-hidden text-[color:var(--paper)] shadow-sm"
-          style={{ background: "var(--bordeaux)" }}
-        >
-          <div className="px-8 pt-8 pb-8">
-            <p
-              className="text-[10px] uppercase tracking-[0.28em] text-[color:var(--paper)]/60"
-              style={{ fontFamily: "var(--font-mono)" }}
-            >
-              Votre prochaine étape · {next.duration}
-            </p>
-            <p
-              className="mt-6 font-serif text-[28px] leading-[1.1] italic"
-              style={{ textWrap: "balance" }}
-            >
-              {next.title}
-            </p>
-            <p className="mt-3 text-[13.5px] leading-[1.55] text-[color:var(--paper)]/75 max-w-[34ch]">
-              {next.why}
-            </p>
-            <div className="mt-10 flex items-end justify-between">
-              <span
-                className="text-[10px] uppercase tracking-[0.26em] text-[color:var(--paper)] border-b border-[color:var(--paper)]/30 pb-1"
-                style={{ fontFamily: "var(--font-mono)" }}
-              >
-                Voir cette étape
-              </span>
-              <span className="text-[color:var(--paper)]/70 text-base">→</span>
-            </div>
+        <Link to="/plan" className="surface-feature block px-8 py-8">
+          <p className="eyebrow text-[color:var(--paper)]/65">
+            Prochaine étape · {next.duration}
+          </p>
+          <p className="mt-5 font-serif text-[26px] leading-[1.12] font-light text-balance">
+            {next.title}
+          </p>
+          <p className="mt-3 text-[13.5px] leading-[1.55] text-[color:var(--paper)]/75 max-w-[34ch]">
+            {next.why}
+          </p>
+          <div className="mt-8 flex items-center justify-between">
+            <span className="eyebrow text-[color:var(--paper)] border-b border-[color:var(--paper)]/30 pb-1">
+              Voir cette étape
+            </span>
+            <span className="text-[color:var(--paper)]/70 text-base">→</span>
           </div>
         </Link>
       </section>
@@ -259,15 +198,10 @@ function HairlineTile({ to, eyebrow, title }: { to: string; eyebrow: string; tit
   return (
     <Link
       to={to}
-      className="block border border-dusk/12 p-5 h-32 flex flex-col justify-between bg-paper hover:bg-dusk/[0.02] transition-colors"
+      className="surface block p-5 h-28 flex flex-col justify-between hover:bg-dusk/[0.02] transition-colors"
     >
-      <span
-        className="text-[9px] uppercase tracking-[0.24em] text-dusk/45"
-        style={{ fontFamily: "var(--font-mono)" }}
-      >
-        {eyebrow}
-      </span>
-      <h3 className="font-serif italic text-[18px] text-dusk leading-tight">{title}</h3>
+      <span className="eyebrow-sm">{eyebrow}</span>
+      <h3 className="text-[15px] text-dusk leading-tight">{title}</h3>
     </Link>
   );
 }
