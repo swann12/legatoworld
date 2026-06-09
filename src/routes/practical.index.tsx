@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Shell } from "@/components/legato/Shell";
+import { SpaceSwitcher } from "@/components/legato/SpaceSwitcher";
 import { useLegato, type Mode } from "@/lib/legato-state";
 import { BUDGET_LABELS, loadPractical, savePractical, type Budget } from "@/lib/practical-store";
 
@@ -45,7 +46,11 @@ const DOORS = [
 ] as const;
 
 function Practical() {
-  const { mode } = useLegato();
+  const { mode, space, setSpace } = useLegato();
+  // Atterrir ici fixe l'espace concret.
+  useEffect(() => {
+    if (space !== "concrete") setSpace("concrete");
+  }, [space, setSpace]);
   const h = HEADERS[mode];
   const [budget, setBudget] = useState<Budget>("");
   const [budgetOpen, setBudgetOpen] = useState(false);
@@ -66,12 +71,7 @@ function Practical() {
             >
               ← Accueil
             </Link>
-            <span
-              className="text-[10px] uppercase tracking-[0.3em] text-dusk/50"
-              style={{ fontFamily: "var(--font-mono)" }}
-            >
-              {h.eyebrow}
-            </span>
+            <SpaceSwitcher />
           </div>
 
           <header className="px-7 pt-14">

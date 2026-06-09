@@ -1,19 +1,29 @@
 import { Link, useLocation } from "@tanstack/react-router";
-import { Sun, Flower2, BookOpen, ListChecks, Heart } from "lucide-react";
+import { Sun, Flower2, BookOpen, ListChecks, Heart, ClipboardList, Stethoscope, FolderClosed, Users } from "lucide-react";
 import { useLegato } from "@/lib/legato-state";
 
 export function BottomNav() {
   const { pathname } = useLocation();
-  const { t } = useLegato();
-  // Cinq onglets, conformes au cahier des charges UX :
-  // Aujourd'hui · Jardin · Journal · Avancer · Présence.
-  const items = [
-    { to: "/home"     as const, label: t("nav.today"),   Icon: Sun,        forcedActive: pathname === "/home" || pathname === "/" },
-    { to: "/garden"   as const, label: t("nav.garden"),  Icon: Flower2,    forcedActive: pathname.startsWith("/garden") },
-    { to: "/journal"  as const, label: t("nav.journal"), Icon: BookOpen,   forcedActive: pathname.startsWith("/journal") },
-    { to: "/practical" as const, label: t("nav.avancer"), Icon: ListChecks, forcedActive: pathname.startsWith("/practical") || pathname.startsWith("/wishes") || pathname.startsWith("/resources") },
-    { to: "/presence" as const, label: t("nav.presence"), Icon: Heart,     forcedActive: pathname.startsWith("/presence") || pathname.startsWith("/accompany") || pathname.startsWith("/no-words") },
-  ];
+  const { space } = useLegato();
+  // Navigation contextuelle stricte (brief §7) :
+  // - Espace psychologique : Aujourd'hui · Jardin · Journal · Ressources · Présence
+  // - Espace concret       : Aujourd'hui · Mon plan · Professionnels · Documents · Proches
+  // Si l'utilisateur n'a pas encore choisi d'espace, on présente la nav psy par défaut.
+  const items = space === "concrete"
+    ? [
+        { to: "/home"      as const, label: "Aujourd'hui",     Icon: Sun,           forcedActive: pathname === "/home" || pathname === "/" },
+        { to: "/plan"      as const, label: "Mon plan",        Icon: ClipboardList, forcedActive: pathname.startsWith("/plan") || pathname.startsWith("/practical") },
+        { to: "/resources" as const, label: "Pros",            Icon: Stethoscope,   forcedActive: pathname.startsWith("/resources") },
+        { to: "/documents" as const, label: "Documents",       Icon: FolderClosed,  forcedActive: pathname.startsWith("/documents") },
+        { to: "/circle"    as const, label: "Proches",         Icon: Users,         forcedActive: pathname.startsWith("/circle") },
+      ]
+    : [
+        { to: "/home"      as const, label: "Aujourd'hui",     Icon: Sun,         forcedActive: pathname === "/home" || pathname === "/" },
+        { to: "/garden"    as const, label: "Jardin",          Icon: Flower2,     forcedActive: pathname.startsWith("/garden") },
+        { to: "/journal"   as const, label: "Journal",         Icon: BookOpen,    forcedActive: pathname.startsWith("/journal") },
+        { to: "/resources" as const, label: "Ressources",      Icon: ListChecks,  forcedActive: pathname.startsWith("/resources") },
+        { to: "/presence"  as const, label: "Présence",        Icon: Heart,       forcedActive: pathname.startsWith("/presence") || pathname.startsWith("/accompany") || pathname.startsWith("/no-words") },
+      ];
   return (
     <nav
       aria-label="Primary"
