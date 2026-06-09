@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Shell } from "@/components/legato/Shell";
-import { ConfideDock } from "@/components/legato/ConfideDock";
 import { useLegato, modeProfile, type Mode } from "@/lib/legato-state";
 import { BUDGET_LABELS, loadPractical, savePractical, type Budget } from "@/lib/practical-store";
 

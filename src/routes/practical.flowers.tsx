@@ -2,7 +2,6 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Shell } from "@/components/legato/Shell";
 import { Halos } from "@/components/legato/Halos";
-import { ConfideDock } from "@/components/legato/ConfideDock";
 import { PersonalSuggestions } from "@/components/legato/PersonalSuggestions";
 import { MiniComposer, type FlowerPreset } from "@/components/legato/MiniComposer";
 import { useLegato } from "@/lib/legato-state";
