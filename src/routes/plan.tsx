@@ -59,14 +59,12 @@ function PlanPage() {
   return (
     <Shell>
       <div className="px-7 pt-10 flex items-center justify-between">
-        <Link to="/practical" className="text-[10px] uppercase tracking-[0.3em] text-dusk/55 hover:text-dusk" style={{ fontFamily: "var(--font-mono)" }}>
-          ← Avancer
-        </Link>
-        <span className="text-[10px] uppercase tracking-[0.3em] text-dusk/50" style={{ fontFamily: "var(--font-mono)" }}>Mon plan</span>
+        <Link to="/practical" className="eyebrow hover:text-dusk">← Aide concrète</Link>
+        <span className="eyebrow">Mon plan</span>
       </div>
       <ScreenHeader
         eyebrow="Votre plan, à votre rythme"
-        title={<>Une seule chose à la fois <span className="italic">suffit.</span></>}
+        title="Une seule chose à la fois suffit."
         subtitle="Cochez ce qui est fait, reportez ce qui peut attendre. Rien n'est obligatoire aujourd'hui."
       />
 
@@ -81,8 +79,8 @@ function PlanPage() {
               className={`w-full flex items-baseline justify-between border-t border-dusk/15 pt-4 ${isLater ? "" : "pointer-events-none"}`}
             >
               <div className="text-left">
-                <p className="text-[10px] uppercase tracking-[0.28em] text-dusk/55" style={{ fontFamily: "var(--font-mono)" }}>{PRIO_LABEL[p].label}</p>
-                <p className="mt-1 font-serif italic text-[14px] text-dusk/60">{PRIO_LABEL[p].sub}</p>
+                <p className="eyebrow">{PRIO_LABEL[p].label}</p>
+                <p className="mt-1.5 text-[13px] text-dusk/60">{PRIO_LABEL[p].sub}</p>
               </div>
               {isLater && <span className="text-dusk/40 text-sm">{laterOpen ? "−" : "+"}</span>}
             </button>
@@ -92,30 +90,29 @@ function PlanPage() {
                 {tasks.map((t) => {
                   const isOpen = expanded === t.id;
                   return (
-                    <div key={t.id} className="rounded-[16px] border border-dusk/12 bg-paper p-5">
+                    <div key={t.id} className="surface p-5">
                       <div className="flex items-start gap-4">
                         <button
                           onClick={() => toggle(t.id)}
                           aria-pressed={!!done[t.id]}
-                          className={`mt-1 size-5 rounded-full border ${done[t.id] ? "bg-sage border-sage" : "border-dusk/30 bg-transparent"} shrink-0`}
+                          className={`mt-1 size-5 rounded-full border transition-colors ${done[t.id] ? "bg-dusk border-dusk" : "border-dusk/30 bg-transparent"} shrink-0`}
                         />
                         <div className="flex-1 min-w-0">
-                          <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45" style={{ fontFamily: "var(--font-mono)" }}>{t.category} · {t.duration}</p>
-                          <h3 className={`mt-1 font-serif text-[17px] leading-snug ${done[t.id] ? "text-dusk/40 line-through" : "text-dusk"}`}>{t.title}</h3>
+                          <p className="eyebrow-sm">{t.category} · {t.duration}</p>
+                          <h3 className={`mt-2 font-serif text-[17px] font-light leading-snug ${done[t.id] ? "text-dusk/40 line-through" : "text-dusk"}`}>{t.title}</h3>
                           {isOpen && (
                             <>
                               <p className="mt-2 text-[13.5px] leading-[1.55] text-dusk/65">{t.why}</p>
                               <div className="mt-3 flex flex-wrap gap-2">
-                                <button className="ceramic-soft organic-radius px-3 py-1.5 text-[11px] tracking-[0.16em] uppercase text-dusk/70">Reporter</button>
-                                <Link to="/circle" className="ceramic-soft organic-radius px-3 py-1.5 text-[11px] tracking-[0.16em] uppercase text-dusk/70">Confier</Link>
-                                <Link to="/resources" className="ceramic-soft organic-radius px-3 py-1.5 text-[11px] tracking-[0.16em] uppercase text-dusk/70">Demander de l'aide</Link>
+                                <button className="btn-ghost">Reporter</button>
+                                <Link to="/circle" className="btn-ghost">Confier</Link>
+                                <Link to="/resources" className="btn-ghost">Demander de l'aide</Link>
                               </div>
                             </>
                           )}
                           <button
                             onClick={() => setExpanded(isOpen ? null : t.id)}
-                            className="mt-2 text-[11px] tracking-[0.18em] uppercase text-dusk/50 hover:text-dusk"
-                            style={{ fontFamily: "var(--font-mono)" }}
+                            className="mt-3 eyebrow-sm hover:text-dusk"
                           >
                             {isOpen ? "Replier" : "Voir l'étape"}
                           </button>
