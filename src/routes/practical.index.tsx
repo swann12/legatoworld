@@ -57,45 +57,41 @@ function Practical() {
       <div className="relative">
         <div className="relative z-10">
           <div className="px-7 pt-10 flex items-center justify-between">
-            <Link
-              to="/home"
-              className="text-[10px] uppercase tracking-[0.3em] text-dusk/55 hover:text-dusk"
-              style={{ fontFamily: "var(--font-mono)" }}
-            >
-              ← Accueil
-            </Link>
+            <Link to="/home" className="eyebrow hover:text-dusk">← Aujourd'hui</Link>
             <SpaceSwitcher />
           </div>
 
           <header className="px-7 pt-12">
-            <p className="text-[10px] uppercase tracking-[0.28em] text-dusk/50" style={{ fontFamily: "var(--font-mono)" }}>
-              Mon plan · {priority.label}
-            </p>
+            <p className="eyebrow">Mon plan · {priority.label}</p>
             <h1 className="mt-4 font-serif text-[30px] leading-[1.06] font-light text-dusk text-balance">
               {h.title}
             </h1>
             <p className="mt-4 max-w-[34ch] text-[14px] leading-[1.6] text-dusk/65">{h.sub}</p>
           </header>
 
-          {/* Votre prochaine étape */}
+          {/* Votre prochaine étape — surface feature unique */}
           <div className="px-7 mt-10">
-            <p className="text-[10px] uppercase tracking-[0.28em] text-dusk/55" style={{ fontFamily: "var(--font-mono)" }}>
-              Votre prochaine étape
-            </p>
-            <div className="mt-3 rounded-[20px] p-6 text-[color:var(--paper)]" style={{ background: "var(--bordeaux)" }}>
-              <p className="text-[10px] uppercase tracking-[0.22em] text-[color:var(--paper)]/65" style={{ fontFamily: "var(--font-mono)" }}>
+            <p className="eyebrow">Votre prochaine étape</p>
+            <div className="mt-3 surface-feature p-6">
+              <p className="eyebrow text-[color:var(--paper)]/65">
                 Durée estimée · {NEXT_STEP.duration}
               </p>
-              <h2 className="mt-2 font-serif italic text-[22px] leading-snug">{NEXT_STEP.title}</h2>
+              <h2 className="mt-2 font-serif text-[22px] leading-snug font-light">{NEXT_STEP.title}</h2>
               <p className="mt-3 text-[13.5px] leading-[1.55] text-[color:var(--paper)]/80">{NEXT_STEP.why}</p>
               <div className="mt-5 flex flex-wrap items-center gap-2">
-                <Link to={NEXT_STEP.to} className="rounded-full bg-[color:var(--paper)] text-dusk px-5 py-2.5 text-[12px] tracking-[0.18em] uppercase" style={{ fontFamily: "var(--font-mono)" }}>
+                <Link
+                  to={NEXT_STEP.to}
+                  className="rounded-full bg-[color:var(--paper)] text-dusk px-5 py-2.5 label-mono"
+                >
                   Voir cette étape
                 </Link>
-                <button className="rounded-full border border-[color:var(--paper)]/40 text-[color:var(--paper)] px-4 py-2 text-[11px] tracking-[0.18em] uppercase" style={{ fontFamily: "var(--font-mono)" }}>
+                <button className="rounded-full border border-[color:var(--paper)]/40 text-[color:var(--paper)] px-4 py-2 label-mono">
                   Reporter
                 </button>
-                <Link to="/circle" className="rounded-full border border-[color:var(--paper)]/40 text-[color:var(--paper)] px-4 py-2 text-[11px] tracking-[0.18em] uppercase" style={{ fontFamily: "var(--font-mono)" }}>
+                <Link
+                  to="/circle"
+                  className="rounded-full border border-[color:var(--paper)]/40 text-[color:var(--paper)] px-4 py-2 label-mono"
+                >
                   Confier
                 </Link>
               </div>
@@ -108,13 +104,11 @@ function Practical() {
               <Link
                 key={d.to}
                 to={d.to}
-                className="block rounded-[16px] border border-dusk/12 bg-paper p-5 flex items-baseline gap-4 group hover:bg-dusk/[0.02] transition-colors"
+                className="surface block p-5 flex items-baseline gap-4 group hover:bg-dusk/[0.02] transition-colors"
               >
                 <div className="flex-1 min-w-0">
-                  <p className="text-[10px] uppercase tracking-[0.26em] text-dusk/50" style={{ fontFamily: "var(--font-mono)" }}>
-                    {d.eyebrow}
-                  </p>
-                  <h3 className="mt-1.5 font-serif text-[19px] italic text-dusk leading-snug">{d.title}</h3>
+                  <p className="eyebrow">{d.eyebrow}</p>
+                  <h3 className="mt-2 font-serif text-[19px] font-light text-dusk leading-snug">{d.title}</h3>
                   <p className="mt-2 text-[13px] leading-[1.55] text-dusk/65">{d.body}</p>
                 </div>
                 <span className="text-dusk/40 group-hover:text-dusk transition">→</span>
@@ -128,12 +122,7 @@ function Practical() {
               onClick={() => setMoreOpen((o) => !o)}
               className="w-full border-t border-dusk/15 pt-5 flex items-baseline justify-between text-left"
             >
-              <p
-                className="text-[10px] uppercase tracking-[0.28em] text-dusk/55"
-                style={{ fontFamily: "var(--font-mono)" }}
-              >
-                Pour aller plus loin
-              </p>
+              <p className="eyebrow">Pour aller plus loin</p>
               <span className="text-dusk/40 text-sm">{moreOpen ? "−" : "+"}</span>
             </button>
 
@@ -143,11 +132,11 @@ function Practical() {
                   <Link
                     key={d.to}
                     to={d.to}
-                    className="block rounded-[16px] border border-dusk/12 bg-paper p-5 flex items-baseline gap-4 group hover:bg-dusk/[0.02] transition-colors"
+                    className="surface block p-5 flex items-baseline gap-4 group hover:bg-dusk/[0.02] transition-colors"
                   >
                     <div className="flex-1 min-w-0">
-                      <p className="text-[10px] uppercase tracking-[0.26em] text-dusk/50" style={{ fontFamily: "var(--font-mono)" }}>{d.eyebrow}</p>
-                      <h3 className="mt-1.5 font-serif text-[17px] italic text-dusk leading-snug">{d.title}</h3>
+                      <p className="eyebrow">{d.eyebrow}</p>
+                      <h3 className="mt-2 font-serif text-[17px] font-light text-dusk leading-snug">{d.title}</h3>
                       <p className="mt-2 text-[13px] leading-[1.55] text-dusk/65">{d.body}</p>
                     </div>
                     <span className="text-dusk/40 group-hover:text-dusk transition">→</span>
@@ -155,17 +144,12 @@ function Practical() {
                 ))}
                 <button
                   onClick={() => setBudgetOpen((o) => !o)}
-                  className="w-full rounded-[16px] border border-dusk/12 bg-paper p-5 text-left hover:bg-dusk/[0.02] transition-colors"
+                  className="w-full surface p-5 text-left hover:bg-dusk/[0.02] transition-colors"
                 >
                   <div className="flex items-baseline justify-between">
                     <div>
-                      <p
-                        className="text-[10px] uppercase tracking-[0.26em] text-dusk/50"
-                        style={{ fontFamily: "var(--font-mono)" }}
-                      >
-                        Budget indicatif
-                      </p>
-                      <p className="mt-1 font-serif italic text-[15px] text-dusk">
+                      <p className="eyebrow">Budget indicatif</p>
+                      <p className="mt-2 text-[14px] text-dusk">
                         {budget ? BUDGET_LABELS[budget].label : "À votre rythme — facultatif"}
                       </p>
                     </div>
@@ -177,10 +161,10 @@ function Practical() {
                         <button
                           key={k}
                           onClick={(e) => { e.stopPropagation(); updateBudget(k); }}
-                          className={`p-3 rounded-[12px] border text-left ${
+                          className={`p-3 rounded-[12px] border text-left transition-colors ${
                             budget === k
-                              ? "border-dusk/30 bg-clay"
-                              : "border-dusk/12 bg-paper"
+                              ? "border-dusk/40 bg-dusk/[0.04]"
+                              : "border-dusk/12 bg-paper hover:bg-dusk/[0.02]"
                           }`}
                         >
                           <p className="text-[12px] font-medium text-dusk">{BUDGET_LABELS[k].label}</p>
@@ -191,18 +175,10 @@ function Practical() {
                   )}
                 </button>
 
-                <Link
-                  to="/wishes"
-                  className="block rounded-[16px] border border-dusk/12 bg-paper p-5 flex items-baseline justify-between"
-                >
+                <Link to="/wishes" className="surface block p-5 flex items-baseline justify-between">
                   <div>
-                    <p
-                      className="text-[10px] uppercase tracking-[0.26em] text-dusk/50"
-                      style={{ fontFamily: "var(--font-mono)" }}
-                    >
-                      Mes volontés
-                    </p>
-                    <p className="mt-1 font-serif italic text-[15px] text-dusk">
+                    <p className="eyebrow">Mes volontés</p>
+                    <p className="mt-2 text-[14px] text-dusk">
                       Écrire ce que je voudrais, pour le jour venu
                     </p>
                   </div>
