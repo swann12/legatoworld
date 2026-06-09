@@ -24,6 +24,7 @@ import { Route as JournalRouteImport } from './routes/journal'
 import { Route as InspirationRouteImport } from './routes/inspiration'
 import { Route as HomeRouteImport } from './routes/home'
 import { Route as HelpRouteImport } from './routes/help'
+import { Route as DocumentsRouteImport } from './routes/documents'
 import { Route as DatesRouteImport } from './routes/dates'
 import { Route as CrisisRouteImport } from './routes/crisis'
 import { Route as CommunityRouteImport } from './routes/community'
@@ -127,6 +128,11 @@ const HomeRoute = HomeRouteImport.update({
 const HelpRoute = HelpRouteImport.update({
   id: '/help',
   path: '/help',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DocumentsRoute = DocumentsRouteImport.update({
+  id: '/documents',
+  path: '/documents',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DatesRoute = DatesRouteImport.update({
@@ -284,6 +290,7 @@ export interface FileRoutesByFullPath {
   '/community': typeof CommunityRoute
   '/crisis': typeof CrisisRoute
   '/dates': typeof DatesRoute
+  '/documents': typeof DocumentsRoute
   '/help': typeof HelpRouteWithChildren
   '/home': typeof HomeRoute
   '/inspiration': typeof InspirationRoute
@@ -330,6 +337,7 @@ export interface FileRoutesByTo {
   '/community': typeof CommunityRoute
   '/crisis': typeof CrisisRoute
   '/dates': typeof DatesRoute
+  '/documents': typeof DocumentsRoute
   '/home': typeof HomeRoute
   '/inspiration': typeof InspirationRoute
   '/journal': typeof JournalRoute
@@ -375,6 +383,7 @@ export interface FileRoutesById {
   '/community': typeof CommunityRoute
   '/crisis': typeof CrisisRoute
   '/dates': typeof DatesRoute
+  '/documents': typeof DocumentsRoute
   '/help': typeof HelpRouteWithChildren
   '/home': typeof HomeRoute
   '/inspiration': typeof InspirationRoute
@@ -423,6 +432,7 @@ export interface FileRouteTypes {
     | '/community'
     | '/crisis'
     | '/dates'
+    | '/documents'
     | '/help'
     | '/home'
     | '/inspiration'
@@ -469,6 +479,7 @@ export interface FileRouteTypes {
     | '/community'
     | '/crisis'
     | '/dates'
+    | '/documents'
     | '/home'
     | '/inspiration'
     | '/journal'
@@ -513,6 +524,7 @@ export interface FileRouteTypes {
     | '/community'
     | '/crisis'
     | '/dates'
+    | '/documents'
     | '/help'
     | '/home'
     | '/inspiration'
@@ -560,6 +572,7 @@ export interface RootRouteChildren {
   CommunityRoute: typeof CommunityRoute
   CrisisRoute: typeof CrisisRoute
   DatesRoute: typeof DatesRoute
+  DocumentsRoute: typeof DocumentsRoute
   HelpRoute: typeof HelpRouteWithChildren
   HomeRoute: typeof HomeRoute
   InspirationRoute: typeof InspirationRoute
@@ -689,6 +702,13 @@ declare module '@tanstack/react-router' {
       path: '/help'
       fullPath: '/help'
       preLoaderRoute: typeof HelpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/documents': {
+      id: '/documents'
+      path: '/documents'
+      fullPath: '/documents'
+      preLoaderRoute: typeof DocumentsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dates': {
@@ -973,6 +993,7 @@ const rootRouteChildren: RootRouteChildren = {
   CommunityRoute: CommunityRoute,
   CrisisRoute: CrisisRoute,
   DatesRoute: DatesRoute,
+  DocumentsRoute: DocumentsRoute,
   HelpRoute: HelpRouteWithChildren,
   HomeRoute: HomeRoute,
   InspirationRoute: InspirationRoute,
