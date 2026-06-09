@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Shell } from "@/components/legato/Shell";
-import { useLegato, modeProfile, type Mode } from "@/lib/legato-state";
+import { useLegato, type Mode } from "@/lib/legato-state";
 import { BUDGET_LABELS, loadPractical, savePractical, type Budget } from "@/lib/practical-store";
 
 export const Route = createFileRoute("/practical/")({
@@ -15,35 +15,38 @@ export const Route = createFileRoute("/practical/")({
 });
 
 const HEADERS: Record<Mode, { eyebrow: string; title: string; sub: string }> = {
-  cocoon:    { eyebrow: "Aides concrètes", title: "On avance d'un seul pas.",                 sub: "Rien à finir aujourd'hui. Seulement ce qui semble possible." },
-  anchoring: { eyebrow: "Aides concrètes", title: "Tout est là, dans l'ordre.",               sub: "Quatre portes claires, à votre rythme." },
-  breath:    { eyebrow: "Aides concrètes", title: "Composer un adieu qui lui ressemble.",     sub: "Fleurs, textes, musiques, ambiance. Jamais imposés." },
-  relay:     { eyebrow: "Aides concrètes", title: "D'autres mains peuvent porter avec vous.", sub: "Confier, partager. Vous gardez la décision." },
+  cocoon:    { eyebrow: "Avancer concrètement", title: "Une seule chose suffit.",           sub: "Nous vous guidons étape par étape. Rien ne doit être terminé aujourd'hui." },
+  anchoring: { eyebrow: "Avancer concrètement", title: "Tout est là, dans l'ordre.",        sub: "Nous vous guidons étape par étape. Rien ne doit être terminé aujourd'hui." },
+  breath:    { eyebrow: "Avancer concrètement", title: "Avancer d'un pas, doucement.",      sub: "Nous vous guidons étape par étape. Rien ne doit être terminé aujourd'hui." },
+  relay:     { eyebrow: "Avancer concrètement", title: "Vous pouvez partager le poids.",    sub: "Nous vous guidons étape par étape. Rien ne doit être terminé aujourd'hui." },
 };
 
-type Door = { to: string; eyebrow: string; title: string; body: string; key: "steps" | "ceremony" | "atmosphere" | "share" };
-const DOORS: Door[] = [
-  { key: "steps",      to: "/practical/steps",      eyebrow: "Démarches",        title: "Premiers jours",            body: "Constat, mairie, employeur. Trois pas, pas plus." },
-  { key: "ceremony",   to: "/practical/ceremony",   eyebrow: "Cérémonie",        title: "Choisir un déroulé",        body: "Inhumation, crémation, lieu, intervenants." },
-  { key: "atmosphere", to: "/practical/atmosphere", eyebrow: "Atmosphère",       title: "Fleurs, textes, musiques",  body: "Composer une ambiance qui lui ressemble." },
-  { key: "share",      to: "/practical/share",      eyebrow: "Partage et relais", title: "Transmettre, demander",    body: "Pompes funèbres, proches, officiant." },
-];
+/** « Votre prochaine étape » — une seule action en haut de page. */
+const NEXT_STEP = {
+  title: "Contacter une entreprise de pompes funèbres",
+  why: "Premier rendez-vous pour organiser la mise en bière et la cérémonie.",
+  duration: "10 minutes",
+  to: "/plan" as const,
+};
 
-function reorderForMode(mode: Mode): Door[] {
-  const order: Record<Mode, Door["key"][]> = {
-    cocoon:    ["steps", "atmosphere", "ceremony", "share"],
-    anchoring: ["steps", "ceremony", "atmosphere", "share"],
-    breath:    ["atmosphere", "ceremony", "steps", "share"],
-    relay:     ["share", "steps", "ceremony", "atmosphere"],
-  };
-  return order[mode].map((k) => DOORS.find((d) => d.key === k)!);
-}
+/** Trois accès principaux, sous la prochaine étape. */
+const MAIN_LINKS = [
+  { to: "/plan",      eyebrow: "Plan",      title: "Voir mon plan",     body: "Vos étapes, par priorité. À votre rythme." },
+  { to: "/resources", eyebrow: "Aide",      title: "Trouver une aide",  body: "Pompes funèbres, notaires, thérapeutes, célébrant·es." },
+  { to: "/practical/steps", eyebrow: "Documents", title: "Mes documents", body: "Pièce d'identité, livret de famille, certificat, contrats." },
+] as const;
+
+/** Autres portes (préparation cérémonie, ambiance, partage), discrètes. */
+const DOORS = [
+  { to: "/practical/ceremony",   eyebrow: "Cérémonie",   title: "Préparer la cérémonie",     body: "Lieu, format, intervenants, déroulé." },
+  { to: "/practical/atmosphere", eyebrow: "Atmosphère",  title: "Fleurs, textes, musiques",  body: "Composer une ambiance qui lui ressemble." },
+  { to: "/circle",               eyebrow: "Proches",     title: "Proches et relais",         body: "Inviter, confier, partager." },
+  { to: "/practical/booklet",    eyebrow: "Livret",      title: "Le livret de cérémonie",    body: "Mettre en page, exporter en PDF." },
+] as const;
 
 function Practical() {
   const { mode } = useLegato();
-  const profile = modeProfile(mode);
   const h = HEADERS[mode];
-  const doors = reorderForMode(mode);
   const [budget, setBudget] = useState<Budget>("");
   const [budgetOpen, setBudgetOpen] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
@@ -51,10 +54,8 @@ function Practical() {
   useEffect(() => { setBudget(loadPractical().budget); }, []);
   const updateBudget = (b: Budget) => { setBudget(b); savePractical({ budget: b }); };
 
-  const gap = profile.density === "tight" ? "space-y-3" : profile.density === "open" ? "space-y-5" : "space-y-4";
-
   return (
-    <Shell hideNav>
+    <Shell>
       <div className="relative">
         <div className="relative z-10">
           <div className="px-7 pt-10 flex items-center justify-between">
@@ -74,36 +75,47 @@ function Practical() {
           </div>
 
           <header className="px-7 pt-14">
-            <p
-              className="text-[10px] uppercase tracking-[0.3em] text-dusk/50"
-              style={{ fontFamily: "var(--font-mono)" }}
-            >
-              Compagnon d'organisation
-            </p>
-            <h1 className="mt-4 font-serif text-[36px] leading-[1.05] font-light text-dusk text-balance">
+            <h1 className="font-serif text-[36px] leading-[1.05] font-light text-dusk text-balance">
               {h.title}
             </h1>
             <p className="mt-6 max-w-[34ch] text-[14.5px] leading-[1.6] text-dusk/65">{h.sub}</p>
           </header>
 
-          <div className={`px-7 mt-10 ${gap}`}>
-            {doors.map((d, i) => (
+          {/* Votre prochaine étape */}
+          <div className="px-7 mt-10">
+            <p className="text-[10px] uppercase tracking-[0.28em] text-dusk/55" style={{ fontFamily: "var(--font-mono)" }}>
+              Votre prochaine étape
+            </p>
+            <div className="mt-3 rounded-[20px] p-6 text-[color:var(--paper)]" style={{ background: "var(--bordeaux)" }}>
+              <p className="text-[10px] uppercase tracking-[0.22em] text-[color:var(--paper)]/65" style={{ fontFamily: "var(--font-mono)" }}>
+                Durée estimée · {NEXT_STEP.duration}
+              </p>
+              <h2 className="mt-2 font-serif italic text-[22px] leading-snug">{NEXT_STEP.title}</h2>
+              <p className="mt-3 text-[13.5px] leading-[1.55] text-[color:var(--paper)]/80">{NEXT_STEP.why}</p>
+              <div className="mt-5 flex flex-wrap items-center gap-2">
+                <Link to={NEXT_STEP.to} className="rounded-full bg-[color:var(--paper)] text-dusk px-5 py-2.5 text-[12px] tracking-[0.18em] uppercase" style={{ fontFamily: "var(--font-mono)" }}>
+                  Voir cette étape
+                </Link>
+                <button className="rounded-full border border-[color:var(--paper)]/40 text-[color:var(--paper)] px-4 py-2 text-[11px] tracking-[0.18em] uppercase" style={{ fontFamily: "var(--font-mono)" }}>
+                  Reporter
+                </button>
+                <Link to="/circle" className="rounded-full border border-[color:var(--paper)]/40 text-[color:var(--paper)] px-4 py-2 text-[11px] tracking-[0.18em] uppercase" style={{ fontFamily: "var(--font-mono)" }}>
+                  Confier
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          {/* Trois accès principaux */}
+          <div className="px-7 mt-8 space-y-3">
+            {MAIN_LINKS.map((d) => (
               <Link
-                key={d.key}
+                key={d.to}
                 to={d.to}
                 className="block rounded-[16px] border border-dusk/12 bg-paper p-5 flex items-baseline gap-4 group hover:bg-dusk/[0.02] transition-colors"
               >
-                <span
-                  className="text-[11px] tracking-[0.18em] text-dusk/45 leading-none w-7 shrink-0"
-                  style={{ fontFamily: "var(--font-mono)" }}
-                >
-                  0{i + 1}
-                </span>
                 <div className="flex-1 min-w-0">
-                  <p
-                    className="text-[10px] uppercase tracking-[0.26em] text-dusk/50"
-                    style={{ fontFamily: "var(--font-mono)" }}
-                  >
+                  <p className="text-[10px] uppercase tracking-[0.26em] text-dusk/50" style={{ fontFamily: "var(--font-mono)" }}>
                     {d.eyebrow}
                   </p>
                   <h3 className="mt-1.5 font-serif text-[19px] italic text-dusk leading-snug">{d.title}</h3>
@@ -131,6 +143,20 @@ function Practical() {
 
             {moreOpen && (
               <div className="mt-5 space-y-3">
+                {DOORS.map((d) => (
+                  <Link
+                    key={d.to}
+                    to={d.to}
+                    className="block rounded-[16px] border border-dusk/12 bg-paper p-5 flex items-baseline gap-4 group hover:bg-dusk/[0.02] transition-colors"
+                  >
+                    <div className="flex-1 min-w-0">
+                      <p className="text-[10px] uppercase tracking-[0.26em] text-dusk/50" style={{ fontFamily: "var(--font-mono)" }}>{d.eyebrow}</p>
+                      <h3 className="mt-1.5 font-serif text-[17px] italic text-dusk leading-snug">{d.title}</h3>
+                      <p className="mt-2 text-[13px] leading-[1.55] text-dusk/65">{d.body}</p>
+                    </div>
+                    <span className="text-dusk/40 group-hover:text-dusk transition">→</span>
+                  </Link>
+                ))}
                 <button
                   onClick={() => setBudgetOpen((o) => !o)}
                   className="w-full rounded-[16px] border border-dusk/12 bg-paper p-5 text-left hover:bg-dusk/[0.02] transition-colors"
@@ -182,24 +208,6 @@ function Practical() {
                     </p>
                     <p className="mt-1 font-serif italic text-[15px] text-dusk">
                       Écrire ce que je voudrais, pour le jour venu
-                    </p>
-                  </div>
-                  <span className="text-dusk/40">→</span>
-                </Link>
-
-                <Link
-                  to="/resources"
-                  className="block rounded-[16px] border border-dusk/12 bg-paper p-5 flex items-baseline justify-between"
-                >
-                  <div>
-                    <p
-                      className="text-[10px] uppercase tracking-[0.26em] text-dusk/50"
-                      style={{ fontFamily: "var(--font-mono)" }}
-                    >
-                      Ressources & accompagnement
-                    </p>
-                    <p className="mt-1 font-serif italic text-[15px] text-dusk">
-                      Des personnes de confiance, recommandées par Legato
                     </p>
                   </div>
                   <span className="text-dusk/40">→</span>
