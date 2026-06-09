@@ -5,19 +5,16 @@ import { LegatoProvider } from "@/lib/legato-state";
 
 function NotFoundComponent() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
+    <div className="flex min-h-screen items-center justify-center bg-paper px-4">
       <div className="max-w-md text-center">
-        <h1 className="font-serif text-7xl font-light text-foreground">404</h1>
-        <h2 className="mt-4 font-serif text-xl italic text-foreground">A quiet, empty room</h2>
-        <p className="mt-2 text-sm text-muted-foreground">
-          This page hasn't been planted yet.
+        <p className="eyebrow mb-6">404</p>
+        <h1 className="font-serif text-[30px] font-light text-dusk">Une pièce calme, vide.</h1>
+        <p className="mt-4 text-[14px] text-dusk/65">
+          Cette page n'a pas encore été plantée.
         </p>
-        <div className="mt-6">
-          <Link
-            to="/"
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-          >
-            Return home
+        <div className="mt-8">
+          <Link to="/home" className="btn-primary inline-block">
+            Revenir à l'accueil
           </Link>
         </div>
       </div>
@@ -52,7 +49,7 @@ export const Route = createRootRoute({
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Instrument+Serif:ital@0;1&family=Work+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Inter:wght@300;400;500;600&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Work+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap",
       },
       {
         rel: "stylesheet",
