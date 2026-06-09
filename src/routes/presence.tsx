@@ -124,26 +124,9 @@ function Presence() {
       <div className="relative min-h-dvh flex flex-col">
         <div className="relative z-10 flex flex-1 flex-col">
           <div className="flex items-center justify-between px-7 pt-10">
-            <Link
-              to="/home"
-              className="text-[10px] uppercase tracking-[0.3em] text-dusk/55 hover:text-dusk"
-              style={{ fontFamily: "var(--font-mono)" }}
-            >
-              ← Accueil
-            </Link>
-            <p
-              className="text-[10px] uppercase tracking-[0.3em] text-dusk/50"
-              style={{ fontFamily: "var(--font-mono)" }}
-            >
-              Présence
-            </p>
-            <Link
-              to="/no-words"
-              className="text-[10px] uppercase tracking-[0.3em] text-dusk/55 hover:text-dusk"
-              style={{ fontFamily: "var(--font-mono)" }}
-            >
-              Sans mots →
-            </Link>
+            <Link to="/home" className="eyebrow hover:text-dusk">← Aujourd'hui</Link>
+            <p className="eyebrow">Présence</p>
+            <Link to="/no-words" className="eyebrow hover:text-dusk">Sans mots →</Link>
           </div>
 
           {compact ? (
@@ -156,15 +139,11 @@ function Presence() {
                     animationDuration: "7s",
                   }}
                 />
-                <p className="font-serif italic text-[15px] text-dusk/70">
+                <p className="text-[14px] text-dusk/70">
                   Je suis là, <span className="text-dusk">{name}</span>.
                 </p>
               </div>
-              <button
-                onClick={startNew}
-                className="text-[10px] uppercase tracking-[0.24em] text-dusk/45 hover:text-dusk transition-colors"
-                style={{ fontFamily: "var(--font-mono)" }}
-              >
+              <button onClick={startNew} className="eyebrow-sm hover:text-dusk transition-colors">
                 Nouveau silence
               </button>
             </div>
@@ -179,12 +158,9 @@ function Presence() {
                   }}
                 />
               </div>
-              <h1
-                className="mt-8 font-serif text-[28px] font-light text-dusk max-w-[22ch] leading-[1.1]"
-                style={{ textWrap: "balance" }}
-              >
-                Je suis là, <span className="italic">{name}</span>.
-                <span className="block mt-1 italic text-dusk/70 text-[20px]">Tout le temps qu'il faut.</span>
+              <h1 className="mt-8 font-serif text-[28px] font-light text-dusk max-w-[22ch] leading-[1.1] text-balance">
+                Je suis là, {name}.
+                <span className="block mt-2 text-dusk/65 text-[18px]">Tout le temps qu'il faut.</span>
               </h1>
             </div>
           )}
@@ -192,14 +168,9 @@ function Presence() {
           <div ref={scrollerRef} className="flex-1 px-7 pt-10 pb-4 space-y-3 overflow-y-auto no-scrollbar">
             {messages.map((m, i) =>
               m.role === "presence" ? (
-                <div key={i} className="rounded-[16px] border border-dusk/10 bg-paper px-5 py-4 max-w-[85%]">
-                  <p
-                    className="text-[10px] uppercase tracking-[0.26em] text-dusk/45 mb-1.5"
-                    style={{ fontFamily: "var(--font-mono)" }}
-                  >
-                    Présence
-                  </p>
-                  <p className="font-serif text-[17px] italic leading-relaxed text-dusk">{m.text}</p>
+                <div key={i} className="surface px-5 py-4 max-w-[85%]">
+                  <p className="eyebrow-sm mb-2">Présence</p>
+                  <p className="font-serif text-[16px] leading-[1.55] text-dusk">{m.text}</p>
                 </div>
               ) : (
                 <div key={i} className="ml-auto rounded-[16px] px-5 py-3 max-w-[85%] bg-dusk text-paper">
@@ -208,14 +179,9 @@ function Presence() {
               )
             )}
             {pending && (
-              <div className="rounded-[16px] border border-dusk/10 bg-paper px-5 py-4 max-w-[60%]">
-                <p
-                  className="text-[10px] uppercase tracking-[0.26em] text-dusk/45 mb-1.5"
-                  style={{ fontFamily: "var(--font-mono)" }}
-                >
-                  Présence
-                </p>
-                <p className="font-serif text-[17px] italic text-dusk/55">
+              <div className="surface px-5 py-4 max-w-[60%]">
+                <p className="eyebrow-sm mb-2">Présence</p>
+                <p className="font-serif text-[16px] text-dusk/55">
                   <span className="inline-block animate-pulse">…</span>
                 </p>
               </div>
@@ -228,7 +194,7 @@ function Presence() {
                 key={s}
                 disabled={pending}
                 onClick={() => send(s)}
-                className="shrink-0 rounded-full border border-dusk/15 bg-paper px-4 py-2 text-[13px] text-dusk/75 italic font-serif disabled:opacity-40 hover:bg-dusk/5 transition-colors"
+                className="shrink-0 rounded-full border border-dusk/15 bg-paper px-4 py-2 text-[13px] text-dusk/75 disabled:opacity-40 hover:bg-dusk/5 transition-colors"
               >
                 {s}
               </button>
@@ -244,7 +210,7 @@ function Presence() {
                 value={draft}
                 onChange={(e) => setDraft(e.target.value)}
                 placeholder="Écrivez un mot, ou restez simplement en silence…"
-                className="flex-1 bg-transparent font-serif text-base italic text-dusk placeholder:text-dusk/35 outline-none py-2"
+                className="flex-1 bg-transparent text-[15px] text-dusk placeholder:text-dusk/35 outline-none py-2"
                 disabled={pending}
               />
               <button
