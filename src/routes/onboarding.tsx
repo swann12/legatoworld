@@ -1,8 +1,8 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import {
-  BRANCHES, TODAY_STATES, useLegato,
-  type Branch, type Space, type TodayState,
+  BRANCHES, TODAY_STATES, CONCRETE_PRIORITIES, useLegato,
+  type Branch, type Space, type TodayState, type ConcretePriority,
 } from "@/lib/legato-state";
 
 export const Route = createFileRoute("/onboarding")({
@@ -24,21 +24,23 @@ function Onboarding() {
     branch, setBranch,
     space, setSpace,
     todayState, setTodayState,
+    concretePriority, setConcretePriority,
     setMode,
   } = useLegato();
   const initialStep: Step = name && name.trim().length > 0 ? 1 : 0;
   const [step, setStep] = useState<Step>(initialStep);
   const [localSpace, setLocalSpace] = useState<Space>(space);
   const [localToday, setLocalToday] = useState<TodayState>(todayState);
+  const [localPriority, setLocalPriority] = useState<ConcretePriority>(concretePriority);
   const navigate = useNavigate();
 
-  // Total dynamique : 4 étapes pour psy, 3 pour concret.
-  const total = localSpace === "concrete" ? 3 : 4;
+  // 4 étapes pour les deux espaces : prénom · bifurcation · situation/priorité · état/finalisation.
+  const total = 4;
 
   const canContinue =
     (step === 0 && !!name.trim()) ||
     (step === 1 && (localSpace === "psy" || localSpace === "concrete")) ||
-    (step === 2 && !!branch) ||
+    (step === 2 && (localSpace === "concrete" ? !!localPriority : !!branch)) ||
     (step === 3 && !!localToday);
 
   const finish = () => {
@@ -49,12 +51,13 @@ function Onboarding() {
       if (chosen) setMode(chosen.mode);
       navigate({ to: "/accompany" });
     } else {
+      setConcretePriority(localPriority);
       navigate({ to: "/practical" });
     }
   };
 
   const goNext = () => {
-    if (step === 2 && localSpace === "concrete") { finish(); return; }
+    if (step === 2 && localSpace === "concrete") { finish(); return; } // concret : 3 vraies étapes
     if (step === 3) { finish(); return; }
     setStep(((step + 1) as Step));
   };
@@ -82,7 +85,12 @@ function Onboarding() {
         <div className="relative z-10 flex flex-1 flex-col px-7 pt-14">
           {step === 0 && <StepName name={name} setName={setName} />}
           {step === 1 && <StepSpace value={localSpace} onChange={setLocalSpace} />}
-          {step === 2 && <StepBranch value={branch} onChange={setBranch} space={localSpace} />}
+          {step === 2 && localSpace === "concrete" && (
+            <StepPriority value={localPriority} onChange={setLocalPriority} />
+          )}
+          {step === 2 && localSpace !== "concrete" && (
+            <StepBranch value={branch} onChange={setBranch} space={localSpace} />
+          )}
           {step === 3 && localSpace === "psy" && (
             <StepToday value={localToday} onChange={setLocalToday} />
           )}
