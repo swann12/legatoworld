@@ -61,16 +61,10 @@ function Home() {
         <header className="px-6 pt-12 flex items-start justify-between">
           <div className="flex flex-col">
             <span className="eyebrow">Legato · {today}</span>
-            <Link
-              to="/space"
-              className="eyebrow mt-3 text-dusk/55 hover:text-dusk transition-colors"
-            >
-              Espace · {spaceLabel} ↔
-            </Link>
           </div>
           <Link
             to="/space"
-            aria-label="Mon espace"
+            aria-label={`Mon espace · ${spaceLabel}`}
             className="size-9 rounded-full border border-dusk/15 flex items-center justify-center hover:bg-dusk/[0.04] transition-colors"
           >
             <span className="text-[13px] text-dusk">
@@ -105,9 +99,6 @@ function Home() {
                 {isConcrete ? priority.label : todayLabel}
               </span>
             </div>
-            <Link to="/space" className="eyebrow-sm hover:text-dusk">
-              Modifier
-            </Link>
           </div>
         </section>
 

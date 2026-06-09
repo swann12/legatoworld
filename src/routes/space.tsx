@@ -17,7 +17,7 @@ function Space() {
   const items: { to: "/memories" | "/dates" | "/onboarding" | "/crisis"; eyebrow: string; title: string }[] = [
     { to: "/memories", eyebrow: "Bibliothèque", title: "Ce que vous avez gardé" },
     { to: "/dates", eyebrow: "Calendrier", title: "Dates sensibles" },
-    { to: "/onboarding", eyebrow: "Ajuster", title: "Changer de branche ou de mode" },
+    { to: "/onboarding", eyebrow: "Ajuster", title: "Ajuster mes réponses" },
     { to: "/crisis", eyebrow: "Sécurité", title: "Si aujourd'hui pèse trop" },
   ];
 
