@@ -46,11 +46,12 @@ export const BEINGS: Being[] = [
 function Garden() {
   const { lostName, t, lang } = useLegato();
   const [hovered, setHovered] = useState<string | null>(null);
-  // Une seule parcelle habitée pour l'instant — celle de l'être choisi à l'onboarding.
+  // Une parcelle habitée + quatre lopins libres à inviter (jardin progressif).
   const beings: Being[] = [
     { id: "main", name: lostName || (lang === "fr" ? "votre être" : "your being"),
       kind: "person", ...BED_POSITIONS[0], blooms: DEFAULT_BLOOMS },
   ];
+  const freeBeds = BED_POSITIONS.slice(1);
   const activeBeing = beings.find((b) => b.id === hovered) ?? null;
 
   return (
@@ -118,6 +119,28 @@ function Garden() {
                   }}
                 />
               ))}
+              {/* Lopins libres — petits germes qui invitent à planter, sans pression. */}
+              {freeBeds.map((b, i) => (
+                <Link
+                  key={`free-${i}`}
+                  to="/space"
+                  aria-label={lang === "fr" ? "Inviter un autre être" : "Invite another being"}
+                  className="absolute flex items-center justify-center rounded-full transition-opacity hover:opacity-100 opacity-60"
+                  style={{
+                    left: `${b.cx - b.rx / 2}%`,
+                    top: `${b.cy - b.ry / 2}%`,
+                    width: `${b.rx}%`,
+                    height: `${b.ry}%`,
+                  }}
+                >
+                  <span
+                    className="size-6 rounded-full border border-dashed border-dusk/40 flex items-center justify-center text-dusk/55 text-[14px] leading-none bg-paper/40 backdrop-blur-[1px]"
+                    aria-hidden
+                  >
+                    +
+                  </span>
+                </Link>
+              ))}
             </div>
 
             {/* Discreet, subtle indication of which being a bloom belongs to */}
@@ -137,14 +160,17 @@ function Garden() {
               </p>
             </div>
 
-            {/* CTA discret pour les autres parcelles, à venir */}
+            {/* CTA discret pour planter un nouveau lopin */}
             <div className="px-7 mt-6 text-center">
-              <p
-                className="text-[10px] uppercase tracking-[0.28em] text-dusk/45"
+              <Link
+                to="/space"
+                className="text-[10px] uppercase tracking-[0.28em] text-dusk/55 hover:text-dusk"
                 style={{ fontFamily: "var(--font-mono)" }}
               >
-                {lang === "fr" ? "Inviter un autre être — bientôt" : "Invite another being — soon"}
-              </p>
+                {lang === "fr"
+                  ? `Planter un autre lopin · ${freeBeds.length} libres`
+                  : `Plant another patch · ${freeBeds.length} free`}
+              </Link>
             </div>
           </div>
         </div>
