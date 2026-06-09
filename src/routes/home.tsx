@@ -29,6 +29,37 @@ const GREETING_LINE: Record<Mode, string> = {
   relay:     "Vous n'avez rien à porter seul·e.",
 };
 
+/* Ordre + intensité des deux blocs secondaires, selon le mode.
+   En Cocon/Souffle, le soutien intérieur passe devant le concret.
+   En Ancrage, c'est l'inverse. En Relais, on met d'abord le cercle. */
+type Secondary = "accompany" | "practical" | "circle";
+const SECONDARY_ORDER: Record<Mode, Secondary[]> = {
+  cocoon:    ["accompany", "practical"],
+  anchoring: ["practical", "accompany"],
+  breath:    ["accompany", "practical"],
+  relay:     ["circle", "accompany", "practical"],
+};
+const SECONDARY_CARDS: Record<Secondary, { to: string; eyebrow: string; title: string; body: string }> = {
+  accompany: {
+    to: "/accompany",
+    eyebrow: "Soutien",
+    title: "Être accompagné·e",
+    body: "Parler, respirer, écrire, retrouver un peu d'espace.",
+  },
+  practical: {
+    to: "/practical",
+    eyebrow: "Organisation",
+    title: "Avancer concrètement",
+    body: "Être guidé·e dans les démarches, une étape après l'autre.",
+  },
+  circle: {
+    to: "/circle",
+    eyebrow: "Proches",
+    title: "Confier quelque chose",
+    body: "Inviter quelqu'un à porter une partie avec vous.",
+  },
+};
+
 function Home() {
   const { name, mode, lang, setLang } = useLegato();
   const today = new Intl.DateTimeFormat(lang === "fr" ? "fr-FR" : "en-US", {
@@ -36,6 +67,7 @@ function Home() {
   }).format(new Date());
   const primary = PRIMARY[mode];
   const modeLabel = MODES.find((m) => m.id === mode)?.label ?? "";
+  const secondaries = SECONDARY_ORDER[mode];
 
   return (
     <Shell>
@@ -106,37 +138,25 @@ function Home() {
 
         {/* ─── Bloc secondaire : deux accès seulement ─── */}
         <section className="px-7 pt-6 space-y-3">
-          <Link
-            to="/accompany"
-            className="block rounded-[16px] border border-dusk/12 bg-paper p-5 flex items-baseline justify-between gap-4 hover:bg-dusk/[0.02] transition-colors"
-          >
-            <div>
-              <p className="text-[10px] uppercase tracking-[0.26em] text-dusk/50" style={{ fontFamily: "var(--font-mono)" }}>
-                Soutien
-              </p>
-              <p className="mt-1.5 font-serif italic text-[19px] text-dusk leading-snug">Être accompagné·e</p>
-              <p className="mt-1.5 text-[13px] leading-[1.5] text-dusk/65 max-w-[34ch]">
-                Parler, respirer, écrire, retrouver un peu d'espace.
-              </p>
-            </div>
-            <span className="text-dusk/40 shrink-0">→</span>
-          </Link>
-
-          <Link
-            to="/practical"
-            className="block rounded-[16px] border border-dusk/12 bg-paper p-5 flex items-baseline justify-between gap-4 hover:bg-dusk/[0.02] transition-colors"
-          >
-            <div>
-              <p className="text-[10px] uppercase tracking-[0.26em] text-dusk/50" style={{ fontFamily: "var(--font-mono)" }}>
-                Organisation
-              </p>
-              <p className="mt-1.5 font-serif italic text-[19px] text-dusk leading-snug">Avancer concrètement</p>
-              <p className="mt-1.5 text-[13px] leading-[1.5] text-dusk/65 max-w-[34ch]">
-                Être guidé·e dans les démarches, une étape après l'autre.
-              </p>
-            </div>
-            <span className="text-dusk/40 shrink-0">→</span>
-          </Link>
+          {secondaries.map((id) => {
+            const c = SECONDARY_CARDS[id];
+            return (
+              <Link
+                key={id}
+                to={c.to}
+                className="block rounded-[16px] border border-dusk/12 bg-paper p-5 flex items-baseline justify-between gap-4 hover:bg-dusk/[0.02] transition-colors"
+              >
+                <div>
+                  <p className="text-[10px] uppercase tracking-[0.26em] text-dusk/50" style={{ fontFamily: "var(--font-mono)" }}>
+                    {c.eyebrow}
+                  </p>
+                  <p className="mt-1.5 font-serif italic text-[19px] text-dusk leading-snug">{c.title}</p>
+                  <p className="mt-1.5 text-[13px] leading-[1.5] text-dusk/65 max-w-[34ch]">{c.body}</p>
+                </div>
+                <span className="text-dusk/40 shrink-0">→</span>
+              </Link>
+            );
+          })}
         </section>
 
         {/* ─── Mode du jour, discret ─── */}

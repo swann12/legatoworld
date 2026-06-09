@@ -171,14 +171,15 @@ function saveFavorites(ids: string[]) {
 
 function NoWords() {
   const search = Route.useSearch();
-  const tab: Tab = search.tab ?? "souffles";
+  const tab: Tab | undefined = search.tab;
   const title =
     tab === "souffles" ? "Souffles" :
     tab === "respirer" ? "Respirer" :
-    tab === "lire" ? "Lire" : "Regarder";
+    tab === "lire" ? "Lire" :
+    tab === "regarder" ? "Regarder" : "Sans mots";
 
   const isSouffles = tab === "souffles";
-  const isFullScreen = isSouffles || tab === "respirer" || tab === "lire" || tab === "regarder";
+  const isFullScreen = !!tab && (isSouffles || tab === "respirer" || tab === "lire" || tab === "regarder");
 
   return (
     <Shell livingBg={false} hideNav={isFullScreen}>
@@ -206,6 +207,7 @@ function NoWords() {
         )}
 
         <div className="relative z-10 flex-1 flex flex-col">
+          {!tab && <ChooseSansMots />}
           {tab === "souffles" && <SoufflesView />}
           {tab === "respirer" && <RespirerView />}
           {tab === "lire" && <LireView />}
@@ -213,6 +215,51 @@ function NoWords() {
         </div>
       </div>
     </Shell>
+  );
+}
+
+/* ============================================================
+   ENTRÉE — 3 choix : Respirer · Écouter · Regarder
+   ============================================================ */
+function ChooseSansMots() {
+  const choices: { tab: Tab; label: string; whisper: string }[] = [
+    { tab: "respirer", label: "Respirer", whisper: "Suivre un souffle, sans rien d'autre à faire." },
+    { tab: "souffles", label: "Écouter",  whisper: "Une nappe de sons doux, à toute heure." },
+    { tab: "regarder", label: "Regarder", whisper: "Une image qui bouge à peine, pour reposer le regard." },
+  ];
+  return (
+    <div className="flex-1 flex flex-col px-7 pt-10 pb-12">
+      <header>
+        <p
+          className="text-[10px] uppercase tracking-[0.26em] text-dusk/55"
+          style={{ fontFamily: "var(--font-mono)" }}
+        >
+          Sans mots
+        </p>
+        <h1 className="mt-3 font-serif text-[34px] leading-[1.05] font-light text-dusk text-balance">
+          Trois manières de <span className="italic">se poser.</span>
+        </h1>
+        <p className="mt-5 max-w-[34ch] text-[14px] leading-[1.6] text-dusk/65">
+          Choisissez ce qui vous ressemble aujourd'hui. Rien n'est obligatoire.
+        </p>
+      </header>
+      <div className="mt-10 space-y-3">
+        {choices.map((c) => (
+          <Link
+            key={c.tab}
+            to="/no-words"
+            search={{ tab: c.tab }}
+            className="block rounded-[16px] border border-dusk/12 bg-paper p-5 hover:bg-dusk/[0.02] transition-colors"
+          >
+            <p className="font-serif italic text-[20px] text-dusk leading-snug">{c.label}</p>
+            <p className="mt-1.5 text-[13px] leading-[1.55] text-dusk/65">{c.whisper}</p>
+          </Link>
+        ))}
+      </div>
+      <p className="mt-auto pt-12 text-center text-[12px] italic text-dusk/45">
+        On reste ici tant que l'on veut.
+      </p>
+    </div>
   );
 }
 
