@@ -30,6 +30,7 @@ function CategoryPage() {
   const all = providersByCategory(category as CategoryId);
   const [filter, setFilter] = useState<Filter>("tous");
   const [city, setCity] = useState("");
+  const [showAll, setShowAll] = useState(false);
 
   const list = all.filter((p) => {
     if (filter === "visio" && !p.modes.includes("visio")) return false;
@@ -38,6 +39,8 @@ function CategoryPage() {
     if (city.trim() && !p.city.toLowerCase().includes(city.trim().toLowerCase())) return false;
     return true;
   });
+  const visible = showAll ? list : list.slice(0, 3);
+  const hidden = Math.max(0, list.length - visible.length);
 
   return (
     <Shell>
@@ -92,7 +95,12 @@ function CategoryPage() {
             Personne ne correspond à votre recherche pour l'instant.
           </p>
         )}
-        {list.map((p) => (
+        {visible.length > 0 && (
+          <p className="text-[11px] uppercase tracking-[0.2em] text-dusk/50">
+            Trois personnes, choisies pour vous
+          </p>
+        )}
+        {visible.map((p) => (
           <article key={p.id} className="paper-card overflow-hidden">
             <div className="flex gap-4 p-4">
               <div
@@ -146,6 +154,22 @@ function CategoryPage() {
             </div>
           </article>
         ))}
+        {hidden > 0 && (
+          <button
+            onClick={() => setShowAll(true)}
+            className="w-full paper-card px-5 py-4 text-center text-[12px] uppercase tracking-[0.2em] text-dusk/65 hover:text-dusk"
+          >
+            Voir {hidden} autre{hidden > 1 ? "s" : ""} · à votre rythme
+          </button>
+        )}
+        {showAll && list.length > 3 && (
+          <button
+            onClick={() => setShowAll(false)}
+            className="w-full px-5 py-3 text-center text-[11px] uppercase tracking-[0.2em] text-dusk/45 hover:text-dusk"
+          >
+            Revenir aux trois suggestions
+          </button>
+        )}
       </section>
     </Shell>
   );
