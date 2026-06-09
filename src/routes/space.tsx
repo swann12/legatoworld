@@ -9,7 +9,7 @@ export const Route = createFileRoute("/space")({
 });
 
 function Space() {
-  const { name, branch, space, todayState } = useLegato();
+  const { name, branch, space, todayState, mode } = useLegato();
   const branchLabel = BRANCHES.find((b) => b.id === branch)?.label;
   const todayLabel = TODAY_STATES.find((t) => t.id === todayState)?.label;
   const spaceLabel =
