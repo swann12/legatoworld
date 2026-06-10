@@ -464,19 +464,34 @@
     border: 1px solid color-mix(in oklab, var(--dusk) 12%, transparent);
     border-radius: 16px;
   }
-  /* Surface « feature » unique par page : bordeaux profond, texte cream. */
+  /* Bloc feature « éditorial noir » (cf. "The Funeral" — Empathy) :
+   * encre noire profonde, titre serif cream/paper dessus. */
   .surface-feature {
-    background: var(--bordeaux);
+    background: var(--ink);
     color: var(--paper);
     border-radius: 16px;
   }
+  /* Carte hero chaude (cf. "Is there a right way to grieve?" — Empathy) :
+   * peach lumineux, titre serif sombre dessus. */
+  .surface-warm {
+    background: var(--peach-card);
+    color: var(--ink);
+    border-radius: 18px;
+  }
+  /* Carte showcase aubergine — accent rare, identité Legato. */
+  .surface-aubergine {
+    background: var(--aubergine);
+    color: var(--paper);
+    border-radius: 18px;
+  }
 
-  /* Bouton primaire — sans, uppercase mono pour l'étiquette. */
+  /* Bouton primaire — pill noir plein (cf. "DIVE DEEPER" Co-Star).
+   * Étiquette mono uppercase, jamais bordeaux pour le CTA principal. */
   .btn-primary {
-    background: var(--bordeaux);
+    background: var(--ink);
     color: var(--paper);
     border-radius: 999px;
-    padding: 0.75rem 1.25rem;
+    padding: 0.85rem 1.4rem;
     font-family: var(--font-mono);
     text-transform: uppercase;
     letter-spacing: 0.22em;
