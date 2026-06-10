@@ -117,62 +117,66 @@ function Start() {
   return (
     <main className="min-h-dvh bg-paper text-dusk">
       <div className="mobile-frame relative flex min-h-dvh flex-col">
-        <header className="px-7 pt-10 flex items-center justify-between">
-          <span className="eyebrow tracking-[0.32em] text-dusk/55">L  ·  Legato</span>
-          <span className="eyebrow text-dusk/40">
+        {/* Top — filet hairline sous le nav, ancre le haut */}
+        <header className="flex items-center justify-between px-7 py-7 border-b border-dusk/12">
+          <span className="eyebrow tracking-[0.24em] text-dusk/70">
+            L <span className="mx-1.5 opacity-40">·</span> Legato
+          </span>
+          <span
+            className="text-[10px] uppercase tracking-[0.24em] text-dusk/55"
+            style={{ fontFamily: "var(--font-mono)" }}
+          >
             {mode === "signin" ? "Connexion" : mode === "signup" ? "Inscription" : "Entrer"}
           </span>
         </header>
 
-        <div className="relative z-10 flex flex-1 flex-col justify-center px-7 pb-12 pt-12">
-          <p className="eyebrow text-dusk/55">Bienvenue</p>
-          <h1
-            className="mt-6 font-serif text-[32px] leading-[1.08] text-dusk font-light text-balance"
-          >
+        {/* Centre — titre éditorial, ancré dans la hauteur */}
+        <div className="relative z-10 flex flex-1 flex-col justify-center px-8 pt-12 pb-8">
+          <p className="eyebrow tracking-[0.3em] text-dusk/60 mb-7">Bienvenue</p>
+          <h1 className="font-serif italic text-[44px] leading-[1.05] tracking-tight text-dusk text-balance">
             Préparer un adieu,
             <br />
-            <span className="italic text-dusk/80">garder une présence.</span>
+            garder une présence.
           </h1>
-          <p className="mt-5 max-w-[34ch] text-[14px] leading-[1.65] text-dusk/65 text-balance">
-            Composer une cérémonie, écrire ce qui compte, faire vivre le souvenir.
-            <br />À votre rythme.
+          <p className="mt-6 max-w-[28ch] text-[16px] leading-[1.55] text-dusk/75">
+            Composer une cérémonie, écrire ce qui compte, faire vivre le souvenir. À votre rythme.
           </p>
+        </div>
 
-          <div className="mt-10 flex flex-col gap-3">
+        {/* Footer ancré — filet hairline + CTAs */}
+        <footer className="px-7 pt-7 pb-10 border-t border-dusk/12 space-y-3">
+          <div className="flex flex-col gap-3">
             {mode === "choice" && (
               <div className="flex flex-col gap-3 animate-fade-in">
-                {/* CTA principal — unique surface bordeaux, nuance soft, padding ajusté */}
+                {/* CTA principal — surface bordeaux pleine, ancrée */}
                 <button
                   type="button"
                   onClick={() => { setMode("signup"); setError(null); setInfo(null); }}
-                  className="block rounded-[16px] text-[color:var(--paper)] text-left px-6 py-5 transition-opacity hover:opacity-95"
-                  style={{ background: "var(--bordeaux-soft)" }}
+                  className="group w-full rounded-full px-7 py-4 flex items-center justify-between transition-transform active:scale-[0.98]"
+                  style={{ background: "var(--bordeaux)", color: "var(--paper)" }}
                 >
-                  <span className="flex items-center justify-between">
-                    <span className="font-serif italic text-[20px] leading-tight">
-                      Créer mon espace
-                    </span>
-                    <span className="text-[color:var(--paper)]/70">→</span>
-                  </span>
+                  <span className="font-serif italic text-[20px] leading-none">Créer mon espace</span>
+                  <span className="text-[color:var(--paper)]/80 group-hover:translate-x-0.5 transition-transform text-[18px]">→</span>
                 </button>
                 {/* Lien secondaire — filet ghost */}
                 <button
                   type="button"
                   onClick={() => { setMode("signin"); setError(null); setInfo(null); }}
-                  className="rounded-full border border-[color:var(--bordeaux-soft)]/30 bg-paper px-7 py-3.5 text-center text-[10px] uppercase tracking-[0.26em] text-[color:var(--bordeaux-soft)] hover:bg-[color:var(--bordeaux-wash)] transition-colors"
+                  className="w-full rounded-full border border-dusk/20 bg-transparent px-7 py-3.5 text-[10.5px] uppercase tracking-[0.22em] text-dusk/80 hover:bg-dusk/[0.04] transition-colors"
                   style={{ fontFamily: "var(--font-mono)" }}
                 >
                   Me reconnecter
                 </button>
-                <div className="mt-4 flex flex-col items-center gap-1.5">
+                <div className="text-center pt-2">
                   <button
                     type="button"
                     onClick={goNext}
-                    className="eyebrow text-dusk/45 hover:text-dusk transition-colors py-1"
+                    className="block w-full text-[10px] uppercase tracking-[0.22em] text-dusk/60 hover:text-dusk transition-colors mb-1.5"
+                    style={{ fontFamily: "var(--font-mono)" }}
                   >
                     Continuer en invité·e
                   </button>
-                  <p className="text-center text-[11.5px] text-dusk/45 max-w-[34ch] leading-snug">
+                  <p className="text-[11px] text-dusk/45 italic">
                     Ce que vous écrivez ne sera pas conservé.
                   </p>
                 </div>
