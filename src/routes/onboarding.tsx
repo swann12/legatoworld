@@ -154,22 +154,18 @@ function StepName({ name, setName }: { name: string; setName: (s: string) => voi
 
 /** Étape 2 — Bifurcation explicite (principe non négociable du brief). */
 function StepSpace({ value, onChange }: { value: Space; onChange: (s: Space) => void }) {
-  const OPTIONS: { id: Exclude<Space, null>; title: string; body: string; activeBg: string; activeBorder: string; activeFg: string }[] = [
+  // Deux options visuellement cohérentes : même paper, même rayon, même typo.
+  // L'état sélectionné est explicite : bordure bordeaux 2px + wash teinté + dot plein.
+  const OPTIONS: { id: Exclude<Space, null>; title: string; body: string }[] = [
     {
       id: "psy",
       title: "Accompagnement psychologique",
-      body: "Traverser, ressentir, déposer.",
-      activeBg: "var(--bordeaux-wash)",
-      activeBorder: "var(--bordeaux-soft)",
-      activeFg: "var(--bordeaux)",
+      body: "Traverser, ressentir.",
     },
     {
       id: "concrete",
       title: "Aide concrète",
-      body: "Organiser, comprendre, avancer.",
-      activeBg: "color-mix(in oklab, var(--bloom-sage) 35%, var(--paper))",
-      activeBorder: "var(--olive)",
-      activeFg: "var(--dusk)",
+      body: "Organiser, avancer.",
     },
   ];
   return (
@@ -177,7 +173,7 @@ function StepSpace({ value, onChange }: { value: Space; onChange: (s: Space) => 
       <p className="text-[10px] uppercase tracking-[0.3em] text-dusk/50" style={{ fontFamily: "var(--font-mono)" }}>
         Étape 2 · Choisir un espace
       </p>
-      <h2 className="font-serif text-[34px] leading-[1.05] font-light text-balance">
+      <h2 className="font-serif text-[30px] leading-[1.06] font-light text-balance">
         Aujourd'hui, vous cherchez <span className="italic">plutôt…</span>
       </h2>
       <p className="text-[13.5px] text-dusk/60 max-w-[34ch]">
@@ -191,29 +187,34 @@ function StepSpace({ value, onChange }: { value: Space; onChange: (s: Space) => 
               key={o.id}
               onClick={() => onChange(o.id)}
               aria-pressed={active}
-              className="block w-full rounded-[16px] px-6 py-5 text-left transition-all border-2"
+              className="block w-full rounded-[16px] px-6 py-5 text-left transition-all"
               style={{
-                background: active ? o.activeBg : "var(--paper)",
-                borderColor: active ? o.activeBorder : "color-mix(in oklab, var(--dusk) 12%, transparent)",
+                background: active ? "var(--bordeaux-wash)" : "var(--paper)",
+                border: active
+                  ? "2px solid var(--bordeaux-soft)"
+                  : "2px solid color-mix(in oklab, var(--dusk) 10%, transparent)",
                 color: "var(--dusk)",
               }}
             >
               <div className="flex items-center justify-between gap-3">
-                <p className="font-serif italic text-[20px] leading-tight" style={{ color: active ? o.activeFg : "var(--dusk)" }}>
+                <p
+                  className="font-serif text-[19px] leading-tight font-light"
+                  style={{ color: active ? "var(--bordeaux)" : "var(--dusk)" }}
+                >
                   {o.title}
                 </p>
                 <span
                   aria-hidden
-                  className="shrink-0 size-4 rounded-full border-2 flex items-center justify-center"
+                  className="shrink-0 size-4 rounded-full border-2 flex items-center justify-center transition-colors"
                   style={{
-                    borderColor: active ? o.activeBorder : "color-mix(in oklab, var(--dusk) 25%, transparent)",
-                    background: active ? o.activeBorder : "transparent",
+                    borderColor: active ? "var(--bordeaux-soft)" : "color-mix(in oklab, var(--dusk) 25%, transparent)",
+                    background: active ? "var(--bordeaux-soft)" : "transparent",
                   }}
                 >
                   {active && <span className="size-1.5 rounded-full bg-[color:var(--paper)]" />}
                 </span>
               </div>
-              <p className="mt-2 text-[13px] leading-[1.5] text-dusk/65">{o.body}</p>
+              <p className="mt-1.5 text-[12.5px] leading-[1.45] text-dusk/60">{o.body}</p>
             </button>
           );
         })}

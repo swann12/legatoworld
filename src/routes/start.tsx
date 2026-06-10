@@ -118,29 +118,30 @@ function Start() {
     <main className="min-h-dvh bg-paper text-dusk">
       <div className="mobile-frame relative flex min-h-dvh flex-col">
         <header className="px-7 pt-10 flex items-center justify-between">
-          <span className="eyebrow tracking-[0.32em] text-dusk/55">L · Legato</span>
+          <span className="eyebrow tracking-[0.32em] text-dusk/55">L  ·  Legato</span>
           <span className="eyebrow text-dusk/40">
             {mode === "signin" ? "Connexion" : mode === "signup" ? "Inscription" : "Entrer"}
           </span>
         </header>
 
-        <div className="relative z-10 flex flex-1 flex-col justify-center px-7 pb-12 pt-10">
+        <div className="relative z-10 flex flex-1 flex-col justify-center px-7 pb-12 pt-12">
           <p className="eyebrow text-dusk/55">Bienvenue</p>
           <h1
-            className="mt-5 font-serif text-[34px] leading-[1.05] text-dusk font-light text-balance"
+            className="mt-6 font-serif text-[32px] leading-[1.08] text-dusk font-light text-balance"
           >
             Préparer un adieu,
             <br />
             <span className="italic text-dusk/80">garder une présence.</span>
           </h1>
-          <p className="mt-5 max-w-[32ch] text-[14px] leading-[1.6] text-dusk/65 text-balance">
-            Un compagnon doux pour la cérémonie, l'écriture et le souvenir — à votre rythme.
+          <p className="mt-5 max-w-[34ch] text-[14px] leading-[1.65] text-dusk/65 text-balance">
+            Composer une cérémonie, écrire ce qui compte, faire vivre le souvenir.
+            <br />À votre rythme.
           </p>
 
           <div className="mt-10 flex flex-col gap-3">
             {mode === "choice" && (
               <div className="flex flex-col gap-3 animate-fade-in">
-                {/* CTA principal — unique surface bordeaux, plus calme, padding ajusté */}
+                {/* CTA principal — unique surface bordeaux, nuance soft, padding ajusté */}
                 <button
                   type="button"
                   onClick={() => { setMode("signup"); setError(null); setInfo(null); }}
@@ -148,7 +149,7 @@ function Start() {
                   style={{ background: "var(--bordeaux-soft)" }}
                 >
                   <span className="flex items-center justify-between">
-                    <span className="font-serif italic text-[22px] leading-tight">
+                    <span className="font-serif italic text-[20px] leading-tight">
                       Créer mon espace
                     </span>
                     <span className="text-[color:var(--paper)]/70">→</span>
@@ -158,7 +159,7 @@ function Start() {
                 <button
                   type="button"
                   onClick={() => { setMode("signin"); setError(null); setInfo(null); }}
-                  className="rounded-full border border-[color:var(--bordeaux-soft)]/35 bg-paper px-7 py-3.5 text-center text-[11px] uppercase tracking-[0.24em] text-[color:var(--bordeaux-soft)] hover:bg-[color:var(--bordeaux-wash)] transition-colors"
+                  className="rounded-full border border-[color:var(--bordeaux-soft)]/30 bg-paper px-7 py-3.5 text-center text-[10px] uppercase tracking-[0.26em] text-[color:var(--bordeaux-soft)] hover:bg-[color:var(--bordeaux-wash)] transition-colors"
                   style={{ fontFamily: "var(--font-mono)" }}
                 >
                   Me reconnecter
@@ -171,7 +172,7 @@ function Start() {
                   >
                     Continuer en invité·e
                   </button>
-                  <p className="text-center text-[12px] text-dusk/50 max-w-[34ch] leading-snug">
+                  <p className="text-center text-[11.5px] text-dusk/45 max-w-[34ch] leading-snug">
                     Ce que vous écrivez ne sera pas conservé.
                   </p>
                 </div>
