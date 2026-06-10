@@ -11,7 +11,6 @@ export function BottomNav() {
   // Si l'utilisateur n'a pas encore choisi d'espace, on présente la nav psy par défaut.
   const items = space === "concrete"
     ? [
-        { to: "/home"      as const, label: "Aujourd'hui",     Icon: Sun,           forcedActive: pathname === "/home" || pathname === "/" },
         { to: "/plan"      as const, label: "Accueil",         Icon: Sun,           forcedActive: pathname === "/plan" || pathname === "/practical" || pathname === "/" },
         { to: "/journey"   as const, label: "Parcours",        Icon: ListChecks,    forcedActive: pathname.startsWith("/journey") },
         { to: "/resources" as const, label: "Services",        Icon: Briefcase,     forcedActive: pathname.startsWith("/resources") || pathname.startsWith("/practical") },
