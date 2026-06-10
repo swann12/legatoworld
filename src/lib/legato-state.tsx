@@ -287,7 +287,7 @@ export function LegatoProvider({ children }: { children: ReactNode }) {
   const resolvedTheme: "light" | "dark" = "light";
   useEffect(() => {
     if (typeof document === "undefined") return;
-    document.documentElement.classList.toggle("dark", resolvedTheme === "dark");
+    document.documentElement.classList.remove("dark");
   }, [resolvedTheme]);
   const setTheme = (t: ThemeMode) => {
     setThemeState(t);
