@@ -78,6 +78,8 @@
   --color-amber: var(--amber);
   --color-sky-soft: var(--sky-soft);
   --color-denim: var(--denim);
+  --color-amber-soft: var(--amber-soft);
+  --color-butter: var(--butter);
 
   --font-serif: "Instrument Serif", "Cormorant Garamond", ui-serif, Georgia, serif;
   --font-sans: "Inter Tight", "Inter", ui-sans-serif, system-ui, sans-serif;
