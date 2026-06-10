@@ -117,30 +117,45 @@ function Start() {
   return (
     <main className="min-h-dvh bg-paper text-dusk">
       <div className="mobile-frame relative flex min-h-dvh flex-col">
-        {/* Top — filet hairline sous le nav, ancre le haut */}
-        <header className="flex items-center justify-between px-7 py-7 border-b border-dusk/12">
-          <span className="eyebrow tracking-[0.24em] text-dusk/70">
+        {/* Top — filet hairline, sigle gauche / contexte mono droit */}
+        <header className="flex items-center justify-between px-7 py-6 border-b border-dusk/12">
+          <span
+            className="text-[10px] uppercase tracking-[0.26em] text-dusk"
+            style={{ fontFamily: "var(--font-mono)" }}
+          >
             L <span className="mx-1.5 opacity-40">·</span> Legato
           </span>
           <span
-            className="text-[10px] uppercase tracking-[0.24em] text-dusk/55"
+            className="text-[10px] uppercase tracking-[0.26em] text-dusk/50"
             style={{ fontFamily: "var(--font-mono)" }}
           >
             {mode === "signin" ? "Connexion" : mode === "signup" ? "Inscription" : "Entrer"}
           </span>
         </header>
 
-        {/* Centre — titre éditorial, ancré dans la hauteur */}
-        <div className="relative z-10 flex flex-1 flex-col justify-center px-8 pt-12 pb-8">
-          <p className="eyebrow tracking-[0.3em] text-dusk/60 mb-7">Bienvenue</p>
-          <h1 className="font-serif italic text-[44px] leading-[1.05] tracking-tight text-dusk text-balance">
-            Préparer un adieu,
-            <br />
-            garder une présence.
-          </h1>
-          <p className="mt-6 max-w-[28ch] text-[16px] leading-[1.55] text-dusk/75">
-            Composer une cérémonie, écrire ce qui compte, faire vivre le souvenir. À votre rythme.
-          </p>
+        {/* Centre — bloc feature noir éditorial (cf. Empathy / Co-Star) */}
+        <div className="relative z-10 flex flex-1 flex-col px-6 pt-8 pb-6 gap-5">
+          <div className="surface-feature px-7 py-10">
+            <p
+              className="text-[10px] uppercase tracking-[0.28em] text-paper/55 mb-5"
+              style={{ fontFamily: "var(--font-mono)" }}
+            >
+              Bienvenue
+            </p>
+            <h1 className="font-serif text-[40px] leading-[1.02] tracking-tight text-paper text-balance">
+              Préparer un adieu,
+              <br />
+              garder une présence.
+            </h1>
+          </div>
+
+          {/* Carte chaude — texte de cadrage, ancrage solaire */}
+          <div className="surface-warm px-6 py-6">
+            <p className="font-serif text-[19px] leading-[1.35] text-ink max-w-[28ch]">
+              Composer une cérémonie, écrire ce qui compte, faire vivre le souvenir.
+              <span className="block mt-2 italic text-ink/70">À votre rythme.</span>
+            </p>
+          </div>
         </div>
 
         {/* Footer ancré — filet hairline + CTAs */}
@@ -152,11 +167,15 @@ function Start() {
                 <button
                   type="button"
                   onClick={() => { setMode("signup"); setError(null); setInfo(null); }}
-                  className="group w-full rounded-full px-7 py-4 flex items-center justify-between transition-transform active:scale-[0.98]"
-                  style={{ background: "var(--bordeaux)", color: "var(--paper)" }}
+                  className="group w-full rounded-full px-7 py-4 flex items-center justify-center gap-3 transition-transform active:scale-[0.98]"
+                  style={{ background: "var(--ink)", color: "var(--paper)" }}
                 >
-                  <span className="font-serif italic text-[20px] leading-none">Créer mon espace</span>
-                  <span className="text-[color:var(--paper)]/80 group-hover:translate-x-0.5 transition-transform text-[18px]">→</span>
+                  <span
+                    className="text-[11px] uppercase tracking-[0.28em]"
+                    style={{ fontFamily: "var(--font-mono)" }}
+                  >
+                    Créer mon espace
+                  </span>
                 </button>
                 {/* Lien secondaire — filet ghost */}
                 <button
@@ -222,8 +241,8 @@ function Start() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="block rounded-[16px] text-[color:var(--paper)] px-6 py-4 text-center disabled:opacity-50 transition-opacity hover:opacity-95"
-                  style={{ background: "var(--bordeaux-soft)" }}
+                  className="block rounded-full text-[color:var(--paper)] px-6 py-4 text-center disabled:opacity-50 transition-opacity hover:opacity-95"
+                  style={{ background: "var(--ink)" }}
                 >
                   <span className="block eyebrow text-[color:var(--paper)] tracking-[0.24em]">
                     {loading
