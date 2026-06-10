@@ -84,6 +84,16 @@
   --color-peach-card: var(--peach-card);
   --color-ink: var(--ink);
 
+  /* Palette Espace ORGANISER (éditoriale, contrastée) — issue des
+   * références utilisateur (sardine tin, oven glow, butter stick, tomato).
+   * Activée via [data-space="organize"]. */
+  --color-sardine: var(--sardine);
+  --color-oven: var(--oven);
+  --color-butter-stick: var(--butter-stick);
+  --color-tomato: var(--tomato);
+  --color-sage-org: var(--sage-org);
+  --color-stone: var(--stone);
+
   --font-serif: "Instrument Serif", "Cormorant Garamond", ui-serif, Georgia, serif;
   --font-sans: "Inter Tight", "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", "Geist Mono", ui-monospace, monospace;
@@ -140,6 +150,14 @@
   --bloom-sage: oklch(0.86 0.032 140);
   --bloom-fresh: oklch(0.93 0.04 130);
   --bloom-mist: oklch(0.95 0.025 220);
+
+  /* Tokens espace ORGANISER (mêmes hex que les références jointes) */
+  --sardine:     oklch(0.73 0.090 250);   /* #7CA2E0 — bleu information */
+  --oven:        oklch(0.36 0.080 28);    /* #6C2C25 — bordeaux priorité */
+  --butter-stick:oklch(0.94 0.055 102);   /* #F2EDBD — jaune attention douce */
+  --tomato:      oklch(0.67 0.190 36);    /* #EB5E3A — orange action / urgent */
+  --sage-org:    oklch(0.72 0.075 110);   /* olive — terminé */
+  --stone:       oklch(0.58 0.025 55);    /* taupe — délégué / en attente */
 
   /* Shadcn semantic tokens mapped to Legato */
   --background: var(--paper);
