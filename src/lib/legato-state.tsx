@@ -281,8 +281,8 @@ export function LegatoProvider({ children }: { children: ReactNode }) {
   const [lostName, setLostName] = useState<string>("Élise");
   const [lang, setLang] = useState<Lang>("fr");
   const [theme, setThemeState] = useState<ThemeMode>(() => {
-    if (typeof window === "undefined") return "auto";
-    return (localStorage.getItem("legato-theme") as ThemeMode | null) ?? "auto";
+    if (typeof window === "undefined") return "light";
+    return (localStorage.getItem("legato-theme") as ThemeMode | null) ?? "light";
   });
   const [systemDark, setSystemDark] = useState<boolean>(() => {
     if (typeof window === "undefined") return false;
@@ -295,8 +295,7 @@ export function LegatoProvider({ children }: { children: ReactNode }) {
     mq.addEventListener?.("change", onChange);
     return () => mq.removeEventListener?.("change", onChange);
   }, []);
-  const resolvedTheme: "light" | "dark" =
-    theme === "auto" ? (systemDark ? "dark" : "light") : theme;
+  const resolvedTheme: "light" | "dark" = theme === "dark" ? "dark" : "light";
   useEffect(() => {
     if (typeof document === "undefined") return;
     document.documentElement.classList.toggle("dark", resolvedTheme === "dark");
