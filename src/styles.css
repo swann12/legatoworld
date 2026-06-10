@@ -80,6 +80,9 @@
   --color-denim: var(--denim);
   --color-amber-soft: var(--amber-soft);
   --color-butter: var(--butter);
+  --color-aubergine: var(--aubergine);
+  --color-peach-card: var(--peach-card);
+  --color-ink: var(--ink);
 
   --font-serif: "Instrument Serif", "Cormorant Garamond", ui-serif, Georgia, serif;
   --font-sans: "Inter Tight", "Inter", ui-sans-serif, system-ui, sans-serif;
@@ -103,8 +106,12 @@
   --paper: oklch(0.955 0.025 70);          /* cream chaud #F4E4D0 */
   --whisper: oklch(0.975 0.014 75);        /* cream lavé */
   --clay: oklch(0.915 0.030 60);           /* sable */
-  --dusk: oklch(0.28 0.070 25);            /* encre bordeaux — texte */
-  --ink: oklch(0.22 0.060 25);             /* encre nuit bordeaux */
+  /* Encre près-noire (Co-Star / Empathy / un.studio) — toute la
+   * typographie courante en noir éditorial, pas en brun. */
+  --dusk: oklch(0.16 0.012 30);            /* encre presque noire #1A1614 */
+  --ink: oklch(0.10 0.010 30);             /* noir profond #0D0B0A — blocs feature */
+  --aubergine: oklch(0.24 0.060 350);      /* aubergine profond #3D1F2E — accent showcase */
+  --peach-card: oklch(0.78 0.105 45);      /* peach Empathy #F0A878 — carte hero chaude */
   --bordeaux: oklch(0.26 0.075 22);        /* bordeaux profond #3F1A1A — surfaces feature */
   --bordeaux-soft: oklch(0.40 0.110 25);   /* burgundy #7A2E26 — boutons */
   --bordeaux-tint: oklch(0.62 0.045 30);   /* taupe brun #927365 */
@@ -457,19 +464,34 @@
     border: 1px solid color-mix(in oklab, var(--dusk) 12%, transparent);
     border-radius: 16px;
   }
-  /* Surface « feature » unique par page : bordeaux profond, texte cream. */
+  /* Bloc feature « éditorial noir » (cf. "The Funeral" — Empathy) :
+   * encre noire profonde, titre serif cream/paper dessus. */
   .surface-feature {
-    background: var(--bordeaux);
+    background: var(--ink);
     color: var(--paper);
     border-radius: 16px;
   }
+  /* Carte hero chaude (cf. "Is there a right way to grieve?" — Empathy) :
+   * peach lumineux, titre serif sombre dessus. */
+  .surface-warm {
+    background: var(--peach-card);
+    color: var(--ink);
+    border-radius: 18px;
+  }
+  /* Carte showcase aubergine — accent rare, identité Legato. */
+  .surface-aubergine {
+    background: var(--aubergine);
+    color: var(--paper);
+    border-radius: 18px;
+  }
 
-  /* Bouton primaire — sans, uppercase mono pour l'étiquette. */
+  /* Bouton primaire — pill noir plein (cf. "DIVE DEEPER" Co-Star).
+   * Étiquette mono uppercase, jamais bordeaux pour le CTA principal. */
   .btn-primary {
-    background: var(--bordeaux);
+    background: var(--ink);
     color: var(--paper);
     border-radius: 999px;
-    padding: 0.75rem 1.25rem;
+    padding: 0.85rem 1.4rem;
     font-family: var(--font-mono);
     text-transform: uppercase;
     letter-spacing: 0.22em;
