@@ -25,10 +25,10 @@ function SpaceChoice() {
   };
 
   return (
-    <main className="min-h-dvh bg-[#EDE6CC] text-[#2A1410]">
-      <div className="mobile-frame relative flex min-h-dvh flex-col bg-[#F6EFD2] p-8">
+    <main className="min-h-dvh bg-[#EFE8D9] text-[#2A1410]">
+      <div className="mobile-frame relative flex min-h-dvh flex-col bg-[#F5EFE2] p-8">
         {/* Header */}
-        <header className="flex items-baseline justify-between mb-20">
+        <header className="flex items-center justify-between mb-16">
           <img
             src="/legato-logo-noir.png"
             alt="Legato"
@@ -36,17 +36,24 @@ function SpaceChoice() {
             draggable={false}
           />
           <span
-            className="text-[10px] uppercase tracking-widest text-[#6C2C25]"
+            className="inline-flex items-center gap-1.5 rounded-full border border-[#6C2C25]/40 bg-[#F5EFE2] px-3 py-1 text-[10px] uppercase tracking-widest text-[#6C2C25]"
             style={{ fontFamily: "var(--font-mono)" }}
           >
+            <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-[#EB5E3A]" />
             Bonjour {name || "Swann"}
           </span>
         </header>
 
         {/* Hero Question */}
-        <section className="mb-24">
+        <section className="mb-20">
+          <span
+            className="inline-block mb-5 rounded-full bg-[#EB5E3A]/12 px-3 py-1 text-[10px] uppercase tracking-widest text-[#EB5E3A]"
+            style={{ fontFamily: "var(--font-mono)" }}
+          >
+            Aujourd'hui
+          </span>
           <h1
-            className="text-[38px] leading-[1.1] tracking-tight font-normal text-[#2A1410]"
+            className="text-[38px] leading-[1.08] tracking-tight font-normal text-[#2A1410]"
             style={{ fontFamily: "var(--font-serif)" }}
           >
             Comment souhaitez-vous <br />
@@ -55,9 +62,9 @@ function SpaceChoice() {
         </section>
 
         {/* Options as Chapters */}
-        <div className="flex-1 flex flex-col gap-20 relative">
+        <div className="flex-1 flex flex-col gap-14 relative">
           {/* Vertical hairline */}
-          <div className="absolute left-2 top-2 bottom-8 w-px bg-[#6C2C25]/30" aria-hidden />
+          <div className="absolute left-2 top-2 bottom-8 w-px bg-[#6C2C25]/25" aria-hidden />
 
           {/* Option I */}
           <button
@@ -67,15 +74,21 @@ function SpaceChoice() {
           >
             <span
               aria-hidden
-              className="absolute -left-[7px] -top-3 block h-2.5 w-2.5 rounded-full bg-[#EB5E3A]"
+              className="absolute -left-[7px] -top-3 block h-3 w-3 rounded-full bg-[#EB5E3A] ring-4 ring-[#F5EFE2]"
             />
             <span
-              className="absolute -left-[3px] top-1 text-[11px] font-medium bg-[#F6EFD2] py-1 px-1 text-[#EB5E3A]"
+              className="absolute -left-[3px] top-1 text-[11px] font-medium bg-[#F5EFE2] py-1 px-1 text-[#EB5E3A]"
               style={{ fontFamily: "var(--font-mono)" }}
             >
               I
             </span>
-            <div className="space-y-4">
+            <div className="space-y-3">
+              <span
+                className="inline-flex items-center gap-1.5 rounded-full border border-[#EB5E3A]/45 bg-[#EB5E3A]/8 px-2.5 py-0.5 text-[9.5px] uppercase tracking-[0.18em] text-[#EB5E3A]"
+                style={{ fontFamily: "var(--font-mono)" }}
+              >
+                Espace émotionnel
+              </span>
               <h2
                 className="text-3xl leading-tight font-normal text-[#6C2C25]"
                 style={{ fontFamily: "var(--font-serif)" }}
@@ -89,7 +102,7 @@ function SpaceChoice() {
                 Écrire, respirer, parler, faire vivre les souvenirs, trouver du soutien.
               </p>
               <span
-                className="inline-flex items-center gap-1 text-[10px] uppercase tracking-widest pt-2 border-b border-[#EB5E3A]/70 text-[#EB5E3A] font-normal"
+                className="inline-flex items-center gap-2 rounded-full bg-[#EB5E3A] px-4 py-2 text-[10px] uppercase tracking-widest text-[#F5EFE2] font-normal mt-2"
                 style={{ fontFamily: "var(--font-mono)" }}
               >
                 Entrer
@@ -106,15 +119,21 @@ function SpaceChoice() {
           >
             <span
               aria-hidden
-              className="absolute -left-[7px] -top-3 block h-2.5 w-2.5 rounded-full bg-[#7CA2E0]"
+              className="absolute -left-[7px] -top-3 block h-3 w-3 rounded-full bg-[#7CA2E0] ring-4 ring-[#F5EFE2]"
             />
             <span
-              className="absolute -left-[3px] top-1 text-[11px] font-medium bg-[#F6EFD2] py-1 px-1 text-[#3E6FA8]"
+              className="absolute -left-[3px] top-1 text-[11px] font-medium bg-[#F5EFE2] py-1 px-1 text-[#3E6FA8]"
               style={{ fontFamily: "var(--font-mono)" }}
             >
               II
             </span>
-            <div className="space-y-4">
+            <div className="space-y-3">
+              <span
+                className="inline-flex items-center gap-1.5 rounded-full border border-[#3E6FA8]/45 bg-[#7CA2E0]/12 px-2.5 py-0.5 text-[9.5px] uppercase tracking-[0.18em] text-[#3E6FA8]"
+                style={{ fontFamily: "var(--font-mono)" }}
+              >
+                Espace pratique
+              </span>
               <h2
                 className="text-3xl leading-tight font-normal text-[#6C2C25]"
                 style={{ fontFamily: "var(--font-serif)" }}
@@ -128,7 +147,7 @@ function SpaceChoice() {
                 Priorités du jour, documents, cérémonie, professionnels, budget.
               </p>
               <span
-                className="inline-flex items-center gap-1 text-[10px] uppercase tracking-widest pt-2 border-b border-[#3E6FA8]/70 text-[#3E6FA8] font-normal"
+                className="inline-flex items-center gap-2 rounded-full bg-[#3E6FA8] px-4 py-2 text-[10px] uppercase tracking-widest text-[#F5EFE2] font-normal mt-2"
                 style={{ fontFamily: "var(--font-mono)" }}
               >
                 Entrer
@@ -139,15 +158,15 @@ function SpaceChoice() {
         </div>
 
         {/* Footer micro-label */}
-        <footer className="mt-auto pt-8 flex items-center gap-3">
-          <span aria-hidden className="flex gap-1">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#EB5E3A]" />
-            <span className="h-1.5 w-1.5 rounded-full bg-[#7CA2E0]" />
-            <span className="h-1.5 w-1.5 rounded-full bg-[#6C2C25]" />
-          </span>
+        <footer className="mt-auto pt-8 flex items-center justify-between">
           <p className="text-[11px] text-[#6C2C25]/70">
             Vous pourrez changer d'espace à tout moment.
           </p>
+          <span aria-hidden className="flex gap-1">
+            <span className="h-2 w-2 rounded-full bg-[#EB5E3A]" />
+            <span className="h-2 w-2 rounded-full bg-[#7CA2E0]" />
+            <span className="h-2 w-2 rounded-full bg-[#6C2C25]" />
+          </span>
         </footer>
       </div>
     </main>
