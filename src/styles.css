@@ -495,8 +495,8 @@
     padding: 0.85rem 1.4rem;
     font-family: var(--font-mono);
     text-transform: uppercase;
-    letter-spacing: 0.22em;
-    font-size: 11px;
+    letter-spacing: 0.18em;
+    font-size: 10px;
     transition: opacity 0.2s ease;
   }
   .btn-primary:hover { opacity: 0.92; }
@@ -504,13 +504,13 @@
   .btn-ghost {
     background: transparent;
     color: var(--dusk);
-    border: 1px solid color-mix(in oklab, var(--dusk) 20%, transparent);
+    border: 1px solid color-mix(in oklab, var(--dusk) 18%, transparent);
     border-radius: 999px;
     padding: 0.6rem 1.1rem;
     font-family: var(--font-mono);
     text-transform: uppercase;
-    letter-spacing: 0.22em;
-    font-size: 11px;
+    letter-spacing: 0.18em;
+    font-size: 10px;
   }
 
   /* ─── Legato Glass system ───
