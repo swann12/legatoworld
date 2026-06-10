@@ -48,26 +48,41 @@ export function ScreenHeader({
   back?: { to: string; label?: string };
 }) {
   return (
-    <header className="px-7 pt-12">
-      <div className="mb-6 flex items-center justify-between">
+    <>
+      {/* Top hairline bar — ancre identique à /start, sigle gauche */}
+      <div className="flex items-center justify-between px-7 py-5 border-b border-dusk/12">
         {back ? (
           <Link
             to={back.to}
-            className="eyebrow text-dusk/55 hover:text-dusk transition-colors"
+            className="text-[10px] uppercase tracking-[0.22em] text-dusk/60 hover:text-dusk transition-colors"
+            style={{ fontFamily: "var(--font-mono)" }}
           >
             ← {back.label ?? "Retour"}
           </Link>
-        ) : <span />}
-        <span className="eyebrow text-dusk/45 tracking-[0.32em]">L</span>
+        ) : (
+          <span
+            className="text-[10px] uppercase tracking-[0.24em] text-dusk/70"
+            style={{ fontFamily: "var(--font-mono)" }}
+          >
+            L <span className="mx-1.5 opacity-40">·</span> Legato
+          </span>
+        )}
+        <span
+          className="text-[10px] uppercase tracking-[0.24em] text-dusk/45"
+          style={{ fontFamily: "var(--font-mono)" }}
+        >
+          {eyebrow ?? "Legato"}
+        </span>
       </div>
-      {eyebrow && <p className="eyebrow mb-3">{eyebrow}</p>}
-      <h1 className="font-serif text-[30px] leading-[1.06] font-light text-balance text-dusk">
-        {title}
-      </h1>
-      {subtitle && (
-        <p className="mt-4 max-w-[34ch] text-[14px] leading-[1.6] text-dusk/65">{subtitle}</p>
-      )}
-    </header>
+      <header className="px-7 pt-10">
+        <h1 className="font-serif italic text-[36px] leading-[1.05] tracking-tight text-balance text-dusk">
+          {title}
+        </h1>
+        {subtitle && (
+          <p className="mt-4 max-w-[32ch] text-[15px] leading-[1.55] text-dusk/70">{subtitle}</p>
+        )}
+      </header>
+    </>
   );
 }
 
