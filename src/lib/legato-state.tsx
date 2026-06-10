@@ -284,18 +284,7 @@ export function LegatoProvider({ children }: { children: ReactNode }) {
     if (typeof window === "undefined") return "light";
     return (localStorage.getItem("legato-theme") as ThemeMode | null) ?? "light";
   });
-  const [systemDark, setSystemDark] = useState<boolean>(() => {
-    if (typeof window === "undefined") return false;
-    return window.matchMedia?.("(prefers-color-scheme: dark)").matches ?? false;
-  });
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const mq = window.matchMedia("(prefers-color-scheme: dark)");
-    const onChange = (e: MediaQueryListEvent) => setSystemDark(e.matches);
-    mq.addEventListener?.("change", onChange);
-    return () => mq.removeEventListener?.("change", onChange);
-  }, []);
-  const resolvedTheme: "light" | "dark" = theme === "dark" ? "dark" : "light";
+  const resolvedTheme: "light" | "dark" = "light";
   useEffect(() => {
     if (typeof document === "undefined") return;
     document.documentElement.classList.toggle("dark", resolvedTheme === "dark");
