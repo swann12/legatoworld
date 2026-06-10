@@ -25,90 +25,117 @@ function SpaceChoice() {
   };
 
   return (
-    <main className="min-h-dvh bg-paper text-dusk">
-      <div className="mobile-frame relative flex min-h-dvh flex-col">
+    <main className="min-h-dvh bg-[#F2EDE4] text-[#1A1614]">
+      <div className="mobile-frame relative flex min-h-dvh flex-col bg-[#F7F2EA] p-8">
         {/* Header */}
-        <header className="flex items-center justify-between px-8 pt-9 pb-4">
-          <span className="font-serif text-[26px] italic leading-none text-dusk">L</span>
+        <header className="flex items-baseline justify-between mb-20">
           <span
-            className="text-[10px] uppercase tracking-[0.22em] text-dusk/45"
+            className="text-2xl italic tracking-tight leading-none"
+            style={{ fontFamily: "var(--font-serif)" }}
+          >
+            Legato
+          </span>
+          <span
+            className="text-[10px] uppercase tracking-widest text-[#1A1614]/60"
             style={{ fontFamily: "var(--font-mono)" }}
           >
             Bonjour {name || "Swann"}
           </span>
         </header>
 
-        {/* Question */}
-        <section className="px-8 pt-10 pb-8 border-b border-dusk/10">
-          <p
-            className="text-[10px] uppercase tracking-[0.24em] text-dusk/55"
-            style={{ fontFamily: "var(--font-mono)" }}
+        {/* Hero Question */}
+        <section className="mb-24">
+          <h1
+            className="text-[38px] leading-[1.1] tracking-tight font-normal"
+            style={{ fontFamily: "var(--font-serif)" }}
           >
-            Aujourd'hui
-          </p>
-          <h1 className="mt-3 font-serif text-[30px] leading-[1.06] font-light text-dusk text-balance max-w-[20ch]">
-            Comment souhaitez-vous être accompagné·e ?
+            Comment souhaitez-vous <br />
+            <span className="italic">être accompagné·e ?</span>
           </h1>
-          <p className="mt-3 text-[13px] text-dusk/55">Vous pourrez changer à tout moment.</p>
         </section>
 
-        {/* Deux blocs pleins, contrastes opposés */}
-        <div className="flex-1 flex flex-col">
+        {/* Options as Chapters */}
+        <div className="flex-1 flex flex-col gap-20 relative">
+          {/* Vertical hairline */}
+          <div className="absolute left-2 top-2 bottom-8 w-px bg-[#2D3E35]/20" aria-hidden />
+
+          {/* Option I */}
           <button
             type="button"
             onClick={() => choose("psy")}
-            className="group flex-1 text-left px-8 py-10 border-b border-dusk/10 transition-colors hover:bg-dusk/[0.02]"
-            style={{ background: "var(--paper)" }}
+            className="group pl-10 relative text-left"
           >
-            <p
-              className="text-[10px] uppercase tracking-[0.26em] text-dusk/55"
-              style={{ fontFamily: "var(--font-mono)" }}
-            >
-              A · Être accompagné·e
-            </p>
-            <p className="mt-4 font-serif text-[28px] leading-[1.08] font-light text-dusk text-balance max-w-[22ch]">
-              Traverser ce que je ressens.
-            </p>
-            <p className="mt-3 text-[13.5px] leading-[1.55] text-dusk/65 max-w-[34ch]">
-              Écrire, respirer, parler, faire vivre les souvenirs, trouver du soutien.
-            </p>
             <span
-              className="mt-6 inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-dusk"
+              className="absolute -left-[3px] top-1 text-[11px] font-medium bg-[#F7F2EA] py-1 text-[#2D302E]"
               style={{ fontFamily: "var(--font-mono)" }}
             >
-              Entrer
-              <span aria-hidden className="transition-transform group-hover:translate-x-0.5">→</span>
+              I
             </span>
+            <div className="space-y-4">
+              <h2
+                className="text-3xl leading-tight font-normal"
+                style={{ fontFamily: "var(--font-serif)" }}
+              >
+                Traverser ce que <br />je ressens.
+              </h2>
+              <p
+                className="text-sm text-[#1A1614]/70 max-w-[240px] leading-relaxed"
+                style={{ fontFamily: "var(--font-sans, 'Inter Tight'), Inter, sans-serif" }}
+              >
+                Écrire, respirer, parler, faire vivre les souvenirs, trouver du soutien.
+              </p>
+              <span
+                className="inline-flex items-center gap-1 text-[10px] uppercase tracking-widest pt-2 border-b border-[#2D3E35] text-[#2D3E35] font-semibold"
+                style={{ fontFamily: "var(--font-mono)" }}
+              >
+                Entrer
+                <span aria-hidden className="transition-transform group-hover:translate-x-0.5">→</span>
+              </span>
+            </div>
           </button>
 
+          {/* Option II */}
           <button
             type="button"
             onClick={() => choose("concrete")}
-            className="group flex-1 text-left px-8 py-10 transition-colors hover:opacity-95"
-            style={{ background: "var(--oven)", color: "var(--paper)" }}
+            className="group pl-10 relative text-left"
           >
-            <p
-              className="text-[10px] uppercase tracking-[0.26em]"
-              style={{ fontFamily: "var(--font-mono)", color: "color-mix(in oklab, var(--paper) 70%, transparent)" }}
-            >
-              B · Organiser et avancer
-            </p>
-            <p className="mt-4 font-serif text-[28px] leading-[1.08] font-light text-balance max-w-[22ch]">
-              Être guidé·e pas à pas dans les démarches.
-            </p>
-            <p className="mt-3 text-[13.5px] leading-[1.55] max-w-[34ch]"
-               style={{ color: "color-mix(in oklab, var(--paper) 82%, transparent)" }}>
-              Priorités du jour, documents, cérémonie, professionnels, budget.
-            </p>
             <span
-              className="mt-6 inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.18em]"
+              className="absolute -left-[3px] top-1 text-[11px] font-medium bg-[#F7F2EA] py-1 text-[#2D302E]"
               style={{ fontFamily: "var(--font-mono)" }}
             >
-              Entrer
-              <span aria-hidden className="transition-transform group-hover:translate-x-0.5">→</span>
+              II
             </span>
+            <div className="space-y-4">
+              <h2
+                className="text-3xl leading-tight font-normal"
+                style={{ fontFamily: "var(--font-serif)" }}
+              >
+                Être guidé·e pas à pas dans les démarches.
+              </h2>
+              <p
+                className="text-sm text-[#1A1614]/70 max-w-[240px] leading-relaxed"
+                style={{ fontFamily: "var(--font-sans, 'Inter Tight'), Inter, sans-serif" }}
+              >
+                Priorités du jour, documents, cérémonie, professionnels, budget.
+              </p>
+              <span
+                className="inline-flex items-center gap-1 text-[10px] uppercase tracking-widest pt-2 border-b border-[#2D3E35] text-[#2D3E35] font-semibold"
+                style={{ fontFamily: "var(--font-mono)" }}
+              >
+                Entrer
+                <span aria-hidden className="transition-transform group-hover:translate-x-0.5">→</span>
+              </span>
+            </div>
           </button>
         </div>
+
+        {/* Footer micro-label */}
+        <footer className="mt-auto pt-8">
+          <p className="text-[11px] text-[#1A1614]/40">
+            Vous pourrez changer d'espace à tout moment.
+          </p>
+        </footer>
       </div>
     </main>
   );
