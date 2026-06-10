@@ -27,9 +27,9 @@ function SpaceChoice() {
 
   return (
     <main className="min-h-dvh bg-[#EFE8D9] text-[#2A1410]">
-      <div className="mobile-frame relative flex min-h-dvh flex-col bg-[#F5EFE2] px-7 pt-8 pb-8">
+      <div className="mobile-frame relative flex min-h-dvh flex-col bg-[#F5EFE2] px-7 pt-8 pb-10">
         {/* Header */}
-        <header className="flex items-center justify-between mb-10">
+        <header className="flex items-center justify-between mb-12">
           <img
             src={legatoSigle.url}
             alt="Legato"
@@ -44,8 +44,8 @@ function SpaceChoice() {
           </span>
         </header>
 
-        {/* Question */}
-        <section className="mb-8">
+        {/* Editorial block */}
+        <section>
           <p
             className="text-[10px] uppercase tracking-[0.22em] text-[#EB5E3A] mb-4"
             style={{ fontFamily: "var(--font-mono)" }}
@@ -53,95 +53,76 @@ function SpaceChoice() {
             Choix d'espace
           </p>
           <h1
-            className="text-[32px] leading-[1.08] tracking-tight font-normal text-[#2A1410]"
+            className="text-[34px] leading-[1.08] tracking-tight font-normal text-[#2A1410]"
             style={{ fontFamily: "var(--font-serif)" }}
           >
             Comment souhaitez-vous{" "}
-            <span className="italic text-[#6C2C25]">être accompagné·e ?</span>
+            <span className="italic text-[#6C2C25]">être accompagné·e</span> aujourd'hui ?
           </h1>
+          <p
+            className="mt-5 text-[14px] leading-[1.55] text-[#2A1410]/70 max-w-[34ch]"
+            style={{ fontFamily: "var(--font-sans, 'Inter Tight'), Inter, sans-serif" }}
+          >
+            Deux espaces vous accompagnent. Choisissez celui qui vous correspond aujourd'hui — vous pourrez changer à tout moment.
+          </p>
         </section>
 
-        {/* Two clear cards */}
-        <div className="flex flex-col gap-4">
-          {/* Card I — émotionnel */}
+        {/* Two clean app buttons */}
+        <div className="mt-auto pt-12 flex flex-col gap-3">
           <button
             type="button"
             onClick={() => choose("psy")}
-            className="group rounded-2xl bg-[#FBF6EA] border border-[#EB5E3A]/20 px-5 py-5 text-left transition-colors hover:border-[#EB5E3A]/50"
+            className="group flex items-center justify-between rounded-2xl bg-[#EB5E3A] px-5 py-4 text-left text-[#F5EFE2] transition-transform active:scale-[0.99]"
           >
-            <div className="flex items-baseline justify-between mb-3">
+            <span className="flex flex-col">
               <span
-                className="text-[10px] uppercase tracking-[0.22em] text-[#EB5E3A]"
+                className="text-[10px] uppercase tracking-[0.22em] opacity-70"
                 style={{ fontFamily: "var(--font-mono)" }}
               >
                 I · Émotionnel
               </span>
-              <span aria-hidden className="h-2 w-2 rounded-full bg-[#EB5E3A]" />
-            </div>
-            <h2
-              className="text-[22px] leading-[1.15] font-normal text-[#2A1410]"
-              style={{ fontFamily: "var(--font-serif)" }}
-            >
-              Traverser ce que je ressens.
-            </h2>
-            <p
-              className="mt-2 text-[13px] leading-[1.5] text-[#2A1410]/65"
-              style={{ fontFamily: "var(--font-sans, 'Inter Tight'), Inter, sans-serif" }}
-            >
-              Écrire, respirer, parler, faire vivre les souvenirs.
-            </p>
+              <span
+                className="mt-1 text-[18px] leading-tight"
+                style={{ fontFamily: "var(--font-serif)" }}
+              >
+                Être accompagné·e
+              </span>
+            </span>
             <span
-              className="mt-4 inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-[#EB5E3A]"
-              style={{ fontFamily: "var(--font-mono)" }}
+              aria-hidden
+              className="text-lg transition-transform group-hover:translate-x-0.5"
             >
-              Entrer
-              <span aria-hidden className="transition-transform group-hover:translate-x-0.5">→</span>
+              →
             </span>
           </button>
 
-          {/* Card II — pratique */}
           <button
             type="button"
             onClick={() => choose("concrete")}
-            className="group rounded-2xl bg-[#F1F4FA] border border-[#3E6FA8]/20 px-5 py-5 text-left transition-colors hover:border-[#3E6FA8]/50"
+            className="group flex items-center justify-between rounded-2xl bg-[#3E6FA8] px-5 py-4 text-left text-[#F5EFE2] transition-transform active:scale-[0.99]"
           >
-            <div className="flex items-baseline justify-between mb-3">
+            <span className="flex flex-col">
               <span
-                className="text-[10px] uppercase tracking-[0.22em] text-[#3E6FA8]"
+                className="text-[10px] uppercase tracking-[0.22em] opacity-70"
                 style={{ fontFamily: "var(--font-mono)" }}
               >
                 II · Pratique
               </span>
-              <span aria-hidden className="h-2 w-2 rounded-full bg-[#7CA2E0]" />
-            </div>
-            <h2
-              className="text-[22px] leading-[1.15] font-normal text-[#2A1410]"
-              style={{ fontFamily: "var(--font-serif)" }}
-            >
-              Avancer pas à pas dans les démarches.
-            </h2>
-            <p
-              className="mt-2 text-[13px] leading-[1.5] text-[#2A1410]/65"
-              style={{ fontFamily: "var(--font-sans, 'Inter Tight'), Inter, sans-serif" }}
-            >
-              Priorités, documents, cérémonie, professionnels, budget.
-            </p>
+              <span
+                className="mt-1 text-[18px] leading-tight"
+                style={{ fontFamily: "var(--font-serif)" }}
+              >
+                Organiser &amp; avancer
+              </span>
+            </span>
             <span
-              className="mt-4 inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-[#3E6FA8]"
-              style={{ fontFamily: "var(--font-mono)" }}
+              aria-hidden
+              className="text-lg transition-transform group-hover:translate-x-0.5"
             >
-              Entrer
-              <span aria-hidden className="transition-transform group-hover:translate-x-0.5">→</span>
+              →
             </span>
           </button>
         </div>
-
-        <p
-          className="mt-auto pt-8 text-[11px] text-[#6C2C25]/55"
-          style={{ fontFamily: "var(--font-sans, 'Inter Tight'), Inter, sans-serif" }}
-        >
-          Vous pourrez changer d'espace à tout moment.
-        </p>
       </div>
     </main>
   );
