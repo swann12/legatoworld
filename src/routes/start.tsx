@@ -266,7 +266,7 @@ function Start() {
               </form>
             )}
           </div>
-        </div>
+        </footer>
       </div>
     </main>
   );
