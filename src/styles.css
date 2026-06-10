@@ -245,23 +245,23 @@
 @layer components {
   /* Editorial pass: ceramic surfaces flattened to paper for full consistency. */
   .ceramic {
-    background: var(--paper);
-    border: 1px solid color-mix(in oklab, var(--dusk) 12%, transparent);
-    border-radius: 16px;
+    background: color-mix(in oklab, var(--whisper) 78%, var(--clay));
+    border: 1px solid color-mix(in oklab, var(--dusk) 10%, transparent);
+    border-radius: 8px;
   }
 
   .ceramic-soft {
-    background: var(--paper);
-    border: 1px solid color-mix(in oklab, var(--dusk) 10%, transparent);
-    border-radius: 16px;
+    background: color-mix(in oklab, var(--paper) 88%, var(--sky-soft));
+    border: 1px solid color-mix(in oklab, var(--dusk) 9%, transparent);
+    border-radius: 8px;
   }
 
   /* Organic asymmetric radii — nothing perfectly geometric */
   /* Tamed for the editorial language — kept available for legacy callers
    * but rendered as clean rounded surfaces, not asymmetric blobs. */
-  .organic-radius { border-radius: 18px; }
-  .organic-radius-2 { border-radius: 18px; }
-  .organic-radius-3 { border-radius: 16px; }
+  .organic-radius { border-radius: 8px; }
+  .organic-radius-2 { border-radius: 8px; }
+  .organic-radius-3 { border-radius: 8px; }
 
   /* Soft luminous halos */
   .halo { filter: blur(60px); pointer-events: none; }
@@ -425,9 +425,9 @@
 
   /* Soft container — quieter than ceramic, more space */
   .paper-card {
-    background: var(--paper);
-    border: 1px solid color-mix(in oklab, var(--dusk) 10%, transparent);
-    border-radius: 16px;
+    background: color-mix(in oklab, var(--whisper) 84%, var(--clay));
+    border: 1px solid color-mix(in oklab, var(--dusk) 9%, transparent);
+    border-radius: 8px;
   }
 
   /* ─── Typographic + surface helpers (single source of truth) ───
@@ -460,29 +460,30 @@
 
   /* Carte de surface unique : paper + filet dusk/12, rayon 16. */
   .surface {
-    background: var(--paper);
-    border: 1px solid color-mix(in oklab, var(--dusk) 12%, transparent);
-    border-radius: 16px;
+    background: color-mix(in oklab, var(--whisper) 82%, var(--clay));
+    border: 1px solid color-mix(in oklab, var(--dusk) 10%, transparent);
+    border-radius: 8px;
   }
   /* Bloc feature « éditorial noir » (cf. "The Funeral" — Empathy) :
    * encre noire profonde, titre serif cream/paper dessus. */
   .surface-feature {
-    background: var(--ink);
-    color: var(--paper);
-    border-radius: 16px;
+    background: color-mix(in oklab, var(--whisper) 88%, var(--clay));
+    color: var(--dusk);
+    border: 1px solid color-mix(in oklab, var(--dusk) 10%, transparent);
+    border-radius: 8px;
   }
   /* Carte hero chaude (cf. "Is there a right way to grieve?" — Empathy) :
    * peach lumineux, titre serif sombre dessus. */
   .surface-warm {
-    background: var(--peach-card);
+    background: color-mix(in oklab, var(--peach-card) 72%, var(--paper));
     color: var(--ink);
-    border-radius: 18px;
+    border-radius: 8px;
   }
   /* Carte showcase aubergine — accent rare, identité Legato. */
   .surface-aubergine {
     background: var(--aubergine);
     color: var(--paper);
-    border-radius: 18px;
+    border-radius: 8px;
   }
 
   /* Bouton primaire — pill noir plein (cf. "DIVE DEEPER" Co-Star).
