@@ -20,6 +20,7 @@ import { Route as PlanRouteImport } from './routes/plan'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as NoWordsRouteImport } from './routes/no-words'
 import { Route as MemoriesRouteImport } from './routes/memories'
+import { Route as JourneyRouteImport } from './routes/journey'
 import { Route as JournalRouteImport } from './routes/journal'
 import { Route as HomeRouteImport } from './routes/home'
 import { Route as DocumentsRouteImport } from './routes/documents'
@@ -36,6 +37,7 @@ import { Route as PracticalFlowersRouteImport } from './routes/practical.flowers
 import { Route as PracticalCeremonyRouteImport } from './routes/practical.ceremony'
 import { Route as PracticalBookletRouteImport } from './routes/practical.booklet'
 import { Route as PracticalAtmosphereRouteImport } from './routes/practical.atmosphere'
+import { Route as JourneyTaskIdRouteImport } from './routes/journey.$taskId'
 import { Route as GardenZoneRouteImport } from './routes/garden.$zone'
 import { Route as ComposeZoneRouteImport } from './routes/compose.$zone'
 import { Route as ResourcesCategoryProviderIdRouteImport } from './routes/resources.$category.$providerId'
@@ -94,6 +96,11 @@ const NoWordsRoute = NoWordsRouteImport.update({
 const MemoriesRoute = MemoriesRouteImport.update({
   id: '/memories',
   path: '/memories',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JourneyRoute = JourneyRouteImport.update({
+  id: '/journey',
+  path: '/journey',
   getParentRoute: () => rootRouteImport,
 } as any)
 const JournalRoute = JournalRouteImport.update({
@@ -176,6 +183,11 @@ const PracticalAtmosphereRoute = PracticalAtmosphereRouteImport.update({
   path: '/atmosphere',
   getParentRoute: () => PracticalRoute,
 } as any)
+const JourneyTaskIdRoute = JourneyTaskIdRouteImport.update({
+  id: '/$taskId',
+  path: '/$taskId',
+  getParentRoute: () => JourneyRoute,
+} as any)
 const GardenZoneRoute = GardenZoneRouteImport.update({
   id: '/garden/$zone',
   path: '/garden/$zone',
@@ -207,6 +219,7 @@ export interface FileRoutesByFullPath {
   '/documents': typeof DocumentsRoute
   '/home': typeof HomeRoute
   '/journal': typeof JournalRoute
+  '/journey': typeof JourneyRouteWithChildren
   '/memories': typeof MemoriesRoute
   '/no-words': typeof NoWordsRoute
   '/onboarding': typeof OnboardingRoute
@@ -220,6 +233,7 @@ export interface FileRoutesByFullPath {
   '/wishes': typeof WishesRoute
   '/compose/$zone': typeof ComposeZoneRoute
   '/garden/$zone': typeof GardenZoneRoute
+  '/journey/$taskId': typeof JourneyTaskIdRoute
   '/practical/atmosphere': typeof PracticalAtmosphereRoute
   '/practical/booklet': typeof PracticalBookletRoute
   '/practical/ceremony': typeof PracticalCeremonyRoute
@@ -240,6 +254,7 @@ export interface FileRoutesByTo {
   '/documents': typeof DocumentsRoute
   '/home': typeof HomeRoute
   '/journal': typeof JournalRoute
+  '/journey': typeof JourneyRouteWithChildren
   '/memories': typeof MemoriesRoute
   '/no-words': typeof NoWordsRoute
   '/onboarding': typeof OnboardingRoute
@@ -252,6 +267,7 @@ export interface FileRoutesByTo {
   '/wishes': typeof WishesRoute
   '/compose/$zone': typeof ComposeZoneRoute
   '/garden/$zone': typeof GardenZoneRoute
+  '/journey/$taskId': typeof JourneyTaskIdRoute
   '/practical/atmosphere': typeof PracticalAtmosphereRoute
   '/practical/booklet': typeof PracticalBookletRoute
   '/practical/ceremony': typeof PracticalCeremonyRoute
@@ -273,6 +289,7 @@ export interface FileRoutesById {
   '/documents': typeof DocumentsRoute
   '/home': typeof HomeRoute
   '/journal': typeof JournalRoute
+  '/journey': typeof JourneyRouteWithChildren
   '/memories': typeof MemoriesRoute
   '/no-words': typeof NoWordsRoute
   '/onboarding': typeof OnboardingRoute
@@ -286,6 +303,7 @@ export interface FileRoutesById {
   '/wishes': typeof WishesRoute
   '/compose/$zone': typeof ComposeZoneRoute
   '/garden/$zone': typeof GardenZoneRoute
+  '/journey/$taskId': typeof JourneyTaskIdRoute
   '/practical/atmosphere': typeof PracticalAtmosphereRoute
   '/practical/booklet': typeof PracticalBookletRoute
   '/practical/ceremony': typeof PracticalCeremonyRoute
@@ -308,6 +326,7 @@ export interface FileRouteTypes {
     | '/documents'
     | '/home'
     | '/journal'
+    | '/journey'
     | '/memories'
     | '/no-words'
     | '/onboarding'
@@ -321,6 +340,7 @@ export interface FileRouteTypes {
     | '/wishes'
     | '/compose/$zone'
     | '/garden/$zone'
+    | '/journey/$taskId'
     | '/practical/atmosphere'
     | '/practical/booklet'
     | '/practical/ceremony'
@@ -341,6 +361,7 @@ export interface FileRouteTypes {
     | '/documents'
     | '/home'
     | '/journal'
+    | '/journey'
     | '/memories'
     | '/no-words'
     | '/onboarding'
@@ -353,6 +374,7 @@ export interface FileRouteTypes {
     | '/wishes'
     | '/compose/$zone'
     | '/garden/$zone'
+    | '/journey/$taskId'
     | '/practical/atmosphere'
     | '/practical/booklet'
     | '/practical/ceremony'
@@ -373,6 +395,7 @@ export interface FileRouteTypes {
     | '/documents'
     | '/home'
     | '/journal'
+    | '/journey'
     | '/memories'
     | '/no-words'
     | '/onboarding'
@@ -386,6 +409,7 @@ export interface FileRouteTypes {
     | '/wishes'
     | '/compose/$zone'
     | '/garden/$zone'
+    | '/journey/$taskId'
     | '/practical/atmosphere'
     | '/practical/booklet'
     | '/practical/ceremony'
@@ -407,6 +431,7 @@ export interface RootRouteChildren {
   DocumentsRoute: typeof DocumentsRoute
   HomeRoute: typeof HomeRoute
   JournalRoute: typeof JournalRoute
+  JourneyRoute: typeof JourneyRouteWithChildren
   MemoriesRoute: typeof MemoriesRoute
   NoWordsRoute: typeof NoWordsRoute
   OnboardingRoute: typeof OnboardingRoute
@@ -503,6 +528,13 @@ declare module '@tanstack/react-router' {
       path: '/memories'
       fullPath: '/memories'
       preLoaderRoute: typeof MemoriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/journey': {
+      id: '/journey'
+      path: '/journey'
+      fullPath: '/journey'
+      preLoaderRoute: typeof JourneyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/journal': {
@@ -617,6 +649,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PracticalAtmosphereRouteImport
       parentRoute: typeof PracticalRoute
     }
+    '/journey/$taskId': {
+      id: '/journey/$taskId'
+      path: '/$taskId'
+      fullPath: '/journey/$taskId'
+      preLoaderRoute: typeof JourneyTaskIdRouteImport
+      parentRoute: typeof JourneyRoute
+    }
     '/garden/$zone': {
       id: '/garden/$zone'
       path: '/garden/$zone'
@@ -647,6 +686,17 @@ declare module '@tanstack/react-router' {
     }
   }
 }
+
+interface JourneyRouteChildren {
+  JourneyTaskIdRoute: typeof JourneyTaskIdRoute
+}
+
+const JourneyRouteChildren: JourneyRouteChildren = {
+  JourneyTaskIdRoute: JourneyTaskIdRoute,
+}
+
+const JourneyRouteWithChildren =
+  JourneyRoute._addFileChildren(JourneyRouteChildren)
 
 interface PracticalRouteChildren {
   PracticalAtmosphereRoute: typeof PracticalAtmosphereRoute
@@ -688,6 +738,7 @@ const rootRouteChildren: RootRouteChildren = {
   DocumentsRoute: DocumentsRoute,
   HomeRoute: HomeRoute,
   JournalRoute: JournalRoute,
+  JourneyRoute: JourneyRouteWithChildren,
   MemoriesRoute: MemoriesRoute,
   NoWordsRoute: NoWordsRoute,
   OnboardingRoute: OnboardingRoute,
@@ -709,3 +760,12 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}
