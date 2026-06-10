@@ -90,7 +90,7 @@
 }
 
 :root {
-  --radius: 1.5rem;
+  --radius: 0.5rem;
 
   /* Legato palette — Papier & Terre
    * Cream éditorial + encre bordeaux-brun + accents clairs (terracotta, olive,
@@ -103,34 +103,34 @@
   /* Référence chromatique stricte (swatches fournis). Tous les tokens
    * sont calés sur ces valeurs ; aucune page ne doit introduire de
    * couleur en dehors de cette famille. */
-  --paper: oklch(0.955 0.025 70);          /* cream chaud #F4E4D0 */
-  --whisper: oklch(0.975 0.014 75);        /* cream lavé */
-  --clay: oklch(0.915 0.030 60);           /* sable */
+  --paper: oklch(0.965 0.014 82);          /* ivoire éditorial #f7f2ea */
+  --whisper: oklch(0.985 0.007 84);        /* blanc cassé */
+  --clay: oklch(0.925 0.020 72);           /* lin chaud */
   /* Encre près-noire (Co-Star / Empathy / un.studio) — toute la
    * typographie courante en noir éditorial, pas en brun. */
-  --dusk: oklch(0.16 0.012 30);            /* encre presque noire #1A1614 */
-  --ink: oklch(0.10 0.010 30);             /* noir profond #0D0B0A — blocs feature */
-  --aubergine: oklch(0.24 0.060 350);      /* aubergine profond #3D1F2E — accent showcase */
-  --peach-card: oklch(0.78 0.105 45);      /* peach Empathy #F0A878 — carte hero chaude */
-  --bordeaux: oklch(0.26 0.075 22);        /* bordeaux profond #3F1A1A — surfaces feature */
-  --bordeaux-soft: oklch(0.40 0.110 25);   /* burgundy #7A2E26 — boutons */
-  --bordeaux-tint: oklch(0.62 0.045 30);   /* taupe brun #927365 */
-  --bordeaux-wash: oklch(0.955 0.022 28);  /* bordeaux lavé */
+  --dusk: oklch(0.17 0.006 65);            /* encre noire douce */
+  --ink: oklch(0.09 0.004 70);             /* noir éditorial */
+  --aubergine: oklch(0.24 0.058 20);       /* bordeaux prune sourd */
+  --peach-card: oklch(0.76 0.125 45);      /* pêche de référence */
+  --bordeaux: oklch(0.25 0.075 24);        /* bordeaux profond */
+  --bordeaux-soft: oklch(0.38 0.095 28);   /* bordeaux brun */
+  --bordeaux-tint: oklch(0.58 0.040 45);   /* taupe rosé */
+  --bordeaux-wash: oklch(0.935 0.018 38);  /* lavis chaud */
   /* Accents solaires */
-  --terracotta: oklch(0.65 0.165 38);      /* orange #E85D3A — primary */
-  --solar: oklch(0.74 0.140 50);           /* orange clair #ED8E5A */
-  --solar-soft: oklch(0.88 0.060 70);      /* pêche poudré */
-  --amber: oklch(0.80 0.140 70);           /* ambre #F2B433 */
-  --amber-soft: oklch(0.88 0.090 90);      /* jaune doux #F4D06F */
-  --butter: oklch(0.95 0.060 105);         /* jaune pâle #F1ECB8 */
+  --terracotta: oklch(0.66 0.170 38);      /* corail référence */
+  --solar: oklch(0.74 0.135 50);           /* orange doux */
+  --solar-soft: oklch(0.88 0.055 70);      /* pêche poudré */
+  --amber: oklch(0.82 0.150 78);           /* jaune solaire */
+  --amber-soft: oklch(0.90 0.080 92);      /* jaune doux */
+  --butter: oklch(0.96 0.045 112);         /* jaune pâle */
   /* Accents froids */
-  --sky: oklch(0.75 0.080 235);            /* bleu #7BB8DC */
-  --sky-soft: oklch(0.85 0.040 220);       /* bleu lavé #B5D2DA */
-  --denim: oklch(0.52 0.095 245);          /* bleu profond corporate */
-  --mist: oklch(0.90 0.030 220);
+  --sky: oklch(0.74 0.075 235);            /* bleu ciel référence */
+  --sky-soft: oklch(0.84 0.035 205);       /* bleu vert lavé */
+  --denim: oklch(0.46 0.060 240);          /* bleu sourd */
+  --mist: oklch(0.88 0.020 205);
   /* Olive (équilibre végétal) */
-  --olive: oklch(0.66 0.095 110);          /* olive #A8A346 */
-  --sage: oklch(0.86 0.035 130);
+  --olive: oklch(0.66 0.090 112);          /* olive référence */
+  --sage: oklch(0.80 0.030 125);
   /* Compagnons (rétro-compatibilité) */
   --rose: oklch(0.78 0.090 35);
   --blush: oklch(0.88 0.050 30);
@@ -245,23 +245,23 @@
 @layer components {
   /* Editorial pass: ceramic surfaces flattened to paper for full consistency. */
   .ceramic {
-    background: var(--paper);
-    border: 1px solid color-mix(in oklab, var(--dusk) 12%, transparent);
-    border-radius: 16px;
+    background: color-mix(in oklab, var(--whisper) 78%, var(--clay));
+    border: 1px solid color-mix(in oklab, var(--dusk) 10%, transparent);
+    border-radius: 8px;
   }
 
   .ceramic-soft {
-    background: var(--paper);
-    border: 1px solid color-mix(in oklab, var(--dusk) 10%, transparent);
-    border-radius: 16px;
+    background: color-mix(in oklab, var(--paper) 88%, var(--sky-soft));
+    border: 1px solid color-mix(in oklab, var(--dusk) 9%, transparent);
+    border-radius: 8px;
   }
 
   /* Organic asymmetric radii — nothing perfectly geometric */
   /* Tamed for the editorial language — kept available for legacy callers
    * but rendered as clean rounded surfaces, not asymmetric blobs. */
-  .organic-radius { border-radius: 18px; }
-  .organic-radius-2 { border-radius: 18px; }
-  .organic-radius-3 { border-radius: 16px; }
+  .organic-radius { border-radius: 8px; }
+  .organic-radius-2 { border-radius: 8px; }
+  .organic-radius-3 { border-radius: 8px; }
 
   /* Soft luminous halos */
   .halo { filter: blur(60px); pointer-events: none; }
@@ -425,9 +425,9 @@
 
   /* Soft container — quieter than ceramic, more space */
   .paper-card {
-    background: var(--paper);
-    border: 1px solid color-mix(in oklab, var(--dusk) 10%, transparent);
-    border-radius: 16px;
+    background: color-mix(in oklab, var(--whisper) 84%, var(--clay));
+    border: 1px solid color-mix(in oklab, var(--dusk) 9%, transparent);
+    border-radius: 8px;
   }
 
   /* ─── Typographic + surface helpers (single source of truth) ───
@@ -460,29 +460,30 @@
 
   /* Carte de surface unique : paper + filet dusk/12, rayon 16. */
   .surface {
-    background: var(--paper);
-    border: 1px solid color-mix(in oklab, var(--dusk) 12%, transparent);
-    border-radius: 16px;
+    background: color-mix(in oklab, var(--whisper) 82%, var(--clay));
+    border: 1px solid color-mix(in oklab, var(--dusk) 10%, transparent);
+    border-radius: 8px;
   }
   /* Bloc feature « éditorial noir » (cf. "The Funeral" — Empathy) :
    * encre noire profonde, titre serif cream/paper dessus. */
   .surface-feature {
-    background: var(--ink);
-    color: var(--paper);
-    border-radius: 16px;
+    background: color-mix(in oklab, var(--whisper) 88%, var(--clay));
+    color: var(--dusk);
+    border: 1px solid color-mix(in oklab, var(--dusk) 10%, transparent);
+    border-radius: 8px;
   }
   /* Carte hero chaude (cf. "Is there a right way to grieve?" — Empathy) :
    * peach lumineux, titre serif sombre dessus. */
   .surface-warm {
-    background: var(--peach-card);
+    background: color-mix(in oklab, var(--peach-card) 72%, var(--paper));
     color: var(--ink);
-    border-radius: 18px;
+    border-radius: 8px;
   }
   /* Carte showcase aubergine — accent rare, identité Legato. */
   .surface-aubergine {
     background: var(--aubergine);
     color: var(--paper);
-    border-radius: 18px;
+    border-radius: 8px;
   }
 
   /* Bouton primaire — pill noir plein (cf. "DIVE DEEPER" Co-Star).
@@ -494,8 +495,8 @@
     padding: 0.85rem 1.4rem;
     font-family: var(--font-mono);
     text-transform: uppercase;
-    letter-spacing: 0.22em;
-    font-size: 11px;
+    letter-spacing: 0.18em;
+    font-size: 10px;
     transition: opacity 0.2s ease;
   }
   .btn-primary:hover { opacity: 0.92; }
@@ -503,13 +504,13 @@
   .btn-ghost {
     background: transparent;
     color: var(--dusk);
-    border: 1px solid color-mix(in oklab, var(--dusk) 20%, transparent);
+    border: 1px solid color-mix(in oklab, var(--dusk) 18%, transparent);
     border-radius: 999px;
     padding: 0.6rem 1.1rem;
     font-family: var(--font-mono);
     text-transform: uppercase;
-    letter-spacing: 0.22em;
-    font-size: 11px;
+    letter-spacing: 0.18em;
+    font-size: 10px;
   }
 
   /* ─── Legato Glass system ───

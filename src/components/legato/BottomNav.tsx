@@ -25,9 +25,9 @@ export function BottomNav() {
   return (
     <nav
       aria-label="Primary"
-      className="fixed bottom-0 left-1/2 z-50 w-full max-w-[420px] -translate-x-1/2 border-t border-dusk/8 bg-paper/95 backdrop-blur-md"
+      className="fixed bottom-0 left-1/2 z-50 w-full max-w-[420px] -translate-x-1/2 border-t border-dusk/10 bg-paper"
     >
-      <div className="flex items-stretch justify-between px-8 pt-3.5 pb-[max(env(safe-area-inset-bottom),0.7rem)]">
+      <div className="flex items-stretch justify-between px-7 pt-3 pb-[max(env(safe-area-inset-bottom),0.7rem)]">
         {items.map(({ to, label, Icon, forcedActive }) => {
           const active = forcedActive;
           return (
@@ -38,13 +38,13 @@ export function BottomNav() {
               className="group flex flex-1 flex-col items-center justify-center gap-1.5 px-1 py-1.5 transition-colors"
             >
               <Icon
-                size={16}
-                strokeWidth={1.25}
-                className={active ? "text-dusk" : "text-dusk/45 group-hover:text-dusk/75"}
+                size={15}
+                strokeWidth={1.15}
+                className={active ? "text-dusk" : "text-dusk/38 group-hover:text-dusk/70"}
               />
               <span
-                className={`text-[8px] uppercase tracking-[0.22em] whitespace-nowrap leading-none ${
-                  active ? "text-dusk" : "text-dusk/45"
+                className={`text-[8px] uppercase tracking-[0.16em] whitespace-nowrap leading-none ${
+                  active ? "text-dusk" : "text-dusk/42"
                 }`}
                 style={{ fontFamily: "var(--font-mono)" }}
               >

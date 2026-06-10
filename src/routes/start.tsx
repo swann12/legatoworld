@@ -116,50 +116,52 @@ function Start() {
 
   return (
     <main className="min-h-dvh bg-paper text-dusk">
-      <div className="mobile-frame relative flex min-h-dvh flex-col">
-        {/* Top — filet hairline, sigle gauche / contexte mono droit */}
-        <header className="flex items-center justify-between px-7 py-6 border-b border-dusk/12">
+      <div className="mobile-frame relative flex min-h-dvh flex-col bg-paper">
+        <header className="flex items-center justify-between px-8 pt-8 pb-5">
           <span
-            className="text-[10px] uppercase tracking-[0.26em] text-dusk"
-            style={{ fontFamily: "var(--font-mono)" }}
+            className="font-serif text-[24px] italic leading-none text-dusk"
           >
-            L <span className="mx-1.5 opacity-40">·</span> Legato
+            L
           </span>
           <span
-            className="text-[10px] uppercase tracking-[0.26em] text-dusk/50"
+            className="text-[10px] uppercase tracking-[0.24em] text-dusk/45"
             style={{ fontFamily: "var(--font-mono)" }}
           >
             {mode === "signin" ? "Connexion" : mode === "signup" ? "Inscription" : "Entrer"}
           </span>
         </header>
 
-        {/* Centre — bloc feature noir éditorial (cf. Empathy / Co-Star) */}
-        <div className="relative z-10 flex flex-1 flex-col px-6 pt-8 pb-6 gap-5">
-          <div className="surface-feature px-7 py-10">
+        <div className="relative z-10 flex flex-1 flex-col px-8 pt-12 pb-8">
+          <section className="max-w-[300px]">
             <p
-              className="text-[10px] uppercase tracking-[0.28em] text-paper/55 mb-5"
+              className="mb-6 text-[10px] uppercase tracking-[0.24em] text-dusk/45"
               style={{ fontFamily: "var(--font-mono)" }}
             >
-              Bienvenue
+              Legato
             </p>
-            <h1 className="font-serif text-[40px] leading-[1.02] tracking-tight text-paper text-balance">
+            <h1 className="font-serif text-[39px] font-light leading-[1.02] text-dusk text-balance">
               Préparer un adieu,
               <br />
               garder une présence.
             </h1>
-          </div>
+          </section>
 
-          {/* Carte chaude — texte de cadrage, ancrage solaire */}
-          <div className="surface-warm px-6 py-6">
-            <p className="font-serif text-[19px] leading-[1.35] text-ink max-w-[28ch]">
+          <section className="mt-12 border-t border-dusk/10 pt-7">
+            <p className="font-serif text-[20px] font-light leading-[1.35] text-dusk max-w-[27ch]">
               Composer une cérémonie, écrire ce qui compte, faire vivre le souvenir.
-              <span className="block mt-2 italic text-ink/70">À votre rythme.</span>
+              <span className="mt-3 block italic text-dusk/62">À votre rythme.</span>
             </p>
-          </div>
+          </section>
+
+          <section className="mt-auto grid grid-cols-[1fr_92px] gap-3 pt-12">
+            <div className="bg-[color-mix(in_oklab,var(--sky-soft)_58%,var(--paper))] px-4 py-4">
+              <p className="font-serif text-[18px] leading-[1.15] text-dusk">Un espace simple, privé, sans urgence.</p>
+            </div>
+            <div className="bg-[color-mix(in_oklab,var(--sage)_72%,var(--paper))]" aria-hidden />
+          </section>
         </div>
 
-        {/* Footer ancré — filet hairline + CTAs */}
-        <footer className="px-7 pt-7 pb-10 border-t border-dusk/12 space-y-3">
+        <footer className="px-8 pt-6 pb-10 border-t border-dusk/10 space-y-3 bg-paper">
           <div className="flex flex-col gap-3">
             {mode === "choice" && (
               <div className="flex flex-col gap-3 animate-fade-in">
@@ -171,7 +173,7 @@ function Start() {
                   style={{ background: "var(--ink)", color: "var(--paper)" }}
                 >
                   <span
-                    className="text-[11px] uppercase tracking-[0.28em]"
+                    className="text-[10px] uppercase tracking-[0.18em]"
                     style={{ fontFamily: "var(--font-mono)" }}
                   >
                     Créer mon espace
@@ -181,7 +183,7 @@ function Start() {
                 <button
                   type="button"
                   onClick={() => { setMode("signin"); setError(null); setInfo(null); }}
-                  className="w-full rounded-full border border-dusk/20 bg-transparent px-7 py-3.5 text-[10.5px] uppercase tracking-[0.22em] text-dusk/80 hover:bg-dusk/[0.04] transition-colors"
+                  className="w-full rounded-full border border-dusk/18 bg-transparent px-7 py-3.5 text-[10px] uppercase tracking-[0.18em] text-dusk/75 hover:bg-dusk/[0.03] transition-colors"
                   style={{ fontFamily: "var(--font-mono)" }}
                 >
                   Me reconnecter
@@ -190,7 +192,7 @@ function Start() {
                   <button
                     type="button"
                     onClick={goNext}
-                    className="block w-full text-[10px] uppercase tracking-[0.22em] text-dusk/60 hover:text-dusk transition-colors mb-1.5"
+                    className="block w-full text-[10px] uppercase tracking-[0.18em] text-dusk/55 hover:text-dusk transition-colors mb-1.5"
                     style={{ fontFamily: "var(--font-mono)" }}
                   >
                     Continuer en invité·e
