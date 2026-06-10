@@ -78,6 +78,8 @@
   --color-amber: var(--amber);
   --color-sky-soft: var(--sky-soft);
   --color-denim: var(--denim);
+  --color-amber-soft: var(--amber-soft);
+  --color-butter: var(--butter);
 
   --font-serif: "Instrument Serif", "Cormorant Garamond", ui-serif, Georgia, serif;
   --font-sans: "Inter Tight", "Inter", ui-sans-serif, system-ui, sans-serif;
@@ -95,33 +97,39 @@
   /* Solaire + corporate éditorial : crème chaud, bordeaux profond, accents
    * solaires (orange, ambre) et bleus poudrés. Une seule famille, jamais
    * fluo, jamais terne. */
-  --paper: oklch(0.962 0.018 78);          /* crème chaud principal */
-  --whisper: oklch(0.978 0.012 78);        /* crème lavé */
-  --clay: oklch(0.928 0.026 65);           /* sable doux — cards */
-  --dusk: oklch(0.26 0.045 28);            /* encre bordeaux profonde (texte) */
-  --ink: oklch(0.18 0.035 28);             /* encre nuit */
-  --bordeaux: oklch(0.30 0.075 22);        /* bordeaux profond — surfaces feature */
-  --bordeaux-soft: oklch(0.40 0.095 22);   /* bordeaux moyen — boutons, filets */
-  --bordeaux-tint: oklch(0.82 0.050 22);   /* bordeaux clair — fonds doux */
-  --bordeaux-wash: oklch(0.955 0.022 28);  /* bordeaux lavé — surfaces calmes */
-  /* Accents solaires (chaleur, énergie) */
-  --terracotta: oklch(0.64 0.145 38);      /* terracotta — primary chaud */
-  --solar: oklch(0.74 0.150 60);           /* orange solaire vif */
-  --solar-soft: oklch(0.86 0.080 65);      /* orange poudré — fonds */
-  --amber: oklch(0.82 0.110 75);           /* ambre miel */
-  /* Accents froids (équilibre corporate) */
-  --sky: oklch(0.78 0.062 230);            /* bleu poudré */
-  --sky-soft: oklch(0.90 0.038 225);       /* bleu lavé — fonds */
-  --denim: oklch(0.52 0.085 240);          /* bleu profond — accent corporate */
-  --mist: oklch(0.92 0.028 215);           /* brume */
+  /* Référence chromatique stricte (swatches fournis). Tous les tokens
+   * sont calés sur ces valeurs ; aucune page ne doit introduire de
+   * couleur en dehors de cette famille. */
+  --paper: oklch(0.955 0.025 70);          /* cream chaud #F4E4D0 */
+  --whisper: oklch(0.975 0.014 75);        /* cream lavé */
+  --clay: oklch(0.915 0.030 60);           /* sable */
+  --dusk: oklch(0.28 0.070 25);            /* encre bordeaux — texte */
+  --ink: oklch(0.22 0.060 25);             /* encre nuit bordeaux */
+  --bordeaux: oklch(0.26 0.075 22);        /* bordeaux profond #3F1A1A — surfaces feature */
+  --bordeaux-soft: oklch(0.40 0.110 25);   /* burgundy #7A2E26 — boutons */
+  --bordeaux-tint: oklch(0.62 0.045 30);   /* taupe brun #927365 */
+  --bordeaux-wash: oklch(0.955 0.022 28);  /* bordeaux lavé */
+  /* Accents solaires */
+  --terracotta: oklch(0.65 0.165 38);      /* orange #E85D3A — primary */
+  --solar: oklch(0.74 0.140 50);           /* orange clair #ED8E5A */
+  --solar-soft: oklch(0.88 0.060 70);      /* pêche poudré */
+  --amber: oklch(0.80 0.140 70);           /* ambre #F2B433 */
+  --amber-soft: oklch(0.88 0.090 90);      /* jaune doux #F4D06F */
+  --butter: oklch(0.95 0.060 105);         /* jaune pâle #F1ECB8 */
+  /* Accents froids */
+  --sky: oklch(0.75 0.080 235);            /* bleu #7BB8DC */
+  --sky-soft: oklch(0.85 0.040 220);       /* bleu lavé #B5D2DA */
+  --denim: oklch(0.52 0.095 245);          /* bleu profond corporate */
+  --mist: oklch(0.90 0.030 220);
+  /* Olive (équilibre végétal) */
+  --olive: oklch(0.66 0.095 110);          /* olive #A8A346 */
+  --sage: oklch(0.86 0.035 130);
   /* Compagnons (rétro-compatibilité) */
-  --rose: oklch(0.88 0.048 30);
-  --blush: oklch(0.92 0.030 25);
-  --peach: var(--solar-soft);
-  --olive: oklch(0.58 0.075 115);
-  --sage: oklch(0.86 0.030 135);
+  --rose: oklch(0.78 0.090 35);
+  --blush: oklch(0.88 0.050 30);
+  --peach: var(--solar);
   --lavender: oklch(0.86 0.035 285);
-  --bloom-rose: oklch(0.88 0.045 22);
+  --bloom-rose: oklch(0.78 0.090 35);
   --bloom-sage: oklch(0.86 0.032 140);
   --bloom-fresh: oklch(0.93 0.04 130);
   --bloom-mist: oklch(0.95 0.025 220);
