@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as WishesRouteImport } from './routes/wishes'
 import { Route as VitrineRouteImport } from './routes/vitrine'
 import { Route as StartRouteImport } from './routes/start'
+import { Route as SpaceChoiceRouteImport } from './routes/space-choice'
 import { Route as SpaceRouteImport } from './routes/space'
 import { Route as PresenceRouteImport } from './routes/presence'
 import { Route as PracticalRouteImport } from './routes/practical'
@@ -53,6 +54,11 @@ const VitrineRoute = VitrineRouteImport.update({
 const StartRoute = StartRouteImport.update({
   id: '/start',
   path: '/start',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SpaceChoiceRoute = SpaceChoiceRouteImport.update({
+  id: '/space-choice',
+  path: '/space-choice',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SpaceRoute = SpaceRouteImport.update({
@@ -208,6 +214,7 @@ export interface FileRoutesByFullPath {
   '/practical': typeof PracticalRouteWithChildren
   '/presence': typeof PresenceRoute
   '/space': typeof SpaceRoute
+  '/space-choice': typeof SpaceChoiceRoute
   '/start': typeof StartRoute
   '/vitrine': typeof VitrineRoute
   '/wishes': typeof WishesRoute
@@ -239,6 +246,7 @@ export interface FileRoutesByTo {
   '/plan': typeof PlanRoute
   '/presence': typeof PresenceRoute
   '/space': typeof SpaceRoute
+  '/space-choice': typeof SpaceChoiceRoute
   '/start': typeof StartRoute
   '/vitrine': typeof VitrineRoute
   '/wishes': typeof WishesRoute
@@ -272,6 +280,7 @@ export interface FileRoutesById {
   '/practical': typeof PracticalRouteWithChildren
   '/presence': typeof PresenceRoute
   '/space': typeof SpaceRoute
+  '/space-choice': typeof SpaceChoiceRoute
   '/start': typeof StartRoute
   '/vitrine': typeof VitrineRoute
   '/wishes': typeof WishesRoute
@@ -306,6 +315,7 @@ export interface FileRouteTypes {
     | '/practical'
     | '/presence'
     | '/space'
+    | '/space-choice'
     | '/start'
     | '/vitrine'
     | '/wishes'
@@ -337,6 +347,7 @@ export interface FileRouteTypes {
     | '/plan'
     | '/presence'
     | '/space'
+    | '/space-choice'
     | '/start'
     | '/vitrine'
     | '/wishes'
@@ -369,6 +380,7 @@ export interface FileRouteTypes {
     | '/practical'
     | '/presence'
     | '/space'
+    | '/space-choice'
     | '/start'
     | '/vitrine'
     | '/wishes'
@@ -402,6 +414,7 @@ export interface RootRouteChildren {
   PracticalRoute: typeof PracticalRouteWithChildren
   PresenceRoute: typeof PresenceRoute
   SpaceRoute: typeof SpaceRoute
+  SpaceChoiceRoute: typeof SpaceChoiceRoute
   StartRoute: typeof StartRoute
   VitrineRoute: typeof VitrineRoute
   WishesRoute: typeof WishesRoute
@@ -434,6 +447,13 @@ declare module '@tanstack/react-router' {
       path: '/start'
       fullPath: '/start'
       preLoaderRoute: typeof StartRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/space-choice': {
+      id: '/space-choice'
+      path: '/space-choice'
+      fullPath: '/space-choice'
+      preLoaderRoute: typeof SpaceChoiceRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/space': {
@@ -675,6 +695,7 @@ const rootRouteChildren: RootRouteChildren = {
   PracticalRoute: PracticalRouteWithChildren,
   PresenceRoute: PresenceRoute,
   SpaceRoute: SpaceRoute,
+  SpaceChoiceRoute: SpaceChoiceRoute,
   StartRoute: StartRoute,
   VitrineRoute: VitrineRoute,
   WishesRoute: WishesRoute,
