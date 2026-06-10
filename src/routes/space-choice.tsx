@@ -29,12 +29,12 @@ function SpaceChoice() {
       <div className="mobile-frame relative flex min-h-dvh flex-col bg-[#F7F2EA] p-8">
         {/* Header */}
         <header className="flex items-baseline justify-between mb-20">
-          <span
-            className="text-2xl italic tracking-tight leading-none"
-            style={{ fontFamily: "var(--font-serif)" }}
-          >
-            Legato
-          </span>
+          <img
+            src="/legato-logo-noir.png"
+            alt="Legato"
+            className="h-7 w-auto select-none"
+            draggable={false}
+          />
           <span
             className="text-[10px] uppercase tracking-widest text-[#1A1614]/60"
             style={{ fontFamily: "var(--font-mono)" }}
@@ -66,7 +66,7 @@ function SpaceChoice() {
             className="group pl-10 relative text-left"
           >
             <span
-              className="absolute -left-[3px] top-1 text-[11px] font-medium bg-[#F7F2EA] py-1 text-[#2D302E]"
+              className="absolute -left-[3px] top-1 text-[11px] font-medium bg-[#F7F2EA] py-1 text-[#A8472A]"
               style={{ fontFamily: "var(--font-mono)" }}
             >
               I
@@ -85,7 +85,7 @@ function SpaceChoice() {
                 Écrire, respirer, parler, faire vivre les souvenirs, trouver du soutien.
               </p>
               <span
-                className="inline-flex items-center gap-1 text-[10px] uppercase tracking-widest pt-2 border-b border-[#2D3E35] text-[#2D3E35] font-semibold"
+                className="inline-flex items-center gap-1 text-[10px] uppercase tracking-widest pt-2 border-b border-[#A8472A]/60 text-[#A8472A] font-normal"
                 style={{ fontFamily: "var(--font-mono)" }}
               >
                 Entrer
@@ -101,7 +101,7 @@ function SpaceChoice() {
             className="group pl-10 relative text-left"
           >
             <span
-              className="absolute -left-[3px] top-1 text-[11px] font-medium bg-[#F7F2EA] py-1 text-[#2D302E]"
+              className="absolute -left-[3px] top-1 text-[11px] font-medium bg-[#F7F2EA] py-1 text-[#2D5C46]"
               style={{ fontFamily: "var(--font-mono)" }}
             >
               II
@@ -120,7 +120,7 @@ function SpaceChoice() {
                 Priorités du jour, documents, cérémonie, professionnels, budget.
               </p>
               <span
-                className="inline-flex items-center gap-1 text-[10px] uppercase tracking-widest pt-2 border-b border-[#2D3E35] text-[#2D3E35] font-semibold"
+                className="inline-flex items-center gap-1 text-[10px] uppercase tracking-widest pt-2 border-b border-[#2D5C46]/60 text-[#2D5C46] font-normal"
                 style={{ fontFamily: "var(--font-mono)" }}
               >
                 Entrer
