@@ -3,6 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { BottomNav } from "./BottomNav";
 import { ModeBackground } from "./ModeBackground";
 import { ConfideDock } from "./ConfideDock";
+import { SpaceChip } from "./SpaceChip";
 import { useLegato } from "@/lib/legato-state";
 
 export function Shell({
@@ -11,6 +12,7 @@ export function Shell({
   livingBg = true,
   hideConfide = false,
   confideStep,
+  space,
 }: {
   children: ReactNode;
   hideNav?: boolean;
@@ -21,10 +23,17 @@ export function Shell({
   hideConfide?: boolean;
   /** Optional context label sent to the Présence dock. */
   confideStep?: string;
+  /** Override l'espace appliqué pour le styling. Par défaut, on lit l'état global. */
+  space?: "organize" | "emotional";
 }) {
-  const { mode } = useLegato();
+  const { mode, space: stateSpace } = useLegato();
+  const dataSpace =
+    space ??
+    (stateSpace === "concrete" ? "organize" :
+     stateSpace === "psy"      ? "emotional" :
+     undefined);
   return (
-    <div className="min-h-dvh bg-paper text-dusk">
+    <div className="min-h-dvh bg-paper text-dusk" data-space={dataSpace}>
       <div className={`mobile-frame relative ${hideNav ? "pb-0" : "pb-32"}`}>
         {livingBg && <ModeBackground mode={mode} />}
         <div className="relative" style={{ zIndex: 1 }}>{children}</div>
@@ -65,12 +74,17 @@ export function ScreenHeader({
             L
           </span>
         )}
-        <span
-          className="text-[10px] uppercase tracking-[0.20em] text-dusk/45"
-          style={{ fontFamily: "var(--font-mono)" }}
-        >
-          {eyebrow ?? "Legato"}
-        </span>
+        <div className="flex items-center gap-3">
+          {eyebrow && (
+            <span
+              className="text-[10px] uppercase tracking-[0.20em] text-dusk/45"
+              style={{ fontFamily: "var(--font-mono)" }}
+            >
+              {eyebrow}
+            </span>
+          )}
+          <SpaceChip />
+        </div>
       </div>
       <header className="px-8 pt-8">
         <h1 className="font-serif text-[34px] font-light leading-[1.04] text-balance text-dusk">

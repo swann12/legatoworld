@@ -84,6 +84,16 @@
   --color-peach-card: var(--peach-card);
   --color-ink: var(--ink);
 
+  /* Palette Espace ORGANISER (éditoriale, contrastée) — issue des
+   * références utilisateur (sardine tin, oven glow, butter stick, tomato).
+   * Activée via [data-space="organize"]. */
+  --color-sardine: var(--sardine);
+  --color-oven: var(--oven);
+  --color-butter-stick: var(--butter-stick);
+  --color-tomato: var(--tomato);
+  --color-sage-org: var(--sage-org);
+  --color-stone: var(--stone);
+
   --font-serif: "Instrument Serif", "Cormorant Garamond", ui-serif, Georgia, serif;
   --font-sans: "Inter Tight", "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", "Geist Mono", ui-monospace, monospace;
@@ -140,6 +150,14 @@
   --bloom-sage: oklch(0.86 0.032 140);
   --bloom-fresh: oklch(0.93 0.04 130);
   --bloom-mist: oklch(0.95 0.025 220);
+
+  /* Tokens espace ORGANISER (mêmes hex que les références jointes) */
+  --sardine:     oklch(0.73 0.090 250);   /* #7CA2E0 — bleu information */
+  --oven:        oklch(0.36 0.080 28);    /* #6C2C25 — bordeaux priorité */
+  --butter-stick:oklch(0.94 0.055 102);   /* #F2EDBD — jaune attention douce */
+  --tomato:      oklch(0.67 0.190 36);    /* #EB5E3A — orange action / urgent */
+  --sage-org:    oklch(0.72 0.075 110);   /* olive — terminé */
+  --stone:       oklch(0.58 0.025 55);    /* taupe — délégué / en attente */
 
   /* Shadcn semantic tokens mapped to Legato */
   --background: var(--paper);
@@ -501,6 +519,73 @@
   }
   .btn-primary:hover { opacity: 0.92; }
   .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  /* CTA primaire pour l'espace ORGANISER : bloc plein, pas pilule,
+   * couleur tomato. Hauteur confortable, label mono. */
+  .btn-organize-primary {
+    background: var(--tomato);
+    color: var(--paper);
+    border-radius: 10px;
+    padding: 0.95rem 1.4rem;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-size: 11px;
+    transition: opacity 0.2s ease;
+  }
+  .btn-organize-primary:hover { opacity: 0.92; }
+  .btn-organize-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  /* Chip secondaire organisation : filet fin, mono, rectangulaire. */
+  .chip-organize {
+    border: 1px solid color-mix(in oklab, var(--dusk) 18%, transparent);
+    background: transparent;
+    color: var(--dusk);
+    border-radius: 6px;
+    padding: 0.5rem 0.8rem;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    font-size: 10px;
+    transition: background 0.15s ease;
+  }
+  .chip-organize:hover { background: color-mix(in oklab, var(--dusk) 4%, transparent); }
+  .chip-organize[aria-pressed="true"] {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+  }
+
+  /* Pastille de statut pour Mon parcours. */
+  .status-dot {
+    display: inline-block;
+    width: 8px; height: 8px; border-radius: 999px;
+    flex-shrink: 0;
+  }
+  .status-dot-todo      { background: var(--tomato); }
+  .status-dot-progress  { background: var(--butter-stick); border: 1px solid color-mix(in oklab, var(--dusk) 25%, transparent); }
+  .status-dot-delegated { background: var(--stone); }
+  .status-dot-waiting   { background: var(--sardine); }
+  .status-dot-done      { background: var(--sage-org); }
+
+  /* Surface "feature" propre à l'espace Organiser : bloc oven plein. */
+  [data-space="organize"] .surface-priority {
+    background: var(--oven);
+    color: var(--paper);
+    border-radius: 12px;
+    padding: 1.5rem;
+  }
+  [data-space="organize"] .surface-priority .eyebrow,
+  [data-space="organize"] .surface-priority .eyebrow-sm {
+    color: color-mix(in oklab, var(--paper) 75%, transparent);
+  }
+
+  /* Petit ajustement : surfaces plus rectilignes côté Organiser. */
+  [data-space="organize"] .surface,
+  [data-space="organize"] .ceramic,
+  [data-space="organize"] .surface-feature {
+    border-radius: 10px;
+  }
   .btn-ghost {
     background: transparent;
     color: var(--dusk);

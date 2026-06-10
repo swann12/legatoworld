@@ -1,5 +1,5 @@
 import { Link, useLocation } from "@tanstack/react-router";
-import { Sun, Flower2, BookOpen, ListChecks, Heart, ClipboardList, Stethoscope, FolderClosed, Users } from "lucide-react";
+import { Sun, Flower2, BookOpen, Heart, ListChecks, Briefcase, FolderClosed } from "lucide-react";
 import { useLegato } from "@/lib/legato-state";
 
 export function BottomNav() {
@@ -11,15 +11,15 @@ export function BottomNav() {
   // Si l'utilisateur n'a pas encore choisi d'espace, on présente la nav psy par défaut.
   const items = space === "concrete"
     ? [
-        { to: "/home"      as const, label: "Aujourd'hui",     Icon: Sun,           forcedActive: pathname === "/home" || pathname === "/" },
-        { to: "/plan"      as const, label: "Mon plan",        Icon: ClipboardList, forcedActive: pathname.startsWith("/plan") || pathname.startsWith("/practical") },
-        { to: "/resources" as const, label: "Pros",            Icon: Stethoscope,   forcedActive: pathname.startsWith("/resources") },
-        { to: "/circle"    as const, label: "Proches",         Icon: Users,         forcedActive: pathname.startsWith("/circle") },
+        { to: "/plan"      as const, label: "Accueil",         Icon: Sun,           forcedActive: pathname === "/plan" || pathname === "/practical" || pathname === "/" },
+        { to: "/journey"   as const, label: "Parcours",        Icon: ListChecks,    forcedActive: pathname.startsWith("/journey") },
+        { to: "/resources" as const, label: "Services",        Icon: Briefcase,     forcedActive: pathname.startsWith("/resources") || pathname.startsWith("/practical") },
+        { to: "/documents" as const, label: "Dossier",         Icon: FolderClosed,  forcedActive: pathname.startsWith("/documents") },
       ]
     : [
         { to: "/home"      as const, label: "Aujourd'hui",     Icon: Sun,         forcedActive: pathname === "/home" || pathname === "/" },
         { to: "/garden"    as const, label: "Jardin",          Icon: Flower2,     forcedActive: pathname.startsWith("/garden") },
-        { to: "/journal"   as const, label: "Journal",         Icon: BookOpen,    forcedActive: pathname.startsWith("/journal") },
+        { to: "/memories"  as const, label: "Souvenirs",       Icon: BookOpen,    forcedActive: pathname.startsWith("/memories") || pathname.startsWith("/journal") },
         { to: "/presence"  as const, label: "Présence",        Icon: Heart,       forcedActive: pathname.startsWith("/presence") || pathname.startsWith("/accompany") || pathname.startsWith("/no-words") },
       ];
   return (
