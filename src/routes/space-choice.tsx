@@ -37,13 +37,10 @@ function SpaceChoice() {
             draggable={false}
           />
           <span
-            className="inline-flex items-center gap-2 rounded-full bg-[#EB5E3A]/10 px-3 py-1.5"
+            className="text-[10px] uppercase tracking-[0.22em] text-[#6C2C25]/60"
             style={{ fontFamily: "var(--font-mono)" }}
           >
-            <span className="h-1.5 w-1.5 rounded-full bg-[#EB5E3A]" />
-            <span className="text-[10px] uppercase tracking-[0.22em] text-[#6C2C25]/70">
-              Bonjour {name || "Swann"}
-            </span>
+            Bonjour {name || "Swann"}
           </span>
         </header>
 
@@ -56,7 +53,7 @@ function SpaceChoice() {
             Aujourd'hui
           </p>
           <h1
-            className="mt-3 text-[32px] leading-[1.1] tracking-tight font-normal text-[#2A1410]"
+            className="mt-3 text-[40px] leading-[1.08] tracking-tight font-normal text-[#2A1410]"
             style={{ fontFamily: "var(--font-serif)" }}
           >
             Comment souhaitez-vous{" "}
