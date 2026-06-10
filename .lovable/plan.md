@@ -1,107 +1,70 @@
-# Plan de refonte — 15 points regroupés en 6 chantiers
+# Refonte cohérence globale — un seul système, appliqué partout
 
-Votre liste touche à la fois la **typographie globale**, l'**architecture des parcours** (aides concrètes vs accompagnement), la **logique produit** (qui décide de l'urgence, suivi d'avancement), et la **qualité visuelle page par page**. Pour éviter une refonte brouillonne, je propose d'attaquer dans cet ordre — chaque chantier est validable indépendamment.
+Vous avez raison : les tokens ont été posés mais les pages n'ont pas été ramenées au même langage. Je traite ça en **un seul chantier transversal**, pas page par page, pour qu'il n'y ait plus de divergence.
 
----
+## 1. Système typographique resserré (réponse aux points 1, 2, 11)
 
-## Chantier 1 — Système visuel global (points 1, 8, 11, 13)
+**Inter est trop large.** Bascule sur **Inter Tight** (Google Fonts) — même famille, dessin plus serré, plus éditorial. Conserve **Instrument Serif** (titres) et **JetBrains Mono** (eyebrows/mono uniquement).
 
-**Typographie**
-- Remplacer la sans-serif actuelle (trop large, peu élégante) par une sans plus fine et resserrée : **Inter Tight** ou **Söhne-like** (test : *Geist* ou *General Sans*). Garder la serif existante pour les titres.
-- Tailles fixes : H1 32 / H2 22 / corps 14 / eyebrow mono 10.
+Trois rôles fixes, aucun override inline :
+- `font-serif` Instrument Serif → H1/H2 (28-32 / 20-22)
+- `font-sans` Inter Tight → corps (14) et boutons texte
+- `font-mono` JetBrains Mono → eyebrow uppercase 10px tracking 0.26em
 
-**Palette nuancée**
-- Bordeaux décliné en 4 tons (très clair pour fonds, moyen pour accents, profond pour CTA, sombre pour texte sur clair).
-- Incorporer 2 nuances tirées de l'animation florale d'entrée (à identifier — probablement un rose poudré + un vert sauge très désaturés) comme **accents secondaires uniquement**, jamais comme surfaces dominantes.
+Tailles plafonnées à 4 : 30 / 20 / 14 / 10. Plus aucune typo "spéciale" sur une page isolée.
 
-**Bottom nav**
-- Marges latérales : passer de `px-2` à `px-6`, réduire à 4 items max par espace (au lieu de 5), icônes plus fines (stroke 1.2), label mono 9px.
+## 2. Palette : nuances bordeaux + accents floraux (points 2, 11)
 
-**Logo / sigle**
-- Ajouter un sigle « L » discret (mono, 11px) en haut à gauche dans `ScreenHeader` et dans `__root.tsx`.
+Garde la base solaire/corporate déjà posée, mais on ajoute la **gamme bordeaux à 4 nuances** + 2 nuances tirées de l'animation d'entrée (rose poudré, sauge très désaturée) en **filets/wash uniquement**, jamais en surface dominante :
 
----
+- `--bordeaux` profond → CTA principal, surface "feature" unique par page
+- `--bordeaux-soft` → liens, filets, boutons secondaires
+- `--bordeaux-tint` clair → badges, états
+- `--bordeaux-wash` crème teintée → fonds doux
+- `--bloom-rose`, `--bloom-sage` → accents floraux discrets (puces, filets)
+- `--solar`, `--sky` → accents fonctionnels (deadline, délégué)
 
-## Chantier 2 — Refonte de la page `/start` (point 2)
+Règle : **une seule surface "feature" bordeaux par écran**. Le reste = paper + filets.
 
-- Unifier à **2 tailles typographiques** maximum (titre + corps).
-- Bordeaux uniquement en **filets + un seul CTA**, pas en surface pleine.
-- Hiérarchie : 1 phrase d'accueil → 2 portes (psy / concret) → 1 lien secondaire.
+## 3. Sigle "L" partout (point 13)
 
----
+Déjà dans `ScreenHeader` (haut droite). J'ajoute aussi le sigle dans `Shell` pour les pages sans header (et reste discret sur `/start`).
 
-## Chantier 3 — Onboarding (points 3, 14)
+## 4. Bottom nav (point 8)
 
-- **Étape 2** : refonte des cards de sélection — état sélectionné **explicite** (bordure bordeaux 2px + fond crème, pas juste un changement subtil), textes raccourcis à 1 ligne max.
-- Couleurs revues : pas de bordeaux sur fond terracotta, séparer chromatiquement.
-- **« Préparer mes volontés »** retiré du flux psy, conservé uniquement dans le flux concret.
+Déjà retravaillée (marges `px-8`, icônes stroke 1.25, labels mono 8px). Je vérifie qu'elle reste à 4 items max par espace.
 
----
+## 5. Pages à ramener au système (passe d'uniformisation)
 
-## Chantier 4 — Architecture des aides (points 4, 5, 6, 7, 9, 10)
+Toutes ces pages doivent utiliser **uniquement** `Shell` + `ScreenHeader` + `Section` + `NavCard` + `NavLine`, surfaces `.surface`/`.surface-feature`, eyebrow mono, serif léger pour titres. Aucune typo/couleur custom dans la page.
 
-C'est le chantier le plus structurant. Refonte logique :
-
-### Différenciation stricte des deux espaces
-| Aides concrètes | Accompagnement psychologique |
+| Page | Action |
 |---|---|
-| Pompes funèbres, notaires, fleuristes, mairie, banque | Thérapeutes, psy, médecine douce, groupes de parole |
-| Démarches administratives | Présence, écriture, respiration |
+| `/start` (point 2) | 1 phrase serif + 1 sous-phrase sans + 1 CTA bordeaux + 1 lien ghost. Stop. Sigle "L" en mono. Plus de 3 styles. |
+| `/onboarding` étape 2 (points 3, 14) | Cards de choix : bordure dusk/15 → bordeaux 2px + fond `bordeaux-wash` à la sélection (état explicite). Textes 1 ligne. Retire "préparer mes volontés" du flux psy. |
+| `/home` (point 9) | Audit conflit avec `/practical` — résolution du redirect. |
+| `/plan` (points 4, 5, 7, 10) | Refonte : 4 colonnes d'état (À faire / En cours / Délégué / Fait) calculées par l'app. Plus de "qu'est-ce qui est urgent ?". Chaque tâche ouvre une fiche action (pourquoi, qui contacter, docs, modèle, déléguer). Inspiration Empathy/Inmemori. |
+| `/practical/*` (points 5, 6, 7, 15) | Aides **concrètes uniquement** : PF, notaire, fleuriste, mairie, banque. Boutons d'Atmosphère réparés. `ceremony`, `atmosphere`, `flowers`, `booklet` ramenés au gabarit `NavCard`. |
+| `/resources` (point 6) | Aides **psy uniquement** : thérapeutes, médecine douce, groupes. Séparation stricte. |
+| `/accompany`, `/presence`, `/no-words`, `/journal` (points 15, 16) | Passe esthétique : Shell+Header standard, surface unique feature par page, halo floral discret sur `/accompany`. |
+| `/memories` (point 15) | Cards `.surface`, eyebrow mono, typo unifiée. |
+| `/circle` (point 12) | Délégation pure (déjà acté). Passe esthétique au gabarit. |
 
-### Plus de "qu'est-ce qui est urgent ?"
-L'app calcule la prochaine étape selon : (a) délais légaux (déclaration < 24h, etc.), (b) étapes déjà cochées/déléguées, (c) date du décès. L'utilisateur ne choisit pas la priorité — il la **reçoit**.
+## Notes techniques
 
-### Suivi d'avancement (à inspirer d'Empathy / Inmemori)
-Pour chaque démarche : **À faire / En cours / Délégué à [nom] / Fait**. Vue récapitulative `/plan` :
-- ✅ Ce qui a été fait
-- ⏳ En cours
-- 👤 Délégué à un proche
-- ⚠️ Ce qu'il reste (avec deadlines)
-- ❓ Questions fréquentes par étape
+- Charge **Inter Tight** dans `__root.tsx` (`family=Inter+Tight:wght@300;400;500;600`), retire la déclaration "Inter" classique.
+- `--font-sans` = `"Inter Tight", "Inter", ui-sans-serif`.
+- Bordeaux nuances déjà présentes dans `styles.css` — je vérifie les valeurs et les utilise vraiment dans les composants au lieu d'`oklch` inline.
+- Aucune logique métier modifiée hors `/plan` (où le brief le demande explicitement).
 
-### Exécution, pas seulement cochage (point 7)
-Chaque étape ouvre une fiche : *pourquoi c'est nécessaire*, *qui contacter*, *documents à préparer*, *modèle de courrier/email* si pertinent, *bouton « déléguer à un proche »*.
+## Ordre d'exécution
 
-### Résoudre le bug `/practical` ↔ `/home` (point 9)
-Audit en début de chantier — probablement un conflit de navigation entre `BottomNav` (priorité plan) et redirect espace.
+1. Tokens (typo + palette nuancée) — `styles.css` + `__root.tsx`
+2. `Shell.tsx` (sigle universel, vérif gabarit)
+3. Passe `/start`, `/onboarding` (les deux portes d'entrée)
+4. Refonte `/plan` (états + fiches)
+5. Passe esthétique des pages psy + `memories` + `circle`
+6. Passe esthétique pages concrètes + réparation boutons atmosphère
+7. Audit `/home` ↔ `/practical`
 
----
-
-## Chantier 5 — Refonte pages accompagnement psy (point 15)
-
-- **`/accompany`** : retravailler la composition (actuellement trop linéaire), introduire un rythme visuel + un visuel doux (halo floral).
-- **`/practical/ceremony` et `/practical/atmosphere`** : ces deux pages appartiennent en réalité au **concret**, pas au psy — à déplacer / fusionner dans le chantier 4. Réparer les boutons cassés d'Atmosphère.
-- **`/memories`** : aligner sur le système visuel (cards `.surface`, eyebrow mono, typo unifiée).
-- **`/circle`** (point 12) : refonte complète — qu'attendez-vous de cette page ? (cf. question ci-dessous)
-
----
-
-## Chantier 6 — Page `/circle` (point 12)
-
-Avant de refaire, j'ai besoin de savoir ce qu'elle doit faire :
-- Liste de proches à qui déléguer des démarches ?
-- Espace de partage de souvenirs ?
-- Carnet de contacts pour la cérémonie ?
-- Les trois ?
-
----
-
-## Ordre d'exécution proposé
-
-1. **Chantier 1** (système visuel) — fondations, impacte toutes les autres pages
-2. **Chantier 4** (architecture aides) — la plus grosse refonte logique
-3. **Chantier 3** (onboarding) — rapide
-4. **Chantier 2** (start) — rapide
-5. **Chantier 5** (pages psy)
-6. **Chantier 6** (circle) — après vos réponses
-
----
-
-## Questions avant de démarrer
-
-1. **Chantier 6** : que doit faire `/circle` exactement ?
-2. **Police sans-serif** : préférence entre *Inter Tight*, *General Sans*, *Söhne-substitute* (Geist) ? Ou je choisis ?
-3. **Délais légaux** (chantier 4) : ok pour que j'intègre les vrais délais français (déclaration mairie 24h, obsèques 6 jours, succession 6 mois, etc.) ?
-4. **Ordre** : ok pour démarrer par le chantier 1 + 4 en parallèle, ou vous préférez tout séquentiel ?
-
-Validez le plan (ou ajustez) et je commence.
+Validez ce plan (ou ajustez l'ordre/le périmètre) et j'enchaîne tout d'une traite.
