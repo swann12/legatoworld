@@ -26,8 +26,8 @@ function SpaceChoice() {
   };
 
   return (
-    <main className="min-h-dvh bg-[#EFE8D9] text-[#2A1410]">
-      <div className="mobile-frame relative flex min-h-dvh flex-col bg-[#F5EFE2] px-6 pt-7 pb-8">
+    <main className="min-h-dvh bg-[#F7F2E6] text-[#2A1410]">
+      <div className="mobile-frame relative flex min-h-dvh flex-col bg-[#FBF7EC] px-6 pt-7 pb-8">
         {/* Header */}
         <header className="flex items-center justify-between">
           <img
@@ -37,7 +37,7 @@ function SpaceChoice() {
             draggable={false}
           />
           <span
-            className="inline-flex items-center gap-2 rounded-full bg-[#EB5E3A]/8 px-3 py-1.5 ring-4 ring-[#F5EFE2]"
+            className="inline-flex items-center gap-2 rounded-full bg-[#EB5E3A]/10 px-3 py-1.5"
             style={{ fontFamily: "var(--font-mono)" }}
           >
             <span className="h-1.5 w-1.5 rounded-full bg-[#EB5E3A]" />
@@ -48,15 +48,15 @@ function SpaceChoice() {
         </header>
 
         {/* Hero question */}
-        <section className="mt-12">
-          <span
-            className="inline-block rounded-full bg-[#EB5E3A]/12 px-3 py-1 text-[10px] uppercase tracking-[0.22em] text-[#EB5E3A]"
+        <section className="mt-14">
+          <p
+            className="text-[10px] uppercase tracking-[0.24em] text-[#6C2C25]/55"
             style={{ fontFamily: "var(--font-mono)" }}
           >
             Aujourd'hui
-          </span>
+          </p>
           <h1
-            className="mt-4 text-[34px] leading-[1.08] tracking-tight font-normal text-[#2A1410]"
+            className="mt-3 text-[32px] leading-[1.1] tracking-tight font-normal text-[#2A1410]"
             style={{ fontFamily: "var(--font-serif)" }}
           >
             Comment souhaitez-vous{" "}
@@ -64,94 +64,84 @@ function SpaceChoice() {
           </h1>
         </section>
 
-        {/* Two chapters with vertical hairline */}
-        <div className="mt-10 relative">
-          <span
-            aria-hidden
-            className="absolute left-3 top-2 bottom-2 w-px bg-[#6C2C25]/25"
-          />
-
-          {/* Option I */}
+        {/* Two chapter cards */}
+        <div className="mt-10 flex flex-col gap-3">
           <button
             type="button"
             onClick={() => choose("psy")}
-            className="group relative block w-full pl-10 pr-2 py-4 text-left"
+            className="group flex items-center gap-4 rounded-2xl border border-[#EB5E3A]/15 bg-[#EB5E3A]/[0.06] p-5 text-left transition-colors hover:bg-[#EB5E3A]/[0.1] active:scale-[0.995]"
           >
             <span
               aria-hidden
-              className="absolute left-[7px] top-6 h-3 w-3 rounded-full bg-[#EB5E3A] ring-4 ring-[#F5EFE2]"
-            />
-            <span
-              className="inline-flex items-center gap-2 rounded-full bg-[#EB5E3A]/8 px-2.5 py-1 text-[10px] uppercase tracking-[0.22em] text-[#EB5E3A]"
-              style={{ fontFamily: "var(--font-mono)" }}
-            >
-              I · Émotionnel
-            </span>
-            <p
-              className="mt-2 text-[20px] leading-snug text-[#2A1410]"
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#EB5E3A] text-[13px] text-[#FBF7EC]"
               style={{ fontFamily: "var(--font-serif)" }}
             >
-              Traverser ce que je ressens.
-            </p>
-            <p className="mt-1 text-[12.5px] leading-snug text-[#2A1410]/60">
-              Un espace doux pour mettre des mots, à mon rythme.
-            </p>
+              I
+            </span>
+            <span className="flex min-w-0 flex-1 flex-col">
+              <span
+                className="text-[10px] uppercase tracking-[0.22em] text-[#EB5E3A]"
+                style={{ fontFamily: "var(--font-mono)" }}
+              >
+                Émotionnel
+              </span>
+              <span
+                className="mt-1 text-[19px] leading-tight text-[#2A1410]"
+                style={{ fontFamily: "var(--font-serif)" }}
+              >
+                Traverser ce que je ressens.
+              </span>
+            </span>
             <span
-              className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-[#EB5E3A] px-3.5 py-1.5 text-[10px] uppercase tracking-[0.22em] text-[#F5EFE2] transition-transform group-hover:translate-x-0.5"
-              style={{ fontFamily: "var(--font-mono)" }}
+              aria-hidden
+              className="text-[#EB5E3A] transition-transform group-hover:translate-x-0.5"
             >
-              Entrer <span aria-hidden>→</span>
+              →
             </span>
           </button>
 
-          {/* Option II */}
           <button
             type="button"
             onClick={() => choose("concrete")}
-            className="group relative block w-full pl-10 pr-2 py-4 mt-2 text-left"
+            className="group flex items-center gap-4 rounded-2xl border border-[#3E6FA8]/15 bg-[#3E6FA8]/[0.06] p-5 text-left transition-colors hover:bg-[#3E6FA8]/[0.1] active:scale-[0.995]"
           >
             <span
               aria-hidden
-              className="absolute left-[7px] top-6 h-3 w-3 rounded-full bg-[#3E6FA8] ring-4 ring-[#F5EFE2]"
-            />
-            <span
-              className="inline-flex items-center gap-2 rounded-full bg-[#3E6FA8]/12 px-2.5 py-1 text-[10px] uppercase tracking-[0.22em] text-[#3E6FA8]"
-              style={{ fontFamily: "var(--font-mono)" }}
-            >
-              II · Pratique
-            </span>
-            <p
-              className="mt-2 text-[20px] leading-snug text-[#2A1410]"
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#3E6FA8] text-[13px] text-[#FBF7EC]"
               style={{ fontFamily: "var(--font-serif)" }}
             >
-              Avancer pas à pas dans les démarches.
-            </p>
-            <p className="mt-1 text-[12.5px] leading-snug text-[#2A1410]/60">
-              Une trame claire pour ne rien oublier.
-            </p>
+              II
+            </span>
+            <span className="flex min-w-0 flex-1 flex-col">
+              <span
+                className="text-[10px] uppercase tracking-[0.22em] text-[#3E6FA8]"
+                style={{ fontFamily: "var(--font-mono)" }}
+              >
+                Pratique
+              </span>
+              <span
+                className="mt-1 text-[19px] leading-tight text-[#2A1410]"
+                style={{ fontFamily: "var(--font-serif)" }}
+              >
+                Avancer pas à pas.
+              </span>
+            </span>
             <span
-              className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-[#3E6FA8] px-3.5 py-1.5 text-[10px] uppercase tracking-[0.22em] text-[#F5EFE2] transition-transform group-hover:translate-x-0.5"
-              style={{ fontFamily: "var(--font-mono)" }}
+              aria-hidden
+              className="text-[#3E6FA8] transition-transform group-hover:translate-x-0.5"
             >
-              Entrer <span aria-hidden>→</span>
+              →
             </span>
           </button>
         </div>
 
         {/* Footer */}
-        <footer className="mt-auto pt-8 flex items-center justify-between">
-          <span
-            className="text-[10px] uppercase tracking-[0.22em] text-[#6C2C25]/60"
-            style={{ fontFamily: "var(--font-mono)" }}
-          >
-            Vous pourrez changer d'espace à tout moment.
-          </span>
-          <span className="flex items-center gap-1.5">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#EB5E3A]" />
-            <span className="h-1.5 w-1.5 rounded-full bg-[#3E6FA8]" />
-            <span className="h-1.5 w-1.5 rounded-full bg-[#6C2C25]/40" />
-          </span>
-        </footer>
+        <p
+          className="mt-auto pt-8 text-center text-[10px] uppercase tracking-[0.22em] text-[#6C2C25]/55"
+          style={{ fontFamily: "var(--font-mono)" }}
+        >
+          Vous pourrez changer d'espace à tout moment.
+        </p>
       </div>
     </main>
   );
