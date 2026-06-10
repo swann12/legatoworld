@@ -49,37 +49,35 @@ export function ScreenHeader({
 }) {
   return (
     <>
-      {/* Top hairline bar — ancre identique à /start, sigle gauche */}
-      <div className="flex items-center justify-between px-7 py-5 border-b border-dusk/12">
+      <div className="flex items-center justify-between px-8 pt-8 pb-5">
         {back ? (
           <Link
             to={back.to}
-            className="text-[10px] uppercase tracking-[0.22em] text-dusk/60 hover:text-dusk transition-colors"
+            className="text-[10px] uppercase tracking-[0.18em] text-dusk/55 hover:text-dusk transition-colors"
             style={{ fontFamily: "var(--font-mono)" }}
           >
             ← {back.label ?? "Retour"}
           </Link>
         ) : (
           <span
-            className="text-[10px] uppercase tracking-[0.24em] text-dusk/70"
-            style={{ fontFamily: "var(--font-mono)" }}
+            className="font-serif text-[24px] italic leading-none text-dusk"
           >
-            L <span className="mx-1.5 opacity-40">·</span> Legato
+            L
           </span>
         )}
         <span
-          className="text-[10px] uppercase tracking-[0.24em] text-dusk/45"
+          className="text-[10px] uppercase tracking-[0.20em] text-dusk/45"
           style={{ fontFamily: "var(--font-mono)" }}
         >
           {eyebrow ?? "Legato"}
         </span>
       </div>
-      <header className="px-7 pt-10">
-        <h1 className="font-serif italic text-[36px] leading-[1.05] tracking-tight text-balance text-dusk">
+      <header className="px-8 pt-8">
+        <h1 className="font-serif text-[34px] font-light leading-[1.04] text-balance text-dusk">
           {title}
         </h1>
         {subtitle && (
-          <p className="mt-4 max-w-[32ch] text-[15px] leading-[1.55] text-dusk/70">{subtitle}</p>
+          <p className="mt-5 max-w-[31ch] border-t border-dusk/10 pt-5 text-[14px] leading-[1.55] text-dusk/68">{subtitle}</p>
         )}
       </header>
     </>

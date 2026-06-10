@@ -120,7 +120,6 @@ function Start() {
         <header className="flex items-center justify-between px-8 pt-8 pb-5">
           <span
             className="font-serif text-[24px] italic leading-none text-dusk"
-            style={{ fontFamily: "var(--font-mono)" }}
           >
             L
           </span>
@@ -174,7 +173,7 @@ function Start() {
                   style={{ background: "var(--ink)", color: "var(--paper)" }}
                 >
                   <span
-                    className="text-[11px] uppercase tracking-[0.28em]"
+                    className="text-[10px] uppercase tracking-[0.18em]"
                     style={{ fontFamily: "var(--font-mono)" }}
                   >
                     Créer mon espace
@@ -184,7 +183,7 @@ function Start() {
                 <button
                   type="button"
                   onClick={() => { setMode("signin"); setError(null); setInfo(null); }}
-                  className="w-full rounded-full border border-dusk/20 bg-transparent px-7 py-3.5 text-[10.5px] uppercase tracking-[0.22em] text-dusk/80 hover:bg-dusk/[0.04] transition-colors"
+                  className="w-full rounded-full border border-dusk/18 bg-transparent px-7 py-3.5 text-[10px] uppercase tracking-[0.18em] text-dusk/75 hover:bg-dusk/[0.03] transition-colors"
                   style={{ fontFamily: "var(--font-mono)" }}
                 >
                   Me reconnecter
@@ -193,7 +192,7 @@ function Start() {
                   <button
                     type="button"
                     onClick={goNext}
-                    className="block w-full text-[10px] uppercase tracking-[0.22em] text-dusk/60 hover:text-dusk transition-colors mb-1.5"
+                    className="block w-full text-[10px] uppercase tracking-[0.18em] text-dusk/55 hover:text-dusk transition-colors mb-1.5"
                     style={{ fontFamily: "var(--font-mono)" }}
                   >
                     Continuer en invité·e
