@@ -20,10 +20,10 @@ function Onboarding() {
   const navigate = useNavigate();
 
   const next = () => {
-    if (step === 3) navigate({ to: "/home" });
+    if (step === 3) navigate({ to: "/space" });
     else if (step === 1 && branch === "practical") {
-      // shortcut into the practical companion
-      navigate({ to: "/practical" });
+      // shortcut — l'utilisateur va directement à la page de choix
+      navigate({ to: "/space" });
     }
     else setStep(((step + 1) as Step));
   };
