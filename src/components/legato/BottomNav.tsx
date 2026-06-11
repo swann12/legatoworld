@@ -1,17 +1,30 @@
 import { Link, useLocation } from "@tanstack/react-router";
-import { Sun, Flower2, BookOpen, Compass, Heart } from "lucide-react";
+import { Sun, Flower2, BookmarkCheck, Heart, ListChecks, Briefcase, FolderClosed, Sparkles } from "lucide-react";
 import { useLegato } from "@/lib/legato-state";
 
 export function BottomNav() {
   const { pathname } = useLocation();
   const { t } = useLegato();
-  const items = [
-    { to: "/home" as const,      label: t("nav.today"),    Icon: Sun },
-    { to: "/garden" as const,    label: t("nav.garden"),   Icon: Flower2 },
-    { to: "/journal" as const,   label: t("nav.journal"),  Icon: BookOpen },
-    { to: "/practical" as const, label: t("nav.avancer"),  Icon: Compass },
-    { to: "/presence" as const,  label: t("nav.presence"), Icon: Heart },
-  ];
+
+  // Deux navigations distinctes — l'espace est déterminé par l'URL.
+  const inPractical =
+    pathname.startsWith("/practical") ||
+    pathname.startsWith("/parcours") ||
+    pathname.startsWith("/dossier");
+
+  const items = inPractical
+    ? [
+        { to: "/practical" as const, label: "Accueil",  Icon: Sparkles },
+        { to: "/parcours" as const,  label: "Parcours", Icon: ListChecks },
+        { to: "/resources" as const, label: "Services", Icon: Briefcase },
+        { to: "/wishes" as const,    label: "Dossier",  Icon: FolderClosed },
+      ]
+    : [
+        { to: "/home" as const,     label: t("nav.today"),    Icon: Sun },
+        { to: "/garden" as const,   label: t("nav.garden"),   Icon: Flower2 },
+        { to: "/memories" as const, label: "Souvenirs",       Icon: BookmarkCheck },
+        { to: "/presence" as const, label: t("nav.presence"), Icon: Heart },
+      ];
   return (
     <nav
       aria-label="Primary"
@@ -22,6 +35,8 @@ export function BottomNav() {
           const active =
             to === "/home"
               ? pathname === "/home" || pathname === "/"
+              : to === "/practical"
+              ? pathname === "/practical"
               : pathname.startsWith(to);
           return (
             <Link
