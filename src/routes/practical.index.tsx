@@ -11,173 +11,137 @@ export const Route = createFileRoute("/practical/")({
   component: Practical,
 });
 
-/* ─── Accueil ESPACE ORGANISER ET AVANCER ───
- * Une carte priorité principale (aplat bleu nuit) + résumé compact.
- * Pas de choix initial à faire — l'application a déjà rassemblé. */
+/* Espace concret — registre éditorial Co-Star.
+ * Liste typographique numérotée, méta en mono à droite. Pas d'aplats
+ * de couleur, juste l'accent terracotta utilisé comme encre. */
 
-const SUMMARY = [
-  { label: "À faire",       value: 3, accent: "var(--ember)" },
-  { label: "En cours",      value: 2, accent: "var(--terracotta)" },
-  { label: "Délégué",       value: 1, accent: "var(--sun)" },
-  { label: "Documents",     value: 2, accent: "var(--magenta)" },
-  { label: "Prochaine échéance", value: "Vendredi", accent: "var(--dusk)" },
+const PRIORITY = {
+  title: <>Déclarer le décès <span className="italic">à la mairie</span></>,
+  why: "Cette étape débloque presque tout le reste.",
+  time: "~ 20 MIN",
+  to: "/practical/steps",
+};
+
+const TASKS: { num: string; title: React.ReactNode; meta: string; to: string }[] = [
+  { num: "01", to: "/practical/steps",     meta: "À FAIRE",   title: <>Prévenir <span className="italic">l'employeur</span></> },
+  { num: "02", to: "/practical/ceremony",  meta: "EN COURS",  title: <>Choisir <span className="italic">le lieu</span></> },
+  { num: "03", to: "/practical/texts",     meta: "EN COURS",  title: <>Écrire <span className="italic">les mots</span></> },
+  { num: "04", to: "/practical/flowers",   meta: "À FAIRE",   title: <>Décider <span className="italic">les fleurs</span></> },
+  { num: "05", to: "/practical/share",     meta: "DÉLÉGUÉ",   title: <>Prévenir <span className="italic">les proches</span></> },
+  { num: "06", to: "/resources",           meta: "À VOIR",    title: <>Trouver <span className="italic">un notaire</span></> },
 ];
 
 function Practical() {
+  const today = new Intl.DateTimeFormat("fr-FR", { day: "numeric", month: "long" })
+    .format(new Date()).toUpperCase();
+
   return (
     <Shell livingBg={false}>
-      <div className="min-h-dvh bg-paper text-dusk pb-32">
-        <header className="px-7 pt-9 flex items-center justify-between">
-          <span className="font-serif text-[20px] text-dusk leading-none">Legato</span>
+      <div className="min-h-dvh bg-paper text-dusk pb-32 px-7">
+        <header className="pt-9 flex items-center justify-between">
+          <span className="font-serif text-[20px] leading-none">Legato</span>
           <Link
             to="/space"
-            className="text-[12px] tracking-wide text-dusk/65 hover:text-dusk underline underline-offset-4"
+            className="text-[11px] uppercase tracking-[0.18em] text-dusk/55 hover:text-dusk"
+            style={{ fontFamily: "var(--font-mono)" }}
           >
-            Espace
+            Espace ↩
           </Link>
         </header>
 
-        <section className="px-7 pt-16">
+        <section className="pt-16">
           <p
-            className="text-[10px] uppercase tracking-[0.32em] text-dusk/50"
+            className="text-[10px] uppercase tracking-[0.34em] text-dusk/55"
             style={{ fontFamily: "var(--font-mono)" }}
           >
-            Aujourd'hui
+            {today} — CONCRET
           </p>
-          <h1 className="mt-5 font-serif text-[36px] leading-[1.05] text-dusk font-light text-balance">
-            Avançons <span className="italic">une étape à la fois.</span>
+          <h1 className="mt-6 font-serif text-[36px] leading-[1.05] font-light text-balance">
+            Une chose à la fois.{" "}
+            <span className="italic" style={{ color: "var(--terracotta)" }}>
+              Le reste attendra.
+            </span>
           </h1>
-          <p className="mt-5 max-w-[34ch] text-[14.5px] leading-[1.55] text-dusk/65">
-            Nous avons rassemblé ce qui mérite votre attention aujourd'hui.
-          </p>
         </section>
 
-        {/* ─── Priorité du jour — aplat bordeaux profond ─── */}
-        <section className="px-5 pt-10">
-          <article
-            className="rounded-[22px] overflow-hidden text-[color:var(--paper)]"
-            style={{ background: "var(--bordeaux)" }}
-          >
-            <div className="px-7 pt-8 pb-7">
-              <div className="flex items-baseline justify-between">
-                <p
-                  className="text-[10px] uppercase tracking-[0.28em] text-[color:var(--paper)]/65"
-                  style={{ fontFamily: "var(--font-mono)" }}
-                >
-                  Priorité du jour
-                </p>
-                <span
-                  className="text-[10px] uppercase tracking-[0.2em] text-[color:var(--paper)]/70"
-                  style={{ fontFamily: "var(--font-mono)" }}
-                >
-                  ~ 20 min
-                </span>
-              </div>
-              <h2 className="mt-4 font-serif text-[30px] leading-[1.06] font-light text-balance">
-                Déclarer le décès <span className="italic">à la mairie.</span>
-              </h2>
-              <p className="mt-4 text-[14px] leading-[1.55] text-[color:var(--paper)]/75 max-w-[34ch]">
-                Cette étape débloque toutes les suivantes.
-              </p>
-
-              <div className="mt-7 flex items-center gap-4">
-                <Link
-                  to="/practical/steps"
-                  className="rounded-full px-6 py-3 text-[13px] tracking-wide"
-                  style={{ background: "var(--paper)", color: "var(--bordeaux)", fontFamily: "var(--font-mono)" }}
-                >
-                  COMMENCER  →
-                </Link>
-                <Link
-                  to="/presence"
-                  className="text-[11px] uppercase tracking-[0.22em] text-[color:var(--paper)]/75 hover:text-[color:var(--paper)]"
-                  style={{ fontFamily: "var(--font-mono)" }}
-                >
-                  Déléguer
-                </Link>
-              </div>
+        {/* Priorité du jour — pas de bloc, juste de la typo + un trait */}
+        <section className="pt-14">
+          <div className="border-l-2 pl-5" style={{ borderColor: "var(--terracotta)" }}>
+            <p
+              className="text-[10px] uppercase tracking-[0.3em] text-[color:var(--terracotta)]"
+              style={{ fontFamily: "var(--font-mono)" }}
+            >
+              À faire en premier — {PRIORITY.time}
+            </p>
+            <h2 className="mt-3 font-serif text-[28px] leading-[1.08] font-light text-balance">
+              {PRIORITY.title}
+            </h2>
+            <p className="mt-3 text-[14px] leading-[1.55] text-dusk/65 max-w-[36ch]">
+              {PRIORITY.why}
+            </p>
+            <div className="mt-5 flex items-baseline gap-6">
+              <Link
+                to={PRIORITY.to}
+                className="text-[12px] uppercase tracking-[0.22em] underline underline-offset-[6px] decoration-[color:var(--terracotta)] decoration-1 hover:text-[color:var(--terracotta)]"
+                style={{ fontFamily: "var(--font-mono)" }}
+              >
+                Commencer →
+              </Link>
+              <Link
+                to="/presence"
+                className="text-[12px] uppercase tracking-[0.22em] text-dusk/55 hover:text-dusk"
+                style={{ fontFamily: "var(--font-mono)" }}
+              >
+                Déléguer
+              </Link>
             </div>
-          </article>
+          </div>
         </section>
 
-        {/* ─── Résumé compact ─── */}
-        <section className="px-7 pt-12">
+        {/* Suite éditoriale — liste numérotée */}
+        <section className="pt-14">
           <p
-            className="text-[10px] uppercase tracking-[0.3em] text-dusk/50 mb-3"
+            className="text-[10px] uppercase tracking-[0.3em] text-dusk/45 mb-2"
             style={{ fontFamily: "var(--font-mono)" }}
           >
-            Vue d'ensemble
+            La suite
           </p>
-          <div className="divide-y divide-dusk/10 border-t border-dusk/12">
-            {SUMMARY.map((s) => (
-              <div key={s.label} className="py-4 flex items-baseline justify-between gap-4">
-                <span
-                  className="text-[12px] tracking-wide text-dusk/70"
-                  style={{ fontFamily: "var(--font-mono)" }}
+          <ol>
+            {TASKS.map((t) => (
+              <li key={t.num}>
+                <Link
+                  to={t.to as never}
+                  className="group flex items-baseline gap-5 py-4 border-b border-dusk/12"
                 >
-                  {s.label}
-                </span>
-                <span className="font-serif italic text-[20px] text-dusk">
-                  {s.value}
-                </span>
-              </div>
+                  <span
+                    className="text-[11px] tracking-[0.22em] text-dusk/40 w-6 shrink-0"
+                    style={{ fontFamily: "var(--font-mono)" }}
+                  >
+                    {t.num}
+                  </span>
+                  <h3 className="flex-1 font-serif text-[22px] leading-snug font-light">
+                    {t.title}
+                  </h3>
+                  <span
+                    className="text-[10px] uppercase tracking-[0.22em] text-dusk/45 group-hover:text-[color:var(--terracotta)]"
+                    style={{ fontFamily: "var(--font-mono)" }}
+                  >
+                    {t.meta}
+                  </span>
+                </Link>
+              </li>
             ))}
-          </div>
+          </ol>
+
           <Link
             to="/parcours"
-            className="mt-5 inline-flex items-center gap-2 text-[13px] text-dusk/80 hover:text-dusk underline underline-offset-4"
+            className="mt-6 inline-block text-[11px] uppercase tracking-[0.22em] underline underline-offset-[6px] text-dusk/70 hover:text-dusk"
+            style={{ fontFamily: "var(--font-mono)" }}
           >
-            Voir tout mon parcours →
+            Tout mon parcours →
           </Link>
-        </section>
-
-        {/* ─── Portes secondaires — deux cartes pleine couleur ─── */}
-        <section className="px-5 pt-12 space-y-4">
-          <SecondaryCard
-            to="/practical/ceremony"
-            bg="var(--blush)"
-            title={<>Préparer<br /><span className="italic">la cérémonie</span></>}
-            label="LIEU · MUSIQUES · TEXTES"
-          />
-          <SecondaryCard
-            to="/practical/atmosphere"
-            bg="var(--sun)"
-            title={<>Composer<br /><span className="italic">une ambiance</span></>}
-            label="FLEURS · COULEURS · OBJETS"
-          />
-          <SecondaryCard
-            to="/resources"
-            bg="var(--clay)"
-            title={<>Services<br /><span className="italic">utiles</span></>}
-            label="POMPES FUNÈBRES · NOTAIRES"
-          />
         </section>
       </div>
     </Shell>
-  );
-}
-
-function SecondaryCard({
-  to, bg, title, label,
-}: { to: string; bg: string; title: React.ReactNode; label: string }) {
-  return (
-    <Link
-      to={to}
-      className="block rounded-[22px] overflow-hidden"
-      style={{ background: bg, color: "var(--dusk)" }}
-    >
-      <div className="px-7 pt-7 pb-6 min-h-[170px] flex flex-col">
-        <div className="flex items-start justify-between gap-4">
-          <h3 className="font-serif text-[26px] leading-[1.06] font-light">{title}</h3>
-          <span className="text-[22px] leading-none translate-y-2 opacity-70">→</span>
-        </div>
-        <p
-          className="mt-auto pt-8 text-[10px] tracking-[0.28em] text-dusk/60"
-          style={{ fontFamily: "var(--font-mono)" }}
-        >
-          {label}
-        </p>
-      </div>
-    </Link>
   );
 }
