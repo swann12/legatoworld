@@ -26,109 +26,123 @@ function SpaceChoice() {
   };
 
   return (
-    <main className="min-h-dvh bg-[#F4EFE3] text-[#2A1410]">
-      <div className="mobile-frame relative flex min-h-dvh flex-col bg-[#F4EFE3]">
-        {/* Top bar */}
-        <header className="flex items-center justify-between px-7 pt-8">
+    <main className="min-h-dvh bg-[#F1ECDE] text-[#2A1410]">
+      <div className="mobile-frame relative flex min-h-dvh flex-col px-6 pt-7 pb-8">
+        {/* Top bar — fin filet mono, sobre */}
+        <header className="flex items-center justify-between border-b border-[#2A1410]/12 pb-4">
           <img
             src={legatoSigle.url}
             alt="Legato"
-            className="h-7 w-auto select-none"
+            className="h-6 w-auto select-none opacity-90"
             draggable={false}
           />
           <span
-            className="text-[11px] uppercase tracking-[0.18em] text-[#2A1410]/70 underline underline-offset-[5px] decoration-[0.5px]"
-            style={{ fontFamily: "var(--font-sans)" }}
+            className="text-[10px] uppercase tracking-[0.28em] text-[#2A1410]/55"
+            style={{ fontFamily: "var(--font-mono)" }}
           >
-            Menu
+            {name || "Swann"} · aujourd'hui
           </span>
         </header>
 
-        {/* Hero */}
-        <section className="px-7 pt-10">
+        {/* Hero éditorial — serif italique, hiérarchie haute */}
+        <section className="pt-12">
+          <p
+            className="text-[10px] uppercase tracking-[0.32em] text-[#C44B30]"
+            style={{ fontFamily: "var(--font-mono)" }}
+          >
+            — Deux espaces
+          </p>
           <h1
-            className="text-[44px] leading-[0.98] tracking-[-0.01em] font-normal text-[#2A1410]"
+            className="mt-5 text-[46px] leading-[0.96] tracking-[-0.015em] font-normal text-[#2A1410]"
             style={{ fontFamily: "var(--font-serif)" }}
           >
-            Bonjour {name || "Swann"},
+            Par où{" "}
+            <em className="italic text-[#C44B30]">souhaitez-vous</em>
             <br />
-            par où commencer&nbsp;?
+            commencer&nbsp;?
           </h1>
-          <p className="mt-5 max-w-[28ch] text-[14.5px] leading-[1.5] text-[#2A1410]/70">
-            Deux espaces, à votre rythme. Vous pouvez passer de l'un à l'autre à tout moment.
-          </p>
         </section>
 
-        {/* Two large color blocks */}
-        <div className="mt-9 flex flex-col gap-3 px-5">
+        {/* Deux portes — composition asymétrique, sans cartes plaquées */}
+        <div className="mt-14 flex flex-col gap-7">
           <button
             type="button"
             onClick={() => choose("psy")}
-            className="group relative flex h-[210px] flex-col justify-between overflow-hidden rounded-[28px] bg-[#C44B30] p-7 text-left text-[#F4EFE3] transition-transform active:scale-[0.99]"
+            className="group block text-left"
           >
-            <h2
-              className="text-[34px] leading-[1.02] font-normal max-w-[12ch]"
-              style={{ fontFamily: "var(--font-serif)" }}
-            >
-              Être accompagné·e
-            </h2>
-            <div className="flex items-end justify-between">
+            <div className="flex items-baseline justify-between border-t border-[#2A1410]/15 pt-5">
               <span
-                className="text-[10.5px] uppercase tracking-[0.22em] text-[#F4EFE3]/85"
-                style={{ fontFamily: "var(--font-sans)" }}
+                className="text-[10px] uppercase tracking-[0.28em] text-[#2A1410]/50"
+                style={{ fontFamily: "var(--font-mono)" }}
               >
-                Émotionnel · I
+                I — Émotionnel
               </span>
               <span
                 aria-hidden
-                className="text-[28px] leading-none transition-transform group-hover:translate-x-1"
-                style={{ fontFamily: "var(--font-serif)" }}
-              >
-                →
-              </span>
+                className="h-2 w-2 rounded-full bg-[#C44B30]"
+              />
             </div>
+            <p
+              className="mt-4 text-[30px] leading-[1.05] tracking-[-0.01em] text-[#2A1410]"
+              style={{ fontFamily: "var(--font-serif)" }}
+            >
+              Traverser ce que{" "}
+              <em className="italic text-[#C44B30]">je ressens.</em>
+            </p>
+            <p className="mt-3 max-w-[34ch] text-[13px] leading-[1.55] text-[#2A1410]/65">
+              Une présence calme, des respirations, le journal.
+            </p>
+            <span
+              className="mt-4 inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.28em] text-[#C44B30] transition-transform group-hover:translate-x-1"
+              style={{ fontFamily: "var(--font-mono)" }}
+            >
+              Entrer →
+            </span>
           </button>
 
           <button
             type="button"
             onClick={() => choose("concrete")}
-            className="group relative flex h-[210px] flex-col justify-between overflow-hidden rounded-[28px] bg-[#E89A8C] p-7 text-left text-[#2A1410] transition-transform active:scale-[0.99]"
+            className="group block text-left"
           >
-            <h2
-              className="text-[34px] leading-[1.02] font-normal max-w-[12ch]"
-              style={{ fontFamily: "var(--font-serif)" }}
-            >
-              Avancer pas à pas
-            </h2>
-            <div className="flex items-end justify-between">
+            <div className="flex items-baseline justify-between border-t border-[#2A1410]/15 pt-5">
               <span
-                className="text-[10.5px] uppercase tracking-[0.22em] text-[#2A1410]/75"
-                style={{ fontFamily: "var(--font-sans)" }}
+                className="text-[10px] uppercase tracking-[0.28em] text-[#2A1410]/50"
+                style={{ fontFamily: "var(--font-mono)" }}
               >
-                Pratique · II
+                II — Pratique
               </span>
               <span
                 aria-hidden
-                className="text-[28px] leading-none transition-transform group-hover:translate-x-1"
-                style={{ fontFamily: "var(--font-serif)" }}
-              >
-                →
-              </span>
+                className="h-2 w-2 rounded-full bg-[#5A7BA8]"
+              />
             </div>
+            <p
+              className="mt-4 text-[30px] leading-[1.05] tracking-[-0.01em] text-[#2A1410]"
+              style={{ fontFamily: "var(--font-serif)" }}
+            >
+              Avancer{" "}
+              <em className="italic text-[#5A7BA8]">pas à pas.</em>
+            </p>
+            <p className="mt-3 max-w-[34ch] text-[13px] leading-[1.55] text-[#2A1410]/65">
+              Démarches, documents, organisation — au rythme juste.
+            </p>
+            <span
+              className="mt-4 inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.28em] text-[#5A7BA8] transition-transform group-hover:translate-x-1"
+              style={{ fontFamily: "var(--font-mono)" }}
+            >
+              Entrer →
+            </span>
           </button>
         </div>
 
-        {/* Bottom band */}
-        <div className="mt-auto bg-[#5A7BA8] px-7 py-7 text-center">
-          <p
-            className="text-[10.5px] uppercase tracking-[0.24em] leading-[1.7] text-[#F4EFE3]"
-            style={{ fontFamily: "var(--font-sans)" }}
-          >
-            Vous n'êtes pas seul·e
-            <br />
-            nous sommes là, en toute confidentialité.
-          </p>
-        </div>
+        {/* Pied — note discrète */}
+        <p
+          className="mt-auto pt-12 text-[10px] uppercase tracking-[0.28em] text-[#2A1410]/45"
+          style={{ fontFamily: "var(--font-mono)" }}
+        >
+          Vous changez d'espace quand vous voulez.
+        </p>
       </div>
     </main>
   );
