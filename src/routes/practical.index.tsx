@@ -1,189 +1,219 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
 import { Shell } from "@/components/legato/Shell";
-import { ConfideDock } from "@/components/legato/ConfideDock";
-import { useLegato, modeProfile, type Mode } from "@/lib/legato-state";
-import { BUDGET_LABELS, loadPractical, savePractical, type Budget } from "@/lib/practical-store";
 
 export const Route = createFileRoute("/practical/")({
   head: () => ({
     meta: [
-      { title: "Aides concrètes — Legato" },
-      { name: "description", content: "Un compagnon doux pour les démarches, la cérémonie, les fleurs, les textes." },
+      { title: "Avancer — Legato" },
+      { name: "description", content: "Une priorité à la fois. Nous avons rassemblé ce qui mérite votre attention." },
     ],
   }),
   component: Practical,
 });
 
-const HEADERS: Record<Mode, { eyebrow: string; title: string; sub: string }> = {
-  cocoon:    { eyebrow: "Aides concrètes", title: "On avance d'un seul pas.",                 sub: "Rien à finir aujourd'hui. Seulement ce qui semble possible." },
-  anchoring: { eyebrow: "Aides concrètes", title: "Tout est là, dans l'ordre.",               sub: "Quatre portes claires, à votre rythme." },
-  breath:    { eyebrow: "Aides concrètes", title: "Composer un adieu qui lui ressemble.",     sub: "Fleurs, textes, musiques, ambiance. Jamais imposés." },
-  relay:     { eyebrow: "Aides concrètes", title: "D'autres mains peuvent porter avec vous.", sub: "Confier, partager. Vous gardez la décision." },
-};
+/* ─── Accueil ESPACE ORGANISER ET AVANCER ───
+ * Une carte priorité principale (aplat bleu nuit) + résumé compact.
+ * Pas de choix initial à faire — l'application a déjà rassemblé. */
 
-type Door = { to: string; eyebrow: string; title: string; body: string; key: "steps" | "ceremony" | "atmosphere" | "share" };
-const DOORS: Door[] = [
-  { key: "steps",      to: "/practical/steps",      eyebrow: "Démarches",        title: "Premiers jours",            body: "Constat, mairie, employeur. Trois pas, pas plus." },
-  { key: "ceremony",   to: "/practical/ceremony",   eyebrow: "Cérémonie",        title: "Choisir un déroulé",        body: "Inhumation, crémation, lieu, intervenants." },
-  { key: "atmosphere", to: "/practical/atmosphere", eyebrow: "Atmosphère",       title: "Fleurs, textes, musiques",  body: "Composer une ambiance qui lui ressemble." },
-  { key: "share",      to: "/practical/share",      eyebrow: "Partage et relais", title: "Transmettre, demander",    body: "Pompes funèbres, proches, officiant." },
+const SUMMARY = [
+  { label: "À faire",       value: 3, accent: "var(--ember)" },
+  { label: "En cours",      value: 2, accent: "var(--azure)" },
+  { label: "Délégué",       value: 1, accent: "var(--sun)" },
+  { label: "Documents",     value: 2, accent: "var(--magenta)" },
+  { label: "Prochaine échéance", value: "Vendredi", accent: "var(--dusk)" },
 ];
 
-function reorderForMode(mode: Mode): Door[] {
-  const order: Record<Mode, Door["key"][]> = {
-    cocoon:    ["steps", "atmosphere", "ceremony", "share"],
-    anchoring: ["steps", "ceremony", "atmosphere", "share"],
-    breath:    ["atmosphere", "ceremony", "steps", "share"],
-    relay:     ["share", "steps", "ceremony", "atmosphere"],
-  };
-  return order[mode].map((k) => DOORS.find((d) => d.key === k)!);
-}
-
 function Practical() {
-  const { mode } = useLegato();
-  const profile = modeProfile(mode);
-  const h = HEADERS[mode];
-  const doors = reorderForMode(mode);
-  const [budget, setBudget] = useState<Budget>("");
-  const [budgetOpen, setBudgetOpen] = useState(false);
-
-  useEffect(() => { setBudget(loadPractical().budget); }, []);
-  const updateBudget = (b: Budget) => { setBudget(b); savePractical({ budget: b }); };
-
-  const gap = profile.density === "tight" ? "space-y-3" : profile.density === "open" ? "space-y-5" : "space-y-4";
-
   return (
-    <Shell hideNav>
-      <div className="relative">
-        <div className="relative z-10">
-          <div className="px-7 pt-10 flex items-center justify-between">
-            <Link
-              to="/home"
-              className="text-[10px] uppercase tracking-[0.3em] text-dusk/55 hover:text-dusk"
-              style={{ fontFamily: "var(--font-mono)" }}
-            >
-              ← Accueil
-            </Link>
-            <span
-              className="text-[10px] uppercase tracking-[0.3em] text-dusk/50"
-              style={{ fontFamily: "var(--font-mono)" }}
-            >
-              {h.eyebrow}
-            </span>
-          </div>
+    <Shell livingBg={false}>
+      <div className="min-h-dvh bg-paper text-dusk pb-32">
+        <header className="px-7 pt-10 flex items-center justify-between">
+          <span
+            className="text-[10px] uppercase tracking-[0.3em] text-dusk/50"
+            style={{ fontFamily: "var(--font-mono)" }}
+          >
+            Legato · Organiser
+          </span>
+          <Link
+            to="/space"
+            className="text-[10px] uppercase tracking-[0.24em] text-dusk/50 hover:text-dusk"
+            style={{ fontFamily: "var(--font-mono)" }}
+          >
+            Changer d'espace
+          </Link>
+        </header>
 
-          <header className="px-7 pt-14">
-            <p
-              className="text-[10px] uppercase tracking-[0.3em] text-dusk/50"
-              style={{ fontFamily: "var(--font-mono)" }}
-            >
-              Compagnon d'organisation
-            </p>
-            <h1 className="mt-4 font-serif text-[36px] leading-[1.05] font-light text-dusk text-balance">
-              {h.title}
-            </h1>
-            <p className="mt-6 max-w-[34ch] text-[14.5px] leading-[1.6] text-dusk/65">{h.sub}</p>
-          </header>
+        <section className="px-7 pt-14">
+          <p
+            className="text-[10px] uppercase tracking-[0.3em] text-dusk/50"
+            style={{ fontFamily: "var(--font-mono)" }}
+          >
+            Aujourd'hui
+          </p>
+          <h1 className="mt-4 font-serif text-[36px] leading-[1.05] text-dusk font-light text-balance">
+            Avançons <span className="italic">une étape à la fois.</span>
+          </h1>
+          <p className="mt-5 max-w-[36ch] text-[14.5px] leading-[1.6] text-dusk/60">
+            Nous avons rassemblé ce qui mérite votre attention aujourd'hui.
+          </p>
+        </section>
 
-          <div className={`px-7 mt-10 ${gap}`}>
-            {doors.map((d, i) => (
-              <Link
-                key={d.key}
-                to={d.to}
-                className="block rounded-[16px] border border-dusk/12 bg-paper p-5 flex items-baseline gap-4 group hover:bg-dusk/[0.02] transition-colors"
-              >
-                <span
-                  className="text-[11px] tracking-[0.18em] text-dusk/45 leading-none w-7 shrink-0"
+        {/* ─── Priorité principale — bleu nuit ─── */}
+        <section className="px-7 pt-10">
+          <article
+            className="rounded-[18px] overflow-hidden text-[color:var(--paper)]"
+            style={{ background: "var(--navy)" }}
+          >
+            <div className="px-6 pt-7 pb-6">
+              <div className="flex items-baseline justify-between">
+                <p
+                  className="text-[10px] uppercase tracking-[0.28em] text-[color:var(--paper)]/65"
                   style={{ fontFamily: "var(--font-mono)" }}
                 >
-                  0{i + 1}
+                  Priorité du jour
+                </p>
+                <span
+                  className="text-[10px] uppercase tracking-[0.2em] text-[color:var(--paper)]/70"
+                  style={{ fontFamily: "var(--font-mono)" }}
+                >
+                  ~ 20 min
                 </span>
-                <div className="flex-1 min-w-0">
-                  <p
-                    className="text-[10px] uppercase tracking-[0.26em] text-dusk/50"
+              </div>
+              <h2 className="mt-3 font-serif text-[26px] leading-[1.12] text-balance">
+                Déclarer le décès <span className="italic">à la mairie.</span>
+              </h2>
+              <p className="mt-3 text-[13.5px] leading-[1.55] text-[color:var(--paper)]/75 max-w-[36ch]">
+                C'est l'étape qui débloque toutes les suivantes. Vous pouvez le faire
+                en personne ou demander à un proche.
+              </p>
+              <p
+                className="mt-4 text-[10px] uppercase tracking-[0.24em] text-[color:var(--paper)]/55"
+                style={{ fontFamily: "var(--font-mono)" }}
+              >
+                Documents · Pièce d'identité · Certificat de décès
+              </p>
+
+              <div className="mt-6 flex items-center gap-3">
+                <Link
+                  to="/practical/steps"
+                  className="rounded-[12px] px-5 py-3 text-[14px] flex-1 text-center"
+                  style={{ background: "var(--paper)", color: "var(--navy)" }}
+                >
+                  <span className="font-serif italic">Commencer</span>
+                </Link>
+                <button
+                  className="text-[11px] uppercase tracking-[0.22em] text-[color:var(--paper)]/80 px-3 py-2"
+                  style={{ fontFamily: "var(--font-mono)" }}
+                >
+                  Déléguer
+                </button>
+              </div>
+              <div className="mt-3 text-center">
+                <Link
+                  to="/presence"
+                  className="text-[11px] uppercase tracking-[0.22em] text-[color:var(--paper)]/65 hover:text-[color:var(--paper)]"
+                  style={{ fontFamily: "var(--font-mono)" }}
+                >
+                  Poser une question
+                </Link>
+              </div>
+            </div>
+          </article>
+        </section>
+
+        {/* ─── Résumé compact ─── */}
+        <section className="px-7 pt-10">
+          <p
+            className="text-[10px] uppercase tracking-[0.28em] text-dusk/55 mb-4"
+            style={{ fontFamily: "var(--font-mono)" }}
+          >
+            Vue d'ensemble
+          </p>
+          <div className="divide-y divide-dusk/10 border-y border-dusk/12">
+            {SUMMARY.map((s) => (
+              <div key={s.label} className="py-4 flex items-baseline justify-between gap-4">
+                <div className="flex items-baseline gap-3">
+                  <span
+                    className="size-1.5 rounded-full"
+                    style={{ background: s.accent }}
+                  />
+                  <span
+                    className="text-[11px] uppercase tracking-[0.24em] text-dusk/65"
                     style={{ fontFamily: "var(--font-mono)" }}
                   >
-                    {d.eyebrow}
-                  </p>
-                  <h3 className="mt-1.5 font-serif text-[19px] italic text-dusk leading-snug">{d.title}</h3>
-                  <p className="mt-2 text-[13px] leading-[1.55] text-dusk/65">{d.body}</p>
+                    {s.label}
+                  </span>
                 </div>
-                <span className="text-dusk/40 group-hover:text-dusk transition">→</span>
-              </Link>
+                <span className="font-serif italic text-[19px] text-dusk">
+                  {s.value}
+                </span>
+              </div>
             ))}
           </div>
+          <Link
+            to="/parcours"
+            className="mt-4 inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.24em] text-dusk/65 hover:text-dusk"
+            style={{ fontFamily: "var(--font-mono)" }}
+          >
+            Voir tout mon parcours →
+          </Link>
+        </section>
 
-          {/* Budget — repliable, pas en premier plan */}
-          <div className="px-7 mt-8">
-            <button
-              onClick={() => setBudgetOpen((o) => !o)}
-              className="w-full rounded-[16px] border border-dusk/12 bg-paper p-5 text-left hover:bg-dusk/[0.02] transition-colors"
-            >
-              <div className="flex items-baseline justify-between">
-                <div>
-                  <p
-                    className="text-[10px] uppercase tracking-[0.26em] text-dusk/50"
-                    style={{ fontFamily: "var(--font-mono)" }}
-                  >
-                    Budget indicatif
-                  </p>
-                  <p className="mt-1 font-serif italic text-[15px] text-dusk">
-                    {budget ? BUDGET_LABELS[budget].label : "À votre rythme — vous pouvez sauter cette étape"}
-                  </p>
-                </div>
-                <span className="text-dusk/40">{budgetOpen ? "−" : "+"}</span>
-              </div>
-              {budgetOpen && (
-                <div className="mt-4 grid grid-cols-3 gap-2">
-                  {(Object.keys(BUDGET_LABELS) as (keyof typeof BUDGET_LABELS)[]).map((k) => (
-                    <button
-                      key={k}
-                      onClick={(e) => { e.stopPropagation(); updateBudget(k); }}
-                      className={`p-3 organic-radius text-left ${budget === k ? "ceramic" : "ceramic-soft opacity-80"}`}
-                    >
-                      <p className="text-[12px] font-medium text-dusk">{BUDGET_LABELS[k].label}</p>
-                      <p className="text-[10px] text-dusk/55 mt-0.5">{BUDGET_LABELS[k].range}</p>
-                    </button>
-                  ))}
-                </div>
-              )}
-            </button>
-          </div>
-
-          {/* Volontés + inspiration */}
-          <div className="px-5 mt-6 grid grid-cols-1 gap-3">
-            <Link to="/wishes" className="paper-card p-5 flex items-baseline justify-between">
-              <div>
-                <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">Mes volontés</p>
-                <p className="mt-1 font-serif italic text-[15px] text-dusk">Écrire ce que je voudrais, pour le jour venu</p>
-              </div>
-              <span className="text-dusk/40">→</span>
-            </Link>
-            <Link to="/resources" className="paper-card p-5 flex items-baseline justify-between">
-              <div>
-                <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">Ressources & accompagnement</p>
-                <p className="mt-1 font-serif italic text-[15px] text-dusk">Des personnes de confiance, recommandées par Legato</p>
-              </div>
-              <span className="text-dusk/40">→</span>
-            </Link>
-            <Link to="/presence" className="paper-card p-5 flex items-baseline justify-between">
-              <div>
-                <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">Parler en parallèle</p>
-                <p className="mt-1 font-serif italic text-[15px] text-dusk">Une présence qui écoute, à tout moment</p>
-              </div>
-              <span className="text-dusk/40">→</span>
-            </Link>
-          </div>
-
-          <div className="px-7 mt-10 mb-6 text-center">
-            <p className="font-serif italic text-[14px] text-dusk/55 max-w-[28ch] mx-auto text-balance">
-              « Ralentir n'est pas perdre du temps. C'est en gagner pour soi. »
-            </p>
-          </div>
-        </div>
+        {/* ─── Portes secondaires ─── */}
+        <section className="px-7 pt-10 space-y-3">
+          <Link
+            to="/practical/ceremony"
+            className="block rounded-[14px] border border-dusk/12 bg-paper p-5 flex items-baseline justify-between"
+          >
+            <div>
+              <p
+                className="text-[10px] uppercase tracking-[0.24em] text-dusk/55"
+                style={{ fontFamily: "var(--font-mono)" }}
+              >
+                Cérémonie
+              </p>
+              <p className="mt-1 font-serif italic text-[17px] text-dusk">
+                Préparer le déroulé
+              </p>
+            </div>
+            <span className="text-dusk/45">→</span>
+          </Link>
+          <Link
+            to="/practical/atmosphere"
+            className="block rounded-[14px] border border-dusk/12 bg-paper p-5 flex items-baseline justify-between"
+          >
+            <div>
+              <p
+                className="text-[10px] uppercase tracking-[0.24em] text-dusk/55"
+                style={{ fontFamily: "var(--font-mono)" }}
+              >
+                Atmosphère
+              </p>
+              <p className="mt-1 font-serif italic text-[17px] text-dusk">
+                Composer une ambiance
+              </p>
+            </div>
+            <span className="text-dusk/45">→</span>
+          </Link>
+          <Link
+            to="/resources"
+            className="block rounded-[14px] border border-dusk/12 bg-paper p-5 flex items-baseline justify-between"
+          >
+            <div>
+              <p
+                className="text-[10px] uppercase tracking-[0.24em] text-dusk/55"
+                style={{ fontFamily: "var(--font-mono)" }}
+              >
+                Services
+              </p>
+              <p className="mt-1 font-serif italic text-[17px] text-dusk">
+                Pompes funèbres, notaires, fleuristes…
+              </p>
+            </div>
+            <span className="text-dusk/45">→</span>
+          </Link>
+        </section>
       </div>
-      <ConfideDock step="accueil" />
     </Shell>
   );
 }
