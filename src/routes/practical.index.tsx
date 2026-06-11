@@ -11,30 +11,16 @@ export const Route = createFileRoute("/practical/")({
   component: Practical,
 });
 
-/* Espace concret — registre éditorial Co-Star.
- * Liste typographique numérotée, méta en mono à droite. Pas d'aplats
- * de couleur, juste l'accent terracotta utilisé comme encre. */
-
-const PRIORITY = {
-  title: <>Déclarer le décès <span className="italic">à la mairie</span></>,
-  why: "Cette étape débloque presque tout le reste.",
-  time: "~ 20 MIN",
-  to: "/practical/steps",
-};
-
-const TASKS: { num: string; title: React.ReactNode; meta: string; to: string }[] = [
-  { num: "01", to: "/practical/steps",     meta: "À FAIRE",   title: <>Prévenir <span className="italic">l'employeur</span></> },
-  { num: "02", to: "/practical/ceremony",  meta: "EN COURS",  title: <>Choisir <span className="italic">le lieu</span></> },
-  { num: "03", to: "/practical/texts",     meta: "EN COURS",  title: <>Écrire <span className="italic">les mots</span></> },
-  { num: "04", to: "/practical/flowers",   meta: "À FAIRE",   title: <>Décider <span className="italic">les fleurs</span></> },
-  { num: "05", to: "/practical/share",     meta: "DÉLÉGUÉ",   title: <>Prévenir <span className="italic">les proches</span></> },
-  { num: "06", to: "/resources",           meta: "À VOIR",    title: <>Trouver <span className="italic">un notaire</span></> },
+const TASKS: { label: string; status: string; to: string }[] = [
+  { label: "Prévenir l'employeur",   status: "À faire",  to: "/practical/steps" },
+  { label: "Choisir le lieu",        status: "En cours", to: "/practical/ceremony" },
+  { label: "Écrire les mots",        status: "En cours", to: "/practical/texts" },
+  { label: "Décider les fleurs",     status: "À faire",  to: "/practical/flowers" },
+  { label: "Prévenir les proches",   status: "Délégué",  to: "/practical/share" },
+  { label: "Trouver un notaire",     status: "À voir",   to: "/resources" },
 ];
 
 function Practical() {
-  const today = new Intl.DateTimeFormat("fr-FR", { day: "numeric", month: "long" })
-    .format(new Date()).toUpperCase();
-
   return (
     <Shell livingBg={false}>
       <div className="min-h-dvh bg-paper text-dusk pb-32 px-7">
@@ -42,91 +28,44 @@ function Practical() {
           <span className="font-serif text-[20px] leading-none">Legato</span>
           <Link
             to="/space"
-            className="text-[11px] uppercase tracking-[0.18em] text-dusk/55 hover:text-dusk"
-            style={{ fontFamily: "var(--font-mono)" }}
+            className="text-[13px] text-dusk/60 hover:text-dusk underline underline-offset-4"
           >
-            Espace ↩
+            Espace
           </Link>
         </header>
 
         <section className="pt-16">
-          <p
-            className="text-[10px] uppercase tracking-[0.34em] text-dusk/55"
-            style={{ fontFamily: "var(--font-mono)" }}
-          >
-            {today} — CONCRET
-          </p>
-          <h1 className="mt-6 font-serif text-[36px] leading-[1.05] font-light text-balance">
-            Une chose à la fois.{" "}
-            <span className="italic" style={{ color: "var(--terracotta)" }}>
-              Le reste attendra.
-            </span>
+          <h1 className="font-serif text-[38px] leading-[1.05] font-light text-balance">
+            Une chose <span className="italic" style={{ color: "var(--terracotta)" }}>à la fois.</span>
           </h1>
         </section>
 
-        {/* Priorité du jour — pas de bloc, juste de la typo + un trait */}
-        <section className="pt-14">
-          <div className="border-l-2 pl-5" style={{ borderColor: "var(--terracotta)" }}>
-            <p
-              className="text-[10px] uppercase tracking-[0.3em] text-[color:var(--terracotta)]"
-              style={{ fontFamily: "var(--font-mono)" }}
-            >
-              À faire en premier — {PRIORITY.time}
-            </p>
-            <h2 className="mt-3 font-serif text-[28px] leading-[1.08] font-light text-balance">
-              {PRIORITY.title}
+        {/* À faire en premier — carte couleur claire et nette */}
+        <section className="-mx-7 px-5 pt-10">
+          <Link
+            to="/practical/steps"
+            className="block rounded-[22px] px-7 py-7 text-[color:var(--paper)]"
+            style={{ background: "var(--bordeaux)" }}
+          >
+            <p className="text-[12px] opacity-70 mb-2">À faire en premier</p>
+            <h2 className="font-serif text-[28px] leading-[1.08] font-light">
+              Déclarer le décès <span className="italic">à la mairie</span>
             </h2>
-            <p className="mt-3 text-[14px] leading-[1.55] text-dusk/65 max-w-[36ch]">
-              {PRIORITY.why}
-            </p>
-            <div className="mt-5 flex items-baseline gap-6">
-              <Link
-                to={PRIORITY.to}
-                className="text-[12px] uppercase tracking-[0.22em] underline underline-offset-[6px] decoration-[color:var(--terracotta)] decoration-1 hover:text-[color:var(--terracotta)]"
-                style={{ fontFamily: "var(--font-mono)" }}
-              >
-                Commencer →
-              </Link>
-              <Link
-                to="/presence"
-                className="text-[12px] uppercase tracking-[0.22em] text-dusk/55 hover:text-dusk"
-                style={{ fontFamily: "var(--font-mono)" }}
-              >
-                Déléguer
-              </Link>
-            </div>
-          </div>
+            <p className="mt-5 text-[13px] opacity-80">Commencer →</p>
+          </Link>
         </section>
 
-        {/* Suite éditoriale — liste numérotée */}
-        <section className="pt-14">
-          <p
-            className="text-[10px] uppercase tracking-[0.3em] text-dusk/45 mb-2"
-            style={{ fontFamily: "var(--font-mono)" }}
-          >
-            La suite
-          </p>
-          <ol>
+        {/* La suite — liste claire, statut à droite */}
+        <section className="pt-10">
+          <ol className="divide-y divide-dusk/12 border-t border-dusk/12">
             {TASKS.map((t) => (
-              <li key={t.num}>
-                <Link
-                  to={t.to as never}
-                  className="group flex items-baseline gap-5 py-4 border-b border-dusk/12"
-                >
-                  <span
-                    className="text-[11px] tracking-[0.22em] text-dusk/40 w-6 shrink-0"
-                    style={{ fontFamily: "var(--font-mono)" }}
-                  >
-                    {t.num}
+              <li key={t.label}>
+                <Link to={t.to as never} className="flex items-center justify-between py-4 group">
+                  <span className="font-serif text-[19px] leading-snug font-light pr-3">
+                    {t.label}
                   </span>
-                  <h3 className="flex-1 font-serif text-[22px] leading-snug font-light">
-                    {t.title}
-                  </h3>
-                  <span
-                    className="text-[10px] uppercase tracking-[0.22em] text-dusk/45 group-hover:text-[color:var(--terracotta)]"
-                    style={{ fontFamily: "var(--font-mono)" }}
-                  >
-                    {t.meta}
+                  <span className="text-[12px] text-dusk/55 shrink-0">
+                    {t.status}
                   </span>
                 </Link>
               </li>
@@ -135,10 +74,29 @@ function Practical() {
 
           <Link
             to="/parcours"
-            className="mt-6 inline-block text-[11px] uppercase tracking-[0.22em] underline underline-offset-[6px] text-dusk/70 hover:text-dusk"
-            style={{ fontFamily: "var(--font-mono)" }}
+            className="mt-6 inline-block text-[13px] text-dusk/70 hover:text-dusk underline underline-offset-4"
           >
-            Tout mon parcours →
+            Voir tout mon parcours →
+          </Link>
+        </section>
+
+        {/* Deux portes secondaires sobres */}
+        <section className="-mx-7 px-5 pt-10 grid grid-cols-2 gap-3">
+          <Link
+            to="/practical/ceremony"
+            className="rounded-[18px] px-5 py-6"
+            style={{ background: "var(--blush)", color: "var(--dusk)" }}
+          >
+            <p className="font-serif text-[20px] italic leading-tight">Cérémonie</p>
+            <p className="mt-1 text-[12px] text-dusk/65">Lieu, textes, musique</p>
+          </Link>
+          <Link
+            to="/resources"
+            className="rounded-[18px] px-5 py-6"
+            style={{ background: "var(--clay)", color: "var(--dusk)" }}
+          >
+            <p className="font-serif text-[20px] italic leading-tight">Services</p>
+            <p className="mt-1 text-[12px] text-dusk/65">Pompes funèbres, notaire</p>
           </Link>
         </section>
       </div>
