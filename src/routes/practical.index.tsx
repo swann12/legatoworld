@@ -46,23 +46,20 @@ function Practical() {
       <div className="min-h-dvh bg-paper text-dusk pb-32">
         <SpaceHeader space="organize" />
 
-        <section className="px-7 pt-14">
+        <section className="px-7 pt-12">
           <p
             className="text-[10px] uppercase tracking-[0.28em] text-dusk/50"
             style={{ fontFamily: "var(--font-mono)" }}
           >
             Accueil
           </p>
-          <h1 className="mt-4 font-serif text-[36px] leading-[1.05] font-light text-balance">
-            Avançons <span className="italic" style={{ color: "var(--terracotta)" }}>une étape à la fois.</span>
+          <h1 className="mt-4 font-serif text-[34px] leading-[1.05] font-light text-balance">
+            Une étape <span className="italic" style={{ color: "var(--terracotta)" }}>à la fois.</span>
           </h1>
-          <p className="mt-4 text-[14.5px] leading-[1.55] text-dusk/65 max-w-[34ch]">
-            Voici ce qui mérite votre attention aujourd'hui.
-          </p>
         </section>
 
         {/* ZONE 1 — Priorité du jour */}
-        <section className="px-5 pt-9">
+        <section className="px-5 pt-8">
           <div
             className="rounded-[22px] px-6 py-7"
             style={{ background: "var(--bordeaux)", color: "var(--paper)" }}
@@ -71,14 +68,13 @@ function Practical() {
               className="text-[10px] uppercase tracking-[0.26em] opacity-70"
               style={{ fontFamily: "var(--font-mono)" }}
             >
-              Priorité du jour · ~30 min
+              Priorité du jour
             </p>
-            <h2 className="mt-3 font-serif text-[26px] leading-[1.1] font-light">
-              Contacter une entreprise <span className="italic">de pompes funèbres.</span>
+            <h2 className="mt-3 font-serif text-[24px] leading-[1.15] font-light">
+              Contacter les <span className="italic">pompes funèbres.</span>
             </h2>
-            <p className="mt-3 text-[13.5px] leading-[1.55] opacity-85">
-              Cette étape conditionne le lieu, la date et l'organisation de la cérémonie.
-              À traiter dans les 48h.
+            <p className="mt-2.5 text-[13px] leading-[1.55] opacity-80">
+              À traiter dans les 48 h.
             </p>
             <div className="mt-5 flex flex-wrap gap-2">
               <Link
@@ -95,13 +91,6 @@ function Practical() {
               >
                 Déléguer
               </button>
-              <Link
-                to="/presence"
-                className="rounded-full px-4 py-2 text-[12px] uppercase tracking-[0.2em] underline underline-offset-4 opacity-80"
-                style={{ fontFamily: "var(--font-mono)" }}
-              >
-                Poser une question
-              </Link>
             </div>
           </div>
         </section>

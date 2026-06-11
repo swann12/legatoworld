@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { Shell } from "@/components/legato/Shell";
+import { SpaceHeader } from "@/components/legato/SpaceHeader";
 import { useLegato } from "@/lib/legato-state";
 
 export const Route = createFileRoute("/journal")({
@@ -47,26 +48,24 @@ function Journal() {
     <Shell>
       <div className="relative pb-12">
         <div className="relative z-10">
+          <SpaceHeader space="care" />
           <header className="px-7 pt-12">
             <p
               className="text-[10px] uppercase tracking-[0.3em] text-dusk/50"
               style={{ fontFamily: "var(--font-mono)" }}
             >
-              {t("journal.title")}
+              Journal
             </p>
             <h1
-              className="mt-4 font-serif text-[40px] leading-[1.02] font-light text-dusk max-w-[20ch]"
+              className="mt-4 font-serif text-[34px] leading-[1.05] font-light text-dusk max-w-[20ch]"
               style={{ textWrap: "balance" }}
             >
               {lang === "fr" ? (
-                <>Une page <span className="italic text-dusk/80">rien qu'à vous.</span></>
+                <>Une page <span className="italic" style={{ color: "var(--terracotta)" }}>rien qu'à vous.</span></>
               ) : (
-                <>A page <span className="italic text-dusk/80">just for you.</span></>
+                <>A page <span className="italic">just for you.</span></>
               )}
             </h1>
-            <p className="mt-6 max-w-[34ch] text-[14.5px] leading-[1.6] text-dusk/65">
-              {t("journal.subtitle")}
-            </p>
           </header>
 
           {/* Address selector */}

@@ -118,41 +118,38 @@ function Start() {
     <main className="min-h-dvh bg-paper text-dusk">
       <div className="mobile-frame relative flex min-h-dvh flex-col">
         <header className="px-7 pt-10 flex items-center justify-between">
-          <p
-            className="text-[10px] uppercase tracking-[0.3em] text-dusk/50"
-            style={{ fontFamily: "var(--font-mono)" }}
-          >
-            Legato
-          </p>
-          <p
-            className="text-[10px] uppercase tracking-[0.3em] text-dusk/40"
-            style={{ fontFamily: "var(--font-mono)" }}
-          >
-            {mode === "signin" ? "Se reconnecter" : mode === "signup" ? "Créer un espace" : "Entrer"}
-          </p>
+          <span className="font-serif text-[19px] leading-none">Legato</span>
+          {mode !== "choice" && (
+            <button
+              type="button"
+              onClick={() => { setMode("choice"); setError(null); setInfo(null); }}
+              className="text-[10px] uppercase tracking-[0.24em] text-dusk/50 hover:text-dusk"
+              style={{ fontFamily: "var(--font-mono)" }}
+            >
+              ← Retour
+            </button>
+          )}
         </header>
 
         <div className="relative z-10 flex flex-1 flex-col justify-center px-7 pb-12 pt-10">
           <p
-            className="text-[10px] uppercase tracking-[0.3em] text-dusk/50"
+            className="text-[10px] uppercase tracking-[0.28em] text-dusk/50"
             style={{ fontFamily: "var(--font-mono)" }}
           >
-            Bienvenue
+            {mode === "signin" ? "Se reconnecter" : mode === "signup" ? "Créer un espace" : "Bienvenue"}
           </p>
           <h1
-            className="mt-4 font-serif text-[40px] leading-[1.02] text-dusk font-light"
+            className="mt-4 font-serif text-[38px] leading-[1.02] text-dusk font-light"
             style={{ textWrap: "balance" }}
           >
-            Préparer un adieu,
-            <br />
-            <span className="italic text-dusk/80">garder une présence.</span>
+            {mode === "signin" ? (
+              <>Ravi de vous <span className="italic">revoir.</span></>
+            ) : mode === "signup" ? (
+              <>Votre espace, <span className="italic">en quelques mots.</span></>
+            ) : (
+              <>Un espace pour <span className="italic" style={{ color: "var(--terracotta)" }}>traverser.</span></>
+            )}
           </h1>
-          <p
-            className="mt-6 max-w-[34ch] text-[14.5px] leading-[1.6] text-dusk/65"
-            style={{ textWrap: "balance" }}
-          >
-            Composer une cérémonie, écrire ce qui compte, faire vivre le souvenir. À votre rythme.
-          </p>
 
           <div className="mt-10 flex flex-col gap-3">
             {mode === "choice" && (
@@ -160,35 +157,21 @@ function Start() {
                 <button
                   type="button"
                   onClick={() => { setMode("signup"); setError(null); setInfo(null); }}
-                  className="block rounded-[18px] overflow-hidden text-[color:var(--paper)] text-left px-6 py-5"
+                  className="block rounded-[18px] text-[color:var(--paper)] text-left px-6 py-5"
                   style={{ background: "var(--bordeaux)" }}
                 >
-                  <span
-                    className="block text-[10px] uppercase tracking-[0.28em] text-[color:var(--paper)]/60"
-                    style={{ fontFamily: "var(--font-mono)" }}
-                  >
-                    Pour conserver vos souvenirs
-                  </span>
-                  <span className="mt-3 block font-serif italic text-[24px] leading-tight">
-                    Créer un espace
-                  </span>
-                  <span
-                    className="mt-4 flex items-center justify-between text-[11px] uppercase tracking-[0.24em] text-[color:var(--paper)]/80"
-                    style={{ fontFamily: "var(--font-mono)" }}
-                  >
-                    Commencer
-                    <span className="text-[color:var(--paper)]/70">→</span>
-                  </span>
+                  <span className="block font-serif text-[22px] leading-tight">Créer mon espace</span>
+                  <span className="mt-1 block text-[12.5px] opacity-80">Pour garder ce que vous écrivez.</span>
                 </button>
                 <button
                   type="button"
                   onClick={() => { setMode("signin"); setError(null); setInfo(null); }}
-                  className="rounded-full border border-dusk/20 bg-paper px-7 py-3.5 text-center text-[11px] uppercase tracking-[0.24em] text-dusk/70 hover:bg-dusk/5 transition-colors"
-                  style={{ fontFamily: "var(--font-mono)" }}
+                  className="rounded-[18px] border border-dusk/15 bg-paper px-6 py-4 text-left hover:bg-dusk/[0.03] transition-colors"
                 >
-                  Me reconnecter
+                  <span className="block font-serif text-[18px] text-dusk">Me reconnecter</span>
+                  <span className="mt-0.5 block text-[12.5px] text-dusk/55">Retrouver mon espace.</span>
                 </button>
-                <div className="mt-3 flex flex-col items-center gap-1">
+                <div className="mt-4 flex flex-col items-center gap-1">
                   <button
                     type="button"
                     onClick={goNext}
@@ -197,8 +180,8 @@ function Start() {
                   >
                     Continuer en tant qu'invité·e
                   </button>
-                  <p className="text-center text-[11px] italic font-serif text-dusk/50 max-w-[34ch] leading-snug">
-                    Ce que vous écrivez ici ne sera pas gardé.
+                  <p className="text-center text-[11px] italic font-serif text-dusk/45">
+                    Rien ne sera gardé.
                   </p>
                 </div>
               </div>

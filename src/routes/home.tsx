@@ -17,11 +17,11 @@ export const Route = createFileRoute("/home")({
  * Aucune démarche, aucun pro funéraire, aucun budget. */
 
 const ACTIONS = [
-  { to: "/presence",  title: "Parler à une présence",  sub: "Écrire ou parler librement, sans avoir à trouver les bons mots.", tint: "var(--terracotta)" },
-  { to: "/journal",   title: "Écrire quelques mots",   sub: "Ouvrir une page de journal intime.", tint: "var(--blush)" },
-  { to: "/garden",    title: "Entrer dans le jardin",  sub: "Retrouver les personnes, les animaux et les souvenirs qui comptent.", tint: "var(--sage)" },
-  { to: "/no-words",  title: "Respirer quelques minutes", sub: "Suivre une animation douce, accompagnée d'un son apaisant.", tint: "var(--mist)" },
-  { to: "/community", title: "Trouver un soutien humain", sub: "Contacter un proche, une communauté, une association ou un professionnel.", tint: "var(--peach)" },
+  { to: "/presence",  title: "Parler à une présence",  sub: "Une oreille calme.",          tint: "var(--terracotta)" },
+  { to: "/journal",   title: "Écrire quelques mots",   sub: "Une page intime.",            tint: "var(--blush)" },
+  { to: "/garden",    title: "Entrer dans le jardin",  sub: "Ceux qui comptent.",          tint: "var(--sage)" },
+  { to: "/no-words",  title: "Respirer un instant",    sub: "Souffle guidé.",              tint: "var(--mist)" },
+  { to: "/community", title: "Un soutien humain",      sub: "Proches, groupes, pros.",     tint: "var(--peach)" },
 ];
 
 const FURTHER = [
@@ -39,22 +39,19 @@ function Home() {
       <div className="min-h-dvh bg-paper text-dusk pb-32">
         <SpaceHeader space="care" />
 
-        <section className="px-7 pt-14">
+        <section className="px-7 pt-12">
           <p
             className="text-[10px] uppercase tracking-[0.28em] text-dusk/50"
             style={{ fontFamily: "var(--font-mono)" }}
           >
             Accueil
           </p>
-          <h1 className="mt-4 font-serif text-[36px] leading-[1.05] font-light text-balance">
-            Un lieu calme pour <span className="italic" style={{ color: "var(--terracotta)" }}>souffler.</span>
+          <h1 className="mt-4 font-serif text-[34px] leading-[1.05] font-light text-balance">
+            Un lieu pour <span className="italic" style={{ color: "var(--terracotta)" }}>souffler.</span>
           </h1>
-          <p className="mt-4 text-[14.5px] leading-[1.55] text-dusk/65 max-w-[32ch]">
-            Choisissez ce qui vous ferait le plus de bien maintenant.
-          </p>
         </section>
 
-        <section className="mt-9 px-5">
+        <section className="mt-8 px-5">
           <ol className="space-y-2.5">
             {ACTIONS.map((a, i) => (
               <li key={a.to + a.title}>
@@ -70,7 +67,7 @@ function Home() {
                   </span>
                   <div className="flex-1 min-w-0">
                     <p className="font-serif text-[19px] leading-snug text-dusk">{a.title}</p>
-                    <p className="mt-1 text-[13px] leading-[1.5] text-dusk/60">{a.sub}</p>
+                    <p className="mt-0.5 text-[12.5px] text-dusk/55">{a.sub}</p>
                   </div>
                   <span className="text-dusk/30 group-hover:text-[color:var(--terracotta)] mt-2">→</span>
                 </Link>
@@ -79,7 +76,7 @@ function Home() {
           </ol>
         </section>
 
-        <section className="mt-10 px-7">
+        <section className="mt-9 px-7">
           <p
             className="text-[10px] uppercase tracking-[0.28em] text-dusk/50"
             style={{ fontFamily: "var(--font-mono)" }}
@@ -99,10 +96,10 @@ function Home() {
           </div>
         </section>
 
-        <section className="mt-10 px-7">
+        <section className="mt-8 px-7">
           <Link
             to="/crisis"
-            className="text-[12.5px] underline underline-offset-4"
+            className="text-[12px] underline underline-offset-4"
             style={{ color: "var(--ember)" }}
           >
             Si ça déborde, appeler à l'aide →
