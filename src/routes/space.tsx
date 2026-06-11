@@ -5,70 +5,78 @@ export const Route = createFileRoute("/space")({
   head: () => ({
     meta: [
       { title: "Choisir un espace — Legato" },
-      { name: "description", content: "Deux manières d'être accompagné·e par Legato." },
+      { name: "description", content: "Deux espaces distincts : être accompagné·e, ou organiser et avancer." },
     ],
   }),
   component: Space,
 });
 
-/* Espace — choix entre les deux portes de Legato.
- * Direction : édito Co-Star. Date en mono, grand serif italique,
- * deux entrées numérotées en liste (pas de cartes en aplat). */
+/** Page centrale du produit. Deux blocs très lisibles. Rien d'autre. */
 function Space() {
   const { name } = useLegato();
   return (
     <main className="min-h-dvh bg-paper text-dusk">
-      <div className="mobile-frame relative flex min-h-dvh flex-col px-7">
-        <header className="pt-10 flex items-center justify-between">
+      <div className="mobile-frame relative flex min-h-dvh flex-col">
+        <header className="pt-10 px-7">
           <span className="font-serif text-[20px] leading-none">Legato</span>
         </header>
 
-        <section className="pt-24">
-          <h1 className="font-serif text-[42px] leading-[1.02] font-light text-balance">
-            {name ? `${name},` : "Bonjour."}<br />
-            <span className="italic" style={{ color: "var(--terracotta)" }}>
-              de quoi avez-vous besoin&nbsp;?
-            </span>
+        <section className="pt-16 px-7">
+          <p
+            className="text-[10px] uppercase tracking-[0.28em] text-dusk/50"
+            style={{ fontFamily: "var(--font-mono)" }}
+          >
+            {name ? `Bonjour ${name}` : "Bonjour"}
+          </p>
+          <h1 className="mt-4 font-serif text-[38px] leading-[1.03] font-light text-balance">
+            De quoi avez-vous <span className="italic" style={{ color: "var(--terracotta)" }}>besoin&nbsp;aujourd'hui&nbsp;?</span>
           </h1>
         </section>
 
-        <section className="pt-14 -mx-7 px-5 space-y-3">
-          <Entry
+        <section className="px-5 pt-12 space-y-3">
+          <Block
             to="/home"
             bg="var(--terracotta)"
             fg="var(--paper)"
             title="Être accompagné·e"
-            sub="Présence, souvenirs, jardin."
+            text="Pour traverser ce que vous ressentez, parler, écrire, respirer ou préserver un souvenir."
+            cta="Entrer dans cet espace"
           />
-          <Entry
+          <Block
             to="/practical"
-            bg="var(--blush)"
-            fg="var(--dusk)"
-            title="Avancer concrètement"
-            sub="Démarches, cérémonie, services."
+            bg="var(--bordeaux)"
+            fg="var(--paper)"
+            title="Organiser et avancer"
+            text="Pour être guidé·e dans les démarches, la cérémonie, les documents et les prochaines étapes."
+            cta="Voir ce qu'il faut faire"
           />
         </section>
+
+        <p className="mt-8 text-center text-[12px] text-dusk/55 px-7 pb-10">
+          Vous pourrez changer d'espace à tout moment.
+        </p>
       </div>
     </main>
   );
 }
 
-function Entry({
-  to, bg, fg, title, sub,
-}: { to: string; bg: string; fg: string; title: string; sub: string }) {
+function Block({
+  to, bg, fg, title, text, cta,
+}: { to: string; bg: string; fg: string; title: string; text: string; cta: string }) {
   return (
     <Link
       to={to}
-      className="block rounded-[22px] px-7 py-7"
+      className="block rounded-[22px] px-6 py-7"
       style={{ background: bg, color: fg }}
     >
-      <div className="flex items-center justify-between gap-4">
-        <div>
-          <h2 className="font-serif text-[28px] leading-[1.1] font-light">{title}</h2>
-          <p className="mt-1.5 text-[13.5px] opacity-75">{sub}</p>
-        </div>
-        <span className="text-[22px] opacity-80">→</span>
-      </div>
+      <h2 className="font-serif text-[26px] leading-[1.1] font-light">{title}</h2>
+      <p className="mt-2.5 text-[14px] leading-[1.55] opacity-85 max-w-[34ch]">{text}</p>
+      <p
+        className="mt-5 text-[11px] uppercase tracking-[0.22em] opacity-90 inline-flex items-center gap-2"
+        style={{ fontFamily: "var(--font-mono)" }}
+      >
+        {cta} <span>→</span>
+      </p>
     </Link>
   );
 }
