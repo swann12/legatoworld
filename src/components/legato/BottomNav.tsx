@@ -1,29 +1,29 @@
 import { Link, useLocation } from "@tanstack/react-router";
-import { Sun, Flower2, BookmarkCheck, Heart, ListChecks, Briefcase, FolderClosed, Sparkles } from "lucide-react";
-import { useLegato } from "@/lib/legato-state";
+import { Home, Flower2, NotebookPen, Heart, ListChecks, Briefcase, FolderClosed } from "lucide-react";
 
 export function BottomNav() {
   const { pathname } = useLocation();
-  const { t } = useLegato();
 
   // Deux navigations distinctes — l'espace est déterminé par l'URL.
   const inPractical =
     pathname.startsWith("/practical") ||
     pathname.startsWith("/parcours") ||
+    pathname.startsWith("/resources") ||
+    pathname.startsWith("/wishes") ||
     pathname.startsWith("/dossier");
 
   const items = inPractical
     ? [
-        { to: "/practical" as const, label: "Accueil",  Icon: Sparkles },
+        { to: "/practical" as const, label: "Accueil",  Icon: Home },
         { to: "/parcours" as const,  label: "Parcours", Icon: ListChecks },
         { to: "/resources" as const, label: "Services", Icon: Briefcase },
         { to: "/wishes" as const,    label: "Dossier",  Icon: FolderClosed },
       ]
     : [
-        { to: "/home" as const,     label: t("nav.today"),    Icon: Sun },
-        { to: "/garden" as const,   label: t("nav.garden"),   Icon: Flower2 },
-        { to: "/memories" as const, label: "Souvenirs",       Icon: BookmarkCheck },
-        { to: "/presence" as const, label: t("nav.presence"), Icon: Heart },
+        { to: "/home" as const,     label: "Accueil",  Icon: Home },
+        { to: "/garden" as const,   label: "Jardin",   Icon: Flower2 },
+        { to: "/journal" as const,  label: "Journal",  Icon: NotebookPen },
+        { to: "/presence" as const, label: "Présence", Icon: Heart },
       ];
   return (
     <nav

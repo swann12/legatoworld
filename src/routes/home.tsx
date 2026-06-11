@@ -1,137 +1,114 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Shell } from "@/components/legato/Shell";
-import { useLegato } from "@/lib/legato-state";
-import type { Mode } from "@/lib/legato-state";
+import { SpaceHeader } from "@/components/legato/SpaceHeader";
 
 export const Route = createFileRoute("/home")({
   head: () => ({
     meta: [
-      { title: "Aujourd'hui — Legato" },
-      { name: "description", content: "Un intérieur tranquille pour traverser, se souvenir, avancer." },
+      { title: "Être accompagné·e — Legato" },
+      { name: "description", content: "Un lieu calme pour souffler, parler, écrire ou se souvenir." },
     ],
   }),
   component: Home,
 });
 
-/* ─── Accueil ESPACE ÊTRE ACCOMPAGNÉ·E ───
- * Une seule question : « De quoi auriez-vous besoin maintenant ? »
- * Une liste éditoriale d'actions claires, ordonnée selon le ressenti
- * choisi à l'onboarding. Une carte feature bordeaux discrète pour
- * la porte calme (présence). Pas de halos, pas de grille de cards
- * répétées, pas de sélecteur de mode flou. */
+/* ─── Accueil ÊTRE ACCOMPAGNÉ·E ───
+ * Cinq actions principales. Une rubrique secondaire « Pour aller plus loin ».
+ * Aucune démarche, aucun pro funéraire, aucun budget. */
+
+const ACTIONS = [
+  { to: "/presence",  title: "Parler à une présence",  sub: "Écrire ou parler librement, sans avoir à trouver les bons mots.", tint: "var(--terracotta)" },
+  { to: "/journal",   title: "Écrire quelques mots",   sub: "Ouvrir une page de journal intime.", tint: "var(--blush)" },
+  { to: "/garden",    title: "Entrer dans le jardin",  sub: "Retrouver les personnes, les animaux et les souvenirs qui comptent.", tint: "var(--sage)" },
+  { to: "/no-words",  title: "Respirer quelques minutes", sub: "Suivre une animation douce, accompagnée d'un son apaisant.", tint: "var(--mist)" },
+  { to: "/community", title: "Trouver un soutien humain", sub: "Contacter un proche, une communauté, une association ou un professionnel.", tint: "var(--peach)" },
+];
+
+const FURTHER = [
+  { to: "/inspiration", label: "Rituels" },
+  { to: "/inspiration", label: "Lectures" },
+  { to: "/inspiration", label: "Films" },
+  { to: "/inspiration", label: "Podcasts" },
+  { to: "/community",   label: "Groupes d'entraide" },
+  { to: "/resources",   label: "Ressources utiles" },
+];
 
 function Home() {
-  const { name, lostName, mode } = useLegato();
-  const actions = orderForMode(mode);
-  const [primary, ...rest] = actions;
-
   return (
     <Shell livingBg={false}>
-      <div className="min-h-dvh bg-paper text-dusk pb-32 px-7">
-        <header className="pt-9 flex items-center justify-between">
-          <span className="font-serif text-[20px] leading-none">Legato</span>
-          <Link
-            to="/space"
-            className="text-[13px] text-dusk/60 hover:text-dusk underline underline-offset-4"
-          >
-            Espace
-          </Link>
-        </header>
+      <div className="min-h-dvh bg-paper text-dusk pb-32">
+        <SpaceHeader space="care" />
 
-        <section className="pt-16">
-          <h1 className="font-serif text-[38px] leading-[1.05] font-light text-balance">
-            Bonjour {name}.<br />
-            <span className="italic" style={{ color: "var(--terracotta)" }}>
-              Que voulez-vous faire&nbsp;?
-            </span>
+        <section className="px-7 pt-14">
+          <p
+            className="text-[10px] uppercase tracking-[0.28em] text-dusk/50"
+            style={{ fontFamily: "var(--font-mono)" }}
+          >
+            Accueil
+          </p>
+          <h1 className="mt-4 font-serif text-[36px] leading-[1.05] font-light text-balance">
+            Un lieu calme pour <span className="italic" style={{ color: "var(--terracotta)" }}>souffler.</span>
           </h1>
+          <p className="mt-4 text-[14.5px] leading-[1.55] text-dusk/65 max-w-[32ch]">
+            Choisissez ce qui vous ferait le plus de bien maintenant.
+          </p>
         </section>
 
-        {/* Action principale — carte couleur, lisible */}
-        <section className="-mx-7 px-5 pt-10">
-          <Link
-            to={primary.to as never}
-            className="block rounded-[22px] px-7 py-7 text-[color:var(--paper)]"
-            style={{ background: "var(--terracotta)" }}
-          >
-            <div className="flex items-center justify-between gap-4">
-              <h2 className="font-serif text-[28px] leading-[1.08] font-light">
-                {primary.label}
-              </h2>
-              <span className="text-[22px] opacity-85">→</span>
-            </div>
-          </Link>
-        </section>
-
-        {/* Liste sobre — verbes courts */}
-        <section className="pt-10">
-          <ol className="divide-y divide-dusk/12 border-t border-dusk/12">
-            {rest.map((a) => (
-              <li key={a.key}>
+        <section className="mt-9 px-5">
+          <ol className="space-y-2.5">
+            {ACTIONS.map((a, i) => (
+              <li key={a.to + a.title}>
                 <Link
-                  to={a.to as never}
-                  className="flex items-center justify-between py-4 group"
+                  to={a.to}
+                  className="group flex items-start gap-4 rounded-[18px] bg-paper border border-dusk/10 hover:border-dusk/25 px-5 py-4 transition-colors"
                 >
-                  <span className="font-serif text-[20px] leading-snug font-light">
-                    {a.label}
+                  <span
+                    className="mt-1 size-10 rounded-[10px] shrink-0 flex items-center justify-center font-serif italic text-[16px] text-dusk/70"
+                    style={{ background: a.tint }}
+                  >
+                    {String(i + 1).padStart(2, "0")}
                   </span>
-                  <span className="text-dusk/35 group-hover:text-[color:var(--terracotta)] text-[18px]">→</span>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-serif text-[19px] leading-snug text-dusk">{a.title}</p>
+                    <p className="mt-1 text-[13px] leading-[1.5] text-dusk/60">{a.sub}</p>
+                  </div>
+                  <span className="text-dusk/30 group-hover:text-[color:var(--terracotta)] mt-2">→</span>
                 </Link>
               </li>
             ))}
           </ol>
         </section>
 
-        {/* Jardin — bande blush, ligne unique */}
-        <section className="-mx-7 px-5 pt-10">
-          <Link
-            to="/garden"
-            className="block rounded-[22px] px-7 py-6"
-            style={{ background: "var(--blush)", color: "var(--dusk)" }}
+        <section className="mt-10 px-7">
+          <p
+            className="text-[10px] uppercase tracking-[0.28em] text-dusk/50"
+            style={{ fontFamily: "var(--font-mono)" }}
           >
-            <div className="flex items-center justify-between gap-4">
-              <p className="font-serif text-[22px] italic">
-                Le jardin de {lostName || "votre proche"}
-              </p>
-              <span className="text-dusk/55 text-[20px]">→</span>
-            </div>
-          </Link>
+            Pour aller plus loin
+          </p>
+          <div className="mt-4 flex flex-wrap gap-2">
+            {FURTHER.map((f) => (
+              <Link
+                key={f.label}
+                to={f.to}
+                className="rounded-full border border-dusk/15 px-3.5 py-1.5 text-[12.5px] text-dusk/75 hover:bg-dusk/5"
+              >
+                {f.label}
+              </Link>
+            ))}
+          </div>
         </section>
 
-        {/* Lien crise — discret */}
-        <section className="pt-8">
-          <Link to="/crisis" className="text-[13px] text-[color:var(--ember)] underline underline-offset-4">
-            Si ça déborde, appelez à l'aide →
+        <section className="mt-10 px-7">
+          <Link
+            to="/crisis"
+            className="text-[12.5px] underline underline-offset-4"
+            style={{ color: "var(--ember)" }}
+          >
+            Si ça déborde, appeler à l'aide →
           </Link>
         </section>
       </div>
     </Shell>
   );
-}
-
-
-/* ─── Actions de l'espace émotionnel ─── */
-
-type Action = { key: string; to: string; label: string };
-
-const ACTIONS: Action[] = [
-  { key: "presence", to: "/presence",    label: "Parler" },
-  { key: "nowords",  to: "/no-words",    label: "Respirer" },
-  { key: "journal",  to: "/journal",     label: "Écrire" },
-  { key: "memories", to: "/memories",    label: "Se souvenir" },
-  { key: "garden",   to: "/garden",      label: "Marcher au jardin" },
-  { key: "rituals",  to: "/inspiration", label: "Un rituel" },
-  { key: "contact",  to: "/resources",   label: "Appeler quelqu'un" },
-];
-
-/* L'ordre s'adapte au ressenti choisi à l'onboarding, sans rien retirer. */
-function orderForMode(mode: Mode): Action[] {
-  const orderKeys: Record<Mode, string[]> = {
-    cocoon:    ["presence", "nowords", "memories", "journal", "garden", "rituals", "contact", "guide"],
-    anchoring: ["journal", "presence", "garden", "memories", "rituals", "nowords", "contact", "guide"],
-    breath:    ["nowords", "garden", "presence", "journal", "rituals", "memories", "contact", "guide"],
-    relay:     ["contact", "presence", "journal", "memories", "garden", "nowords", "rituals", "guide"],
-  };
-  const order = orderKeys[mode];
-  return order.map((k) => ACTIONS.find((a) => a.key === k)!).filter(Boolean);
 }
