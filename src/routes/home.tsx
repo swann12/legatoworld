@@ -23,9 +23,7 @@ export const Route = createFileRoute("/home")({
 function Home() {
   const { name, lostName, mode } = useLegato();
   const actions = orderForMode(mode);
-  const today = new Intl.DateTimeFormat("fr-FR", { day: "numeric", month: "long" })
-    .format(new Date()).toUpperCase();
-  const reading = READING[mode];
+  const [primary, ...rest] = actions;
 
   return (
     <Shell livingBg={false}>
@@ -34,92 +32,76 @@ function Home() {
           <span className="font-serif text-[20px] leading-none">Legato</span>
           <Link
             to="/space"
-            className="text-[11px] uppercase tracking-[0.18em] text-dusk/55 hover:text-dusk"
-            style={{ fontFamily: "var(--font-mono)" }}
+            className="text-[13px] text-dusk/60 hover:text-dusk underline underline-offset-4"
           >
-            Espace ↩
+            Espace
           </Link>
         </header>
 
-        {/* Lecture du jour — phrase édito, Co-Star register */}
         <section className="pt-16">
-          <p
-            className="text-[10px] uppercase tracking-[0.34em] text-dusk/55"
-            style={{ fontFamily: "var(--font-mono)" }}
-          >
-            {today} — DEDANS · {name ? name.toUpperCase() : "VOUS"}
-          </p>
-          <h1 className="mt-6 font-serif text-[36px] leading-[1.05] font-light text-balance">
-            {reading.before}{" "}
+          <h1 className="font-serif text-[38px] leading-[1.05] font-light text-balance">
+            Bonjour {name}.<br />
             <span className="italic" style={{ color: "var(--terracotta)" }}>
-              {reading.accent}
+              Que voulez-vous faire&nbsp;?
             </span>
-            {reading.after}
           </h1>
         </section>
 
-        {/* Liste numérotée — Co-Star asymmetric typographic menu */}
-        <section className="pt-14">
-          <p
-            className="text-[10px] uppercase tracking-[0.3em] text-dusk/45 mb-2"
-            style={{ fontFamily: "var(--font-mono)" }}
+        {/* Action principale — carte couleur, lisible */}
+        <section className="-mx-7 px-5 pt-10">
+          <Link
+            to={primary.to as never}
+            className="block rounded-[22px] px-7 py-7 text-[color:var(--paper)]"
+            style={{ background: "var(--terracotta)" }}
           >
-            Ce que vous pourriez faire
-          </p>
-          <ol>
-            {actions.map((a, i) => (
+            <div className="flex items-center justify-between gap-4">
+              <h2 className="font-serif text-[28px] leading-[1.08] font-light">
+                {primary.label}
+              </h2>
+              <span className="text-[22px] opacity-85">→</span>
+            </div>
+          </Link>
+        </section>
+
+        {/* Liste sobre — verbes courts */}
+        <section className="pt-10">
+          <ol className="divide-y divide-dusk/12 border-t border-dusk/12">
+            {rest.map((a) => (
               <li key={a.key}>
                 <Link
                   to={a.to as never}
-                  className="group flex items-baseline gap-5 py-4 border-b border-dusk/12"
+                  className="flex items-center justify-between py-4 group"
                 >
-                  <span
-                    className="text-[11px] tracking-[0.22em] text-dusk/40 w-6 shrink-0"
-                    style={{ fontFamily: "var(--font-mono)" }}
-                  >
-                    {String(i + 1).padStart(2, "0")}
+                  <span className="font-serif text-[20px] leading-snug font-light">
+                    {a.label}
                   </span>
-                  <h3 className="flex-1 font-serif text-[22px] leading-snug font-light">
-                    {a.title}
-                  </h3>
-                  <span
-                    className="text-[10px] uppercase tracking-[0.22em] text-dusk/45 group-hover:text-[color:var(--terracotta)]"
-                    style={{ fontFamily: "var(--font-mono)" }}
-                  >
-                    {a.meta}
-                  </span>
+                  <span className="text-dusk/35 group-hover:text-[color:var(--terracotta)] text-[18px]">→</span>
                 </Link>
               </li>
             ))}
           </ol>
         </section>
 
-        {/* Jardin — ligne typographique, pas de bloc couleur */}
-        <section className="pt-10">
-          <Link to="/garden" className="block py-6 border-b border-dusk/15 group">
-            <p
-              className="text-[10px] uppercase tracking-[0.3em] text-dusk/50"
-              style={{ fontFamily: "var(--font-mono)" }}
-            >
-              Le jardin de {lostName || "votre proche"}
-            </p>
-            <p className="mt-2 font-serif italic text-[22px] text-dusk group-hover:text-[color:var(--terracotta)] transition-colors">
-              Y déposer quelque chose, ou simplement le regarder. →
-            </p>
+        {/* Jardin — bande blush, ligne unique */}
+        <section className="-mx-7 px-5 pt-10">
+          <Link
+            to="/garden"
+            className="block rounded-[22px] px-7 py-6"
+            style={{ background: "var(--blush)", color: "var(--dusk)" }}
+          >
+            <div className="flex items-center justify-between gap-4">
+              <p className="font-serif text-[22px] italic">
+                Le jardin de {lostName || "votre proche"}
+              </p>
+              <span className="text-dusk/55 text-[20px]">→</span>
+            </div>
           </Link>
         </section>
 
-        {/* Crise — discret, en bas */}
+        {/* Lien crise — discret */}
         <section className="pt-8">
-          <Link
-            to="/crisis"
-            className="flex items-baseline justify-between"
-            style={{ fontFamily: "var(--font-mono)" }}
-          >
-            <span className="text-[10px] uppercase tracking-[0.28em] text-[color:var(--ember)]">
-              Si quelque chose déborde
-            </span>
-            <span className="text-[color:var(--ember)]/70 text-[12px]">→</span>
+          <Link to="/crisis" className="text-[13px] text-[color:var(--ember)] underline underline-offset-4">
+            Si ça déborde, appelez à l'aide →
           </Link>
         </section>
       </div>
@@ -127,27 +109,19 @@ function Home() {
   );
 }
 
-/* Phrases d'ouverture — registre Co-Star (court, direct, tendre, jamais kitsch) */
-const READING: Record<Mode, { before: string; accent: string; after: string }> = {
-  cocoon:    { before: "Vous n'avez", accent: "rien", after: " à faire de plus que respirer." },
-  anchoring: { before: "Le sol est encore", accent: "là", after: ". Vos pieds aussi." },
-  breath:    { before: "Aujourd'hui, le silence", accent: "compte", after: " comme une parole." },
-  relay:     { before: "Quelqu'un peut", accent: "tenir", after: " ce que vous ne pouvez plus porter." },
-};
 
 /* ─── Actions de l'espace émotionnel ─── */
 
-type Action = { to: string; meta: string; title: React.ReactNode; key: string };
+type Action = { key: string; to: string; label: string };
 
 const ACTIONS: Action[] = [
-  { key: "presence", to: "/presence",    meta: "5 min",  title: <>Parler à <span className="italic">une présence</span></> },
-  { key: "nowords",  to: "/no-words",    meta: "3 min",  title: <>Respirer <span className="italic">sans rien dire</span></> },
-  { key: "journal",  to: "/journal",     meta: "Écrire", title: <>Poser ce qui <span className="italic">traverse</span></> },
-  { key: "memories", to: "/memories",    meta: "Garder", title: <>Revoir <span className="italic">un souvenir</span></> },
-  { key: "garden",   to: "/garden",      meta: "Lieu",   title: <>Marcher dans <span className="italic">le jardin</span></> },
-  { key: "rituals",  to: "/inspiration", meta: "Rituel", title: <>S'inspirer <span className="italic">d'un geste</span></> },
-  { key: "contact",  to: "/resources",   meta: "Humain", title: <>Demander à <span className="italic">quelqu'un</span></> },
-  { key: "guide",    to: "/presence",    meta: "Guidé",  title: <>Être <span className="italic">accompagné·e</span></> },
+  { key: "presence", to: "/presence",    label: "Parler" },
+  { key: "nowords",  to: "/no-words",    label: "Respirer" },
+  { key: "journal",  to: "/journal",     label: "Écrire" },
+  { key: "memories", to: "/memories",    label: "Se souvenir" },
+  { key: "garden",   to: "/garden",      label: "Marcher au jardin" },
+  { key: "rituals",  to: "/inspiration", label: "Un rituel" },
+  { key: "contact",  to: "/resources",   label: "Appeler quelqu'un" },
 ];
 
 /* L'ordre s'adapte au ressenti choisi à l'onboarding, sans rien retirer. */
