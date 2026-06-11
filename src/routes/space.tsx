@@ -21,38 +21,38 @@ function Space() {
           <span className="font-serif text-[20px] leading-none">Legato</span>
         </header>
 
-        <section className="pt-16 px-7">
+        <section className="pt-14 px-7">
           <p
             className="text-[10px] uppercase tracking-[0.28em] text-dusk/50"
             style={{ fontFamily: "var(--font-mono)" }}
           >
             {name ? `Bonjour ${name}` : "Bonjour"}
           </p>
-          <h1 className="mt-4 font-serif text-[38px] leading-[1.03] font-light text-balance">
-            De quoi avez-vous <span className="italic" style={{ color: "var(--terracotta)" }}>besoin&nbsp;aujourd'hui&nbsp;?</span>
+          <h1 className="mt-4 font-serif text-[36px] leading-[1.03] font-light text-balance">
+            De quoi avez-vous <span className="italic" style={{ color: "var(--terracotta)" }}>besoin&nbsp;?</span>
           </h1>
         </section>
 
-        <section className="px-5 pt-12 space-y-3">
+        <section className="px-5 pt-10 space-y-3">
           <Block
             to="/home"
             bg="var(--terracotta)"
             fg="var(--paper)"
             title="Être accompagné·e"
-            text="Pour traverser ce que vous ressentez, parler, écrire, respirer ou préserver un souvenir."
-            cta="Entrer dans cet espace"
+            text="Parler, écrire, respirer, se souvenir."
+            cta="Entrer"
           />
           <Block
             to="/practical"
             bg="var(--bordeaux)"
             fg="var(--paper)"
             title="Organiser et avancer"
-            text="Pour être guidé·e dans les démarches, la cérémonie, les documents et les prochaines étapes."
-            cta="Voir ce qu'il faut faire"
+            text="Démarches, cérémonie, documents."
+            cta="Avancer"
           />
         </section>
 
-        <p className="mt-8 text-center text-[12px] text-dusk/55 px-7 pb-10">
+        <p className="mt-7 text-center text-[12px] text-dusk/55 px-7 pb-10">
           Vous pourrez changer d'espace à tout moment.
         </p>
       </div>

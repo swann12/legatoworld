@@ -91,30 +91,21 @@ function Presence() {
         <div className="relative z-10 flex flex-1 flex-col">
           <SpaceHeader space="care" />
 
-          <div className="px-7 pt-14">
+          <div className="px-7 pt-12">
             <p
               className="text-[10px] uppercase tracking-[0.3em] text-dusk/50"
               style={{ fontFamily: "var(--font-mono)" }}
             >
-              Parler à une présence
+              Présence
             </p>
-            <h1 className="mt-4 font-serif text-[34px] leading-[1.05] font-light text-dusk text-balance">
+            <h1 className="mt-4 font-serif text-[32px] leading-[1.05] font-light text-dusk text-balance">
               Je suis là, <span className="italic" style={{ color: "var(--terracotta)" }}>{name}</span>.
             </h1>
-            <p className="mt-4 text-[14.5px] leading-[1.6] text-dusk/60 max-w-[34ch]">
-              Une oreille calme, pour écrire ou parler à voix haute. Pas une thérapie — un appui d'écoute. Pour une urgence, voyez les lignes d'écoute ci-dessous.
-            </p>
           </div>
 
           {/* Choix du canal d'écoute — humain ou présence Legato */}
-          <div className="px-7 pt-6">
-            <p
-              className="text-[10px] uppercase tracking-[0.28em] text-dusk/50"
-              style={{ fontFamily: "var(--font-mono)" }}
-            >
-              Vers qui vous tourner
-            </p>
-            <div className="mt-3 flex flex-wrap gap-2">
+          <div className="px-7 pt-5">
+            <div className="flex flex-wrap gap-2">
               {[
                 { to: "/community", label: "Un proche" },
                 { to: "/community", label: "Un groupe" },
