@@ -47,8 +47,11 @@ function Home() {
             Accueil
           </p>
           <h1 className="mt-4 font-serif text-[34px] leading-[1.05] font-light text-balance">
-            Un lieu pour <span className="italic" style={{ color: "var(--terracotta)" }}>souffler.</span>
+            Un lieu calme pour <span className="italic" style={{ color: "var(--terracotta)" }}>souffler.</span>
           </h1>
+          <p className="mt-3 text-[13.5px] text-dusk/60 max-w-[36ch]">
+            Choisissez ce qui vous ferait le plus de bien maintenant.
+          </p>
         </section>
 
         <section className="mt-8 px-5">

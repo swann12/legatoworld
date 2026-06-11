@@ -35,6 +35,37 @@ export type Wishes = {
   sharedWith: string[];   // noms ou e-mails autorisés
 };
 
+export type Feeling =
+  | "triste" | "perdu" | "epuise" | "anxieux" | "seul"
+  | "colere" | "engourdi" | "submerge" | "apaise" | "inconnu";
+
+export const FEELINGS: { id: Feeling; label: string }[] = [
+  { id: "triste",    label: "triste" },
+  { id: "perdu",     label: "perdu·e" },
+  { id: "epuise",    label: "épuisé·e" },
+  { id: "anxieux",   label: "anxieux·se" },
+  { id: "seul",      label: "seul·e" },
+  { id: "colere",    label: "en colère" },
+  { id: "engourdi",  label: "engourdi·e" },
+  { id: "submerge",  label: "submergé·e" },
+  { id: "apaise",    label: "apaisé·e" },
+  { id: "inconnu",   label: "je ne sais pas" },
+];
+
+export type PracticalWho = "recent" | "endoflife" | "self" | "other";
+export const PRACTICAL_WHO: { id: PracticalWho; label: string }[] = [
+  { id: "recent",     label: "Une personne récemment décédée" },
+  { id: "endoflife",  label: "Un proche dont la fin de vie approche" },
+  { id: "self",       label: "Moi-même, pour préparer mes volontés" },
+  { id: "other",      label: "Autre situation" },
+];
+
+export type PracticalContext = {
+  who: PracticalWho | null;
+  deathDate: string | null;     // ISO or special: "unknown" | "notyet"
+  guided: boolean | null;       // true = guidez-moi
+};
+
 const EMPTY_WISHES: Wishes = {
   ceremony: "", ambiance: "", flowers: "", music: "", texts: "",
   objects: "", colors: "", materials: "", iWant: "", iDontWant: "",
@@ -152,6 +183,14 @@ type Ctx = {
   addJournalEntry: (e: Omit<JournalEntry, "id" | "date">) => void;
   wishes: Wishes;
   setWishes: (w: Partial<Wishes>) => void;
+  feelings: Feeling[];
+  setFeelings: (f: Feeling[]) => void;
+  practicalContext: PracticalContext;
+  setPracticalContext: (p: Partial<PracticalContext>) => void;
+  careOnboarded: boolean;
+  setCareOnboarded: (v: boolean) => void;
+  practicalOnboarded: boolean;
+  setPracticalOnboarded: (v: boolean) => void;
 };
 
 const LegatoContext = createContext<Ctx | null>(null);
@@ -198,6 +237,15 @@ export function LegatoProvider({ children }: { children: ReactNode }) {
   const [wishes, setWishesState] = useState<Wishes>(EMPTY_WISHES);
   const setWishes = (w: Partial<Wishes>) => setWishesState((prev) => ({ ...prev, ...w }));
 
+  const [feelings, setFeelings] = useState<Feeling[]>([]);
+  const [practicalContext, setPracticalContextState] = useState<PracticalContext>({
+    who: null, deathDate: null, guided: null,
+  });
+  const setPracticalContext = (p: Partial<PracticalContext>) =>
+    setPracticalContextState((prev) => ({ ...prev, ...p }));
+  const [careOnboarded, setCareOnboarded] = useState(false);
+  const [practicalOnboarded, setPracticalOnboarded] = useState(false);
+
   const t = (key: string) => DICT[key]?.[lang] ?? key;
   const addJournalEntry = (e: Omit<JournalEntry, "id" | "date">) =>
     setJournal((prev) => [
@@ -216,6 +264,10 @@ export function LegatoProvider({ children }: { children: ReactNode }) {
         theme, setTheme, resolvedTheme,
         journal, addJournalEntry,
         wishes, setWishes,
+        feelings, setFeelings,
+        practicalContext, setPracticalContext,
+        careOnboarded, setCareOnboarded,
+        practicalOnboarded, setPracticalOnboarded,
       }}
     >
       {children}

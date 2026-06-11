@@ -96,21 +96,22 @@ function Presence() {
               className="text-[10px] uppercase tracking-[0.3em] text-dusk/50"
               style={{ fontFamily: "var(--font-mono)" }}
             >
-              Présence
+              Parler à une présence
             </p>
             <h1 className="mt-4 font-serif text-[32px] leading-[1.05] font-light text-dusk text-balance">
               Je suis là, <span className="italic" style={{ color: "var(--terracotta)" }}>{name}</span>.
             </h1>
+            <p className="mt-3 text-[13.5px] text-dusk/60">Vous pouvez écrire ou parler. Prenez votre temps.</p>
           </div>
 
-          {/* Choix du canal d'écoute — humain ou présence Legato */}
+          {/* Actions visibles — selon spec */}
           <div className="px-7 pt-5">
             <div className="flex flex-wrap gap-2">
               {[
-                { to: "/community", label: "Un proche" },
-                { to: "/community", label: "Un groupe" },
-                { to: "/resources", label: "Un professionnel" },
-                { to: "/crisis",    label: "Ligne d'écoute", emph: true },
+                { to: "/community", label: "Contacter un proche" },
+                { to: "/community", label: "Trouver un groupe" },
+                { to: "/resources", label: "Contacter un pro" },
+                { to: "/crisis",    label: "Lignes d'écoute", emph: true },
               ].map((s) => (
                 <Link
                   key={s.label}
