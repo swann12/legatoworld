@@ -2,7 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 
 const Input = z.object({
-  branch: z.enum(["person", "animal", "fear", "anxiety", "practical", "wishes", "unknown"]),
+  branch: z.enum(["person", "animal", "fear", "anxiety", "practical", "unknown"]),
   mode: z.enum(["cocoon", "anchoring", "breath", "relay"]),
   name: z.string().max(60).optional().default(""),
   lostName: z.string().max(60).optional().default(""),
@@ -29,8 +29,6 @@ function branchPrompt(branch: string, lostName: string) {
       return `La personne cherche à apprivoiser l'idée de la mort. Approche philosophique douce, contemplative. Tu peux convoquer la nature, le cycle des saisons, la mémoire. Jamais grave, jamais clinique.`;
     case "practical":
       return `La personne traverse les premiers jours après une perte. Ton ton est concret, tendre, organisé. Tu peux suggérer un seul tout petit pas (boire, respirer, appeler une personne). Pas de liste de démarches ici — c'est un autre espace pour ça.`;
-    case "wishes":
-      return `La personne souhaite préparer ses propres volontés. Ton calme, sans gravité. Tu peux l'aider à mettre des mots sur ce qui compte pour elle (lieu, ambiance, fleurs, musiques, messages aux proches) — sans presser, jamais.`;
     case "unknown":
     default:
       return `La personne ne sait pas encore ce qu'elle vient déposer. Accueille sans interroger. Laisse de la place au silence. Si elle parle, suis ce qui émerge sans diriger.`;

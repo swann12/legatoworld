@@ -14,7 +14,7 @@ export const Route = createFileRoute("/garden/")({
   component: Garden,
 });
 
-export type Being = {
+type Being = {
   id: string;
   name: string;
   kind: "person" | "animal";
@@ -24,49 +24,51 @@ export type Being = {
   blooms: { tint: string; tint2: string }[];
 };
 
-/** 5 parcelles peintes — pour l'instant seule la première est habitée par
- *  l'être choisi à l'onboarding ; les autres restent à inviter. */
-const BED_POSITIONS = [
-  { cx: 16, cy: 23, rx: 16, ry: 18 },
-  { cx: 82, cy: 22, rx: 16, ry: 18 },
-  { cx: 16, cy: 75, rx: 16, ry: 18 },
-  { cx: 82, cy: 47, rx: 16, ry: 16 },
-  { cx: 50, cy: 82, rx: 18, ry: 14 },
-];
-const DEFAULT_BLOOMS = [
-  { tint: "var(--rose)",     tint2: "var(--peach)" },
-  { tint: "var(--peach)",    tint2: "var(--rose)"  },
-];
-
-/** Compatibility: detail page imports BEINGS; we expose a single seeded bed. */
+/** Positions calibrated to the painted garden image (5 main beds). */
 export const BEINGS: Being[] = [
-  { id: "main", name: "—", kind: "person", ...BED_POSITIONS[0], blooms: DEFAULT_BLOOMS },
+  { id: "elise", name: "Élise", kind: "person", cx: 16, cy: 23, rx: 16, ry: 18,
+    blooms: [{ tint: "var(--rose)", tint2: "var(--peach)" }, { tint: "var(--peach)", tint2: "var(--rose)" }] },
+  { id: "papa",  name: "Thomas",  kind: "person", cx: 82, cy: 22, rx: 16, ry: 18,
+    blooms: [{ tint: "var(--clay)", tint2: "var(--peach)" }, { tint: "var(--lavender)", tint2: "var(--mist)" }] },
+  { id: "leon",  name: "Léon",  kind: "animal", cx: 16, cy: 75, rx: 16, ry: 18,
+    blooms: [{ tint: "var(--lavender)", tint2: "var(--mist)" }, { tint: "var(--sage)", tint2: "var(--paper)" }] },
+  { id: "mamie", name: "Mamie", kind: "person", cx: 82, cy: 47, rx: 16, ry: 16,
+    blooms: [{ tint: "var(--rose)", tint2: "var(--peach)" }, { tint: "var(--peach)", tint2: "var(--paper)" }] },
+  { id: "theo",  name: "Théo",  kind: "person", cx: 50, cy: 82, rx: 18, ry: 14,
+    blooms: [{ tint: "var(--sage)", tint2: "var(--clay)" }, { tint: "var(--peach)", tint2: "var(--rose)" }] },
 ];
 
 function Garden() {
   const { lostName, t, lang } = useLegato();
   const [hovered, setHovered] = useState<string | null>(null);
-  // Une parcelle habitée + quatre lopins libres à inviter (jardin progressif).
-  const beings: Being[] = [
-    { id: "main", name: lostName || (lang === "fr" ? "votre être" : "your being"),
-      kind: "person", ...BED_POSITIONS[0], blooms: DEFAULT_BLOOMS },
+  const activeBeing = BEINGS.find((b) => b.id === hovered) ?? null;
+
+  /** Extra parcelles in the painting that don't (yet) belong to a being.
+   *  They still glow on hover, but are not clickable. */
+  const EXTRA_PARCELLES = [
+    { id: "_extra-top",    cx: 48, cy: 14, rx: 12, ry: 10 },
+    { id: "_extra-center", cx: 50, cy: 50, rx: 16, ry: 18 },
   ];
-  const freeBeds = BED_POSITIONS.slice(1);
-  const activeBeing = beings.find((b) => b.id === hovered) ?? null;
 
   return (
     <Shell>
       <div className="relative pb-10 garden-page-bg">
         <div className="relative z-10">
           <header className="px-7 pt-12">
-            <Link to="/home" className="eyebrow inline-block mb-6 hover:text-dusk">← Aujourd'hui</Link>
-            <p className="eyebrow">
-              {t("garden.belong")} · {lostName}
+            <p
+              className="text-[10px] uppercase tracking-[0.3em] text-dusk/50"
+              style={{ fontFamily: "var(--font-mono)" }}
+            >
+              {t("garden.belong")} · <span className="not-italic">{lostName}</span>
             </p>
-            <h1 className="mt-3 font-serif text-[30px] leading-[1.06] font-light text-dusk text-balance">
-              {lang === "fr" ? "Un paysage qui se souvient." : "A landscape that remembers."}
+            <h1 className="mt-4 font-serif text-[40px] leading-[1.02] font-light text-dusk text-balance">
+              {lang === "fr" ? (
+                <>Un paysage <span className="italic">qui se souvient.</span></>
+              ) : (
+                <>A landscape that <span className="italic">remembers.</span></>
+              )}
             </h1>
-            <p className="mt-4 max-w-[32ch] text-[14px] leading-[1.6] text-dusk/65">
+            <p className="mt-6 max-w-[32ch] text-[14.5px] leading-[1.6] text-dusk/65">
               {lang === "fr"
                 ? "Une peinture vivante. Effleurez une floraison pour entrer dans le jardin de l'être qui l'habite."
                 : "A living painting. Brush a bloom to enter the garden of the being who dwells there."}
@@ -90,7 +92,7 @@ function Garden() {
               />
 
               {/* Hotspots — local lift on hover, gentle dim on the others */}
-              {beings.map((p) => (
+              {BEINGS.map((p) => (
                 <Link
                   key={p.id}
                   to="/garden/$zone"
@@ -113,27 +115,24 @@ function Garden() {
                   }}
                 />
               ))}
-              {/* Lopins libres — petits germes qui invitent à planter, sans pression. */}
-              {freeBeds.map((b, i) => (
-                <Link
-                  key={`free-${i}`}
-                  to="/space"
-                  aria-label={lang === "fr" ? "Inviter un autre être" : "Invite another being"}
-                  className="absolute flex items-center justify-center rounded-full transition-opacity hover:opacity-100 opacity-60"
+
+              {/* Hover-only spots for the unassigned parcelles */}
+              {EXTRA_PARCELLES.map((p) => (
+                <div
+                  key={p.id}
+                  onMouseEnter={() => setHovered(p.id)}
+                  onMouseLeave={() => setHovered((h: string | null) => (h === p.id ? null : h))}
+                  aria-hidden
+                  className="absolute"
                   style={{
-                    left: `${b.cx - b.rx / 2}%`,
-                    top: `${b.cy - b.ry / 2}%`,
-                    width: `${b.rx}%`,
-                    height: `${b.ry}%`,
+                    left: `${p.cx - p.rx}%`,
+                    top: `${p.cy - p.ry}%`,
+                    width: `${p.rx * 2}%`,
+                    height: `${p.ry * 2}%`,
+                    borderRadius: "50%",
+                    touchAction: "manipulation",
                   }}
-                >
-                  <span
-                    className="size-6 rounded-full border border-dashed border-dusk/40 flex items-center justify-center text-dusk/55 text-[14px] leading-none bg-paper/40 backdrop-blur-[1px]"
-                    aria-hidden
-                  >
-                    +
-                  </span>
-                </Link>
+                />
               ))}
             </div>
 
@@ -152,15 +151,6 @@ function Garden() {
                     ? "effleurez une floraison"
                     : "brush a bloom"}
               </p>
-            </div>
-
-            {/* CTA discret pour planter un nouveau lopin */}
-            <div className="px-7 mt-6 text-center">
-              <Link to="/space" className="eyebrow hover:text-dusk">
-                {lang === "fr"
-                  ? `Planter un autre lopin · ${freeBeds.length} libres`
-                  : `Plant another patch · ${freeBeds.length} free`}
-              </Link>
             </div>
           </div>
         </div>

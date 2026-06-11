@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Halos } from "@/components/legato/Halos";
 import { Shell } from "@/components/legato/Shell";
+import { ConfideDock } from "@/components/legato/ConfideDock";
 import { useLegato, type Wishes } from "@/lib/legato-state";
 
 export const Route = createFileRoute("/wishes")({
@@ -153,6 +154,7 @@ function WishesPage() {
           </div>
         </div>
       </div>
-      </Shell>
+      <ConfideDock step="volontés" />
+    </Shell>
   );
 }

@@ -63,15 +63,13 @@ const KIND_LABEL: Record<ItemKind, string> = {
 
 function GardenZone() {
   const { zone } = Route.useParams();
-  const { mode, lostName } = useLegato();
+  const { mode } = useLegato();
   const being = BEINGS.find((b) => b.id === zone) ?? BEINGS[0];
   const seedItems = BEING_MEMORIES[being.id] ?? [];
   const userMemories = useMemories(being.id);
   const items = seedItems;
   const color = being.blooms[0].tint;
   const color2 = being.blooms[1]?.tint ?? being.blooms[0].tint2;
-  // « main » est la parcelle vivante de l'utilisateur — on prend le nom de l'onboarding
-  const displayName = being.id === "main" ? (lostName || "votre être") : being.name;
   const [openId, setOpenId] = useState<string | null>(null);
   const [playingId, setPlayingId] = useState<string | null>(null);
 
@@ -99,7 +97,7 @@ function GardenZone() {
               className="mt-3 h-[112px] w-auto max-w-[230px] object-contain select-none feathered-soft"
             />
             <h1 className="mt-2 font-serif text-[2rem] leading-[1.05] font-light text-dusk text-balance">
-              {displayName}
+              {being.name}
             </h1>
             <p className="mt-2 text-[10px] uppercase tracking-[0.22em] text-dusk/40">
               {items.length + userMemories.length} {items.length + userMemories.length > 1 ? "souvenirs" : "souvenir"}

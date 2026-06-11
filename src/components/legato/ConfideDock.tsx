@@ -70,9 +70,9 @@ export function ConfideDock({ step }: { step?: string }) {
       <SheetTrigger asChild>
         <button
           aria-label="Parler ou écrire à Lovely"
-          className="fixed bottom-[5.7rem] right-0 z-40 border-y border-l border-dusk/10 bg-paper px-3 py-3"
+          className="dock-halo fixed bottom-24 right-5 z-40 w-14 h-14 rounded-full ceramic flex items-center justify-center"
         >
-          <span className="font-serif italic text-dusk/72 text-[18px] leading-none">L</span>
+          <span className="font-serif italic text-dusk text-[20px] leading-none">L</span>
         </button>
       </SheetTrigger>
       <SheetContent side="bottom" className="bg-paper border-t border-dusk/10 p-0 max-h-[85dvh] overflow-y-auto">

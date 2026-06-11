@@ -6,71 +6,11 @@ export type Branch =
   | "fear"
   | "anxiety"
   | "practical"
-  | "wishes"
   | "unknown";
 
 export type Mode = "cocoon" | "anchoring" | "breath" | "relay";
 export type Lang = "fr" | "en";
 export type ThemeMode = "auto" | "light" | "dark";
-
-/** Les deux espaces strictement séparés du brief.
- *  `null` = l'utilisateur n'a pas encore choisi (avant la bifurcation). */
-export type Space = "psy" | "concrete" | null;
-
-/** État émotionnel déclaré le jour même (espace psy).
- *  Pilote le ton, l'ordre des cartes et la densité. */
-export type TodayState =
-  | "stunned" | "exhausted" | "anxious" | "sad"
-  | "angry" | "empty" | "isolated" | "overwhelmed"
-  | "soothed" | "undecided";
-
-export const TODAY_STATES: { id: TodayState; label: string; mode: Mode }[] = [
-  { id: "stunned",      label: "Sidéré·e",                 mode: "cocoon"    },
-  { id: "exhausted",    label: "Épuisé·e",                 mode: "cocoon"    },
-  { id: "anxious",      label: "Anxieux·se",               mode: "breath"    },
-  { id: "sad",          label: "Triste",                   mode: "cocoon"    },
-  { id: "angry",        label: "En colère",                mode: "anchoring" },
-  { id: "empty",        label: "Vide",                     mode: "cocoon"    },
-  { id: "isolated",     label: "Isolé·e",                  mode: "relay"     },
-  { id: "overwhelmed",  label: "Submergé·e",               mode: "relay"     },
-  { id: "soothed",      label: "Apaisé·e par moments",     mode: "breath"    },
-  { id: "undecided",    label: "Je ne sais pas choisir",   mode: "cocoon"    },
-];
-
-/** Priorités du jour pour l'espace concret (brief §4.1 step 12).
- *  Sert à construire automatiquement le plan et la « prochaine étape ». */
-export type ConcretePriority =
-  | "first-steps" | "ceremony" | "documents" | "tell-loved-ones"
-  | "accounts"    | "housing"  | "estate"    | "budget"
-  | "find-pro"    | "unsure";
-
-export const CONCRETE_PRIORITIES: {
-  id: ConcretePriority;
-  label: string;
-  whisper: string;
-  next: { title: string; why: string; duration: string };
-}[] = [
-  { id: "first-steps", label: "Premières démarches", whisper: "Constat, mairie, employeur — l'essentiel des premiers jours.",
-    next: { title: "Faire établir le constat de décès", why: "Première étape officielle, faite par un médecin.", duration: "15 min" } },
-  { id: "ceremony", label: "Organiser la cérémonie", whisper: "Inhumation ou crémation, lieu, déroulé, intervenants.",
-    next: { title: "Contacter une entreprise de pompes funèbres", why: "Premier rendez-vous pour organiser la mise en bière et la cérémonie.", duration: "10 min" } },
-  { id: "documents", label: "Rassembler les documents", whisper: "Pièce d'identité, livret de famille, contrats.",
-    next: { title: "Réunir les documents essentiels", why: "Ils seront demandés pour la plupart des démarches à venir.", duration: "1 h" } },
-  { id: "tell-loved-ones", label: "Prévenir les proches", whisper: "À votre rythme. On peut préparer un message ensemble.",
-    next: { title: "Prévenir les proches", why: "On peut préparer un message court à envoyer.", duration: "20 min" } },
-  { id: "accounts", label: "Comptes et abonnements", whisper: "Téléphone, énergie, banque, presse. Sans urgence.",
-    next: { title: "Lister les comptes et abonnements à clôturer", why: "Pour avancer ensuite, un à un, sans précipitation.", duration: "30 min" } },
-  { id: "housing", label: "Logement", whisper: "Clés, bail, assurance, objets importants.",
-    next: { title: "Faire le point sur le logement", why: "Quelques décisions simples, à étaler dans le temps.", duration: "à votre rythme" } },
-  { id: "estate", label: "Succession et droits", whisper: "Orientation vers notaire, étapes et aides.",
-    next: { title: "Prendre rendez-vous chez un notaire", why: "Pour la succession. Dans les semaines à venir.", duration: "1 h" } },
-  { id: "budget", label: "Budget", whisper: "Estimer, comparer, choisir sans se précipiter.",
-    next: { title: "Définir un budget indicatif", why: "Pour vous repérer dans les devis et propositions.", duration: "20 min" } },
-  { id: "find-pro", label: "Trouver un professionnel", whisper: "Pompes funèbres, célébrant·e, fleuriste, notaire.",
-    next: { title: "Trouver un·e professionnel·le près de chez vous", why: "Filtres clairs, disponibilité, budget.", duration: "10 min" } },
-  { id: "unsure", label: "Je ne sais pas par où commencer", whisper: "On vous propose la suite, pas à pas.",
-    next: { title: "Commencer par une seule chose", why: "On vous propose la prochaine étape la plus utile aujourd'hui.", duration: "5 min" } },
-];
 
 export type JournalEntry = {
   id: string;
@@ -101,28 +41,18 @@ const EMPTY_WISHES: Wishes = {
   toLovedOnes: "", sharedWith: [],
 };
 
-/** Six situations proposées à l'onboarding (cohérentes graphiquement). */
 export const BRANCHES: { id: Branch; label: string; whisper: string }[] = [
-  { id: "person",    label: "Une personne me manque",        whisper: "Une absence qui se fait sentir." },
-  { id: "animal",    label: "Un animal aimé me manque",      whisper: "Une présence fidèle, qui compte." },
-  { id: "fear",      label: "J'ai peur de perdre quelqu'un", whisper: "Un être cher fragile, gardé en pensée." },
-  { id: "practical", label: "Je traverse une perte récente", whisper: "Traverser les premiers jours, sans tout porter d'un coup." },
-  { id: "wishes",    label: "Je souhaite préparer mes volontés", whisper: "Poser doucement ce que l'on voudrait." },
-  { id: "unknown",   label: "Je ne sais pas encore",         whisper: "Rien à nommer, et c'est très bien." },
+  { id: "person",  label: "Une personne qui me manque",   whisper: "Une absence qui se fait sentir." },
+  { id: "animal",  label: "Un animal aimé",               whisper: "Une présence fidèle, qui compte." },
+  { id: "fear",    label: "La peur de perdre quelqu'un",  whisper: "Un être cher fragile, gardé en pensée." },
+  { id: "anxiety", label: "Vivre avec l'idée de la mort", whisper: "Approcher la question, sans qu'elle pèse." },
+  { id: "unknown", label: "Je ne sais pas encore",        whisper: "Rien à nommer, et c'est très bien." },
 ];
 
-/** Kept for backward compat — `practical` is now part of BRANCHES. */
-export const PRACTICAL_BRANCH = BRANCHES.find((b) => b.id === "practical")!;
-
-/** Suggested label for the "who is missing" step, per branch. */
-export const LOST_NAME_LABEL: Record<Branch, { fr: string; en: string; placeholder: string }> = {
-  person:    { fr: "Son prénom",                  en: "Their first name",       placeholder: "Prénom…" },
-  animal:    { fr: "Son nom",                     en: "Their name",             placeholder: "Nom…" },
-  fear:      { fr: "Le prénom de ce proche",      en: "Their first name",       placeholder: "Prénom…" },
-  anxiety:   { fr: "Un mot pour ce qui pèse",     en: "A word for what weighs", placeholder: "Un mot…" },
-  practical: { fr: "Son prénom",                  en: "Their first name",       placeholder: "Prénom…" },
-  wishes:    { fr: "Un mot, si vous voulez",      en: "A word, if you wish",    placeholder: "Un mot…" },
-  unknown:   { fr: "Un mot, si vous voulez",      en: "A word, if you wish",    placeholder: "Un mot…" },
+export const PRACTICAL_BRANCH = {
+  id: "practical" as const,
+  label: "Une perte récente",
+  whisper: "Traverser les premiers jours, sans tout porter d'un coup.",
 };
 
 export const MODES: { id: Mode; label: string; whisper: string; tint: string }[] = [
@@ -222,72 +152,36 @@ type Ctx = {
   addJournalEntry: (e: Omit<JournalEntry, "id" | "date">) => void;
   wishes: Wishes;
   setWishes: (w: Partial<Wishes>) => void;
-  /** Espace actif. `null` tant que la bifurcation n'a pas eu lieu. */
-  space: Space;
-  setSpace: (s: Space) => void;
-  /** État émotionnel du jour (espace psy). */
-  todayState: TodayState;
-  setTodayState: (t: TodayState) => void;
-  /** Priorité du jour (espace concret). */
-  concretePriority: ConcretePriority;
-  setConcretePriority: (p: ConcretePriority) => void;
 };
 
 const LegatoContext = createContext<Ctx | null>(null);
 
 export function LegatoProvider({ children }: { children: ReactNode }) {
-  const [branch, setBranchState] = useState<Branch>("person");
-  const [mode, setModeState] = useState<Mode>("cocoon");
-  const [name, setNameState] = useState<string>("Swann");
-  const [space, setSpaceState] = useState<Space>(null);
-  const [todayState, setTodayStateState] = useState<TodayState>("undecided");
-  const [concretePriority, setConcretePriorityState] = useState<ConcretePriority>("first-steps");
-
-  // Hydrate from localStorage (one-shot)
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    try {
-      const raw = localStorage.getItem("legato-profile");
-      if (!raw) return;
-      const p = JSON.parse(raw) as Partial<{
-        space: Space; branch: Branch; mode: Mode; name: string;
-        todayState: TodayState; concretePriority: ConcretePriority;
-      }>;
-      if (p.space === "psy" || p.space === "concrete") setSpaceState(p.space);
-      if (p.branch) setBranchState(p.branch);
-      if (p.mode) setModeState(p.mode);
-      if (p.name) setNameState(p.name);
-      if (p.todayState) setTodayStateState(p.todayState);
-      if (p.concretePriority) setConcretePriorityState(p.concretePriority);
-    } catch { /* ignore */ }
-  }, []);
-  // Persist
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    try {
-      localStorage.setItem(
-        "legato-profile",
-        JSON.stringify({ space, branch, mode, name, todayState, concretePriority }),
-      );
-    } catch { /* ignore */ }
-  }, [space, branch, mode, name, todayState, concretePriority]);
-
-  const setBranch = (b: Branch) => setBranchState(b);
-  const setMode = (m: Mode) => setModeState(m);
-  const setName = (s: string) => setNameState(s);
-  const setSpace = (s: Space) => setSpaceState(s);
-  const setTodayState = (t: TodayState) => setTodayStateState(t);
-  const setConcretePriority = (p: ConcretePriority) => setConcretePriorityState(p);
+  const [branch, setBranch] = useState<Branch>("person");
+  const [mode, setMode] = useState<Mode>("cocoon");
+  const [name, setName] = useState<string>("Swann");
   const [lostName, setLostName] = useState<string>("Élise");
   const [lang, setLang] = useState<Lang>("fr");
   const [theme, setThemeState] = useState<ThemeMode>(() => {
-    if (typeof window === "undefined") return "light";
-    return (localStorage.getItem("legato-theme") as ThemeMode | null) ?? "light";
+    if (typeof window === "undefined") return "auto";
+    return (localStorage.getItem("legato-theme") as ThemeMode | null) ?? "auto";
   });
-  const resolvedTheme: "light" | "dark" = "light";
+  const [systemDark, setSystemDark] = useState<boolean>(() => {
+    if (typeof window === "undefined") return false;
+    return window.matchMedia?.("(prefers-color-scheme: dark)").matches ?? false;
+  });
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const mq = window.matchMedia("(prefers-color-scheme: dark)");
+    const onChange = (e: MediaQueryListEvent) => setSystemDark(e.matches);
+    mq.addEventListener?.("change", onChange);
+    return () => mq.removeEventListener?.("change", onChange);
+  }, []);
+  const resolvedTheme: "light" | "dark" =
+    theme === "auto" ? (systemDark ? "dark" : "light") : theme;
   useEffect(() => {
     if (typeof document === "undefined") return;
-    document.documentElement.classList.remove("dark");
+    document.documentElement.classList.toggle("dark", resolvedTheme === "dark");
   }, [resolvedTheme]);
   const setTheme = (t: ThemeMode) => {
     setThemeState(t);
@@ -322,9 +216,6 @@ export function LegatoProvider({ children }: { children: ReactNode }) {
         theme, setTheme, resolvedTheme,
         journal, addJournalEntry,
         wishes, setWishes,
-        space, setSpace,
-        todayState, setTodayState,
-        concretePriority, setConcretePriority,
       }}
     >
       {children}

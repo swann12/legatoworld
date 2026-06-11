@@ -48,12 +48,23 @@ function Journal() {
       <div className="relative pb-12">
         <div className="relative z-10">
           <header className="px-7 pt-12">
-            <Link to="/home" className="eyebrow inline-block mb-6 hover:text-dusk">← Aujourd'hui</Link>
-            <p className="eyebrow">{t("journal.title")}</p>
-            <h1 className="mt-3 font-serif text-[30px] leading-[1.06] font-light text-dusk max-w-[22ch] text-balance">
-              {lang === "fr" ? "Une page rien qu'à vous." : "A page just for you."}
+            <p
+              className="text-[10px] uppercase tracking-[0.3em] text-dusk/50"
+              style={{ fontFamily: "var(--font-mono)" }}
+            >
+              {t("journal.title")}
+            </p>
+            <h1
+              className="mt-4 font-serif text-[40px] leading-[1.02] font-light text-dusk max-w-[20ch]"
+              style={{ textWrap: "balance" }}
+            >
+              {lang === "fr" ? (
+                <>Une page <span className="italic text-dusk/80">rien qu'à vous.</span></>
+              ) : (
+                <>A page <span className="italic text-dusk/80">just for you.</span></>
+              )}
             </h1>
-            <p className="mt-4 max-w-[34ch] text-[14px] leading-[1.6] text-dusk/65">
+            <p className="mt-6 max-w-[34ch] text-[14.5px] leading-[1.6] text-dusk/65">
               {t("journal.subtitle")}
             </p>
           </header>
@@ -64,11 +75,12 @@ function Journal() {
               <button
                 key={k}
                 onClick={() => setTo(k)}
-                className={`px-3.5 py-1.5 rounded-full text-[12px] border transition-colors ${
+                className={`px-3.5 py-1.5 rounded-full text-[11px] tracking-wide border transition-colors ${
                   to === k
                     ? "bg-dusk text-paper border-dusk"
                     : "border-dusk/20 text-dusk/70 hover:bg-dusk/5"
                 }`}
+                style={{ fontFamily: "var(--font-sans)" }}
               >
                 {t(`journal.to.${k}`)}
               </button>
@@ -87,7 +99,7 @@ function Journal() {
                 onChange={(e) => setBody(e.target.value)}
                 placeholder={placeholder}
                 rows={6}
-                className="relative w-full bg-transparent resize-none outline-none px-6 py-6 font-serif text-[18px] leading-[30px] text-dusk placeholder:text-dusk/30 overflow-hidden"
+                className="relative w-full bg-transparent resize-none outline-none px-6 py-6 font-serif italic text-[18px] leading-[30px] text-dusk placeholder:text-dusk/30 overflow-hidden"
                 style={{ minHeight: 240 }}
               />
             </div>
@@ -97,20 +109,26 @@ function Journal() {
             <button
               onClick={save}
               disabled={!body.trim()}
-              className="w-full btn-primary py-4"
+              className={`w-full rounded-[16px] px-6 py-4 text-center text-[color:var(--paper)] transition-opacity ${
+                body.trim() ? "opacity-100" : "opacity-40"
+              }`}
+              style={{ background: "var(--bordeaux)" }}
             >
-              {t("journal.save")}
+              <span className="font-serif text-[18px] italic">{t("journal.save")}</span>
             </button>
           </div>
 
           {/* Past entries */}
           <div className="px-7 mt-12">
-            <p className="eyebrow mb-5">
+            <p
+              className="text-[10px] uppercase tracking-[0.3em] text-dusk/50 mb-5"
+              style={{ fontFamily: "var(--font-mono)" }}
+            >
               {lang === "fr" ? "Pages précédentes" : "Previous pages"}
             </p>
 
             {journal.length === 0 ? (
-              <p className="text-[14px] text-dusk/60 max-w-[34ch]">
+              <p className="font-serif text-[14px] italic text-dusk/60 max-w-[34ch]">
                 {t("journal.empty")}
               </p>
             ) : (
@@ -124,12 +142,24 @@ function Journal() {
                       className="w-full text-left py-5 transition-all hover:bg-dusk/[0.02]"
                     >
                       <div className="flex items-baseline justify-between gap-3">
-                        <p className="eyebrow-sm">{e.to ? t(`journal.to.${e.to}`) : ""}</p>
-                        <p className="eyebrow-sm" style={{ letterSpacing: "0.06em" }}>
+                        <p
+                          className="text-[10px] uppercase tracking-[0.26em] text-dusk/50"
+                          style={{ fontFamily: "var(--font-mono)" }}
+                        >
+                          {e.to ? t(`journal.to.${e.to}`) : ""}
+                        </p>
+                        <p
+                          className="text-[10px] tracking-[0.06em] text-dusk/45"
+                          style={{ fontFamily: "var(--font-mono)" }}
+                        >
                           {formatDate(e.date)}
                         </p>
                       </div>
-                      <p className={`mt-3 font-serif text-[16px] leading-[26px] text-dusk/85 ${open ? "" : "line-clamp-3"}`}>
+                      <p
+                        className={`mt-2 font-serif italic text-[16px] leading-[26px] text-dusk/85 ${
+                          open ? "" : "line-clamp-3"
+                        }`}
+                      >
                         {e.body}
                       </p>
                     </button>
@@ -140,11 +170,14 @@ function Journal() {
           </div>
 
           <div className="px-7 mt-12">
-            <Link to="/presence" className="block border-t border-dusk/10 pt-6 text-center group">
-              <p className="eyebrow">
+            <Link to="/presence" className="block border-t border-dusk/10 pt-6 text-center">
+              <p
+                className="text-[10px] uppercase tracking-[0.3em] text-dusk/50"
+                style={{ fontFamily: "var(--font-mono)" }}
+              >
                 {lang === "fr" ? "Si vous voulez en parler" : "If you want to talk about it"}
               </p>
-              <p className="mt-2 text-[15px] text-dusk">
+              <p className="mt-2 font-serif text-[17px] italic text-dusk">
                 {lang === "fr" ? "Ouvrir la Présence →" : "Open the Presence →"}
               </p>
             </Link>

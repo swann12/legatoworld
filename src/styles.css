@@ -68,96 +68,37 @@
   --color-bordeaux: var(--bordeaux);
   --color-blush: var(--blush);
   --color-sky: var(--sky);
-  --color-bordeaux-soft: var(--bordeaux-soft);
-  --color-bordeaux-tint: var(--bordeaux-tint);
-  --color-bordeaux-wash: var(--bordeaux-wash);
-  --color-bloom-rose: var(--bloom-rose);
-  --color-bloom-sage: var(--bloom-sage);
-  --color-solar: var(--solar);
-  --color-solar-soft: var(--solar-soft);
-  --color-amber: var(--amber);
-  --color-sky-soft: var(--sky-soft);
-  --color-denim: var(--denim);
-  --color-amber-soft: var(--amber-soft);
-  --color-butter: var(--butter);
-  --color-aubergine: var(--aubergine);
-  --color-peach-card: var(--peach-card);
-  --color-ink: var(--ink);
-
-  /* Palette Espace ORGANISER (éditoriale, contrastée) — issue des
-   * références utilisateur (sardine tin, oven glow, butter stick, tomato).
-   * Activée via [data-space="organize"]. */
-  --color-sardine: var(--sardine);
-  --color-oven: var(--oven);
-  --color-butter-stick: var(--butter-stick);
-  --color-tomato: var(--tomato);
-  --color-sage-org: var(--sage-org);
-  --color-stone: var(--stone);
 
   --font-serif: "Instrument Serif", "Cormorant Garamond", ui-serif, Georgia, serif;
-  --font-sans: "Inter Tight", "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", "Geist Mono", ui-monospace, monospace;
+  --font-sans: "Work Sans", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
 }
 
 :root {
-  --radius: 0.5rem;
+  --radius: 1.5rem;
 
   /* Legato palette — Papier & Terre
    * Cream éditorial + encre bordeaux-brun + accents clairs (terracotta, olive,
    * sauge, pêche, ciel, lavande). Une seule teinte profonde (bordeaux) pour les
    * surfaces feature type LeLiv. Tous les accents pastel restent dans la même
    * famille chaude, désaturée, sans devenir fades. */
-  /* Solaire + corporate éditorial : crème chaud, bordeaux profond, accents
-   * solaires (orange, ambre) et bleus poudrés. Une seule famille, jamais
-   * fluo, jamais terne. */
-  /* Référence chromatique stricte (swatches fournis). Tous les tokens
-   * sont calés sur ces valeurs ; aucune page ne doit introduire de
-   * couleur en dehors de cette famille. */
-  --paper: oklch(0.965 0.014 82);          /* ivoire éditorial #f7f2ea */
-  --whisper: oklch(0.985 0.007 84);        /* blanc cassé */
-  --clay: oklch(0.925 0.020 72);           /* lin chaud */
-  /* Encre près-noire (Co-Star / Empathy / un.studio) — toute la
-   * typographie courante en noir éditorial, pas en brun. */
-  --dusk: oklch(0.17 0.006 65);            /* encre noire douce */
-  --ink: oklch(0.09 0.004 70);             /* noir éditorial */
-  --aubergine: oklch(0.24 0.058 20);       /* bordeaux prune sourd */
-  --peach-card: oklch(0.76 0.125 45);      /* pêche de référence */
-  --bordeaux: oklch(0.25 0.075 24);        /* bordeaux profond */
-  --bordeaux-soft: oklch(0.38 0.095 28);   /* bordeaux brun */
-  --bordeaux-tint: oklch(0.58 0.040 45);   /* taupe rosé */
-  --bordeaux-wash: oklch(0.935 0.018 38);  /* lavis chaud */
-  /* Accents solaires */
-  --terracotta: oklch(0.66 0.170 38);      /* corail référence */
-  --solar: oklch(0.74 0.135 50);           /* orange doux */
-  --solar-soft: oklch(0.88 0.055 70);      /* pêche poudré */
-  --amber: oklch(0.82 0.150 78);           /* jaune solaire */
-  --amber-soft: oklch(0.90 0.080 92);      /* jaune doux */
-  --butter: oklch(0.96 0.045 112);         /* jaune pâle */
-  /* Accents froids */
-  --sky: oklch(0.74 0.075 235);            /* bleu ciel référence */
-  --sky-soft: oklch(0.84 0.035 205);       /* bleu vert lavé */
-  --denim: oklch(0.46 0.060 240);          /* bleu sourd */
-  --mist: oklch(0.88 0.020 205);
-  /* Olive (équilibre végétal) */
-  --olive: oklch(0.66 0.090 112);          /* olive référence */
-  --sage: oklch(0.80 0.030 125);
-  /* Compagnons (rétro-compatibilité) */
-  --rose: oklch(0.78 0.090 35);
-  --blush: oklch(0.88 0.050 30);
-  --peach: var(--solar);
-  --lavender: oklch(0.86 0.035 285);
-  --bloom-rose: oklch(0.78 0.090 35);
-  --bloom-sage: oklch(0.86 0.032 140);
+  --paper: oklch(0.965 0.014 75);          /* cream chaud principal */
+  --whisper: oklch(0.978 0.010 75);        /* cream lavé, presque blanc */
+  --clay: oklch(0.935 0.022 55);           /* pêche pâle — surfaces cartes */
+  --dusk: oklch(0.24 0.035 35);            /* encre chaude bordeaux-brun (texte) */
+  --ink: oklch(0.18 0.030 35);             /* encre profonde */
+  --terracotta: oklch(0.62 0.135 40);      /* accent affirmé — primary */
+  --rose: oklch(0.88 0.048 30);            /* blush pastel */
+  --blush: oklch(0.92 0.030 25);
+  --peach: oklch(0.92 0.040 60);           /* pêche claire pour cards */
+  --olive: oklch(0.58 0.085 115);          /* olive affirmé */
+  --sage: oklch(0.88 0.035 130);           /* sauge claire pour cards */
+  --mist: oklch(0.92 0.028 215);           /* brume bleutée */
+  --sky: oklch(0.90 0.040 230);            /* ciel doux pour cards */
+  --lavender: oklch(0.88 0.035 295);       /* lavande pâle pour cards */
+  --bordeaux: oklch(0.28 0.060 25);        /* surfaces feature profondes */
   --bloom-fresh: oklch(0.93 0.04 130);
-  --bloom-mist: oklch(0.95 0.025 220);
-
-  /* Tokens espace ORGANISER (mêmes hex que les références jointes) */
-  --sardine:     oklch(0.73 0.090 250);   /* #7CA2E0 — bleu information */
-  --oven:        oklch(0.36 0.080 28);    /* #6C2C25 — bordeaux priorité */
-  --butter-stick:oklch(0.94 0.055 102);   /* #F2EDBD — jaune attention douce */
-  --tomato:      oklch(0.67 0.190 36);    /* #EB5E3A — orange action / urgent */
-  --sage-org:    oklch(0.72 0.075 110);   /* olive — terminé */
-  --stone:       oklch(0.58 0.025 55);    /* taupe — délégué / en attente */
+  --bloom-mist: oklch(0.96 0.02 220);
 
   /* Shadcn semantic tokens mapped to Legato */
   --background: var(--paper);
@@ -261,25 +202,23 @@
 }
 
 @layer components {
-  /* Editorial pass: ceramic surfaces flattened to paper for full consistency. */
+  /* Sculptural ceramic surface: hand-thrown bowl holding light */
   .ceramic {
-    background: color-mix(in oklab, var(--whisper) 78%, var(--clay));
+    background: linear-gradient(160deg, color-mix(in oklab, var(--clay) 70%, white), var(--clay));
     border: 1px solid color-mix(in oklab, var(--dusk) 10%, transparent);
-    border-radius: 8px;
   }
 
   .ceramic-soft {
-    background: color-mix(in oklab, var(--paper) 88%, var(--sky-soft));
-    border: 1px solid color-mix(in oklab, var(--dusk) 9%, transparent);
-    border-radius: 8px;
+    background: linear-gradient(160deg, color-mix(in oklab, var(--paper) 90%, white), var(--clay));
+    border: 1px solid color-mix(in oklab, var(--dusk) 8%, transparent);
   }
 
   /* Organic asymmetric radii — nothing perfectly geometric */
   /* Tamed for the editorial language — kept available for legacy callers
    * but rendered as clean rounded surfaces, not asymmetric blobs. */
-  .organic-radius { border-radius: 8px; }
-  .organic-radius-2 { border-radius: 8px; }
-  .organic-radius-3 { border-radius: 8px; }
+  .organic-radius { border-radius: 18px; }
+  .organic-radius-2 { border-radius: 18px; }
+  .organic-radius-3 { border-radius: 16px; }
 
   /* Soft luminous halos */
   .halo { filter: blur(60px); pointer-events: none; }
@@ -443,159 +382,9 @@
 
   /* Soft container — quieter than ceramic, more space */
   .paper-card {
-    background: color-mix(in oklab, var(--whisper) 84%, var(--clay));
-    border: 1px solid color-mix(in oklab, var(--dusk) 9%, transparent);
-    border-radius: 8px;
-  }
-
-  /* ─── Typographic + surface helpers (single source of truth) ───
-   * Three roles, three families, no inline overrides on the page:
-   *  - eyebrow  → mono, uppercase, dusk/55, 10px, tracking 0.26em
-   *  - serif headings via <h1>/<h2 className="font-serif font-light">
-   *  - everything else → sans (default)
-   */
-  .eyebrow {
-    font-family: var(--font-mono);
-    text-transform: uppercase;
-    letter-spacing: 0.26em;
-    font-size: 10px;
-    line-height: 1;
-    color: color-mix(in oklab, var(--dusk) 55%, transparent);
-  }
-  .eyebrow-sm {
-    font-family: var(--font-mono);
-    text-transform: uppercase;
-    letter-spacing: 0.22em;
-    font-size: 9px;
-    color: color-mix(in oklab, var(--dusk) 45%, transparent);
-  }
-  .label-mono {
-    font-family: var(--font-mono);
-    text-transform: uppercase;
-    letter-spacing: 0.22em;
-    font-size: 11px;
-  }
-
-  /* Carte de surface unique : paper + filet dusk/12, rayon 16. */
-  .surface {
-    background: color-mix(in oklab, var(--whisper) 82%, var(--clay));
+    background: var(--paper);
     border: 1px solid color-mix(in oklab, var(--dusk) 10%, transparent);
-    border-radius: 8px;
-  }
-  /* Bloc feature « éditorial noir » (cf. "The Funeral" — Empathy) :
-   * encre noire profonde, titre serif cream/paper dessus. */
-  .surface-feature {
-    background: color-mix(in oklab, var(--whisper) 88%, var(--clay));
-    color: var(--dusk);
-    border: 1px solid color-mix(in oklab, var(--dusk) 10%, transparent);
-    border-radius: 8px;
-  }
-  /* Carte hero chaude (cf. "Is there a right way to grieve?" — Empathy) :
-   * peach lumineux, titre serif sombre dessus. */
-  .surface-warm {
-    background: color-mix(in oklab, var(--peach-card) 72%, var(--paper));
-    color: var(--ink);
-    border-radius: 8px;
-  }
-  /* Carte showcase aubergine — accent rare, identité Legato. */
-  .surface-aubergine {
-    background: var(--aubergine);
-    color: var(--paper);
-    border-radius: 8px;
-  }
-
-  /* Bouton primaire — pill noir plein (cf. "DIVE DEEPER" Co-Star).
-   * Étiquette mono uppercase, jamais bordeaux pour le CTA principal. */
-  .btn-primary {
-    background: var(--ink);
-    color: var(--paper);
-    border-radius: 999px;
-    padding: 0.85rem 1.4rem;
-    font-family: var(--font-mono);
-    text-transform: uppercase;
-    letter-spacing: 0.18em;
-    font-size: 10px;
-    transition: opacity 0.2s ease;
-  }
-  .btn-primary:hover { opacity: 0.92; }
-  .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
-
-  /* CTA primaire pour l'espace ORGANISER : bloc plein, pas pilule,
-   * couleur tomato. Hauteur confortable, label mono. */
-  .btn-organize-primary {
-    background: var(--tomato);
-    color: var(--paper);
-    border-radius: 10px;
-    padding: 0.95rem 1.4rem;
-    font-family: var(--font-mono);
-    text-transform: uppercase;
-    letter-spacing: 0.18em;
-    font-size: 11px;
-    transition: opacity 0.2s ease;
-  }
-  .btn-organize-primary:hover { opacity: 0.92; }
-  .btn-organize-primary:disabled { opacity: 0.4; cursor: not-allowed; }
-
-  /* Chip secondaire organisation : filet fin, mono, rectangulaire. */
-  .chip-organize {
-    border: 1px solid color-mix(in oklab, var(--dusk) 18%, transparent);
-    background: transparent;
-    color: var(--dusk);
-    border-radius: 6px;
-    padding: 0.5rem 0.8rem;
-    font-family: var(--font-mono);
-    text-transform: uppercase;
-    letter-spacing: 0.16em;
-    font-size: 10px;
-    transition: background 0.15s ease;
-  }
-  .chip-organize:hover { background: color-mix(in oklab, var(--dusk) 4%, transparent); }
-  .chip-organize[aria-pressed="true"] {
-    background: var(--ink);
-    color: var(--paper);
-    border-color: var(--ink);
-  }
-
-  /* Pastille de statut pour Mon parcours. */
-  .status-dot {
-    display: inline-block;
-    width: 8px; height: 8px; border-radius: 999px;
-    flex-shrink: 0;
-  }
-  .status-dot-todo      { background: var(--tomato); }
-  .status-dot-progress  { background: var(--butter-stick); border: 1px solid color-mix(in oklab, var(--dusk) 25%, transparent); }
-  .status-dot-delegated { background: var(--stone); }
-  .status-dot-waiting   { background: var(--sardine); }
-  .status-dot-done      { background: var(--sage-org); }
-
-  /* Surface "feature" propre à l'espace Organiser : bloc oven plein. */
-  [data-space="organize"] .surface-priority {
-    background: var(--oven);
-    color: var(--paper);
-    border-radius: 12px;
-    padding: 1.5rem;
-  }
-  [data-space="organize"] .surface-priority .eyebrow,
-  [data-space="organize"] .surface-priority .eyebrow-sm {
-    color: color-mix(in oklab, var(--paper) 75%, transparent);
-  }
-
-  /* Petit ajustement : surfaces plus rectilignes côté Organiser. */
-  [data-space="organize"] .surface,
-  [data-space="organize"] .ceramic,
-  [data-space="organize"] .surface-feature {
-    border-radius: 10px;
-  }
-  .btn-ghost {
-    background: transparent;
-    color: var(--dusk);
-    border: 1px solid color-mix(in oklab, var(--dusk) 18%, transparent);
-    border-radius: 999px;
-    padding: 0.6rem 1.1rem;
-    font-family: var(--font-mono);
-    text-transform: uppercase;
-    letter-spacing: 0.18em;
-    font-size: 10px;
+    border-radius: 16px;
   }
 
   /* ─── Legato Glass system ───
@@ -673,9 +462,9 @@
   animation: breathe 8s ease-in-out infinite;
 }
 .ceramic-warm {
-  background: var(--paper);
-  border: 1px solid color-mix(in oklab, var(--dusk) 12%, transparent);
-  border-radius: 16px;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--peach) 30%, var(--paper)),
+                                       color-mix(in oklab, var(--clay) 60%, var(--paper)));
+  border: 1px solid color-mix(in oklab, var(--dusk) 8%, transparent);
 }
 
 /* Booklet print */

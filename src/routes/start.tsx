@@ -116,89 +116,89 @@ function Start() {
 
   return (
     <main className="min-h-dvh bg-paper text-dusk">
-      <div className="mobile-frame relative flex min-h-dvh flex-col bg-paper">
-        <header className="flex items-center justify-between px-8 pt-8 pb-5">
-          <span
-            className="font-serif text-[24px] italic leading-none text-dusk"
-          >
-            L
-          </span>
-          <span
-            className="text-[10px] uppercase tracking-[0.24em] text-dusk/45"
+      <div className="mobile-frame relative flex min-h-dvh flex-col">
+        <header className="px-7 pt-10 flex items-center justify-between">
+          <p
+            className="text-[10px] uppercase tracking-[0.3em] text-dusk/50"
             style={{ fontFamily: "var(--font-mono)" }}
           >
-            {mode === "signin" ? "Connexion" : mode === "signup" ? "Inscription" : "Entrer"}
-          </span>
+            Legato
+          </p>
+          <p
+            className="text-[10px] uppercase tracking-[0.3em] text-dusk/40"
+            style={{ fontFamily: "var(--font-mono)" }}
+          >
+            {mode === "signin" ? "Se reconnecter" : mode === "signup" ? "Créer un espace" : "Entrer"}
+          </p>
         </header>
 
-        <div className="relative z-10 flex flex-1 flex-col px-8 pt-12 pb-8">
-          <section className="max-w-[300px]">
-            <p
-              className="mb-6 text-[10px] uppercase tracking-[0.24em] text-dusk/45"
-              style={{ fontFamily: "var(--font-mono)" }}
-            >
-              Legato
-            </p>
-            <h1 className="font-serif text-[39px] font-light leading-[1.02] text-dusk text-balance">
-              Préparer un adieu,
-              <br />
-              garder une présence.
-            </h1>
-          </section>
+        <div className="relative z-10 flex flex-1 flex-col justify-center px-7 pb-12 pt-10">
+          <p
+            className="text-[10px] uppercase tracking-[0.3em] text-dusk/50"
+            style={{ fontFamily: "var(--font-mono)" }}
+          >
+            Bienvenue
+          </p>
+          <h1
+            className="mt-4 font-serif text-[40px] leading-[1.02] text-dusk font-light"
+            style={{ textWrap: "balance" }}
+          >
+            Préparer un adieu,
+            <br />
+            <span className="italic text-dusk/80">garder une présence.</span>
+          </h1>
+          <p
+            className="mt-6 max-w-[34ch] text-[14.5px] leading-[1.6] text-dusk/65"
+            style={{ textWrap: "balance" }}
+          >
+            Composer une cérémonie, écrire ce qui compte, faire vivre le souvenir. À votre rythme.
+          </p>
 
-          <section className="mt-12 border-t border-dusk/10 pt-7">
-            <p className="font-serif text-[20px] font-light leading-[1.35] text-dusk max-w-[27ch]">
-              Composer une cérémonie, écrire ce qui compte, faire vivre le souvenir.
-              <span className="mt-3 block italic text-dusk/62">À votre rythme.</span>
-            </p>
-          </section>
-
-          <section className="mt-auto grid grid-cols-[1fr_92px] gap-3 pt-12">
-            <div className="bg-[color-mix(in_oklab,var(--sky-soft)_58%,var(--paper))] px-4 py-4">
-              <p className="font-serif text-[18px] leading-[1.15] text-dusk">Un espace simple, privé, sans urgence.</p>
-            </div>
-            <div className="bg-[color-mix(in_oklab,var(--sage)_72%,var(--paper))]" aria-hidden />
-          </section>
-        </div>
-
-        <footer className="px-8 pt-6 pb-10 border-t border-dusk/10 space-y-3 bg-paper">
-          <div className="flex flex-col gap-3">
+          <div className="mt-10 flex flex-col gap-3">
             {mode === "choice" && (
               <div className="flex flex-col gap-3 animate-fade-in">
-                {/* CTA principal — surface bordeaux pleine, ancrée */}
                 <button
                   type="button"
                   onClick={() => { setMode("signup"); setError(null); setInfo(null); }}
-                  className="group w-full rounded-full px-7 py-4 flex items-center justify-center gap-3 transition-transform active:scale-[0.98]"
-                  style={{ background: "var(--ink)", color: "var(--paper)" }}
+                  className="block rounded-[18px] overflow-hidden text-[color:var(--paper)] text-left px-6 py-5"
+                  style={{ background: "var(--bordeaux)" }}
                 >
                   <span
-                    className="text-[10px] uppercase tracking-[0.18em]"
+                    className="block text-[10px] uppercase tracking-[0.28em] text-[color:var(--paper)]/60"
                     style={{ fontFamily: "var(--font-mono)" }}
                   >
-                    Créer mon espace
+                    Pour conserver vos souvenirs
+                  </span>
+                  <span className="mt-3 block font-serif italic text-[24px] leading-tight">
+                    Créer un espace
+                  </span>
+                  <span
+                    className="mt-4 flex items-center justify-between text-[11px] uppercase tracking-[0.24em] text-[color:var(--paper)]/80"
+                    style={{ fontFamily: "var(--font-mono)" }}
+                  >
+                    Commencer
+                    <span className="text-[color:var(--paper)]/70">→</span>
                   </span>
                 </button>
-                {/* Lien secondaire — filet ghost */}
                 <button
                   type="button"
                   onClick={() => { setMode("signin"); setError(null); setInfo(null); }}
-                  className="w-full rounded-full border border-dusk/18 bg-transparent px-7 py-3.5 text-[10px] uppercase tracking-[0.18em] text-dusk/75 hover:bg-dusk/[0.03] transition-colors"
+                  className="rounded-full border border-dusk/20 bg-paper px-7 py-3.5 text-center text-[11px] uppercase tracking-[0.24em] text-dusk/70 hover:bg-dusk/5 transition-colors"
                   style={{ fontFamily: "var(--font-mono)" }}
                 >
                   Me reconnecter
                 </button>
-                <div className="text-center pt-2">
+                <div className="mt-3 flex flex-col items-center gap-1">
                   <button
                     type="button"
                     onClick={goNext}
-                    className="block w-full text-[10px] uppercase tracking-[0.18em] text-dusk/55 hover:text-dusk transition-colors mb-1.5"
+                    className="text-center text-[10px] uppercase tracking-[0.24em] text-dusk/45 hover:text-dusk transition-colors py-1"
                     style={{ fontFamily: "var(--font-mono)" }}
                   >
-                    Continuer en invité·e
+                    Continuer en tant qu'invité·e
                   </button>
-                  <p className="text-[11px] text-dusk/45 italic">
-                    Ce que vous écrivez ne sera pas conservé.
+                  <p className="text-center text-[11px] italic font-serif text-dusk/50 max-w-[34ch] leading-snug">
+                    Ce que vous écrivez ici ne sera pas gardé.
                   </p>
                 </div>
               </div>
@@ -243,10 +243,10 @@ function Start() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="block rounded-full text-[color:var(--paper)] px-6 py-4 text-center disabled:opacity-50 transition-opacity hover:opacity-95"
-                  style={{ background: "var(--ink)" }}
+                  className="block rounded-[16px] text-[color:var(--paper)] px-6 py-4 text-center disabled:opacity-50"
+                  style={{ background: "var(--bordeaux)" }}
                 >
-                  <span className="block eyebrow text-[color:var(--paper)] tracking-[0.24em]">
+                  <span className="block font-serif italic text-[18px]">
                     {loading
                       ? "Un instant…"
                       : mode === "signin"
@@ -287,7 +287,7 @@ function Start() {
               </form>
             )}
           </div>
-        </footer>
+        </div>
       </div>
     </main>
   );

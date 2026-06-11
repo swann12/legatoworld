@@ -12,35 +12,43 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as WishesRouteImport } from './routes/wishes'
 import { Route as VitrineRouteImport } from './routes/vitrine'
 import { Route as StartRouteImport } from './routes/start'
-import { Route as SpaceChoiceRouteImport } from './routes/space-choice'
 import { Route as SpaceRouteImport } from './routes/space'
+import { Route as PresentationRouteImport } from './routes/presentation'
 import { Route as PresenceRouteImport } from './routes/presence'
 import { Route as PracticalRouteImport } from './routes/practical'
-import { Route as PlanRouteImport } from './routes/plan'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as NoWordsRouteImport } from './routes/no-words'
 import { Route as MemoriesRouteImport } from './routes/memories'
-import { Route as JourneyRouteImport } from './routes/journey'
 import { Route as JournalRouteImport } from './routes/journal'
+import { Route as InspirationRouteImport } from './routes/inspiration'
 import { Route as HomeRouteImport } from './routes/home'
-import { Route as DocumentsRouteImport } from './routes/documents'
+import { Route as HelpRouteImport } from './routes/help'
 import { Route as DatesRouteImport } from './routes/dates'
 import { Route as CrisisRouteImport } from './routes/crisis'
-import { Route as CircleRouteImport } from './routes/circle'
-import { Route as AccompanyRouteImport } from './routes/accompany'
+import { Route as CommunityRouteImport } from './routes/community'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ResourcesIndexRouteImport } from './routes/resources.index'
 import { Route as PracticalIndexRouteImport } from './routes/practical.index'
+import { Route as HelpIndexRouteImport } from './routes/help.index'
 import { Route as GardenIndexRouteImport } from './routes/garden.index'
 import { Route as ResourcesCategoryRouteImport } from './routes/resources.$category'
+import { Route as PracticalTextsRouteImport } from './routes/practical.texts'
+import { Route as PracticalStepsRouteImport } from './routes/practical.steps'
+import { Route as PracticalShareRouteImport } from './routes/practical.share'
+import { Route as PracticalObjectsRouteImport } from './routes/practical.objects'
 import { Route as PracticalFlowersRouteImport } from './routes/practical.flowers'
 import { Route as PracticalCeremonyRouteImport } from './routes/practical.ceremony'
 import { Route as PracticalBookletRouteImport } from './routes/practical.booklet'
 import { Route as PracticalAtmosphereRouteImport } from './routes/practical.atmosphere'
-import { Route as JourneyTaskIdRouteImport } from './routes/journey.$taskId'
+import { Route as HelpCorpsRouteImport } from './routes/help.corps'
 import { Route as GardenZoneRouteImport } from './routes/garden.$zone'
 import { Route as ComposeZoneRouteImport } from './routes/compose.$zone'
+import { Route as ResourcesConfirmProviderIdRouteImport } from './routes/resources.confirm.$providerId'
 import { Route as ResourcesCategoryProviderIdRouteImport } from './routes/resources.$category.$providerId'
+import { Route as HelpCorpsNuitsRouteImport } from './routes/help.corps.nuits'
+import { Route as HelpCorpsMangerRouteImport } from './routes/help.corps.manger'
+import { Route as HelpCorpsHabillerRouteImport } from './routes/help.corps.habiller'
+import { Route as HelpCorpsEauRouteImport } from './routes/help.corps.eau'
 import { Route as ApiPublicSouffleSoundIdRouteImport } from './routes/api/public/souffle-sound.$id'
 
 const WishesRoute = WishesRouteImport.update({
@@ -58,14 +66,14 @@ const StartRoute = StartRouteImport.update({
   path: '/start',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SpaceChoiceRoute = SpaceChoiceRouteImport.update({
-  id: '/space-choice',
-  path: '/space-choice',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const SpaceRoute = SpaceRouteImport.update({
   id: '/space',
   path: '/space',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PresentationRoute = PresentationRouteImport.update({
+  id: '/presentation',
+  path: '/presentation',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PresenceRoute = PresenceRouteImport.update({
@@ -76,11 +84,6 @@ const PresenceRoute = PresenceRouteImport.update({
 const PracticalRoute = PracticalRouteImport.update({
   id: '/practical',
   path: '/practical',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PlanRoute = PlanRouteImport.update({
-  id: '/plan',
-  path: '/plan',
   getParentRoute: () => rootRouteImport,
 } as any)
 const OnboardingRoute = OnboardingRouteImport.update({
@@ -98,14 +101,14 @@ const MemoriesRoute = MemoriesRouteImport.update({
   path: '/memories',
   getParentRoute: () => rootRouteImport,
 } as any)
-const JourneyRoute = JourneyRouteImport.update({
-  id: '/journey',
-  path: '/journey',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const JournalRoute = JournalRouteImport.update({
   id: '/journal',
   path: '/journal',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InspirationRoute = InspirationRouteImport.update({
+  id: '/inspiration',
+  path: '/inspiration',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HomeRoute = HomeRouteImport.update({
@@ -113,9 +116,9 @@ const HomeRoute = HomeRouteImport.update({
   path: '/home',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DocumentsRoute = DocumentsRouteImport.update({
-  id: '/documents',
-  path: '/documents',
+const HelpRoute = HelpRouteImport.update({
+  id: '/help',
+  path: '/help',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DatesRoute = DatesRouteImport.update({
@@ -128,14 +131,9 @@ const CrisisRoute = CrisisRouteImport.update({
   path: '/crisis',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CircleRoute = CircleRouteImport.update({
-  id: '/circle',
-  path: '/circle',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AccompanyRoute = AccompanyRouteImport.update({
-  id: '/accompany',
-  path: '/accompany',
+const CommunityRoute = CommunityRouteImport.update({
+  id: '/community',
+  path: '/community',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -153,6 +151,11 @@ const PracticalIndexRoute = PracticalIndexRouteImport.update({
   path: '/',
   getParentRoute: () => PracticalRoute,
 } as any)
+const HelpIndexRoute = HelpIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => HelpRoute,
+} as any)
 const GardenIndexRoute = GardenIndexRouteImport.update({
   id: '/garden/',
   path: '/garden/',
@@ -162,6 +165,26 @@ const ResourcesCategoryRoute = ResourcesCategoryRouteImport.update({
   id: '/resources/$category',
   path: '/resources/$category',
   getParentRoute: () => rootRouteImport,
+} as any)
+const PracticalTextsRoute = PracticalTextsRouteImport.update({
+  id: '/texts',
+  path: '/texts',
+  getParentRoute: () => PracticalRoute,
+} as any)
+const PracticalStepsRoute = PracticalStepsRouteImport.update({
+  id: '/steps',
+  path: '/steps',
+  getParentRoute: () => PracticalRoute,
+} as any)
+const PracticalShareRoute = PracticalShareRouteImport.update({
+  id: '/share',
+  path: '/share',
+  getParentRoute: () => PracticalRoute,
+} as any)
+const PracticalObjectsRoute = PracticalObjectsRouteImport.update({
+  id: '/objects',
+  path: '/objects',
+  getParentRoute: () => PracticalRoute,
 } as any)
 const PracticalFlowersRoute = PracticalFlowersRouteImport.update({
   id: '/flowers',
@@ -183,10 +206,10 @@ const PracticalAtmosphereRoute = PracticalAtmosphereRouteImport.update({
   path: '/atmosphere',
   getParentRoute: () => PracticalRoute,
 } as any)
-const JourneyTaskIdRoute = JourneyTaskIdRouteImport.update({
-  id: '/$taskId',
-  path: '/$taskId',
-  getParentRoute: () => JourneyRoute,
+const HelpCorpsRoute = HelpCorpsRouteImport.update({
+  id: '/corps',
+  path: '/corps',
+  getParentRoute: () => HelpRoute,
 } as any)
 const GardenZoneRoute = GardenZoneRouteImport.update({
   id: '/garden/$zone',
@@ -198,12 +221,38 @@ const ComposeZoneRoute = ComposeZoneRouteImport.update({
   path: '/compose/$zone',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ResourcesConfirmProviderIdRoute =
+  ResourcesConfirmProviderIdRouteImport.update({
+    id: '/resources/confirm/$providerId',
+    path: '/resources/confirm/$providerId',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ResourcesCategoryProviderIdRoute =
   ResourcesCategoryProviderIdRouteImport.update({
     id: '/$providerId',
     path: '/$providerId',
     getParentRoute: () => ResourcesCategoryRoute,
   } as any)
+const HelpCorpsNuitsRoute = HelpCorpsNuitsRouteImport.update({
+  id: '/nuits',
+  path: '/nuits',
+  getParentRoute: () => HelpCorpsRoute,
+} as any)
+const HelpCorpsMangerRoute = HelpCorpsMangerRouteImport.update({
+  id: '/manger',
+  path: '/manger',
+  getParentRoute: () => HelpCorpsRoute,
+} as any)
+const HelpCorpsHabillerRoute = HelpCorpsHabillerRouteImport.update({
+  id: '/habiller',
+  path: '/habiller',
+  getParentRoute: () => HelpCorpsRoute,
+} as any)
+const HelpCorpsEauRoute = HelpCorpsEauRouteImport.update({
+  id: '/eau',
+  path: '/eau',
+  getParentRoute: () => HelpCorpsRoute,
+} as any)
 const ApiPublicSouffleSoundIdRoute = ApiPublicSouffleSoundIdRouteImport.update({
   id: '/api/public/souffle-sound/$id',
   path: '/api/public/souffle-sound/$id',
@@ -212,234 +261,278 @@ const ApiPublicSouffleSoundIdRoute = ApiPublicSouffleSoundIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/accompany': typeof AccompanyRoute
-  '/circle': typeof CircleRoute
+  '/community': typeof CommunityRoute
   '/crisis': typeof CrisisRoute
   '/dates': typeof DatesRoute
-  '/documents': typeof DocumentsRoute
+  '/help': typeof HelpRouteWithChildren
   '/home': typeof HomeRoute
+  '/inspiration': typeof InspirationRoute
   '/journal': typeof JournalRoute
-  '/journey': typeof JourneyRouteWithChildren
   '/memories': typeof MemoriesRoute
   '/no-words': typeof NoWordsRoute
   '/onboarding': typeof OnboardingRoute
-  '/plan': typeof PlanRoute
   '/practical': typeof PracticalRouteWithChildren
   '/presence': typeof PresenceRoute
+  '/presentation': typeof PresentationRoute
   '/space': typeof SpaceRoute
-  '/space-choice': typeof SpaceChoiceRoute
   '/start': typeof StartRoute
   '/vitrine': typeof VitrineRoute
   '/wishes': typeof WishesRoute
   '/compose/$zone': typeof ComposeZoneRoute
   '/garden/$zone': typeof GardenZoneRoute
-  '/journey/$taskId': typeof JourneyTaskIdRoute
+  '/help/corps': typeof HelpCorpsRouteWithChildren
   '/practical/atmosphere': typeof PracticalAtmosphereRoute
   '/practical/booklet': typeof PracticalBookletRoute
   '/practical/ceremony': typeof PracticalCeremonyRoute
   '/practical/flowers': typeof PracticalFlowersRoute
+  '/practical/objects': typeof PracticalObjectsRoute
+  '/practical/share': typeof PracticalShareRoute
+  '/practical/steps': typeof PracticalStepsRoute
+  '/practical/texts': typeof PracticalTextsRoute
   '/resources/$category': typeof ResourcesCategoryRouteWithChildren
   '/garden/': typeof GardenIndexRoute
+  '/help/': typeof HelpIndexRoute
   '/practical/': typeof PracticalIndexRoute
   '/resources/': typeof ResourcesIndexRoute
+  '/help/corps/eau': typeof HelpCorpsEauRoute
+  '/help/corps/habiller': typeof HelpCorpsHabillerRoute
+  '/help/corps/manger': typeof HelpCorpsMangerRoute
+  '/help/corps/nuits': typeof HelpCorpsNuitsRoute
   '/resources/$category/$providerId': typeof ResourcesCategoryProviderIdRoute
+  '/resources/confirm/$providerId': typeof ResourcesConfirmProviderIdRoute
   '/api/public/souffle-sound/$id': typeof ApiPublicSouffleSoundIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/accompany': typeof AccompanyRoute
-  '/circle': typeof CircleRoute
+  '/community': typeof CommunityRoute
   '/crisis': typeof CrisisRoute
   '/dates': typeof DatesRoute
-  '/documents': typeof DocumentsRoute
   '/home': typeof HomeRoute
+  '/inspiration': typeof InspirationRoute
   '/journal': typeof JournalRoute
-  '/journey': typeof JourneyRouteWithChildren
   '/memories': typeof MemoriesRoute
   '/no-words': typeof NoWordsRoute
   '/onboarding': typeof OnboardingRoute
-  '/plan': typeof PlanRoute
   '/presence': typeof PresenceRoute
+  '/presentation': typeof PresentationRoute
   '/space': typeof SpaceRoute
-  '/space-choice': typeof SpaceChoiceRoute
   '/start': typeof StartRoute
   '/vitrine': typeof VitrineRoute
   '/wishes': typeof WishesRoute
   '/compose/$zone': typeof ComposeZoneRoute
   '/garden/$zone': typeof GardenZoneRoute
-  '/journey/$taskId': typeof JourneyTaskIdRoute
+  '/help/corps': typeof HelpCorpsRouteWithChildren
   '/practical/atmosphere': typeof PracticalAtmosphereRoute
   '/practical/booklet': typeof PracticalBookletRoute
   '/practical/ceremony': typeof PracticalCeremonyRoute
   '/practical/flowers': typeof PracticalFlowersRoute
+  '/practical/objects': typeof PracticalObjectsRoute
+  '/practical/share': typeof PracticalShareRoute
+  '/practical/steps': typeof PracticalStepsRoute
+  '/practical/texts': typeof PracticalTextsRoute
   '/resources/$category': typeof ResourcesCategoryRouteWithChildren
   '/garden': typeof GardenIndexRoute
+  '/help': typeof HelpIndexRoute
   '/practical': typeof PracticalIndexRoute
   '/resources': typeof ResourcesIndexRoute
+  '/help/corps/eau': typeof HelpCorpsEauRoute
+  '/help/corps/habiller': typeof HelpCorpsHabillerRoute
+  '/help/corps/manger': typeof HelpCorpsMangerRoute
+  '/help/corps/nuits': typeof HelpCorpsNuitsRoute
   '/resources/$category/$providerId': typeof ResourcesCategoryProviderIdRoute
+  '/resources/confirm/$providerId': typeof ResourcesConfirmProviderIdRoute
   '/api/public/souffle-sound/$id': typeof ApiPublicSouffleSoundIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/accompany': typeof AccompanyRoute
-  '/circle': typeof CircleRoute
+  '/community': typeof CommunityRoute
   '/crisis': typeof CrisisRoute
   '/dates': typeof DatesRoute
-  '/documents': typeof DocumentsRoute
+  '/help': typeof HelpRouteWithChildren
   '/home': typeof HomeRoute
+  '/inspiration': typeof InspirationRoute
   '/journal': typeof JournalRoute
-  '/journey': typeof JourneyRouteWithChildren
   '/memories': typeof MemoriesRoute
   '/no-words': typeof NoWordsRoute
   '/onboarding': typeof OnboardingRoute
-  '/plan': typeof PlanRoute
   '/practical': typeof PracticalRouteWithChildren
   '/presence': typeof PresenceRoute
+  '/presentation': typeof PresentationRoute
   '/space': typeof SpaceRoute
-  '/space-choice': typeof SpaceChoiceRoute
   '/start': typeof StartRoute
   '/vitrine': typeof VitrineRoute
   '/wishes': typeof WishesRoute
   '/compose/$zone': typeof ComposeZoneRoute
   '/garden/$zone': typeof GardenZoneRoute
-  '/journey/$taskId': typeof JourneyTaskIdRoute
+  '/help/corps': typeof HelpCorpsRouteWithChildren
   '/practical/atmosphere': typeof PracticalAtmosphereRoute
   '/practical/booklet': typeof PracticalBookletRoute
   '/practical/ceremony': typeof PracticalCeremonyRoute
   '/practical/flowers': typeof PracticalFlowersRoute
+  '/practical/objects': typeof PracticalObjectsRoute
+  '/practical/share': typeof PracticalShareRoute
+  '/practical/steps': typeof PracticalStepsRoute
+  '/practical/texts': typeof PracticalTextsRoute
   '/resources/$category': typeof ResourcesCategoryRouteWithChildren
   '/garden/': typeof GardenIndexRoute
+  '/help/': typeof HelpIndexRoute
   '/practical/': typeof PracticalIndexRoute
   '/resources/': typeof ResourcesIndexRoute
+  '/help/corps/eau': typeof HelpCorpsEauRoute
+  '/help/corps/habiller': typeof HelpCorpsHabillerRoute
+  '/help/corps/manger': typeof HelpCorpsMangerRoute
+  '/help/corps/nuits': typeof HelpCorpsNuitsRoute
   '/resources/$category/$providerId': typeof ResourcesCategoryProviderIdRoute
+  '/resources/confirm/$providerId': typeof ResourcesConfirmProviderIdRoute
   '/api/public/souffle-sound/$id': typeof ApiPublicSouffleSoundIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/accompany'
-    | '/circle'
+    | '/community'
     | '/crisis'
     | '/dates'
-    | '/documents'
+    | '/help'
     | '/home'
+    | '/inspiration'
     | '/journal'
-    | '/journey'
     | '/memories'
     | '/no-words'
     | '/onboarding'
-    | '/plan'
     | '/practical'
     | '/presence'
+    | '/presentation'
     | '/space'
-    | '/space-choice'
     | '/start'
     | '/vitrine'
     | '/wishes'
     | '/compose/$zone'
     | '/garden/$zone'
-    | '/journey/$taskId'
+    | '/help/corps'
     | '/practical/atmosphere'
     | '/practical/booklet'
     | '/practical/ceremony'
     | '/practical/flowers'
+    | '/practical/objects'
+    | '/practical/share'
+    | '/practical/steps'
+    | '/practical/texts'
     | '/resources/$category'
     | '/garden/'
+    | '/help/'
     | '/practical/'
     | '/resources/'
+    | '/help/corps/eau'
+    | '/help/corps/habiller'
+    | '/help/corps/manger'
+    | '/help/corps/nuits'
     | '/resources/$category/$providerId'
+    | '/resources/confirm/$providerId'
     | '/api/public/souffle-sound/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/accompany'
-    | '/circle'
+    | '/community'
     | '/crisis'
     | '/dates'
-    | '/documents'
     | '/home'
+    | '/inspiration'
     | '/journal'
-    | '/journey'
     | '/memories'
     | '/no-words'
     | '/onboarding'
-    | '/plan'
     | '/presence'
+    | '/presentation'
     | '/space'
-    | '/space-choice'
     | '/start'
     | '/vitrine'
     | '/wishes'
     | '/compose/$zone'
     | '/garden/$zone'
-    | '/journey/$taskId'
+    | '/help/corps'
     | '/practical/atmosphere'
     | '/practical/booklet'
     | '/practical/ceremony'
     | '/practical/flowers'
+    | '/practical/objects'
+    | '/practical/share'
+    | '/practical/steps'
+    | '/practical/texts'
     | '/resources/$category'
     | '/garden'
+    | '/help'
     | '/practical'
     | '/resources'
+    | '/help/corps/eau'
+    | '/help/corps/habiller'
+    | '/help/corps/manger'
+    | '/help/corps/nuits'
     | '/resources/$category/$providerId'
+    | '/resources/confirm/$providerId'
     | '/api/public/souffle-sound/$id'
   id:
     | '__root__'
     | '/'
-    | '/accompany'
-    | '/circle'
+    | '/community'
     | '/crisis'
     | '/dates'
-    | '/documents'
+    | '/help'
     | '/home'
+    | '/inspiration'
     | '/journal'
-    | '/journey'
     | '/memories'
     | '/no-words'
     | '/onboarding'
-    | '/plan'
     | '/practical'
     | '/presence'
+    | '/presentation'
     | '/space'
-    | '/space-choice'
     | '/start'
     | '/vitrine'
     | '/wishes'
     | '/compose/$zone'
     | '/garden/$zone'
-    | '/journey/$taskId'
+    | '/help/corps'
     | '/practical/atmosphere'
     | '/practical/booklet'
     | '/practical/ceremony'
     | '/practical/flowers'
+    | '/practical/objects'
+    | '/practical/share'
+    | '/practical/steps'
+    | '/practical/texts'
     | '/resources/$category'
     | '/garden/'
+    | '/help/'
     | '/practical/'
     | '/resources/'
+    | '/help/corps/eau'
+    | '/help/corps/habiller'
+    | '/help/corps/manger'
+    | '/help/corps/nuits'
     | '/resources/$category/$providerId'
+    | '/resources/confirm/$providerId'
     | '/api/public/souffle-sound/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AccompanyRoute: typeof AccompanyRoute
-  CircleRoute: typeof CircleRoute
+  CommunityRoute: typeof CommunityRoute
   CrisisRoute: typeof CrisisRoute
   DatesRoute: typeof DatesRoute
-  DocumentsRoute: typeof DocumentsRoute
+  HelpRoute: typeof HelpRouteWithChildren
   HomeRoute: typeof HomeRoute
+  InspirationRoute: typeof InspirationRoute
   JournalRoute: typeof JournalRoute
-  JourneyRoute: typeof JourneyRouteWithChildren
   MemoriesRoute: typeof MemoriesRoute
   NoWordsRoute: typeof NoWordsRoute
   OnboardingRoute: typeof OnboardingRoute
-  PlanRoute: typeof PlanRoute
   PracticalRoute: typeof PracticalRouteWithChildren
   PresenceRoute: typeof PresenceRoute
+  PresentationRoute: typeof PresentationRoute
   SpaceRoute: typeof SpaceRoute
-  SpaceChoiceRoute: typeof SpaceChoiceRoute
   StartRoute: typeof StartRoute
   VitrineRoute: typeof VitrineRoute
   WishesRoute: typeof WishesRoute
@@ -448,6 +541,7 @@ export interface RootRouteChildren {
   ResourcesCategoryRoute: typeof ResourcesCategoryRouteWithChildren
   GardenIndexRoute: typeof GardenIndexRoute
   ResourcesIndexRoute: typeof ResourcesIndexRoute
+  ResourcesConfirmProviderIdRoute: typeof ResourcesConfirmProviderIdRoute
   ApiPublicSouffleSoundIdRoute: typeof ApiPublicSouffleSoundIdRoute
 }
 
@@ -474,18 +568,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StartRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/space-choice': {
-      id: '/space-choice'
-      path: '/space-choice'
-      fullPath: '/space-choice'
-      preLoaderRoute: typeof SpaceChoiceRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/space': {
       id: '/space'
       path: '/space'
       fullPath: '/space'
       preLoaderRoute: typeof SpaceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/presentation': {
+      id: '/presentation'
+      path: '/presentation'
+      fullPath: '/presentation'
+      preLoaderRoute: typeof PresentationRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/presence': {
@@ -500,13 +594,6 @@ declare module '@tanstack/react-router' {
       path: '/practical'
       fullPath: '/practical'
       preLoaderRoute: typeof PracticalRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/plan': {
-      id: '/plan'
-      path: '/plan'
-      fullPath: '/plan'
-      preLoaderRoute: typeof PlanRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/onboarding': {
@@ -530,18 +617,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MemoriesRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/journey': {
-      id: '/journey'
-      path: '/journey'
-      fullPath: '/journey'
-      preLoaderRoute: typeof JourneyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/journal': {
       id: '/journal'
       path: '/journal'
       fullPath: '/journal'
       preLoaderRoute: typeof JournalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/inspiration': {
+      id: '/inspiration'
+      path: '/inspiration'
+      fullPath: '/inspiration'
+      preLoaderRoute: typeof InspirationRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/home': {
@@ -551,11 +638,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HomeRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/documents': {
-      id: '/documents'
-      path: '/documents'
-      fullPath: '/documents'
-      preLoaderRoute: typeof DocumentsRouteImport
+    '/help': {
+      id: '/help'
+      path: '/help'
+      fullPath: '/help'
+      preLoaderRoute: typeof HelpRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dates': {
@@ -572,18 +659,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CrisisRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/circle': {
-      id: '/circle'
-      path: '/circle'
-      fullPath: '/circle'
-      preLoaderRoute: typeof CircleRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/accompany': {
-      id: '/accompany'
-      path: '/accompany'
-      fullPath: '/accompany'
-      preLoaderRoute: typeof AccompanyRouteImport
+    '/community': {
+      id: '/community'
+      path: '/community'
+      fullPath: '/community'
+      preLoaderRoute: typeof CommunityRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -607,6 +687,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PracticalIndexRouteImport
       parentRoute: typeof PracticalRoute
     }
+    '/help/': {
+      id: '/help/'
+      path: '/'
+      fullPath: '/help/'
+      preLoaderRoute: typeof HelpIndexRouteImport
+      parentRoute: typeof HelpRoute
+    }
     '/garden/': {
       id: '/garden/'
       path: '/garden'
@@ -620,6 +707,34 @@ declare module '@tanstack/react-router' {
       fullPath: '/resources/$category'
       preLoaderRoute: typeof ResourcesCategoryRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/practical/texts': {
+      id: '/practical/texts'
+      path: '/texts'
+      fullPath: '/practical/texts'
+      preLoaderRoute: typeof PracticalTextsRouteImport
+      parentRoute: typeof PracticalRoute
+    }
+    '/practical/steps': {
+      id: '/practical/steps'
+      path: '/steps'
+      fullPath: '/practical/steps'
+      preLoaderRoute: typeof PracticalStepsRouteImport
+      parentRoute: typeof PracticalRoute
+    }
+    '/practical/share': {
+      id: '/practical/share'
+      path: '/share'
+      fullPath: '/practical/share'
+      preLoaderRoute: typeof PracticalShareRouteImport
+      parentRoute: typeof PracticalRoute
+    }
+    '/practical/objects': {
+      id: '/practical/objects'
+      path: '/objects'
+      fullPath: '/practical/objects'
+      preLoaderRoute: typeof PracticalObjectsRouteImport
+      parentRoute: typeof PracticalRoute
     }
     '/practical/flowers': {
       id: '/practical/flowers'
@@ -649,12 +764,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PracticalAtmosphereRouteImport
       parentRoute: typeof PracticalRoute
     }
-    '/journey/$taskId': {
-      id: '/journey/$taskId'
-      path: '/$taskId'
-      fullPath: '/journey/$taskId'
-      preLoaderRoute: typeof JourneyTaskIdRouteImport
-      parentRoute: typeof JourneyRoute
+    '/help/corps': {
+      id: '/help/corps'
+      path: '/corps'
+      fullPath: '/help/corps'
+      preLoaderRoute: typeof HelpCorpsRouteImport
+      parentRoute: typeof HelpRoute
     }
     '/garden/$zone': {
       id: '/garden/$zone'
@@ -670,12 +785,47 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComposeZoneRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/resources/confirm/$providerId': {
+      id: '/resources/confirm/$providerId'
+      path: '/resources/confirm/$providerId'
+      fullPath: '/resources/confirm/$providerId'
+      preLoaderRoute: typeof ResourcesConfirmProviderIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/resources/$category/$providerId': {
       id: '/resources/$category/$providerId'
       path: '/$providerId'
       fullPath: '/resources/$category/$providerId'
       preLoaderRoute: typeof ResourcesCategoryProviderIdRouteImport
       parentRoute: typeof ResourcesCategoryRoute
+    }
+    '/help/corps/nuits': {
+      id: '/help/corps/nuits'
+      path: '/nuits'
+      fullPath: '/help/corps/nuits'
+      preLoaderRoute: typeof HelpCorpsNuitsRouteImport
+      parentRoute: typeof HelpCorpsRoute
+    }
+    '/help/corps/manger': {
+      id: '/help/corps/manger'
+      path: '/manger'
+      fullPath: '/help/corps/manger'
+      preLoaderRoute: typeof HelpCorpsMangerRouteImport
+      parentRoute: typeof HelpCorpsRoute
+    }
+    '/help/corps/habiller': {
+      id: '/help/corps/habiller'
+      path: '/habiller'
+      fullPath: '/help/corps/habiller'
+      preLoaderRoute: typeof HelpCorpsHabillerRouteImport
+      parentRoute: typeof HelpCorpsRoute
+    }
+    '/help/corps/eau': {
+      id: '/help/corps/eau'
+      path: '/eau'
+      fullPath: '/help/corps/eau'
+      preLoaderRoute: typeof HelpCorpsEauRouteImport
+      parentRoute: typeof HelpCorpsRoute
     }
     '/api/public/souffle-sound/$id': {
       id: '/api/public/souffle-sound/$id'
@@ -687,22 +837,45 @@ declare module '@tanstack/react-router' {
   }
 }
 
-interface JourneyRouteChildren {
-  JourneyTaskIdRoute: typeof JourneyTaskIdRoute
+interface HelpCorpsRouteChildren {
+  HelpCorpsEauRoute: typeof HelpCorpsEauRoute
+  HelpCorpsHabillerRoute: typeof HelpCorpsHabillerRoute
+  HelpCorpsMangerRoute: typeof HelpCorpsMangerRoute
+  HelpCorpsNuitsRoute: typeof HelpCorpsNuitsRoute
 }
 
-const JourneyRouteChildren: JourneyRouteChildren = {
-  JourneyTaskIdRoute: JourneyTaskIdRoute,
+const HelpCorpsRouteChildren: HelpCorpsRouteChildren = {
+  HelpCorpsEauRoute: HelpCorpsEauRoute,
+  HelpCorpsHabillerRoute: HelpCorpsHabillerRoute,
+  HelpCorpsMangerRoute: HelpCorpsMangerRoute,
+  HelpCorpsNuitsRoute: HelpCorpsNuitsRoute,
 }
 
-const JourneyRouteWithChildren =
-  JourneyRoute._addFileChildren(JourneyRouteChildren)
+const HelpCorpsRouteWithChildren = HelpCorpsRoute._addFileChildren(
+  HelpCorpsRouteChildren,
+)
+
+interface HelpRouteChildren {
+  HelpCorpsRoute: typeof HelpCorpsRouteWithChildren
+  HelpIndexRoute: typeof HelpIndexRoute
+}
+
+const HelpRouteChildren: HelpRouteChildren = {
+  HelpCorpsRoute: HelpCorpsRouteWithChildren,
+  HelpIndexRoute: HelpIndexRoute,
+}
+
+const HelpRouteWithChildren = HelpRoute._addFileChildren(HelpRouteChildren)
 
 interface PracticalRouteChildren {
   PracticalAtmosphereRoute: typeof PracticalAtmosphereRoute
   PracticalBookletRoute: typeof PracticalBookletRoute
   PracticalCeremonyRoute: typeof PracticalCeremonyRoute
   PracticalFlowersRoute: typeof PracticalFlowersRoute
+  PracticalObjectsRoute: typeof PracticalObjectsRoute
+  PracticalShareRoute: typeof PracticalShareRoute
+  PracticalStepsRoute: typeof PracticalStepsRoute
+  PracticalTextsRoute: typeof PracticalTextsRoute
   PracticalIndexRoute: typeof PracticalIndexRoute
 }
 
@@ -711,6 +884,10 @@ const PracticalRouteChildren: PracticalRouteChildren = {
   PracticalBookletRoute: PracticalBookletRoute,
   PracticalCeremonyRoute: PracticalCeremonyRoute,
   PracticalFlowersRoute: PracticalFlowersRoute,
+  PracticalObjectsRoute: PracticalObjectsRoute,
+  PracticalShareRoute: PracticalShareRoute,
+  PracticalStepsRoute: PracticalStepsRoute,
+  PracticalTextsRoute: PracticalTextsRoute,
   PracticalIndexRoute: PracticalIndexRoute,
 }
 
@@ -731,22 +908,20 @@ const ResourcesCategoryRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AccompanyRoute: AccompanyRoute,
-  CircleRoute: CircleRoute,
+  CommunityRoute: CommunityRoute,
   CrisisRoute: CrisisRoute,
   DatesRoute: DatesRoute,
-  DocumentsRoute: DocumentsRoute,
+  HelpRoute: HelpRouteWithChildren,
   HomeRoute: HomeRoute,
+  InspirationRoute: InspirationRoute,
   JournalRoute: JournalRoute,
-  JourneyRoute: JourneyRouteWithChildren,
   MemoriesRoute: MemoriesRoute,
   NoWordsRoute: NoWordsRoute,
   OnboardingRoute: OnboardingRoute,
-  PlanRoute: PlanRoute,
   PracticalRoute: PracticalRouteWithChildren,
   PresenceRoute: PresenceRoute,
+  PresentationRoute: PresentationRoute,
   SpaceRoute: SpaceRoute,
-  SpaceChoiceRoute: SpaceChoiceRoute,
   StartRoute: StartRoute,
   VitrineRoute: VitrineRoute,
   WishesRoute: WishesRoute,
@@ -755,6 +930,7 @@ const rootRouteChildren: RootRouteChildren = {
   ResourcesCategoryRoute: ResourcesCategoryRouteWithChildren,
   GardenIndexRoute: GardenIndexRoute,
   ResourcesIndexRoute: ResourcesIndexRoute,
+  ResourcesConfirmProviderIdRoute: ResourcesConfirmProviderIdRoute,
   ApiPublicSouffleSoundIdRoute: ApiPublicSouffleSoundIdRoute,
 }
 export const routeTree = rootRouteImport

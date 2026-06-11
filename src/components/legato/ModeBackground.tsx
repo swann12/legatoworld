@@ -13,7 +13,26 @@ export function ModeBackground({ mode }: { mode: Mode }) {
       className="pointer-events-none absolute inset-0 overflow-hidden transition-[background] duration-[450ms] ease-out"
       style={{ background: cfg.gradient, zIndex: 0 }}
     >
-      <div className="absolute inset-x-8 top-0 h-px bg-dusk/8" />
+      {cfg.blobs.map((b, i) => (
+        <div
+          key={i}
+          className={b.anim}
+          style={{
+            position: "absolute",
+            width: b.width,
+            height: b.height,
+            background: b.color,
+            filter: `blur(${b.blur}px)`,
+            opacity: b.opacity,
+            borderRadius: "50%",
+            top: b.top,
+            left: b.left,
+            right: b.right,
+            bottom: b.bottom,
+            transform: b.transform,
+          }}
+        />
+      ))}
     </div>
   );
 }
