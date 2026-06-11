@@ -17,7 +17,6 @@ import { Route as PresentationRouteImport } from './routes/presentation'
 import { Route as PresenceRouteImport } from './routes/presence'
 import { Route as PracticalRouteImport } from './routes/practical'
 import { Route as ParcoursRouteImport } from './routes/parcours'
-import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as NoWordsRouteImport } from './routes/no-words'
 import { Route as MemoriesRouteImport } from './routes/memories'
 import { Route as JournalRouteImport } from './routes/journal'
@@ -30,6 +29,7 @@ import { Route as CommunityRouteImport } from './routes/community'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ResourcesIndexRouteImport } from './routes/resources.index'
 import { Route as PracticalIndexRouteImport } from './routes/practical.index'
+import { Route as OnboardingIndexRouteImport } from './routes/onboarding.index'
 import { Route as HelpIndexRouteImport } from './routes/help.index'
 import { Route as GardenIndexRouteImport } from './routes/garden.index'
 import { Route as ResourcesCategoryRouteImport } from './routes/resources.$category'
@@ -95,11 +95,6 @@ const ParcoursRoute = ParcoursRouteImport.update({
   path: '/parcours',
   getParentRoute: () => rootRouteImport,
 } as any)
-const OnboardingRoute = OnboardingRouteImport.update({
-  id: '/onboarding',
-  path: '/onboarding',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const NoWordsRoute = NoWordsRouteImport.update({
   id: '/no-words',
   path: '/no-words',
@@ -159,6 +154,11 @@ const PracticalIndexRoute = PracticalIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => PracticalRoute,
+} as any)
+const OnboardingIndexRoute = OnboardingIndexRouteImport.update({
+  id: '/onboarding/',
+  path: '/onboarding/',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const HelpIndexRoute = HelpIndexRouteImport.update({
   id: '/',
@@ -294,7 +294,6 @@ export interface FileRoutesByFullPath {
   '/journal': typeof JournalRoute
   '/memories': typeof MemoriesRoute
   '/no-words': typeof NoWordsRoute
-  '/onboarding': typeof OnboardingRouteWithChildren
   '/parcours': typeof ParcoursRouteWithChildren
   '/practical': typeof PracticalRouteWithChildren
   '/presence': typeof PresenceRoute
@@ -320,6 +319,7 @@ export interface FileRoutesByFullPath {
   '/resources/$category': typeof ResourcesCategoryRouteWithChildren
   '/garden/': typeof GardenIndexRoute
   '/help/': typeof HelpIndexRoute
+  '/onboarding/': typeof OnboardingIndexRoute
   '/practical/': typeof PracticalIndexRoute
   '/resources/': typeof ResourcesIndexRoute
   '/help/corps/eau': typeof HelpCorpsEauRoute
@@ -340,7 +340,6 @@ export interface FileRoutesByTo {
   '/journal': typeof JournalRoute
   '/memories': typeof MemoriesRoute
   '/no-words': typeof NoWordsRoute
-  '/onboarding': typeof OnboardingRouteWithChildren
   '/parcours': typeof ParcoursRouteWithChildren
   '/presence': typeof PresenceRoute
   '/presentation': typeof PresentationRoute
@@ -365,6 +364,7 @@ export interface FileRoutesByTo {
   '/resources/$category': typeof ResourcesCategoryRouteWithChildren
   '/garden': typeof GardenIndexRoute
   '/help': typeof HelpIndexRoute
+  '/onboarding': typeof OnboardingIndexRoute
   '/practical': typeof PracticalIndexRoute
   '/resources': typeof ResourcesIndexRoute
   '/help/corps/eau': typeof HelpCorpsEauRoute
@@ -387,7 +387,6 @@ export interface FileRoutesById {
   '/journal': typeof JournalRoute
   '/memories': typeof MemoriesRoute
   '/no-words': typeof NoWordsRoute
-  '/onboarding': typeof OnboardingRouteWithChildren
   '/parcours': typeof ParcoursRouteWithChildren
   '/practical': typeof PracticalRouteWithChildren
   '/presence': typeof PresenceRoute
@@ -413,6 +412,7 @@ export interface FileRoutesById {
   '/resources/$category': typeof ResourcesCategoryRouteWithChildren
   '/garden/': typeof GardenIndexRoute
   '/help/': typeof HelpIndexRoute
+  '/onboarding/': typeof OnboardingIndexRoute
   '/practical/': typeof PracticalIndexRoute
   '/resources/': typeof ResourcesIndexRoute
   '/help/corps/eau': typeof HelpCorpsEauRoute
@@ -436,7 +436,6 @@ export interface FileRouteTypes {
     | '/journal'
     | '/memories'
     | '/no-words'
-    | '/onboarding'
     | '/parcours'
     | '/practical'
     | '/presence'
@@ -462,6 +461,7 @@ export interface FileRouteTypes {
     | '/resources/$category'
     | '/garden/'
     | '/help/'
+    | '/onboarding/'
     | '/practical/'
     | '/resources/'
     | '/help/corps/eau'
@@ -482,7 +482,6 @@ export interface FileRouteTypes {
     | '/journal'
     | '/memories'
     | '/no-words'
-    | '/onboarding'
     | '/parcours'
     | '/presence'
     | '/presentation'
@@ -507,6 +506,7 @@ export interface FileRouteTypes {
     | '/resources/$category'
     | '/garden'
     | '/help'
+    | '/onboarding'
     | '/practical'
     | '/resources'
     | '/help/corps/eau'
@@ -528,7 +528,6 @@ export interface FileRouteTypes {
     | '/journal'
     | '/memories'
     | '/no-words'
-    | '/onboarding'
     | '/parcours'
     | '/practical'
     | '/presence'
@@ -554,6 +553,7 @@ export interface FileRouteTypes {
     | '/resources/$category'
     | '/garden/'
     | '/help/'
+    | '/onboarding/'
     | '/practical/'
     | '/resources/'
     | '/help/corps/eau'
@@ -576,7 +576,6 @@ export interface RootRouteChildren {
   JournalRoute: typeof JournalRoute
   MemoriesRoute: typeof MemoriesRoute
   NoWordsRoute: typeof NoWordsRoute
-  OnboardingRoute: typeof OnboardingRouteWithChildren
   ParcoursRoute: typeof ParcoursRouteWithChildren
   PracticalRoute: typeof PracticalRouteWithChildren
   PresenceRoute: typeof PresenceRoute
@@ -589,6 +588,7 @@ export interface RootRouteChildren {
   GardenZoneRoute: typeof GardenZoneRoute
   ResourcesCategoryRoute: typeof ResourcesCategoryRouteWithChildren
   GardenIndexRoute: typeof GardenIndexRoute
+  OnboardingIndexRoute: typeof OnboardingIndexRoute
   ResourcesIndexRoute: typeof ResourcesIndexRoute
   ResourcesConfirmProviderIdRoute: typeof ResourcesConfirmProviderIdRoute
   ApiPublicSouffleSoundIdRoute: typeof ApiPublicSouffleSoundIdRoute
@@ -650,13 +650,6 @@ declare module '@tanstack/react-router' {
       path: '/parcours'
       fullPath: '/parcours'
       preLoaderRoute: typeof ParcoursRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/onboarding': {
-      id: '/onboarding'
-      path: '/onboarding'
-      fullPath: '/onboarding'
-      preLoaderRoute: typeof OnboardingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/no-words': {
@@ -742,6 +735,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/practical/'
       preLoaderRoute: typeof PracticalIndexRouteImport
       parentRoute: typeof PracticalRoute
+    }
+    '/onboarding/': {
+      id: '/onboarding/'
+      path: '/onboarding'
+      fullPath: '/onboarding/'
+      preLoaderRoute: typeof OnboardingIndexRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/help/': {
       id: '/help/'
@@ -944,20 +944,6 @@ const HelpRouteChildren: HelpRouteChildren = {
 
 const HelpRouteWithChildren = HelpRoute._addFileChildren(HelpRouteChildren)
 
-interface OnboardingRouteChildren {
-  OnboardingCareRoute: typeof OnboardingCareRoute
-  OnboardingPracticalRoute: typeof OnboardingPracticalRoute
-}
-
-const OnboardingRouteChildren: OnboardingRouteChildren = {
-  OnboardingCareRoute: OnboardingCareRoute,
-  OnboardingPracticalRoute: OnboardingPracticalRoute,
-}
-
-const OnboardingRouteWithChildren = OnboardingRoute._addFileChildren(
-  OnboardingRouteChildren,
-)
-
 interface ParcoursRouteChildren {
   ParcoursTaskIdRoute: typeof ParcoursTaskIdRoute
 }
@@ -1020,7 +1006,6 @@ const rootRouteChildren: RootRouteChildren = {
   JournalRoute: JournalRoute,
   MemoriesRoute: MemoriesRoute,
   NoWordsRoute: NoWordsRoute,
-  OnboardingRoute: OnboardingRouteWithChildren,
   ParcoursRoute: ParcoursRouteWithChildren,
   PracticalRoute: PracticalRouteWithChildren,
   PresenceRoute: PresenceRoute,
@@ -1033,6 +1018,7 @@ const rootRouteChildren: RootRouteChildren = {
   GardenZoneRoute: GardenZoneRoute,
   ResourcesCategoryRoute: ResourcesCategoryRouteWithChildren,
   GardenIndexRoute: GardenIndexRoute,
+  OnboardingIndexRoute: OnboardingIndexRoute,
   ResourcesIndexRoute: ResourcesIndexRoute,
   ResourcesConfirmProviderIdRoute: ResourcesConfirmProviderIdRoute,
   ApiPublicSouffleSoundIdRoute: ApiPublicSouffleSoundIdRoute,
@@ -1040,3 +1026,12 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}
