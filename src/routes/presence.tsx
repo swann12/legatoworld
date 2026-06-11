@@ -85,7 +85,7 @@ function Presence() {
   };
 
   return (
-    <Shell>
+    <Shell livingBg={false}>
       <div className="relative min-h-dvh flex flex-col">
         <div className="relative z-10 flex flex-1 flex-col">
           <div className="flex items-center justify-between px-7 pt-10">
@@ -102,35 +102,44 @@ function Presence() {
             >
               Présence
             </p>
-            <Link
-              to="/no-words"
-              className="text-[10px] uppercase tracking-[0.3em] text-dusk/55 hover:text-dusk"
+            <span className="w-[60px]" aria-hidden />
+          </div>
+
+          <div className="px-7 pt-14">
+            <p
+              className="text-[10px] uppercase tracking-[0.3em] text-dusk/50"
               style={{ fontFamily: "var(--font-mono)" }}
             >
-              Sans mots →
-            </Link>
-          </div>
-
-          <div className="px-8 pt-14 flex flex-col items-center text-center">
-            <div className="relative size-32">
-              <div
-                className="absolute inset-0 rounded-full breath"
-                style={{
-                  background: "radial-gradient(circle at 30% 30%, var(--peach), var(--rose))",
-                  animationDuration: "7s",
-                }}
-              />
-            </div>
-            <h1
-              className="mt-10 font-serif text-[32px] font-light text-dusk max-w-[22ch] leading-[1.1]"
-              style={{ textWrap: "balance" }}
-            >
+              Parler à une présence
+            </p>
+            <h1 className="mt-4 font-serif text-[34px] leading-[1.05] font-light text-dusk text-balance">
               Je suis là, <span className="italic">{name}</span>.
-              <span className="block mt-1 italic text-dusk/70 text-[24px]">Tout le temps qu'il faut.</span>
             </h1>
+            <p className="mt-4 text-[14.5px] leading-[1.6] text-dusk/60 max-w-[34ch]">
+              Vous pouvez écrire ou parler. Prenez votre temps.
+            </p>
           </div>
 
-          <div ref={scrollerRef} className="flex-1 px-7 pt-10 pb-4 space-y-3 overflow-y-auto no-scrollbar">
+          {/* Raccourcis discrets pour relayer la présence vers des contacts humains */}
+          <div className="px-7 pt-6 flex flex-wrap gap-2">
+            {[
+              { to: "/resources", label: "Un proche" },
+              { to: "/community", label: "Un groupe" },
+              { to: "/resources", label: "Un professionnel" },
+              { to: "/crisis",    label: "Ligne d'écoute" },
+            ].map((s) => (
+              <Link
+                key={s.label}
+                to={s.to}
+                className="rounded-full border border-dusk/15 bg-paper px-3 py-1.5 text-[11px] tracking-wide text-dusk/70 hover:bg-dusk/5"
+                style={{ fontFamily: "var(--font-mono)" }}
+              >
+                {s.label}
+              </Link>
+            ))}
+          </div>
+
+          <div ref={scrollerRef} className="flex-1 px-7 pt-8 pb-4 space-y-3 overflow-y-auto no-scrollbar">
             {messages.map((m, i) =>
               m.role === "presence" ? (
                 <div key={i} className="rounded-[16px] border border-dusk/10 bg-paper px-5 py-4 max-w-[85%]">

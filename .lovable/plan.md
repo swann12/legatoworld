@@ -1,118 +1,114 @@
+## Refonte Legato — direction éditoriale & deux espaces
 
-# Refonte intégrale de Legato — plan d'exécution
+### 1. Direction visuelle (fondations)
 
-Le brief est immense (25 chapitres, refonte UX/UI complète + nouvelles fonctionnalités). **Aucune session ne peut tout livrer en une passe sans régressions massives.** Je propose un découpage en 6 vagues, livrées l'une après l'autre, chaque vague étant testable seule.
+**Typographies** (3 max, déjà chargées) :
+- Serif éditoriale (titres) — celle utilisée sur l'écran bordeaux d'entrée
+- Sans-serif lisible (texte, boutons, formulaires)
+- Mono discrète (micro-labels, dates, catégories)
 
-À chaque fin de vague je m'arrête, tu valides, on enchaîne.
+**Échelle typographique réduite** — 6 niveaux uniquement :
+display / page / section / card / body / micro.
 
----
+**Palette assumée** dans `src/styles.css` :
+- Crème lumineux (fond principal) + paper plus clair
+- Bordeaux profond (espace émotionnel, CTA forts)
+- Bleu nuit (espace organiser, structure)
+- Rouge chaleureux, rose franc, jaune solaire, bleu vif — **accents fonctionnels**
+- Encre profonde pour le texte (pas gris pâle)
 
-## Préservé tel quel (zéro modification)
+**Règles** :
+- Suppression des halos, dégradés flous, fonds beiges uniformes
+- Coins arrondis modérés (12–18px), jamais 22–48px
+- Bordures fines uniquement quand utiles
+- Beaucoup de blanc, alignement strict, grille régulière
+- Couleur = repère fonctionnel (carte prioritaire, espace, statut), pas décor permanent
 
-- Animation florale d'introduction plein écran (`/` → jardin qui fleurit)
-- Page logo Legato + bouton "Entrer"
+### 2. Architecture UX — deux espaces séparés
 
-Tout le reste est repensé.
+```
+/start         → animation florale (inchangée)
+/index (logo)  → logo Legato (inchangée)
+/onboarding    → prénom + ressenti (simplifié)
+/space         → NOUVEAU : "Comment souhaitez-vous être accompagné·e aujourd'hui ?"
+                  ├── Être accompagné·e  → /home (espace émotionnel, crème + bordeaux)
+                  └── Organiser et avancer → /practical (espace pratique, crème + bleu nuit)
+```
 
----
+Bascule discrète entre espaces depuis l'en-tête (petit lien mono).
 
-## Vague 1 — Fondations visuelles & architecture (1 session)
+### 3. Écrans à refaire (priorités)
 
-**Objectif : casser la fadeur beige, poser la nouvelle direction artistique, restructurer la navigation en 5 onglets.**
+**A. Page de choix `/space`** (nouvelle)
+Deux grandes cartes pleine largeur, aplats colorés assumés (bordeaux / bleu nuit), titre serif, une phrase, un CTA chacune.
 
-1. **Nouvelle palette + tokens** (`src/styles.css`)
-   - Sortir du tout-beige : base claire lumineuse + accents éditoriaux assumés (un bleu nuit profond, un terracotta doux, un vert salvia, un crème chaud), chacun activé selon le contexte/mode.
-   - Contrastes renforcés, gradients atmosphériques, ombres plus délicates.
-   - Tokens dark mode prêts (activés vague 2).
-2. **Typographie éditoriale renforcée** : hiérarchie plus tranchée (display Cormorant pour les titres, Inter Light pour le corps, micro-caps pour les eyebrows). Marges plus généreuses.
-3. **Nouvelle navigation 5 onglets** (BottomNav) :
-   `Aujourd'hui · Jardin · Journal · Avancer · Présence`
-   Suppression des accès actuels redondants.
-4. **Nouvel accueil `/home`** ultra-simplifié :
-   - Bonjour {prénom}
-   - 2 portes : "Être accompagné·e" / "Avancer concrètement"
-   - 1 seule suggestion du jour (contextuelle au mode)
-   - Accès discret Jardin + Présence
-5. **Audit navigation** : tous les retours pointent au bon endroit (correction des `<Link to="/onboarding">` codés en dur).
+**B. Accueil ÊTRE ACCOMPAGNÉ·E `/home`**
+- Logo Legato discret en haut, eyebrow mono
+- Titre serif + phrase courte
+- Bloc unique « De quoi auriez-vous besoin maintenant ? » → 8 actions claires (parler, écrire, respirer, jardin, souvenir, rituel, contacter, me guider)
+- Personnalisation : ordre selon le ressenti d'onboarding
+- Suppression du sélecteur de modes flou
+- Accès secondaires : journal, rituels, ressources
+- Nav 4 onglets : Accueil · Jardin · Souvenirs · Présence
 
----
+**C. Accueil ORGANISER ET AVANCER `/practical`**
+- Titre « Avançons une étape à la fois. »
+- Sous-titre « Nous avons rassemblé ce qui mérite votre attention aujourd'hui. »
+- **Carte priorité principale** (aplat bleu nuit) : titre tâche, explication, durée, docs requis, CTA Commencer + liens Déléguer / Question
+- Résumé compact : à faire · en cours · délégué · documents manquants · prochaine échéance
+- Nav 4 onglets : Accueil · Parcours · Services · Dossier
 
-## Vague 2 — Onboarding, modes & deux portes (1 session)
+**D. `/parcours` (nouveau)** — liste filtrable (à faire / en cours / délégué / en attente / terminé). Une ligne = nom · catégorie · échéance · statut · responsable · action.
 
-1. **Onboarding réécrit** (3 étapes courtes, prénom = Swann par défaut, FR naturel).
-2. **4 modes réellement différenciés** :
-   - Cocon : ultra-immersif, 1-2 actions, fond enveloppant.
-   - Ancrage : structure nette, repères.
-   - Souffle : aérien, sons, animations.
-   - Relais : actions visibles, raccourcis proches/pros.
-   Chaque mode a son propre layout d'accueil, pas juste une couleur.
-3. **Mode nuit (dark)** : toggle dans le profil/settings.
-4. **Page "Être accompagné·e"** : hub regroupant Présence IA, Journal, Sans mots, Jardin, Ressources, Rituels, Groupes.
-5. **Page "Avancer concrètement"** : hub regroupant Premières démarches, Cérémonie, Documents, Pros, Volontés.
+**E. `/presence`** — Titre « Parler à une présence », phrase, 6 actions (écrire, parler, contacter un proche, trouver un groupe, contacter un professionnel, lignes d'écoute). Très épuré.
 
----
+**F. `/garden`** — conserver le principe, rester dans l'espace émotionnel uniquement. Nettoyer la grammaire visuelle (suppression halos, cohérence éditoriale).
 
-## Vague 3 — Présence IA fil conducteur + Journal + Sans mots (1 session)
+**G. `/memories` (Souvenirs)** — promu dans nav espace émotionnel. Liste/grille éditoriale, peu de chrome.
 
-1. **Présence IA** accessible partout (dock flottant discret) : texte + voix, distingue écoute / aide décision / organisation / relais humain.
-2. **Journal intime** refondu : page éditoriale, sauvegarde auto, textarea auto-grow, dictée, photo optionnelle, amorces facultatives, recherche, association à une parcelle.
-3. **Sans mots** enrichi : nouveaux paysages sonores, respiration visuelle guidée, transitions douces entre séquences, suggestions IA de continuité.
+**H. `/practical/ceremony`** — checklist claire : lieu, date, officiant, cercueil/urne, fleurs, musiques, textes, photos, objets, invitations, livret, budget, validation. Option « Me proposer une première version » (placeholder IA, déjà branché).
 
----
+**I. `/practical/atmosphere`** — formulaire de description, options (décrire, photo, budget, sensibilité, me laisser guider), puis sélection fleurs/textes/musiques/couleurs/objets/rituels/livret.
 
-## Vague 4 — Jardin & souvenirs & éditeur de composition (1 session)
+**J. Services séparés**
+- `/practical/services` : pompes funèbres, notaires, fleuristes, marbriers, officiants, imprimeurs, lieux, admin
+- `/resources` (déjà existant) : psychologues, associations, groupes, lignes d'écoute, communautés
+- Jamais mélangés.
 
-1. **Jardin vue d'ensemble** plus organique, intégré au fond, parcelles vivantes.
-2. **Parcelle individuelle** : composition florale évanescente, souvenirs + compositions associées, animations discrètes (oscillation, insecte, reflet).
-3. **Ajout de souvenir** repensé : import/enregistrement → mots optionnels → enregistrement → proposition douce de composer.
-4. **Éditeur de composition** simplifié :
-   - Toolbar fixe : Éléments · Annuler · Refaire · Exporter · Valider · Quitter
-   - Manipulation tactile native (drag, pincement, rotation 2 doigts)
-   - Pas de répétition auto, contours progressifs, opacité simple.
-   - Placement intelligent basique (couronne, élément posé sur fleur).
-   - Export HD, fond blanc, association au souvenir.
+### 4. Composants partagés à introduire
 
----
+- `<EditorialHeader>` : eyebrow mono + logo discret + titre serif + sous-titre
+- `<PriorityCard>` : aplat coloré + serif + métadonnées + CTA principal
+- `<ActionList>` : liste éditoriale sobre (numéro mono, titre serif italic, body, flèche)
+- `<SpaceNav>` : nav 4 onglets, picto + label court, version Émotionnel et version Pratique
 
-## Vague 5 — Aide concrète (Empathy-like) progressif (1 session)
+### 5. Ce qui reste intact
 
-1. **Plan personnalisé** (question initiale facultative).
-2. **Écran "On avance d'un seul pas"** : 1 priorité, 1 prochaine étape, options déléguer/reporter.
-3. **Checklist progressive** par catégorie, révélation progressive (pas de liste interminable).
-4. **Catégories** : Premiers jours, Organisation obsèques, Informer, Documents (import/scan), Comptes & abonnements, Budget, Aides & droits, Succession, Logement.
-5. **Trouver une aide** (annuaire pros) : 3 suggestions pertinentes en premier, filtres location/budget/dispo, fiche claire, contact/devis/RDV.
-6. **Proches & relais** : invitation, rôles simples, délégation de tâches.
-7. **Mes volontés** : espace distinct dans profil, partage sécurisé.
+- `/start` (animation florale)
+- Page logo Legato
+- Symbole Legato (apparaît discrètement dans les en-têtes intérieurs)
+- Page bordeaux « Préparer un adieu, garder une présence. » — référence identitaire
 
----
+### 6. Détails techniques
 
-## Vague 6 — IA esthétique & symbolique + livret + finitions (1 session)
+- Mise à jour `src/styles.css` : nouveaux tokens couleur (bleu-nuit, rouge-chaleureux, rose-franc, jaune-solaire, bleu-vif), suppression définitive des classes glass/ceramic encore référencées, échelle typo unifiée
+- Nouveau fichier `src/routes/space.tsx` (déjà existant — à refaire entièrement) en page de choix
+- Nouveau fichier `src/routes/parcours.tsx`
+- Refonte `src/routes/home.tsx`, `practical.index.tsx`, `presence.tsx`, `garden.index.tsx`, `memories.tsx`, `practical.ceremony.tsx`, `practical.atmosphere.tsx`
+- `BottomNav` devient conditionnelle selon l'espace (lecture depuis `useLegato`)
+- Onboarding : à l'issue, redirection vers `/space` au lieu de `/home`
 
-1. **Aide IA cérémonie** : "Parlez-nous de cette personne" → propositions fleurs/musiques/textes/déroulé, en 3 degrés d'aide.
-2. **Livret de cérémonie** assisté IA : photo, format, texte, poème, musiques, déroulé, intervenants, export PDF.
-3. **Rituels et gestes de mémoire** : catalogue respectueux par culture/durée/contexte.
-4. **Ressources culturelles** personnalisées (films, livres, podcasts) avec sections éditoriales.
-5. **Traductions EN** complètes via dictionnaire i18n.
-6. **Pass final UX** : audit accessibilité, réduire animations, désactiver sons, chargements doux, suppression débordements/scrolls inutiles.
+### 7. Ordre d'exécution (livré en une passe)
 
----
+1. Fondations CSS (tokens, typo, suppression halos résiduels)
+2. `/space` (page de choix) + redirection onboarding
+3. Nav conditionnelle (BottomNav espace émotionnel vs pratique)
+4. Accueils `/home` et `/practical`
+5. `/presence`, `/parcours`
+6. `/garden`, `/memories`
+7. `/practical/ceremony`, `/practical/atmosphere`
+8. Vérification build + parcours rapide
 
-## Détails techniques (section pour développeur)
+### Hors scope (pas touché tant que la direction n'est pas validée)
 
-- **Stack** : TanStack Start v1, React 19, Tailwind v4 (tokens dans `src/styles.css` via `@theme`), Lovable Cloud (Supabase) déjà branché.
-- **Routes nouvelles** : `today.tsx`, `accompany.tsx` (hub sensible), `forward.tsx` (hub concret), `wishes.tsx` (refondu), `documents.tsx`, `accounts.tsx`, `budget.tsx`, `aids.tsx`, `succession.tsx`, `housing.tsx`, `pros.tsx`, `pros.$category.tsx`, `circle.tsx` (proches), `booklet.tsx` (livret), `rituals.tsx`.
-- **Persistance** : tables Supabase pour souvenirs, compositions, journal, tâches, documents, proches, volontés. RLS + GRANT à chaque table.
-- **IA** : Lovable AI Gateway (`google/gemini-3-flash-preview` par défaut) pour Présence + assistance cérémonie + suggestions + livret.
-- **Migrations DB** : créées vague par vague (pas tout en V1).
-- **Pas de tout casser** : on garde les routes existantes accessibles tant que leur remplaçante n'est pas live, puis on supprime/redirige.
-
----
-
-## Ce qu'il me faut de toi avant de démarrer la Vague 1
-
-1. **Validation du découpage en 6 vagues** (sinon dis-moi quelles vagues fusionner/réordonner).
-2. **Direction couleur** : tu veux que je te propose 2-3 palettes visuelles (swatches) avant de coder, ou je tranche en suivant le brief (base claire + accents éditoriaux contextuels) ?
-3. **Données existantes** : on conserve les souvenirs/compositions/journal déjà créés dans la version actuelle, ou table rase ?
-4. **Priorité absolue si une seule vague devait sortir cette semaine** : Vague 1 (refonte visuelle + nav) ou Vague 5 (aide concrète Empathy-like) ?
-
-Réponds-moi sur ces 4 points et j'attaque la Vague 1 immédiatement.
+Help (corps), crisis, wishes, resources détaillées, compose, dates, community, vitrine, presentation, no-words, inspiration, booklet, flowers, objects, texts, share, steps.
