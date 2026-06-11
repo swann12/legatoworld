@@ -221,14 +221,14 @@ const ParcoursTaskIdRoute = ParcoursTaskIdRouteImport.update({
   getParentRoute: () => ParcoursRoute,
 } as any)
 const OnboardingPracticalRoute = OnboardingPracticalRouteImport.update({
-  id: '/practical',
-  path: '/practical',
-  getParentRoute: () => OnboardingRoute,
+  id: '/onboarding/practical',
+  path: '/onboarding/practical',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const OnboardingCareRoute = OnboardingCareRouteImport.update({
-  id: '/care',
-  path: '/care',
-  getParentRoute: () => OnboardingRoute,
+  id: '/onboarding/care',
+  path: '/onboarding/care',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const HelpCorpsRoute = HelpCorpsRouteImport.update({
   id: '/corps',
@@ -586,6 +586,8 @@ export interface RootRouteChildren {
   WishesRoute: typeof WishesRoute
   ComposeZoneRoute: typeof ComposeZoneRoute
   GardenZoneRoute: typeof GardenZoneRoute
+  OnboardingCareRoute: typeof OnboardingCareRoute
+  OnboardingPracticalRoute: typeof OnboardingPracticalRoute
   ResourcesCategoryRoute: typeof ResourcesCategoryRouteWithChildren
   GardenIndexRoute: typeof GardenIndexRoute
   OnboardingIndexRoute: typeof OnboardingIndexRoute
@@ -829,17 +831,17 @@ declare module '@tanstack/react-router' {
     }
     '/onboarding/practical': {
       id: '/onboarding/practical'
-      path: '/practical'
+      path: '/onboarding/practical'
       fullPath: '/onboarding/practical'
       preLoaderRoute: typeof OnboardingPracticalRouteImport
-      parentRoute: typeof OnboardingRoute
+      parentRoute: typeof rootRouteImport
     }
     '/onboarding/care': {
       id: '/onboarding/care'
-      path: '/care'
+      path: '/onboarding/care'
       fullPath: '/onboarding/care'
       preLoaderRoute: typeof OnboardingCareRouteImport
-      parentRoute: typeof OnboardingRoute
+      parentRoute: typeof rootRouteImport
     }
     '/help/corps': {
       id: '/help/corps'
@@ -1016,6 +1018,8 @@ const rootRouteChildren: RootRouteChildren = {
   WishesRoute: WishesRoute,
   ComposeZoneRoute: ComposeZoneRoute,
   GardenZoneRoute: GardenZoneRoute,
+  OnboardingCareRoute: OnboardingCareRoute,
+  OnboardingPracticalRoute: OnboardingPracticalRoute,
   ResourcesCategoryRoute: ResourcesCategoryRouteWithChildren,
   GardenIndexRoute: GardenIndexRoute,
   OnboardingIndexRoute: OnboardingIndexRoute,
