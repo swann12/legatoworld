@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Shell } from "@/components/legato/Shell";
+import { SpaceHeader } from "@/components/legato/SpaceHeader";
 import { ConfideDock } from "@/components/legato/ConfideDock";
 import { loadPractical, savePractical } from "@/lib/practical-store";
 
@@ -24,35 +25,21 @@ function Ceremony() {
   const update = (k: string, v: string) => { setKind(k); setVenue(v); savePractical({ ceremonyKind: k, ceremonyVenue: v }); };
 
   return (
-    <Shell hideNav>
+    <Shell livingBg={false}>
       <div className="min-h-dvh bg-paper text-dusk pb-12">
-        <header className="px-7 pt-10 flex items-center justify-between">
-          <Link
-            to="/practical"
-            className="text-[10px] uppercase tracking-[0.3em] text-dusk/55 hover:text-dusk"
-            style={{ fontFamily: "var(--font-mono)" }}
-          >
-            ← Accueil
-          </Link>
-          <span
-            className="text-[10px] uppercase tracking-[0.3em] text-dusk/50"
-            style={{ fontFamily: "var(--font-mono)" }}
-          >
-            Cérémonie
-          </span>
-        </header>
+        <SpaceHeader space="organize" />
         <section className="px-7 pt-14">
           <p
             className="text-[10px] uppercase tracking-[0.3em] text-dusk/50"
             style={{ fontFamily: "var(--font-mono)" }}
           >
-            Préparer le déroulé
+            Préparer la cérémonie
           </p>
           <h1 className="mt-4 font-serif text-[34px] leading-[1.06] font-light text-dusk text-balance">
-            Quelque chose qui <span className="italic">lui ressemble.</span>
+            Quelque chose qui <span className="italic" style={{ color: "var(--terracotta)" }}>lui ressemble.</span>
           </h1>
           <p className="mt-5 max-w-[36ch] text-[14.5px] leading-[1.6] text-dusk/60">
-            Choisissez un cadre. Vous pourrez tout affiner ensuite, ou changer d'avis.
+            Choisissez un cadre, puis affinez chaque élément. Vous pouvez aussi laisser Legato proposer une première version.
           </p>
         </section>
 
@@ -128,7 +115,7 @@ function Ceremony() {
         <section className="px-7 mt-10">
           <button
             className="w-full rounded-[14px] text-[color:var(--paper)] py-4"
-            style={{ background: "var(--navy)" }}
+            style={{ background: "var(--bordeaux)" }}
           >
             <span className="font-serif italic text-[18px]">
               Me proposer une première version

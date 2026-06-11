@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { Shell } from "@/components/legato/Shell";
+import { SpaceHeader } from "@/components/legato/SpaceHeader";
 import { useLegato, type Branch } from "@/lib/legato-state";
 import { talkToPresence } from "@/lib/presence.functions";
 
@@ -88,22 +89,7 @@ function Presence() {
     <Shell livingBg={false}>
       <div className="relative min-h-dvh flex flex-col">
         <div className="relative z-10 flex flex-1 flex-col">
-          <div className="flex items-center justify-between px-7 pt-10">
-            <Link
-              to="/home"
-              className="text-[10px] uppercase tracking-[0.3em] text-dusk/55 hover:text-dusk"
-              style={{ fontFamily: "var(--font-mono)" }}
-            >
-              ← Accueil
-            </Link>
-            <p
-              className="text-[10px] uppercase tracking-[0.3em] text-dusk/50"
-              style={{ fontFamily: "var(--font-mono)" }}
-            >
-              Présence
-            </p>
-            <span className="w-[60px]" aria-hidden />
-          </div>
+          <SpaceHeader space="care" />
 
           <div className="px-7 pt-14">
             <p
@@ -113,30 +99,41 @@ function Presence() {
               Parler à une présence
             </p>
             <h1 className="mt-4 font-serif text-[34px] leading-[1.05] font-light text-dusk text-balance">
-              Je suis là, <span className="italic">{name}</span>.
+              Je suis là, <span className="italic" style={{ color: "var(--terracotta)" }}>{name}</span>.
             </h1>
             <p className="mt-4 text-[14.5px] leading-[1.6] text-dusk/60 max-w-[34ch]">
-              Vous pouvez écrire ou parler. Prenez votre temps.
+              Une oreille calme, pour écrire ou parler à voix haute. Pas une thérapie — un appui d'écoute. Pour une urgence, voyez les lignes d'écoute ci-dessous.
             </p>
           </div>
 
-          {/* Raccourcis discrets pour relayer la présence vers des contacts humains */}
-          <div className="px-7 pt-6 flex flex-wrap gap-2">
-            {[
-              { to: "/resources", label: "Un proche" },
-              { to: "/community", label: "Un groupe" },
-              { to: "/resources", label: "Un professionnel" },
-              { to: "/crisis",    label: "Ligne d'écoute" },
-            ].map((s) => (
-              <Link
-                key={s.label}
-                to={s.to}
-                className="rounded-full border border-dusk/15 bg-paper px-3 py-1.5 text-[11px] tracking-wide text-dusk/70 hover:bg-dusk/5"
-                style={{ fontFamily: "var(--font-mono)" }}
-              >
-                {s.label}
-              </Link>
-            ))}
+          {/* Choix du canal d'écoute — humain ou présence Legato */}
+          <div className="px-7 pt-6">
+            <p
+              className="text-[10px] uppercase tracking-[0.28em] text-dusk/50"
+              style={{ fontFamily: "var(--font-mono)" }}
+            >
+              Vers qui vous tourner
+            </p>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {[
+                { to: "/community", label: "Un proche" },
+                { to: "/community", label: "Un groupe" },
+                { to: "/resources", label: "Un professionnel" },
+                { to: "/crisis",    label: "Ligne d'écoute", emph: true },
+              ].map((s) => (
+                <Link
+                  key={s.label}
+                  to={s.to}
+                  className="rounded-full border px-3.5 py-1.5 text-[12px]"
+                  style={{
+                    borderColor: s.emph ? "var(--ember)" : "color-mix(in oklab, var(--dusk) 18%, transparent)",
+                    color: s.emph ? "var(--ember)" : "var(--dusk)",
+                  }}
+                >
+                  {s.label}
+                </Link>
+              ))}
+            </div>
           </div>
 
           <div ref={scrollerRef} className="flex-1 px-7 pt-8 pb-4 space-y-3 overflow-y-auto no-scrollbar">

@@ -41,6 +41,7 @@ import { Route as PracticalFlowersRouteImport } from './routes/practical.flowers
 import { Route as PracticalCeremonyRouteImport } from './routes/practical.ceremony'
 import { Route as PracticalBookletRouteImport } from './routes/practical.booklet'
 import { Route as PracticalAtmosphereRouteImport } from './routes/practical.atmosphere'
+import { Route as ParcoursTaskIdRouteImport } from './routes/parcours.$taskId'
 import { Route as HelpCorpsRouteImport } from './routes/help.corps'
 import { Route as GardenZoneRouteImport } from './routes/garden.$zone'
 import { Route as ComposeZoneRouteImport } from './routes/compose.$zone'
@@ -212,6 +213,11 @@ const PracticalAtmosphereRoute = PracticalAtmosphereRouteImport.update({
   path: '/atmosphere',
   getParentRoute: () => PracticalRoute,
 } as any)
+const ParcoursTaskIdRoute = ParcoursTaskIdRouteImport.update({
+  id: '/$taskId',
+  path: '/$taskId',
+  getParentRoute: () => ParcoursRoute,
+} as any)
 const HelpCorpsRoute = HelpCorpsRouteImport.update({
   id: '/corps',
   path: '/corps',
@@ -277,7 +283,7 @@ export interface FileRoutesByFullPath {
   '/memories': typeof MemoriesRoute
   '/no-words': typeof NoWordsRoute
   '/onboarding': typeof OnboardingRoute
-  '/parcours': typeof ParcoursRoute
+  '/parcours': typeof ParcoursRouteWithChildren
   '/practical': typeof PracticalRouteWithChildren
   '/presence': typeof PresenceRoute
   '/presentation': typeof PresentationRoute
@@ -288,6 +294,7 @@ export interface FileRoutesByFullPath {
   '/compose/$zone': typeof ComposeZoneRoute
   '/garden/$zone': typeof GardenZoneRoute
   '/help/corps': typeof HelpCorpsRouteWithChildren
+  '/parcours/$taskId': typeof ParcoursTaskIdRoute
   '/practical/atmosphere': typeof PracticalAtmosphereRoute
   '/practical/booklet': typeof PracticalBookletRoute
   '/practical/ceremony': typeof PracticalCeremonyRoute
@@ -320,7 +327,7 @@ export interface FileRoutesByTo {
   '/memories': typeof MemoriesRoute
   '/no-words': typeof NoWordsRoute
   '/onboarding': typeof OnboardingRoute
-  '/parcours': typeof ParcoursRoute
+  '/parcours': typeof ParcoursRouteWithChildren
   '/presence': typeof PresenceRoute
   '/presentation': typeof PresentationRoute
   '/space': typeof SpaceRoute
@@ -330,6 +337,7 @@ export interface FileRoutesByTo {
   '/compose/$zone': typeof ComposeZoneRoute
   '/garden/$zone': typeof GardenZoneRoute
   '/help/corps': typeof HelpCorpsRouteWithChildren
+  '/parcours/$taskId': typeof ParcoursTaskIdRoute
   '/practical/atmosphere': typeof PracticalAtmosphereRoute
   '/practical/booklet': typeof PracticalBookletRoute
   '/practical/ceremony': typeof PracticalCeremonyRoute
@@ -364,7 +372,7 @@ export interface FileRoutesById {
   '/memories': typeof MemoriesRoute
   '/no-words': typeof NoWordsRoute
   '/onboarding': typeof OnboardingRoute
-  '/parcours': typeof ParcoursRoute
+  '/parcours': typeof ParcoursRouteWithChildren
   '/practical': typeof PracticalRouteWithChildren
   '/presence': typeof PresenceRoute
   '/presentation': typeof PresentationRoute
@@ -375,6 +383,7 @@ export interface FileRoutesById {
   '/compose/$zone': typeof ComposeZoneRoute
   '/garden/$zone': typeof GardenZoneRoute
   '/help/corps': typeof HelpCorpsRouteWithChildren
+  '/parcours/$taskId': typeof ParcoursTaskIdRoute
   '/practical/atmosphere': typeof PracticalAtmosphereRoute
   '/practical/booklet': typeof PracticalBookletRoute
   '/practical/ceremony': typeof PracticalCeremonyRoute
@@ -421,6 +430,7 @@ export interface FileRouteTypes {
     | '/compose/$zone'
     | '/garden/$zone'
     | '/help/corps'
+    | '/parcours/$taskId'
     | '/practical/atmosphere'
     | '/practical/booklet'
     | '/practical/ceremony'
@@ -463,6 +473,7 @@ export interface FileRouteTypes {
     | '/compose/$zone'
     | '/garden/$zone'
     | '/help/corps'
+    | '/parcours/$taskId'
     | '/practical/atmosphere'
     | '/practical/booklet'
     | '/practical/ceremony'
@@ -507,6 +518,7 @@ export interface FileRouteTypes {
     | '/compose/$zone'
     | '/garden/$zone'
     | '/help/corps'
+    | '/parcours/$taskId'
     | '/practical/atmosphere'
     | '/practical/booklet'
     | '/practical/ceremony'
@@ -541,7 +553,7 @@ export interface RootRouteChildren {
   MemoriesRoute: typeof MemoriesRoute
   NoWordsRoute: typeof NoWordsRoute
   OnboardingRoute: typeof OnboardingRoute
-  ParcoursRoute: typeof ParcoursRoute
+  ParcoursRoute: typeof ParcoursRouteWithChildren
   PracticalRoute: typeof PracticalRouteWithChildren
   PresenceRoute: typeof PresenceRoute
   PresentationRoute: typeof PresentationRoute
@@ -784,6 +796,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PracticalAtmosphereRouteImport
       parentRoute: typeof PracticalRoute
     }
+    '/parcours/$taskId': {
+      id: '/parcours/$taskId'
+      path: '/$taskId'
+      fullPath: '/parcours/$taskId'
+      preLoaderRoute: typeof ParcoursTaskIdRouteImport
+      parentRoute: typeof ParcoursRoute
+    }
     '/help/corps': {
       id: '/help/corps'
       path: '/corps'
@@ -887,6 +906,18 @@ const HelpRouteChildren: HelpRouteChildren = {
 
 const HelpRouteWithChildren = HelpRoute._addFileChildren(HelpRouteChildren)
 
+interface ParcoursRouteChildren {
+  ParcoursTaskIdRoute: typeof ParcoursTaskIdRoute
+}
+
+const ParcoursRouteChildren: ParcoursRouteChildren = {
+  ParcoursTaskIdRoute: ParcoursTaskIdRoute,
+}
+
+const ParcoursRouteWithChildren = ParcoursRoute._addFileChildren(
+  ParcoursRouteChildren,
+)
+
 interface PracticalRouteChildren {
   PracticalAtmosphereRoute: typeof PracticalAtmosphereRoute
   PracticalBookletRoute: typeof PracticalBookletRoute
@@ -938,7 +969,7 @@ const rootRouteChildren: RootRouteChildren = {
   MemoriesRoute: MemoriesRoute,
   NoWordsRoute: NoWordsRoute,
   OnboardingRoute: OnboardingRoute,
-  ParcoursRoute: ParcoursRoute,
+  ParcoursRoute: ParcoursRouteWithChildren,
   PracticalRoute: PracticalRouteWithChildren,
   PresenceRoute: PresenceRoute,
   PresentationRoute: PresentationRoute,

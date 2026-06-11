@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Shell } from "@/components/legato/Shell";
+import { SpaceHeader } from "@/components/legato/SpaceHeader";
 import { useLegato } from "@/lib/legato-state";
 import gardenPainted from "@/assets/garden-painted-v4.png";
 
@@ -54,7 +55,8 @@ function Garden() {
     <Shell>
       <div className="relative pb-10 garden-page-bg">
         <div className="relative z-10">
-          <header className="px-7 pt-12">
+          <SpaceHeader space="care" />
+          <header className="px-7 pt-10">
             <p
               className="text-[10px] uppercase tracking-[0.3em] text-dusk/50"
               style={{ fontFamily: "var(--font-mono)" }}
