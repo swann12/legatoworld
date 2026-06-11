@@ -1,114 +1,38 @@
-## Refonte Legato — direction éditoriale & deux espaces
+## Refonte UX prioritaire — Legato
 
-### 1. Direction visuelle (fondations)
+Je commence par l'UX (architecture, parcours, hiérarchie) avant tout détail graphique, et uniquement sur les écrans prioritaires que tu listes. Le reste sera figé tant que tu n'as pas validé.
 
-**Typographies** (3 max, déjà chargées) :
-- Serif éditoriale (titres) — celle utilisée sur l'écran bordeaux d'entrée
-- Sans-serif lisible (texte, boutons, formulaires)
-- Mono discrète (micro-labels, dates, catégories)
+### Principes appliqués partout
 
-**Échelle typographique réduite** — 6 niveaux uniquement :
-display / page / section / card / body / micro.
+- **Deux espaces strictement séparés.** Aucun mélange jardin/démarches/respiration/services sur une même page.
+- **Bandeau d'espace permanent** en haut de chaque écran (chip discret « Espace · Être accompagné·e » ou « Espace · Organiser ») + bouton **Changer d'espace** qui ouvre une feuille minimale à deux choix.
+- **Navigation basse à 4 entrées max**, différente selon l'espace.
+- **Une intention par page.** Si une page essaie de répondre à deux questions, elle est scindée.
+- **Densité réduite** : pas de longs paragraphes en accueil, max 3 typographies, accents de couleur ciblés (terracotta, blush, bordeaux) sur fond papier.
 
-**Palette assumée** dans `src/styles.css` :
-- Crème lumineux (fond principal) + paper plus clair
-- Bordeaux profond (espace émotionnel, CTA forts)
-- Bleu nuit (espace organiser, structure)
-- Rouge chaleureux, rose franc, jaune solaire, bleu vif — **accents fonctionnels**
-- Encre profonde pour le texte (pas gris pâle)
+### Écrans refaits dans cette itération (et rien d'autre)
 
-**Règles** :
-- Suppression des halos, dégradés flous, fonds beiges uniformes
-- Coins arrondis modérés (12–18px), jamais 22–48px
-- Bordures fines uniquement quand utiles
-- Beaucoup de blanc, alignement strict, grille régulière
-- Couleur = repère fonctionnel (carte prioritaire, espace, statut), pas décor permanent
+1. **Choix de l'espace** (`/space`) — page centrale, 2 grands blocs lisibles, sous-texte « Vous pourrez changer d'espace à tout moment ».
+2. **Accueil Être accompagné·e** (`/home`) — titre « Un lieu calme pour souffler », exactement **5 actions** (Parler à une présence, Écrire quelques mots, Entrer dans le jardin, Respirer quelques minutes, Trouver un soutien humain), puis section secondaire « Pour aller plus loin ».
+3. **Accueil Organiser et avancer** (`/practical`) — 4 zones : Priorité du jour, À faire ensuite (2-3 tâches), Mon avancement (résumé visuel à faire/en cours/délégué/terminé), Raccourcis (6 max).
+4. **Navigation émotionnelle** — Accueil · Jardin · Journal · Présence.
+5. **Navigation concrète** — Accueil · Parcours · Services · Dossier.
+6. **Page Mon parcours** (`/parcours`) — catégories repliables, filtres (Aujourd'hui / Cette semaine / Plus tard / Terminé), statuts normalisés.
+7. **Détail d'une tâche** — pourquoi, quand, infos nécessaires, documents, questions à poser, pros recommandés, budget, actions (Commencer / Déléguer / Marquer terminé).
+8. **Page Jardin** — vue parcelles, prénoms, composition organique au toucher, actions Ajouter un souvenir / Voir les compositions. Aucun élément concret.
+9. **Page Présence** — Écrire / Parler à voix haute / Contacter un proche / Groupe / Pro / Lignes d'écoute, accès urgence permanent discret.
+10. **Page Cérémonie** — catégories (lieu, date, officiant, cercueil/urne, fleurs, musiques, textes, photos, rituels, invitations, livret, budget), bouton « Me proposer une première version ».
 
-### 2. Architecture UX — deux espaces séparés
+### Hors-scope explicite (gelé)
 
-```
-/start         → animation florale (inchangée)
-/index (logo)  → logo Legato (inchangée)
-/onboarding    → prénom + ressenti (simplifié)
-/space         → NOUVEAU : "Comment souhaitez-vous être accompagné·e aujourd'hui ?"
-                  ├── Être accompagné·e  → /home (espace émotionnel, crème + bordeaux)
-                  └── Organiser et avancer → /practical (espace pratique, crème + bleu nuit)
-```
+Onboarding émotionnel/concret détaillé, page Atmosphère, Mes Volontés, Souvenirs, Services (annuaire complet), Dossier, Journal, refonte des sous-pages, refonte graphique fine, animations. Je n'y touche pas tant que tu n'as pas validé les 10 écrans ci-dessus.
 
-Bascule discrète entre espaces depuis l'en-tête (petit lien mono).
+### Règles UI maintenues
 
-### 3. Écrans à refaire (priorités)
+- Animation florale d'ouverture et page logo **inchangées**.
+- Palette papier + bordeaux + terracotta + blush, **pas de bleu nuit**.
+- Inspirations Co-Star (typographie éditoriale, sobriété), Undiscovered (sérif italique, lignes fines), LeLiv (bordeaux profond éditorial), Grief Guidance (liste verticale avec statut et icône colorée légère).
 
-**A. Page de choix `/space`** (nouvelle)
-Deux grandes cartes pleine largeur, aplats colorés assumés (bordeaux / bleu nuit), titre serif, une phrase, un CTA chacune.
+### Livraison
 
-**B. Accueil ÊTRE ACCOMPAGNÉ·E `/home`**
-- Logo Legato discret en haut, eyebrow mono
-- Titre serif + phrase courte
-- Bloc unique « De quoi auriez-vous besoin maintenant ? » → 8 actions claires (parler, écrire, respirer, jardin, souvenir, rituel, contacter, me guider)
-- Personnalisation : ordre selon le ressenti d'onboarding
-- Suppression du sélecteur de modes flou
-- Accès secondaires : journal, rituels, ressources
-- Nav 4 onglets : Accueil · Jardin · Souvenirs · Présence
-
-**C. Accueil ORGANISER ET AVANCER `/practical`**
-- Titre « Avançons une étape à la fois. »
-- Sous-titre « Nous avons rassemblé ce qui mérite votre attention aujourd'hui. »
-- **Carte priorité principale** (aplat bleu nuit) : titre tâche, explication, durée, docs requis, CTA Commencer + liens Déléguer / Question
-- Résumé compact : à faire · en cours · délégué · documents manquants · prochaine échéance
-- Nav 4 onglets : Accueil · Parcours · Services · Dossier
-
-**D. `/parcours` (nouveau)** — liste filtrable (à faire / en cours / délégué / en attente / terminé). Une ligne = nom · catégorie · échéance · statut · responsable · action.
-
-**E. `/presence`** — Titre « Parler à une présence », phrase, 6 actions (écrire, parler, contacter un proche, trouver un groupe, contacter un professionnel, lignes d'écoute). Très épuré.
-
-**F. `/garden`** — conserver le principe, rester dans l'espace émotionnel uniquement. Nettoyer la grammaire visuelle (suppression halos, cohérence éditoriale).
-
-**G. `/memories` (Souvenirs)** — promu dans nav espace émotionnel. Liste/grille éditoriale, peu de chrome.
-
-**H. `/practical/ceremony`** — checklist claire : lieu, date, officiant, cercueil/urne, fleurs, musiques, textes, photos, objets, invitations, livret, budget, validation. Option « Me proposer une première version » (placeholder IA, déjà branché).
-
-**I. `/practical/atmosphere`** — formulaire de description, options (décrire, photo, budget, sensibilité, me laisser guider), puis sélection fleurs/textes/musiques/couleurs/objets/rituels/livret.
-
-**J. Services séparés**
-- `/practical/services` : pompes funèbres, notaires, fleuristes, marbriers, officiants, imprimeurs, lieux, admin
-- `/resources` (déjà existant) : psychologues, associations, groupes, lignes d'écoute, communautés
-- Jamais mélangés.
-
-### 4. Composants partagés à introduire
-
-- `<EditorialHeader>` : eyebrow mono + logo discret + titre serif + sous-titre
-- `<PriorityCard>` : aplat coloré + serif + métadonnées + CTA principal
-- `<ActionList>` : liste éditoriale sobre (numéro mono, titre serif italic, body, flèche)
-- `<SpaceNav>` : nav 4 onglets, picto + label court, version Émotionnel et version Pratique
-
-### 5. Ce qui reste intact
-
-- `/start` (animation florale)
-- Page logo Legato
-- Symbole Legato (apparaît discrètement dans les en-têtes intérieurs)
-- Page bordeaux « Préparer un adieu, garder une présence. » — référence identitaire
-
-### 6. Détails techniques
-
-- Mise à jour `src/styles.css` : nouveaux tokens couleur (bleu-nuit, rouge-chaleureux, rose-franc, jaune-solaire, bleu-vif), suppression définitive des classes glass/ceramic encore référencées, échelle typo unifiée
-- Nouveau fichier `src/routes/space.tsx` (déjà existant — à refaire entièrement) en page de choix
-- Nouveau fichier `src/routes/parcours.tsx`
-- Refonte `src/routes/home.tsx`, `practical.index.tsx`, `presence.tsx`, `garden.index.tsx`, `memories.tsx`, `practical.ceremony.tsx`, `practical.atmosphere.tsx`
-- `BottomNav` devient conditionnelle selon l'espace (lecture depuis `useLegato`)
-- Onboarding : à l'issue, redirection vers `/space` au lieu de `/home`
-
-### 7. Ordre d'exécution (livré en une passe)
-
-1. Fondations CSS (tokens, typo, suppression halos résiduels)
-2. `/space` (page de choix) + redirection onboarding
-3. Nav conditionnelle (BottomNav espace émotionnel vs pratique)
-4. Accueils `/home` et `/practical`
-5. `/presence`, `/parcours`
-6. `/garden`, `/memories`
-7. `/practical/ceremony`, `/practical/atmosphere`
-8. Vérification build + parcours rapide
-
-### Hors scope (pas touché tant que la direction n'est pas validée)
-
-Help (corps), crisis, wishes, resources détaillées, compose, dates, community, vitrine, presentation, no-words, inspiration, booklet, flowers, objects, texts, share, steps.
+Je livre les 10 écrans d'un coup, dans une seule passe cohérente, puis j'attends ta validation avant de toucher au reste (onboarding, volontés, annuaires, atmosphère, dossier, journal, souvenirs).
