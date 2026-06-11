@@ -13,7 +13,9 @@ export const Route = createFileRoute("/space")({
 
 /** Page centrale du produit. Deux blocs très lisibles. Rien d'autre. */
 function Space() {
-  const { name } = useLegato();
+  const { name, careOnboarded, practicalOnboarded } = useLegato();
+  const careTarget = careOnboarded ? "/home" : "/onboarding/care";
+  const practicalTarget = practicalOnboarded ? "/practical" : "/onboarding/practical";
   return (
     <main className="min-h-dvh bg-paper text-dusk">
       <div className="mobile-frame relative flex min-h-dvh flex-col">
@@ -35,20 +37,20 @@ function Space() {
 
         <section className="px-5 pt-10 space-y-3">
           <Block
-            to="/home"
+            to={careTarget}
             bg="var(--terracotta)"
             fg="var(--paper)"
             title="Être accompagné·e"
-            text="Parler, écrire, respirer, se souvenir."
-            cta="Entrer"
+            text="Pour traverser ce que vous ressentez, parler, écrire, respirer ou préserver un souvenir."
+            cta="Entrer dans cet espace"
           />
           <Block
-            to="/practical"
+            to={practicalTarget}
             bg="var(--bordeaux)"
             fg="var(--paper)"
             title="Organiser et avancer"
-            text="Démarches, cérémonie, documents."
-            cta="Avancer"
+            text="Pour être guidé·e dans les démarches, la cérémonie, les documents et les prochaines étapes."
+            cta="Voir ce qu'il faut faire"
           />
         </section>
 
@@ -65,12 +67,12 @@ function Block({
 }: { to: string; bg: string; fg: string; title: string; text: string; cta: string }) {
   return (
     <Link
-      to={to}
+      to={to as "/home"}
       className="block rounded-[22px] px-6 py-7"
       style={{ background: bg, color: fg }}
     >
-      <h2 className="font-serif text-[26px] leading-[1.1] font-light">{title}</h2>
-      <p className="mt-2.5 text-[14px] leading-[1.55] opacity-85 max-w-[34ch]">{text}</p>
+      <h2 className="font-serif text-[24px] leading-[1.15] font-light">{title}</h2>
+      <p className="mt-2.5 text-[13.5px] leading-[1.55] opacity-85 max-w-[34ch]">{text}</p>
       <p
         className="mt-5 text-[11px] uppercase tracking-[0.22em] opacity-90 inline-flex items-center gap-2"
         style={{ fontFamily: "var(--font-mono)" }}
