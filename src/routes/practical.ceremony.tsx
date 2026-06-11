@@ -1,9 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Shell } from "@/components/legato/Shell";
-import { Halos } from "@/components/legato/Halos";
 import { ConfideDock } from "@/components/legato/ConfideDock";
-import { useLegato } from "@/lib/legato-state";
 import { loadPractical, savePractical } from "@/lib/practical-store";
 
 export const Route = createFileRoute("/practical/ceremony")({
@@ -20,7 +18,6 @@ const KINDS = [
 ];
 
 function Ceremony() {
-  const { mode } = useLegato();
   const [kind, setKind] = useState("");
   const [venue, setVenue] = useState("");
   useEffect(() => { const s = loadPractical(); setKind(s.ceremonyKind); setVenue(s.ceremonyVenue); }, []);
@@ -28,55 +25,119 @@ function Ceremony() {
 
   return (
     <Shell hideNav>
-      <div className="relative pb-12">
-        <Halos mode={mode} variant="calm" />
-        <div className="relative z-10">
-          <div className="px-7 pt-10 flex items-center justify-between">
-            <Link to="/practical" className="text-[11px] uppercase tracking-[0.22em] text-dusk/50">← Aides concrètes</Link>
-            <span className="text-[10px] uppercase tracking-[0.22em] text-dusk/40">Cérémonie</span>
-          </div>
-          <header className="px-7 pt-12">
-            <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">Choisir un déroulé</p>
-            <h1 className="mt-3 font-serif text-[2.1rem] leading-[1.08] font-light text-dusk text-balance">
-              Quelque chose qui <span className="italic">lui ressemble.</span>
-            </h1>
-            <p className="mt-5 max-w-[36ch] text-[14px] leading-relaxed text-dusk/65">
-              Choisissez un cadre. Vous pourrez tout affiner ensuite, ou changer d'avis.
-            </p>
-          </header>
+      <div className="min-h-dvh bg-paper text-dusk pb-12">
+        <header className="px-7 pt-10 flex items-center justify-between">
+          <Link
+            to="/practical"
+            className="text-[10px] uppercase tracking-[0.3em] text-dusk/55 hover:text-dusk"
+            style={{ fontFamily: "var(--font-mono)" }}
+          >
+            ← Accueil
+          </Link>
+          <span
+            className="text-[10px] uppercase tracking-[0.3em] text-dusk/50"
+            style={{ fontFamily: "var(--font-mono)" }}
+          >
+            Cérémonie
+          </span>
+        </header>
+        <section className="px-7 pt-14">
+          <p
+            className="text-[10px] uppercase tracking-[0.3em] text-dusk/50"
+            style={{ fontFamily: "var(--font-mono)" }}
+          >
+            Préparer le déroulé
+          </p>
+          <h1 className="mt-4 font-serif text-[34px] leading-[1.06] font-light text-dusk text-balance">
+            Quelque chose qui <span className="italic">lui ressemble.</span>
+          </h1>
+          <p className="mt-5 max-w-[36ch] text-[14.5px] leading-[1.6] text-dusk/60">
+            Choisissez un cadre. Vous pourrez tout affiner ensuite, ou changer d'avis.
+          </p>
+        </section>
 
-          <div className="px-5 mt-8 space-y-3">
-            {KINDS.map((k) => (
+        <section className="px-7 mt-8 space-y-2.5">
+          {KINDS.map((k) => {
+            const active = kind === k.id;
+            return (
               <button
                 key={k.id}
                 onClick={() => update(k.id, venue)}
-                className={`w-full text-left p-5 organic-radius-3 ${kind === k.id ? "ceramic" : "paper-card"}`}
+                className={`w-full text-left rounded-[14px] border p-5 transition-colors ${
+                  active
+                    ? "border-dusk/30 bg-clay"
+                    : "border-dusk/12 bg-paper hover:bg-clay/40"
+                }`}
               >
-                <p className="font-serif italic text-[17px] text-dusk">{k.label}</p>
-                <p className="mt-1.5 text-[13px] text-dusk/65">{k.body}</p>
+                <div className="flex items-baseline justify-between">
+                  <p className="font-serif italic text-[18px] text-dusk">{k.label}</p>
+                  {active && (
+                    <span
+                      className="text-[10px] uppercase tracking-[0.22em] text-dusk/60"
+                      style={{ fontFamily: "var(--font-mono)" }}
+                    >
+                      Choisi
+                    </span>
+                  )}
+                </div>
+                <p className="mt-1.5 text-[13px] leading-[1.5] text-dusk/65">{k.body}</p>
               </button>
-            ))}
-          </div>
+            );
+          })}
+        </section>
 
-          <div className="px-5 mt-8 paper-card p-5 mx-0">
-            <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">Lieu pressenti</p>
+        <section className="px-7 mt-8">
+          <div className="rounded-[14px] border border-dusk/12 bg-paper p-5">
+            <p
+              className="text-[10px] uppercase tracking-[0.26em] text-dusk/55"
+              style={{ fontFamily: "var(--font-mono)" }}
+            >
+              Lieu pressenti
+            </p>
             <input
               value={venue}
               onChange={(e) => update(kind, e.target.value)}
               placeholder="Une église, un jardin, la maison, ailleurs…"
-              className="mt-3 w-full bg-transparent outline-none border-b border-dusk/15 pb-2 font-serif italic text-[15px] text-dusk placeholder:text-dusk/30"
+              className="mt-3 w-full bg-transparent outline-none border-b border-dusk/15 pb-2 font-serif italic text-[16px] text-dusk placeholder:text-dusk/30"
             />
           </div>
+        </section>
 
-          <div className="px-5 mt-8 grid grid-cols-1 gap-3">
-            <Link to="/practical/atmosphere" className="paper-card p-5 flex items-baseline justify-between">
-              <span className="font-serif italic text-[15px] text-dusk">Composer l'atmosphère →</span>
-            </Link>
-            <Link to="/practical/booklet" className="paper-card p-5 flex items-baseline justify-between">
-              <span className="font-serif italic text-[15px] text-dusk">Préparer un livret de cérémonie →</span>
-            </Link>
-          </div>
-        </div>
+        <section className="px-7 mt-8 space-y-2.5">
+          <Link
+            to="/practical/atmosphere"
+            className="block rounded-[14px] border border-dusk/12 bg-paper p-5 flex items-baseline justify-between"
+          >
+            <span className="font-serif italic text-[16px] text-dusk">
+              Composer l'atmosphère
+            </span>
+            <span className="text-dusk/45">→</span>
+          </Link>
+          <Link
+            to="/practical/booklet"
+            className="block rounded-[14px] border border-dusk/12 bg-paper p-5 flex items-baseline justify-between"
+          >
+            <span className="font-serif italic text-[16px] text-dusk">
+              Préparer un livret de cérémonie
+            </span>
+            <span className="text-dusk/45">→</span>
+          </Link>
+        </section>
+
+        {/* CTA IA : proposer une première version complète */}
+        <section className="px-7 mt-10">
+          <button
+            className="w-full rounded-[14px] text-[color:var(--paper)] py-4"
+            style={{ background: "var(--navy)" }}
+          >
+            <span className="font-serif italic text-[18px]">
+              Me proposer une première version
+            </span>
+          </button>
+          <p className="mt-3 text-center text-[12px] text-dusk/55">
+            Vous pourrez tout modifier ensuite.
+          </p>
+        </section>
       </div>
       <ConfideDock step="cérémonie" />
     </Shell>
