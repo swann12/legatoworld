@@ -11,120 +11,54 @@ export const Route = createFileRoute("/space")({
   component: Space,
 });
 
-/* ─── Page de choix entre les deux grands espaces de Legato ───
- * Deux grandes cartes pleine largeur, aplats colorés assumés
- * (bordeaux pour l'émotionnel, bleu nuit pour le pratique). */
+/* ─── Page de choix — direction éditoriale Co-Star × mockup Legato ───
+ * Fond crème, gros titre serif, deux cartes pleines couleur (terracotta
+ * + rose poudré). Aucune ombre, aucune décoration superflue. */
 function Space() {
   const { name } = useLegato();
   return (
     <main className="min-h-dvh bg-paper text-dusk">
       <div className="mobile-frame relative flex min-h-dvh flex-col">
         <header className="px-7 pt-10 flex items-center justify-between">
-          <span
-            className="text-[10px] uppercase tracking-[0.3em] text-dusk/55"
-            style={{ fontFamily: "var(--font-mono)" }}
-          >
-            Legato
-          </span>
+          <span className="font-serif text-[22px] text-dusk leading-none">Legato</span>
           <Link
             to="/onboarding"
-            className="text-[10px] uppercase tracking-[0.24em] text-dusk/45 hover:text-dusk"
-            style={{ fontFamily: "var(--font-mono)" }}
+            className="text-[12px] tracking-wide text-dusk/70 hover:text-dusk underline underline-offset-4"
           >
-            ← Retour
+            Retour
           </Link>
         </header>
 
-        <section className="px-7 pt-16">
-          <p
-            className="text-[10px] uppercase tracking-[0.3em] text-dusk/50"
-            style={{ fontFamily: "var(--font-mono)" }}
-          >
-            Bonjour {name || ""}
-          </p>
-          <h1 className="mt-4 font-serif text-[34px] leading-[1.06] font-light text-dusk text-balance">
-            Comment souhaitez-vous être <span className="italic">accompagné·e aujourd'hui&nbsp;?</span>
+        <section className="px-7 pt-14">
+          <h1 className="font-serif text-[42px] leading-[1.02] font-light text-dusk text-balance">
+            Un lieu calme<br />pour <span className="italic">souffler.</span>
           </h1>
-          <p className="mt-5 max-w-[34ch] text-[14.5px] leading-[1.6] text-dusk/60">
-            Vous pourrez passer d'un espace à l'autre à tout moment.
+          <p className="mt-5 max-w-[30ch] text-[14.5px] leading-[1.55] text-dusk/65">
+            {name ? `Bonjour ${name}. ` : ""}Choisissez un espace.
+            Vous pourrez changer à tout moment.
           </p>
         </section>
 
-        <section className="px-7 pt-12 space-y-4">
-          {/* Espace émotionnel — bordeaux */}
-          <Link
+        <section className="px-5 pt-10 space-y-4">
+          <ChoiceCard
             to="/home"
-            className="block rounded-[18px] overflow-hidden text-[color:var(--paper)] relative"
-            style={{ background: "var(--bordeaux)" }}
-          >
-            <div className="px-6 pt-7 pb-6">
-              <p
-                className="text-[10px] uppercase tracking-[0.28em] text-[color:var(--paper)]/65"
-                style={{ fontFamily: "var(--font-mono)" }}
-              >
-                Espace 01
-              </p>
-              <p
-                className="mt-3 font-serif text-[26px] leading-[1.12]"
-                style={{ textWrap: "balance" }}
-              >
-                Être <span className="italic">accompagné·e</span>
-              </p>
-              <p className="mt-3 text-[13.5px] leading-[1.55] text-[color:var(--paper)]/75 max-w-[36ch]">
-                Pour traverser ce que l'on ressent. Parler, écrire, respirer, garder
-                des souvenirs, trouver du soutien.
-              </p>
-              <div className="mt-6 flex items-center justify-between">
-                <span
-                  className="text-[11px] uppercase tracking-[0.24em] text-[color:var(--paper)]/85"
-                  style={{ fontFamily: "var(--font-mono)" }}
-                >
-                  Entrer
-                </span>
-                <span className="text-[color:var(--paper)]/75">→</span>
-              </div>
-            </div>
-          </Link>
-
-          {/* Espace pratique — bleu nuit */}
-          <Link
+            bg="var(--terracotta)"
+            title={<>Parler à<br /><span className="italic">quelqu'un</span></>}
+            label="ÊTRE ÉCOUTÉ·E"
+          />
+          <ChoiceCard
             to="/practical"
-            className="block rounded-[18px] overflow-hidden text-[color:var(--paper)] relative"
-            style={{ background: "var(--navy)" }}
-          >
-            <div className="px-6 pt-7 pb-6">
-              <p
-                className="text-[10px] uppercase tracking-[0.28em] text-[color:var(--paper)]/65"
-                style={{ fontFamily: "var(--font-mono)" }}
-              >
-                Espace 02
-              </p>
-              <p
-                className="mt-3 font-serif text-[26px] leading-[1.12]"
-                style={{ textWrap: "balance" }}
-              >
-                Organiser <span className="italic">et avancer</span>
-              </p>
-              <p className="mt-3 text-[13.5px] leading-[1.55] text-[color:var(--paper)]/75 max-w-[36ch]">
-                Pour être guidé·e dans les démarches, la cérémonie, les documents, le
-                budget et les contacts utiles.
-              </p>
-              <div className="mt-6 flex items-center justify-between">
-                <span
-                  className="text-[11px] uppercase tracking-[0.24em] text-[color:var(--paper)]/85"
-                  style={{ fontFamily: "var(--font-mono)" }}
-                >
-                  Entrer
-                </span>
-                <span className="text-[color:var(--paper)]/75">→</span>
-              </div>
-            </div>
-          </Link>
+            bg="var(--blush)"
+            fg="var(--dusk)"
+            title={<>Comprendre<br />mes <span className="italic">démarches</span></>}
+            label="Y VOIR PLUS CLAIR"
+            dark={false}
+          />
         </section>
 
-        <div className="mt-auto px-7 pt-12 pb-10 text-center">
+        <div className="mt-auto px-7 pt-14 pb-10">
           <p
-            className="text-[10px] uppercase tracking-[0.28em] text-dusk/40"
+            className="text-[10px] uppercase tracking-[0.3em] text-dusk/40 text-center"
             style={{ fontFamily: "var(--font-mono)" }}
           >
             Préparer un adieu, garder une présence.
@@ -132,5 +66,42 @@ function Space() {
         </div>
       </div>
     </main>
+  );
+}
+
+function ChoiceCard({
+  to, bg, fg = "var(--paper)", title, label, dark = true,
+}: {
+  to: string;
+  bg: string;
+  fg?: string;
+  title: React.ReactNode;
+  label: string;
+  dark?: boolean;
+}) {
+  return (
+    <Link
+      to={to}
+      className="block rounded-[22px] overflow-hidden"
+      style={{ background: bg, color: fg }}
+    >
+      <div className="px-7 pt-9 pb-7 flex flex-col min-h-[230px]">
+        <div className="flex items-start justify-between gap-4">
+          <h2 className="font-serif text-[34px] leading-[1.04] font-light">
+            {title}
+          </h2>
+          <span className="text-[24px] leading-none translate-y-2 opacity-80">→</span>
+        </div>
+        <p
+          className="mt-auto pt-10 text-[11px] tracking-[0.28em]"
+          style={{
+            fontFamily: "var(--font-mono)",
+            color: dark ? "color-mix(in oklab, var(--paper) 80%, transparent)" : "color-mix(in oklab, var(--dusk) 65%, transparent)",
+          }}
+        >
+          {label}
+        </p>
+      </div>
+    </Link>
   );
 }
