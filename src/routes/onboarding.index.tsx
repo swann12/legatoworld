@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useLegato } from "@/lib/legato-state";
 
-export const Route = createFileRoute("/onboarding")({
+export const Route = createFileRoute("/onboarding/")({
   head: () => ({
     meta: [
       { title: "Commencer doucement — Legato" },
