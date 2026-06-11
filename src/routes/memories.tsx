@@ -1,7 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Halos } from "@/components/legato/Halos";
-import { Shell, ScreenHeader, Section } from "@/components/legato/Shell";
-import { useLegato } from "@/lib/legato-state";
+import { Shell } from "@/components/legato/Shell";
 
 export const Route = createFileRoute("/memories")({
   head: () => ({ meta: [{ title: "Bibliothèque des souvenirs — Legato" }] }),
@@ -27,52 +25,101 @@ const ENTRIES = [
 ];
 
 function Memories() {
-  const { mode } = useLegato();
   return (
-    <Shell>
-      <div className="relative">
-        <Halos mode={mode} variant="calm" />
-        <div className="relative z-10">
-          <div className="px-7 pt-10">
-            <Link to="/garden" className="text-[11px] uppercase tracking-[0.22em] text-dusk/50">← Le Jardin</Link>
+    <Shell livingBg={false}>
+      <div className="min-h-dvh bg-paper text-dusk pb-32">
+        <header className="px-7 pt-10 flex items-center justify-between">
+          <Link
+            to="/home"
+            className="text-[10px] uppercase tracking-[0.3em] text-dusk/55 hover:text-dusk"
+            style={{ fontFamily: "var(--font-mono)" }}
+          >
+            ← Accueil
+          </Link>
+          <span
+            className="text-[10px] uppercase tracking-[0.3em] text-dusk/50"
+            style={{ fontFamily: "var(--font-mono)" }}
+          >
+            Souvenirs
+          </span>
+        </header>
+
+        <section className="px-7 pt-14">
+          <p
+            className="text-[10px] uppercase tracking-[0.3em] text-dusk/50"
+            style={{ fontFamily: "var(--font-mono)" }}
+          >
+            Bibliothèque
+          </p>
+          <h1 className="mt-4 font-serif text-[36px] leading-[1.05] font-light text-dusk text-balance">
+            Tout ce que <span className="italic">vous avez gardé.</span>
+          </h1>
+          <p className="mt-5 max-w-[34ch] text-[14.5px] leading-[1.6] text-dusk/60">
+            Une longue étagère. Ajoutez ici des traces — elles trouveront leur
+            place dans le jardin.
+          </p>
+        </section>
+
+        <section className="px-7 pt-10">
+          <p
+            className="text-[10px] uppercase tracking-[0.26em] text-dusk/55 mb-3"
+            style={{ fontFamily: "var(--font-mono)" }}
+          >
+            Ajouter une trace
+          </p>
+          <div className="grid grid-cols-4 gap-2">
+            {KINDS.map((k) => (
+              <button
+                key={k.id}
+                className="rounded-[12px] border border-dusk/12 bg-paper py-3 flex flex-col items-center gap-2 hover:bg-dusk/5 transition-colors"
+              >
+                <span
+                  className="size-2.5 rounded-full"
+                  style={{ background: k.color }}
+                />
+                <span
+                  className="text-[10px] uppercase tracking-[0.18em] text-dusk/65"
+                  style={{ fontFamily: "var(--font-mono)" }}
+                >
+                  {k.label}
+                </span>
+              </button>
+            ))}
           </div>
-          <ScreenHeader
-            eyebrow="Bibliothèque des souvenirs"
-            title={<>Tout ce que <br /><span className="italic">vous avez gardé.</span></>}
-            subtitle="Une longue étagère. Ajoutez ici des traces, et elles trouveront leur zone dans le jardin."
-          />
+        </section>
 
-          <Section className="mt-8">
-            <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/40 mb-3">Ajouter une trace</p>
-            <div className="grid grid-cols-4 gap-2">
-              {KINDS.map((k) => (
-                <button key={k.id} className="ceramic-soft organic-radius p-3 flex flex-col items-center gap-2">
-                  <span
-                    className="size-7 organic-radius-2"
-                    style={{ background: `radial-gradient(circle at 30% 30%, ${k.color}, var(--clay))` }}
-                  />
-                  <span className="text-[10px] uppercase tracking-[0.18em] text-dusk/60">{k.label}</span>
-                </button>
-              ))}
-            </div>
-          </Section>
-
-          <Section className="mt-10">
-            <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/40 mb-3">Déjà gardés</p>
-            <div className="space-y-3">
-              {ENTRIES.map((e, i) => (
-                <article key={i} className="ceramic-soft organic-radius-3 p-5">
-                  <div className="flex items-baseline justify-between">
-                    <p className="text-[10px] uppercase tracking-[0.2em] text-dusk/40">{e.kind}</p>
-                    <p className="text-[10px] tracking-[0.1em] text-dusk/40">{e.date}</p>
-                  </div>
-                  <h3 className="mt-2 font-serif text-lg italic text-dusk">{e.title}</h3>
-                  {e.body && <p className="mt-2 text-[14px] leading-relaxed text-dusk/65">{e.body}</p>}
-                </article>
-              ))}
-            </div>
-          </Section>
-        </div>
+        <section className="px-7 pt-10">
+          <p
+            className="text-[10px] uppercase tracking-[0.26em] text-dusk/55 mb-3"
+            style={{ fontFamily: "var(--font-mono)" }}
+          >
+            Déjà gardés
+          </p>
+          <div className="divide-y divide-dusk/10 border-y border-dusk/12">
+            {ENTRIES.map((e, i) => (
+              <article key={i} className="py-5">
+                <div className="flex items-baseline justify-between">
+                  <p
+                    className="text-[10px] uppercase tracking-[0.22em] text-dusk/55"
+                    style={{ fontFamily: "var(--font-mono)" }}
+                  >
+                    {e.kind}
+                  </p>
+                  <p
+                    className="text-[10px] tracking-[0.1em] text-dusk/50"
+                    style={{ fontFamily: "var(--font-mono)" }}
+                  >
+                    {e.date}
+                  </p>
+                </div>
+                <h3 className="mt-2 font-serif text-[19px] italic text-dusk leading-snug">{e.title}</h3>
+                {e.body && (
+                  <p className="mt-2 text-[14px] leading-relaxed text-dusk/65">{e.body}</p>
+                )}
+              </article>
+            ))}
+          </div>
+        </section>
       </div>
     </Shell>
   );
