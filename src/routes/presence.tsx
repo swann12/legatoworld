@@ -108,14 +108,15 @@ function Presence() {
           <div className="px-7 pt-5">
             <div className="flex flex-wrap gap-2">
               {[
-                { to: "/community", label: "Contacter un proche" },
-                { to: "/community", label: "Trouver un groupe" },
-                { to: "/resources", label: "Contacter un pro" },
-                { to: "/crisis",    label: "Lignes d'écoute", emph: true },
+                { to: "/community" as const, label: "Contacter un proche" },
+                { to: "/community" as const, label: "Trouver un groupe" },
+                { to: "/resources" as const, label: "Contacter un pro", search: { space: "care" as const } },
+                { to: "/crisis" as const,    label: "Lignes d'écoute", emph: true },
               ].map((s) => (
                 <Link
                   key={s.label}
                   to={s.to}
+                  search={(s as { search?: { space: "care" } }).search}
                   className="rounded-full border px-3.5 py-1.5 text-[12px]"
                   style={{
                     borderColor: s.emph ? "var(--ember)" : "color-mix(in oklab, var(--dusk) 18%, transparent)",
