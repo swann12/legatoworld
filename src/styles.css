@@ -76,7 +76,7 @@
   --color-azure: var(--azure);
   --color-magenta: var(--magenta);
 
- --font-serif: "Cormorant Garamond", "Tiempos", ui-serif, Georgia, serif;
+ --font-serif: "EB Garamond", "Tiempos", ui-serif, Georgia, serif;
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 }
@@ -90,24 +90,24 @@
   --paper: #FCF6EE;            /* cream le plus clair */
   --whisper: #FFFBF4;          /* presque blanc chaud */
   --clay: #F1E7D6;             /* cream beige */
-  --dusk: #3A1E20;             /* prune profonde — encre principale */
-  --ink: #2A1517;              /* prune la plus sombre */
-  --terracotta: #BC4A38;       /* terracotta vive */
+  --dusk: #2A3340;             /* encre ardoise — fraîche, moins brune */
+  --ink: #1A2230;              /* ardoise profonde */
+  --terracotta: #C4684E;       /* terracotta adoucie */
   --rose: #E5A9B5;             /* rose pétale */
-  --blush: #F2DBDD;            /* blush poudré */
-  --peach: #DE9355;            /* orange-pêche */
+  --blush: #F4DCDC;            /* blush poudré */
+  --peach: #E0A06A;            /* pêche plus printanière */
   --olive: #8AA079;            /* sauge profonde */
-  --sage: #D3DAC4;             /* sauge clair */
+  --sage: #CCD8BD;             /* sauge clair printanier */
   --mist: #A8BAD3;             /* bleu pâle */
-  --sky: #5388B5;              /* bleu plein */
-  --lavender: #E5A9B5;
-  --bordeaux: #3A1E20;         /* même prune profonde — concret */
-  --navy: #2E4A6B;             /* bleu profond pour textes concrets */
-  --ember: #BC4A38;
-  --sun: #EFD78C;              /* jaune crème */
-  --azure: #5388B5;
+  --sky: #5E97C0;              /* bleu plein */
+  --lavender: #C9B6DC;
+  --bordeaux: #2A3340;         /* aligné sur dusk */
+  --navy: #2E4A6B;
+  --ember: #C4684E;
+  --sun: #F1DE92;              /* mimosa */
+  --azure: #5E97C0;
   --magenta: #E5A9B5;
-  --bloom-fresh: #D3DAC4;
+  --bloom-fresh: #CCD8BD;
   --bloom-mist: #A8BAD3;
 
   /* Shadcn semantic tokens mapped to Legato */
