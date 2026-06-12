@@ -17,11 +17,11 @@ export const Route = createFileRoute("/home")({
  * Aucune démarche, aucun pro funéraire, aucun budget. */
 
 const ACTIONS = [
-  { to: "/presence",  title: "Parler à une présence",  sub: "Une oreille calme.",          tint: "var(--terracotta)" },
-  { to: "/journal",   title: "Écrire quelques mots",   sub: "Une page intime.",            tint: "var(--blush)" },
-  { to: "/garden",    title: "Entrer dans le jardin",  sub: "Ceux qui comptent.",          tint: "var(--sage)" },
-  { to: "/no-words",  title: "Respirer un instant",    sub: "Souffle guidé.",              tint: "var(--mist)" },
-  { to: "/community", title: "Un soutien humain",      sub: "Proches, groupes, pros.",     tint: "var(--peach)" },
+  { to: "/presence",  title: "Parler à une présence", sub: "Une oreille calme, sans jugement.", tint: "var(--terracotta)", fg: "var(--paper)" },
+  { to: "/journal",   title: "Écrire quelques mots",  sub: "Une page intime.",                  tint: "var(--blush)",       fg: "var(--dusk)" },
+  { to: "/garden",    title: "Entrer dans le jardin", sub: "Ceux qui comptent.",                tint: "var(--sage)",        fg: "var(--dusk)" },
+  { to: "/no-words",  title: "Respirer un instant",   sub: "Souffle guidé.",                    tint: "var(--mist)",        fg: "var(--dusk)" },
+  { to: "/community", title: "Un soutien humain",     sub: "Proches, groupes, pros.",           tint: "var(--sun)",         fg: "var(--dusk)" },
 ];
 
 const FURTHER: { to: string; params?: Record<string, string>; search?: Record<string, string>; label: string }[] = [
@@ -54,29 +54,45 @@ function Home() {
           </p>
         </section>
 
+        {/* Carte vedette */}
         <section className="mt-8 px-5">
-          <ol className="space-y-2.5">
-            {ACTIONS.map((a, i) => (
-              <li key={a.to + a.title}>
-                <Link
-                  to={a.to}
-                  className="group flex items-start gap-4 rounded-[18px] bg-paper border border-dusk/10 hover:border-dusk/25 px-5 py-4 transition-colors"
-                >
-                  <span
-                    className="mt-1 size-10 rounded-[10px] shrink-0 flex items-center justify-center font-serif italic text-[16px] text-dusk/70"
-                    style={{ background: a.tint }}
-                  >
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-serif text-[19px] leading-snug text-dusk">{a.title}</p>
-                    <p className="mt-0.5 text-[12.5px] text-dusk/55">{a.sub}</p>
-                  </div>
-                  <span className="text-dusk/30 group-hover:text-[color:var(--terracotta)] mt-2">→</span>
-                </Link>
-              </li>
+          <Link
+            to={ACTIONS[0].to}
+            className="block rounded-[24px] px-6 py-7 transition-transform hover:scale-[0.995]"
+            style={{ background: ACTIONS[0].tint, color: ACTIONS[0].fg }}
+          >
+            <p
+              className="text-[10px] uppercase tracking-[0.26em] opacity-70"
+              style={{ fontFamily: "var(--font-mono)" }}
+            >
+              Aujourd'hui
+            </p>
+            <p className="mt-3 font-serif text-[26px] leading-[1.1] font-light">
+              Parler à une <span className="italic">présence.</span>
+            </p>
+            <p className="mt-2 text-[13px] leading-relaxed opacity-85 max-w-[32ch]">
+              {ACTIONS[0].sub}
+            </p>
+          </Link>
+        </section>
+
+        {/* Mosaïque douce — 2 colonnes, hauteurs variées */}
+        <section className="mt-3 px-5">
+          <div className="grid grid-cols-2 gap-3">
+            {ACTIONS.slice(1).map((a, i) => (
+              <Link
+                key={a.to}
+                to={a.to}
+                className={`rounded-[20px] px-5 py-5 flex flex-col justify-between transition-transform hover:scale-[0.99] ${
+                  i === 0 ? "min-h-[140px]" : i === 1 ? "min-h-[170px]" : i === 2 ? "min-h-[170px]" : "min-h-[140px]"
+                }`}
+                style={{ background: a.tint, color: a.fg }}
+              >
+                <p className="font-serif text-[20px] leading-[1.1]">{a.title.replace("Entrer dans le ", "").replace("Écrire quelques ", "")}</p>
+                <p className="mt-2 text-[11.5px] opacity-75">{a.sub}</p>
+              </Link>
             ))}
-          </ol>
+          </div>
         </section>
 
         <section className="mt-9 px-7">

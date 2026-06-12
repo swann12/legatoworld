@@ -34,7 +34,8 @@ const PROGRESS = [
 const SHORTCUTS: { to: string; search?: Record<string, string>; label: string }[] = [
   { to: "/parcours",           label: "Mon parcours" },
   { to: "/wishes",             label: "Mes documents" },
-  { to: "/dates",              label: "Mes rendez-vous" },
+  { to: "/appointments",       label: "Mes rendez-vous" },
+  { to: "/dates",              label: "Dates sensibles" },
   { to: "/resources",          search: { space: "practical" }, label: "Professionnels" },
   { to: "/practical/ceremony", label: "Cérémonie" },
   { to: "/wishes",             label: "Budget" },

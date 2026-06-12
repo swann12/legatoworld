@@ -3,6 +3,13 @@ import { Shell } from "@/components/legato/Shell";
 
 type Kind = "lectures" | "films" | "podcasts" | "rituels";
 
+const TINTS: Record<Kind, { bg: string; fg: string; accent: string }> = {
+  lectures: { bg: "var(--blush)",      fg: "var(--dusk)",  accent: "var(--terracotta)" },
+  films:    { bg: "var(--mist)",       fg: "var(--dusk)",  accent: "var(--sky)" },
+  podcasts: { bg: "var(--sun)",        fg: "var(--dusk)",  accent: "var(--peach)" },
+  rituels:  { bg: "var(--sage)",       fg: "var(--dusk)",  accent: "var(--olive)" },
+};
+
 const LIBRARY: Record<Kind, {
   eyebrow: string;
   title: string;
@@ -80,43 +87,60 @@ function LibraryPage() {
   const { kind } = Route.useParams();
   const data = LIBRARY[kind as Kind];
   if (!data) throw notFound();
+  const t = TINTS[kind as Kind];
 
   return (
     <Shell>
       <div className="min-h-dvh bg-paper text-dusk pb-24">
-        <header className="px-7 pt-12">
-          <Link
-            to="/home"
-            className="text-[10px] uppercase tracking-[0.24em] text-dusk/50 hover:text-dusk"
-            style={{ fontFamily: "var(--font-mono)" }}
+        <div className="px-5 pt-5">
+          <div
+            className="rounded-[24px] px-7 pt-7 pb-9"
+            style={{ background: t.bg, color: t.fg }}
           >
-            ← Retour
-          </Link>
-          <p
-            className="mt-6 text-[10px] uppercase tracking-[0.28em] text-dusk/50"
-            style={{ fontFamily: "var(--font-mono)" }}
-          >
-            {data.eyebrow}
-          </p>
-          <h1 className="mt-3 font-serif text-[32px] leading-[1.08] font-light text-balance">
-            {data.title}
-          </h1>
-          <p className="mt-3 max-w-[38ch] text-[13.5px] text-dusk/60">{data.intro}</p>
-        </header>
+            <Link
+              to="/home"
+              className="text-[10px] uppercase tracking-[0.24em] opacity-65 hover:opacity-100"
+              style={{ fontFamily: "var(--font-mono)" }}
+            >
+              ← Accueil
+            </Link>
+            <p
+              className="mt-5 text-[10px] uppercase tracking-[0.28em] opacity-70"
+              style={{ fontFamily: "var(--font-mono)" }}
+            >
+              {data.eyebrow}
+            </p>
+            <h1 className="mt-3 font-serif text-[34px] leading-[1.05] font-light text-balance">
+              {data.title.split(/(\bsimples?\b|\bdoux\b|\bjuste|\bvoix\b|\bseul·e\b)/).map((w, i) =>
+                /^(simples?|doux|juste|voix|seul·e)$/.test(w) ? (
+                  <span key={i} className="italic" style={{ color: t.accent }}>{w}</span>
+                ) : (
+                  <span key={i}>{w}</span>
+                )
+              )}
+            </h1>
+            <p className="mt-4 max-w-[38ch] text-[13.5px] opacity-75">{data.intro}</p>
+          </div>
+        </div>
 
-        <ul className="mt-9 px-5 space-y-3">
+        <ul className="mt-6 px-5 space-y-3">
           {data.items.map((it) => (
             <li
               key={it.title}
-              className="rounded-[18px] border border-dusk/12 bg-paper px-5 py-4"
+              className="rounded-[18px] border border-dusk/12 bg-paper px-5 py-4 relative overflow-hidden"
             >
+              <span
+                aria-hidden
+                className="absolute left-0 top-0 h-full w-1"
+                style={{ background: t.accent }}
+              />
               <p
                 className="text-[10px] uppercase tracking-[0.22em] text-dusk/45"
                 style={{ fontFamily: "var(--font-mono)" }}
               >
                 {it.author}
               </p>
-              <p className="mt-1.5 font-serif text-[20px] leading-snug text-dusk">{it.title}</p>
+              <p className="mt-1.5 font-serif text-[22px] leading-snug text-dusk">{it.title}</p>
               <p className="mt-1 text-[12.5px] text-dusk/60">{it.note}</p>
             </li>
           ))}
