@@ -76,7 +76,7 @@
   --color-azure: var(--azure);
   --color-magenta: var(--magenta);
 
- --font-serif: "Fraunces", "Cormorant Garamond", "Tiempos", ui-serif, Georgia, serif;
+ --font-serif: "Cormorant Garamond", "Tiempos", ui-serif, Georgia, serif;
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 }
@@ -84,32 +84,31 @@
 :root {
   --radius: 1.5rem;
 
-  /* Legato palette — Printemps
-   * Inspiré des fleurs et des couleurs partagées par l'utilisatrice :
-   * cream très chaud, encre prune profonde, accent terracotta vif,
-   * pétales rose/pêche, feuilles sauge, ciel bleu doux, soleil mimosa. */
-  --paper: oklch(0.975 0.010 75);          /* cream chaud, ivoire */
-  --whisper: oklch(0.988 0.006 75);        /* presque blanc */
-  --clay: oklch(0.955 0.014 70);           /* beige laiteux */
-  --dusk: oklch(0.28 0.040 25);            /* encre prune profonde */
-  --ink: oklch(0.20 0.038 25);             /* prune la plus sombre */
-  --terracotta: oklch(0.60 0.155 35);      /* terracotta vive — émotionnel */
-  --rose: oklch(0.82 0.080 5);             /* rose pétale */
-  --blush: oklch(0.92 0.030 10);           /* blush poudré */
-  --peach: oklch(0.80 0.110 55);           /* pêche orangé */
-  --olive: oklch(0.62 0.075 130);          /* sauge profonde — concret */
-  --sage: oklch(0.88 0.040 130);           /* sauge claire */
-  --mist: oklch(0.86 0.045 235);           /* bleu ciel doux */
-  --sky: oklch(0.70 0.090 240);            /* bleu plein (Empathy-like) */
-  --lavender: oklch(0.86 0.045 290);
-  --bordeaux: oklch(0.38 0.080 25);        /* prune-bordeaux concret */
-  --navy: oklch(0.42 0.080 240);           /* bleu profond — concret */
-  --ember: oklch(0.62 0.165 35);
-  --sun: oklch(0.86 0.115 90);             /* mimosa */
-  --azure: oklch(0.66 0.110 240);
-  --magenta: oklch(0.72 0.110 350);
-  --bloom-fresh: oklch(0.93 0.04 130);
-  --bloom-mist: oklch(0.96 0.02 220);
+  /* Legato palette — directement échantillonnée de la planche couleur
+   * partagée par l'utilisatrice (terracotta, prune profonde, bleu, bleu pâle,
+   * rose, mimosa, sauge, sauge clair, blush, jaune crème, orange, crèmes). */
+  --paper: #FCF6EE;            /* cream le plus clair */
+  --whisper: #FFFBF4;          /* presque blanc chaud */
+  --clay: #F1E7D6;             /* cream beige */
+  --dusk: #3A1E20;             /* prune profonde — encre principale */
+  --ink: #2A1517;              /* prune la plus sombre */
+  --terracotta: #BC4A38;       /* terracotta vive */
+  --rose: #E5A9B5;             /* rose pétale */
+  --blush: #F2DBDD;            /* blush poudré */
+  --peach: #DE9355;            /* orange-pêche */
+  --olive: #8AA079;            /* sauge profonde */
+  --sage: #D3DAC4;             /* sauge clair */
+  --mist: #A8BAD3;             /* bleu pâle */
+  --sky: #5388B5;              /* bleu plein */
+  --lavender: #E5A9B5;
+  --bordeaux: #3A1E20;         /* même prune profonde — concret */
+  --navy: #2E4A6B;             /* bleu profond pour textes concrets */
+  --ember: #BC4A38;
+  --sun: #EFD78C;              /* jaune crème */
+  --azure: #5388B5;
+  --magenta: #E5A9B5;
+  --bloom-fresh: #D3DAC4;
+  --bloom-mist: #A8BAD3;
 
   /* Shadcn semantic tokens mapped to Legato */
   --background: var(--paper);
