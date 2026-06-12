@@ -5,7 +5,7 @@ export const Route = createFileRoute("/space")({
   head: () => ({
     meta: [
       { title: "Choisir un espace — Legato" },
-      { name: "description", content: "Deux espaces distincts : être accompagné·e, ou organiser et avancer." },
+      { name: "description", content: "Deux espaces distincts : prendre soin de soi, ou organiser et avancer." },
     ],
   }),
   component: Space,
@@ -40,7 +40,7 @@ function Space() {
             to={careTarget}
             bg="var(--terracotta)"
             fg="var(--paper)"
-            title="Être accompagné·e"
+            title="Prendre soin de soi"
             text="Pour traverser ce que vous ressentez, parler, écrire, respirer ou préserver un souvenir."
             cta="Entrer dans cet espace"
           />
