@@ -37,44 +37,70 @@ function ResourcesIndex() {
   return (
     <Shell>
       <header className="px-7 pt-14">
-        <p className="mb-3 text-[10px] font-medium uppercase tracking-[0.22em] text-dusk/40">
+        <p
+          className="mb-3 text-[10px] uppercase tracking-[0.22em] text-dusk/55"
+          style={{ fontFamily: "var(--font-mono)" }}
+        >
           {eyebrow}
         </p>
-        <h1 className="font-serif text-[2.2rem] leading-[1.1] font-light text-dusk text-balance">
+        <h1 className="font-serif text-[2.4rem] leading-[1.05] font-normal text-dusk text-balance">
           {title}
         </h1>
-        <p className="mt-5 max-w-[34ch] text-[14px] leading-relaxed text-dusk/60">
+        <p className="mt-5 max-w-[34ch] text-[14px] leading-relaxed text-dusk/65">
           {subtitle}
         </p>
+
+        {/* Switch d'espace, discret */}
+        <div className="mt-6 inline-flex rounded-full border border-dusk/12 p-1 bg-paper">
+          <Link
+            to="/resources" search={{ space: "care" }}
+            className={`px-3.5 py-1.5 rounded-full text-[10.5px] uppercase tracking-[0.18em] transition-colors ${
+              activeSpace === "care" ? "bg-dusk text-paper" : "text-dusk/60 hover:text-dusk"
+            }`}
+            style={{ fontFamily: "var(--font-mono)" }}
+          >
+            Soi
+          </Link>
+          <Link
+            to="/resources" search={{ space: "practical" }}
+            className={`px-3.5 py-1.5 rounded-full text-[10.5px] uppercase tracking-[0.18em] transition-colors ${
+              activeSpace === "practical" ? "bg-dusk text-paper" : "text-dusk/60 hover:text-dusk"
+            }`}
+            style={{ fontFamily: "var(--font-mono)" }}
+          >
+            Démarches
+          </Link>
+        </div>
       </header>
 
-      <section className="mt-10 px-7 space-y-4">
-        {cats.map(({ id, label, intent, Icon, tint }) => (
+      <section className="mt-9 px-5 grid grid-cols-2 gap-3">
+        {cats.map(({ id, label, intent, Icon, tint }, i) => (
           <Link
             key={id}
             to="/resources/$category"
             params={{ category: id }}
             search={{ space: activeSpace }}
-            className="paper-card block px-5 py-5 transition-all hover:-translate-y-0.5 hover:shadow-sm"
+            className={`rounded-[20px] p-5 border border-dusk/8 flex flex-col justify-between transition-transform hover:-translate-y-0.5 ${
+              i % 5 === 0 ? "col-span-2 min-h-[140px]" : "min-h-[160px]"
+            }`}
+            style={{ background: `color-mix(in oklab, ${tint} 32%, var(--paper))` }}
           >
-            <div className="flex items-start gap-4">
-              <div
-                className="ceramic-soft flex size-12 shrink-0 items-center justify-center rounded-full"
-                style={{
-                  background: `linear-gradient(160deg, color-mix(in oklab, ${tint} 30%, var(--paper)), color-mix(in oklab, ${tint} 55%, var(--clay)))`,
-                }}
+            <div className="flex items-start justify-between">
+              <p
+                className="text-[10px] uppercase tracking-[0.2em] text-dusk/60"
+                style={{ fontFamily: "var(--font-mono)" }}
               >
-                <Icon size={20} strokeWidth={1.4} className="text-dusk/75" />
-              </div>
-              <div className="flex-1 pt-0.5">
-                <p className="text-[10px] uppercase tracking-[0.2em] text-dusk/45">
-                  {label}
-                </p>
-                <p className="mt-1.5 font-serif text-[1.15rem] italic leading-snug text-dusk">
-                  {intent}
-                </p>
-              </div>
+                {label}
+              </p>
+              <span
+                className="flex size-9 items-center justify-center rounded-full bg-paper/70"
+              >
+                <Icon size={16} strokeWidth={1.5} className="text-dusk/75" />
+              </span>
             </div>
+            <p className="mt-3 font-serif text-[17px] italic leading-snug text-dusk">
+              {intent}
+            </p>
           </Link>
         ))}
       </section>
