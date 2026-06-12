@@ -24,13 +24,13 @@ const ACTIONS = [
   { to: "/community", title: "Un soutien humain",      sub: "Proches, groupes, pros.",     tint: "var(--peach)" },
 ];
 
-const FURTHER = [
-  { to: "/inspiration", label: "Rituels" },
-  { to: "/inspiration", label: "Lectures" },
-  { to: "/inspiration", label: "Films" },
-  { to: "/inspiration", label: "Podcasts" },
-  { to: "/community",   label: "Groupes d'entraide" },
-  { to: "/resources",   label: "Ressources utiles" },
+const FURTHER: { to: string; params?: Record<string, string>; search?: Record<string, string>; label: string }[] = [
+  { to: "/library/$kind", params: { kind: "rituels" },  label: "Rituels" },
+  { to: "/library/$kind", params: { kind: "lectures" }, label: "Lectures" },
+  { to: "/library/$kind", params: { kind: "films" },    label: "Films" },
+  { to: "/library/$kind", params: { kind: "podcasts" }, label: "Podcasts" },
+  { to: "/community",     label: "Groupes d'entraide" },
+  { to: "/resources",     search: { space: "care" }, label: "Accompagnants" },
 ];
 
 function Home() {
@@ -90,7 +90,9 @@ function Home() {
             {FURTHER.map((f) => (
               <Link
                 key={f.label}
-                to={f.to}
+                to={f.to as "/library/$kind"}
+                params={f.params as { kind: string }}
+                search={f.search as { space: "care" }}
                 className="rounded-full border border-dusk/15 px-3.5 py-1.5 text-[12.5px] text-dusk/75 hover:bg-dusk/5"
               >
                 {f.label}

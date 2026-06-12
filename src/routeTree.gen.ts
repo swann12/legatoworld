@@ -44,6 +44,7 @@ import { Route as PracticalAtmosphereRouteImport } from './routes/practical.atmo
 import { Route as ParcoursTaskIdRouteImport } from './routes/parcours.$taskId'
 import { Route as OnboardingPracticalRouteImport } from './routes/onboarding.practical'
 import { Route as OnboardingCareRouteImport } from './routes/onboarding.care'
+import { Route as LibraryKindRouteImport } from './routes/library.$kind'
 import { Route as HelpCorpsRouteImport } from './routes/help.corps'
 import { Route as GardenZoneRouteImport } from './routes/garden.$zone'
 import { Route as ComposeZoneRouteImport } from './routes/compose.$zone'
@@ -230,6 +231,11 @@ const OnboardingCareRoute = OnboardingCareRouteImport.update({
   path: '/onboarding/care',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LibraryKindRoute = LibraryKindRouteImport.update({
+  id: '/library/$kind',
+  path: '/library/$kind',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const HelpCorpsRoute = HelpCorpsRouteImport.update({
   id: '/corps',
   path: '/corps',
@@ -305,6 +311,7 @@ export interface FileRoutesByFullPath {
   '/compose/$zone': typeof ComposeZoneRoute
   '/garden/$zone': typeof GardenZoneRoute
   '/help/corps': typeof HelpCorpsRouteWithChildren
+  '/library/$kind': typeof LibraryKindRoute
   '/onboarding/care': typeof OnboardingCareRoute
   '/onboarding/practical': typeof OnboardingPracticalRoute
   '/parcours/$taskId': typeof ParcoursTaskIdRoute
@@ -350,6 +357,7 @@ export interface FileRoutesByTo {
   '/compose/$zone': typeof ComposeZoneRoute
   '/garden/$zone': typeof GardenZoneRoute
   '/help/corps': typeof HelpCorpsRouteWithChildren
+  '/library/$kind': typeof LibraryKindRoute
   '/onboarding/care': typeof OnboardingCareRoute
   '/onboarding/practical': typeof OnboardingPracticalRoute
   '/parcours/$taskId': typeof ParcoursTaskIdRoute
@@ -398,6 +406,7 @@ export interface FileRoutesById {
   '/compose/$zone': typeof ComposeZoneRoute
   '/garden/$zone': typeof GardenZoneRoute
   '/help/corps': typeof HelpCorpsRouteWithChildren
+  '/library/$kind': typeof LibraryKindRoute
   '/onboarding/care': typeof OnboardingCareRoute
   '/onboarding/practical': typeof OnboardingPracticalRoute
   '/parcours/$taskId': typeof ParcoursTaskIdRoute
@@ -447,6 +456,7 @@ export interface FileRouteTypes {
     | '/compose/$zone'
     | '/garden/$zone'
     | '/help/corps'
+    | '/library/$kind'
     | '/onboarding/care'
     | '/onboarding/practical'
     | '/parcours/$taskId'
@@ -492,6 +502,7 @@ export interface FileRouteTypes {
     | '/compose/$zone'
     | '/garden/$zone'
     | '/help/corps'
+    | '/library/$kind'
     | '/onboarding/care'
     | '/onboarding/practical'
     | '/parcours/$taskId'
@@ -539,6 +550,7 @@ export interface FileRouteTypes {
     | '/compose/$zone'
     | '/garden/$zone'
     | '/help/corps'
+    | '/library/$kind'
     | '/onboarding/care'
     | '/onboarding/practical'
     | '/parcours/$taskId'
@@ -586,6 +598,7 @@ export interface RootRouteChildren {
   WishesRoute: typeof WishesRoute
   ComposeZoneRoute: typeof ComposeZoneRoute
   GardenZoneRoute: typeof GardenZoneRoute
+  LibraryKindRoute: typeof LibraryKindRoute
   OnboardingCareRoute: typeof OnboardingCareRoute
   OnboardingPracticalRoute: typeof OnboardingPracticalRoute
   ResourcesCategoryRoute: typeof ResourcesCategoryRouteWithChildren
@@ -843,6 +856,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OnboardingCareRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/library/$kind': {
+      id: '/library/$kind'
+      path: '/library/$kind'
+      fullPath: '/library/$kind'
+      preLoaderRoute: typeof LibraryKindRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/help/corps': {
       id: '/help/corps'
       path: '/corps'
@@ -1018,6 +1038,7 @@ const rootRouteChildren: RootRouteChildren = {
   WishesRoute: WishesRoute,
   ComposeZoneRoute: ComposeZoneRoute,
   GardenZoneRoute: GardenZoneRoute,
+  LibraryKindRoute: LibraryKindRoute,
   OnboardingCareRoute: OnboardingCareRoute,
   OnboardingPracticalRoute: OnboardingPracticalRoute,
   ResourcesCategoryRoute: ResourcesCategoryRouteWithChildren,
