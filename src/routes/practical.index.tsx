@@ -31,11 +31,11 @@ const PROGRESS = [
   { label: "Terminé",    count: 4, color: "var(--olive)" },
 ];
 
-const SHORTCUTS = [
+const SHORTCUTS: { to: string; search?: Record<string, string>; label: string }[] = [
   { to: "/parcours",           label: "Mon parcours" },
   { to: "/wishes",             label: "Mes documents" },
   { to: "/dates",              label: "Mes rendez-vous" },
-  { to: "/resources",          label: "Professionnels" },
+  { to: "/resources",          search: { space: "practical" }, label: "Professionnels" },
   { to: "/practical/ceremony", label: "Cérémonie" },
   { to: "/wishes",             label: "Budget" },
 ];
@@ -167,7 +167,8 @@ function Practical() {
             {SHORTCUTS.map((s) => (
               <Link
                 key={s.label}
-                to={s.to}
+                to={s.to as "/resources"}
+                search={s.search as { space: "practical" }}
                 className="rounded-[14px] border border-dusk/12 px-4 py-3.5 font-serif italic text-[15px] text-dusk hover:bg-dusk/[0.03]"
               >
                 {s.label}
