@@ -76,7 +76,7 @@
   --color-azure: var(--azure);
   --color-magenta: var(--magenta);
 
-  --font-serif: "Fraunces", "Tiempos", "Cormorant Garamond", ui-serif, Georgia, serif;
+ --font-serif: "Cormorant Garamond", "Tiempos", ui-serif, Georgia, serif;
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 }
