@@ -89,7 +89,7 @@ function WishesPage() {
                   onChange={(e) => setWishes({ [f.key]: e.target.value } as Partial<Wishes>)}
                   rows={f.rows ?? 2}
                   placeholder="…"
-                  className="mt-3 w-full bg-transparent resize-none outline-none font-serif italic text-[16px] leading-[26px] text-dusk placeholder:text-dusk/25"
+                  className="mt-3 w-full bg-transparent resize-none outline-none text-[15px] leading-[24px] text-dusk placeholder:text-dusk/25"
                 />
                 {f.key === "flowers" && (
                   <Link to="/practical/flowers" className="mt-3 inline-block text-[11px] uppercase tracking-[0.18em] text-dusk/55">
@@ -113,7 +113,7 @@ function WishesPage() {
                   onChange={(e) => setShareInput(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), addShare())}
                   placeholder="Prénom ou e-mail"
-                  className="flex-1 bg-transparent outline-none border-b border-dusk/15 pb-2 font-serif italic text-[15px] text-dusk placeholder:text-dusk/30"
+                  className="flex-1 bg-transparent outline-none border-b border-dusk/15 pb-2 text-[14px] text-dusk placeholder:text-dusk/30"
                 />
                 <button
                   onClick={addShare}

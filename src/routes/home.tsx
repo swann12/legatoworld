@@ -109,6 +109,14 @@ function Home() {
           >
             Si ça déborde, appeler à l'aide →
           </Link>
+          <div className="mt-3">
+            <Link
+              to="/help"
+              className="text-[12px] text-dusk/60 underline underline-offset-4 hover:text-dusk"
+            >
+              Besoin d'aide concrète aujourd'hui ?
+            </Link>
+          </div>
         </section>
       </div>
     </Shell>
