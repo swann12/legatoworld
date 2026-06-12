@@ -118,7 +118,7 @@ function Start() {
     <main className="min-h-dvh bg-paper text-dusk">
       <div className="mobile-frame relative flex min-h-dvh flex-col">
         <header className="px-7 pt-10 flex items-center justify-between">
-          <span className="font-serif text-[19px] leading-none">Legato</span>
+          <LegatoMark size={22} />
           {mode !== "choice" && (
             <button
               type="button"
