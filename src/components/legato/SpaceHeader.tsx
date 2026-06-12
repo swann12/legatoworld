@@ -13,7 +13,7 @@ export function SpaceHeader({
   space: "care" | "organize";
 }) {
   const [open, setOpen] = useState(false);
-  const label = space === "care" ? "Être accompagné·e" : "Organiser & avancer";
+  const label = space === "care" ? "Prendre soin de soi" : "Organiser & avancer";
 
   return (
     <header className="relative pt-9 px-7 flex items-center justify-between">
@@ -57,7 +57,7 @@ export function SpaceHeader({
                 className="block rounded-[16px] px-5 py-4"
                 style={{ background: "var(--terracotta)", color: "var(--paper)" }}
               >
-                <p className="font-serif text-[18px]">Être accompagné·e</p>
+                <p className="font-serif text-[18px]">Prendre soin de soi</p>
                 <p className="text-[12.5px] opacity-80 mt-0.5">Parler, écrire, jardin, respirer.</p>
               </Link>
               <Link
