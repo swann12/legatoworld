@@ -1,12 +1,19 @@
 import type { LucideIcon } from "lucide-react";
-import { HeartHandshake, Camera, Gem, Flower, Sprout } from "lucide-react";
+import { HeartHandshake, Camera, Gem, Flower, Sprout, Leaf, Users, Scale, Truck, Building2 } from "lucide-react";
 
 export type CategoryId =
   | "therapeutes"
+  | "medecines-douces"
+  | "ecoute"
   | "photographes"
   | "objets"
   | "fleuristes"
-  | "pompes";
+  | "pompes"
+  | "notaires"
+  | "debarras"
+  | "administrations";
+
+export type ResourceSpace = "care" | "practical";
 
 export type Category = {
   id: CategoryId;
@@ -14,6 +21,7 @@ export type Category = {
   intent: string;
   Icon: LucideIcon;
   tint: string;
+  space: ResourceSpace;
 };
 
 export const CATEGORIES: Category[] = [
@@ -23,6 +31,23 @@ export const CATEGORIES: Category[] = [
     intent: "Quelqu'un qui connaît ce chemin.",
     Icon: HeartHandshake,
     tint: "var(--rose)",
+    space: "care",
+  },
+  {
+    id: "medecines-douces",
+    label: "Médecines douces",
+    intent: "Sophrologie, acupuncture, ostéopathie émotionnelle.",
+    Icon: Leaf,
+    tint: "var(--sage)",
+    space: "care",
+  },
+  {
+    id: "ecoute",
+    label: "Lignes d'écoute & groupes",
+    intent: "Parler à quelqu'un, sans rendez-vous.",
+    Icon: Users,
+    tint: "var(--mist)",
+    space: "care",
   },
   {
     id: "photographes",
@@ -30,6 +55,7 @@ export const CATEGORIES: Category[] = [
     intent: "Garder une image de ce jour.",
     Icon: Camera,
     tint: "var(--mist)",
+    space: "practical",
   },
   {
     id: "objets",
@@ -37,6 +63,7 @@ export const CATEGORIES: Category[] = [
     intent: "Urnes, bijoux de cendres, objets qui portent.",
     Icon: Gem,
     tint: "var(--lavender)",
+    space: "care",
   },
   {
     id: "fleuristes",
@@ -44,6 +71,7 @@ export const CATEGORIES: Category[] = [
     intent: "Des fleurs qui lui ressemblent.",
     Icon: Flower,
     tint: "var(--peach)",
+    space: "practical",
   },
   {
     id: "pompes",
@@ -51,6 +79,31 @@ export const CATEGORIES: Category[] = [
     intent: "Un accompagnement transparent, sans pression.",
     Icon: Sprout,
     tint: "var(--sage)",
+    space: "practical",
+  },
+  {
+    id: "notaires",
+    label: "Notaires & succession",
+    intent: "Pour les actes, la succession, sans pression.",
+    Icon: Scale,
+    tint: "var(--lavender)",
+    space: "practical",
+  },
+  {
+    id: "debarras",
+    label: "Débarras & déménageurs",
+    intent: "Vider, trier un logement, en douceur.",
+    Icon: Truck,
+    tint: "var(--peach)",
+    space: "practical",
+  },
+  {
+    id: "administrations",
+    label: "Démarches administratives",
+    intent: "Mairie, CPAM, caisses de retraite : un guide pas à pas.",
+    Icon: Building2,
+    tint: "var(--rose)",
+    space: "practical",
   },
 ];
 
@@ -256,4 +309,8 @@ export function getProvider(id: string): Provider | undefined {
 
 export function providersByCategory(id: CategoryId): Provider[] {
   return PROVIDERS.filter((p) => p.category === id);
+}
+
+export function categoriesBySpace(space: ResourceSpace): Category[] {
+  return CATEGORIES.filter((c) => c.space === space);
 }
