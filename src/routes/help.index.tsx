@@ -77,6 +77,7 @@ function Help() {
               <Link
                 key={p.title}
                 to={p.to}
+                search={p.to === "/resources" ? { space: "care" as const } : undefined}
                 className="ceramic organic-radius-3 px-7 py-6 block opacity-90 hover:opacity-100 transition-opacity"
               >
                 <p className="text-[10px] uppercase tracking-[0.2em] text-dusk/45">{p.kind}</p>

@@ -3,8 +3,11 @@ import { useState } from "react";
 import { Shell } from "@/components/legato/Shell";
 import { ChevronLeft, MapPin, Video, Home as HomeIcon, Sparkles } from "lucide-react";
 import { getCategory, providersByCategory, type CategoryId } from "@/lib/resources-data";
+import { z } from "zod";
 
 export const Route = createFileRoute("/resources/$category")({
+  validateSearch: (s) =>
+    z.object({ space: z.enum(["care", "practical"]).optional() }).parse(s),
   component: CategoryPage,
   notFoundComponent: () => (
     <Shell>

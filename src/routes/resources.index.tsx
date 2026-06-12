@@ -1,8 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Shell } from "@/components/legato/Shell";
-import { CATEGORIES } from "@/lib/resources-data";
+import { categoriesBySpace, type ResourceSpace } from "@/lib/resources-data";
+import { z } from "zod";
 
 export const Route = createFileRoute("/resources/")({
+  validateSearch: (s) =>
+    z.object({ space: z.enum(["care", "practical"]).optional() }).parse(s),
   head: () => ({
     meta: [
       { title: "Ressources & Accompagnement — Legato" },
@@ -17,28 +20,41 @@ export const Route = createFileRoute("/resources/")({
 });
 
 function ResourcesIndex() {
+  const { space } = Route.useSearch();
+  const activeSpace: ResourceSpace = space ?? "care";
+  const cats = categoriesBySpace(activeSpace);
+  const eyebrow = activeSpace === "care"
+    ? "Prendre soin de soi"
+    : "Organiser & avancer";
+  const title = activeSpace === "care" ? (
+    <>Des mains tendues,<br /><span className="italic text-dusk/85">quand vous êtes prêt·e.</span></>
+  ) : (
+    <>Des professionnels,<br /><span className="italic text-dusk/85">pour avancer sereinement.</span></>
+  );
+  const subtitle = activeSpace === "care"
+    ? "Thérapeutes, médecines douces, lignes d'écoute et groupes — choisis avec soin."
+    : "Pompes funèbres, notaires, débarras, administrations — transparents et sans pression.";
   return (
     <Shell>
       <header className="px-7 pt-14">
         <p className="mb-3 text-[10px] font-medium uppercase tracking-[0.22em] text-dusk/40">
-          Ressources & accompagnement
+          {eyebrow}
         </p>
         <h1 className="font-serif text-[2.2rem] leading-[1.1] font-light text-dusk text-balance">
-          Des mains tendues,
-          <br />
-          <span className="italic text-dusk/85">quand vous êtes prêt·e.</span>
+          {title}
         </h1>
         <p className="mt-5 max-w-[34ch] text-[14px] leading-relaxed text-dusk/60">
-          Des personnes choisies avec soin. Rien ici n'est urgent.
+          {subtitle}
         </p>
       </header>
 
       <section className="mt-10 px-7 space-y-4">
-        {CATEGORIES.map(({ id, label, intent, Icon, tint }) => (
+        {cats.map(({ id, label, intent, Icon, tint }) => (
           <Link
             key={id}
             to="/resources/$category"
             params={{ category: id }}
+            search={{ space: activeSpace }}
             className="paper-card block px-5 py-5 transition-all hover:-translate-y-0.5 hover:shadow-sm"
           >
             <div className="flex items-start gap-4">

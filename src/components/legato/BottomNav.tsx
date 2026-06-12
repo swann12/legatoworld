@@ -11,18 +11,23 @@ export function BottomNav() {
     pathname.startsWith("/wishes") ||
     pathname.startsWith("/dossier");
 
-  const items = inPractical
+  type Item = {
+    to: "/practical" | "/parcours" | "/resources" | "/wishes" | "/home" | "/garden" | "/journal" | "/presence";
+    label: string;
+    search?: { space: "care" | "practical" };
+  };
+  const items: Item[] = inPractical
     ? [
-        { to: "/practical" as const, label: "Accueil" },
-        { to: "/parcours" as const,  label: "Parcours" },
-        { to: "/resources" as const, label: "Services" },
-        { to: "/wishes" as const,    label: "Documents & volontés" },
+        { to: "/practical", label: "Accueil" },
+        { to: "/parcours",  label: "Parcours" },
+        { to: "/resources", label: "Services", search: { space: "practical" } },
+        { to: "/wishes",    label: "Documents & volontés" },
       ]
     : [
-        { to: "/home" as const,     label: "Accueil" },
-        { to: "/garden" as const,   label: "Jardin" },
-        { to: "/journal" as const,  label: "Journal" },
-        { to: "/presence" as const, label: "Présence" },
+        { to: "/home",     label: "Accueil" },
+        { to: "/garden",   label: "Jardin" },
+        { to: "/journal",  label: "Journal" },
+        { to: "/presence", label: "Présence" },
       ];
   return (
     <nav
@@ -41,6 +46,7 @@ export function BottomNav() {
             <Link
               key={to}
               to={to}
+              search={items.find((i) => i.to === to)?.search as { space: "practical" } | undefined}
               aria-label={label}
               className="group relative flex flex-1 items-center justify-center px-1 py-2 transition-colors"
             >

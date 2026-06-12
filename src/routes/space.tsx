@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useLegato } from "@/lib/legato-state";
+import { LegatoMark } from "@/components/legato/LegatoMark";
 
 export const Route = createFileRoute("/space")({
   head: () => ({
@@ -20,7 +21,7 @@ function Space() {
     <main className="min-h-dvh bg-paper text-dusk">
       <div className="mobile-frame relative flex min-h-dvh flex-col">
         <header className="pt-10 px-7">
-          <span className="font-serif text-[20px] leading-none">Legato</span>
+          <LegatoMark to="/space" size={24} />
         </header>
 
         <section className="pt-14 px-7">

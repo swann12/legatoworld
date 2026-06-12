@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
+import { LegatoMark } from "@/components/legato/LegatoMark";
 
 /**
  * En-tête commun à toutes les pages internes.
@@ -17,9 +18,7 @@ export function SpaceHeader({
 
   return (
     <header className="relative pt-9 px-7 flex items-center justify-between">
-      <Link to="/space" className="font-serif text-[19px] leading-none text-dusk">
-        Legato
-      </Link>
+      <LegatoMark to="/space" size={22} />
       <button
         onClick={() => setOpen(true)}
         className="flex items-center gap-2 rounded-full border border-dusk/15 px-3 py-1.5 text-[10.5px] uppercase tracking-[0.18em] text-dusk/70 hover:bg-dusk/5"

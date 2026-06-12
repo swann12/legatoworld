@@ -1,5 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useLegato } from "@/lib/legato-state";
+import { LegatoMark } from "@/components/legato/LegatoMark";
 
 export const Route = createFileRoute("/onboarding/")({
   head: () => ({
@@ -29,7 +30,7 @@ function Onboarding() {
           >
             ← Retour
           </button>
-          <span className="font-serif text-[18px] leading-none">Legato</span>
+          <LegatoMark to="/space" size={20} />
           <span className="w-12" />
         </header>
 
