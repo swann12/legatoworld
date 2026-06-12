@@ -24,13 +24,13 @@ const ACTIONS = [
   { to: "/community", title: "Un soutien humain",     sub: "Proches, groupes, pros.",           tint: "var(--sun)",         fg: "var(--dusk)" },
 ];
 
-const FURTHER: { to: string; params?: Record<string, string>; search?: Record<string, string>; label: string }[] = [
-  { to: "/library/$kind", params: { kind: "rituels" },  label: "Rituels" },
-  { to: "/library/$kind", params: { kind: "lectures" }, label: "Lectures" },
-  { to: "/library/$kind", params: { kind: "films" },    label: "Films" },
-  { to: "/library/$kind", params: { kind: "podcasts" }, label: "Podcasts" },
-  { to: "/community",     label: "Groupes d'entraide" },
-  { to: "/resources",     search: { space: "care" }, label: "Accompagnants" },
+const FURTHER: { to: string; params?: Record<string, string>; search?: Record<string, string>; label: string; sub: string; tint: string }[] = [
+  { to: "/library/$kind", params: { kind: "rituels" },  label: "Rituels",            sub: "Gestes simples",     tint: "var(--blush)" },
+  { to: "/library/$kind", params: { kind: "lectures" }, label: "Lectures",           sub: "Livres choisis",     tint: "var(--sage)" },
+  { to: "/library/$kind", params: { kind: "films" },    label: "Films",              sub: "À voir doucement",   tint: "var(--mist)" },
+  { to: "/library/$kind", params: { kind: "podcasts" }, label: "Podcasts",           sub: "Voix qui apaisent",  tint: "var(--sun)" },
+  { to: "/community",     label: "Groupes d'entraide", sub: "Petits cercles",        tint: "var(--peach)" },
+  { to: "/resources",     search: { space: "care" },   label: "Accompagnants",       sub: "Thérapeutes proches", tint: "var(--lavender)" },
 ];
 
 function Home() {
@@ -95,23 +95,37 @@ function Home() {
           </div>
         </section>
 
-        <section className="mt-9 px-7">
+        <section className="mt-10 px-5">
           <p
-            className="text-[10px] uppercase tracking-[0.28em] text-dusk/50"
+            className="px-2 text-[10px] uppercase tracking-[0.28em] text-dusk/50"
             style={{ fontFamily: "var(--font-mono)" }}
           >
             Pour aller plus loin
           </p>
-          <div className="mt-4 flex flex-wrap gap-2">
+          <div className="mt-3 grid grid-cols-2 gap-2.5">
             {FURTHER.map((f) => (
               <Link
                 key={f.label}
                 to={f.to as "/library/$kind"}
                 params={f.params as { kind: string }}
                 search={f.search as { space: "care" }}
-                className="rounded-full border border-dusk/15 px-3.5 py-1.5 text-[12.5px] text-dusk/75 hover:bg-dusk/5"
+                className="rounded-[16px] px-4 py-3.5 flex items-center gap-3 border border-dusk/8 hover:-translate-y-0.5 transition-transform"
+                style={{ background: `color-mix(in oklab, ${f.tint} 28%, var(--paper))` }}
               >
-                {f.label}
+                <span
+                  aria-hidden
+                  className="size-2.5 rounded-full shrink-0"
+                  style={{ background: f.tint }}
+                />
+                <div className="min-w-0">
+                  <p className="font-serif text-[15.5px] text-dusk leading-tight">{f.label}</p>
+                  <p
+                    className="mt-0.5 text-[10px] uppercase tracking-[0.18em] text-dusk/55 truncate"
+                    style={{ fontFamily: "var(--font-mono)" }}
+                  >
+                    {f.sub}
+                  </p>
+                </div>
               </Link>
             ))}
           </div>
