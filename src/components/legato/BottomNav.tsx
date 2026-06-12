@@ -21,7 +21,7 @@ export function BottomNav() {
         { to: "/practical", label: "Accueil" },
         { to: "/parcours",  label: "Parcours" },
         { to: "/resources", label: "Services", search: { space: "practical" } },
-        { to: "/wishes",    label: "Documents & volontés" },
+        { to: "/wishes",    label: "Volontés" },
       ]
     : [
         { to: "/home",     label: "Accueil" },
