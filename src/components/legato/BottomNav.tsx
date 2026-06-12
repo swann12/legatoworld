@@ -51,9 +51,10 @@ export function BottomNav() {
               className="group relative flex flex-1 items-center justify-center px-1 py-2 transition-colors"
             >
               <span
-                className={`font-serif text-[12.5px] leading-none tracking-tight text-center transition-colors ${
-                  active ? "text-dusk italic" : "text-dusk/50 group-hover:text-dusk/80"
+                className={`text-[9.5px] uppercase leading-none tracking-[0.22em] text-center transition-colors ${
+                  active ? "text-dusk" : "text-dusk/50 group-hover:text-dusk/80"
                 }`}
+                style={{ fontFamily: "var(--font-mono)" }}
               >
                 {label}
               </span>
