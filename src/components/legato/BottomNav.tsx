@@ -1,5 +1,4 @@
 import { Link, useLocation } from "@tanstack/react-router";
-import { Home, Flower2, NotebookPen, Heart, ListChecks, Briefcase, FolderClosed } from "lucide-react";
 
 export function BottomNav() {
   const { pathname } = useLocation();
@@ -14,24 +13,24 @@ export function BottomNav() {
 
   const items = inPractical
     ? [
-        { to: "/practical" as const, label: "Accueil",  Icon: Home },
-        { to: "/parcours" as const,  label: "Parcours", Icon: ListChecks },
-        { to: "/resources" as const, label: "Services", Icon: Briefcase },
-        { to: "/wishes" as const,    label: "Dossier",  Icon: FolderClosed },
+        { to: "/practical" as const, label: "Accueil" },
+        { to: "/parcours" as const,  label: "Parcours" },
+        { to: "/resources" as const, label: "Services" },
+        { to: "/wishes" as const,    label: "Documents & volontés" },
       ]
     : [
-        { to: "/home" as const,     label: "Accueil",  Icon: Home },
-        { to: "/garden" as const,   label: "Jardin",   Icon: Flower2 },
-        { to: "/journal" as const,  label: "Journal",  Icon: NotebookPen },
-        { to: "/presence" as const, label: "Présence", Icon: Heart },
+        { to: "/home" as const,     label: "Accueil" },
+        { to: "/garden" as const,   label: "Jardin" },
+        { to: "/journal" as const,  label: "Journal" },
+        { to: "/presence" as const, label: "Présence" },
       ];
   return (
     <nav
       aria-label="Primary"
       className="fixed bottom-0 left-1/2 z-50 w-full max-w-[420px] -translate-x-1/2 border-t border-dusk/10 bg-paper"
     >
-      <div className="flex items-stretch justify-between px-2 pt-2.5 pb-[max(env(safe-area-inset-bottom),0.5rem)]">
-        {items.map(({ to, label, Icon }) => {
+      <div className="flex items-stretch justify-between px-3 pt-3.5 pb-[max(env(safe-area-inset-bottom),0.65rem)]">
+        {items.map(({ to, label }) => {
           const active =
             to === "/home"
               ? pathname === "/home" || pathname === "/"
@@ -43,21 +42,21 @@ export function BottomNav() {
               key={to}
               to={to}
               aria-label={label}
-              className="group flex flex-1 flex-col items-center justify-center gap-1.5 px-2 py-1.5 transition-colors"
+              className="group relative flex flex-1 items-center justify-center px-1 py-2 transition-colors"
             >
-              <Icon
-                size={18}
-                strokeWidth={1.6}
-                className={active ? "text-dusk" : "text-dusk/45 group-hover:text-dusk/75"}
-              />
               <span
-                className={`text-[9px] uppercase tracking-[0.22em] whitespace-nowrap leading-none ${
-                  active ? "text-dusk" : "text-dusk/45"
+                className={`font-serif text-[12.5px] leading-none tracking-tight text-center transition-colors ${
+                  active ? "text-dusk italic" : "text-dusk/50 group-hover:text-dusk/80"
                 }`}
-                style={{ fontFamily: "var(--font-mono)" }}
               >
                 {label}
               </span>
+              {active && (
+                <span
+                  aria-hidden
+                  className="absolute -bottom-0.5 left-1/2 h-px w-6 -translate-x-1/2 bg-dusk/70"
+                />
+              )}
             </Link>
           );
         })}

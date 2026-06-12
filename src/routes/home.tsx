@@ -5,7 +5,7 @@ import { SpaceHeader } from "@/components/legato/SpaceHeader";
 export const Route = createFileRoute("/home")({
   head: () => ({
     meta: [
-      { title: "Être accompagné·e — Legato" },
+      { title: "Prendre soin de soi — Legato" },
       { name: "description", content: "Un lieu calme pour souffler, parler, écrire ou se souvenir." },
     ],
   }),
