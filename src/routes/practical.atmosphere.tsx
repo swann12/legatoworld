@@ -19,31 +19,15 @@ function Atmosphere() {
     <Shell hideNav>
       <div className="min-h-dvh bg-paper text-dusk pb-12">
         <header className="px-7 pt-10 flex items-center justify-between">
-          <Link
-            to="/practical"
-            className="text-[10px] uppercase tracking-[0.3em] text-dusk/55 hover:text-dusk"
-            
-          >
-            ← Accueil
-          </Link>
-          <span
-            className="text-[10px] uppercase tracking-[0.3em] text-dusk/50"
-            
-          >
-            Atmosphère
-          </span>
+          <Link to="/practical" className="eyebrow hover:text-dusk">← Accueil</Link>
+          <span className="eyebrow">Atmosphère</span>
         </header>
         <section className="px-7 pt-14">
-          <p
-            className="text-[10px] uppercase tracking-[0.3em] text-dusk/50"
-            
-          >
-            Composer une ambiance
-          </p>
-          <h1 className="mt-4 font-serif text-[34px] leading-[1.06] font-light text-dusk text-balance">
+          <p className="eyebrow">Composer une ambiance</p>
+          <h1 className="mt-4 display-xl text-dusk text-balance">
             Une atmosphère <span className="italic">qui lui ressemble.</span>
           </h1>
-          <p className="mt-5 max-w-[36ch] text-[14.5px] leading-[1.6] text-dusk/60">
+          <p className="mt-5 body-meta max-w-[36ch]">
             Décrivez la personne ou l'atmosphère souhaitée. Nous vous proposerons
             une première sélection que vous pourrez modifier.
           </p>
@@ -54,16 +38,11 @@ function Atmosphere() {
             <Link
               key={t.to}
               to={t.to}
-              className="block rounded-[14px] border border-dusk/12 bg-paper p-5 flex items-baseline justify-between"
+              className="card-plain block p-5 flex items-baseline justify-between"
             >
               <div>
-                <p
-                  className="text-[10px] uppercase tracking-[0.24em] text-dusk/55"
-                  
-                >
-                  {t.eyebrow}
-                </p>
-                <p className="mt-1.5 font-serif italic text-[17px] text-dusk">{t.title}</p>
+                <p className="eyebrow">{t.eyebrow}</p>
+                <p className="mt-2 font-serif italic text-[17px] text-dusk">{t.title}</p>
               </div>
               <span className="text-dusk/45">→</span>
             </Link>
