@@ -27,7 +27,7 @@ const NEXT_TASKS = [
 const PROGRESS = [
   { label: "À faire",    count: 7, color: "var(--ember)" },
   { label: "En cours",   count: 3, color: "var(--terracotta)" },
-  { label: "Délégué",    count: 2, color: "var(--sun)" },
+  { label: "Délégué",    count: 2, color: "var(--mist)" },
   { label: "Terminé",    count: 4, color: "var(--olive)" },
 ];
 
@@ -54,19 +54,19 @@ function Practical() {
           >
             Accueil
           </p>
-          <h1 className="mt-4 max-w-[8ch] font-serif text-[42px] leading-[0.97] font-normal text-balance">
-            Organiser sans se <span className="italic" style={{ color: "var(--terracotta)" }}>perdre.</span>
+          <h1 className="mt-4 max-w-[8ch] font-serif text-[42px] leading-[0.95] font-normal text-balance">
+            Avancer sans se <span className="italic" style={{ color: "var(--terracotta)" }}>brusquer.</span>
           </h1>
           <p className="mt-5 text-[13.5px] text-dusk/60 max-w-[29ch]">
-            Une priorité nette, puis des modules simples pour continuer sans confusion.
+            Une priorité claire, des repères calmes, puis des raccourcis vraiment utiles.
           </p>
         </section>
 
         {/* ZONE 1 — Priorité du jour */}
         <section className="px-5 pt-7">
           <div
-            className="rounded-[24px] px-6 py-7"
-            style={{ background: "var(--sun)", color: "var(--dusk)" }}
+            className="rounded-[16px] px-6 py-7 border border-dusk/10"
+            style={{ background: "color-mix(in oklab, var(--sun) 84%, white)", color: "var(--dusk)" }}
           >
             <p
               className="text-[10px] uppercase tracking-[0.26em] opacity-70"
@@ -74,17 +74,17 @@ function Practical() {
             >
               Maintenant
             </p>
-            <h2 className="mt-3 max-w-[9ch] font-serif text-[34px] leading-[0.98] font-normal">
+            <h2 className="mt-3 max-w-[9ch] font-serif text-[36px] leading-[0.95] font-normal">
               Contacter les <span className="italic">pompes funèbres.</span>
             </h2>
             <p className="mt-3 text-[13px] leading-[1.55] opacity-80 max-w-[23ch]">
               À traiter dans les 48 h.
             </p>
             <div className="mt-5 flex flex-wrap gap-2">
-              <Link
+               <Link
                 to="/parcours/$taskId"
                 params={{ taskId: "pf" }}
-                className="rounded-full bg-dusk text-paper px-4 py-2 text-[12px] uppercase tracking-[0.2em]"
+                 className="rounded-full bg-bordeaux text-paper px-4 py-2 text-[12px] uppercase tracking-[0.2em]"
                 style={{ fontFamily: "var(--font-mono)" }}
               >
                 Commencer
@@ -107,13 +107,13 @@ function Practical() {
           >
             À faire ensuite
           </p>
-          <ol className="mt-4 rounded-[20px] border border-dusk/10 overflow-hidden bg-paper">
+          <ol className="mt-4 rounded-[16px] border border-dusk/10 overflow-hidden bg-paper">
             {NEXT_TASKS.map((t) => (
               <li key={t.id}>
                 <Link
                   to="/parcours/$taskId"
                   params={{ taskId: t.id }}
-                  className="flex items-baseline justify-between gap-4 px-5 py-4 group border-b last:border-b-0 border-dusk/8"
+                 className="flex items-baseline justify-between gap-4 px-5 py-4 group border-b last:border-b-0 border-dusk/8 hover:bg-dusk/[0.02]"
                 >
                   <span className="font-serif text-[18px] leading-snug text-dusk">{t.title}</span>
                   <span
@@ -142,6 +142,7 @@ function Practical() {
                 key={p.label}
                 to="/parcours"
                 className="rounded-[16px] border border-dusk/10 px-4 py-4 text-left hover:bg-dusk/[0.03]"
+                style={{ background: `color-mix(in oklab, ${p.color} 14%, white)` }}
               >
                 <span
                   className="inline-block size-1.5 rounded-full"
@@ -167,15 +168,16 @@ function Practical() {
           >
             Raccourcis utiles
           </p>
-          <div className="mt-4 grid grid-cols-1 gap-2.5">
+          <div className="mt-4 grid grid-cols-2 gap-2.5">
             {SHORTCUTS.map((s) => (
               <Link
                 key={s.label}
                 to={s.to as "/resources"}
                 search={s.search as { space: "practical" }}
-                className="rounded-[18px] border border-dusk/12 px-5 py-4 flex items-center justify-between hover:bg-dusk/[0.03]"
+                className="rounded-[16px] border border-dusk/12 px-4 py-4 flex items-center justify-between hover:bg-dusk/[0.03]"
+                style={{ background: "color-mix(in oklab, var(--paper) 86%, white)" }}
               >
-                <span className="font-serif text-[19px] text-dusk">{s.label}</span>
+                <span className="font-serif text-[18px] leading-tight text-dusk max-w-[10ch]">{s.label}</span>
                 <span className="text-dusk/35">→</span>
               </Link>
             ))}
