@@ -36,17 +36,20 @@ export function ScreenHeader({
   subtitle?: ReactNode;
 }) {
   return (
-    <header className="px-7 pt-14">
+    <header className="px-7 pt-14 editorial-frame pb-7">
       {eyebrow && (
-        <p className="mb-3 text-[10px] font-medium uppercase tracking-[0.22em] text-dusk/40">
+        <p
+          className="mb-3 text-[10px] uppercase tracking-[0.24em] text-dusk/48"
+          style={{ fontFamily: "var(--font-mono)" }}
+        >
           {eyebrow}
         </p>
       )}
-      <h1 className="font-serif text-[2.4rem] leading-[1.05] font-light text-balance text-dusk">
+      <h1 className="max-w-[9ch] font-serif text-[42px] leading-[0.97] font-normal text-balance text-dusk">
         {title}
       </h1>
       {subtitle && (
-        <p className="mt-4 max-w-[34ch] text-[15px] leading-relaxed text-dusk/60">{subtitle}</p>
+        <p className="mt-5 max-w-[32ch] text-[13.5px] leading-relaxed text-dusk/60">{subtitle}</p>
       )}
     </header>
   );

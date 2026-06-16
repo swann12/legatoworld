@@ -52,8 +52,8 @@ function Help() {
 
           <ScreenHeader
             eyebrow="Aide — concrète, tranquille"
-            title={<>Des mains tout près, <br /><span className="italic" style={{ color: "var(--terracotta)" }}>si vous en avez besoin.</span></>}
-            subtitle="Rien ici ne vous demande de faire maintenant. Choisissez seulement ce qui semble possible aujourd'hui."
+            title={<>Demander de l'aide, <br /><span className="italic" style={{ color: "var(--terracotta)" }}>sans s'expliquer trop.</span></>}
+            subtitle="Des portes simples pour soi, pour déléguer, ou pour être accompagné·e sans pression."
           />
 
           <Section className="mt-10">
@@ -68,10 +68,10 @@ function Help() {
                 <Link
                   key={p.title}
                   to={p.to}
-                  className={`rounded-[18px] p-5 border border-dusk/8 flex flex-col justify-between hover:-translate-y-0.5 transition-transform ${
+                  className={`rounded-[16px] p-5 border border-dusk/8 flex flex-col justify-between hover:-translate-y-0.5 transition-transform ${
                     i === 0 ? "col-span-2 min-h-[130px]" : "min-h-[150px]"
                   }`}
-                  style={{ background: `color-mix(in oklab, ${p.tint} 32%, var(--paper))` }}
+                  style={{ background: `color-mix(in oklab, ${p.tint} 24%, white)` }}
                 >
                   <div>
                     <p
@@ -80,7 +80,7 @@ function Help() {
                     >
                       {p.kind}
                     </p>
-                    <h3 className="mt-2 font-serif text-[18px] leading-tight text-dusk">{p.title}</h3>
+                    <h3 className="mt-2 font-serif text-[20px] leading-[1.05] text-dusk">{p.title}</h3>
                   </div>
                   <p className="mt-3 text-[12.5px] leading-relaxed text-dusk/65">{p.body}</p>
                 </Link>
@@ -101,8 +101,8 @@ function Help() {
                   key={p.title}
                   to={p.to}
                   search={p.to === "/resources" ? { space: "care" as const } : undefined}
-                  className="rounded-[18px] p-5 flex items-center gap-4 border border-dusk/8 hover:-translate-y-0.5 transition-transform"
-                  style={{ background: `color-mix(in oklab, ${p.tint} 22%, var(--paper))` }}
+                  className="rounded-[16px] p-5 flex items-center gap-4 border border-dusk/8 hover:-translate-y-0.5 transition-transform"
+                  style={{ background: `color-mix(in oklab, ${p.tint} 18%, white)` }}
                 >
                   <span
                     aria-hidden
