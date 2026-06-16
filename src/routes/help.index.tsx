@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Halos } from "@/components/legato/Halos";
-import { Shell, ScreenHeader, Section } from "@/components/legato/Shell";
-import { useLegato } from "@/lib/legato-state";
+import { Shell } from "@/components/legato/Shell";
+import { LegatoMark } from "@/components/legato/LegatoMark";
 
 export const Route = createFileRoute("/help/")({
   head: () => ({ meta: [{ title: "Aide et accompagnement — Legato" }] }),
@@ -18,127 +17,91 @@ type HelpItem = {
 
 /* Choses concrètes — chaque entrée mène à une vraie page qui accompagne. */
 const PRACTICAL: HelpItem[] = [
-  { kind: "Le corps",     title: "Quand le corps oublie de manger", body: "Cinq petites choses que l'on peut avaler sans y penser.",     to: "/help/corps", tint: "var(--peach)" },
-  { kind: "Le corps",     title: "L'eau et le corps",               body: "Se laver, une étape à la fois — sans aucune obligation.",     to: "/help/corps", tint: "var(--mist)" },
-  { kind: "Le corps",     title: "S'habiller",                       body: "Trouver la chose la plus douce, aujourd'hui.",                to: "/help/corps", tint: "var(--blush)" },
-  { kind: "Sommeil",      title: "Les nuits qui n'en finissent pas", body: "Ce que d'autres ont fait à 3 h du matin.",                   to: "/help/corps", tint: "var(--lavender)" },
-  { kind: "Administratif",title: "Ce qu'il faut résilier ou prévenir", body: "Une liste douce. Banque, abonnements, la poste.",          to: "/practical",  tint: "var(--sun)" },
+  { kind: "Le corps",      title: "Quand le corps oublie de manger",  body: "Cinq petites choses que l'on peut avaler sans y penser.",  to: "/help/corps", tint: "var(--peach)" },
+  { kind: "Le corps",      title: "L'eau et le corps",                body: "Se laver, une étape à la fois — sans obligation.",          to: "/help/corps", tint: "var(--mist)" },
+  { kind: "Le corps",      title: "S'habiller",                       body: "Trouver la chose la plus douce, aujourd'hui.",              to: "/help/corps", tint: "var(--blush)" },
+  { kind: "Sommeil",       title: "Les nuits qui n'en finissent pas", body: "Ce que d'autres ont fait à 3 h du matin.",                 to: "/help/corps", tint: "var(--lavender)" },
+  { kind: "Administratif", title: "Résilier, prévenir",               body: "Une liste douce. Banque, abonnements, la poste.",          to: "/practical",  tint: "var(--sun)" },
 ];
 
 const RELAY: HelpItem[] = [
-  { kind: "Un·e proche",   title: "Demander à quelqu'un de prendre une tâche", body: "Transmettre une demande simple et claire — nous écrivons le message pour vous.", to: "/presence",  tint: "var(--sage)" },
-  { kind: "Un·e pro",      title: "Ressources et accompagnement",               body: "Thérapeutes du deuil, près de chez vous, par région et par langue.",            to: "/resources", tint: "var(--terracotta)" },
-  { kind: "Une communauté",title: "Petit cercle, chaque semaine",               body: "Groupes en ligne — perte d'une personne, d'un animal, ou deuil anticipé.",      to: "/community", tint: "var(--azure)" },
+  { kind: "Un·e proche",    title: "Déléguer une tâche",          body: "Nous rédigeons le message à votre place.",                          to: "/presence",  tint: "var(--sage)" },
+  { kind: "Un·e pro",       title: "Trouver un·e thérapeute",     body: "Annuaire de thérapeutes du deuil, par région et par langue.",       to: "/resources", tint: "var(--terracotta)" },
+  { kind: "Une communauté", title: "Petit cercle, chaque semaine",body: "Groupes en ligne — personne, animal, ou deuil anticipé.",           to: "/community", tint: "var(--azure)" },
 ];
 
 function Help() {
-  const { mode } = useLegato();
   return (
-    <Shell>
-      <div className="relative">
-        <Halos mode={mode} variant="calm" />
-        <div className="relative z-10">
-          {/* Bouton retour — page accessible directement, on ramène à l'accueil
-              du mode courant (qui est /home) plutôt que de laisser la personne
-              coincée. */}
-          <div className="px-7 pt-10">
-            <Link
-              to="/home"
-              className="text-[11px] uppercase tracking-[0.22em] text-dusk/55 hover:text-dusk transition-colors"
-            >
-              ← Accueil
-            </Link>
+    <Shell livingBg={false}>
+      <div className="min-h-dvh bg-paper text-dusk pb-32">
+        <header className="px-6 pt-9 pb-6 flex items-center justify-between">
+          <LegatoMark to="/home" size={22} />
+          <span className="eyebrow">Aide</span>
+        </header>
+
+        <section className="px-6 pb-10">
+          <p className="eyebrow">Sans s'expliquer trop</p>
+          <h1 className="mt-5 display-xl">
+            Demander de l'<span className="italic" style={{ color: "var(--terracotta)" }}>aide</span>.
+          </h1>
+          <p className="mt-5 body-meta max-w-[34ch]">
+            Trois portes simples : pour soi, pour déléguer, ou pour être accompagné·e.
+          </p>
+        </section>
+
+        <section className="px-5">
+          <p className="eyebrow px-1 mb-3">Pour soi — concret</p>
+          <div className="grid grid-cols-2 gap-3">
+            {PRACTICAL.map((p, i) => (
+              <Link
+                key={p.title}
+                to={p.to}
+                className={`card-plain px-5 py-5 flex flex-col justify-between transition-transform active:scale-[0.99] ${
+                  i === 0 ? "col-span-2 min-h-[130px]" : "min-h-[150px]"
+                }`}
+                style={{ background: `color-mix(in oklab, ${p.tint} 26%, var(--paper))` }}
+              >
+                <div>
+                  <p className="eyebrow">{p.kind}</p>
+                  <h3 className="h-section mt-3">{p.title}</h3>
+                </div>
+                <p className="mt-3 body-meta">{p.body}</p>
+              </Link>
+            ))}
           </div>
+        </section>
 
-          <ScreenHeader
-            eyebrow="Aide — concrète, tranquille"
-            title={<>Demander de l'aide, <br /><span className="italic" style={{ color: "var(--terracotta)" }}>sans s'expliquer trop.</span></>}
-            subtitle="Des portes simples pour soi, pour déléguer, ou pour être accompagné·e sans pression."
-          />
+        <section className="px-5 mt-8">
+          <p className="eyebrow px-1 mb-3">Relais — laisser aider</p>
+          <div className="space-y-2.5">
+            {RELAY.map((p) => (
+              <Link
+                key={p.title}
+                to={p.to}
+                search={p.to === "/resources" ? { space: "care" as const } : undefined}
+                className="card-plain px-5 py-5 flex items-center gap-4 active:scale-[0.99] transition-transform"
+                style={{ background: `color-mix(in oklab, ${p.tint} 18%, var(--paper))` }}
+              >
+                <span aria-hidden className="size-10 rounded-full shrink-0" style={{ background: p.tint }} />
+                <div className="flex-1 min-w-0">
+                  <p className="eyebrow">{p.kind}</p>
+                  <h3 className="mt-1.5 font-serif text-[19px] leading-tight">{p.title}</h3>
+                  <p className="mt-1.5 body-meta">{p.body}</p>
+                </div>
+                <span className="font-serif text-[20px] opacity-50">→</span>
+              </Link>
+            ))}
+          </div>
+        </section>
 
-          <Section className="mt-6">
-            <div className="grid grid-cols-2 gap-3">
-              <div className="editorial-stat-card px-4 py-4" style={{ background: "color-mix(in oklab, var(--sun) 56%, white)" }}>
-                <p className="editorial-kicker">Principe</p>
-                <p className="mt-2 font-serif text-[22px] leading-[1.02]">Entrer sans raconter toute l'histoire.</p>
-              </div>
-              <div className="editorial-stat-card px-4 py-4" style={{ background: "color-mix(in oklab, var(--mist) 34%, white)" }}>
-                <p className="editorial-kicker">Chemin</p>
-                <p className="mt-2 text-[13px] leading-relaxed text-dusk/70">Soi, relais, urgence: trois portes très lisibles.</p>
-              </div>
-            </div>
-          </Section>
-
-          <Section className="mt-10">
-            <p className="editorial-kicker mb-4">
-              Choses concrètes — pour soi
+        <section className="px-7 mt-10">
+          <Link to="/crisis" className="block border-t border-dusk/12 pt-6 text-center">
+            <p className="eyebrow">Si aujourd'hui est trop</p>
+            <p className="mt-2 font-serif text-[17px] italic" style={{ color: "var(--terracotta)" }}>
+              Une porte calme →
             </p>
-            <div className="grid grid-cols-2 gap-3">
-              {PRACTICAL.map((p, i) => (
-                <Link
-                  key={p.title}
-                  to={p.to}
-                  className={`rounded-[16px] p-5 border border-dusk/8 flex flex-col justify-between hover:-translate-y-0.5 transition-transform editorial-tint-card ${
-                    i === 0 ? "col-span-2 min-h-[130px]" : "min-h-[150px]"
-                  }`}
-                  style={{ background: `color-mix(in oklab, ${p.tint} 24%, white)` }}
-                >
-                  <div>
-                    <p
-                      className="text-[10px] uppercase tracking-[0.2em] text-dusk/55"
-                      style={{ fontFamily: "var(--font-mono)" }}
-                    >
-                      {p.kind}
-                    </p>
-                    <h3 className="mt-2 font-serif text-[20px] leading-[1.05] text-dusk">{p.title}</h3>
-                  </div>
-                  <p className="mt-3 text-[12.5px] leading-relaxed text-dusk/65">{p.body}</p>
-                </Link>
-              ))}
-            </div>
-          </Section>
-
-          <Section className="mt-10">
-            <p className="editorial-kicker mb-4">
-              Relais — laisser d'autres aider
-            </p>
-            <div className="space-y-2.5">
-              {RELAY.map((p) => (
-                <Link
-                  key={p.title}
-                  to={p.to}
-                  search={p.to === "/resources" ? { space: "care" as const } : undefined}
-                  className="rounded-[16px] p-5 flex items-center gap-4 border border-dusk/8 hover:-translate-y-0.5 transition-transform editorial-tint-card"
-                  style={{ background: `color-mix(in oklab, ${p.tint} 18%, white)` }}
-                >
-                  <span
-                    aria-hidden
-                    className="size-10 rounded-full shrink-0"
-                    style={{ background: p.tint }}
-                  />
-                  <div className="flex-1 min-w-0">
-                    <p
-                      className="text-[10px] uppercase tracking-[0.2em] text-dusk/55"
-                      style={{ fontFamily: "var(--font-mono)" }}
-                    >
-                      {p.kind}
-                    </p>
-                    <h3 className="mt-1 font-serif text-[18px] leading-tight text-dusk">{p.title}</h3>
-                    <p className="mt-1.5 text-[12.5px] leading-relaxed text-dusk/65">{p.body}</p>
-                  </div>
-                  <span className="text-dusk/35 text-[18px]">→</span>
-                </Link>
-              ))}
-            </div>
-          </Section>
-
-          <Section className="mt-10">
-            <Link to="/crisis" className="block border-t border-dusk/10 pt-6 text-center">
-              <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">Si aujourd'hui est trop</p>
-              <p className="mt-1 font-serif text-base italic text-dusk">Une petite porte, calme →</p>
-            </Link>
-          </Section>
-        </div>
+          </Link>
+        </section>
       </div>
     </Shell>
   );
