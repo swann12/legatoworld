@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Shell } from "@/components/legato/Shell";
-import { SpaceHeader } from "@/components/legato/SpaceHeader";
+import { LegatoMark } from "@/components/legato/LegatoMark";
 
 export const Route = createFileRoute("/parcours")({
   head: () => ({
@@ -17,8 +17,8 @@ type Status = "todo" | "doing" | "waiting" | "delegated" | "done";
 const STATUS_LABEL: Record<Status, string> = {
   todo: "À faire", doing: "En cours", waiting: "En attente", delegated: "Délégué", done: "Terminé",
 };
-const STATUS_COLOR: Record<Status, string> = {
-  todo: "var(--ember)", doing: "var(--terracotta)", waiting: "var(--mist)", delegated: "var(--sun)", done: "var(--olive)",
+const STATUS_CHIP: Record<Status, string> = {
+  todo: "chip-todo", doing: "chip-doing", waiting: "chip-blocked", delegated: "chip-delegate", done: "chip-done",
 };
 
 const FILTERS = ["Aujourd'hui", "Cette semaine", "Plus tard", "Terminé"] as const;
@@ -63,69 +63,43 @@ function Parcours() {
   const [openCat, setOpenCat] = useState<Record<string, boolean>>(
     Object.fromEntries(CATEGORIES.map((c, i) => [c.name, i < 2])),
   );
+  const totalTasks = CATEGORIES.reduce((a, c) => a + c.tasks.length, 0);
+  const doneTasks  = CATEGORIES.reduce((a, c) => a + c.tasks.filter(t => t.status === "done").length, 0);
+  const pct = Math.round((doneTasks / totalTasks) * 100);
 
   return (
     <Shell livingBg={false}>
       <div className="min-h-dvh bg-paper text-dusk pb-32">
-        <SpaceHeader space="organize" />
+        <header className="px-6 pt-9 pb-6 flex items-center justify-between">
+          <LegatoMark to="/space" size={22} />
+          <span className="eyebrow">Mon parcours</span>
+        </header>
 
-        <section className="px-7 pt-12 pb-7 editorial-hero">
-          <p className="editorial-kicker">
-            Mon parcours
-          </p>
-          <h1 className="mt-3 max-w-[8ch] editorial-display">
-            Voir où vous en êtes, <span className="italic" style={{ color: "var(--terracotta)" }}>vraiment.</span>
+        <section className="px-6 pb-8">
+          <p className="eyebrow">Avancement</p>
+          <h1 className="mt-5 display-xl">
+            {doneTasks}<span className="text-dusk/40">/{totalTasks}</span> <span className="italic" style={{ color: "var(--terracotta)" }}>étapes</span>.
           </h1>
-          <p className="mt-5 text-[13.5px] leading-relaxed text-dusk/60 max-w-[32ch]">
-            Une lecture plus nette du chemin: chapitres, état, prochaine action.
+          <p className="mt-5 body-meta max-w-[34ch]">
+            Voir où vous en êtes — par chapitre, par échéance, par statut.
           </p>
-
-          <div className="mt-6 grid grid-cols-2 gap-3">
-            <div className="editorial-panel p-5 col-span-2">
-              <div className="flex items-end justify-between gap-4">
-                <p className="font-serif text-[28px] leading-none text-dusk">
-                  {CATEGORIES.reduce((acc, c) => acc + c.tasks.filter(t => t.status === "done").length, 0)}
-                  <span className="text-dusk/40"> / {CATEGORIES.reduce((acc, c) => acc + c.tasks.length, 0)}</span>
-                </p>
-                <span className="editorial-kicker">
-                  tâches terminées
-                </span>
-              </div>
-            <div className="mt-3 h-1.5 rounded-full bg-dusk/10 overflow-hidden">
-              <div
-                className="h-full rounded-full"
-                style={{
-                  width: `${
-                    (CATEGORIES.reduce((a, c) => a + c.tasks.filter(t => t.status === "done").length, 0) /
-                      CATEGORIES.reduce((a, c) => a + c.tasks.length, 0)) * 100
-                  }%`,
-                  background: "var(--olive)",
-                }}
-              />
-            </div>
-              <div className="mt-4 grid grid-cols-2 gap-2.5">
-              <div className="rounded-[16px] px-4 py-3" style={{ background: "color-mix(in oklab, var(--mist) 35%, var(--paper))" }}>
-                <p className="text-[10px] uppercase tracking-[0.18em] text-dusk/50" style={{ fontFamily: "var(--font-mono)" }}>Chapitre en cours</p>
-                <p className="mt-2 font-serif text-[19px] leading-tight">Cérémonie</p>
-              </div>
-              <div className="rounded-[16px] px-4 py-3" style={{ background: "color-mix(in oklab, var(--sun) 45%, var(--paper))" }}>
-                <p className="text-[10px] uppercase tracking-[0.18em] text-dusk/50" style={{ fontFamily: "var(--font-mono)" }}>Ensuite</p>
-                <p className="mt-2 font-serif text-[19px] leading-tight">Succession & après</p>
-              </div>
-            </div>
-            </div>
-            <div className="editorial-stat-card px-4 py-4" style={{ background: "color-mix(in oklab, var(--sun) 56%, white)" }}>
-              <p className="editorial-kicker">Prochaine poussée</p>
-              <p className="mt-2 font-serif text-[21px] leading-[1.02]">Déclarer puis prévenir.</p>
-            </div>
-            <div className="editorial-stat-card px-4 py-4" style={{ background: "color-mix(in oklab, var(--mist) 36%, white)" }}>
-              <p className="editorial-kicker">Lecture</p>
-              <p className="mt-2 text-[13px] leading-relaxed text-dusk/70">Chaque chapitre montre volume, statut et prochaine action.</p>
-            </div>
+          <div className="mt-5 h-1.5 w-full rounded-full bg-dusk/10 overflow-hidden">
+            <div className="h-full rounded-full" style={{ width: `${pct}%`, background: "var(--olive)" }} />
           </div>
         </section>
 
-        <section className="px-7 pt-6 flex gap-2 overflow-x-auto no-scrollbar">
+        <section className="px-5 grid grid-cols-2 gap-3">
+          <div className="card-butter px-5 py-4">
+            <p className="eyebrow">Chapitre en cours</p>
+            <p className="h-section mt-2">Cérémonie</p>
+          </div>
+          <div className="card-sardine px-5 py-4">
+            <p className="eyebrow">Ensuite</p>
+            <p className="h-section mt-2">Succession & après</p>
+          </div>
+        </section>
+
+        <section className="px-6 pt-8 flex gap-2 overflow-x-auto no-scrollbar">
           {(["all", ...FILTERS] as const).map((f) => {
             const active = filter === f;
             const label = f === "all" ? "Tout" : f;
@@ -133,10 +107,9 @@ function Parcours() {
               <button
                 key={f}
                 onClick={() => setFilter(f)}
-                className={`shrink-0 editorial-chip px-3.5 py-1.5 text-[11px] uppercase tracking-[0.18em] transition-colors ${
-                  active ? "bg-dusk text-paper border-dusk" : "border-dusk/20 text-dusk/70 hover:bg-dusk/5"
+                className={`shrink-0 rounded-full border px-3.5 py-1.5 text-[11px] uppercase tracking-[0.14em] font-medium transition-colors ${
+                  active ? "bg-dusk text-paper border-dusk" : "border-dusk/15 text-dusk/65 hover:bg-dusk/5"
                 }`}
-                style={{ fontFamily: "var(--font-mono)" }}
               >
                 {label}
               </button>
@@ -144,62 +117,48 @@ function Parcours() {
           })}
         </section>
 
-        <section className="px-7 pt-7 space-y-3">
+        <section className="px-6 pt-7 space-y-3">
           {CATEGORIES.map((cat, idx) => {
             const tasks = cat.tasks.filter((t) => filter === "all" || t.filter === filter);
             if (tasks.length === 0) return null;
             const open = openCat[cat.name];
             const done = cat.tasks.filter(t => t.status === "done").length;
-            const tints = ["var(--blush)", "var(--sage)", "var(--mist)", "var(--sun)"];
+            const tints = ["var(--blush)", "var(--sun)", "var(--sky)", "var(--olive)"];
             return (
-              <div key={cat.name} className="rounded-[20px] border border-dusk/10 overflow-hidden bg-paper">
+              <div key={cat.name} className="card-plain overflow-hidden">
                 <button
                   onClick={() => setOpenCat({ ...openCat, [cat.name]: !open })}
                   className="w-full flex items-center justify-between px-5 py-4 text-left"
-                  style={{ background: open ? "transparent" : `color-mix(in oklab, ${tints[idx % 4]} 35%, var(--paper))` }}
+                  style={{ background: open ? "transparent" : `color-mix(in oklab, ${tints[idx % 4]} 24%, var(--paper))` }}
                 >
                   <div className="flex items-center gap-3 text-left">
                     <span
                       className="size-7 rounded-full flex items-center justify-center text-[11px] font-medium text-dusk"
-                      style={{ background: tints[idx % 4], fontFamily: "var(--font-mono)" }}
+                      style={{ background: tints[idx % 4] }}
                     >
                       {idx + 1}
                     </span>
                     <div>
                       <p className="font-serif text-[22px] text-dusk leading-tight">{cat.name}</p>
-                      <p
-                        className="mt-0.5 text-[10px] uppercase tracking-[0.2em] text-dusk/55"
-                        style={{ fontFamily: "var(--font-mono)" }}
-                      >
-                        {done}/{cat.tasks.length} · {tasks.length} visible{tasks.length > 1 ? "s" : ""}
-                      </p>
+                      <p className="eyebrow mt-0.5">{done}/{cat.tasks.length} · {tasks.length} visible{tasks.length > 1 ? "s" : ""}</p>
                     </div>
                   </div>
                   <span className="text-dusk/55 text-[18px]">{open ? "−" : "+"}</span>
                 </button>
                 {open && (
-                  <ul className="px-2 pb-2 space-y-0.5 border-t border-dusk/8">
+                  <ul className="divide-y divide-dusk/8 border-t border-dusk/8">
                     {tasks.map((t) => (
                       <li key={t.id}>
                         <Link
                           to="/parcours/$taskId"
                           params={{ taskId: t.id }}
-                          className="flex items-start gap-3 py-3 px-3 rounded-[12px] group hover:bg-dusk/[0.03]"
+                          className="flex items-start justify-between gap-3 px-5 py-4 group hover:bg-dusk/[0.02]"
                         >
-                          <span
-                            className="mt-2 size-1.5 rounded-full shrink-0"
-                            style={{ background: STATUS_COLOR[t.status] }}
-                          />
-                          <div className="flex-1 min-w-0">
+                          <div className="min-w-0">
                             <p className="font-serif text-[18px] text-dusk leading-snug">{t.title}</p>
-                            <p
-                              className="mt-1 text-[10.5px] uppercase tracking-[0.18em] text-dusk/55"
-                              style={{ fontFamily: "var(--font-mono)" }}
-                            >
-                              {STATUS_LABEL[t.status]} · {t.due}
-                            </p>
+                            <p className="mt-1 text-[12px] text-dusk/55">{t.due}</p>
                           </div>
-                          <span className="text-dusk/35 group-hover:text-dusk mt-1">→</span>
+                          <span className={`chip ${STATUS_CHIP[t.status]} shrink-0 mt-1`}>{STATUS_LABEL[t.status]}</span>
                         </Link>
                       </li>
                     ))}

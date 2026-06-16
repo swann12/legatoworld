@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Shell } from "@/components/legato/Shell";
-import { SpaceHeader } from "@/components/legato/SpaceHeader";
+import { LegatoMark } from "@/components/legato/LegatoMark";
 
 export const Route = createFileRoute("/parcours/$taskId")({
   head: () => ({ meta: [{ title: "Étape — Legato" }] }),
@@ -44,28 +44,14 @@ function TaskDetail() {
   return (
     <Shell livingBg={false}>
       <div className="min-h-dvh bg-paper text-dusk pb-32">
-        <SpaceHeader space="organize" />
+        <header className="px-6 pt-9 pb-6 flex items-center justify-between">
+          <LegatoMark to="/space" size={22} />
+          <Link to="/parcours" className="eyebrow hover:text-dusk">← Parcours</Link>
+        </header>
 
-        <div className="px-7 pt-6">
-          <Link
-            to="/parcours"
-            className="text-[11px] uppercase tracking-[0.22em] text-dusk/55 hover:text-dusk"
-            style={{ fontFamily: "var(--font-mono)" }}
-          >
-            ← Retour au parcours
-          </Link>
-        </div>
-
-        <section className="px-7 pt-8">
-          <p
-            className="text-[10px] uppercase tracking-[0.28em] text-dusk/50"
-            style={{ fontFamily: "var(--font-mono)" }}
-          >
-            Étape · Priorité
-          </p>
-          <h1 className="mt-3 font-serif text-[30px] leading-[1.1] font-light text-balance">
-            {t.title}
-          </h1>
+        <section className="px-6 pb-9">
+          <p className="eyebrow">Étape · Priorité</p>
+          <h1 className="mt-5 display-xl">{t.title}.</h1>
         </section>
 
         <Block label="Pourquoi maintenant" body={t.why} />
@@ -83,44 +69,30 @@ function TaskDetail() {
 
         <Block label="Budget estimé" body={t.budget} />
 
-        <section className="px-7 pt-8">
-          <p
-            className="text-[10px] uppercase tracking-[0.28em] text-dusk/50"
-            style={{ fontFamily: "var(--font-mono)" }}
-          >
-            Professionnels recommandés
-          </p>
+        <section className="px-6 pt-9">
+          <p className="eyebrow">Professionnels recommandés</p>
           <Link
             to="/resources"
-            className="mt-3 block rounded-[16px] border border-dusk/12 px-5 py-4 hover:bg-dusk/[0.03]"
+            search={{ space: "practical" }}
+            className="mt-3 block card-plain px-5 py-4 hover:bg-dusk/[0.02]"
           >
-            <p className="font-serif text-[17px] text-dusk">Voir l'annuaire</p>
+            <p className="font-serif text-[18px] text-dusk">Voir l'annuaire</p>
             <p className="text-[12.5px] text-dusk/60 mt-1">Comparer plusieurs prestataires près de chez vous.</p>
           </Link>
         </section>
 
-        <section className="px-5 pt-10 space-y-2.5">
-          <button
-            className="w-full rounded-[16px] py-4 font-serif text-[18px]"
-            style={{ background: "var(--terracotta)", color: "var(--paper)" }}
-          >
-            Commencer cette étape
+        <section className="px-5 pt-9 space-y-2.5">
+          <button className="w-full card-tomato py-4 font-serif text-[20px] transition-transform active:scale-[0.99]">
+            Commencer cette étape →
           </button>
           <div className="grid grid-cols-2 gap-2.5">
-            <button className="rounded-[14px] border border-dusk/15 py-3 font-serif text-[15px]">
-              Déléguer
-            </button>
-            <button className="rounded-[14px] border border-dusk/15 py-3 font-serif text-[15px]">
-              Marquer terminée
-            </button>
+            <button className="btn-ghost py-3 rounded-[14px]">Déléguer</button>
+            <button className="btn-ghost py-3 rounded-[14px]">Marquer fait</button>
           </div>
           <div className="grid grid-cols-3 gap-2.5 pt-1">
-            <button className="rounded-[14px] border border-dusk/12 py-2.5 text-[12px] uppercase tracking-[0.18em] text-dusk/70"
-              style={{ fontFamily: "var(--font-mono)" }}>Appeler</button>
-            <button className="rounded-[14px] border border-dusk/12 py-2.5 text-[12px] uppercase tracking-[0.18em] text-dusk/70"
-              style={{ fontFamily: "var(--font-mono)" }}>Écrire</button>
-            <button className="rounded-[14px] border border-dusk/12 py-2.5 text-[12px] uppercase tracking-[0.18em] text-dusk/70"
-              style={{ fontFamily: "var(--font-mono)" }}>RDV</button>
+            <button className="btn-ghost py-2.5 rounded-[14px]">Appeler</button>
+            <button className="btn-ghost py-2.5 rounded-[14px]">Écrire</button>
+            <button className="btn-ghost py-2.5 rounded-[14px]">RDV</button>
           </div>
         </section>
       </div>
@@ -130,27 +102,17 @@ function TaskDetail() {
 
 function Block({ label, body }: { label: string; body: string }) {
   return (
-    <section className="px-7 pt-8">
-      <p
-        className="text-[10px] uppercase tracking-[0.28em] text-dusk/50"
-        style={{ fontFamily: "var(--font-mono)" }}
-      >
-        {label}
-      </p>
-      <p className="mt-2 text-[14.5px] leading-[1.6] text-dusk/80 max-w-[40ch]">{body}</p>
+    <section className="px-6 pt-8">
+      <p className="eyebrow">{label}</p>
+      <p className="mt-3 text-[15px] leading-[1.55] text-dusk/80 max-w-[40ch]">{body}</p>
     </section>
   );
 }
 
 function List({ label, items }: { label: string; items: string[] }) {
   return (
-    <section className="px-7 pt-8">
-      <p
-        className="text-[10px] uppercase tracking-[0.28em] text-dusk/50"
-        style={{ fontFamily: "var(--font-mono)" }}
-      >
-        {label}
-      </p>
+    <section className="px-6 pt-8">
+      <p className="eyebrow">{label}</p>
       <ul className="mt-3 space-y-1.5">
         {items.map((it) => (
           <li key={it} className="flex items-start gap-2.5 text-[14px] text-dusk/80 leading-[1.55]">

@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import { Shell } from "@/components/legato/Shell";
 import { LegatoMark } from "@/components/legato/LegatoMark";
 import { useLegato } from "@/lib/legato-state";
@@ -15,7 +16,9 @@ export const Route = createFileRoute("/home")({
 
 function Home() {
   const { name } = useLegato();
-  const greeting = greetingForHour();
+  // Avoid SSR hydration mismatch by computing the greeting client-side only.
+  const [greeting, setGreeting] = useState("Bonjour");
+  useEffect(() => setGreeting(greetingForHour()), []);
   // Démarches : valeurs maquettes (à brancher Vague 3).
   const tasksDone = 6;
   const tasksTotal = 14;
@@ -156,7 +159,6 @@ function Home() {
 }
 
 function greetingForHour() {
-  if (typeof window === "undefined") return "Bonjour";
   const h = new Date().getHours();
   if (h < 5) return "Bonne nuit";
   if (h < 12) return "Bonjour";

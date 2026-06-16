@@ -25,37 +25,35 @@ function Space() {
         </header>
 
         <section className="pt-14 px-7">
-          <p
-            className="text-[10px] uppercase tracking-[0.28em] text-dusk/50"
-            style={{ fontFamily: "var(--font-mono)" }}
-          >
-            {name ? `Bonjour ${name}` : "Bonjour"}
-          </p>
-          <h1 className="mt-4 font-serif text-[36px] leading-[1.03] font-light text-balance">
+          <p className="eyebrow">{name ? `Bonjour ${name}` : "Bonjour"}</p>
+          <h1 className="mt-5 display-xl">
             De quoi avez-vous <span className="italic" style={{ color: "var(--terracotta)" }}>besoin&nbsp;?</span>
           </h1>
+          <p className="mt-5 body-meta max-w-[32ch]">
+            Deux espaces, distincts mais reliés. Vous pouvez passer de l'un à l'autre à tout moment.
+          </p>
         </section>
 
-        <section className="px-5 pt-10 space-y-3">
+        <section className="px-5 pt-9 space-y-3">
           <Block
             to={careTarget}
-            bg="var(--terracotta)"
-            fg="var(--paper)"
+            className="card-tomato"
+            eyebrow="Espace · Soi"
             title="Prendre soin de soi"
             text="Pour traverser ce que vous ressentez, parler, écrire, respirer ou préserver un souvenir."
             cta="Entrer dans cet espace"
           />
           <Block
             to={practicalTarget}
-            bg="var(--bordeaux)"
-            fg="var(--paper)"
+            className="card-oven"
+            eyebrow="Espace · Démarches"
             title="Organiser et avancer"
             text="Pour être guidé·e dans les démarches, la cérémonie, les documents et les prochaines étapes."
             cta="Voir ce qu'il faut faire"
           />
         </section>
 
-        <p className="mt-7 text-center text-[12px] text-dusk/55 px-7 pb-10">
+        <p className="mt-8 text-center text-[12px] text-dusk/55 px-7 pb-10">
           Vous pourrez changer d'espace à tout moment.
         </p>
       </div>
@@ -64,21 +62,18 @@ function Space() {
 }
 
 function Block({
-  to, bg, fg, title, text, cta,
-}: { to: string; bg: string; fg: string; title: string; text: string; cta: string }) {
+  to, className, eyebrow, title, text, cta,
+}: { to: string; className: string; eyebrow: string; title: string; text: string; cta: string }) {
   return (
     <Link
       to={to as "/home"}
-      className="block rounded-[22px] px-6 py-7"
-      style={{ background: bg, color: fg }}
+      className={`block ${className} px-6 py-7 transition-transform active:scale-[0.99]`}
     >
-      <h2 className="font-serif text-[24px] leading-[1.15] font-light">{title}</h2>
-      <p className="mt-2.5 text-[13.5px] leading-[1.55] opacity-85 max-w-[34ch]">{text}</p>
-      <p
-        className="mt-5 text-[11px] uppercase tracking-[0.22em] opacity-90 inline-flex items-center gap-2"
-        style={{ fontFamily: "var(--font-mono)" }}
-      >
-        {cta} <span>→</span>
+      <span className="eyebrow-on-dark">{eyebrow}</span>
+      <h2 className="mt-3 font-serif text-[28px] leading-[1.05]">{title}</h2>
+      <p className="mt-3 text-[13.5px] leading-[1.55] opacity-85 max-w-[34ch]">{text}</p>
+      <p className="mt-6 text-[11px] uppercase tracking-[0.18em] font-medium opacity-95 inline-flex items-center gap-2">
+        {cta} <span className="font-serif text-[18px]">→</span>
       </p>
     </Link>
   );

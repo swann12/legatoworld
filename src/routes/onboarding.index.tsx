@@ -25,8 +25,7 @@ function Onboarding() {
         <header className="px-7 pt-10 flex items-center justify-between">
           <button
             onClick={() => navigate({ to: "/start" })}
-            className="text-[10px] uppercase tracking-[0.24em] text-dusk/50 hover:text-dusk"
-            style={{ fontFamily: "var(--font-mono)" }}
+            className="eyebrow hover:text-dusk"
           >
             ← Retour
           </button>
@@ -35,17 +34,12 @@ function Onboarding() {
         </header>
 
         <div className="relative z-10 flex flex-1 flex-col justify-center px-7 pb-24">
-          <p
-            className="text-[10px] uppercase tracking-[0.3em] text-dusk/50"
-            style={{ fontFamily: "var(--font-mono)" }}
-          >
-            Pour commencer
-          </p>
-          <h1 className="mt-4 font-serif text-[36px] leading-[1.05] font-light text-balance">
+          <p className="eyebrow">Pour commencer</p>
+          <h1 className="mt-5 display-xl">
             Comment souhaitez-vous que nous <span className="italic" style={{ color: "var(--terracotta)" }}>vous&nbsp;appelions&nbsp;?</span>
           </h1>
 
-          <div className="mt-8 rounded-[14px] border border-dusk/15 bg-paper px-5 py-4">
+          <div className="mt-8 rounded-[16px] border border-dusk/15 bg-whisper px-5 py-4">
             <input
               value={name}
               onChange={(e) => setName(e.target.value)}
@@ -58,10 +52,9 @@ function Onboarding() {
           <button
             onClick={() => canContinue && navigate({ to: "/space" })}
             disabled={!canContinue}
-            className="mt-6 block w-full rounded-[18px] text-[color:var(--paper)] px-6 py-5 text-center disabled:opacity-40"
-            style={{ background: "var(--bordeaux)" }}
+            className="mt-5 block w-full card-tomato px-6 py-5 text-center disabled:opacity-40 transition-transform active:scale-[0.99]"
           >
-            <span className="font-serif text-[20px] italic">Continuer</span>
+            <span className="font-serif text-[20px]">Continuer →</span>
           </button>
         </div>
       </div>
