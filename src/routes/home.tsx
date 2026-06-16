@@ -39,40 +39,42 @@ function Home() {
       <div className="min-h-dvh bg-paper text-dusk pb-32">
         <SpaceHeader space="care" />
 
-        <section className="px-7 pt-12 editorial-frame pb-7">
-          <p
-            className="text-[10px] uppercase tracking-[0.28em] text-dusk/50"
-            style={{ fontFamily: "var(--font-mono)" }}
-          >
+        <section className="px-7 pt-12 pb-7 editorial-hero">
+          <p className="editorial-kicker">
             Accueil
           </p>
-          <h1 className="mt-4 max-w-[9ch] font-serif text-[42px] leading-[0.95] font-normal text-balance">
+          <h1 className="mt-4 max-w-[8ch] editorial-display">
             Avancer sans porter <span className="italic" style={{ color: "var(--terracotta)" }}>tout seul·e.</span>
           </h1>
-          <div className="mt-5 flex items-end justify-between gap-4">
-            <p className="text-[13.5px] text-dusk/60 max-w-[28ch]">
-              Un point d'entrée plus net, plus calme, plus éditorial : choisir ce qui aide maintenant.
-            </p>
-            <div className="hidden min-[390px]:block text-right">
-              <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/40" style={{ fontFamily: "var(--font-mono)" }}>
-                Aujourd'hui
+          <div className="mt-6 grid grid-cols-[1.15fr_0.85fr] gap-3">
+            <div className="editorial-tint-card min-h-[168px] px-5 py-5" style={{ background: "color-mix(in oklab, var(--sun) 72%, white)" }}>
+              <p className="editorial-kicker">Aujourd'hui</p>
+              <p className="mt-3 font-serif text-[30px] leading-[0.96]">Ce qui compte, <span className="italic">maintenant.</span></p>
+              <p className="mt-4 max-w-[22ch] text-[13px] leading-relaxed text-dusk/65">
+                Un point d'entrée plus net, plus calme, plus structuré pour choisir le bon geste.
               </p>
-              <p className="mt-1 font-serif text-[20px] leading-none">Un pas suffit.</p>
+            </div>
+            <div className="grid gap-3">
+              <div className="editorial-stat-card px-4 py-4 min-h-[78px]" style={{ background: "color-mix(in oklab, var(--mist) 34%, white)" }}>
+                <p className="editorial-kicker">Rythme</p>
+                <p className="mt-2 font-serif text-[22px] leading-none">Un pas suffit.</p>
+              </div>
+              <div className="editorial-stat-card px-4 py-4 min-h-[78px]" style={{ background: "color-mix(in oklab, var(--rose) 26%, white)" }}>
+                <p className="editorial-kicker">Intention</p>
+                <p className="mt-2 text-[13px] leading-relaxed text-dusk/70">Entrer par la présence, l'écriture, le souffle ou le lien.</p>
+              </div>
             </div>
           </div>
         </section>
 
         <section className="mt-7 px-5">
-          <div className="grid grid-cols-[1.3fr_0.9fr] gap-3">
+          <div className="grid grid-cols-[1.18fr_0.82fr] gap-3">
             <Link
               to={ACTIONS[0].to}
-              className="block rounded-[24px] px-6 py-7 transition-transform hover:scale-[0.995] min-h-[220px]"
+              className="block rounded-[24px] px-6 py-7 transition-transform hover:scale-[0.995] min-h-[236px] editorial-tint-card"
               style={{ background: ACTIONS[0].tint, color: ACTIONS[0].fg }}
             >
-              <p
-                className="text-[10px] uppercase tracking-[0.26em] opacity-70"
-                style={{ fontFamily: "var(--font-mono)" }}
-              >
+              <p className="editorial-kicker" style={{ color: "color-mix(in oklab, currentColor 72%, transparent)" }}>
                 Entrée principale
               </p>
               <p className="mt-4 max-w-[8ch] font-serif text-[36px] leading-[0.95] font-normal">
@@ -81,22 +83,30 @@ function Home() {
               <p className="mt-4 text-[13px] leading-relaxed opacity-85 max-w-[24ch]">
                 {ACTIONS[0].sub}
               </p>
+              <div className="mt-7 flex items-end justify-between gap-3">
+                <span className="text-[11px] uppercase tracking-[0.18em] opacity-70" style={{ fontFamily: "var(--font-mono)" }}>
+                  Ouvrir
+                </span>
+                <span className="font-serif text-[22px] leading-none">→</span>
+              </div>
             </Link>
 
             <div className="grid gap-3">
               <Link
                 to="/journal"
-                className="rounded-[22px] px-5 py-5 min-h-[104px]"
+                className="rounded-[22px] px-5 py-5 min-h-[112px] editorial-tint-card"
                 style={{ background: "color-mix(in oklab, var(--sun) 80%, white)", color: "var(--dusk)" }}
               >
+                <p className="editorial-kicker">Journal</p>
                 <p className="font-serif text-[24px] leading-[1.02]">Écrire</p>
                 <p className="mt-2 text-[11.5px] text-dusk/65">Une phrase suffit.</p>
               </Link>
               <Link
                 to="/no-words"
-                className="rounded-[22px] px-5 py-5 min-h-[104px]"
+                className="rounded-[22px] px-5 py-5 min-h-[112px] editorial-tint-card"
                 style={{ background: "color-mix(in oklab, var(--mist) 86%, white)", color: "var(--dusk)" }}
               >
+                <p className="editorial-kicker">Souffle</p>
                 <p className="font-serif text-[24px] leading-[1.02]">Respirer</p>
                 <p className="mt-2 text-[11.5px] text-dusk/65">Sans trouver les mots.</p>
               </Link>
@@ -112,18 +122,22 @@ function Home() {
                 to={a.to}
                 className={`rounded-[20px] px-5 py-5 flex flex-col justify-between transition-transform hover:scale-[0.99] ${
                   i === 0 ? "min-h-[152px]" : i === 1 ? "min-h-[172px]" : "min-h-[152px]"
-                }`}
+                } editorial-tint-card`}
                 style={{ background: a.tint, color: a.fg }}
               >
+                <p className="editorial-kicker" style={{ color: "color-mix(in oklab, currentColor 72%, transparent)" }}>
+                  {i === 0 ? "Jardin" : i === 1 ? "Lien" : "Soutien"}
+                </p>
                 <p className="font-serif text-[22px] leading-[1.06]">{a.title.replace("Entrer dans le ", "")}</p>
                 <p className="mt-2 text-[11.5px] opacity-75 max-w-[14ch]">{a.sub}</p>
               </Link>
             ))}
             <Link
               to="/community"
-              className="rounded-[20px] px-5 py-5 flex flex-col justify-between min-h-[172px]"
+              className="rounded-[20px] px-5 py-5 flex flex-col justify-between min-h-[172px] editorial-tint-card"
               style={{ background: "var(--bordeaux)", color: "var(--paper)" }}
             >
+              <p className="editorial-kicker" style={{ color: "color-mix(in oklab, currentColor 72%, transparent)" }}>Communauté</p>
               <p className="font-serif text-[24px] leading-[1.02]">Ne pas rester seule.</p>
               <p className="mt-2 text-[11.5px] opacity-75 max-w-[15ch]">Des personnes et des cercles si vous en ressentez le besoin.</p>
             </Link>
@@ -131,33 +145,29 @@ function Home() {
         </section>
 
         <section className="mt-10 px-5">
-          <p
-            className="px-2 text-[10px] uppercase tracking-[0.28em] text-dusk/50"
-            style={{ fontFamily: "var(--font-mono)" }}
-          >
+          <p className="px-2 editorial-kicker">
             Pour aller plus loin
           </p>
-          <div className="mt-3 grid grid-cols-1 gap-2.5">
+          <div className="mt-3 editorial-list">
             {FURTHER.map((f) => (
               <Link
                 key={f.label}
                 to={f.to as "/library/$kind"}
                 params={f.params as { kind: string }}
                 search={f.search as { space: "care" }}
-                className="rounded-[18px] px-4 py-4 flex items-center gap-3 border border-dusk/8 hover:-translate-y-0.5 transition-transform"
-                style={{ background: `color-mix(in oklab, ${f.tint} 28%, var(--paper))` }}
+                className="px-4 py-4 flex items-center gap-3 border-b last:border-b-0 border-dusk/8 hover:bg-dusk/[0.02] transition-colors"
+                style={{ background: "transparent" }}
               >
                 <span
                   aria-hidden
-                  className="size-2.5 rounded-full shrink-0"
+                  className="size-9 rounded-full shrink-0 flex items-center justify-center"
                   style={{ background: f.tint }}
-                />
+                >
+                  <span className="text-paper text-[11px]" style={{ color: "color-mix(in oklab, var(--paper) 92%, white)" }}>•</span>
+                </span>
                 <div className="min-w-0">
                   <p className="font-serif text-[18px] text-dusk leading-tight">{f.label}</p>
-                  <p
-                    className="mt-0.5 text-[10px] uppercase tracking-[0.18em] text-dusk/55 truncate"
-                    style={{ fontFamily: "var(--font-mono)" }}
-                  >
+                  <p className="mt-0.5 text-[10px] uppercase tracking-[0.18em] text-dusk/55 truncate" style={{ fontFamily: "var(--font-mono)" }}>
                     {f.sub}
                   </p>
                 </div>
