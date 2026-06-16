@@ -125,7 +125,7 @@ function Start() {
               type="button"
               onClick={() => { setMode("choice"); setError(null); setInfo(null); }}
               className="text-[10px] uppercase tracking-[0.24em] text-dusk/50 hover:text-dusk"
-              style={{ fontFamily: "var(--font-mono)" }}
+              
             >
               ← Retour
             </button>
@@ -135,7 +135,7 @@ function Start() {
         <div className="relative z-10 flex flex-1 flex-col justify-center px-7 pb-12 pt-10">
           <p
             className="text-[10px] uppercase tracking-[0.28em] text-dusk/50"
-            style={{ fontFamily: "var(--font-mono)" }}
+            
           >
             {mode === "signin" ? "Se reconnecter" : mode === "signup" ? "Créer un espace" : "Bienvenue"}
           </p>
@@ -177,7 +177,7 @@ function Start() {
                     type="button"
                     onClick={goNext}
                     className="text-center text-[10px] uppercase tracking-[0.24em] text-dusk/45 hover:text-dusk transition-colors py-1"
-                    style={{ fontFamily: "var(--font-mono)" }}
+                    
                   >
                     Continuer en tant qu'invité·e
                   </button>
@@ -243,7 +243,7 @@ function Start() {
                   <span className="h-px flex-1 bg-dusk/15" />
                   <span
                     className="text-[9.5px] uppercase tracking-[0.28em] text-dusk/40"
-                    style={{ fontFamily: "var(--font-mono)" }}
+                    
                   >
                     ou
                   </span>
@@ -255,7 +255,7 @@ function Start() {
                   onClick={handleGoogle}
                   disabled={loading}
                   className="rounded-full border border-dusk/20 bg-paper px-7 py-3.5 text-center text-[11px] uppercase tracking-[0.24em] text-dusk/75 hover:bg-dusk/5 transition-colors disabled:opacity-50"
-                  style={{ fontFamily: "var(--font-mono)" }}
+                  
                 >
                   Continuer avec Google
                 </button>
@@ -264,7 +264,7 @@ function Start() {
                   type="button"
                   onClick={() => { setMode("choice"); setError(null); setInfo(null); }}
                   className="mt-1 text-center text-[10px] uppercase tracking-[0.24em] text-dusk/45 hover:text-dusk transition-colors py-1"
-                  style={{ fontFamily: "var(--font-mono)" }}
+                  
                 >
                   Retour
                 </button>
@@ -285,7 +285,7 @@ function SoftInput({
     <label className="block">
       <span
         className="mb-1.5 block text-[10px] uppercase tracking-[0.24em] text-dusk/50"
-        style={{ fontFamily: "var(--font-mono)" }}
+        
       >
         {label}
       </span>

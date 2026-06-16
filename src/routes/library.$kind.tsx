@@ -100,13 +100,13 @@ function LibraryPage() {
             <Link
               to="/home"
               className="text-[10px] uppercase tracking-[0.24em] opacity-65 hover:opacity-100"
-              style={{ fontFamily: "var(--font-mono)" }}
+              
             >
               ← Accueil
             </Link>
             <p
               className="mt-5 text-[10px] uppercase tracking-[0.28em] opacity-70"
-              style={{ fontFamily: "var(--font-mono)" }}
+              
             >
               {data.eyebrow}
             </p>
@@ -136,7 +136,7 @@ function LibraryPage() {
               />
               <p
                 className="text-[10px] uppercase tracking-[0.22em] text-dusk/45"
-                style={{ fontFamily: "var(--font-mono)" }}
+                
               >
                 {it.author}
               </p>

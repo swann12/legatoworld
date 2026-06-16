@@ -31,7 +31,7 @@ function Ceremony() {
         <section className="px-7 pt-14">
           <p
             className="text-[10px] uppercase tracking-[0.3em] text-dusk/50"
-            style={{ fontFamily: "var(--font-mono)" }}
+            
           >
             Préparer la cérémonie
           </p>
@@ -61,7 +61,7 @@ function Ceremony() {
                   {active && (
                     <span
                       className="text-[10px] uppercase tracking-[0.22em] text-dusk/60"
-                      style={{ fontFamily: "var(--font-mono)" }}
+                      
                     >
                       Choisi
                     </span>
@@ -77,7 +77,7 @@ function Ceremony() {
           <div className="rounded-[14px] border border-dusk/12 bg-paper p-5">
             <p
               className="text-[10px] uppercase tracking-[0.26em] text-dusk/55"
-              style={{ fontFamily: "var(--font-mono)" }}
+              
             >
               Lieu pressenti
             </p>

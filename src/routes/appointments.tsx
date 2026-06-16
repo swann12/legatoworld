@@ -25,13 +25,13 @@ function Appointments() {
           <Link
             to="/practical"
             className="text-[10px] uppercase tracking-[0.24em] text-dusk/50 hover:text-dusk"
-            style={{ fontFamily: "var(--font-mono)" }}
+            
           >
             ← Retour
           </Link>
           <p
             className="mt-6 text-[10px] uppercase tracking-[0.28em] text-dusk/50"
-            style={{ fontFamily: "var(--font-mono)" }}
+            
           >
             Mes rendez-vous
           </p>
@@ -56,7 +56,7 @@ function Appointments() {
               />
               <p
                 className="text-[10px] uppercase tracking-[0.22em] text-dusk/55"
-                style={{ fontFamily: "var(--font-mono)" }}
+                
               >
                 {a.when}
               </p>
