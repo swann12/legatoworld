@@ -1,6 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { Halos } from "@/components/legato/Halos";
 import { Shell } from "@/components/legato/Shell";
 import { ConfideDock } from "@/components/legato/ConfideDock";
 import { useLegato, type Wishes } from "@/lib/legato-state";
@@ -62,7 +61,7 @@ function WishesPage() {
   return (
     <Shell>
       <div className="relative pb-12">
-        <Halos mode={mode} variant="calm" />
+        
         <div className="relative z-10">
           <div className="px-7 pt-10 flex items-center justify-between">
             <Link to="/practical" className="eyebrow">← Retour</Link>
@@ -71,7 +70,7 @@ function WishesPage() {
 
           <header className="px-7 pt-12">
             <p className="eyebrow">Mes volontés</p>
-            <h1 className="mt-3 font-serif text-[2.1rem] leading-[1.08] font-light text-dusk text-balance">
+            <h1 className="mt-3 display-xl text-dusk">
               Écrire ce que <span className="italic">je voudrais,</span> pour le jour venu.
             </h1>
             <p className="mt-5 max-w-[34ch] text-[14px] leading-relaxed text-dusk/65">

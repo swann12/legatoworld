@@ -1,6 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Shell } from "@/components/legato/Shell";
-import { Halos } from "@/components/legato/Halos";
 import { ConfideDock } from "@/components/legato/ConfideDock";
 import { PersonalSuggestions } from "@/components/legato/PersonalSuggestions";
 import { useLegato } from "@/lib/legato-state";
@@ -28,7 +27,7 @@ function Texts() {
   return (
     <Shell hideNav>
       <div className="relative pb-12">
-        <Halos mode={mode} variant="calm" />
+        
         <div className="relative z-10">
           <div className="px-7 pt-10 flex items-center justify-between">
             <Link to="/practical/atmosphere" className="eyebrow">← Atmosphère</Link>
@@ -36,7 +35,7 @@ function Texts() {
           </div>
           <header className="px-7 pt-12">
             <p className="eyebrow">Lectures, poèmes, musiques</p>
-            <h1 className="mt-3 font-serif text-[2.1rem] leading-[1.08] font-light text-dusk text-balance">
+            <h1 className="mt-3 display-xl text-dusk">
               Quelques mots,<br/><span className="italic">une mélodie qui dit.</span>
             </h1>
             <p className="mt-5 max-w-[36ch] text-[14px] leading-relaxed text-dusk/65">

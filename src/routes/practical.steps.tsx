@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Shell } from "@/components/legato/Shell";
-import { Halos } from "@/components/legato/Halos";
 import { ConfideDock } from "@/components/legato/ConfideDock";
 import { useLegato } from "@/lib/legato-state";
 import { loadPractical, savePractical } from "@/lib/practical-store";
@@ -34,7 +33,7 @@ function Steps() {
   return (
     <Shell hideNav>
       <div className="relative pb-12">
-        <Halos mode={mode} variant="calm" />
+        
         <div className="relative z-10">
           <div className="px-7 pt-10 flex items-center justify-between">
             <Link to="/practical" className="eyebrow">← Aides concrètes</Link>
@@ -42,7 +41,7 @@ function Steps() {
           </div>
           <header className="px-7 pt-12">
             <p className="eyebrow">Premiers jours</p>
-            <h1 className="mt-3 font-serif text-[2.1rem] leading-[1.08] font-light text-dusk text-balance">
+            <h1 className="mt-3 display-xl text-dusk">
               Une chose à la fois.<br/><span className="italic">Cochez quand c'est fait.</span>
             </h1>
             <p className="mt-5 max-w-[36ch] text-[14px] leading-relaxed text-dusk/65">

@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { Halos } from "@/components/legato/Halos";
 import { Shell, ScreenHeader, Section } from "@/components/legato/Shell";
 import { useLegato } from "@/lib/legato-state";
 import { suggestRituals } from "@/lib/rituals.functions";
@@ -59,7 +58,7 @@ function Dates() {
   return (
     <Shell>
       <div className="relative">
-        <Halos mode={mode} variant="calm" />
+        
         <div className="relative z-10">
           <div className="px-7 pt-10">
             <Link to="/home" className="eyebrow">← Accueil</Link>

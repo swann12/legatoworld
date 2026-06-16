@@ -2,7 +2,6 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import ReactMarkdown from "react-markdown";
-import { Halos } from "@/components/legato/Halos";
 import { Shell } from "@/components/legato/Shell";
 import { useLegato } from "@/lib/legato-state";
 import { suggestInspiration } from "@/lib/inspiration.functions";
@@ -60,7 +59,7 @@ function InspirationPage() {
   return (
     <Shell>
       <div className="relative pb-12">
-        <Halos mode={mode} variant="calm" />
+        
         <div className="relative z-10">
           <div className="px-7 pt-10 flex items-center justify-between">
             <Link to="/practical" className="eyebrow">← Retour</Link>
@@ -69,7 +68,7 @@ function InspirationPage() {
 
           <header className="px-7 pt-12">
             <p className="eyebrow">Inspirations</p>
-            <h1 className="mt-3 font-serif text-[2.1rem] leading-[1.08] font-light text-dusk text-balance">
+            <h1 className="mt-3 display-xl text-dusk">
               Décrire la personne, <span className="italic">recevoir des pistes.</span>
             </h1>
             <p className="mt-5 max-w-[34ch] text-[14px] leading-relaxed text-dusk/65">
