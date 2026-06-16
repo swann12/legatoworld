@@ -76,7 +76,7 @@
   --color-azure: var(--azure);
   --color-magenta: var(--magenta);
 
- --font-serif: "Bodoni Moda", "Tiempos", ui-serif, Georgia, serif;
+  --font-serif: "Instrument Serif", "Iowan Old Style", "Palatino Linotype", ui-serif, serif;
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 }
@@ -84,31 +84,30 @@
 :root {
   --radius: 1.5rem;
 
-  /* Legato palette — directement échantillonnée de la planche couleur
-   * partagée par l'utilisatrice (terracotta, prune profonde, bleu, bleu pâle,
-   * rose, mimosa, sauge, sauge clair, blush, jaune crème, orange, crèmes). */
-  --paper: #FCF6EE;            /* cream le plus clair */
-  --whisper: #FFFBF4;          /* presque blanc chaud */
-  --clay: #F1E7D6;             /* cream beige */
-  --dusk: #24323B;             /* graphite bleuté, net */
-  --ink: #182127;              /* encre froide */
-  --terracotta: #EA6A3D;       /* coquelicot terre cuite */
-  --rose: #EAB9B9;             /* rose pâle éditorial */
-  --blush: #F4D8D2;            /* pêche rosé clair */
-  --peach: #F1C489;            /* abricot doux */
-  --olive: #919548;            /* olive sourde */
-  --sage: #D8DFBF;             /* beurre-sauge */
-  --mist: #B9CCE4;             /* bleu poudre */
-  --sky: #79A7D4;              /* bleu clair plus franc */
-  --lavender: #D6C7E2;
-  --bordeaux: #6A2835;         /* bordeaux net à la place du marron */
-  --navy: #486A8F;
-  --ember: #EA6A3D;
-  --sun: #F3E29D;              /* beurre jaune */
-  --azure: #79A7D4;
-  --magenta: #D99AA8;
-  --bloom-fresh: #CCD8BD;
-  --bloom-mist: #A8BAD3;
+  /* Palette directement réalignée sur les références partagées :
+   * butter stick, tomato soup, sardine tin, oven glow, olive, blush. */
+  --paper: #FAF5EE;
+  --whisper: #FFF9F1;
+  --clay: #F4EBDD;
+  --dusk: #201917;
+  --ink: #161110;
+  --terracotta: #EB5E3A;
+  --rose: #F3BEC5;
+  --blush: #F6D6D6;
+  --peach: #F1C8AF;
+  --olive: #8A8E3A;
+  --sage: #D9D9AE;
+  --mist: #C9D7F0;
+  --sky: #7CA2E0;
+  --lavender: #E5DBE9;
+  --bordeaux: #5B171D;
+  --navy: #5B7FB2;
+  --ember: #EB5E3A;
+  --sun: #F2EDBD;
+  --azure: #7CA2E0;
+  --magenta: #D89AA6;
+  --bloom-fresh: #CCD6A1;
+  --bloom-mist: #B5C9EA;
 
   /* Shadcn semantic tokens mapped to Legato */
   --background: var(--paper);
@@ -404,21 +403,21 @@
   }
 
   .editorial-frame {
-    border-top: 1px solid color-mix(in oklab, var(--dusk) 14%, transparent);
-    border-bottom: 1px solid color-mix(in oklab, var(--dusk) 12%, transparent);
+    border-top: 1px solid color-mix(in oklab, var(--dusk) 12%, transparent);
+    border-bottom: 1px solid color-mix(in oklab, var(--dusk) 9%, transparent);
   }
 
   .editorial-chip {
-    border: 1px solid color-mix(in oklab, var(--dusk) 10%, transparent);
-    background: color-mix(in oklab, var(--paper) 78%, white);
+    border: 1px solid color-mix(in oklab, var(--dusk) 12%, transparent);
+    background: color-mix(in oklab, var(--paper) 92%, white);
     border-radius: 999px;
   }
 
   .editorial-panel {
-    border: 1px solid color-mix(in oklab, var(--dusk) 9%, transparent);
-    border-radius: 22px;
-    background: color-mix(in oklab, var(--paper) 90%, white);
-    box-shadow: 0 10px 30px color-mix(in oklab, var(--dusk) 4%, transparent);
+    border: 1px solid color-mix(in oklab, var(--dusk) 12%, transparent);
+    border-radius: 16px;
+    background: linear-gradient(180deg, color-mix(in oklab, var(--paper) 94%, white), color-mix(in oklab, var(--clay) 38%, white));
+    box-shadow: 0 10px 24px color-mix(in oklab, var(--dusk) 5%, transparent);
   }
 
   /* ─── Legato Glass system ───
