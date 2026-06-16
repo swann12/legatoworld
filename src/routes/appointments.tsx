@@ -22,23 +22,12 @@ function Appointments() {
     <Shell>
       <div className="min-h-dvh bg-paper text-dusk pb-32">
         <header className="px-7 pt-12">
-          <Link
-            to="/practical"
-            className="text-[10px] uppercase tracking-[0.24em] text-dusk/50 hover:text-dusk"
-            
-          >
-            ← Retour
-          </Link>
-          <p
-            className="mt-6 text-[10px] uppercase tracking-[0.28em] text-dusk/50"
-            
-          >
-            Mes rendez-vous
-          </p>
-          <h1 className="mt-3 font-serif text-[32px] leading-[1.08] font-light text-balance">
+          <Link to="/practical" className="eyebrow hover:text-dusk">← Retour</Link>
+          <p className="eyebrow mt-6">Mes rendez-vous</p>
+          <h1 className="mt-4 display-xl text-dusk text-balance">
             Ce qui est <span className="italic" style={{ color: "var(--terracotta)" }}>posé</span> dans l'agenda.
           </h1>
-          <p className="mt-3 max-w-[38ch] text-[13.5px] text-dusk/60">
+          <p className="mt-5 body-meta max-w-[38ch]">
             Les rendez-vous concrets — mairie, notaire, professionnels — au même endroit.
           </p>
         </header>
@@ -47,21 +36,16 @@ function Appointments() {
           {APPOINTMENTS.map((a) => (
             <li
               key={a.id}
-              className="relative overflow-hidden rounded-[18px] border border-dusk/12 bg-paper px-5 py-4"
+              className="card-plain relative overflow-hidden px-5 py-4"
             >
               <span
                 aria-hidden
                 className="absolute left-0 top-0 h-full w-1.5"
                 style={{ background: a.tint }}
               />
-              <p
-                className="text-[10px] uppercase tracking-[0.22em] text-dusk/55"
-                
-              >
-                {a.when}
-              </p>
-              <p className="mt-2 font-serif text-[20px] leading-snug text-dusk">{a.what}</p>
-              <p className="mt-1 text-[13px] text-dusk/65">{a.who} · <span className="italic">{a.where}</span></p>
+              <p className="eyebrow">{a.when}</p>
+              <p className="mt-2 h-section text-dusk">{a.what}</p>
+              <p className="mt-1 body-meta">{a.who} · <span className="italic">{a.where}</span></p>
             </li>
           ))}
         </ul>
@@ -69,7 +53,7 @@ function Appointments() {
         <div className="mt-8 px-7">
           <Link
             to="/dates"
-            className="text-[12px] text-dusk/60 underline underline-offset-4 hover:text-dusk"
+            className="body-meta underline underline-offset-4 hover:text-dusk"
           >
             Voir aussi mes dates sensibles →
           </Link>
