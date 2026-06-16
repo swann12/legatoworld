@@ -1,79 +1,75 @@
+ND'avant tout : l'animation d'ouverture (`/`) et la page logo restent intactes. Cette refonte couvre l'onboarding, la navigation, et toutes les pages d'app.
 
-# Plan de refonte Legato
+## 1. Design system (src/styles.css + __root.tsx)
 
-Beaucoup de sujets dans votre message. Je propose de les regrouper en 6 lots cohérents et de les livrer dans cet ordre. Chaque lot est validable indépendamment.
+Palette stricte (uniquement ces 6 + paper) :
+- paper #FAF5EE (fond) / ink #1A1410 (texte)
+- tomato #EB5E3A (action, urgence)
+- butter #F2EDBD (mise en avant douce)
+- sardine #7CA2E0 (information, calme)
+- oven #6C2C25 (ancrage, sérieux)
+- olive #8A8E3A (souvenir, vivant)
+- blush #F7C7C5 (tendresse, cercle)
 
-## Lot 1 — Design system (fondations visuelles)
+Typo : 2 familles seulement.
+- Instrument Serif (titres éditoriaux uniquement)
+- Inter (texte, boutons, labels, micro-labels en uppercase tracking-wide)
+- Suppression de JetBrains Mono.
 
-Objectif : une ambiance plus fraîche, sereine, rassurante, sans perdre le caractère.
+5 tailles fixes : display 40px / title 24px / body 15px / meta 13px / micro 11px uppercase.
 
-- **Palette** : remplacer terracotta/bordeaux dominants par une base plus apaisée :
-  - fond papier légèrement bleuté (`#F5F4F0` → `#F2F4F2`)
-  - encre principale plus douce (gris-bleu profond plutôt que dusk brun)
-  - accent chaud unique conservé pour les CTA émotionnels (terracotta désaturée)
-  - accent froid sobre (sauge / bleu ardoise) pour l'espace concret
-- **Typographie** : une seule serif d'inspiration (réf image fournie — type *Söhne Breit / Tiempos / GT Sectra*). Je proposerai `Fraunces` ou `Source Serif 4` (libres, proche du visuel), associée à **une seule** sans-serif (Inter) + mono discrète réservée aux eyebrows. Suppression du mix actuel serif italique + serif romain + mono dans le même bloc.
-- **Hiérarchie** : 3 tailles de titre max, 2 tailles de corps, 1 eyebrow. Documenté dans `styles.css`.
+Composants utilitaires CSS : `.eyebrow`, `.display`, `.h-section`, `.btn-primary` (tomato), `.btn-ghost`, `.card`, `.card-tint-{color}`, `.status-chip-{state}`.
 
-## Lot 2 — Navigation globale
+## 2. Onboarding (remplace onboarding.care + onboarding.practical)
 
-- **Barre du bas sans pictogrammes** : labels typographiques uniquement, séparés par un filet fin. Onglet actif souligné.
-- **Renommages** :
-  - "Être accompagné·e" → **"Prendre soin de soi"** partout (space, header, onboarding, sélecteur).
-  - "Dossier" → **"Mes documents & volontés"** (label court possible : "Documents & volontés").
-- **Bugs de navigation** : audit complet des `<Link>` et `useNavigate` (retour arrière, onboarding qui reboucle, "Lectures" → "Inspiration", etc.). Cartographier chaque écran et corriger les routes cassées.
-- **Conditionnement par émotion** : l'émotion sélectionnée à l'onboarding `care` doit influencer Home (suggestions), Présence (qui contacter en priorité), Jardin (rituel proposé). Aujourd'hui c'est ignoré → câblage réel via `useLegato().feelings`.
+Nouveau flow unique `src/routes/onboarding.index.tsx` :
+1. Prénom (existant)
+2. Situation : perdu / vais peut-être perdre / soutiens / prépare volontés
+3. Lien : parent / conjoint·e / enfant / ami·e / animal / autre
+4. Choix d'espace : Accompagnement émotionnel **ou** Aide concrète (présenté comme deux entrées claires, pas comme un mode)
+5. Si émotionnel → check-in émotions (multi-sélect jusqu'à 3, pilule colorée)
 
-## Lot 3 — Séparation stricte des ressources entre les deux espaces
+Suppression des "modes" redondants (legato-state : `mode` devient l'espace actif, plus le ressenti).
 
-Deux annuaires distincts, jamais mélangés.
+## 3. Navigation (BottomNav)
 
-- **Prendre soin de soi** (`/resources` accessible depuis `/home`) :
-  - Thérapeutes, psychologues, psychiatres spécialisés deuil
-  - Médecines douces (sophrologie, acupuncture, ostéopathie émotionnelle…)
-  - Centres d'aide, lignes d'écoute, groupes de parole et communautés
-- **Organiser & avancer** (`/resources` accessible depuis `/practical`) :
-  - Pompes funèbres, marbriers, fleuristes funéraires
-  - Notaires, avocats succession
-  - Services de débarras / vidage de logement, déménageurs spécialisés
-  - Administrations (mairie, CPAM, caisses de retraite)
+5 entrées exactement : **Accueil · Ressentir · Démarches · Cercle · Ressources**
+Style : labels sans pictos lourds, indicateur tomato sous l'actif, fond paper/blur.
 
-Implémentation : `resources-data.ts` scindé en deux jeux + paramètre `space` sur la route, filtrage selon le contexte d'entrée. Plus aucun chevauchement.
+## 4. Pages refondues
 
-## Lot 4 — Refonte des pages "liste" (Home, Parcours, Documents)
+| Route | Refonte |
+|---|---|
+| `home.tsx` | Tableau de bord : 1 phrase éditoriale, 1 action prioritaire auto (carte tomato), tuile humeur, tuile démarches (progression x/y), accès rapide IA + cercle. Plus de liste. |
+| `journal.tsx` (Ressentir index) | Check-in (pilules), résumé, raccourcis journal/IA/jardin/ressources émo. |
+| `practical.index.tsx` | Plan d'action groupé par temporalité : Immédiat / Cette semaine / Ce mois / Plus tard. Chips de statut (à faire/en cours/fait/délégué/bloqué/doc manquant). |
+| `parcours.$taskId.tsx` | Détail tâche : quoi/pourquoi/quand, docs requis, modèle message, aide IA, pro recommandé, boutons Déléguer / Marquer fait. |
+| `garden.*` | Parcelle par personne/animal avec dépôts (photo, note, audio, musique, fleur, bouquet, rituel). |
+| `community.tsx` (Cercle) | Inviter, groupe famille, référent, délégation, qui fait quoi, partage. |
+| `resources.index.tsx` | Deux onglets stricts : Émotionnelles / Concrètes. Annuaire pro avec fiches (spé, lieu, dispo, prix, contact, RDV, sauvegarder). |
+| `help.*` | Fusionné dans Ressentir (ressources émo) — routes conservées pour éviter casse. |
+| `space.tsx` | Mis à jour pour cohérence palette/typo, conservé comme switch entre les 2 espaces. |
 
-Inspiration : Empathy (https://empathy.com) — pages aérées, une action principale visible, le reste révélé progressivement.
+## 5. Suppression / nettoyage
 
-- **Home** : passer d'une liste verticale dense à un "salon" :
-  - un grand bloc d'accueil (météo intérieure + 1 action douce proposée selon l'émotion)
-  - 2-3 cartes secondaires en grille respirante
-  - suppression des doublons de typographie
-- **Parcours** : hiérarchie en 3 niveaux clairs
-  - vue d'ensemble : ligne de temps "Maintenant / Cette semaine / Plus tard / Terminé" en haut, 1 action urgente mise en avant
-  - catégories collapsibles **toutes** présentes (aucune étape oubliée — audit exhaustif vs. réalité du deuil : démarches immédiates, cérémonie, administratif, succession, après)
-  - **chaque** ligne cliquable vers `/parcours/$taskId` avec fiche complète (déjà existante, à étendre aux ids manquants)
-- **Documents & volontés** : nettoyer la page (1 serif pour titres, 1 sans pour corps, mono uniquement pour métadonnées type "Ajouté le 12 juin"). Sections : *Documents officiels* / *Mes volontés* / *Partagé avec*.
+- Suppression JetBrains Mono import.
+- Suppression des classes `--font-mono`, `editorial-frame`, `editorial-panel` redondantes.
+- Suppression illustrations décoratives non symboliques.
 
-## Lot 5 — Page Help développée et connectée
+## Découpage technique de livraison
 
-Aujourd'hui isolée. À transformer en véritable "espace d'aide immédiate" :
+Vu l'ampleur, je propose de livrer en **3 vagues** dans cette session :
 
-- accès depuis tous les écrans via un lien discret en bas
-- contenu : crise (renvoi `/crisis`), corps (existe), nuits, alimentation, présence d'un proche, urgence administrative
-- chaque carte mène à un mini-parcours (3-5 écrans guidés, mode "relais")
-- relier explicitement à `/presence` (parler à quelqu'un) et `/resources` (espace adapté selon contexte)
+**Vague 1 — Fondations** : styles.css (palette+typo+utilitaires), __root.tsx (fonts), Shell.tsx (ScreenHeader recalibré), BottomNav (5 entrées).
 
-## Lot 6 — Vérifications finales
+**Vague 2 — Cœur** : home, onboarding (flow complet), space, practical.index, parcours, community, resources.index.
 
-- Parcourir tous les flux : onboarding → space → care/practical → toutes feuilles → retour
-- Tester chaque bouton "← Retour" (plusieurs renvoient au prénom, à corriger)
-- Vérifier que "Pour aller plus loin / Lectures / Audios / Vidéos" pointent vers des routes dédiées (à créer si absentes) et non vers `/inspiration`
-- Cohérence des labels renommés sur toute la base
+**Vague 3 — Détails** : journal/check-in, garden parcelle, détail tâche, fiches annuaire, documents.
 
----
+Je commencerai par la Vague 1 dès validation, puis enchaînerai les 2 et 3 sans nouvelle question.
 
-## Questions avant de démarrer
+## Points à confirmer
 
-1. **Ordre** : OK pour démarrer par le **Lot 1 (design system)** ? C'est la fondation — sinon tout le reste sera refait deux fois.
-2. **Référence Empathy** : je m'inspire de la sobriété / hiérarchie / palette froide-chaude. Vous voulez que je pousse jusqu'à leur registre très minimal, ou garder un peu plus de chaleur (un cran au-dessus en présence visuelle) ?
-3. **Lectures / Audios / Vidéos** : ces sections doivent-elles être de vraies pages avec contenu éditorial (je proposerai des placeholders crédibles) ou simplement un cadre vide à remplir plus tard ?
+1. OK pour supprimer JetBrains Mono partout (micro-labels en Inter uppercase) ?
+2. OK pour fusionner `help` dans l'onglet Ressentir (les anciennes routes restent accessibles) ?
+3. OK pour le découpage en 3 vagues dans cette session ?
