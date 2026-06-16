@@ -14,7 +14,7 @@ function Crisis() {
           <Link
             to="/home"
             className="self-start text-[10px] uppercase tracking-[0.3em] text-dusk/55 hover:text-dusk"
-            style={{ fontFamily: "var(--font-mono)" }}
+            
           >
             ← Accueil
           </Link>
@@ -22,7 +22,7 @@ function Crisis() {
           <div className="mt-14 max-w-[26ch]">
             <p
               className="text-[10px] uppercase tracking-[0.3em] text-[color:var(--terracotta)]"
-              style={{ fontFamily: "var(--font-mono)" }}
+              
             >
               Ici, doucement
             </p>
@@ -58,7 +58,7 @@ function Crisis() {
             >
               <span
                 className="block text-[10px] uppercase tracking-[0.28em] text-[color:var(--paper)]/60"
-                style={{ fontFamily: "var(--font-mono)" }}
+                
               >
                 Un souffle, une lumière
               </span>
@@ -70,7 +70,7 @@ function Crisis() {
             >
               <span
                 className="block text-[10px] uppercase tracking-[0.26em] text-dusk/50"
-                style={{ fontFamily: "var(--font-mono)" }}
+                
               >
                 Écoute gratuite, confidentielle
               </span>
@@ -79,7 +79,7 @@ function Crisis() {
             <button className="w-full rounded-[16px] border border-dusk/15 bg-paper px-6 py-4 text-left">
               <span
                 className="block text-[10px] uppercase tracking-[0.26em] text-dusk/50"
-                style={{ fontFamily: "var(--font-mono)" }}
+                
               >
                 Quelques mots déjà prêts
               </span>
@@ -88,7 +88,7 @@ function Crisis() {
             <Link to="/home" className="block px-6 py-4 text-center">
               <span
                 className="text-[10px] uppercase tracking-[0.26em] text-dusk/50"
-                style={{ fontFamily: "var(--font-mono)" }}
+                
               >
                 Revenir à l'accueil
               </span>

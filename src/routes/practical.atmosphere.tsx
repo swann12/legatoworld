@@ -22,13 +22,13 @@ function Atmosphere() {
           <Link
             to="/practical"
             className="text-[10px] uppercase tracking-[0.3em] text-dusk/55 hover:text-dusk"
-            style={{ fontFamily: "var(--font-mono)" }}
+            
           >
             ← Accueil
           </Link>
           <span
             className="text-[10px] uppercase tracking-[0.3em] text-dusk/50"
-            style={{ fontFamily: "var(--font-mono)" }}
+            
           >
             Atmosphère
           </span>
@@ -36,7 +36,7 @@ function Atmosphere() {
         <section className="px-7 pt-14">
           <p
             className="text-[10px] uppercase tracking-[0.3em] text-dusk/50"
-            style={{ fontFamily: "var(--font-mono)" }}
+            
           >
             Composer une ambiance
           </p>
@@ -59,7 +59,7 @@ function Atmosphere() {
               <div>
                 <p
                   className="text-[10px] uppercase tracking-[0.24em] text-dusk/55"
-                  style={{ fontFamily: "var(--font-mono)" }}
+                  
                 >
                   {t.eyebrow}
                 </p>
