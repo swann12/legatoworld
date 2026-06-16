@@ -1,44 +1,38 @@
-## État actuel
-
-Vagues 1-3 livrées : design system (palette Co-Star + Instrument Serif/Inter), navigation 5 entrées, et refonte éditoriale des pages principales (home, onboarding, space, practical.index, parcours, parcours.$taskId, community, resources.index, journal, garden.index).
-
 ## Ce qu'il reste à faire
 
-### A. Pages secondaires non encore refondues
-Elles utilisent encore l'ancien style (font-mono, editorial-frame, classes legacy) :
+Les vagues 1 à 7 ont harmonisé la majorité des pages sur le nouveau design system (Instrument Serif + Inter, palette Co-Star, classes `card-plain` / `eyebrow` / `display-xl` / `btn-primary`). Voici ce qui n'a pas encore été traité :
 
-1. **Sous-pages `practical.*`** — atmosphere, flowers, texts, objects, ceremony, booklet, steps, share
-2. **Sous-pages `help.*`** — help.index, help.corps + sous-pages (eau, habiller, manger, nuits) → à fusionner visuellement dans l'esprit Ressentir
-3. **`garden.$zone.tsx`** — détail d'une parcelle (dépôts photo/note/audio/fleur/rituel) — à refondre selon la maquette parcelle
-4. **`memories.tsx`, `inspiration.tsx`, `library.$kind.tsx`** — ressources éditoriales
-5. **`resources.$category.tsx`, `resources.$category.$providerId.tsx`, `resources.confirm.$providerId.tsx`** — fiches annuaire pro (spé, lieu, dispo, prix, contact, RDV, sauvegarder)
-6. **`appointments.tsx`, `dates.tsx`, `wishes.tsx`** — vues secondaires démarches
-7. **`presence.tsx`, `no-words.tsx`, `crisis.tsx`** — moments d'aide IA / urgence
-8. **`compose.$zone.tsx`** — composition florale détaillée
-9. **`onboarding.care.tsx`, `onboarding.practical.tsx`** — anciens flows à supprimer ou rediriger vers le nouvel `onboarding.index`
+### 1. Pages encore en style legacy
 
-### B. Composants legacy à harmoniser
-- `Shell.tsx` / `ScreenHeader` utilisent encore `var(--font-mono)` et `editorial-frame` → à aligner sur le nouveau système
-- `ConfideDock`, `PersonalSuggestions`, `MiniComposer`, `CompositionThumb`, `OrganicShape`, `Halos`, `ModeBackground`, `LivingPatch` → audit visuel + nettoyage typo/palette
-- `ModeSelector` — à supprimer si plus utilisé (remplacé par `space.tsx`)
+- **`compose.$zone.tsx`** (~800 lignes) — composition florale détaillée, laissée de côté en vague 7 à cause de sa logique spécifique. Refonte typo + classes + retrait `Halos`/`ceramic`.
+- **`appointments.tsx`** — encore en `font-mono` inline, bordures `border-dusk/12`, titres `font-serif text-[32px]`. À passer en `eyebrow` / `card-plain` / `display-xl`.
+- **`no-words.tsx`** — séquence immersive, à auditer (peut justifier de garder son ambiance propre).
+- **`practical.atmosphere.tsx`** — à vérifier (touchée en vague 4 mais à reconfirmer).
+- **`help.index.tsx`, `help.tsx`, `help.corps.tsx`** — vérifier qu'ils utilisent bien le nouveau système (le wrapper `HelpShell` contient encore `Halos` + `text-[11px] uppercase tracking-[0.22em]` au lieu de `eyebrow`).
 
-### C. Nettoyage final
-- Supprimer définitivement les classes CSS legacy non utilisées (`editorial-frame`, `editorial-panel`, `--font-mono`)
-- Supprimer les illustrations décoratives non symboliques restantes
-- Vérifier qu'aucune page n'importe encore JetBrains Mono via classe inline
+### 2. Composants legato à harmoniser
 
-### D. Cohérence d'ensemble
-- Passe rapide sur chaque route pour vérifier : eyebrow Inter uppercase, titres Instrument Serif, palette stricte (paper/ink + 6 tons), chips statut homogènes
-- Vérifier hydration SSR sur toutes les pages qui dépendent de l'heure/date/localStorage
+- **`HelpShell.tsx`** — utilise encore `Halos` et un eyebrow manuel ; passer à `.eyebrow`, retirer `Halos` si on suit la même règle que les routes.
+- **`MiniComposer.tsx`** — classes `ceramic`, `organic-radius`, `font-serif italic`, eyebrows manuels `text-[11px] uppercase tracking-[0.18em]`. À aligner.
+- **`CompositionThumb.tsx`, `OrganicShape.tsx`, `LivingPatch.tsx`, `PersonalSuggestions.tsx`, `ConfideDock.tsx`, `BloomFlower.tsx`, `ModeBackground.tsx`, `Halos.tsx`** — audit visuel/typo, retirer ce qui n'est plus utilisé.
+- **`ModeSelector.tsx`** — à supprimer si plus référencé (remplacé par `space.tsx`).
 
-## Découpage proposé (3 vagues)
+### 3. Nettoyage CSS final
 
-**Vague 4 — Démarches détaillées** : toutes les sous-pages `practical.*`, `compose.$zone`, `appointments`, `dates`, `wishes`, `resources.$category*`.
+- Supprimer dans `src/styles.css` les classes legacy devenues mortes : `editorial-frame`, `editorial-panel`, `paper-card`, `ceramic*`, `organic-radius*`, variable `--font-mono`, `feathered-soft` si plus utilisés.
+- Vérifier qu'aucune route n'importe encore JetBrains Mono via classe inline.
+- Retirer les `Halos` / `OrganicShape` décoratifs restants si la direction est de les bannir.
 
-**Vague 5 — Ressentir détaillé** : `help.*` (fusion Ressentir), `presence`, `no-words`, `crisis`, `memories`, `inspiration`, `library.$kind`, `garden.$zone`.
+### 4. Cohérence finale
 
-**Vague 6 — Nettoyage** : Shell/ScreenHeader, composants legato legacy, suppression CSS mort, suppression anciens onboardings, audit final cohérence.
+- Passe rapide sur chaque route : eyebrow Inter uppercase, titres Instrument Serif, palette stricte, chips statut homogènes.
+- Vérifier l'hydration SSR sur les pages qui dépendent de `Date.now()` / `localStorage` (journal, parcours, garden, dates).
+- Mettre à jour `.lovable/plan.md` pour refléter l'état réel post-vague 7.
 
-## Question
+### Découpage proposé
 
-Tu veux que j'enchaîne directement les 3 vagues, ou tu préfères prioriser une partie (par ex. l'annuaire pro `resources.$category*` et le détail parcelle `garden.$zone` qui sont les plus visibles côté utilisateur) ?
+- **Vague 8 — Pages restantes** : `compose.$zone`, `appointments`, `no-words`, `practical.atmosphere`, `help.*`.
+- **Vague 9 — Composants legato** : `HelpShell`, `MiniComposer`, audit des autres composants, suppression `ModeSelector` si mort.
+- **Vague 10 — Nettoyage final** : suppression CSS mort, audit cohérence, mise à jour du plan.
+
+Dis-moi par quoi tu veux commencer (ou si j'enchaîne directement vague 8 → 10).
