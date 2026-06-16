@@ -26,7 +26,7 @@ type Ritual = {
 };
 
 function Dates() {
-  const { mode, branch, lostName } = useLegato();
+  const { branch, lostName } = useLegato();
   const callRituals = useServerFn(suggestRituals);
   const [openId, setOpenId] = useState<string | null>(null);
   const [loadingId, setLoadingId] = useState<string | null>(null);

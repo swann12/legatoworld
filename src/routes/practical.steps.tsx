@@ -2,7 +2,6 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Shell } from "@/components/legato/Shell";
 import { ConfideDock } from "@/components/legato/ConfideDock";
-import { useLegato } from "@/lib/legato-state";
 import { loadPractical, savePractical } from "@/lib/practical-store";
 
 export const Route = createFileRoute("/practical/steps")({
@@ -21,7 +20,6 @@ const STEPS = [
 ];
 
 function Steps() {
-  const { mode } = useLegato();
   const [done, setDone] = useState<Record<string, boolean>>({});
   useEffect(() => { setDone(loadPractical().steps); }, []);
   const toggle = (id: string) => {

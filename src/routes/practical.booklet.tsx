@@ -2,7 +2,6 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Shell } from "@/components/legato/Shell";
 import { ConfideDock } from "@/components/legato/ConfideDock";
-import { useLegato } from "@/lib/legato-state";
 import { loadPractical, savePractical } from "@/lib/practical-store";
 
 export const Route = createFileRoute("/practical/booklet")({
@@ -11,7 +10,6 @@ export const Route = createFileRoute("/practical/booklet")({
 });
 
 function Booklet() {
-  const { mode } = useLegato();
   const [d, setD] = useState(loadPractical().bookletDraft);
   useEffect(() => { setD(loadPractical().bookletDraft); }, []);
   const update = (patch: Partial<typeof d>) => {

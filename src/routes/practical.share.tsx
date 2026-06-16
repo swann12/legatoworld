@@ -2,7 +2,6 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Shell } from "@/components/legato/Shell";
 import { ConfideDock } from "@/components/legato/ConfideDock";
-import { useLegato } from "@/lib/legato-state";
 import { loadPractical } from "@/lib/practical-store";
 
 export const Route = createFileRoute("/practical/share")({
@@ -29,7 +28,6 @@ function buildMail(state: ReturnType<typeof loadPractical>, who: string) {
 }
 
 function Share() {
-  const { mode } = useLegato();
   const [state, setState] = useState(loadPractical());
   useEffect(() => { setState(loadPractical()); }, []);
 

@@ -29,7 +29,7 @@ const FIELDS: { key: keyof Omit<Wishes, "sharedWith">; label: string; hint: stri
 ];
 
 function WishesPage() {
-  const { mode, wishes, setWishes, name } = useLegato();
+  const { wishes, setWishes, name } = useLegato();
   const [shareInput, setShareInput] = useState("");
 
   const addShare = () => {

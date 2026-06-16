@@ -3,7 +3,6 @@ import { useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import ReactMarkdown from "react-markdown";
 import { Shell } from "@/components/legato/Shell";
-import { useLegato } from "@/lib/legato-state";
 import { suggestInspiration } from "@/lib/inspiration.functions";
 
 export const Route = createFileRoute("/inspiration")({
@@ -17,7 +16,6 @@ export const Route = createFileRoute("/inspiration")({
 });
 
 function InspirationPage() {
-  const { mode } = useLegato();
   const [text, setText] = useState("");
   const [context, setContext] = useState<"self" | "loved-one">("loved-one");
   const [loading, setLoading] = useState(false);

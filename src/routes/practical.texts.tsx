@@ -2,7 +2,6 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Shell } from "@/components/legato/Shell";
 import { ConfideDock } from "@/components/legato/ConfideDock";
 import { PersonalSuggestions } from "@/components/legato/PersonalSuggestions";
-import { useLegato } from "@/lib/legato-state";
 
 export const Route = createFileRoute("/practical/texts")({
   head: () => ({ meta: [{ title: "Textes & musiques — Legato" }] }),
@@ -23,7 +22,6 @@ const MUSIC = [
 ];
 
 function Texts() {
-  const { mode } = useLegato();
   return (
     <Shell hideNav>
       <div className="relative pb-12">

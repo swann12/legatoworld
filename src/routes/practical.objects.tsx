@@ -2,7 +2,6 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Shell } from "@/components/legato/Shell";
 import { PersonalSuggestions } from "@/components/legato/PersonalSuggestions";
 import { ConfideDock } from "@/components/legato/ConfideDock";
-import { useLegato } from "@/lib/legato-state";
 
 export const Route = createFileRoute("/practical/objects")({
   head: () => ({ meta: [{ title: "Cercueil, objets, rituels — Legato" }] }),
@@ -66,7 +65,6 @@ const ITEMS: Item[] = [
 ];
 
 function Objects() {
-  const { mode } = useLegato();
   return (
     <Shell hideNav>
       <div className="relative pb-12">
