@@ -1,69 +1,54 @@
 import { Link, useLocation } from "@tanstack/react-router";
 
+/**
+ * Refonte Co-Star : une seule navigation, 5 entrées max.
+ * Accueil · Ressentir · Démarches · Cercle · Ressources
+ */
+type Item = {
+  to: "/home" | "/journal" | "/practical" | "/community" | "/resources";
+  label: string;
+  search?: { space: "care" | "practical" };
+  match: (p: string) => boolean;
+};
+
+const ITEMS: Item[] = [
+  { to: "/home",      label: "Accueil",    match: (p) => p === "/home" || p === "/" },
+  { to: "/journal",   label: "Ressentir",  match: (p) => p.startsWith("/journal") || p.startsWith("/garden") || p.startsWith("/presence") || p.startsWith("/no-words") || p.startsWith("/memories") || p.startsWith("/help") },
+  { to: "/practical", label: "Démarches",  match: (p) => p.startsWith("/practical") || p.startsWith("/parcours") || p.startsWith("/wishes") || p.startsWith("/appointments") || p.startsWith("/dates") },
+  { to: "/community", label: "Cercle",     match: (p) => p.startsWith("/community") },
+  { to: "/resources", label: "Ressources", search: { space: "care" }, match: (p) => p.startsWith("/resources") || p.startsWith("/library") || p.startsWith("/inspiration") },
+];
+
 export function BottomNav() {
   const { pathname } = useLocation();
-
-  // Deux navigations distinctes — l'espace est déterminé par l'URL.
-  const inPractical =
-    pathname.startsWith("/practical") ||
-    pathname.startsWith("/parcours") ||
-    pathname.startsWith("/resources") ||
-    pathname.startsWith("/wishes") ||
-    pathname.startsWith("/dossier");
-
-  type Item = {
-    to: "/practical" | "/parcours" | "/resources" | "/wishes" | "/home" | "/garden" | "/journal" | "/presence";
-    label: string;
-    search?: { space: "care" | "practical" };
-  };
-  const items: Item[] = inPractical
-    ? [
-        { to: "/practical", label: "Accueil" },
-        { to: "/parcours",  label: "Parcours" },
-        { to: "/resources", label: "Services", search: { space: "practical" } },
-        { to: "/wishes",    label: "Volontés" },
-      ]
-    : [
-        { to: "/home",     label: "Accueil" },
-        { to: "/garden",   label: "Jardin" },
-        { to: "/journal",  label: "Journal" },
-        { to: "/presence", label: "Présence" },
-      ];
   return (
     <nav
-      aria-label="Primary"
-      className="fixed bottom-0 left-1/2 z-50 w-full max-w-[420px] -translate-x-1/2 border-t border-dusk/10 bg-paper/96 backdrop-blur-sm"
+      aria-label="Navigation principale"
+      className="fixed bottom-0 left-1/2 z-50 w-full max-w-[420px] -translate-x-1/2 border-t border-dusk/10 bg-paper/95 backdrop-blur-md"
     >
-      <div className="flex items-stretch justify-between px-3 pt-3.5 pb-[max(env(safe-area-inset-bottom),0.65rem)]">
-        {items.map(({ to, label }) => {
-          const active =
-            to === "/home"
-              ? pathname === "/home" || pathname === "/"
-              : to === "/practical"
-              ? pathname === "/practical"
-              : pathname.startsWith(to);
+      <div className="flex items-stretch justify-between px-2 pt-3 pb-[max(env(safe-area-inset-bottom),0.55rem)]">
+        {ITEMS.map(({ to, label, match, search }) => {
+          const active = match(pathname);
           return (
             <Link
               key={to}
               to={to}
-              search={items.find((i) => i.to === to)?.search as { space: "practical" } | undefined}
+              search={search as { space: "care" } | undefined}
               aria-label={label}
-              className="group relative flex flex-1 items-center justify-center px-1 py-2 transition-colors"
+              className="group relative flex flex-1 flex-col items-center justify-center gap-1.5 px-1 py-1.5"
             >
               <span
-                className={`text-[9px] uppercase leading-none tracking-[0.22em] text-center transition-colors ${
+                aria-hidden
+                className="h-[3px] w-6 rounded-full transition-colors"
+                style={{ background: active ? "var(--terracotta)" : "transparent" }}
+              />
+              <span
+                className={`text-[11px] font-medium tracking-[0.02em] transition-colors ${
                   active ? "text-dusk" : "text-dusk/50 group-hover:text-dusk/80"
                 }`}
-                style={{ fontFamily: "var(--font-mono)" }}
               >
                 {label}
               </span>
-              {active && (
-                <span
-                  aria-hidden
-                  className="absolute -bottom-0.5 left-1/2 h-px w-6 -translate-x-1/2 bg-dusk/70"
-                />
-              )}
             </Link>
           );
         })}
