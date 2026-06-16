@@ -172,25 +172,3 @@ function Practical() {
  * avancement, raccourcis. Aucun élément émotionnel (jardin, présence,
  * respiration, souvenirs).
  */
-
-const NEXT_TASKS = [
-  { id: "mairie",    title: "Déclarer le décès en mairie",      due: "Dans 24h" },
-  { id: "famille",   title: "Prévenir les proches",             due: "Cette semaine" },
-  { id: "documents", title: "Réunir les documents importants",  due: "Cette semaine" },
-];
-
-const PROGRESS = [
-  { label: "À faire",    count: 7, color: "var(--ember)" },
-  { label: "En cours",   count: 3, color: "var(--terracotta)" },
-  { label: "Délégué",    count: 2, color: "var(--mist)" },
-  { label: "Terminé",    count: 4, color: "var(--olive)" },
-];
-
-const SHORTCUTS: { to: string; search?: Record<string, string>; label: string }[] = [
-  { to: "/parcours",           label: "Mon parcours" },
-  { to: "/wishes",             label: "Mes documents" },
-  { to: "/appointments",       label: "Mes rendez-vous" },
-  { to: "/dates",              label: "Dates sensibles" },
-  { to: "/resources",          search: { space: "practical" }, label: "Professionnels" },
-  { to: "/practical/ceremony", label: "Cérémonie" },
-  { to: "/wishes",             label: "Budget" },
