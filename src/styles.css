@@ -78,7 +78,8 @@
 
   --font-serif: "Instrument Serif", "Iowan Old Style", "Palatino Linotype", ui-serif, serif;
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  /* Refonte : suppression de la 3e famille. Les micro-labels passent en Inter uppercase. */
+  --font-mono: "Inter", ui-sans-serif, system-ui, sans-serif;
 }
 
 :root {
@@ -548,4 +549,140 @@
   .no-print { display: none !important; }
   .print-booklet { padding: 0; margin: 0; }
   .print-booklet .page { page-break-after: always; }
+}
+
+/* ─── Refonte Co-Star : système éditorial unifié ───
+ * Une seule famille serif (Instrument Serif), une seule sans (Inter).
+ * Cinq tailles canoniques. Six tons palette. Pas de décor inutile.
+ */
+@layer components {
+  .eyebrow {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: color-mix(in oklab, var(--dusk) 55%, transparent);
+  }
+  .eyebrow-on-dark {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: color-mix(in oklab, var(--paper) 78%, transparent);
+  }
+  .display-xl {
+    font-family: var(--font-serif);
+    font-size: clamp(40px, 11vw, 56px);
+    line-height: 0.95;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+  .display-lg {
+    font-family: var(--font-serif);
+    font-size: 34px;
+    line-height: 0.98;
+    font-weight: 400;
+    text-wrap: balance;
+  }
+  .h-section {
+    font-family: var(--font-serif);
+    font-size: 22px;
+    line-height: 1.05;
+    font-weight: 400;
+  }
+  .body-meta {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    line-height: 1.5;
+    color: color-mix(in oklab, var(--dusk) 70%, transparent);
+  }
+
+  /* Cards */
+  .card-plain {
+    background: var(--paper);
+    border: 1px solid color-mix(in oklab, var(--dusk) 10%, transparent);
+    border-radius: 18px;
+  }
+  .card-tomato  { background: var(--terracotta); color: var(--paper); border-radius: 20px; }
+  .card-butter  { background: var(--sun);        color: var(--dusk);  border-radius: 20px; }
+  .card-sardine { background: var(--sky);        color: var(--dusk);  border-radius: 20px; }
+  .card-oven    { background: var(--bordeaux);   color: var(--paper); border-radius: 20px; }
+  .card-olive   { background: var(--olive);      color: var(--paper); border-radius: 20px; }
+  .card-blush   { background: var(--blush);      color: var(--dusk);  border-radius: 20px; }
+
+  /* Buttons */
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background: var(--terracotta);
+    color: var(--paper);
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    padding: 12px 22px;
+    border-radius: 999px;
+    transition: filter 200ms ease;
+  }
+  .btn-primary:hover { filter: brightness(1.05); }
+  .btn-dark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 12px 22px;
+    border-radius: 999px;
+  }
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background: transparent;
+    color: var(--dusk);
+    border: 1px solid color-mix(in oklab, var(--dusk) 18%, transparent);
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 12px 22px;
+    border-radius: 999px;
+  }
+
+  /* Status chips */
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-family: var(--font-sans);
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+  .chip-todo     { background: color-mix(in oklab, var(--sky)        30%, white); color: var(--dusk); }
+  .chip-doing    { background: color-mix(in oklab, var(--terracotta) 22%, white); color: var(--bordeaux); }
+  .chip-done     { background: color-mix(in oklab, var(--olive)      28%, white); color: #3d4017; }
+  .chip-delegate { background: color-mix(in oklab, var(--blush)      55%, white); color: var(--bordeaux); }
+  .chip-blocked  { background: color-mix(in oklab, var(--bordeaux)   18%, white); color: var(--bordeaux); }
+  .chip-missing  { background: color-mix(in oklab, var(--sun)        70%, white); color: #6b5a10; }
+
+  /* Section divider hairline */
+  .hairline { height: 1px; background: color-mix(in oklab, var(--dusk) 12%, transparent); }
 }
