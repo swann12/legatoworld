@@ -36,7 +36,7 @@ function ConfirmPage() {
         <div className="ceramic-soft mx-auto flex size-16 items-center justify-center rounded-full">
           <Check size={22} strokeWidth={1.5} className="text-dusk/70" />
         </div>
-        <h1 className="mt-6 font-serif text-[2rem] leading-tight text-dusk text-balance">
+        <h1 className="mt-6 display-xl text-dusk">
           C'est noté.
         </h1>
         <p className="mt-4 font-serif text-[1.15rem] italic leading-relaxed text-dusk/80">

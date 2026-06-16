@@ -65,7 +65,7 @@ function ProviderPage() {
             background: `linear-gradient(160deg, color-mix(in oklab, ${cat.tint} 40%, var(--paper)), color-mix(in oklab, ${cat.tint} 70%, var(--clay)))`,
           }}
         />
-        <h1 className="mt-5 text-center font-serif text-[2rem] leading-tight text-dusk">
+        <h1 className="mt-5 display-xl text-dusk text-center">
           {p.firstName} <span className="italic">{p.lastName}</span>
         </h1>
         <p className="mt-1 text-center text-[12px] italic text-dusk/60">{p.speciality}</p>
