@@ -78,7 +78,8 @@
 
   --font-serif: "Instrument Serif", "Iowan Old Style", "Palatino Linotype", ui-serif, serif;
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  /* Refonte : suppression de la 3e famille. Les micro-labels passent en Inter uppercase. */
+  --font-mono: "Inter", ui-sans-serif, system-ui, sans-serif;
 }
 
 :root {
