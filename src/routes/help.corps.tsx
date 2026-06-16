@@ -1,43 +1,55 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { HelpShell, HelpHeader } from "@/components/legato/HelpShell";
+import { Shell } from "@/components/legato/Shell";
+import { LegatoMark } from "@/components/legato/LegatoMark";
 
 export const Route = createFileRoute("/help/corps")({
   head: () => ({ meta: [{ title: "Le corps — Aide" }] }),
   component: Hub,
 });
 
-const SPACES: { to: "/help/corps/manger" | "/help/corps/eau" | "/help/corps/habiller" | "/help/corps/nuits"; symbol: string; title: string; body: string }[] = [
-  { to: "/help/corps/manger",   symbol: "♡", title: "Quand le corps oublie de manger", body: "Cinq petites choses, presque rien à faire." },
-  { to: "/help/corps/eau",      symbol: "♡", title: "L'eau et le corps",                body: "Se laver, une étape à la fois." },
-  { to: "/help/corps/habiller", symbol: "♡", title: "S'habiller",                        body: "Trouver la chose la plus douce, aujourd'hui." },
-  { to: "/help/corps/nuits",    symbol: "♡", title: "Les nuits qui n'en finissent pas",  body: "Ce que d'autres ont fait à 3 h du matin." },
+const SPACES: { to: "/help/corps/manger" | "/help/corps/eau" | "/help/corps/habiller" | "/help/corps/nuits"; eyebrow: string; title: string; body: string }[] = [
+  { to: "/help/corps/manger",   eyebrow: "Manger",   title: "Quand le corps oublie de manger",  body: "Cinq petites choses, presque rien à faire." },
+  { to: "/help/corps/eau",      eyebrow: "Se laver", title: "L'eau et le corps",                 body: "Une étape à la fois." },
+  { to: "/help/corps/habiller", eyebrow: "S'habiller", title: "Trouver la chose la plus douce", body: "Aujourd'hui, juste ça." },
+  { to: "/help/corps/nuits",    eyebrow: "Nuits",    title: "Quand la nuit n'en finit pas",     body: "Ce que d'autres ont fait à 3 h du matin." },
 ];
 
 function Hub() {
   return (
-    <HelpShell backTo="/help" backLabel="← Aide">
-      <HelpHeader
-        title="Prendre soin du corps."
-        subtitle="Quatre espaces, à ouvrir uniquement si l'envie vient. Rien à finir, rien à prouver."
-      />
-      <div className="px-5 mt-10 space-y-4">
-        {SPACES.map((s) => (
-          <Link
-            key={s.to}
-            to={s.to}
-            className="glass-card organic-radius-3 px-7 py-6 block hover:opacity-95 transition-opacity"
-          >
-            <div className="flex items-baseline gap-4">
-              <span className="font-serif italic text-[18px] text-dusk/45">{s.symbol}</span>
-              <div className="flex-1 min-w-0">
-                <h3 className="font-serif italic text-[18px] text-dusk leading-snug">{s.title}</h3>
-                <p className="mt-2 text-[13px] leading-relaxed text-dusk/65">{s.body}</p>
+    <Shell livingBg={false}>
+      <div className="min-h-dvh bg-paper text-dusk pb-32">
+        <header className="px-6 pt-9 pb-2 flex items-center justify-between">
+          <LegatoMark to="/home" size={22} />
+          <Link to="/help" className="eyebrow hover:underline underline-offset-4">← Aide</Link>
+        </header>
+        <section className="px-6 pt-10 pb-8">
+          <p className="eyebrow">Le corps</p>
+          <h1 className="mt-4 display-xl">
+            Prendre soin <span className="italic">du corps.</span>
+          </h1>
+          <p className="mt-5 body-meta max-w-[34ch]">
+            Quatre espaces, à ouvrir si l'envie vient. Rien à finir, rien à prouver.
+          </p>
+        </section>
+        <div className="px-5 space-y-3">
+          {SPACES.map((s) => (
+            <Link
+              key={s.to}
+              to={s.to}
+              className="card-plain p-5 block active:scale-[0.99] transition-transform"
+            >
+              <div className="flex items-start gap-4">
+                <div className="flex-1 min-w-0">
+                  <p className="eyebrow">{s.eyebrow}</p>
+                  <h3 className="mt-2 h-section italic">{s.title}</h3>
+                  <p className="mt-2 body-meta">{s.body}</p>
+                </div>
+                <span className="font-serif text-[22px] opacity-50">→</span>
               </div>
-              <span className="text-dusk/40">→</span>
-            </div>
-          </Link>
-        ))}
+            </Link>
+          ))}
+        </div>
       </div>
-    </HelpShell>
+    </Shell>
   );
 }

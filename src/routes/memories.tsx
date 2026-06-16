@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Shell } from "@/components/legato/Shell";
+import { LegatoMark } from "@/components/legato/LegatoMark";
 
 export const Route = createFileRoute("/memories")({
   head: () => ({ meta: [{ title: "Bibliothèque des souvenirs — Legato" }] }),
@@ -28,93 +29,48 @@ function Memories() {
   return (
     <Shell livingBg={false}>
       <div className="min-h-dvh bg-paper text-dusk pb-32">
-        <header className="px-7 pt-10 flex items-center justify-between">
-          <Link
-            to="/home"
-            className="text-[10px] uppercase tracking-[0.3em] text-dusk/55 hover:text-dusk"
-            style={{ fontFamily: "var(--font-mono)" }}
-          >
-            ← Accueil
-          </Link>
-          <span
-            className="text-[10px] uppercase tracking-[0.3em] text-dusk/50"
-            style={{ fontFamily: "var(--font-mono)" }}
-          >
-            Souvenirs
-          </span>
+        <header className="px-6 pt-9 pb-2 flex items-center justify-between">
+          <LegatoMark to="/home" size={22} />
+          <span className="eyebrow">Souvenirs</span>
         </header>
 
-        <section className="px-7 pt-14">
-          <p
-            className="text-[10px] uppercase tracking-[0.3em] text-dusk/50"
-            style={{ fontFamily: "var(--font-mono)" }}
-          >
-            Bibliothèque
-          </p>
-          <h1 className="mt-4 font-serif text-[36px] leading-[1.05] font-light text-dusk text-balance">
+        <section className="px-6 pt-10">
+          <p className="eyebrow">Bibliothèque</p>
+          <h1 className="mt-4 display-xl">
             Tout ce que <span className="italic">vous avez gardé.</span>
           </h1>
-          <p className="mt-5 max-w-[34ch] text-[14.5px] leading-[1.6] text-dusk/60">
-            Une longue étagère. Ajoutez ici des traces — elles trouveront leur
-            place dans le jardin.
+          <p className="mt-5 body-meta max-w-[34ch]">
+            Une longue étagère. Chaque trace trouvera sa place dans le jardin.
           </p>
         </section>
 
-        <section className="px-7 pt-10">
-          <p
-            className="text-[10px] uppercase tracking-[0.26em] text-dusk/55 mb-3"
-            style={{ fontFamily: "var(--font-mono)" }}
-          >
-            Ajouter une trace
-          </p>
+        <section className="px-6 pt-10">
+          <p className="eyebrow mb-3">Ajouter une trace</p>
           <div className="grid grid-cols-4 gap-2">
             {KINDS.map((k) => (
               <button
                 key={k.id}
-                className="rounded-[12px] border border-dusk/12 bg-paper py-3 flex flex-col items-center gap-2 hover:bg-dusk/5 transition-colors"
+                className="card-plain py-3 flex flex-col items-center gap-2 hover:bg-dusk/5 transition-colors"
               >
-                <span
-                  className="size-2.5 rounded-full"
-                  style={{ background: k.color }}
-                />
-                <span
-                  className="text-[10px] uppercase tracking-[0.18em] text-dusk/65"
-                  style={{ fontFamily: "var(--font-mono)" }}
-                >
-                  {k.label}
-                </span>
+                <span className="size-2.5 rounded-full" style={{ background: k.color }} />
+                <span className="eyebrow">{k.label}</span>
               </button>
             ))}
           </div>
         </section>
 
-        <section className="px-7 pt-10">
-          <p
-            className="text-[10px] uppercase tracking-[0.26em] text-dusk/55 mb-3"
-            style={{ fontFamily: "var(--font-mono)" }}
-          >
-            Déjà gardés
-          </p>
-          <div className="divide-y divide-dusk/10 border-y border-dusk/12">
+        <section className="px-6 pt-10">
+          <p className="eyebrow mb-3">Déjà gardés</p>
+          <div className="divide-y divide-dusk/10 border-y border-dusk/15">
             {ENTRIES.map((e, i) => (
               <article key={i} className="py-5">
                 <div className="flex items-baseline justify-between">
-                  <p
-                    className="text-[10px] uppercase tracking-[0.22em] text-dusk/55"
-                    style={{ fontFamily: "var(--font-mono)" }}
-                  >
-                    {e.kind}
-                  </p>
-                  <p
-                    className="text-[10px] tracking-[0.1em] text-dusk/50"
-                    style={{ fontFamily: "var(--font-mono)" }}
-                  >
-                    {e.date}
-                  </p>
+                  <p className="eyebrow">{e.kind}</p>
+                  <p className="eyebrow">{e.date}</p>
                 </div>
-                <h3 className="mt-2 font-serif text-[19px] italic text-dusk leading-snug">{e.title}</h3>
+                <h3 className="mt-2 h-section italic">{e.title}</h3>
                 {e.body && (
-                  <p className="mt-2 text-[14px] leading-relaxed text-dusk/65">{e.body}</p>
+                  <p className="mt-2 body-meta">{e.body}</p>
                 )}
               </article>
             ))}

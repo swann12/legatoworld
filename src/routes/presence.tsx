@@ -91,17 +91,12 @@ function Presence() {
         <div className="relative z-10 flex flex-1 flex-col">
           <SpaceHeader space="care" />
 
-          <div className="px-7 pt-12">
-            <p
-              className="text-[10px] uppercase tracking-[0.3em] text-dusk/50"
-              style={{ fontFamily: "var(--font-mono)" }}
-            >
-              Parler à une présence
-            </p>
-            <h1 className="mt-4 font-serif text-[32px] leading-[1.05] font-light text-dusk text-balance">
+          <div className="px-6 pt-10">
+            <p className="eyebrow">Parler à une présence</p>
+            <h1 className="mt-4 display-xl">
               Je suis là, <span className="italic" style={{ color: "var(--terracotta)" }}>{name}</span>.
             </h1>
-            <p className="mt-3 text-[13.5px] text-dusk/60">Vous pouvez écrire ou parler. Prenez votre temps.</p>
+            <p className="mt-3 body-meta">Vous pouvez écrire ou parler. Prenez votre temps.</p>
           </div>
 
           {/* Actions visibles — selon spec */}
@@ -132,13 +127,8 @@ function Presence() {
           <div ref={scrollerRef} className="flex-1 px-7 pt-8 pb-4 space-y-3 overflow-y-auto no-scrollbar">
             {messages.map((m, i) =>
               m.role === "presence" ? (
-                <div key={i} className="rounded-[16px] border border-dusk/10 bg-paper px-5 py-4 max-w-[85%]">
-                  <p
-                    className="text-[10px] uppercase tracking-[0.26em] text-dusk/45 mb-1.5"
-                    style={{ fontFamily: "var(--font-mono)" }}
-                  >
-                    Présence
-                  </p>
+                <div key={i} className="card-plain px-5 py-4 max-w-[85%]">
+                  <p className="eyebrow mb-1.5">Présence</p>
                   <p className="font-serif text-[17px] italic leading-relaxed text-dusk">{m.text}</p>
                 </div>
               ) : (
@@ -148,13 +138,8 @@ function Presence() {
               )
             )}
             {pending && (
-              <div className="rounded-[16px] border border-dusk/10 bg-paper px-5 py-4 max-w-[60%]">
-                <p
-                  className="text-[10px] uppercase tracking-[0.26em] text-dusk/45 mb-1.5"
-                  style={{ fontFamily: "var(--font-mono)" }}
-                >
-                  Présence
-                </p>
+              <div className="card-plain px-5 py-4 max-w-[60%]">
+                <p className="eyebrow mb-1.5">Présence</p>
                 <p className="font-serif text-[17px] italic text-dusk/55">
                   <span className="inline-block animate-pulse">…</span>
                 </p>

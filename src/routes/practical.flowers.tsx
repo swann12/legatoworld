@@ -34,16 +34,16 @@ function Flowers() {
       <div className="relative pb-12">
         <Halos mode={mode} variant="calm" />
         <div className="relative z-10">
-          <div className="px-7 pt-10 flex items-center justify-between">
-            <Link to="/practical/atmosphere" className="text-[11px] uppercase tracking-[0.22em] text-dusk/50">← Atmosphère</Link>
-            <span className="text-[10px] uppercase tracking-[0.22em] text-dusk/40">Fleurs</span>
+          <div className="px-6 pt-9 flex items-center justify-between">
+            <Link to="/practical/atmosphere" className="eyebrow hover:underline underline-offset-4">← Atmosphère</Link>
+            <span className="eyebrow">Fleurs</span>
           </div>
-          <header className="px-7 pt-12">
-            <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">Composition florale</p>
-            <h1 className="mt-3 font-serif text-[2.1rem] leading-[1.08] font-light text-dusk text-balance">
-              Imaginer un bouquet,<br/><span className="italic">à montrer au fleuriste.</span>
+          <header className="px-6 pt-10">
+            <p className="eyebrow">Composition florale</p>
+            <h1 className="mt-4 display-xl">
+              Un bouquet, <span className="italic">à montrer au fleuriste.</span>
             </h1>
-            <p className="mt-5 max-w-[36ch] text-[14px] leading-relaxed text-dusk/65">
+            <p className="mt-5 body-meta max-w-[34ch]">
               Choisissez un format. Touchez les fleurs, glissez, exportez l'image.
             </p>
           </header>
@@ -54,10 +54,10 @@ function Flowers() {
                 <button
                   key={p.id}
                   onClick={() => { setPreset(p.id); savePractical({ flowerStyle: p.id }); }}
-                  className="w-full text-left paper-card p-5"
+                  className="w-full text-left card-plain p-5 active:scale-[0.99] transition-transform"
                 >
-                  <p className="font-serif italic text-[17px] text-dusk">{p.label}</p>
-                  <p className="mt-1.5 text-[13px] text-dusk/65">{p.body}</p>
+                  <p className="h-section italic">{p.label}</p>
+                  <p className="mt-1.5 body-meta">{p.body}</p>
                 </button>
               ))}
             </div>
@@ -70,17 +70,18 @@ function Flowers() {
                   <button
                     key={p.id}
                     onClick={() => setPreset(p.id)}
-                    className={`px-3 py-1 organic-radius text-[11px] uppercase tracking-[0.18em] ${preset === p.id ? "ceramic text-dusk" : "text-dusk/50"}`}
+                    className={`px-3.5 py-1.5 rounded-full text-[11px] uppercase tracking-[0.18em] font-medium ${preset === p.id ? "" : "text-dusk/55"}`}
+                    style={preset === p.id ? { background: "var(--ink)", color: "var(--paper)" } : undefined}
                   >
                     {p.label}
                   </button>
                 ))}
               </div>
               <MiniComposer preset={preset} />
-              <button onClick={sendToFlorist} className="mt-5 w-full ceramic organic-radius-3 px-5 py-4 text-center font-serif italic text-[15px] text-dusk">
+              <button onClick={sendToFlorist} className="btn-primary mt-5 w-full">
                 Envoyer cette ambiance à un fleuriste →
               </button>
-              <p className="mt-2 text-[12px] text-dusk/55 text-center">L'image s'enregistre, vous pourrez l'attacher au mail.</p>
+              <p className="mt-2 text-[12px] text-dusk/60 text-center">L'image s'enregistre, vous pourrez l'attacher au mail.</p>
             </div>
           )}
 
