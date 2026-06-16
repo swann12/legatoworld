@@ -21,14 +21,14 @@ export function SpaceHeader({
       <LegatoMark to="/space" size={22} />
       <button
         onClick={() => setOpen(true)}
-        className="flex items-center gap-2 rounded-full border border-dusk/15 bg-paper px-3 py-1.5 text-[10.5px] uppercase tracking-[0.16em] font-medium text-dusk/72 hover:bg-dusk/5"
+        className="flex items-center gap-2 rounded-full border border-dusk/15 bg-paper px-3 py-1.5 eyebrow hover:bg-dusk/5"
         aria-label="Changer d'espace"
       >
         <span
           className="inline-block size-1.5 rounded-full"
           style={{ background: space === "care" ? "var(--terracotta)" : "var(--bordeaux)" }}
         />
-        {label}
+        Espace · {label}
       </button>
 
       {open && (
