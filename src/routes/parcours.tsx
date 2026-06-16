@@ -69,33 +69,31 @@ function Parcours() {
       <div className="min-h-dvh bg-paper text-dusk pb-32">
         <SpaceHeader space="organize" />
 
-        <section className="px-7 pt-12">
+        <section className="px-7 pt-12 editorial-frame pb-7">
           <p
             className="text-[10px] uppercase tracking-[0.28em] text-dusk/50"
             style={{ fontFamily: "var(--font-mono)" }}
           >
             Mon parcours
           </p>
-          <h1 className="mt-3 font-serif text-[40px] leading-[1.02] font-normal text-balance">
-            Tout est là, <span className="italic" style={{ color: "var(--terracotta)" }}>en clair.</span>
+          <h1 className="mt-3 max-w-[8ch] font-serif text-[42px] leading-[0.97] font-normal text-balance">
+            Voir où vous en êtes, <span className="italic" style={{ color: "var(--terracotta)" }}>vraiment.</span>
           </h1>
-          <p className="mt-4 text-[13.5px] leading-relaxed text-dusk/60 max-w-[36ch]">
-            Quatre étapes pour avancer. Cochez à votre rythme — rien n'est urgent ici.
+          <p className="mt-5 text-[13.5px] leading-relaxed text-dusk/60 max-w-[32ch]">
+            Une lecture plus nette du chemin: chapitres, état, prochaine action.
           </p>
 
-          {/* Synthèse d'avancement */}
-          <div className="mt-6 rounded-[18px] p-5" style={{ background: "var(--clay)" }}>
-            <div className="flex items-baseline justify-between">
-              <p className="font-serif italic text-[18px] text-dusk">
+          <div className="mt-6 editorial-panel p-5">
+            <div className="flex items-end justify-between gap-4">
+              <p className="font-serif text-[28px] leading-none text-dusk">
                 {CATEGORIES.reduce((acc, c) => acc + c.tasks.filter(t => t.status === "done").length, 0)}
-                <span className="text-dusk/55"> / {CATEGORIES.reduce((acc, c) => acc + c.tasks.length, 0)} </span>
-                <span className="text-[13px] not-italic" style={{ fontFamily: "var(--font-mono)" }}>terminées</span>
+                <span className="text-dusk/40"> / {CATEGORIES.reduce((acc, c) => acc + c.tasks.length, 0)}</span>
               </p>
               <span
                 className="text-[10px] uppercase tracking-[0.22em] text-dusk/55"
                 style={{ fontFamily: "var(--font-mono)" }}
               >
-                4 chapitres
+                tâches terminées
               </span>
             </div>
             <div className="mt-3 h-1.5 rounded-full bg-dusk/10 overflow-hidden">
@@ -110,6 +108,16 @@ function Parcours() {
                 }}
               />
             </div>
+            <div className="mt-4 grid grid-cols-2 gap-2.5">
+              <div className="rounded-[16px] px-4 py-3" style={{ background: "color-mix(in oklab, var(--mist) 35%, var(--paper))" }}>
+                <p className="text-[10px] uppercase tracking-[0.18em] text-dusk/50" style={{ fontFamily: "var(--font-mono)" }}>Chapitre en cours</p>
+                <p className="mt-2 font-serif text-[19px] leading-tight">Cérémonie</p>
+              </div>
+              <div className="rounded-[16px] px-4 py-3" style={{ background: "color-mix(in oklab, var(--sun) 45%, var(--paper))" }}>
+                <p className="text-[10px] uppercase tracking-[0.18em] text-dusk/50" style={{ fontFamily: "var(--font-mono)" }}>Ensuite</p>
+                <p className="mt-2 font-serif text-[19px] leading-tight">Succession & après</p>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -121,7 +129,7 @@ function Parcours() {
               <button
                 key={f}
                 onClick={() => setFilter(f)}
-                className={`shrink-0 rounded-full px-3.5 py-1.5 text-[11px] uppercase tracking-[0.18em] border transition-colors ${
+                className={`shrink-0 editorial-chip px-3.5 py-1.5 text-[11px] uppercase tracking-[0.18em] transition-colors ${
                   active ? "bg-dusk text-paper border-dusk" : "border-dusk/20 text-dusk/70 hover:bg-dusk/5"
                 }`}
                 style={{ fontFamily: "var(--font-mono)" }}
@@ -140,10 +148,10 @@ function Parcours() {
             const done = cat.tasks.filter(t => t.status === "done").length;
             const tints = ["var(--blush)", "var(--sage)", "var(--mist)", "var(--sun)"];
             return (
-              <div key={cat.name} className="rounded-[18px] border border-dusk/10 overflow-hidden bg-paper">
+              <div key={cat.name} className="rounded-[20px] border border-dusk/10 overflow-hidden bg-paper">
                 <button
                   onClick={() => setOpenCat({ ...openCat, [cat.name]: !open })}
-                  className="w-full flex items-center justify-between px-5 py-4"
+                  className="w-full flex items-center justify-between px-5 py-4 text-left"
                   style={{ background: open ? "transparent" : `color-mix(in oklab, ${tints[idx % 4]} 35%, var(--paper))` }}
                 >
                   <div className="flex items-center gap-3 text-left">
@@ -154,7 +162,7 @@ function Parcours() {
                       {idx + 1}
                     </span>
                     <div>
-                      <p className="font-serif text-[18px] text-dusk leading-tight">{cat.name}</p>
+                      <p className="font-serif text-[22px] text-dusk leading-tight">{cat.name}</p>
                       <p
                         className="mt-0.5 text-[10px] uppercase tracking-[0.2em] text-dusk/55"
                         style={{ fontFamily: "var(--font-mono)" }}
@@ -179,7 +187,7 @@ function Parcours() {
                             style={{ background: STATUS_COLOR[t.status] }}
                           />
                           <div className="flex-1 min-w-0">
-                            <p className="font-serif text-[16.5px] text-dusk leading-snug">{t.title}</p>
+                            <p className="font-serif text-[18px] text-dusk leading-snug">{t.title}</p>
                             <p
                               className="mt-1 text-[10.5px] uppercase tracking-[0.18em] text-dusk/55"
                               style={{ fontFamily: "var(--font-mono)" }}

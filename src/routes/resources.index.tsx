@@ -36,14 +36,14 @@ function ResourcesIndex() {
     : "Pompes funèbres, notaires, débarras, administrations — transparents et sans pression.";
   return (
     <Shell>
-      <header className="px-7 pt-14">
+      <header className="px-7 pt-14 editorial-frame pb-7">
         <p
           className="mb-3 text-[10px] uppercase tracking-[0.22em] text-dusk/55"
           style={{ fontFamily: "var(--font-mono)" }}
         >
           {eyebrow}
         </p>
-        <h1 className="font-serif text-[2.4rem] leading-[1.05] font-normal text-dusk text-balance">
+        <h1 className="max-w-[9ch] font-serif text-[2.7rem] leading-[0.98] font-normal text-dusk text-balance">
           {title}
         </h1>
         <p className="mt-5 max-w-[34ch] text-[14px] leading-relaxed text-dusk/65">
@@ -51,7 +51,7 @@ function ResourcesIndex() {
         </p>
 
         {/* Switch d'espace, discret */}
-        <div className="mt-6 inline-flex rounded-full border border-dusk/12 p-1 bg-paper">
+        <div className="mt-6 inline-flex editorial-chip p-1">
           <Link
             to="/resources" search={{ space: "care" }}
             className={`px-3.5 py-1.5 rounded-full text-[10.5px] uppercase tracking-[0.18em] transition-colors ${
@@ -73,34 +73,30 @@ function ResourcesIndex() {
         </div>
       </header>
 
-      <section className="mt-9 px-5 grid grid-cols-2 gap-3">
+      <section className="mt-8 px-5 grid grid-cols-1 gap-3">
         {cats.map(({ id, label, intent, Icon, tint }, i) => (
           <Link
             key={id}
             to="/resources/$category"
             params={{ category: id }}
             search={{ space: activeSpace }}
-            className={`rounded-[20px] p-5 border border-dusk/8 flex flex-col justify-between transition-transform hover:-translate-y-0.5 ${
-              i % 5 === 0 ? "col-span-2 min-h-[140px]" : "min-h-[160px]"
+            className={`rounded-[20px] p-5 border border-dusk/8 flex items-start gap-4 justify-between transition-transform hover:-translate-y-0.5 ${
+              i === 0 ? "min-h-[144px]" : "min-h-[124px]"
             }`}
             style={{ background: `color-mix(in oklab, ${tint} 32%, var(--paper))` }}
           >
-            <div className="flex items-start justify-between">
-              <p
-                className="text-[10px] uppercase tracking-[0.2em] text-dusk/60"
-                style={{ fontFamily: "var(--font-mono)" }}
-              >
+            <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-paper/70">
+              <Icon size={18} strokeWidth={1.5} className="text-dusk/75" />
+            </span>
+            <div className="flex-1 min-w-0">
+              <p className="text-[10px] uppercase tracking-[0.2em] text-dusk/60" style={{ fontFamily: "var(--font-mono)" }}>
                 {label}
               </p>
-              <span
-                className="flex size-9 items-center justify-center rounded-full bg-paper/70"
-              >
-                <Icon size={16} strokeWidth={1.5} className="text-dusk/75" />
-              </span>
+              <p className="mt-2 font-serif text-[22px] leading-[1.08] text-dusk">
+                {intent}
+              </p>
             </div>
-            <p className="mt-3 font-serif text-[17px] italic leading-snug text-dusk">
-              {intent}
-            </p>
+            <span className="mt-1 text-dusk/35">→</span>
           </Link>
         ))}
       </section>
