@@ -1,9 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { Halos } from "@/components/legato/Halos";
 import { Shell } from "@/components/legato/Shell";
+import { LegatoMark } from "@/components/legato/LegatoMark";
 import { CompositionThumb } from "@/components/legato/CompositionThumb";
-import { useLegato } from "@/lib/legato-state";
 import { BEINGS } from "./garden.index";
 import { useMemories } from "@/lib/memories-store";
 import bouquet01 from "@/assets/bouquets/bouquet-01.png";
@@ -63,7 +62,6 @@ const KIND_LABEL: Record<ItemKind, string> = {
 
 function GardenZone() {
   const { zone } = Route.useParams();
-  const { mode } = useLegato();
   const being = BEINGS.find((b) => b.id === zone) ?? BEINGS[0];
   const seedItems = BEING_MEMORIES[being.id] ?? [];
   const userMemories = useMemories(being.id);
@@ -74,59 +72,51 @@ function GardenZone() {
   const [playingId, setPlayingId] = useState<string | null>(null);
 
   return (
-    <Shell>
-      <div className="relative pb-12">
-        <Halos mode={mode} variant="calm" />
-        <div className="relative z-10">
-          <div className="px-7 pt-10">
-            <Link to="/garden" className="text-[11px] uppercase tracking-[0.22em] text-dusk/50">
-              ← Le Jardin
-            </Link>
-          </div>
+    <Shell livingBg={false}>
+      <div className="min-h-dvh bg-paper text-dusk pb-32">
+        <header className="px-6 pt-9 pb-2 flex items-center justify-between">
+          <LegatoMark to="/garden" size={22} />
+          <Link to="/garden" className="eyebrow hover:underline underline-offset-4">← Le jardin</Link>
+        </header>
 
-          {/* Garden plot — viewed from above, the parcel of this being */}
-          <div className="px-7 pt-8 flex flex-col items-center text-center">
-            <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">
-              {being.kind === "person" ? "Le jardin de" : "Le coin de"}
-            </p>
-            <img
-              src={BOUQUET_BY_BEING[being.id] ?? bouquet01}
-              alt=""
-              aria-hidden
-              draggable={false}
-              className="mt-3 h-[112px] w-auto max-w-[230px] object-contain select-none feathered-soft"
-            />
-            <h1 className="mt-2 font-serif text-[2rem] leading-[1.05] font-light text-dusk text-balance">
-              {being.name}
-            </h1>
-            <p className="mt-2 text-[10px] uppercase tracking-[0.22em] text-dusk/40">
-              {items.length + userMemories.length} {items.length + userMemories.length > 1 ? "souvenirs" : "souvenir"}
-            </p>
-          </div>
+        {/* Parcelle — éditorial */}
+        <section className="px-6 pt-10 pb-8">
+          <p className="eyebrow">{being.kind === "person" ? "La parcelle de" : "Le coin de"}</p>
+          <h1 className="mt-4 display-xl">
+            <span className="italic">{being.name}</span>
+          </h1>
+          <p className="mt-4 body-meta">
+            {items.length + userMemories.length} {items.length + userMemories.length > 1 ? "souvenirs déposés" : "souvenir déposé"}
+          </p>
+          <img
+            src={BOUQUET_BY_BEING[being.id] ?? bouquet01}
+            alt=""
+            aria-hidden
+            draggable={false}
+            className="mt-6 h-[140px] w-auto max-w-[260px] object-contain select-none"
+          />
+        </section>
 
           {/* User-created memories first (with composition badge) */}
           {userMemories.length > 0 && (
-            <div className="px-7 mt-10 space-y-3">
+            <div className="px-5 mt-2 space-y-3">
               {userMemories.map((m) => (
                 <Link
                   key={m.id}
                   to="/compose/$zone"
                   params={{ zone }}
-                  className="block paper-card p-5"
-                  style={{ borderRadius: 24 }}
+                  className="block card-plain p-5"
                 >
                   <div className="flex items-start gap-4">
                     <div className="flex-1 min-w-0">
-                      <h3 className="font-serif text-lg italic text-dusk leading-snug">
+                      <h3 className="h-section italic">
                         {m.title || "Souvenir"}
                       </h3>
                       {m.body && (
-                        <p className="mt-2 text-[13.5px] leading-relaxed text-dusk/65 line-clamp-3">{m.body}</p>
+                        <p className="mt-2 body-meta line-clamp-3">{m.body}</p>
                       )}
                       {m.composition && m.composition.length > 0 && (
-                        <p className="mt-2 text-[10px] uppercase tracking-[0.18em] text-dusk/45">
-                          composition · toucher pour rouvrir
-                        </p>
+                        <p className="mt-3 eyebrow">Composition · rouvrir</p>
                       )}
                     </div>
                     {m.composition && m.composition.length > 0 && (
@@ -139,7 +129,7 @@ function GardenZone() {
           )}
 
           {/* Existing memories — every kind coexists in one being's garden */}
-          <div className="px-7 mt-10 space-y-3">
+          <div className="px-5 mt-3 space-y-3">
             {items.map((it) => {
               const open = openId === it.id;
               const playing = playingId === it.id;
@@ -149,20 +139,17 @@ function GardenZone() {
                   key={it.id}
                   type="button"
                   onClick={() => setOpenId(open ? null : it.id)}
-                  className={`w-full text-left paper-card p-5 transition-all duration-500 ${
-                    open ? "scale-[1.01] shadow-lg" : "hover:scale-[1.005]"
+                  className={`w-full text-left card-plain p-5 transition-all duration-500 ${
+                    open ? "scale-[1.01] shadow-lg" : "active:scale-[0.99]"
                   }`}
-                  style={{ borderRadius: 24 }}
                 >
                   <div className="flex items-baseline justify-between gap-4">
-                    <h3 className="font-serif text-lg italic text-dusk leading-snug">{it.title}</h3>
-                    <span className="text-[10px] tracking-[0.1em] text-dusk/45 shrink-0">{it.date}</span>
+                    <h3 className="h-section italic">{it.title}</h3>
+                    <span className="eyebrow shrink-0">{it.date}</span>
                   </div>
-                  <p className="mt-1 text-[10px] uppercase tracking-[0.22em] text-dusk/40">
-                    {KIND_LABEL[it.kind]}
-                  </p>
+                  <p className="mt-2 eyebrow">{KIND_LABEL[it.kind]}</p>
                   {it.preview && (
-                    <p className="mt-2 text-[13.5px] leading-relaxed text-dusk/65">{it.preview}</p>
+                    <p className="mt-2 body-meta">{it.preview}</p>
                   )}
 
                   {/* Expanded interactive panel */}
@@ -176,7 +163,7 @@ function GardenZone() {
                   >
                     <div className="overflow-hidden">
                       <div
-                        className="rounded-[18px] p-4"
+                        className="rounded-[20px] p-4"
                         style={{
                           background: `linear-gradient(135deg, color-mix(in oklab, ${color} 35%, var(--paper)), color-mix(in oklab, ${color2} 25%, var(--paper)))`,
                         }}
@@ -188,7 +175,8 @@ function GardenZone() {
                                 e.stopPropagation();
                                 setPlayingId(playing ? null : it.id);
                               }}
-                              className="size-11 rounded-full bg-dusk text-paper flex items-center justify-center cursor-pointer shadow-md"
+                              className="size-11 rounded-full flex items-center justify-center cursor-pointer shadow-md"
+                              style={{ background: "var(--ink)", color: "var(--paper)" }}
                               aria-label={playing ? "Pause" : "Écouter"}
                             >
                               {playing ? "❚❚" : "▸"}
@@ -209,19 +197,18 @@ function GardenZone() {
                             <span className="text-[11px] tabular-nums text-dusk/65">{it.preview}</span>
                           </div>
                         ) : (
-                          <p className="font-serif italic text-dusk/85 text-[15px] leading-relaxed text-balance">
+                          <p className="font-serif italic text-[16px] leading-relaxed text-balance" style={{ color: "var(--dusk)" }}>
                             {it.preview || "Touchez à nouveau pour refermer."}
                           </p>
                         )}
                         <div className="mt-3 flex items-center justify-between">
-                          <span className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">
-                            Souvenir vivant
-                          </span>
+                          <span className="eyebrow">Souvenir vivant</span>
                           <Link
                             to="/compose/$zone"
                             params={{ zone }}
                             onClick={(e) => e.stopPropagation()}
-                            className="text-[10px] uppercase tracking-[0.22em] text-dusk/70 underline-offset-4 hover:underline"
+                            className="eyebrow underline underline-offset-4"
+                            style={{ color: "var(--terracotta)" }}
                           >
                             Enrichir →
                           </Link>
@@ -231,9 +218,7 @@ function GardenZone() {
                   </div>
 
                   {!open && (
-                    <p className="mt-3 text-[10px] uppercase tracking-[0.22em] text-dusk/35">
-                      Toucher pour ouvrir
-                    </p>
+                    <p className="mt-3 eyebrow opacity-60">Toucher pour ouvrir</p>
                   )}
                 </button>
               );
@@ -241,18 +226,16 @@ function GardenZone() {
           </div>
 
           {/* Single primary action: plant a new memory composition */}
-          <div className="px-7 mt-10">
+          <div className="px-5 mt-8">
             <Link
               to="/compose/$zone"
               params={{ zone }}
-              className="ceramic organic-radius-3 block px-7 py-5 text-center"
+              className="card-olive block px-7 py-6 text-center"
             >
-              <span className="block font-serif text-xl italic text-dusk">
-                Déposer un nouveau souvenir
-              </span>
+              <span className="eyebrow-on-dark">Déposer</span>
+              <p className="mt-2 font-serif text-[22px] italic">Un nouveau souvenir →</p>
             </Link>
           </div>
-        </div>
       </div>
     </Shell>
   );
