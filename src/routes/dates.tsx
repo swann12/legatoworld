@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { Halos } from "@/components/legato/Halos";
 import { Shell, ScreenHeader, Section } from "@/components/legato/Shell";
 import { useLegato } from "@/lib/legato-state";
 import { suggestRituals } from "@/lib/rituals.functions";
@@ -27,7 +26,7 @@ type Ritual = {
 };
 
 function Dates() {
-  const { mode, branch, lostName } = useLegato();
+  const { branch, lostName } = useLegato();
   const callRituals = useServerFn(suggestRituals);
   const [openId, setOpenId] = useState<string | null>(null);
   const [loadingId, setLoadingId] = useState<string | null>(null);
@@ -59,10 +58,10 @@ function Dates() {
   return (
     <Shell>
       <div className="relative">
-        <Halos mode={mode} variant="calm" />
+        
         <div className="relative z-10">
           <div className="px-7 pt-10">
-            <Link to="/home" className="text-[11px] uppercase tracking-[0.22em] text-dusk/50">← Accueil</Link>
+            <Link to="/home" className="eyebrow">← Accueil</Link>
           </div>
           <ScreenHeader
             eyebrow="Dates sensibles"
@@ -129,7 +128,7 @@ function RitualGroup({ label, items }: { label: string; items: Ritual[] }) {
   if (!items?.length) return null;
   return (
     <div>
-      <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">{label}</p>
+      <p className="eyebrow">{label}</p>
       <div className="mt-3 space-y-2">
         {items.map((it, i) => (
           <RitualCard key={i} item={it} />
@@ -142,7 +141,7 @@ function RitualGroup({ label, items }: { label: string; items: Ritual[] }) {
 function RitualCard({ item }: { item: Ritual }) {
   const [open, setOpen] = useState(false);
   return (
-    <div className="paper-card p-4">
+    <div className="card-plain p-4">
       <div className="flex items-baseline justify-between gap-3">
         <p className="font-serif italic text-[15px] text-dusk">{item.title}</p>
         <span className="text-[10px] uppercase tracking-[0.2em] text-dusk/40 shrink-0">

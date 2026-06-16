@@ -30,7 +30,7 @@ function Nuits() {
 
       {/* SECTION 1 — Ce qui peut aider cette nuit */}
       <section className="px-5 mt-12">
-        <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45 mb-3 px-2">
+        <p className="eyebrow mb-3 px-2">
           Ce qui peut aider cette nuit
         </p>
         <div className="space-y-3">
@@ -45,7 +45,7 @@ function Nuits() {
               {c.linkLabel && c.linkTo && (
                 <Link
                   to={c.linkTo}
-                  className="mt-3 inline-block text-[11px] uppercase tracking-[0.22em] text-dusk/65 hover:text-dusk transition"
+                  className="mt-3 inline-block eyebrow hover:text-dusk transition"
                 >
                   {c.linkLabel}
                 </Link>
@@ -79,7 +79,7 @@ function Nuits() {
           </p>
           <Link
             to="/resources"
-            className="mt-4 inline-block text-[11px] uppercase tracking-[0.22em] text-dusk/65 hover:text-dusk transition"
+            className="mt-4 inline-block eyebrow hover:text-dusk transition"
           >
             Trouver un médecin ou thérapeute →
           </Link>

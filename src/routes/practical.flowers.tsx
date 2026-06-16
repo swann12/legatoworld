@@ -1,11 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Shell } from "@/components/legato/Shell";
-import { Halos } from "@/components/legato/Halos";
 import { ConfideDock } from "@/components/legato/ConfideDock";
 import { PersonalSuggestions } from "@/components/legato/PersonalSuggestions";
 import { MiniComposer, type FlowerPreset } from "@/components/legato/MiniComposer";
-import { useLegato } from "@/lib/legato-state";
 import { savePractical } from "@/lib/practical-store";
 
 export const Route = createFileRoute("/practical/flowers")({
@@ -20,7 +18,6 @@ const PRESETS: { id: FlowerPreset; label: string; body: string }[] = [
 ];
 
 function Flowers() {
-  const { mode } = useLegato();
   const [preset, setPreset] = useState<FlowerPreset | "">("");
 
   const sendToFlorist = () => {
@@ -32,7 +29,7 @@ function Flowers() {
   return (
     <Shell hideNav>
       <div className="relative pb-12">
-        <Halos mode={mode} variant="calm" />
+        
         <div className="relative z-10">
           <div className="px-6 pt-9 flex items-center justify-between">
             <Link to="/practical/atmosphere" className="eyebrow hover:underline underline-offset-4">← Atmosphère</Link>

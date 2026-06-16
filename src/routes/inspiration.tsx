@@ -2,9 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import ReactMarkdown from "react-markdown";
-import { Halos } from "@/components/legato/Halos";
 import { Shell } from "@/components/legato/Shell";
-import { useLegato } from "@/lib/legato-state";
 import { suggestInspiration } from "@/lib/inspiration.functions";
 
 export const Route = createFileRoute("/inspiration")({
@@ -18,7 +16,6 @@ export const Route = createFileRoute("/inspiration")({
 });
 
 function InspirationPage() {
-  const { mode } = useLegato();
   const [text, setText] = useState("");
   const [context, setContext] = useState<"self" | "loved-one">("loved-one");
   const [loading, setLoading] = useState(false);
@@ -60,16 +57,16 @@ function InspirationPage() {
   return (
     <Shell>
       <div className="relative pb-12">
-        <Halos mode={mode} variant="calm" />
+        
         <div className="relative z-10">
           <div className="px-7 pt-10 flex items-center justify-between">
-            <Link to="/practical" className="text-[11px] uppercase tracking-[0.22em] text-dusk/50">← Retour</Link>
-            <span className="text-[10px] uppercase tracking-[0.22em] text-dusk/40">Inspirations</span>
+            <Link to="/practical" className="eyebrow">← Retour</Link>
+            <span className="eyebrow">Inspirations</span>
           </div>
 
           <header className="px-7 pt-12">
-            <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">Inspirations</p>
-            <h1 className="mt-3 font-serif text-[2.1rem] leading-[1.08] font-light text-dusk text-balance">
+            <p className="eyebrow">Inspirations</p>
+            <h1 className="mt-3 display-xl text-dusk">
               Décrire la personne, <span className="italic">recevoir des pistes.</span>
             </h1>
             <p className="mt-5 max-w-[34ch] text-[14px] leading-relaxed text-dusk/65">
@@ -86,7 +83,7 @@ function InspirationPage() {
                 key={o.id}
                 onClick={() => setContext(o.id)}
                 className={`px-4 py-1.5 rounded-full text-[11px] tracking-[0.06em] transition-all ${
-                  context === o.id ? "bg-dusk text-paper" : "paper-card text-dusk/65"
+                  context === o.id ? "bg-dusk text-paper" : "card-plain text-dusk/65"
                 }`}
               >
                 {o.label}
@@ -95,7 +92,7 @@ function InspirationPage() {
           </div>
 
           <div className="px-5 mt-4">
-            <div className="paper-card p-6">
+            <div className="card-plain p-6">
               <textarea
                 value={text}
                 onChange={(e) => setText(e.target.value)}
@@ -109,7 +106,7 @@ function InspirationPage() {
                 <button
                   key={h}
                   onClick={() => addHint(h)}
-                  className="paper-card px-3 py-1.5 rounded-full text-[11px] text-dusk/65 hover:text-dusk transition"
+                  className="card-plain px-3 py-1.5 rounded-full text-[11px] text-dusk/65 hover:text-dusk transition"
                   type="button"
                 >
                   + {h}
@@ -138,7 +135,7 @@ function InspirationPage() {
 
           {result && (
             <div className="px-5 mt-8">
-              <div className="paper-card p-7 space-y-3 text-dusk/80">
+              <div className="card-plain p-7 space-y-3 text-dusk/80">
                 <ReactMarkdown
                   components={{
                     h1: (p) => <h2 className="font-serif italic text-[1.5rem] text-dusk mt-2" {...p} />,

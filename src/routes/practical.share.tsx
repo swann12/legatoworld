@@ -1,9 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Shell } from "@/components/legato/Shell";
-import { Halos } from "@/components/legato/Halos";
 import { ConfideDock } from "@/components/legato/ConfideDock";
-import { useLegato } from "@/lib/legato-state";
 import { loadPractical } from "@/lib/practical-store";
 
 export const Route = createFileRoute("/practical/share")({
@@ -30,7 +28,6 @@ function buildMail(state: ReturnType<typeof loadPractical>, who: string) {
 }
 
 function Share() {
-  const { mode } = useLegato();
   const [state, setState] = useState(loadPractical());
   useEffect(() => { setState(loadPractical()); }, []);
 
@@ -44,15 +41,15 @@ function Share() {
   return (
     <Shell hideNav>
       <div className="relative pb-12">
-        <Halos mode={mode} variant="default" />
+        
         <div className="relative z-10">
           <div className="px-7 pt-10 flex items-center justify-between">
-            <Link to="/practical" className="text-[11px] uppercase tracking-[0.22em] text-dusk/50">← Aides concrètes</Link>
-            <span className="text-[10px] uppercase tracking-[0.22em] text-dusk/40">Partage</span>
+            <Link to="/practical" className="eyebrow">← Aides concrètes</Link>
+            <span className="eyebrow">Partage</span>
           </div>
           <header className="px-7 pt-12">
-            <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">Transmettre, déléguer</p>
-            <h1 className="mt-3 font-serif text-[2.1rem] leading-[1.08] font-light text-dusk text-balance">
+            <p className="eyebrow">Transmettre, déléguer</p>
+            <h1 className="mt-3 display-xl text-dusk">
               D'autres mains <span className="italic">peuvent prendre.</span>
             </h1>
             <p className="mt-5 max-w-[36ch] text-[14px] leading-relaxed text-dusk/65">
@@ -62,9 +59,9 @@ function Share() {
 
           <div className="px-5 mt-8 space-y-3">
             {RELAY.map((r) => (
-              <a key={r.who} href={buildMail(state, r.who)} className="paper-card p-5 flex items-baseline justify-between">
+              <a key={r.who} href={buildMail(state, r.who)} className="card-plain p-5 flex items-baseline justify-between">
                 <div>
-                  <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">{r.who}</p>
+                  <p className="eyebrow">{r.who}</p>
                   <p className="mt-1.5 font-serif italic text-[15px] text-dusk">{r.body}</p>
                 </div>
                 <span className="text-dusk/40">✉</span>

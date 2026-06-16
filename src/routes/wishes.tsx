@@ -1,6 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { Halos } from "@/components/legato/Halos";
 import { Shell } from "@/components/legato/Shell";
 import { ConfideDock } from "@/components/legato/ConfideDock";
 import { useLegato, type Wishes } from "@/lib/legato-state";
@@ -30,7 +29,7 @@ const FIELDS: { key: keyof Omit<Wishes, "sharedWith">; label: string; hint: stri
 ];
 
 function WishesPage() {
-  const { mode, wishes, setWishes, name } = useLegato();
+  const { wishes, setWishes, name } = useLegato();
   const [shareInput, setShareInput] = useState("");
 
   const addShare = () => {
@@ -62,16 +61,16 @@ function WishesPage() {
   return (
     <Shell>
       <div className="relative pb-12">
-        <Halos mode={mode} variant="calm" />
+        
         <div className="relative z-10">
           <div className="px-7 pt-10 flex items-center justify-between">
-            <Link to="/practical" className="text-[11px] uppercase tracking-[0.22em] text-dusk/50">← Retour</Link>
-            <span className="text-[10px] uppercase tracking-[0.22em] text-dusk/40">Pages personnelles</span>
+            <Link to="/practical" className="eyebrow">← Retour</Link>
+            <span className="eyebrow">Pages personnelles</span>
           </div>
 
           <header className="px-7 pt-12">
-            <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">Mes volontés</p>
-            <h1 className="mt-3 font-serif text-[2.1rem] leading-[1.08] font-light text-dusk text-balance">
+            <p className="eyebrow">Mes volontés</p>
+            <h1 className="mt-3 display-xl text-dusk">
               Écrire ce que <span className="italic">je voudrais,</span> pour le jour venu.
             </h1>
             <p className="mt-5 max-w-[34ch] text-[14px] leading-relaxed text-dusk/65">
@@ -81,8 +80,8 @@ function WishesPage() {
 
           <div className="px-5 mt-8 space-y-4">
             {FIELDS.map((f) => (
-              <div key={f.key} className="paper-card p-6">
-                <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">{f.label}</p>
+              <div key={f.key} className="card-plain p-6">
+                <p className="eyebrow">{f.label}</p>
                 <p className="mt-1 text-[12px] text-dusk/55">{f.hint}</p>
                 <textarea
                   value={wishes[f.key]}
@@ -102,8 +101,8 @@ function WishesPage() {
 
           {/* Sharing */}
           <div className="px-5 mt-6">
-            <div className="paper-card p-6">
-              <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">Partager avec un proche</p>
+            <div className="card-plain p-6">
+              <p className="eyebrow">Partager avec un proche</p>
               <p className="mt-1 text-[12px] text-dusk/55">
                 Ajoutez le prénom ou l'e-mail des personnes qui pourront consulter ces volontés.
               </p>
@@ -125,7 +124,7 @@ function WishesPage() {
               {wishes.sharedWith.length > 0 && (
                 <div className="mt-4 flex flex-wrap gap-2">
                   {wishes.sharedWith.map((p) => (
-                    <span key={p} className="paper-card px-3 py-1.5 text-[12px] text-dusk/75 flex items-center gap-2">
+                    <span key={p} className="card-plain px-3 py-1.5 text-[12px] text-dusk/75 flex items-center gap-2">
                       {p}
                       <button
                         onClick={() => removeShare(p)}

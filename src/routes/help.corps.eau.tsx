@@ -103,7 +103,7 @@ function Eau() {
           </p>
           <Link
             to="/resources"
-            className="mt-3 inline-block text-[11px] uppercase tracking-[0.22em] text-dusk/65 hover:text-dusk transition"
+            className="mt-3 inline-block eyebrow hover:text-dusk transition"
           >
             Trouver un thérapeute →
           </Link>
