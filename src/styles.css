@@ -397,9 +397,28 @@
 
   /* Soft container — quieter than ceramic, more space */
   .paper-card {
-    background: var(--paper);
+    background: color-mix(in oklab, var(--paper) 88%, white);
     border: 1px solid color-mix(in oklab, var(--dusk) 10%, transparent);
-    border-radius: 16px;
+    border-radius: 18px;
+    box-shadow: 0 1px 0 color-mix(in oklab, var(--dusk) 4%, transparent);
+  }
+
+  .editorial-frame {
+    border-top: 1px solid color-mix(in oklab, var(--dusk) 14%, transparent);
+    border-bottom: 1px solid color-mix(in oklab, var(--dusk) 12%, transparent);
+  }
+
+  .editorial-chip {
+    border: 1px solid color-mix(in oklab, var(--dusk) 10%, transparent);
+    background: color-mix(in oklab, var(--paper) 78%, white);
+    border-radius: 999px;
+  }
+
+  .editorial-panel {
+    border: 1px solid color-mix(in oklab, var(--dusk) 9%, transparent);
+    border-radius: 22px;
+    background: color-mix(in oklab, var(--paper) 90%, white);
+    box-shadow: 0 10px 30px color-mix(in oklab, var(--dusk) 4%, transparent);
   }
 
   /* ─── Legato Glass system ───
