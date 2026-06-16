@@ -27,13 +27,13 @@ function ResourcesIndex() {
     ? "Prendre soin de soi"
     : "Organiser & avancer";
   const title = activeSpace === "care" ? (
-    <>Des mains tendues,<br /><span className="italic text-dusk/85">quand vous êtes prêt·e.</span></>
+    <>Des ressources <br /><span className="italic text-dusk/85">pour vous guider.</span></>
   ) : (
-    <>Des professionnels,<br /><span className="italic text-dusk/85">pour avancer sereinement.</span></>
+    <>Des appuis concrets, <br /><span className="italic text-dusk/85">au bon moment.</span></>
   );
   const subtitle = activeSpace === "care"
-    ? "Thérapeutes, médecines douces, lignes d'écoute et groupes — choisis avec soin."
-    : "Pompes funèbres, notaires, débarras, administrations — transparents et sans pression.";
+    ? "Thérapeutes, lignes d'écoute, groupes et guides choisis avec soin."
+    : "Professionnels, aides administratives et repères utiles pour avancer sans surcharge.";
   return (
     <Shell>
       <header className="px-7 pt-14 editorial-frame pb-7">
@@ -80,19 +80,19 @@ function ResourcesIndex() {
             to="/resources/$category"
             params={{ category: id }}
             search={{ space: activeSpace }}
-            className={`rounded-[20px] p-5 border border-dusk/8 flex items-start gap-4 justify-between transition-transform hover:-translate-y-0.5 ${
+            className={`rounded-[16px] p-5 border border-dusk/8 flex items-start gap-4 justify-between transition-transform hover:-translate-y-0.5 ${
               i === 0 ? "min-h-[144px]" : "min-h-[124px]"
             }`}
-            style={{ background: `color-mix(in oklab, ${tint} 32%, var(--paper))` }}
+            style={{ background: `color-mix(in oklab, ${tint} 26%, white)` }}
           >
-            <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-paper/70">
+            <span className="flex size-10 shrink-0 items-center justify-center rounded-full border border-dusk/8 bg-paper/80">
               <Icon size={18} strokeWidth={1.5} className="text-dusk/75" />
             </span>
             <div className="flex-1 min-w-0">
               <p className="text-[10px] uppercase tracking-[0.2em] text-dusk/60" style={{ fontFamily: "var(--font-mono)" }}>
                 {label}
               </p>
-              <p className="mt-2 font-serif text-[22px] leading-[1.08] text-dusk">
+              <p className="mt-2 max-w-[12ch] font-serif text-[24px] leading-[1.02] text-dusk">
                 {intent}
               </p>
             </div>
