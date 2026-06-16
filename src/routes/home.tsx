@@ -39,59 +39,94 @@ function Home() {
       <div className="min-h-dvh bg-paper text-dusk pb-32">
         <SpaceHeader space="care" />
 
-        <section className="px-7 pt-12">
+        <section className="px-7 pt-12 editorial-frame pb-7">
           <p
             className="text-[10px] uppercase tracking-[0.28em] text-dusk/50"
             style={{ fontFamily: "var(--font-mono)" }}
           >
             Accueil
           </p>
-          <h1 className="mt-4 font-serif text-[34px] leading-[1.05] font-light text-balance">
-            Un lieu calme pour <span className="italic" style={{ color: "var(--terracotta)" }}>souffler.</span>
+          <h1 className="mt-4 max-w-[9ch] font-serif text-[42px] leading-[0.97] font-normal text-balance">
+            Reprendre un peu de <span className="italic" style={{ color: "var(--terracotta)" }}>place.</span>
           </h1>
-          <p className="mt-3 text-[13.5px] text-dusk/60 max-w-[36ch]">
-            Choisissez ce qui vous ferait le plus de bien maintenant.
-          </p>
+          <div className="mt-5 flex items-end justify-between gap-4">
+            <p className="text-[13.5px] text-dusk/60 max-w-[28ch]">
+              Une entrée claire, un choix simple, puis le reste vient ensuite.
+            </p>
+            <div className="hidden min-[390px]:block text-right">
+              <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/40" style={{ fontFamily: "var(--font-mono)" }}>
+                Aujourd'hui
+              </p>
+              <p className="mt-1 font-serif text-[20px] leading-none">Un pas suffit.</p>
+            </div>
+          </div>
         </section>
 
-        {/* Carte vedette */}
-        <section className="mt-8 px-5">
-          <Link
-            to={ACTIONS[0].to}
-            className="block rounded-[24px] px-6 py-7 transition-transform hover:scale-[0.995]"
-            style={{ background: ACTIONS[0].tint, color: ACTIONS[0].fg }}
-          >
-            <p
-              className="text-[10px] uppercase tracking-[0.26em] opacity-70"
-              style={{ fontFamily: "var(--font-mono)" }}
+        <section className="mt-7 px-5">
+          <div className="grid grid-cols-[1.3fr_0.9fr] gap-3">
+            <Link
+              to={ACTIONS[0].to}
+              className="block rounded-[24px] px-6 py-7 transition-transform hover:scale-[0.995] min-h-[220px]"
+              style={{ background: ACTIONS[0].tint, color: ACTIONS[0].fg }}
             >
-              Aujourd'hui
-            </p>
-            <p className="mt-3 font-serif text-[26px] leading-[1.1] font-light">
-              Parler à une <span className="italic">présence.</span>
-            </p>
-            <p className="mt-2 text-[13px] leading-relaxed opacity-85 max-w-[32ch]">
-              {ACTIONS[0].sub}
-            </p>
-          </Link>
+              <p
+                className="text-[10px] uppercase tracking-[0.26em] opacity-70"
+                style={{ fontFamily: "var(--font-mono)" }}
+              >
+                Entrée principale
+              </p>
+              <p className="mt-4 max-w-[8ch] font-serif text-[34px] leading-[0.98] font-normal">
+                Parler à une <span className="italic">présence.</span>
+              </p>
+              <p className="mt-4 text-[13px] leading-relaxed opacity-85 max-w-[24ch]">
+                {ACTIONS[0].sub}
+              </p>
+            </Link>
+
+            <div className="grid gap-3">
+              <Link
+                to="/journal"
+                className="rounded-[22px] px-5 py-5 min-h-[104px]"
+                style={{ background: "var(--sun)", color: "var(--dusk)" }}
+              >
+                <p className="font-serif text-[24px] leading-[1.02]">Écrire</p>
+                <p className="mt-2 text-[11.5px] text-dusk/65">Une phrase suffit.</p>
+              </Link>
+              <Link
+                to="/no-words"
+                className="rounded-[22px] px-5 py-5 min-h-[104px]"
+                style={{ background: "var(--mist)", color: "var(--dusk)" }}
+              >
+                <p className="font-serif text-[24px] leading-[1.02]">Respirer</p>
+                <p className="mt-2 text-[11.5px] text-dusk/65">Sans trouver les mots.</p>
+              </Link>
+            </div>
+          </div>
         </section>
 
-        {/* Mosaïque douce — 2 colonnes, hauteurs variées */}
-        <section className="mt-3 px-5">
+        <section className="mt-4 px-5">
           <div className="grid grid-cols-2 gap-3">
-            {ACTIONS.slice(1).map((a, i) => (
+            {ACTIONS.slice(2).map((a, i) => (
               <Link
                 key={a.to}
                 to={a.to}
                 className={`rounded-[20px] px-5 py-5 flex flex-col justify-between transition-transform hover:scale-[0.99] ${
-                  i === 0 ? "min-h-[140px]" : i === 1 ? "min-h-[170px]" : i === 2 ? "min-h-[170px]" : "min-h-[140px]"
+                  i === 0 ? "min-h-[152px]" : i === 1 ? "min-h-[172px]" : "min-h-[152px]"
                 }`}
                 style={{ background: a.tint, color: a.fg }}
               >
-                <p className="font-serif text-[20px] leading-[1.1]">{a.title.replace("Entrer dans le ", "").replace("Écrire quelques ", "")}</p>
-                <p className="mt-2 text-[11.5px] opacity-75">{a.sub}</p>
+                <p className="font-serif text-[22px] leading-[1.06]">{a.title.replace("Entrer dans le ", "")}</p>
+                <p className="mt-2 text-[11.5px] opacity-75 max-w-[14ch]">{a.sub}</p>
               </Link>
             ))}
+            <Link
+              to="/community"
+              className="rounded-[20px] px-5 py-5 flex flex-col justify-between min-h-[172px]"
+              style={{ background: "var(--bordeaux)", color: "var(--paper)" }}
+            >
+              <p className="font-serif text-[22px] leading-[1.06]">Ne pas rester seule.</p>
+              <p className="mt-2 text-[11.5px] opacity-75 max-w-[15ch]">Des personnes et des cercles si vous en ressentez le besoin.</p>
+            </Link>
           </div>
         </section>
 
@@ -102,14 +137,14 @@ function Home() {
           >
             Pour aller plus loin
           </p>
-          <div className="mt-3 grid grid-cols-2 gap-2.5">
+          <div className="mt-3 grid grid-cols-1 gap-2.5">
             {FURTHER.map((f) => (
               <Link
                 key={f.label}
                 to={f.to as "/library/$kind"}
                 params={f.params as { kind: string }}
                 search={f.search as { space: "care" }}
-                className="rounded-[16px] px-4 py-3.5 flex items-center gap-3 border border-dusk/8 hover:-translate-y-0.5 transition-transform"
+                className="rounded-[18px] px-4 py-4 flex items-center gap-3 border border-dusk/8 hover:-translate-y-0.5 transition-transform"
                 style={{ background: `color-mix(in oklab, ${f.tint} 28%, var(--paper))` }}
               >
                 <span
@@ -118,7 +153,7 @@ function Home() {
                   style={{ background: f.tint }}
                 />
                 <div className="min-w-0">
-                  <p className="font-serif text-[15.5px] text-dusk leading-tight">{f.label}</p>
+                  <p className="font-serif text-[18px] text-dusk leading-tight">{f.label}</p>
                   <p
                     className="mt-0.5 text-[10px] uppercase tracking-[0.18em] text-dusk/55 truncate"
                     style={{ fontFamily: "var(--font-mono)" }}
@@ -126,6 +161,7 @@ function Home() {
                     {f.sub}
                   </p>
                 </div>
+                <span className="ml-auto text-dusk/35">→</span>
               </Link>
             ))}
           </div>

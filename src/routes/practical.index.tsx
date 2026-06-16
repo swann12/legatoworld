@@ -47,47 +47,50 @@ function Practical() {
       <div className="min-h-dvh bg-paper text-dusk pb-32">
         <SpaceHeader space="organize" />
 
-        <section className="px-7 pt-12">
+        <section className="px-7 pt-12 editorial-frame pb-7">
           <p
             className="text-[10px] uppercase tracking-[0.28em] text-dusk/50"
             style={{ fontFamily: "var(--font-mono)" }}
           >
             Accueil
           </p>
-          <h1 className="mt-4 font-serif text-[34px] leading-[1.05] font-light text-balance">
-            Une étape <span className="italic" style={{ color: "var(--terracotta)" }}>à la fois.</span>
+          <h1 className="mt-4 max-w-[8ch] font-serif text-[42px] leading-[0.97] font-normal text-balance">
+            Organiser sans se <span className="italic" style={{ color: "var(--terracotta)" }}>perdre.</span>
           </h1>
+          <p className="mt-5 text-[13.5px] text-dusk/60 max-w-[29ch]">
+            Une priorité nette, puis des modules simples pour continuer sans confusion.
+          </p>
         </section>
 
         {/* ZONE 1 — Priorité du jour */}
-        <section className="px-5 pt-8">
+        <section className="px-5 pt-7">
           <div
-            className="rounded-[22px] px-6 py-7"
-            style={{ background: "var(--bordeaux)", color: "var(--paper)" }}
+            className="rounded-[24px] px-6 py-7"
+            style={{ background: "var(--sun)", color: "var(--dusk)" }}
           >
             <p
               className="text-[10px] uppercase tracking-[0.26em] opacity-70"
               style={{ fontFamily: "var(--font-mono)" }}
             >
-              Priorité du jour
+              Maintenant
             </p>
-            <h2 className="mt-3 font-serif text-[24px] leading-[1.15] font-light">
+            <h2 className="mt-3 max-w-[9ch] font-serif text-[34px] leading-[0.98] font-normal">
               Contacter les <span className="italic">pompes funèbres.</span>
             </h2>
-            <p className="mt-2.5 text-[13px] leading-[1.55] opacity-80">
+            <p className="mt-3 text-[13px] leading-[1.55] opacity-80 max-w-[23ch]">
               À traiter dans les 48 h.
             </p>
             <div className="mt-5 flex flex-wrap gap-2">
               <Link
                 to="/parcours/$taskId"
                 params={{ taskId: "pf" }}
-                className="rounded-full bg-paper text-dusk px-4 py-2 text-[12px] uppercase tracking-[0.2em]"
+                className="rounded-full bg-dusk text-paper px-4 py-2 text-[12px] uppercase tracking-[0.2em]"
                 style={{ fontFamily: "var(--font-mono)" }}
               >
                 Commencer
               </Link>
               <button
-                className="rounded-full border border-paper/40 px-4 py-2 text-[12px] uppercase tracking-[0.2em]"
+                className="rounded-full border border-dusk/18 px-4 py-2 text-[12px] uppercase tracking-[0.2em]"
                 style={{ fontFamily: "var(--font-mono)" }}
               >
                 Déléguer
@@ -104,13 +107,13 @@ function Practical() {
           >
             À faire ensuite
           </p>
-          <ol className="mt-4 divide-y divide-dusk/10 border-y border-dusk/12">
+          <ol className="mt-4 rounded-[20px] border border-dusk/10 overflow-hidden bg-paper">
             {NEXT_TASKS.map((t) => (
               <li key={t.id}>
                 <Link
                   to="/parcours/$taskId"
                   params={{ taskId: t.id }}
-                  className="flex items-baseline justify-between gap-4 py-4 group"
+                  className="flex items-baseline justify-between gap-4 px-5 py-4 group border-b last:border-b-0 border-dusk/8"
                 >
                   <span className="font-serif text-[18px] leading-snug text-dusk">{t.title}</span>
                   <span
@@ -133,18 +136,18 @@ function Practical() {
           >
             Mon avancement
           </p>
-          <div className="mt-4 grid grid-cols-4 gap-2">
+          <div className="mt-4 grid grid-cols-2 gap-2.5">
             {PROGRESS.map((p) => (
               <Link
                 key={p.label}
                 to="/parcours"
-                className="rounded-[14px] border border-dusk/10 px-3 py-4 text-center hover:bg-dusk/[0.03]"
+                className="rounded-[16px] border border-dusk/10 px-4 py-4 text-left hover:bg-dusk/[0.03]"
               >
                 <span
                   className="inline-block size-1.5 rounded-full"
                   style={{ background: p.color }}
                 />
-                <p className="mt-2 font-serif text-[22px] leading-none text-dusk">{p.count}</p>
+                <p className="mt-3 font-serif text-[28px] leading-none text-dusk">{p.count}</p>
                 <p
                   className="mt-1.5 text-[9.5px] uppercase tracking-[0.18em] text-dusk/55"
                   style={{ fontFamily: "var(--font-mono)" }}
@@ -164,15 +167,16 @@ function Practical() {
           >
             Raccourcis utiles
           </p>
-          <div className="mt-4 grid grid-cols-2 gap-2.5">
+          <div className="mt-4 grid grid-cols-1 gap-2.5">
             {SHORTCUTS.map((s) => (
               <Link
                 key={s.label}
                 to={s.to as "/resources"}
                 search={s.search as { space: "practical" }}
-                className="rounded-[14px] border border-dusk/12 px-4 py-3.5 font-serif italic text-[15px] text-dusk hover:bg-dusk/[0.03]"
+                className="rounded-[18px] border border-dusk/12 px-5 py-4 flex items-center justify-between hover:bg-dusk/[0.03]"
               >
-                {s.label}
+                <span className="font-serif text-[19px] text-dusk">{s.label}</span>
+                <span className="text-dusk/35">→</span>
               </Link>
             ))}
           </div>
