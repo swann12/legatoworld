@@ -77,7 +77,7 @@ function ProviderPage() {
 
       {/* Approche */}
       <section className="mt-8 px-7">
-        <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">Son approche</p>
+        <p className="eyebrow">Son approche</p>
         <div className="mt-3 space-y-3 font-serif text-[1.05rem] leading-relaxed italic text-dusk/85">
           {p.approach.map((line, i) => (
             <p key={i}>« {line} »</p>
@@ -87,14 +87,14 @@ function ProviderPage() {
 
       {/* Offres */}
       <section className="mt-8 px-7">
-        <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">
+        <p className="eyebrow">
           Ce que propose {p.firstName}
         </p>
         <div className="mt-3 space-y-2.5">
           {p.offers.map((o) => (
             <div
               key={o.title}
-              className="paper-card flex items-start justify-between gap-3 px-4 py-3"
+              className="card-plain flex items-start justify-between gap-3 px-4 py-3"
             >
               <div>
                 <p className="text-[14px] text-dusk">{o.title}</p>
@@ -109,13 +109,13 @@ function ProviderPage() {
       {/* Devis transparence (pompes funèbres) */}
       {p.estimate && (
         <section className="mt-8 px-7">
-          <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">
+          <p className="eyebrow">
             Devis estimatif — transparence
           </p>
           <p className="mt-1 text-[11px] italic text-dusk/55">
             Conformément à la réglementation funéraire française.
           </p>
-          <div className="paper-card mt-3 px-4 py-4">
+          <div className="card-plain mt-3 px-4 py-4">
             {p.estimate.lines.map((l) => (
               <div
                 key={l.label}
@@ -135,14 +135,14 @@ function ProviderPage() {
 
       {/* Témoignages */}
       <section className="mt-8 px-7">
-        <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">
+        <p className="eyebrow">
           Quelques mots reçus
         </p>
         <div className="mt-3 space-y-3">
           {p.testimonials.map((t, i) => (
             <blockquote
               key={i}
-              className="paper-card px-4 py-4 font-serif text-[1rem] italic leading-relaxed text-dusk/85"
+              className="card-plain px-4 py-4 font-serif text-[1rem] italic leading-relaxed text-dusk/85"
             >
               « {t.body} »
               <footer className="mt-2 text-[11px] not-italic text-dusk/45">— {t.from}</footer>
@@ -153,7 +153,7 @@ function ProviderPage() {
 
       {/* Disponibilités */}
       <section className="mt-10 px-7">
-        <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">
+        <p className="eyebrow">
           Prendre un moment avec {p.firstName}
         </p>
         <div className="mt-4 space-y-4">
@@ -171,7 +171,7 @@ function ProviderPage() {
                       className={`rounded-full px-4 py-2 text-[12px] tracking-wide transition-all ${
                         active
                           ? "bg-dusk text-paper"
-                          : "paper-card text-dusk/70 hover:text-dusk"
+                          : "card-plain text-dusk/70 hover:text-dusk"
                       }`}
                     >
                       {t}

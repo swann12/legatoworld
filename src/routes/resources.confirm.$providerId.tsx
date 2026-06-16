@@ -56,7 +56,7 @@ function ConfirmPage() {
       <section className="mt-10 px-7">
         <button
           onClick={() => setReminder((v) => !v)}
-          className={`paper-card flex w-full items-center justify-between gap-3 px-5 py-4 transition-all ${
+          className={`card-plain flex w-full items-center justify-between gap-3 px-5 py-4 transition-all ${
             reminder ? "ring-1 ring-dusk/20" : ""
           }`}
         >

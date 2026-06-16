@@ -37,11 +37,11 @@ function Steps() {
         <Halos mode={mode} variant="calm" />
         <div className="relative z-10">
           <div className="px-7 pt-10 flex items-center justify-between">
-            <Link to="/practical" className="text-[11px] uppercase tracking-[0.22em] text-dusk/50">← Aides concrètes</Link>
-            <span className="text-[10px] uppercase tracking-[0.22em] text-dusk/40">Démarches</span>
+            <Link to="/practical" className="eyebrow">← Aides concrètes</Link>
+            <span className="eyebrow">Démarches</span>
           </div>
           <header className="px-7 pt-12">
-            <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">Premiers jours</p>
+            <p className="eyebrow">Premiers jours</p>
             <h1 className="mt-3 font-serif text-[2.1rem] leading-[1.08] font-light text-dusk text-balance">
               Une chose à la fois.<br/><span className="italic">Cochez quand c'est fait.</span>
             </h1>
@@ -57,11 +57,11 @@ function Steps() {
                 <li key={s.id}>
                   <button
                     onClick={() => toggle(s.id)}
-                    className={`w-full text-left paper-card p-5 flex gap-4 items-start ${checked ? "opacity-60" : ""}`}
+                    className={`w-full text-left card-plain p-5 flex gap-4 items-start ${checked ? "opacity-60" : ""}`}
                   >
                     <span className={`mt-1 w-5 h-5 rounded-full border ${checked ? "bg-sage border-sage" : "border-dusk/30"}`} />
                     <div className="flex-1 min-w-0">
-                      <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">{s.phase}</p>
+                      <p className="eyebrow">{s.phase}</p>
                       <h3 className={`mt-1 font-serif text-[17px] italic text-dusk ${checked ? "line-through decoration-dusk/30" : ""}`}>{s.title}</h3>
                       <p className="mt-2 text-[13px] leading-relaxed text-dusk/65">{s.body}</p>
                     </div>

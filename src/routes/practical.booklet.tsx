@@ -27,11 +27,11 @@ function Booklet() {
         <Halos mode={mode} variant="calm" />
         <div className="relative z-10">
           <div className="px-7 pt-10 flex items-center justify-between no-print">
-            <Link to="/practical/ceremony" className="text-[11px] uppercase tracking-[0.22em] text-dusk/50">← Cérémonie</Link>
-            <span className="text-[10px] uppercase tracking-[0.22em] text-dusk/40">Livret</span>
+            <Link to="/practical/ceremony" className="eyebrow">← Cérémonie</Link>
+            <span className="eyebrow">Livret</span>
           </div>
           <header className="px-7 pt-12 no-print">
-            <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">Livret de cérémonie</p>
+            <p className="eyebrow">Livret de cérémonie</p>
             <h1 className="mt-3 font-serif text-[2.1rem] leading-[1.08] font-light text-dusk text-balance">
               Une mise en page <span className="italic">simple, élégante.</span>
             </h1>
@@ -49,8 +49,8 @@ function Booklet() {
               ["program", "Programme de la cérémonie", true],
               ["closing", "Mot de clôture, remerciements", true],
             ] as const).map(([k, label, multi]) => (
-              <div key={k} className="paper-card p-5">
-                <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">{label}</p>
+              <div key={k} className="card-plain p-5">
+                <p className="eyebrow">{label}</p>
                 {multi ? (
                   <textarea
                     value={d[k]}
@@ -79,7 +79,7 @@ function Booklet() {
 
           {/* Aperçu / version imprimable */}
           <div className="px-5 mt-10 print-booklet">
-            <div className="page paper-card p-10 text-center" style={{ minHeight: 480 }}>
+            <div className="page card-plain p-10 text-center" style={{ minHeight: 480 }}>
               {d.photoUrl && (
                 <img src={d.photoUrl} alt="" className="w-32 h-32 object-cover rounded-full mx-auto mb-6 grayscale" />
               )}
@@ -87,11 +87,11 @@ function Booklet() {
               <p className="mt-2 text-[13px] uppercase tracking-[0.22em] text-dusk/55">{d.dates || "1947 — 2025"}</p>
               <p className="mt-8 font-serif italic text-[15px] text-dusk/75 leading-relaxed whitespace-pre-line">{d.intro || "Bienvenue. Merci d'être là."}</p>
             </div>
-            <div className="page paper-card p-10 mt-6" style={{ minHeight: 480 }}>
-              <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45 text-center">Programme</p>
+            <div className="page card-plain p-10 mt-6" style={{ minHeight: 480 }}>
+              <p className="eyebrow text-center">Programme</p>
               <p className="mt-4 font-serif text-[15px] text-dusk leading-relaxed whitespace-pre-line">{d.program || "1. Accueil\n2. Mots d'un proche\n3. Lecture\n4. Musique\n5. Recueillement"}</p>
             </div>
-            <div className="page paper-card p-10 mt-6 text-center" style={{ minHeight: 320 }}>
+            <div className="page card-plain p-10 mt-6 text-center" style={{ minHeight: 320 }}>
               <p className="font-serif italic text-[15px] text-dusk/75 leading-relaxed whitespace-pre-line">{d.closing || "Merci d'avoir partagé ce moment."}</p>
             </div>
           </div>

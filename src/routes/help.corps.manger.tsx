@@ -94,7 +94,7 @@ function Manger() {
 
       {/* SECTION 1 — Cinq choses */}
       <section className="px-5 mt-10">
-        <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45 mb-3 px-2">
+        <p className="eyebrow mb-3 px-2">
           Cinq choses qu'on peut avaler sans y penser
         </p>
         <div className="space-y-3">
@@ -117,7 +117,7 @@ function Manger() {
               key={i}
               className="glass-card organic-radius-3 px-6 py-6 animate-fade-in"
             >
-              <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">Étape {i + 1}</p>
+              <p className="eyebrow">Étape {i + 1}</p>
               <h3 className="mt-2 font-serif italic text-[18px] text-dusk leading-snug">{s.title}</h3>
               <p className="mt-2 text-[14px] leading-relaxed text-dusk/70">{s.body}</p>
               {i === openStep && (

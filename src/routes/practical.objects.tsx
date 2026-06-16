@@ -74,11 +74,11 @@ function Objects() {
         <Halos mode={mode} variant="calm" />
         <div className="relative z-10">
           <div className="px-7 pt-10 flex items-center justify-between">
-            <Link to="/practical/atmosphere" className="text-[11px] uppercase tracking-[0.22em] text-dusk/50">← Atmosphère</Link>
-            <span className="text-[10px] uppercase tracking-[0.22em] text-dusk/40">Objets</span>
+            <Link to="/practical/atmosphere" className="eyebrow">← Atmosphère</Link>
+            <span className="eyebrow">Objets</span>
           </div>
           <header className="px-7 pt-12">
-            <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">Cercueil, urne, objets, rituels</p>
+            <p className="eyebrow">Cercueil, urne, objets, rituels</p>
             <h1 className="mt-3 font-serif text-[2.1rem] leading-[1.08] font-light text-dusk text-balance">
               Des choix concrets,<br/><span className="italic">décrits sans jargon.</span>
             </h1>
@@ -90,7 +90,7 @@ function Objects() {
           <div className="px-5 mt-8 space-y-3">
             {ITEMS.map((it) => (
               <article key={it.title} className="ceramic-warm organic-radius-3 p-5">
-                <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">{it.cat}</p>
+                <p className="eyebrow">{it.cat}</p>
                 <h3 className="mt-1.5 font-serif italic text-[17px] text-dusk">{it.title}</h3>
                 <p className="mt-2 text-[13px] leading-relaxed text-dusk/70">{it.body}</p>
                 <p className="mt-3 text-[12px] uppercase tracking-[0.16em] text-dusk/55">{it.range}</p>
