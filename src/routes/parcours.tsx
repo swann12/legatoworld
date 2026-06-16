@@ -69,33 +69,28 @@ function Parcours() {
       <div className="min-h-dvh bg-paper text-dusk pb-32">
         <SpaceHeader space="organize" />
 
-        <section className="px-7 pt-12 editorial-frame pb-7">
-          <p
-            className="text-[10px] uppercase tracking-[0.28em] text-dusk/50"
-            style={{ fontFamily: "var(--font-mono)" }}
-          >
+        <section className="px-7 pt-12 pb-7 editorial-hero">
+          <p className="editorial-kicker">
             Mon parcours
           </p>
-          <h1 className="mt-3 max-w-[8ch] font-serif text-[42px] leading-[0.97] font-normal text-balance">
+          <h1 className="mt-3 max-w-[8ch] editorial-display">
             Voir où vous en êtes, <span className="italic" style={{ color: "var(--terracotta)" }}>vraiment.</span>
           </h1>
           <p className="mt-5 text-[13.5px] leading-relaxed text-dusk/60 max-w-[32ch]">
             Une lecture plus nette du chemin: chapitres, état, prochaine action.
           </p>
 
-          <div className="mt-6 editorial-panel p-5">
-            <div className="flex items-end justify-between gap-4">
-              <p className="font-serif text-[28px] leading-none text-dusk">
-                {CATEGORIES.reduce((acc, c) => acc + c.tasks.filter(t => t.status === "done").length, 0)}
-                <span className="text-dusk/40"> / {CATEGORIES.reduce((acc, c) => acc + c.tasks.length, 0)}</span>
-              </p>
-              <span
-                className="text-[10px] uppercase tracking-[0.22em] text-dusk/55"
-                style={{ fontFamily: "var(--font-mono)" }}
-              >
-                tâches terminées
-              </span>
-            </div>
+          <div className="mt-6 grid grid-cols-2 gap-3">
+            <div className="editorial-panel p-5 col-span-2">
+              <div className="flex items-end justify-between gap-4">
+                <p className="font-serif text-[28px] leading-none text-dusk">
+                  {CATEGORIES.reduce((acc, c) => acc + c.tasks.filter(t => t.status === "done").length, 0)}
+                  <span className="text-dusk/40"> / {CATEGORIES.reduce((acc, c) => acc + c.tasks.length, 0)}</span>
+                </p>
+                <span className="editorial-kicker">
+                  tâches terminées
+                </span>
+              </div>
             <div className="mt-3 h-1.5 rounded-full bg-dusk/10 overflow-hidden">
               <div
                 className="h-full rounded-full"
@@ -108,7 +103,7 @@ function Parcours() {
                 }}
               />
             </div>
-            <div className="mt-4 grid grid-cols-2 gap-2.5">
+              <div className="mt-4 grid grid-cols-2 gap-2.5">
               <div className="rounded-[16px] px-4 py-3" style={{ background: "color-mix(in oklab, var(--mist) 35%, var(--paper))" }}>
                 <p className="text-[10px] uppercase tracking-[0.18em] text-dusk/50" style={{ fontFamily: "var(--font-mono)" }}>Chapitre en cours</p>
                 <p className="mt-2 font-serif text-[19px] leading-tight">Cérémonie</p>
@@ -117,6 +112,15 @@ function Parcours() {
                 <p className="text-[10px] uppercase tracking-[0.18em] text-dusk/50" style={{ fontFamily: "var(--font-mono)" }}>Ensuite</p>
                 <p className="mt-2 font-serif text-[19px] leading-tight">Succession & après</p>
               </div>
+            </div>
+            </div>
+            <div className="editorial-stat-card px-4 py-4" style={{ background: "color-mix(in oklab, var(--sun) 56%, white)" }}>
+              <p className="editorial-kicker">Prochaine poussée</p>
+              <p className="mt-2 font-serif text-[21px] leading-[1.02]">Déclarer puis prévenir.</p>
+            </div>
+            <div className="editorial-stat-card px-4 py-4" style={{ background: "color-mix(in oklab, var(--mist) 36%, white)" }}>
+              <p className="editorial-kicker">Lecture</p>
+              <p className="mt-2 text-[13px] leading-relaxed text-dusk/70">Chaque chapitre montre volume, statut et prochaine action.</p>
             </div>
           </div>
         </section>
