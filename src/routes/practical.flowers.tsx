@@ -4,7 +4,6 @@ import { Shell } from "@/components/legato/Shell";
 import { ConfideDock } from "@/components/legato/ConfideDock";
 import { PersonalSuggestions } from "@/components/legato/PersonalSuggestions";
 import { MiniComposer, type FlowerPreset } from "@/components/legato/MiniComposer";
-import { useLegato } from "@/lib/legato-state";
 import { savePractical } from "@/lib/practical-store";
 
 export const Route = createFileRoute("/practical/flowers")({
@@ -19,7 +18,6 @@ const PRESETS: { id: FlowerPreset; label: string; body: string }[] = [
 ];
 
 function Flowers() {
-  const { mode } = useLegato();
   const [preset, setPreset] = useState<FlowerPreset | "">("");
 
   const sendToFlorist = () => {
