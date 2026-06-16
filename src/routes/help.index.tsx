@@ -56,11 +56,21 @@ function Help() {
             subtitle="Des portes simples pour soi, pour déléguer, ou pour être accompagné·e sans pression."
           />
 
+          <Section className="mt-6">
+            <div className="grid grid-cols-2 gap-3">
+              <div className="editorial-stat-card px-4 py-4" style={{ background: "color-mix(in oklab, var(--sun) 56%, white)" }}>
+                <p className="editorial-kicker">Principe</p>
+                <p className="mt-2 font-serif text-[22px] leading-[1.02]">Entrer sans raconter toute l'histoire.</p>
+              </div>
+              <div className="editorial-stat-card px-4 py-4" style={{ background: "color-mix(in oklab, var(--mist) 34%, white)" }}>
+                <p className="editorial-kicker">Chemin</p>
+                <p className="mt-2 text-[13px] leading-relaxed text-dusk/70">Soi, relais, urgence: trois portes très lisibles.</p>
+              </div>
+            </div>
+          </Section>
+
           <Section className="mt-10">
-            <p
-              className="text-[10px] uppercase tracking-[0.22em] text-dusk/55 mb-4"
-              style={{ fontFamily: "var(--font-mono)" }}
-            >
+            <p className="editorial-kicker mb-4">
               Choses concrètes — pour soi
             </p>
             <div className="grid grid-cols-2 gap-3">
@@ -68,7 +78,7 @@ function Help() {
                 <Link
                   key={p.title}
                   to={p.to}
-                  className={`rounded-[16px] p-5 border border-dusk/8 flex flex-col justify-between hover:-translate-y-0.5 transition-transform ${
+                  className={`rounded-[16px] p-5 border border-dusk/8 flex flex-col justify-between hover:-translate-y-0.5 transition-transform editorial-tint-card ${
                     i === 0 ? "col-span-2 min-h-[130px]" : "min-h-[150px]"
                   }`}
                   style={{ background: `color-mix(in oklab, ${p.tint} 24%, white)` }}
@@ -89,10 +99,7 @@ function Help() {
           </Section>
 
           <Section className="mt-10">
-            <p
-              className="text-[10px] uppercase tracking-[0.22em] text-dusk/55 mb-4"
-              style={{ fontFamily: "var(--font-mono)" }}
-            >
+            <p className="editorial-kicker mb-4">
               Relais — laisser d'autres aider
             </p>
             <div className="space-y-2.5">
@@ -101,7 +108,7 @@ function Help() {
                   key={p.title}
                   to={p.to}
                   search={p.to === "/resources" ? { space: "care" as const } : undefined}
-                  className="rounded-[16px] p-5 flex items-center gap-4 border border-dusk/8 hover:-translate-y-0.5 transition-transform"
+                  className="rounded-[16px] p-5 flex items-center gap-4 border border-dusk/8 hover:-translate-y-0.5 transition-transform editorial-tint-card"
                   style={{ background: `color-mix(in oklab, ${p.tint} 18%, white)` }}
                 >
                   <span

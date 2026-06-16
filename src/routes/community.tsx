@@ -45,18 +45,28 @@ function Community() {
             subtitle="Des cercles en ligne, tenus chaque semaine par des thérapeutes du deuil. Petits effectifs. Aucune obligation de parler."
           />
 
+          <Section className="mt-6">
+            <div className="grid grid-cols-2 gap-3">
+              <div className="editorial-stat-card px-4 py-4" style={{ background: "color-mix(in oklab, var(--sun) 56%, white)" }}>
+                <p className="editorial-kicker">Cadre</p>
+                <p className="mt-2 font-serif text-[22px] leading-[1.02]">Petits cercles, rythme régulier.</p>
+              </div>
+              <div className="editorial-stat-card px-4 py-4" style={{ background: "color-mix(in oklab, var(--blush) 34%, white)" }}>
+                <p className="editorial-kicker">Liberté</p>
+                <p className="mt-2 text-[13px] leading-relaxed text-dusk/70">On peut juste écouter, entrer doucement, revenir plus tard.</p>
+              </div>
+            </div>
+          </Section>
+
           <Section className="mt-10">
-            <p
-              className="text-[10px] uppercase tracking-[0.22em] text-dusk/55 mb-4"
-              style={{ fontFamily: "var(--font-mono)" }}
-            >
+            <p className="editorial-kicker mb-4">
               Cinq cercles ouverts cette semaine
             </p>
             <div className="space-y-3">
               {CIRCLES.map((c) => (
                 <article
                   key={c.title}
-                  className="rounded-[20px] overflow-hidden border border-dusk/8"
+                  className="rounded-[20px] overflow-hidden border border-dusk/8 editorial-tint-card"
                   style={{ background: `color-mix(in oklab, ${c.tint} 30%, var(--paper))` }}
                 >
                   <div className="px-6 pt-5 pb-4">

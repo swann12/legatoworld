@@ -36,19 +36,27 @@ function ResourcesIndex() {
     : "Professionnels, aides administratives et repères utiles pour avancer sans surcharge.";
   return (
     <Shell>
-      <header className="px-7 pt-14 editorial-frame pb-7">
-        <p
-          className="mb-3 text-[10px] uppercase tracking-[0.22em] text-dusk/55"
-          style={{ fontFamily: "var(--font-mono)" }}
-        >
+      <header className="px-7 pt-14 pb-7 editorial-hero">
+        <p className="mb-3 editorial-kicker">
           {eyebrow}
         </p>
-        <h1 className="max-w-[9ch] font-serif text-[2.7rem] leading-[0.98] font-normal text-dusk text-balance">
+        <h1 className="max-w-[9ch] editorial-display text-dusk">
           {title}
         </h1>
         <p className="mt-5 max-w-[34ch] text-[14px] leading-relaxed text-dusk/65">
           {subtitle}
         </p>
+
+        <div className="mt-6 grid grid-cols-2 gap-3">
+          <div className="editorial-stat-card px-4 py-4" style={{ background: "color-mix(in oklab, var(--sun) 56%, white)" }}>
+            <p className="editorial-kicker">Promesse</p>
+            <p className="mt-2 font-serif text-[22px] leading-[1.02]">Des appuis choisis avec soin.</p>
+          </div>
+          <div className="editorial-stat-card px-4 py-4" style={{ background: "color-mix(in oklab, var(--mist) 34%, white)" }}>
+            <p className="editorial-kicker">Usage</p>
+            <p className="mt-2 text-[13px] leading-relaxed text-dusk/70">On entre par besoin, pas par catalogue.</p>
+          </div>
+        </div>
 
         {/* Switch d'espace, discret */}
         <div className="mt-6 inline-flex editorial-chip p-1">
@@ -80,7 +88,7 @@ function ResourcesIndex() {
             to="/resources/$category"
             params={{ category: id }}
             search={{ space: activeSpace }}
-            className={`rounded-[16px] p-5 border border-dusk/8 flex items-start gap-4 justify-between transition-transform hover:-translate-y-0.5 ${
+            className={`rounded-[16px] p-5 border border-dusk/8 flex items-start gap-4 justify-between transition-transform hover:-translate-y-0.5 editorial-tint-card ${
               i === 0 ? "min-h-[144px]" : "min-h-[124px]"
             }`}
             style={{ background: `color-mix(in oklab, ${tint} 26%, white)` }}

@@ -47,31 +47,32 @@ function Practical() {
       <div className="min-h-dvh bg-paper text-dusk pb-32">
         <SpaceHeader space="organize" />
 
-        <section className="px-7 pt-12 editorial-frame pb-7">
-          <p
-            className="text-[10px] uppercase tracking-[0.28em] text-dusk/50"
-            style={{ fontFamily: "var(--font-mono)" }}
-          >
+        <section className="px-7 pt-12 pb-7 editorial-hero">
+          <p className="editorial-kicker">
             Accueil
           </p>
-          <h1 className="mt-4 max-w-[8ch] font-serif text-[42px] leading-[0.95] font-normal text-balance">
+          <h1 className="mt-4 max-w-[8ch] editorial-display">
             Avancer sans se <span className="italic" style={{ color: "var(--terracotta)" }}>brusquer.</span>
           </h1>
-          <p className="mt-5 text-[13.5px] text-dusk/60 max-w-[29ch]">
-            Une priorité claire, des repères calmes, puis des raccourcis vraiment utiles.
-          </p>
+          <div className="mt-6 grid grid-cols-2 gap-3">
+            <div className="editorial-stat-card px-4 py-4" style={{ background: "color-mix(in oklab, var(--mist) 35%, white)" }}>
+              <p className="editorial-kicker">Cap</p>
+              <p className="mt-2 font-serif text-[24px] leading-[0.98]">Une priorité claire.</p>
+            </div>
+            <div className="editorial-stat-card px-4 py-4" style={{ background: "color-mix(in oklab, var(--sun) 56%, white)" }}>
+              <p className="editorial-kicker">Méthode</p>
+              <p className="mt-2 text-[13px] leading-relaxed text-dusk/70">Puis les repères, puis les raccourcis utiles.</p>
+            </div>
+          </div>
         </section>
 
         {/* ZONE 1 — Priorité du jour */}
         <section className="px-5 pt-7">
           <div
-            className="rounded-[16px] px-6 py-7 border border-dusk/10"
+            className="rounded-[16px] px-6 py-7 border border-dusk/10 editorial-tint-card"
             style={{ background: "color-mix(in oklab, var(--sun) 84%, white)", color: "var(--dusk)" }}
           >
-            <p
-              className="text-[10px] uppercase tracking-[0.26em] opacity-70"
-              style={{ fontFamily: "var(--font-mono)" }}
-            >
+            <p className="editorial-kicker">
               Maintenant
             </p>
             <h2 className="mt-3 max-w-[9ch] font-serif text-[36px] leading-[0.95] font-normal">
@@ -80,6 +81,16 @@ function Practical() {
             <p className="mt-3 text-[13px] leading-[1.55] opacity-80 max-w-[23ch]">
               À traiter dans les 48 h.
             </p>
+            <div className="mt-5 grid grid-cols-2 gap-2.5">
+              <div className="rounded-[14px] px-4 py-3 bg-paper/70 border border-dusk/8">
+                <p className="editorial-kicker">Fenêtre</p>
+                <p className="mt-2 font-serif text-[19px]">48 h</p>
+              </div>
+              <div className="rounded-[14px] px-4 py-3 bg-paper/70 border border-dusk/8">
+                <p className="editorial-kicker">Énergie</p>
+                <p className="mt-2 text-[12.5px] leading-relaxed text-dusk/65">On peut le lancer pas à pas.</p>
+              </div>
+            </div>
             <div className="mt-5 flex flex-wrap gap-2">
                <Link
                 to="/parcours/$taskId"
@@ -101,13 +112,10 @@ function Practical() {
 
         {/* ZONE 2 — À faire ensuite */}
         <section className="px-7 pt-10">
-          <p
-            className="text-[10px] uppercase tracking-[0.28em] text-dusk/50"
-            style={{ fontFamily: "var(--font-mono)" }}
-          >
+          <p className="editorial-kicker">
             À faire ensuite
           </p>
-          <ol className="mt-4 rounded-[16px] border border-dusk/10 overflow-hidden bg-paper">
+          <ol className="mt-4 editorial-list">
             {NEXT_TASKS.map((t) => (
               <li key={t.id}>
                 <Link
@@ -130,10 +138,7 @@ function Practical() {
 
         {/* ZONE 3 — Mon avancement */}
         <section className="px-7 pt-10">
-          <p
-            className="text-[10px] uppercase tracking-[0.28em] text-dusk/50"
-            style={{ fontFamily: "var(--font-mono)" }}
-          >
+          <p className="editorial-kicker">
             Mon avancement
           </p>
           <div className="mt-4 grid grid-cols-2 gap-2.5">
@@ -141,7 +146,7 @@ function Practical() {
               <Link
                 key={p.label}
                 to="/parcours"
-                className="rounded-[16px] border border-dusk/10 px-4 py-4 text-left hover:bg-dusk/[0.03]"
+                className="rounded-[16px] border border-dusk/10 px-4 py-4 text-left hover:bg-dusk/[0.03] editorial-tint-card"
                 style={{ background: `color-mix(in oklab, ${p.color} 14%, white)` }}
               >
                 <span
@@ -162,10 +167,7 @@ function Practical() {
 
         {/* ZONE 4 — Raccourcis utiles */}
         <section className="px-7 pt-10">
-          <p
-            className="text-[10px] uppercase tracking-[0.28em] text-dusk/50"
-            style={{ fontFamily: "var(--font-mono)" }}
-          >
+          <p className="editorial-kicker">
             Raccourcis utiles
           </p>
           <div className="mt-4 grid grid-cols-2 gap-2.5">
@@ -174,7 +176,7 @@ function Practical() {
                 key={s.label}
                 to={s.to as "/resources"}
                 search={s.search as { space: "practical" }}
-                className="rounded-[16px] border border-dusk/12 px-4 py-4 flex items-center justify-between hover:bg-dusk/[0.03]"
+                className="rounded-[16px] border border-dusk/12 px-4 py-4 flex items-center justify-between hover:bg-dusk/[0.03] editorial-tint-card"
                 style={{ background: "color-mix(in oklab, var(--paper) 86%, white)" }}
               >
                 <span className="font-serif text-[18px] leading-tight text-dusk max-w-[10ch]">{s.label}</span>
