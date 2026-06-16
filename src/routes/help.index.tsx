@@ -56,7 +56,7 @@ function Help() {
               <Link
                 key={p.title}
                 to={p.to}
-                className={`card px-5 py-5 flex flex-col justify-between transition-transform active:scale-[0.99] ${
+                className={`card-plain px-5 py-5 flex flex-col justify-between transition-transform active:scale-[0.99] ${
                   i === 0 ? "col-span-2 min-h-[130px]" : "min-h-[150px]"
                 }`}
                 style={{ background: `color-mix(in oklab, ${p.tint} 26%, var(--paper))` }}
