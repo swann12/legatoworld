@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Shell } from "@/components/legato/Shell";
-import { SpaceHeader } from "@/components/legato/SpaceHeader";
+import { LegatoMark } from "@/components/legato/LegatoMark";
 import { useLegato } from "@/lib/legato-state";
 import gardenPainted from "@/assets/garden-painted-v4.png";
 
@@ -55,25 +55,23 @@ function Garden() {
     <Shell>
       <div className="relative pb-10 garden-page-bg">
         <div className="relative z-10">
-          <SpaceHeader space="care" />
-          <header className="px-7 pt-10">
-            <p
-              className="text-[10px] uppercase tracking-[0.3em] text-dusk/50"
-              style={{ fontFamily: "var(--font-mono)" }}
-            >
-              Jardin
-            </p>
-            <h1 className="mt-4 font-serif text-[34px] leading-[1.05] font-light text-dusk text-balance">
+          <header className="px-6 pt-9 pb-4 flex items-center justify-between">
+            <LegatoMark to="/space" size={22} />
+            <span className="eyebrow">Jardin</span>
+          </header>
+          <section className="px-6 pt-4">
+            <p className="eyebrow">Mémoire</p>
+            <h1 className="mt-5 display-xl">
               {lang === "fr" ? (
-                <>Un paysage <span className="italic" style={{ color: "var(--terracotta)" }}>qui se souvient.</span></>
+                <>Un paysage <span className="italic" style={{ color: "var(--terracotta)" }}>qui se souvient</span>.</>
               ) : (
-                <>A landscape that <span className="italic">remembers.</span></>
+                <>A landscape that <span className="italic" style={{ color: "var(--terracotta)" }}>remembers</span>.</>
               )}
             </h1>
-            <p className="mt-3 text-[13px] text-dusk/55">
+            <p className="mt-4 body-meta">
               {lang === "fr" ? "Effleurez une floraison." : "Brush a bloom."}
             </p>
-          </header>
+          </section>
 
           {/* The painted garden, viewed from above */}
           <div className="px-0 mt-6">

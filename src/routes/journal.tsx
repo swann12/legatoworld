@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { Shell } from "@/components/legato/Shell";
-import { SpaceHeader } from "@/components/legato/SpaceHeader";
+import { LegatoMark } from "@/components/legato/LegatoMark";
 import { useLegato } from "@/lib/legato-state";
 
 export const Route = createFileRoute("/journal")({
@@ -45,41 +45,35 @@ function Journal() {
       : t("journal.placeholder");
 
   return (
-    <Shell>
-      <div className="relative pb-12">
-        <div className="relative z-10">
-          <SpaceHeader space="care" />
-          <header className="px-7 pt-12">
-            <p
-              className="text-[10px] uppercase tracking-[0.3em] text-dusk/50"
-              style={{ fontFamily: "var(--font-mono)" }}
-            >
-              Journal
-            </p>
-            <h1
-              className="mt-4 font-serif text-[34px] leading-[1.05] font-light text-dusk max-w-[20ch]"
-              style={{ textWrap: "balance" }}
-            >
-              {lang === "fr" ? (
-                <>Une page <span className="italic" style={{ color: "var(--terracotta)" }}>rien qu'à vous.</span></>
-              ) : (
-                <>A page <span className="italic">just for you.</span></>
-              )}
-            </h1>
-          </header>
+    <Shell livingBg={false}>
+      <div className="min-h-dvh bg-paper text-dusk pb-32">
+        <header className="px-6 pt-9 pb-6 flex items-center justify-between">
+          <LegatoMark to="/space" size={22} />
+          <span className="eyebrow">Ressentir</span>
+        </header>
+
+        <section className="px-6 pb-7">
+          <p className="eyebrow">Journal</p>
+          <h1 className="mt-5 display-xl">
+            {lang === "fr" ? (
+              <>Une page <span className="italic" style={{ color: "var(--terracotta)" }}>rien qu'à vous</span>.</>
+            ) : (
+              <>A page <span className="italic" style={{ color: "var(--terracotta)" }}>just for you</span>.</>
+            )}
+          </h1>
+        </section>
 
           {/* Address selector */}
-          <div className="px-7 mt-10 flex gap-2">
+          <div className="px-6 flex gap-2">
             {(["free", "self", "them"] as const).map((k) => (
               <button
                 key={k}
                 onClick={() => setTo(k)}
-                className={`px-3.5 py-1.5 rounded-full text-[11px] tracking-wide border transition-colors ${
+                className={`px-3.5 py-1.5 rounded-full text-[11px] uppercase tracking-[0.14em] font-medium border transition-colors ${
                   to === k
                     ? "bg-dusk text-paper border-dusk"
-                    : "border-dusk/20 text-dusk/70 hover:bg-dusk/5"
+                    : "border-dusk/15 text-dusk/65 hover:bg-dusk/5"
                 }`}
-                style={{ fontFamily: "var(--font-sans)" }}
               >
                 {t(`journal.to.${k}`)}
               </button>
@@ -87,9 +81,9 @@ function Journal() {
           </div>
 
           {/* Writing surface — soft notebook page, no lines, autosize */}
-          <div className="px-7 mt-5">
+          <div className="px-6 mt-4">
             <div
-              className="relative overflow-hidden rounded-[16px] border border-dusk/12"
+              className="relative overflow-hidden rounded-[18px] border border-dusk/12"
               style={{ background: "var(--whisper)" }}
             >
               <textarea
@@ -104,27 +98,21 @@ function Journal() {
             </div>
           </div>
 
-          <div className="px-7 mt-4">
+          <div className="px-6 mt-4">
             <button
               onClick={save}
               disabled={!body.trim()}
-              className={`w-full rounded-[16px] px-6 py-4 text-center text-[color:var(--paper)] transition-opacity ${
+              className={`w-full card-tomato px-6 py-4 text-center transition-opacity ${
                 body.trim() ? "opacity-100" : "opacity-40"
               }`}
-              style={{ background: "var(--bordeaux)" }}
             >
-              <span className="font-serif text-[18px] italic">{t("journal.save")}</span>
+              <span className="font-serif text-[19px]">{t("journal.save")} →</span>
             </button>
           </div>
 
           {/* Past entries */}
-          <div className="px-7 mt-12">
-            <p
-              className="text-[10px] uppercase tracking-[0.3em] text-dusk/50 mb-5"
-              style={{ fontFamily: "var(--font-mono)" }}
-            >
-              {lang === "fr" ? "Pages précédentes" : "Previous pages"}
-            </p>
+          <div className="px-6 mt-10">
+            <p className="eyebrow mb-4">{lang === "fr" ? "Pages précédentes" : "Previous pages"}</p>
 
             {journal.length === 0 ? (
               <p className="font-serif text-[14px] italic text-dusk/60 max-w-[34ch]">
@@ -141,18 +129,8 @@ function Journal() {
                       className="w-full text-left py-5 transition-all hover:bg-dusk/[0.02]"
                     >
                       <div className="flex items-baseline justify-between gap-3">
-                        <p
-                          className="text-[10px] uppercase tracking-[0.26em] text-dusk/50"
-                          style={{ fontFamily: "var(--font-mono)" }}
-                        >
-                          {e.to ? t(`journal.to.${e.to}`) : ""}
-                        </p>
-                        <p
-                          className="text-[10px] tracking-[0.06em] text-dusk/45"
-                          style={{ fontFamily: "var(--font-mono)" }}
-                        >
-                          {formatDate(e.date)}
-                        </p>
+                        <p className="eyebrow">{e.to ? t(`journal.to.${e.to}`) : ""}</p>
+                        <p className="text-[11px] text-dusk/45">{formatDate(e.date)}</p>
                       </div>
                       <p
                         className={`mt-2 font-serif italic text-[16px] leading-[26px] text-dusk/85 ${
@@ -168,20 +146,16 @@ function Journal() {
             )}
           </div>
 
-          <div className="px-7 mt-12">
-            <Link to="/presence" className="block border-t border-dusk/10 pt-6 text-center">
-              <p
-                className="text-[10px] uppercase tracking-[0.3em] text-dusk/50"
-                style={{ fontFamily: "var(--font-mono)" }}
-              >
-                {lang === "fr" ? "Si vous voulez en parler" : "If you want to talk about it"}
-              </p>
-              <p className="mt-2 font-serif text-[17px] italic text-dusk">
-                {lang === "fr" ? "Ouvrir la Présence →" : "Open the Presence →"}
-              </p>
+          <div className="px-5 mt-10 grid grid-cols-2 gap-3">
+            <Link to="/presence" className="card-oven px-5 py-5">
+              <p className="eyebrow-on-dark">Parler</p>
+              <p className="h-section mt-3">Une présence calme.</p>
+            </Link>
+            <Link to="/garden" className="card-olive px-5 py-5">
+              <p className="eyebrow-on-dark">Jardin</p>
+              <p className="h-section mt-3">Déposer un souvenir.</p>
             </Link>
           </div>
-        </div>
       </div>
     </Shell>
   );
