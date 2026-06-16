@@ -21,8 +21,7 @@ export function SpaceHeader({
       <LegatoMark to="/space" size={22} />
       <button
         onClick={() => setOpen(true)}
-        className="editorial-chip flex items-center gap-2 px-3 py-1.5 text-[10px] uppercase tracking-[0.2em] text-dusk/72 hover:bg-dusk/5"
-        style={{ fontFamily: "var(--font-mono)" }}
+        className="flex items-center gap-2 rounded-full border border-dusk/15 bg-paper px-3 py-1.5 text-[10.5px] uppercase tracking-[0.16em] font-medium text-dusk/72 hover:bg-dusk/5"
         aria-label="Changer d'espace"
       >
         <span
@@ -40,12 +39,7 @@ export function SpaceHeader({
             className="absolute inset-0 bg-dusk/30"
           />
           <div className="relative w-full max-w-[420px] bg-paper rounded-t-[22px] p-6 pb-9 border-t border-dusk/12">
-            <p
-              className="text-[10px] uppercase tracking-[0.28em] text-dusk/50"
-              style={{ fontFamily: "var(--font-mono)" }}
-            >
-              Changer d'espace
-            </p>
+            <p className="eyebrow">Changer d'espace</p>
             <h3 className="mt-2 font-serif text-[24px] leading-tight font-normal text-dusk">
               Choisir un <span className="italic" style={{ color: "var(--terracotta)" }}>rythme</span>.
             </h3>
