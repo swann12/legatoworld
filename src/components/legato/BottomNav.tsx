@@ -32,7 +32,7 @@ export function BottomNav() {
   return (
     <nav
       aria-label="Primary"
-      className="fixed bottom-0 left-1/2 z-50 w-full max-w-[420px] -translate-x-1/2 border-t border-dusk/10 bg-paper"
+      className="fixed bottom-0 left-1/2 z-50 w-full max-w-[420px] -translate-x-1/2 border-t border-dusk/10 bg-paper/96 backdrop-blur-sm"
     >
       <div className="flex items-stretch justify-between px-3 pt-3.5 pb-[max(env(safe-area-inset-bottom),0.65rem)]">
         {items.map(({ to, label }) => {
@@ -51,7 +51,7 @@ export function BottomNav() {
               className="group relative flex flex-1 items-center justify-center px-1 py-2 transition-colors"
             >
               <span
-                className={`text-[9.5px] uppercase leading-none tracking-[0.22em] text-center transition-colors ${
+                className={`text-[9px] uppercase leading-none tracking-[0.22em] text-center transition-colors ${
                   active ? "text-dusk" : "text-dusk/50 group-hover:text-dusk/80"
                 }`}
                 style={{ fontFamily: "var(--font-mono)" }}
