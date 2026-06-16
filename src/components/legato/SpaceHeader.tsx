@@ -14,14 +14,14 @@ export function SpaceHeader({
   space: "care" | "organize";
 }) {
   const [open, setOpen] = useState(false);
-  const label = space === "care" ? "Prendre soin de soi" : "Organiser & avancer";
+  const label = space === "care" ? "Soi" : "Démarches";
 
   return (
     <header className="relative pt-9 px-7 flex items-center justify-between">
       <LegatoMark to="/space" size={22} />
       <button
         onClick={() => setOpen(true)}
-        className="flex items-center gap-2 rounded-full border border-dusk/15 px-3 py-1.5 text-[10.5px] uppercase tracking-[0.18em] text-dusk/70 hover:bg-dusk/5"
+        className="editorial-chip flex items-center gap-2 px-3 py-1.5 text-[10px] uppercase tracking-[0.2em] text-dusk/72 hover:bg-dusk/5"
         style={{ fontFamily: "var(--font-mono)" }}
         aria-label="Changer d'espace"
       >
@@ -46,8 +46,8 @@ export function SpaceHeader({
             >
               Changer d'espace
             </p>
-            <h3 className="mt-2 font-serif text-[24px] leading-tight font-light text-dusk">
-              De quoi avez-vous besoin <span className="italic" style={{ color: "var(--terracotta)" }}>maintenant ?</span>
+            <h3 className="mt-2 font-serif text-[24px] leading-tight font-normal text-dusk">
+              Choisir un <span className="italic" style={{ color: "var(--terracotta)" }}>rythme</span>.
             </h3>
             <div className="mt-5 space-y-2.5">
               <Link

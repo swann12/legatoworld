@@ -76,7 +76,7 @@
   --color-azure: var(--azure);
   --color-magenta: var(--magenta);
 
- --font-serif: "EB Garamond", "Tiempos", ui-serif, Georgia, serif;
+ --font-serif: "Bodoni Moda", "Tiempos", ui-serif, Georgia, serif;
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 }
@@ -90,23 +90,23 @@
   --paper: #FCF6EE;            /* cream le plus clair */
   --whisper: #FFFBF4;          /* presque blanc chaud */
   --clay: #F1E7D6;             /* cream beige */
-  --dusk: #2A3340;             /* encre ardoise — fraîche, moins brune */
-  --ink: #1A2230;              /* ardoise profonde */
-  --terracotta: #C4684E;       /* terracotta adoucie */
-  --rose: #E5A9B5;             /* rose pétale */
-  --blush: #F4DCDC;            /* blush poudré */
-  --peach: #E0A06A;            /* pêche plus printanière */
-  --olive: #8AA079;            /* sauge profonde */
-  --sage: #CCD8BD;             /* sauge clair printanier */
-  --mist: #A8BAD3;             /* bleu pâle */
-  --sky: #5E97C0;              /* bleu plein */
-  --lavender: #C9B6DC;
-  --bordeaux: #2A3340;         /* aligné sur dusk */
-  --navy: #2E4A6B;
-  --ember: #C4684E;
-  --sun: #F1DE92;              /* mimosa */
-  --azure: #5E97C0;
-  --magenta: #E5A9B5;
+  --dusk: #24323B;             /* graphite bleuté, net */
+  --ink: #182127;              /* encre froide */
+  --terracotta: #EA6A3D;       /* coquelicot terre cuite */
+  --rose: #EAB9B9;             /* rose pâle éditorial */
+  --blush: #F4D8D2;            /* pêche rosé clair */
+  --peach: #F1C489;            /* abricot doux */
+  --olive: #919548;            /* olive sourde */
+  --sage: #D8DFBF;             /* beurre-sauge */
+  --mist: #B9CCE4;             /* bleu poudre */
+  --sky: #79A7D4;              /* bleu clair plus franc */
+  --lavender: #D6C7E2;
+  --bordeaux: #6A2835;         /* bordeaux net à la place du marron */
+  --navy: #486A8F;
+  --ember: #EA6A3D;
+  --sun: #F3E29D;              /* beurre jaune */
+  --azure: #79A7D4;
+  --magenta: #D99AA8;
   --bloom-fresh: #CCD8BD;
   --bloom-mist: #A8BAD3;
 
@@ -397,9 +397,28 @@
 
   /* Soft container — quieter than ceramic, more space */
   .paper-card {
-    background: var(--paper);
+    background: color-mix(in oklab, var(--paper) 88%, white);
     border: 1px solid color-mix(in oklab, var(--dusk) 10%, transparent);
-    border-radius: 16px;
+    border-radius: 18px;
+    box-shadow: 0 1px 0 color-mix(in oklab, var(--dusk) 4%, transparent);
+  }
+
+  .editorial-frame {
+    border-top: 1px solid color-mix(in oklab, var(--dusk) 14%, transparent);
+    border-bottom: 1px solid color-mix(in oklab, var(--dusk) 12%, transparent);
+  }
+
+  .editorial-chip {
+    border: 1px solid color-mix(in oklab, var(--dusk) 10%, transparent);
+    background: color-mix(in oklab, var(--paper) 78%, white);
+    border-radius: 999px;
+  }
+
+  .editorial-panel {
+    border: 1px solid color-mix(in oklab, var(--dusk) 9%, transparent);
+    border-radius: 22px;
+    background: color-mix(in oklab, var(--paper) 90%, white);
+    box-shadow: 0 10px 30px color-mix(in oklab, var(--dusk) 4%, transparent);
   }
 
   /* ─── Legato Glass system ───
