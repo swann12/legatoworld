@@ -79,7 +79,7 @@ function Help() {
                 key={p.title}
                 to={p.to}
                 search={p.to === "/resources" ? { space: "care" as const } : undefined}
-                className="card px-5 py-5 flex items-center gap-4 active:scale-[0.99] transition-transform"
+                className="card-plain px-5 py-5 flex items-center gap-4 active:scale-[0.99] transition-transform"
                 style={{ background: `color-mix(in oklab, ${p.tint} 18%, var(--paper))` }}
               >
                 <span aria-hidden className="size-10 rounded-full shrink-0" style={{ background: p.tint }} />
