@@ -1,75 +1,44 @@
-ND'avant tout : l'animation d'ouverture (`/`) et la page logo restent intactes. Cette refonte couvre l'onboarding, la navigation, et toutes les pages d'app.
+## État actuel
 
-## 1. Design system (src/styles.css + __root.tsx)
+Vagues 1-3 livrées : design system (palette Co-Star + Instrument Serif/Inter), navigation 5 entrées, et refonte éditoriale des pages principales (home, onboarding, space, practical.index, parcours, parcours.$taskId, community, resources.index, journal, garden.index).
 
-Palette stricte (uniquement ces 6 + paper) :
-- paper #FAF5EE (fond) / ink #1A1410 (texte)
-- tomato #EB5E3A (action, urgence)
-- butter #F2EDBD (mise en avant douce)
-- sardine #7CA2E0 (information, calme)
-- oven #6C2C25 (ancrage, sérieux)
-- olive #8A8E3A (souvenir, vivant)
-- blush #F7C7C5 (tendresse, cercle)
+## Ce qu'il reste à faire
 
-Typo : 2 familles seulement.
-- Instrument Serif (titres éditoriaux uniquement)
-- Inter (texte, boutons, labels, micro-labels en uppercase tracking-wide)
-- Suppression de JetBrains Mono.
+### A. Pages secondaires non encore refondues
+Elles utilisent encore l'ancien style (font-mono, editorial-frame, classes legacy) :
 
-5 tailles fixes : display 40px / title 24px / body 15px / meta 13px / micro 11px uppercase.
+1. **Sous-pages `practical.*`** — atmosphere, flowers, texts, objects, ceremony, booklet, steps, share
+2. **Sous-pages `help.*`** — help.index, help.corps + sous-pages (eau, habiller, manger, nuits) → à fusionner visuellement dans l'esprit Ressentir
+3. **`garden.$zone.tsx`** — détail d'une parcelle (dépôts photo/note/audio/fleur/rituel) — à refondre selon la maquette parcelle
+4. **`memories.tsx`, `inspiration.tsx`, `library.$kind.tsx`** — ressources éditoriales
+5. **`resources.$category.tsx`, `resources.$category.$providerId.tsx`, `resources.confirm.$providerId.tsx`** — fiches annuaire pro (spé, lieu, dispo, prix, contact, RDV, sauvegarder)
+6. **`appointments.tsx`, `dates.tsx`, `wishes.tsx`** — vues secondaires démarches
+7. **`presence.tsx`, `no-words.tsx`, `crisis.tsx`** — moments d'aide IA / urgence
+8. **`compose.$zone.tsx`** — composition florale détaillée
+9. **`onboarding.care.tsx`, `onboarding.practical.tsx`** — anciens flows à supprimer ou rediriger vers le nouvel `onboarding.index`
 
-Composants utilitaires CSS : `.eyebrow`, `.display`, `.h-section`, `.btn-primary` (tomato), `.btn-ghost`, `.card`, `.card-tint-{color}`, `.status-chip-{state}`.
+### B. Composants legacy à harmoniser
+- `Shell.tsx` / `ScreenHeader` utilisent encore `var(--font-mono)` et `editorial-frame` → à aligner sur le nouveau système
+- `ConfideDock`, `PersonalSuggestions`, `MiniComposer`, `CompositionThumb`, `OrganicShape`, `Halos`, `ModeBackground`, `LivingPatch` → audit visuel + nettoyage typo/palette
+- `ModeSelector` — à supprimer si plus utilisé (remplacé par `space.tsx`)
 
-## 2. Onboarding (remplace onboarding.care + onboarding.practical)
+### C. Nettoyage final
+- Supprimer définitivement les classes CSS legacy non utilisées (`editorial-frame`, `editorial-panel`, `--font-mono`)
+- Supprimer les illustrations décoratives non symboliques restantes
+- Vérifier qu'aucune page n'importe encore JetBrains Mono via classe inline
 
-Nouveau flow unique `src/routes/onboarding.index.tsx` :
-1. Prénom (existant)
-2. Situation : perdu / vais peut-être perdre / soutiens / prépare volontés
-3. Lien : parent / conjoint·e / enfant / ami·e / animal / autre
-4. Choix d'espace : Accompagnement émotionnel **ou** Aide concrète (présenté comme deux entrées claires, pas comme un mode)
-5. Si émotionnel → check-in émotions (multi-sélect jusqu'à 3, pilule colorée)
+### D. Cohérence d'ensemble
+- Passe rapide sur chaque route pour vérifier : eyebrow Inter uppercase, titres Instrument Serif, palette stricte (paper/ink + 6 tons), chips statut homogènes
+- Vérifier hydration SSR sur toutes les pages qui dépendent de l'heure/date/localStorage
 
-Suppression des "modes" redondants (legato-state : `mode` devient l'espace actif, plus le ressenti).
+## Découpage proposé (3 vagues)
 
-## 3. Navigation (BottomNav)
+**Vague 4 — Démarches détaillées** : toutes les sous-pages `practical.*`, `compose.$zone`, `appointments`, `dates`, `wishes`, `resources.$category*`.
 
-5 entrées exactement : **Accueil · Ressentir · Démarches · Cercle · Ressources**
-Style : labels sans pictos lourds, indicateur tomato sous l'actif, fond paper/blur.
+**Vague 5 — Ressentir détaillé** : `help.*` (fusion Ressentir), `presence`, `no-words`, `crisis`, `memories`, `inspiration`, `library.$kind`, `garden.$zone`.
 
-## 4. Pages refondues
+**Vague 6 — Nettoyage** : Shell/ScreenHeader, composants legato legacy, suppression CSS mort, suppression anciens onboardings, audit final cohérence.
 
-| Route | Refonte |
-|---|---|
-| `home.tsx` | Tableau de bord : 1 phrase éditoriale, 1 action prioritaire auto (carte tomato), tuile humeur, tuile démarches (progression x/y), accès rapide IA + cercle. Plus de liste. |
-| `journal.tsx` (Ressentir index) | Check-in (pilules), résumé, raccourcis journal/IA/jardin/ressources émo. |
-| `practical.index.tsx` | Plan d'action groupé par temporalité : Immédiat / Cette semaine / Ce mois / Plus tard. Chips de statut (à faire/en cours/fait/délégué/bloqué/doc manquant). |
-| `parcours.$taskId.tsx` | Détail tâche : quoi/pourquoi/quand, docs requis, modèle message, aide IA, pro recommandé, boutons Déléguer / Marquer fait. |
-| `garden.*` | Parcelle par personne/animal avec dépôts (photo, note, audio, musique, fleur, bouquet, rituel). |
-| `community.tsx` (Cercle) | Inviter, groupe famille, référent, délégation, qui fait quoi, partage. |
-| `resources.index.tsx` | Deux onglets stricts : Émotionnelles / Concrètes. Annuaire pro avec fiches (spé, lieu, dispo, prix, contact, RDV, sauvegarder). |
-| `help.*` | Fusionné dans Ressentir (ressources émo) — routes conservées pour éviter casse. |
-| `space.tsx` | Mis à jour pour cohérence palette/typo, conservé comme switch entre les 2 espaces. |
+## Question
 
-## 5. Suppression / nettoyage
-
-- Suppression JetBrains Mono import.
-- Suppression des classes `--font-mono`, `editorial-frame`, `editorial-panel` redondantes.
-- Suppression illustrations décoratives non symboliques.
-
-## Découpage technique de livraison
-
-Vu l'ampleur, je propose de livrer en **3 vagues** dans cette session :
-
-**Vague 1 — Fondations** : styles.css (palette+typo+utilitaires), __root.tsx (fonts), Shell.tsx (ScreenHeader recalibré), BottomNav (5 entrées).
-
-**Vague 2 — Cœur** : home, onboarding (flow complet), space, practical.index, parcours, community, resources.index.
-
-**Vague 3 — Détails** : journal/check-in, garden parcelle, détail tâche, fiches annuaire, documents.
-
-Je commencerai par la Vague 1 dès validation, puis enchaînerai les 2 et 3 sans nouvelle question.
-
-## Points à confirmer
-
-1. OK pour supprimer JetBrains Mono partout (micro-labels en Inter uppercase) ?
-2. OK pour fusionner `help` dans l'onglet Ressentir (les anciennes routes restent accessibles) ?
-3. OK pour le découpage en 3 vagues dans cette session ?
+Tu veux que j'enchaîne directement les 3 vagues, ou tu préfères prioriser une partie (par ex. l'annuaire pro `resources.$category*` et le détail parcelle `garden.$zone` qui sont les plus visibles côté utilisateur) ?
