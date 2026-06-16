@@ -18,19 +18,19 @@ export const Route = createFileRoute("/home")({
 
 const ACTIONS = [
   { to: "/presence",  title: "Parler à une présence", sub: "Une oreille calme, sans jugement.", tint: "var(--terracotta)", fg: "var(--paper)" },
-  { to: "/journal",   title: "Écrire quelques mots",  sub: "Une page intime.",                  tint: "var(--blush)",       fg: "var(--dusk)" },
-  { to: "/garden",    title: "Entrer dans le jardin", sub: "Ceux qui comptent.",                tint: "var(--sage)",        fg: "var(--dusk)" },
+  { to: "/journal",   title: "Écrire quelques mots",  sub: "Une page intime.",                  tint: "var(--sun)",         fg: "var(--dusk)" },
+  { to: "/garden",    title: "Entrer dans le jardin", sub: "Ceux qui comptent.",                tint: "var(--olive)",       fg: "var(--paper)" },
   { to: "/no-words",  title: "Respirer un instant",   sub: "Souffle guidé.",                    tint: "var(--mist)",        fg: "var(--dusk)" },
-  { to: "/community", title: "Un soutien humain",     sub: "Proches, groupes, pros.",           tint: "var(--sun)",         fg: "var(--dusk)" },
+  { to: "/community", title: "Un soutien humain",     sub: "Proches, groupes, pros.",           tint: "var(--rose)",        fg: "var(--dusk)" },
 ];
 
 const FURTHER: { to: string; params?: Record<string, string>; search?: Record<string, string>; label: string; sub: string; tint: string }[] = [
-  { to: "/library/$kind", params: { kind: "rituels" },  label: "Rituels",            sub: "Gestes simples",     tint: "var(--blush)" },
-  { to: "/library/$kind", params: { kind: "lectures" }, label: "Lectures",           sub: "Livres choisis",     tint: "var(--sage)" },
+  { to: "/library/$kind", params: { kind: "rituels" },  label: "Rituels",            sub: "Gestes simples",     tint: "var(--rose)" },
+  { to: "/library/$kind", params: { kind: "lectures" }, label: "Lectures",           sub: "Livres choisis",     tint: "var(--mist)" },
   { to: "/library/$kind", params: { kind: "films" },    label: "Films",              sub: "À voir doucement",   tint: "var(--mist)" },
   { to: "/library/$kind", params: { kind: "podcasts" }, label: "Podcasts",           sub: "Voix qui apaisent",  tint: "var(--sun)" },
-  { to: "/community",     label: "Groupes d'entraide", sub: "Petits cercles",        tint: "var(--peach)" },
-  { to: "/resources",     search: { space: "care" },   label: "Accompagnants",       sub: "Thérapeutes proches", tint: "var(--lavender)" },
+  { to: "/community",     label: "Groupes d'entraide", sub: "Petits cercles",        tint: "var(--olive)" },
+  { to: "/resources",     search: { space: "care" },   label: "Accompagnants",       sub: "Thérapeutes proches", tint: "var(--bordeaux)" },
 ];
 
 function Home() {
@@ -46,12 +46,12 @@ function Home() {
           >
             Accueil
           </p>
-          <h1 className="mt-4 max-w-[9ch] font-serif text-[42px] leading-[0.97] font-normal text-balance">
-            Reprendre un peu de <span className="italic" style={{ color: "var(--terracotta)" }}>place.</span>
+          <h1 className="mt-4 max-w-[9ch] font-serif text-[42px] leading-[0.95] font-normal text-balance">
+            Avancer sans porter <span className="italic" style={{ color: "var(--terracotta)" }}>tout seul·e.</span>
           </h1>
           <div className="mt-5 flex items-end justify-between gap-4">
             <p className="text-[13.5px] text-dusk/60 max-w-[28ch]">
-              Une entrée claire, un choix simple, puis le reste vient ensuite.
+              Un point d'entrée plus net, plus calme, plus éditorial : choisir ce qui aide maintenant.
             </p>
             <div className="hidden min-[390px]:block text-right">
               <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/40" style={{ fontFamily: "var(--font-mono)" }}>
@@ -75,7 +75,7 @@ function Home() {
               >
                 Entrée principale
               </p>
-              <p className="mt-4 max-w-[8ch] font-serif text-[34px] leading-[0.98] font-normal">
+              <p className="mt-4 max-w-[8ch] font-serif text-[36px] leading-[0.95] font-normal">
                 Parler à une <span className="italic">présence.</span>
               </p>
               <p className="mt-4 text-[13px] leading-relaxed opacity-85 max-w-[24ch]">
@@ -87,7 +87,7 @@ function Home() {
               <Link
                 to="/journal"
                 className="rounded-[22px] px-5 py-5 min-h-[104px]"
-                style={{ background: "var(--sun)", color: "var(--dusk)" }}
+                style={{ background: "color-mix(in oklab, var(--sun) 80%, white)", color: "var(--dusk)" }}
               >
                 <p className="font-serif text-[24px] leading-[1.02]">Écrire</p>
                 <p className="mt-2 text-[11.5px] text-dusk/65">Une phrase suffit.</p>
@@ -95,7 +95,7 @@ function Home() {
               <Link
                 to="/no-words"
                 className="rounded-[22px] px-5 py-5 min-h-[104px]"
-                style={{ background: "var(--mist)", color: "var(--dusk)" }}
+                style={{ background: "color-mix(in oklab, var(--mist) 86%, white)", color: "var(--dusk)" }}
               >
                 <p className="font-serif text-[24px] leading-[1.02]">Respirer</p>
                 <p className="mt-2 text-[11.5px] text-dusk/65">Sans trouver les mots.</p>
@@ -124,7 +124,7 @@ function Home() {
               className="rounded-[20px] px-5 py-5 flex flex-col justify-between min-h-[172px]"
               style={{ background: "var(--bordeaux)", color: "var(--paper)" }}
             >
-              <p className="font-serif text-[22px] leading-[1.06]">Ne pas rester seule.</p>
+              <p className="font-serif text-[24px] leading-[1.02]">Ne pas rester seule.</p>
               <p className="mt-2 text-[11.5px] opacity-75 max-w-[15ch]">Des personnes et des cercles si vous en ressentez le besoin.</p>
             </Link>
           </div>
