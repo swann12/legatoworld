@@ -497,20 +497,51 @@
  */
 @layer components {
   .eyebrow {
-    font-family: var(--font-sans);
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.18em;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    font-weight: 400;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     color: color-mix(in oklab, var(--dusk) 55%, transparent);
   }
   .eyebrow-on-dark {
-    font-family: var(--font-sans);
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.18em;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    font-weight: 400;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     color: color-mix(in oklab, var(--paper) 78%, transparent);
+  }
+  .mono-label {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    font-weight: 400;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: color-mix(in oklab, var(--dusk) 60%, transparent);
+  }
+  .ed-display {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: clamp(44px, 12vw, 60px);
+    line-height: 0.98;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+  .ed-page-title {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: 36px;
+    line-height: 1.02;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+  .ed-section-title {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 1.1;
+    letter-spacing: -0.005em;
   }
   .display-xl {
     font-family: var(--font-serif);
@@ -529,13 +560,13 @@
   }
   .h-section {
     font-family: var(--font-serif);
-    font-size: 22px;
+    font-size: 24px;
     line-height: 1.05;
     font-weight: 400;
   }
   .body-meta {
     font-family: var(--font-sans);
-    font-size: 13px;
+    font-size: 13.5px;
     line-height: 1.5;
     color: color-mix(in oklab, var(--dusk) 70%, transparent);
   }
