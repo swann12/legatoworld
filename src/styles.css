@@ -76,10 +76,10 @@
   --color-azure: var(--azure);
   --color-magenta: var(--magenta);
 
-  --font-serif: "Playfair Display", "Iowan Old Style", "Palatino Linotype", ui-serif, serif;
+  --font-serif: "Cormorant Garamond", "Iowan Old Style", "Palatino Linotype", ui-serif, serif;
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  /* Refonte : suppression de la 3e famille. Les micro-labels passent en Inter uppercase. */
-  --font-mono: "Inter", ui-sans-serif, system-ui, sans-serif;
+  /* Space Mono pour les micro-labels graphiques (sections, dates, statuts). */
+  --font-mono: "Space Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
 }
 
 :root {
@@ -497,20 +497,51 @@
  */
 @layer components {
   .eyebrow {
-    font-family: var(--font-sans);
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.18em;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    font-weight: 400;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     color: color-mix(in oklab, var(--dusk) 55%, transparent);
   }
   .eyebrow-on-dark {
-    font-family: var(--font-sans);
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.18em;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    font-weight: 400;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     color: color-mix(in oklab, var(--paper) 78%, transparent);
+  }
+  .mono-label {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    font-weight: 400;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: color-mix(in oklab, var(--dusk) 60%, transparent);
+  }
+  .ed-display {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: clamp(44px, 12vw, 60px);
+    line-height: 0.98;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+  .ed-page-title {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: 36px;
+    line-height: 1.02;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+  .ed-section-title {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 1.1;
+    letter-spacing: -0.005em;
   }
   .display-xl {
     font-family: var(--font-serif);
@@ -529,13 +560,13 @@
   }
   .h-section {
     font-family: var(--font-serif);
-    font-size: 22px;
+    font-size: 24px;
     line-height: 1.05;
     font-weight: 400;
   }
   .body-meta {
     font-family: var(--font-sans);
-    font-size: 13px;
+    font-size: 13.5px;
     line-height: 1.5;
     color: color-mix(in oklab, var(--dusk) 70%, transparent);
   }
@@ -631,21 +662,26 @@
 @layer components {
   /* Oversized index number, italic serif, used as a marginal mark */
   .index-num {
-    font-family: var(--font-serif);
-    font-style: italic;
+    /* Tamed: instead of a heavy floating № marginalia, render as a small
+     * mono section number aligned in the grid. Legacy callers now feel
+     * editorial, not decorative. */
+    font-family: var(--font-mono);
+    font-style: normal;
     font-weight: 400;
-    font-size: 64px;
-    line-height: 0.85;
-    letter-spacing: -0.02em;
-    color: color-mix(in oklab, var(--dusk) 75%, transparent);
+    font-size: 11px;
+    line-height: 1;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: color-mix(in oklab, var(--dusk) 55%, transparent);
   }
   .index-num-sm {
-    font-family: var(--font-serif);
-    font-style: italic;
+    font-family: var(--font-mono);
+    font-style: normal;
     font-weight: 400;
-    font-size: 28px;
+    font-size: 11px;
     line-height: 1;
-    letter-spacing: -0.01em;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
   }
 
   /* Hairline rule with inline label (magazine section divider) */

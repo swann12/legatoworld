@@ -7,6 +7,7 @@ import { LegatoMark } from "@/components/legato/LegatoMark";
 import { useLegato } from "@/lib/legato-state";
 import { getDailyFocus } from "@/lib/emotional.functions";
 import { supabase } from "@/integrations/supabase/client";
+import { RingProgress, SupportCircle } from "@/components/legato/EditorialUI";
 
 export const Route = createFileRoute("/home")({
   head: () => ({
@@ -43,174 +44,129 @@ function Home() {
   return (
     <Shell livingBg={false}>
       <div className="min-h-dvh bg-paper text-dusk pb-32">
-        {/* Folio header */}
-        <header className="px-6 pt-8 pb-6">
-          <div className="folio">
-            <LegatoMark to="/space" size={22} />
-            <span>Espace · Soi</span>
-          </div>
+        {/* Page header — mono date + logo + bell */}
+        <header className="px-6 pt-7 pb-2 flex items-center justify-between">
+          <LegatoMark to="/space" size={22} />
+          <span className="mono-label">{new Intl.DateTimeFormat("fr-FR", { day: "2-digit", month: "long" }).format(new Date())}</span>
         </header>
 
-        {/* HERO — index marginal + titre éditorial */}
-        <section className="px-6 pb-10">
-          <p className="eyebrow">{greeting}, {name}</p>
-          <div className="mt-4 grid grid-cols-[auto_1fr] gap-x-4 items-start">
-            <span className="index-num leading-none -mt-1">№</span>
-            <h1 className="ed-title text-[46px]">
-              Vous n'avez pas à
-              <br />
-              porter ça
-              <br />
-              <span className="italic" style={{ color: "var(--terracotta)" }}>seul·e</span>.
-            </h1>
-          </div>
-          <p className="mt-7 body-meta max-w-[32ch] pl-[3.25rem]">
-            Voici ce qui compte aujourd'hui — sans urgence inutile, à votre rythme.
-          </p>
+        {/* HERO — accueil sensible */}
+        <section className="px-6 pt-10 pb-2">
+          <p className="mono-label">{greeting}{name ? `, ${name}` : ""}</p>
+          <h1 className="mt-4 ed-page-title text-[40px]">
+            Comment allez-vous
+            <br />
+            <span className="italic" style={{ color: "var(--terracotta)" }}>aujourd'hui&nbsp;?</span>
+          </h1>
         </section>
 
+        {/* Tableau du jour — carte butter pleine (style INSPI3) */}
+        <section className="px-5 pt-7">
+          <Link
+            to="/presence"
+            className="block rounded-[20px] px-6 pt-6 pb-5"
+            style={{ background: "var(--sun)", color: "var(--dusk)" }}
+          >
+            <p className="mono-label">Tableau du jour</p>
+            <h2 className="mt-4 ed-section-title text-[30px] max-w-[14ch]">
+              Ce qui compte,
+              <br />
+              <span className="italic">aujourd'hui.</span>
+            </h2>
+            <p className="mt-3 text-[13.5px] leading-[1.55] text-dusk/70 max-w-[28ch]">
+              Prenez un moment pour vous recentrer.
+            </p>
+            <div className="mt-5 flex items-center justify-end">
+              <span
+                className="h-11 w-11 rounded-full grid place-items-center text-paper text-[18px]"
+                style={{ background: "var(--terracotta)" }}
+              >→</span>
+            </div>
+          </Link>
+        </section>
+
+        {/* Deux raccourcis — IvoryCards (style INSPI3 Check-in / Mon cercle) */}
+        <section className="px-5 pt-3 grid grid-cols-2 gap-3">
+          <Link to="/journal" className="rounded-[18px] border border-dusk/12 bg-[color:var(--whisper)] px-5 pt-5 pb-4 flex flex-col justify-between min-h-[120px]">
+            <div>
+              <p className="mono-label">Check-in</p>
+              <p className="mt-3 font-serif text-[20px] leading-[1.1]">Écoutez-vous<br/>en 1 minute</p>
+            </div>
+            <span className="self-end text-dusk/55 text-[16px]">→</span>
+          </Link>
+          <Link to="/community" className="rounded-[18px] px-5 pt-5 pb-4 flex flex-col justify-between min-h-[120px]"
+            style={{ background: "var(--blush)" }}>
+            <div>
+              <p className="mono-label">Mon cercle</p>
+              <p className="mt-3 font-serif text-[20px] leading-[1.1]">Vous n'êtes<br/>pas seul·e</p>
+            </div>
+            <span className="self-end text-dusk/55 text-[16px]">→</span>
+          </Link>
+        </section>
+
+        {/* Démarches — anneau de progression (style INSPI2 "68%") */}
+        <section className="px-6 pt-12">
+          <p className="mono-label">Démarches</p>
+          <div className="mt-2 h-px bg-dusk/12" />
+          <Link to="/practical" className="mt-6 flex items-center gap-6">
+            <RingProgress value={tasksPct} size={132} stroke={11}
+              label={<span className="font-serif text-[30px] leading-none text-dusk">{tasksPct}%</span>}
+            />
+            <div className="min-w-0">
+              <p className="font-serif text-[24px] leading-[1.1] text-dusk">Avancer à<br/><span className="italic">votre rythme.</span></p>
+              <p className="mt-3 text-[12.5px] text-dusk/65">
+                {tasksDone} étapes terminées · {tasksTotal - tasksDone} à venir
+              </p>
+              <p className="mt-3 mono-label" style={{ color: "var(--terracotta)" }}>Voir le plan →</p>
+            </div>
+          </Link>
+        </section>
+
+        {/* Cercle de soutien — schéma sobre (style INSPI2) */}
+        <section className="px-6 pt-12">
+          <p className="mono-label">Cercle de soutien</p>
+          <div className="mt-2 h-px bg-dusk/12" />
+          <div className="mt-4 flex justify-center">
+            <SupportCircle
+              size={240}
+              members={[
+                { initial: "J", name: "Jordan", color: "var(--sun)" },
+                { initial: "R", name: "Riley",  color: "var(--sky)" },
+                { initial: "A", name: "Alex",   color: "var(--olive)" },
+                { initial: "S", name: "Sam",    color: "var(--blush)" },
+              ]}
+            />
+          </div>
+          <Link to="/community" className="mt-4 block text-center mono-label hover:text-dusk" style={{ color: "var(--terracotta)" }}>
+            Voir votre cercle →
+          </Link>
+        </section>
+
+        {/* Suggestion serveur (si présente) */}
         {focus && (
-          <section className="px-6 pb-8">
-            <div className="rule-label mb-5"><span>Suggestion du moment</span></div>
-            <Link to={focus.cta.to} className="block py-1">
-              <p className="font-serif italic text-[26px] leading-[1.05] text-dusk max-w-[18ch]">
+          <section className="px-6 pt-12">
+            <p className="mono-label">Suggestion du moment</p>
+            <div className="mt-2 h-px bg-dusk/12" />
+            <Link to={focus.cta.to} className="mt-5 block">
+              <p className="font-serif italic text-[22px] leading-[1.15] text-dusk max-w-[20ch]">
                 « {focus.title} »
               </p>
               <p className="mt-3 text-[13px] text-dusk/70 leading-[1.55] max-w-[34ch]">{focus.body}</p>
-              <p className="mt-4 eyebrow text-dusk">{focus.cta.label} <span aria-hidden>→</span></p>
+              <p className="mt-4 mono-label" style={{ color: "var(--terracotta)" }}>{focus.cta.label} →</p>
             </Link>
           </section>
         )}
 
-        {/* Rule */}
-        <div className="px-6 pb-5">
-          <div className="rule-label"><span>Aujourd'hui</span></div>
-        </div>
-
-        {/* PRIORITÉ DU JOUR — carte tomato pleine */}
-        <section className="px-5">
-          <Link
-            to="/parcours/$taskId"
-            params={{ taskId: "pf" }}
-            className="plate card-tomato px-6 pt-7 pb-6 transition-transform active:scale-[0.99]"
-          >
-            <div className="flex items-start justify-between gap-4">
-              <span className="eyebrow-on-dark">À faire maintenant</span>
-              <span className="index-num-sm opacity-80">01</span>
-            </div>
-            <p className="mt-5 font-serif text-[34px] leading-[0.96] tracking-[-0.01em] font-normal max-w-[13ch]">
-              Contacter les <span className="italic">pompes funèbres</span>.
-            </p>
-            <p className="mt-3 text-[13px] leading-relaxed opacity-85 max-w-[30ch]">
-              On vous guide étape par étape. Vous pouvez aussi déléguer cette tâche.
-            </p>
-            <div className="plate-caption">
-              <span>Sous 48 h</span>
-              <span>Commencer →</span>
-            </div>
-          </Link>
-        </section>
-
-        {/* HUMEUR + DÉMARCHES — split asymétrique 60/40 */}
-        <section className="mt-4 px-5 grid grid-cols-5 gap-3">
-          <Link to="/journal" className="plate card-sardine col-span-3 px-5 pt-5 pb-4 flex flex-col justify-between min-h-[180px]">
-            <div>
-              <div className="flex items-start justify-between">
-                <p className="eyebrow">Comment ça va</p>
-                <span className="index-num-sm opacity-75">02</span>
-              </div>
-              <p className="mt-4 font-serif text-[26px] leading-[1.02] max-w-[10ch]">
-                Faire le <span className="italic">point</span>.
-              </p>
-            </div>
-            <div className="mt-2 flex items-center gap-1.5">
-              {[ "var(--terracotta)", "var(--sun)", "var(--bordeaux)", "var(--blush)", "var(--olive)" ].map((c, i) => (
-                <span key={i} className="h-2 w-2 rounded-full" style={{ background: c, opacity: i === 0 ? 1 : 0.35 }} />
-              ))}
-            </div>
-            <div className="plate-caption">
-              <span>Journal</span>
-              <span>→</span>
-            </div>
-          </Link>
-
-          <Link to="/practical" className="plate card-butter col-span-2 px-4 pt-5 pb-4 flex flex-col justify-between min-h-[180px]">
-            <div>
-              <p className="eyebrow">Démarches</p>
-              <p className="mt-4 font-serif italic text-[40px] leading-[0.95]">{tasksDone}<span className="not-italic text-dusk/45">/{tasksTotal}</span></p>
-            </div>
-            <div>
-              <div className="h-1.5 w-full rounded-full" style={{ background: "color-mix(in oklab, var(--dusk) 12%, transparent)" }}>
-                <div className="h-full rounded-full" style={{ width: `${tasksPct}%`, background: "var(--bordeaux)" }} />
-              </div>
-              <p className="mt-2 text-[10.5px] tracking-[0.12em] uppercase text-dusk/65">{tasksPct}% parcouru</p>
-            </div>
-          </Link>
-        </section>
-
-        {/* CERCLE + IA — split asymétrique inverse 40/60 */}
-        <section className="mt-3 px-5 grid grid-cols-5 gap-3">
-          <Link to="/community" className="plate card-blush col-span-2 px-4 pt-5 pb-4 flex flex-col justify-between min-h-[150px]">
-            <p className="eyebrow">Le cercle</p>
-            <div>
-              <div className="flex -space-x-2">
-                {["M", "J", "A", "+"].map((l) => (
-                  <span
-                    key={l}
-                    className="size-7 rounded-full grid place-items-center text-[11px] font-medium border-2 border-blush"
-                    style={{ background: "var(--paper)", color: "var(--dusk)" }}
-                  >
-                    {l}
-                  </span>
-                ))}
-              </div>
-              <p className="mt-3 font-serif text-[22px] leading-[1.05]"><span className="italic">trois</span> proches</p>
-            </div>
-          </Link>
-
-          <Link to="/presence" className="plate card-oven col-span-3 px-5 pt-5 pb-4 flex flex-col justify-between min-h-[150px]">
-            <div className="flex items-start justify-between">
-              <p className="eyebrow-on-dark">Parler maintenant</p>
-              <span className="index-num-sm opacity-70">03</span>
-            </div>
-            <div>
-              <p className="font-serif text-[24px] leading-[1.02] max-w-[12ch]">Une présence <span className="italic">calme</span>.</p>
-              <p className="mt-2 text-[10.5px] tracking-[0.14em] uppercase opacity-75">à toute heure</p>
-            </div>
-          </Link>
-        </section>
-
-        {/* MÉMOIRE — pleine carte avec caption */}
-        <section className="mt-3 px-5">
-          <Link to="/garden" className="plate card-olive px-6 pt-6 pb-5">
-            <div className="flex items-start justify-between">
-              <span className="eyebrow-on-dark">Le jardin</span>
-              <span className="index-num-sm opacity-75">04</span>
-            </div>
-            <p className="mt-4 font-serif text-[28px] leading-[1.0] tracking-[-0.005em] max-w-[16ch]">
-              Garder <span className="italic">vivant</span> ce qui compte.
-            </p>
-            <p className="mt-2 text-[12.5px] leading-[1.55] opacity-80 max-w-[34ch]">
-              Une parcelle pour chaque être aimé. Photos, sons, fleurs, rituels.
-            </p>
-            <div className="plate-caption">
-              <span>Mémoire</span>
-              <span>Entrer →</span>
-            </div>
-          </Link>
-        </section>
-
-        {/* Aide en cas de besoin */}
-        <section className="mt-10 px-6">
-          <div className="rule-label mb-4"><span>Si aujourd'hui pèse trop</span></div>
-          <Link
-            to="/crisis"
-            className="font-serif italic text-[18px]"
-            style={{ color: "var(--terracotta)" }}
-          >
+        {/* Aide */}
+        <section className="px-6 pt-12">
+          <p className="mono-label">Si aujourd'hui pèse trop</p>
+          <div className="mt-2 h-px bg-dusk/12" />
+          <Link to="/crisis" className="mt-4 inline-block font-serif italic text-[18px]"
+            style={{ color: "var(--terracotta)" }}>
             Demander de l'aide →
           </Link>
         </section>
+
       </div>
     </Shell>
   );
