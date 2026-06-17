@@ -19,64 +19,101 @@ function Space() {
   // à leur espace. L'onboarding ne se fait qu'une fois, depuis /onboarding.
   const careTarget = "/home";
   const practicalTarget = "/practical";
+  const today = new Intl.DateTimeFormat("fr-FR", { day: "2-digit", month: "long" }).format(new Date());
   return (
     <main className="min-h-dvh bg-paper text-dusk">
       <div className="mobile-frame relative flex min-h-dvh flex-col">
-        <header className="pt-10 px-7">
-          <LegatoMark to="/space" size={24} />
+        {/* Folio header — magazine top strip */}
+        <header className="pt-8 px-6">
+          <div className="folio">
+            <LegatoMark to="/space" size={22} />
+            <span>{today}</span>
+          </div>
         </header>
 
-        <section className="pt-14 px-7">
-          <p className="eyebrow">{name ? `Bonjour ${name}` : "Bonjour"}</p>
-          <h1 className="mt-5 font-serif text-[44px] leading-[1.02] tracking-[-0.01em] text-dusk font-normal">
-            De quoi avez-vous <span className="italic" style={{ color: "var(--terracotta)" }}>besoin&nbsp;?</span>
-          </h1>
-          <p className="mt-5 body-meta max-w-[32ch]">
+        {/* COVER — index numeral collé au titre */}
+        <section className="pt-14 px-6">
+          <p className="eyebrow">{name ? `Bonjour, ${name}` : "Bonjour"}</p>
+          <div className="mt-4 grid grid-cols-[auto_1fr] gap-x-4 items-start">
+            <span className="index-num leading-none -mt-1">№</span>
+            <h1 className="ed-title text-[46px]">
+              De quoi
+              <br />
+              avez-vous
+              <br />
+              <span className="italic" style={{ color: "var(--terracotta)" }}>besoin</span>&nbsp;?
+            </h1>
+          </div>
+          <p className="mt-7 body-meta max-w-[30ch] pl-[3.25rem]">
             Deux espaces, distincts mais reliés. Vous passez de l'un à l'autre à tout moment.
           </p>
         </section>
 
-        <section className="px-5 pt-9 space-y-3">
-          <Block
+        {/* Rule label */}
+        <div className="px-6 mt-10">
+          <div className="rule-label"><span>Choisir un seuil</span></div>
+        </div>
+
+        {/* Plates — asymétrie volontaire : carte large + carte plus courte décalée */}
+        <section className="px-5 pt-6 space-y-4">
+          <Plate
             to={careTarget}
-            className="card-tomato"
-            eyebrow="Espace · Soi"
-            title="Prendre soin de soi"
-            text="Pour traverser ce que vous ressentez, parler, écrire, respirer ou préserver un souvenir."
-            cta="Entrer dans cet espace"
+            tone="card-tomato"
+            number="01"
+            eyebrow="L'espace de Soi"
+            title={<>Prendre soin <span className="italic">de soi</span>.</>}
+            body="Pour traverser ce que vous ressentez. Parler, écrire, respirer, ou préserver un souvenir."
+            captionLeft="Soi"
+            captionRight="Entrer →"
+            tall
           />
-          <Block
-            to={practicalTarget}
-            className="card-oven"
-            eyebrow="Espace · Démarches"
-            title="Organiser et avancer"
-            text="Pour être guidé·e dans les démarches, la cérémonie, les documents et les prochaines étapes."
-            cta="Voir ce qu'il faut faire"
-          />
+          <div className="pl-6 pr-2">
+            <Plate
+              to={practicalTarget}
+              tone="card-oven"
+              number="02"
+              eyebrow="L'espace des Démarches"
+              title={<>Organiser, <span className="italic">avancer</span>.</>}
+              body="Pour être guidé·e dans les démarches, la cérémonie, les documents."
+              captionLeft="Démarches"
+              captionRight="Voir le plan →"
+            />
+          </div>
         </section>
 
-        <p className="mt-8 text-center text-[12px] text-dusk/55 px-7 pb-10">
-          Vous pourrez changer d'espace à tout moment.
+        {/* Marginalia footer */}
+        <p className="mt-12 px-6 pb-10 text-[11.5px] tracking-[0.05em] text-dusk/55 italic font-serif">
+          — vous pouvez changer d'espace à tout moment.
         </p>
       </div>
     </main>
   );
 }
 
-function Block({
-  to, className, eyebrow, title, text, cta,
-}: { to: string; className: string; eyebrow: string; title: string; text: string; cta: string }) {
+function Plate({
+  to, tone, number, eyebrow, title, body, captionLeft, captionRight, tall,
+}: {
+  to: string; tone: string; number: string; eyebrow: string;
+  title: React.ReactNode; body: string;
+  captionLeft: string; captionRight: string; tall?: boolean;
+}) {
   return (
     <Link
       to={to as "/home"}
-      className={`block ${className} px-6 py-7 transition-transform active:scale-[0.99]`}
+      className={`plate ${tone} px-6 ${tall ? "pt-7 pb-6" : "pt-6 pb-5"} transition-transform active:scale-[0.99]`}
     >
-      <span className="eyebrow-on-dark">{eyebrow}</span>
-      <h2 className="mt-3 font-serif text-[28px] leading-[1.05]">{title}</h2>
-      <p className="mt-3 text-[13.5px] leading-[1.55] opacity-85 max-w-[34ch]">{text}</p>
-      <p className="mt-6 text-[11px] uppercase tracking-[0.18em] font-medium opacity-95 inline-flex items-center gap-2">
-        {cta} <span className="font-serif text-[18px]">→</span>
-      </p>
+      <div className="flex items-start justify-between gap-4">
+        <span className="eyebrow-on-dark">{eyebrow}</span>
+        <span className="index-num-sm opacity-80">{number}</span>
+      </div>
+      <h2 className={`mt-5 font-serif font-normal leading-[1.0] tracking-[-0.01em] ${tall ? "text-[36px]" : "text-[30px]"}`}>
+        {title}
+      </h2>
+      <p className="mt-4 text-[13px] leading-[1.55] opacity-85 max-w-[32ch]">{body}</p>
+      <div className="plate-caption">
+        <span>{captionLeft}</span>
+        <span>{captionRight}</span>
+      </div>
     </Link>
   );
 }
