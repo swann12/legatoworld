@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Shell } from "@/components/legato/Shell";
 import { LegatoMark } from "@/components/legato/LegatoMark";
+import { ShareToCircle } from "@/components/legato/ShareToCircle";
 
 export const Route = createFileRoute("/memories")({
   head: () => ({ meta: [{ title: "Bibliothèque des souvenirs — Legato" }] }),
@@ -31,7 +32,10 @@ function Memories() {
       <div className="min-h-dvh bg-paper text-dusk pb-32">
         <header className="px-6 pt-9 pb-2 flex items-center justify-between">
           <LegatoMark to="/home" size={22} />
-          <span className="eyebrow">Souvenirs</span>
+          <div className="flex items-center gap-3">
+            <ShareToCircle kind="memory" title="Souvenirs partagés" label="Partager" />
+            <span className="eyebrow">Souvenirs</span>
+          </div>
         </header>
 
         <section className="px-6 pt-10">

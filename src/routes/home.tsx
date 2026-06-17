@@ -1,8 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
 import { Shell } from "@/components/legato/Shell";
 import { LegatoMark } from "@/components/legato/LegatoMark";
 import { useLegato } from "@/lib/legato-state";
+import { getDailyFocus } from "@/lib/emotional.functions";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/home")({
   head: () => ({
@@ -19,6 +23,18 @@ function Home() {
   // Avoid SSR hydration mismatch by computing the greeting client-side only.
   const [greeting, setGreeting] = useState("Bonjour");
   useEffect(() => setGreeting(greetingForHour()), []);
+  const [signedIn, setSignedIn] = useState(false);
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => setSignedIn(!!data.session));
+    const { data: sub } = supabase.auth.onAuthStateChange((_e, s) => setSignedIn(!!s));
+    return () => sub.subscription.unsubscribe();
+  }, []);
+  const focusFn = useServerFn(getDailyFocus);
+  const { data: focus } = useQuery({
+    queryKey: ["daily-focus"],
+    queryFn: () => focusFn({}),
+    enabled: signedIn,
+  });
   // Démarches : valeurs maquettes (à brancher Vague 3).
   const tasksDone = 6;
   const tasksTotal = 14;
@@ -43,6 +59,17 @@ function Home() {
             Voici ce qui compte aujourd'hui — sans urgence inutile, à votre rythme.
           </p>
         </section>
+
+        {focus && (
+          <section className="px-5 pb-6">
+            <Link to={focus.cta.to} className="block paper-card p-5 hover:bg-dusk/[0.02] transition-colors">
+              <p className="eyebrow">Suggestion du moment</p>
+              <p className="mt-3 font-serif text-[22px] leading-[1.1] text-dusk">{focus.title}</p>
+              <p className="mt-2 text-[13.5px] text-dusk/70 leading-[1.5] max-w-[34ch]">{focus.body}</p>
+              <p className="mt-3 eyebrow text-dusk">{focus.cta.label} <span aria-hidden>→</span></p>
+            </Link>
+          </section>
+        )}
 
         {/* PRIORITÉ DU JOUR — carte tomato pleine */}
         <section className="px-5">

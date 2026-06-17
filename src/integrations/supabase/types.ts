@@ -123,6 +123,39 @@ export type Database = {
         }
         Relationships: []
       }
+      emotional_state: {
+        Row: {
+          created_at: string
+          id: string
+          intensity: number | null
+          mood: string | null
+          note: string | null
+          source: string | null
+          tags: string[]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          intensity?: number | null
+          mood?: string | null
+          note?: string | null
+          source?: string | null
+          tags?: string[]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          intensity?: number | null
+          mood?: string | null
+          note?: string | null
+          source?: string | null
+          tags?: string[]
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string

@@ -626,3 +626,21 @@
   /* Section divider hairline */
   .hairline { height: 1px; background: color-mix(in oklab, var(--dusk) 12%, transparent); }
 }
+
+/* === A11y polish === */
+@layer base {
+  :where(button, a, [role="button"]):focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px color-mix(in oklab, var(--dusk) 35%, transparent);
+    border-radius: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
