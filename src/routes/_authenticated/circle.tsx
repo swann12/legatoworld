@@ -2,11 +2,11 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Shell, ScreenHeader, Section } from "@/components/legato/Shell";
-import { LegatoMark } from "@/components/legato/LegatoMark";
+import { Shell } from "@/components/legato/Shell";
 import { listMyCircles, createCircle, getCircle, createInvite, shareItem } from "@/lib/circle.functions";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { PageHeader, IvoryCard, SectionLabel } from "@/components/legato/EditorialUI";
 
 export const Route = createFileRoute("/_authenticated/circle")({
   head: () => ({ meta: [{ title: "Mon cercle — Legato" }] }),
@@ -45,50 +45,53 @@ function CirclePage() {
 
   return (
     <Shell livingBg={false}>
-      <header className="px-6 pt-9 pb-6 flex items-center justify-between">
-        <LegatoMark to="/space" size={22} />
-        <button onClick={signOut} className="eyebrow underline-offset-2 hover:underline">Déconnexion</button>
-      </header>
+      <div className="min-h-dvh bg-paper text-dusk pb-32">
+        <PageHeader title="CERCLE" right={<button onClick={signOut} className="mono-label">Déconnexion</button>} />
 
-      <ScreenHeader
-        eyebrow="Cercle"
-        title={<>Vous n'êtes pas seul·e <span className="italic" style={{ color: "var(--terracotta)" }}>à traverser</span>.</>}
-        subtitle="Invitez vos proches, déléguez ce qui pèse, partagez les souvenirs qui comptent."
-      />
+        <section className="px-6 pt-4 pb-6">
+          <p className="mono-label">Cercle</p>
+          <h1 className="mt-5 ed-page-title">
+            Vous n'êtes pas seul·e <span className="italic" style={{ color: "var(--terracotta)" }}>à traverser</span>.
+          </h1>
+          <p className="mt-5 body-meta max-w-[34ch]">
+            Invitez vos proches, déléguez ce qui pèse, partagez les souvenirs qui comptent.
+          </p>
+        </section>
 
-      <Section className="mt-2">
-        {isLoading ? (
-          <p className="body-meta">Chargement…</p>
-        ) : (data?.circles?.length ?? 0) === 0 ? (
-          <div className="card-plain p-6">
-            <p className="eyebrow">Aucun cercle pour l'instant</p>
-            <p className="mt-3 body-meta">Créez votre premier cercle pour commencer.</p>
-            <button onClick={() => createMut.mutate()} className="btn-dark mt-4">Créer mon cercle</button>
-          </div>
-        ) : (
-          <div className="flex flex-wrap gap-2 mb-6">
-            {data!.circles.map((c) => (
+        <div className="px-6 pb-6">
+          {isLoading ? (
+            <p className="body-meta">Chargement…</p>
+          ) : (data?.circles?.length ?? 0) === 0 ? (
+            <IvoryCard className="p-6">
+              <p className="mono-label">Aucun cercle pour l'instant</p>
+              <p className="mt-3 body-meta">Créez votre premier cercle pour commencer.</p>
+              <button onClick={() => createMut.mutate()} className="btn-dark mt-4">Créer mon cercle</button>
+            </IvoryCard>
+          ) : (
+            <div className="flex flex-wrap gap-2 mb-6">
+              {data!.circles.map((c) => (
+                <button
+                  key={c.id}
+                  onClick={() => setActiveId(c.id)}
+                  className={`px-4 py-2 text-[13px] rounded-full border transition ${
+                    activeId === c.id ? "bg-dusk text-paper border-dusk" : "border-dusk/15 text-dusk/70 hover:border-dusk/30"
+                  }`}
+                >
+                  {c.name}
+                </button>
+              ))}
               <button
-                key={c.id}
-                onClick={() => setActiveId(c.id)}
-                className={`px-4 py-2 text-[13px] rounded-full border transition ${
-                  activeId === c.id ? "bg-dusk text-paper border-dusk" : "border-dusk/15 text-dusk/70 hover:border-dusk/30"
-                }`}
+                onClick={() => createMut.mutate()}
+                className="px-4 py-2 text-[13px] rounded-full border border-dashed border-dusk/30 text-dusk/60 hover:border-dusk/60"
               >
-                {c.name}
+                + nouveau
               </button>
-            ))}
-            <button
-              onClick={() => createMut.mutate()}
-              className="px-4 py-2 text-[13px] rounded-full border border-dashed border-dusk/30 text-dusk/60 hover:border-dusk/60"
-            >
-              + nouveau
-            </button>
-          </div>
-        )}
-      </Section>
+            </div>
+          )}
+        </div>
 
-      {activeId && <CircleDetail circleId={activeId} />}
+        {activeId && <CircleDetail circleId={activeId} />}
+      </div>
     </Shell>
   );
 }
@@ -130,44 +133,42 @@ function CircleDetail({ circleId }: { circleId: string }) {
   });
 
   if (isLoading || !data) {
-    return <Section><p className="body-meta">Chargement du cercle…</p></Section>;
+    return <div className="px-6"><p className="body-meta">Chargement du cercle…</p></div>;
   }
 
   return (
-    <>
-      <Section>
-        <p className="eyebrow">Membres</p>
-        <ul className="mt-3 space-y-2">
-          {data.members.map((m) => (
-            <li key={m.id} className="card-plain px-4 py-3 flex items-center justify-between">
+    <div className="px-6 space-y-8 pb-12">
+      <SectionLabel>Membres</SectionLabel>
+      <ul className="space-y-2">
+        {data.members.map((m) => (
+          <li key={m.id}>
+            <IvoryCard className="px-4 py-3 flex items-center justify-between">
               <div>
                 <p className="text-[14px] text-dusk">{m.display_name || m.email || "Proche"}</p>
-                <p className="eyebrow mt-1">{m.role} · {m.status}</p>
+                <p className="mono-label mt-1">{m.role} · {m.status}</p>
               </div>
-            </li>
-          ))}
-        </ul>
-      </Section>
+            </IvoryCard>
+          </li>
+        ))}
+      </ul>
 
-      <Section className="mt-8">
-        <p className="eyebrow">Inviter un proche</p>
-        <div className="mt-3 card-plain p-4">
-          <input
-            type="email"
-            value={inviteEmail}
-            onChange={(e) => setInviteEmail(e.target.value)}
-            placeholder="email@proche.fr (optionnel)"
-            className="w-full px-3 py-2 bg-transparent border border-dusk/15 rounded outline-none focus-visible:ring-1 focus-visible:ring-dusk/40 text-[14px]"
-          />
-          <button
-            onClick={() => inviteMut.mutate(inviteEmail)}
-            disabled={inviteMut.isPending}
-            className="btn-dark w-full mt-3 disabled:opacity-50"
-          >
-            {inviteMut.isPending ? "Création du lien…" : "Générer un lien d'invitation"}
-          </button>
-          <p className="mt-3 text-[12px] italic text-dusk/55">Le lien sera copié — collez-le dans un SMS, email, message.</p>
-        </div>
+      <SectionLabel>Inviter un proche</SectionLabel>
+      <IvoryCard className="p-4">
+        <input
+          type="email"
+          value={inviteEmail}
+          onChange={(e) => setInviteEmail(e.target.value)}
+          placeholder="email@proche.fr (optionnel)"
+          className="w-full px-3 py-2 bg-transparent border border-dusk/15 rounded-[10px] outline-none focus-visible:ring-1 focus-visible:ring-dusk/40 text-[14px]"
+        />
+        <button
+          onClick={() => inviteMut.mutate(inviteEmail)}
+          disabled={inviteMut.isPending}
+          className="btn-dark w-full mt-3 disabled:opacity-50"
+        >
+          {inviteMut.isPending ? "Création du lien…" : "Générer un lien d'invitation"}
+        </button>
+        <p className="mt-3 text-[12px] italic text-dusk/55">Le lien sera copié — collez-le dans un SMS, email, message.</p>
         {data.invites.length > 0 && (
           <ul className="mt-3 space-y-1">
             {data.invites.map((i) => (
@@ -177,44 +178,42 @@ function CircleDetail({ circleId }: { circleId: string }) {
             ))}
           </ul>
         )}
-      </Section>
+      </IvoryCard>
 
-      <Section className="mt-8">
-        <p className="eyebrow">Partager au cercle</p>
-        <div className="mt-3 card-plain p-4">
-          <textarea
-            value={noteText}
-            onChange={(e) => setNoteText(e.target.value)}
-            rows={3}
-            placeholder="Un souvenir, une pensée, une nouvelle à partager…"
-            className="w-full px-3 py-2 bg-transparent border border-dusk/15 rounded outline-none focus-visible:ring-1 focus-visible:ring-dusk/40 text-[14px] resize-none"
-          />
-          <button
-            onClick={() => shareMut.mutate(noteText.trim())}
-            disabled={!noteText.trim() || shareMut.isPending}
-            className="btn-dark w-full mt-3 disabled:opacity-50"
-          >
-            Partager
-          </button>
-        </div>
-      </Section>
+      <SectionLabel>Partager au cercle</SectionLabel>
+      <IvoryCard className="p-4">
+        <textarea
+          value={noteText}
+          onChange={(e) => setNoteText(e.target.value)}
+          rows={3}
+          placeholder="Un souvenir, une pensée, une nouvelle à partager…"
+          className="w-full px-3 py-2 bg-transparent border border-dusk/15 rounded-[10px] outline-none focus-visible:ring-1 focus-visible:ring-dusk/40 text-[14px] resize-none"
+        />
+        <button
+          onClick={() => shareMut.mutate(noteText.trim())}
+          disabled={!noteText.trim() || shareMut.isPending}
+          className="btn-dark w-full mt-3 disabled:opacity-50"
+        >
+          Partager
+        </button>
+      </IvoryCard>
 
-      <Section className="mt-8 pb-12">
-        <p className="eyebrow">Fil du cercle</p>
-        {data.items.length === 0 ? (
-          <p className="mt-3 body-meta italic">Rien de partagé pour l'instant. Soyez le premier.</p>
-        ) : (
-          <ul className="mt-3 space-y-2">
-            {data.items.map((it) => (
-              <li key={it.id} className="card-plain px-4 py-3">
-                <p className="eyebrow">{it.kind}{it.status ? ` · ${it.status}` : ""}</p>
+      <SectionLabel>Fil du cercle</SectionLabel>
+      {data.items.length === 0 ? (
+        <p className="body-meta italic">Rien de partagé pour l'instant. Soyez le premier.</p>
+      ) : (
+        <ul className="space-y-2">
+          {data.items.map((it) => (
+            <li key={it.id}>
+              <IvoryCard className="px-4 py-3">
+                <p className="mono-label">{it.kind}{it.status ? ` · ${it.status}` : ""}</p>
                 <p className="mt-2 text-[14px] text-dusk">{it.title}</p>
                 <p className="mt-1 text-[11px] text-dusk/50">{new Date(it.created_at).toLocaleDateString("fr-FR")}</p>
-              </li>
-            ))}
-          </ul>
-        )}
-      </Section>
-    </>
+              </IvoryCard>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
   );
 }
