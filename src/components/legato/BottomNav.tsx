@@ -1,9 +1,10 @@
 import { Link, useLocation } from "@tanstack/react-router";
 
 /**
- * Refonte Co-Star : une seule navigation, 5 entrées max.
- * Accueil · Ressentir · Démarches · Cercle · Ressources
+ * Navigation principale éditoriale.
+ * 5 entrées max. Icônes minces, labels Inter 10px, état actif = dot tomato.
  */
+
 type Item = {
   to: "/home" | "/journal" | "/practical" | "/_authenticated/circle" | "/resources";
   label: string;
@@ -37,14 +38,15 @@ export function BottomNav() {
               aria-label={label}
               className="group relative flex flex-1 flex-col items-center justify-center gap-1.5 px-1 py-1.5"
             >
+              {/* Dot actif */}
               <span
                 aria-hidden
-                className="h-[3px] w-6 rounded-full transition-colors"
+                className="h-[5px] w-[5px] rounded-full transition-colors"
                 style={{ background: active ? "var(--terracotta)" : "transparent" }}
               />
               <span
-                className={`text-[11px] font-medium tracking-[0.02em] transition-colors ${
-                  active ? "text-dusk" : "text-dusk/50 group-hover:text-dusk/80"
+                className={`text-[10px] font-medium tracking-[0.04em] transition-colors ${
+                  active ? "text-dusk" : "text-dusk/45 group-hover:text-dusk/75"
                 }`}
               >
                 {label}
