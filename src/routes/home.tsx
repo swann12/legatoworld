@@ -7,7 +7,7 @@ import { LegatoMark } from "@/components/legato/LegatoMark";
 import { useLegato } from "@/lib/legato-state";
 import { getDailyFocus } from "@/lib/emotional.functions";
 import { supabase } from "@/integrations/supabase/client";
-import { LinearProgress, RingProgress, SupportCircle } from "@/components/legato/EditorialUI";
+import { RingProgress, SupportCircle } from "@/components/legato/EditorialUI";
 
 export const Route = createFileRoute("/home")({
   head: () => ({
