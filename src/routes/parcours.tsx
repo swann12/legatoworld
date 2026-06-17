@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Shell } from "@/components/legato/Shell";
-import { LegatoMark } from "@/components/legato/LegatoMark";
+import { PageHeader, IvoryCard, RingProgress, SectionLabel } from "@/components/legato/EditorialUI";
 
 export const Route = createFileRoute("/parcours")({
   head: () => ({
@@ -70,14 +70,11 @@ function Parcours() {
   return (
     <Shell livingBg={false}>
       <div className="min-h-dvh bg-paper text-dusk pb-32">
-        <header className="px-6 pt-9 pb-6 flex items-center justify-between">
-          <LegatoMark to="/space" size={22} />
-          <span className="eyebrow">Mon parcours</span>
-        </header>
+        <PageHeader title="PARCOURS" />
 
-        <section className="px-6 pb-8">
-          <p className="eyebrow">Avancement</p>
-          <h1 className="mt-5 display-xl">
+        <section className="px-6 pt-4 pb-8">
+          <p className="mono-label">Avancement</p>
+          <h1 className="mt-5 ed-page-title">
             {doneTasks}<span className="text-dusk/40">/{totalTasks}</span> <span className="italic" style={{ color: "var(--terracotta)" }}>étapes</span>.
           </h1>
           <p className="mt-5 body-meta max-w-[34ch]">
@@ -88,16 +85,16 @@ function Parcours() {
           </div>
         </section>
 
-        <section className="px-5 grid grid-cols-2 gap-3">
-          <div className="card-butter px-5 py-4">
-            <p className="eyebrow">Chapitre en cours</p>
-            <p className="h-section mt-2">Cérémonie</p>
+        <div className="px-5 grid grid-cols-2 gap-3">
+          <div className="rounded-[18px] px-5 py-4" style={{ background: "var(--sun)" }}>
+            <p className="mono-label">Chapitre en cours</p>
+            <p className="mt-2 font-serif text-[20px] leading-tight">Cérémonie</p>
           </div>
-          <div className="card-sardine px-5 py-4">
-            <p className="eyebrow">Ensuite</p>
-            <p className="h-section mt-2">Succession & après</p>
+          <div className="rounded-[18px] px-5 py-4" style={{ background: "var(--sky)" }}>
+            <p className="mono-label">Ensuite</p>
+            <p className="mt-2 font-serif text-[20px] leading-tight">Succession & après</p>
           </div>
-        </section>
+        </div>
 
         <section className="px-6 pt-8 flex gap-2 overflow-x-auto no-scrollbar">
           {(["all", ...FILTERS] as const).map((f) => {
@@ -125,7 +122,7 @@ function Parcours() {
             const done = cat.tasks.filter(t => t.status === "done").length;
             const tints = ["var(--blush)", "var(--sun)", "var(--sky)", "var(--olive)"];
             return (
-              <div key={cat.name} className="card-plain overflow-hidden">
+              <IvoryCard key={cat.name} className="overflow-hidden">
                 <button
                   onClick={() => setOpenCat({ ...openCat, [cat.name]: !open })}
                   className="w-full flex items-center justify-between px-5 py-4 text-left"
@@ -140,7 +137,7 @@ function Parcours() {
                     </span>
                     <div>
                       <p className="font-serif text-[22px] text-dusk leading-tight">{cat.name}</p>
-                      <p className="eyebrow mt-0.5">{done}/{cat.tasks.length} · {tasks.length} visible{tasks.length > 1 ? "s" : ""}</p>
+                      <p className="mono-label mt-0.5">{done}/{cat.tasks.length} · {tasks.length} visible{tasks.length > 1 ? "s" : ""}</p>
                     </div>
                   </div>
                   <span className="text-dusk/55 text-[18px]">{open ? "−" : "+"}</span>
@@ -164,7 +161,7 @@ function Parcours() {
                     ))}
                   </ul>
                 )}
-              </div>
+              </IvoryCard>
             );
           })}
         </section>

@@ -5,6 +5,7 @@ import { ConfideDock } from "@/components/legato/ConfideDock";
 import { PersonalSuggestions } from "@/components/legato/PersonalSuggestions";
 import { MiniComposer, type FlowerPreset } from "@/components/legato/MiniComposer";
 import { savePractical } from "@/lib/practical-store";
+import { PageHeader, IvoryCard } from "@/components/legato/EditorialUI";
 
 export const Route = createFileRoute("/practical/flowers")({
   head: () => ({ meta: [{ title: "Composition florale — Legato" }] }),
@@ -28,66 +29,62 @@ function Flowers() {
 
   return (
     <Shell hideNav>
-      <div className="relative pb-12">
-        
-        <div className="relative z-10">
-          <div className="px-6 pt-9 flex items-center justify-between">
-            <Link to="/practical/atmosphere" className="eyebrow hover:underline underline-offset-4">← Atmosphère</Link>
-            <span className="eyebrow">Fleurs</span>
-          </div>
-          <header className="px-6 pt-10">
-            <p className="eyebrow">Composition florale</p>
-            <h1 className="mt-4 display-xl">
-              Un bouquet, <span className="italic">à montrer au fleuriste.</span>
-            </h1>
-            <p className="mt-5 body-meta max-w-[34ch]">
-              Choisissez un format. Touchez les fleurs, glissez, exportez l'image.
-            </p>
-          </header>
+      <div className="min-h-dvh bg-paper text-dusk pb-12">
+        <PageHeader title="FLEURS" back="/practical/atmosphere" />
 
-          {!preset && (
-            <div className="px-5 mt-8 space-y-3">
+        <section className="px-6 pt-4 pb-6">
+          <p className="mono-label">Composition florale</p>
+          <h1 className="mt-4 ed-page-title">
+            Un bouquet, <span className="italic">à montrer au fleuriste.</span>
+          </h1>
+          <p className="mt-5 body-meta max-w-[34ch]">
+            Choisissez un format. Touchez les fleurs, glissez, exportez l'image.
+          </p>
+        </section>
+
+        {!preset && (
+          <div className="px-5 space-y-3">
+            {PRESETS.map((p) => (
+              <button
+                key={p.id}
+                onClick={() => { setPreset(p.id); savePractical({ flowerStyle: p.id }); }}
+                className="w-full text-left rounded-[18px] border border-dusk/10 bg-paper p-5 active:scale-[0.99] transition-transform hover:bg-dusk/[0.02]"
+              >
+                <p className="font-serif italic text-[20px] text-dusk">{p.label}</p>
+                <p className="mt-1.5 body-meta">{p.body}</p>
+              </button>
+            ))}
+          </div>
+        )}
+
+        {preset && (
+          <div className="px-5">
+            <div className="flex items-center gap-2 mb-3">
               {PRESETS.map((p) => (
                 <button
                   key={p.id}
-                  onClick={() => { setPreset(p.id); savePractical({ flowerStyle: p.id }); }}
-                  className="w-full text-left card-plain p-5 active:scale-[0.99] transition-transform"
+                  onClick={() => setPreset(p.id)}
+                  className={`px-3.5 py-1.5 rounded-full text-[11px] uppercase tracking-[0.14em] font-medium transition-colors ${
+                    preset === p.id ? "bg-dusk text-paper" : "text-dusk/55 hover:bg-dusk/5"
+                  }`}
                 >
-                  <p className="h-section italic">{p.label}</p>
-                  <p className="mt-1.5 body-meta">{p.body}</p>
+                  {p.label}
                 </button>
               ))}
             </div>
-          )}
+            <MiniComposer preset={preset} />
+            <button onClick={sendToFlorist} className="btn-primary mt-5 w-full">
+              Envoyer cette ambiance à un fleuriste →
+            </button>
+            <p className="mt-2 text-[12px] text-dusk/60 text-center">L'image s'enregistre, vous pourrez l'attacher au mail.</p>
+          </div>
+        )}
 
-          {preset && (
-            <div className="px-5 mt-6">
-              <div className="flex items-center gap-2 mb-3">
-                {PRESETS.map((p) => (
-                  <button
-                    key={p.id}
-                    onClick={() => setPreset(p.id)}
-                    className={`px-3.5 py-1.5 rounded-full text-[11px] uppercase tracking-[0.18em] font-medium ${preset === p.id ? "" : "text-dusk/55"}`}
-                    style={preset === p.id ? { background: "var(--ink)", color: "var(--paper)" } : undefined}
-                  >
-                    {p.label}
-                  </button>
-                ))}
-              </div>
-              <MiniComposer preset={preset} />
-              <button onClick={sendToFlorist} className="btn-primary mt-5 w-full">
-                Envoyer cette ambiance à un fleuriste →
-              </button>
-              <p className="mt-2 text-[12px] text-dusk/60 text-center">L'image s'enregistre, vous pourrez l'attacher au mail.</p>
-            </div>
-          )}
-
-          <PersonalSuggestions
-            topic="flowers"
-            eyebrow="Sur mesure — fleurs"
-            cta="Recevoir des compositions florales sur mesure"
-          />
-        </div>
+        <PersonalSuggestions
+          topic="flowers"
+          eyebrow="Sur mesure — fleurs"
+          cta="Recevoir des compositions florales sur mesure"
+        />
       </div>
       <ConfideDock step="fleurs" />
     </Shell>

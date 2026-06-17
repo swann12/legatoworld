@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Shell } from "@/components/legato/Shell";
 import { PersonalSuggestions } from "@/components/legato/PersonalSuggestions";
 import { ConfideDock } from "@/components/legato/ConfideDock";
+import { PageHeader, IvoryCard } from "@/components/legato/EditorialUI";
 
 export const Route = createFileRoute("/practical/objects")({
   head: () => ({ meta: [{ title: "Cercueil, objets, rituels — Legato" }] }),
@@ -67,55 +68,50 @@ const ITEMS: Item[] = [
 function Objects() {
   return (
     <Shell hideNav>
-      <div className="relative pb-12">
-        
-        <div className="relative z-10">
-          <div className="px-7 pt-10 flex items-center justify-between">
-            <Link to="/practical/atmosphere" className="eyebrow">← Atmosphère</Link>
-            <span className="eyebrow">Objets</span>
-          </div>
-          <header className="px-7 pt-12">
-            <p className="eyebrow">Cercueil, urne, objets, rituels</p>
-            <h1 className="mt-3 display-xl text-dusk">
-              Des choix concrets,<br/><span className="italic">décrits sans jargon.</span>
-            </h1>
-            <p className="mt-5 max-w-[36ch] text-[14px] leading-relaxed text-dusk/65">
-              Fourchettes de prix indicatives. Liens vers des ressources extérieures, pour aller voir.
-            </p>
-          </header>
+      <div className="min-h-dvh bg-paper text-dusk pb-12">
+        <PageHeader title="OBJETS" back="/practical/atmosphere" />
 
-          <div className="px-5 mt-8 space-y-3">
-            {ITEMS.map((it) => (
-              <article key={it.title} className="ceramic-warm organic-radius-3 p-5">
-                <p className="eyebrow">{it.cat}</p>
-                <h3 className="mt-1.5 font-serif italic text-[17px] text-dusk">{it.title}</h3>
-                <p className="mt-2 text-[13px] leading-relaxed text-dusk/70">{it.body}</p>
-                <p className="mt-3 text-[12px] uppercase tracking-[0.16em] text-dusk/55">{it.range}</p>
-                {it.refs.length > 0 && (
-                  <div className="mt-3 flex flex-wrap gap-2">
-                    {it.refs.map((r) => (
-                      <a
-                        key={r.label}
-                        href={r.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="ceramic organic-radius px-3 py-1.5 text-[11px] tracking-[0.14em] uppercase text-dusk/75"
-                      >
-                        ↗ {r.label}
-                      </a>
-                    ))}
-                  </div>
-                )}
-              </article>
-            ))}
-          </div>
+        <section className="px-6 pt-4 pb-6">
+          <p className="mono-label">Cercueil, urne, objets, rituels</p>
+          <h1 className="mt-3 ed-page-title">
+            Des choix concrets,<br/><span className="italic">décrits sans jargon.</span>
+          </h1>
+          <p className="mt-5 max-w-[36ch] text-[14px] leading-relaxed text-dusk/65">
+            Fourchettes de prix indicatives. Liens vers des ressources extérieures, pour aller voir.
+          </p>
+        </section>
 
-          <PersonalSuggestions
-            topic="objects"
-            eyebrow="Sur mesure — objets & rituels"
-            cta="Recevoir des objets et rituels sur mesure"
-          />
-        </div>
+        <section className="px-5 space-y-3">
+          {ITEMS.map((it) => (
+            <IvoryCard key={it.title} className="p-5">
+              <p className="mono-label">{it.cat}</p>
+              <h3 className="mt-1.5 font-serif italic text-[17px] text-dusk">{it.title}</h3>
+              <p className="mt-2 text-[13px] leading-relaxed text-dusk/70">{it.body}</p>
+              <p className="mt-3 mono-label">{it.range}</p>
+              {it.refs.length > 0 && (
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {it.refs.map((r) => (
+                    <a
+                      key={r.label}
+                      href={r.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="rounded-[14px] border border-dusk/10 px-3 py-1.5 text-[11px] tracking-[0.14em] uppercase text-dusk/75 hover:bg-dusk/5 transition-colors"
+                    >
+                      ↗ {r.label}
+                    </a>
+                  ))}
+                </div>
+              )}
+            </IvoryCard>
+          ))}
+        </section>
+
+        <PersonalSuggestions
+          topic="objects"
+          eyebrow="Sur mesure — objets & rituels"
+          cta="Recevoir des objets et rituels sur mesure"
+        />
       </div>
       <ConfideDock step="objets" />
     </Shell>

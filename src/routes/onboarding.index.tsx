@@ -4,6 +4,7 @@ import { LegatoMark } from "@/components/legato/LegatoMark";
 import { useServerFn } from "@tanstack/react-start";
 import { recordEmotion } from "@/lib/emotional.functions";
 import { supabase } from "@/integrations/supabase/client";
+import { IvoryCard } from "@/components/legato/EditorialUI";
 
 export const Route = createFileRoute("/onboarding/")({
   head: () => ({
@@ -15,8 +16,6 @@ export const Route = createFileRoute("/onboarding/")({
   component: Onboarding,
 });
 
-/* ─── Étape 2 : IDENTIFICATION ───
- * Une seule page : prénom + Continuer → /space. */
 function Onboarding() {
   const { name, setName, setCareOnboarded, setPracticalOnboarded } = useLegato();
   const navigate = useNavigate();
@@ -25,7 +24,6 @@ function Onboarding() {
 
   const proceed = async () => {
     if (!canContinue) return;
-    // Onboarding unique : on libère les deux espaces.
     setCareOnboarded(true);
     setPracticalOnboarded(true);
     const { data } = await supabase.auth.getSession();
@@ -38,24 +36,21 @@ function Onboarding() {
   return (
     <main className="min-h-dvh bg-paper text-dusk">
       <div className="mobile-frame relative flex min-h-dvh flex-col">
-        <header className="px-7 pt-10 flex items-center justify-between">
-          <button
-            onClick={() => navigate({ to: "/start" })}
-            className="eyebrow hover:text-dusk"
-          >
+        <header className="px-6 pt-10 flex items-center justify-between">
+          <button onClick={() => navigate({ to: "/start" })} className="mono-label hover:text-dusk">
             ← Retour
           </button>
           <LegatoMark to="/space" size={20} />
           <span className="w-12" />
         </header>
 
-        <div className="relative z-10 flex flex-1 flex-col justify-center px-7 pb-24">
-          <p className="eyebrow">Pour commencer</p>
-          <h1 className="mt-5 display-xl">
-            Comment souhaitez-vous que nous <span className="italic" style={{ color: "var(--terracotta)" }}>vous&nbsp;appelions&nbsp;?</span>
+        <div className="relative z-10 flex flex-1 flex-col justify-center px-6 pb-24">
+          <p className="mono-label">Pour commencer</p>
+          <h1 className="mt-5 ed-page-title">
+            Comment souhaitez-vous que nous <span className="italic" style={{ color: "var(--terracotta)" }}>vous appelions ?</span>
           </h1>
 
-          <div className="mt-8 rounded-[16px] border border-dusk/15 bg-whisper px-5 py-4">
+          <IvoryCard className="mt-8 px-5 py-4">
             <input
               value={name}
               onChange={(e) => setName(e.target.value)}
@@ -63,12 +58,13 @@ function Onboarding() {
               className="w-full bg-transparent font-serif text-[24px] italic text-dusk placeholder:text-dusk/30 outline-none"
               autoFocus
             />
-          </div>
+          </IvoryCard>
 
           <button
             onClick={proceed}
             disabled={!canContinue}
-            className="mt-5 block w-full card-tomato px-6 py-5 text-center disabled:opacity-40 transition-transform active:scale-[0.99]"
+            className="mt-5 block w-full rounded-[999px] px-6 py-5 text-center disabled:opacity-40 transition-transform active:scale-[0.99]"
+            style={{ background: "var(--terracotta)", color: "var(--paper)" }}
           >
             <span className="font-serif text-[20px]">Continuer →</span>
           </button>

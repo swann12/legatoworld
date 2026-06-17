@@ -1,10 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Shell } from "@/components/legato/Shell";
-import { LegatoMark } from "@/components/legato/LegatoMark";
-import { ShareToCircle } from "@/components/legato/ShareToCircle";
+import { PageHeader, IvoryCard, SectionLabel } from "@/components/legato/EditorialUI";
 
 export const Route = createFileRoute("/memories")({
-  head: () => ({ meta: [{ title: "Bibliothèque des souvenirs — Legato" }] }),
+  head: () => ({ meta: [{ title: "Souvenirs — Legato" }] }),
   component: Memories,
 });
 
@@ -15,7 +14,6 @@ const KINDS = [
   { id: "habit", label: "Geste", color: "var(--sage)" },
   { id: "object", label: "Objet", color: "var(--clay)" },
   { id: "place", label: "Lieu", color: "var(--mist)" },
-  { id: "date", label: "Date", color: "var(--rose)" },
 ];
 
 const ENTRIES = [
@@ -30,17 +28,11 @@ function Memories() {
   return (
     <Shell livingBg={false}>
       <div className="min-h-dvh bg-paper text-dusk pb-32">
-        <header className="px-6 pt-9 pb-2 flex items-center justify-between">
-          <LegatoMark to="/home" size={22} />
-          <div className="flex items-center gap-3">
-            <ShareToCircle kind="memory" title="Souvenirs partagés" label="Partager" />
-            <span className="eyebrow">Souvenirs</span>
-          </div>
-        </header>
+        <PageHeader title="SOUVENIRS" />
 
-        <section className="px-6 pt-10">
-          <p className="eyebrow">Bibliothèque</p>
-          <h1 className="mt-4 display-xl">
+        <section className="px-6 pt-4 pb-6">
+          <p className="mono-label">Bibliothèque</p>
+          <h1 className="mt-5 ed-page-title">
             Tout ce que <span className="italic">vous avez gardé.</span>
           </h1>
           <p className="mt-5 body-meta max-w-[34ch]">
@@ -48,37 +40,36 @@ function Memories() {
           </p>
         </section>
 
-        <section className="px-6 pt-10">
-          <p className="eyebrow mb-3">Ajouter une trace</p>
+        <SectionLabel>Ajouter une trace</SectionLabel>
+
+        <section className="px-6">
           <div className="grid grid-cols-4 gap-2">
             {KINDS.map((k) => (
               <button
                 key={k.id}
-                className="card-plain py-3 flex flex-col items-center gap-2 hover:bg-dusk/5 transition-colors"
+                className="rounded-[14px] border border-dusk/10 py-3 flex flex-col items-center gap-2 hover:bg-dusk/5 transition-colors"
+                style={{ background: "var(--paper)" }}
               >
                 <span className="size-2.5 rounded-full" style={{ background: k.color }} />
-                <span className="eyebrow">{k.label}</span>
+                <span className="mono-label">{k.label}</span>
               </button>
             ))}
           </div>
         </section>
 
-        <section className="px-6 pt-10">
-          <p className="eyebrow mb-3">Déjà gardés</p>
-          <div className="divide-y divide-dusk/10 border-y border-dusk/15">
-            {ENTRIES.map((e, i) => (
-              <article key={i} className="py-5">
-                <div className="flex items-baseline justify-between">
-                  <p className="eyebrow">{e.kind}</p>
-                  <p className="eyebrow">{e.date}</p>
-                </div>
-                <h3 className="mt-2 h-section italic">{e.title}</h3>
-                {e.body && (
-                  <p className="mt-2 body-meta">{e.body}</p>
-                )}
-              </article>
-            ))}
-          </div>
+        <SectionLabel>Déjà gardés</SectionLabel>
+
+        <section className="px-6 space-y-3">
+          {ENTRIES.map((e, i) => (
+            <IvoryCard key={i} className="px-5 py-4">
+              <div className="flex items-baseline justify-between">
+                <p className="mono-label">{e.kind}</p>
+                <p className="mono-label">{e.date}</p>
+              </div>
+              <h3 className="mt-2 font-serif text-[22px] leading-[1.15] italic text-dusk">{e.title}</h3>
+              {e.body && <p className="mt-2 body-meta">{e.body}</p>}
+            </IvoryCard>
+          ))}
         </section>
       </div>
     </Shell>

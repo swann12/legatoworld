@@ -3,6 +3,7 @@ import { Shell } from "@/components/legato/Shell";
 import { ConfideDock } from "@/components/legato/ConfideDock";
 import { PersonalSuggestions } from "@/components/legato/PersonalSuggestions";
 import { ShareToCircle } from "@/components/legato/ShareToCircle";
+import { PageHeader, IvoryCard, SectionLabel } from "@/components/legato/EditorialUI";
 
 export const Route = createFileRoute("/practical/texts")({
   head: () => ({ meta: [{ title: "Textes & musiques — Legato" }] }),
@@ -25,57 +26,51 @@ const MUSIC = [
 function Texts() {
   return (
     <Shell hideNav>
-      <div className="relative pb-12">
-        
-        <div className="relative z-10">
-          <div className="px-7 pt-10 flex items-center justify-between">
-            <Link to="/practical/atmosphere" className="eyebrow">← Atmosphère</Link>
-            <div className="flex items-center gap-3">
-              <ShareToCircle kind="text" title="Textes & musiques choisis" label="Partager" />
-              <span className="eyebrow">Textes & musiques</span>
-            </div>
-          </div>
-          <header className="px-7 pt-12">
-            <p className="eyebrow">Lectures, poèmes, musiques</p>
-            <h1 className="mt-3 display-xl text-dusk">
-              Quelques mots,<br/><span className="italic">une mélodie qui dit.</span>
-            </h1>
-            <p className="mt-5 max-w-[36ch] text-[14px] leading-relaxed text-dusk/65">
-              Quelques pistes. Pour des suggestions plus personnelles, parlez de la personne à Lovely.
-            </p>
-          </header>
-          <div className="px-5 mt-8 space-y-3">
-            <p className="eyebrow px-1">Textes & poèmes</p>
-            {TEXTS.map((t) => (
-              <div key={t.title} className="card-plain p-5">
-                <p className="eyebrow">{t.kind}</p>
-                <p className="mt-1.5 font-serif italic text-[16px] text-dusk">{t.title}</p>
-                <p className="mt-1.5 text-[13px] text-dusk/65">{t.body}</p>
-              </div>
-            ))}
-          </div>
-          <div className="px-5 mt-6 space-y-3">
-            <p className="eyebrow px-1">Musiques</p>
-            {MUSIC.map((t) => (
-              <div key={t.title} className="card-plain p-5">
-                <p className="eyebrow">{t.kind}</p>
-                <p className="mt-1.5 font-serif italic text-[16px] text-dusk">{t.title}</p>
-                <p className="mt-1.5 text-[13px] text-dusk/65">{t.body}</p>
-              </div>
-            ))}
-          </div>
+      <div className="min-h-dvh bg-paper text-dusk pb-12">
+        <PageHeader title="TEXTES" back="/practical/atmosphere" />
 
-          <PersonalSuggestions
-            topic="texts"
-            eyebrow="Sur mesure — textes & poèmes"
-            cta="Recevoir des textes qui lui ressemblent"
-          />
-          <PersonalSuggestions
-            topic="music"
-            eyebrow="Sur mesure — musiques"
-            cta="Recevoir des musiques qui lui ressemblent"
-          />
+        <section className="px-6 pt-4 pb-6">
+          <p className="mono-label">Lectures, poèmes, musiques</p>
+          <h1 className="mt-3 ed-page-title">
+            Quelques mots,<br/><span className="italic">une mélodie qui dit.</span>
+          </h1>
+          <p className="mt-5 max-w-[36ch] text-[14px] leading-relaxed text-dusk/65">
+            Quelques pistes. Pour des suggestions plus personnelles, parlez de la personne à Lovely.
+          </p>
+        </section>
+
+        <SectionLabel>Textes & poèmes</SectionLabel>
+        <div className="px-5 space-y-3">
+          {TEXTS.map((t) => (
+            <IvoryCard key={t.title} className="p-5">
+              <p className="mono-label">{t.kind}</p>
+              <p className="mt-1.5 font-serif italic text-[16px] text-dusk">{t.title}</p>
+              <p className="mt-1.5 text-[13px] text-dusk/65">{t.body}</p>
+            </IvoryCard>
+          ))}
         </div>
+
+        <SectionLabel>Musiques</SectionLabel>
+        <div className="px-5 space-y-3">
+          {MUSIC.map((t) => (
+            <IvoryCard key={t.title} className="p-5">
+              <p className="mono-label">{t.kind}</p>
+              <p className="mt-1.5 font-serif italic text-[16px] text-dusk">{t.title}</p>
+              <p className="mt-1.5 text-[13px] text-dusk/65">{t.body}</p>
+            </IvoryCard>
+          ))}
+        </div>
+
+        <PersonalSuggestions
+          topic="texts"
+          eyebrow="Sur mesure — textes & poèmes"
+          cta="Recevoir des textes qui lui ressemblent"
+        />
+        <PersonalSuggestions
+          topic="music"
+          eyebrow="Sur mesure — musiques"
+          cta="Recevoir des musiques qui lui ressemblent"
+        />
       </div>
       <ConfideDock step="textes" />
     </Shell>

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Shell } from "@/components/legato/Shell";
 import { ConfideDock } from "@/components/legato/ConfideDock";
 import { loadPractical, savePractical } from "@/lib/practical-store";
+import { PageHeader, IvoryCard, SectionLabel } from "@/components/legato/EditorialUI";
 
 export const Route = createFileRoute("/practical/steps")({
   head: () => ({ meta: [{ title: "Démarches — Legato" }] }),
@@ -30,44 +31,42 @@ function Steps() {
 
   return (
     <Shell hideNav>
-      <div className="relative pb-12">
-        
-        <div className="relative z-10">
-          <div className="px-7 pt-10 flex items-center justify-between">
-            <Link to="/practical" className="eyebrow">← Aides concrètes</Link>
-            <span className="eyebrow">Démarches</span>
-          </div>
-          <header className="px-7 pt-12">
-            <p className="eyebrow">Premiers jours</p>
-            <h1 className="mt-3 display-xl text-dusk">
-              Une chose à la fois.<br/><span className="italic">Cochez quand c'est fait.</span>
-            </h1>
-            <p className="mt-5 max-w-[36ch] text-[14px] leading-relaxed text-dusk/65">
-              Rien n'est urgent à la seconde près. Si vous bloquez sur une étape, parlez-en à Lovely.
-            </p>
-          </header>
+      <div className="min-h-dvh bg-paper text-dusk pb-32">
+        <PageHeader title="DÉMARCHES" back="/practical" />
 
-          <ol className="px-5 mt-8 space-y-3">
-            {STEPS.map((s) => {
-              const checked = !!done[s.id];
-              return (
-                <li key={s.id}>
+        <section className="px-6 pt-4 pb-6">
+          <p className="mono-label">Premiers jours</p>
+          <h1 className="mt-3 ed-page-title">
+            Une chose à la fois.<br/><span className="italic">Cochez quand c'est fait.</span>
+          </h1>
+          <p className="mt-5 max-w-[36ch] text-[14px] leading-relaxed text-dusk/65">
+            Rien n'est urgent à la seconde près. Si vous bloquez sur une étape, parlez-en à Lovely.
+          </p>
+        </section>
+
+        <SectionLabel>Checklist</SectionLabel>
+
+        <ol className="px-5 space-y-3">
+          {STEPS.map((s) => {
+            const checked = !!done[s.id];
+            return (
+              <li key={s.id}>
+                <IvoryCard className={`p-5 flex gap-4 items-start transition-opacity ${checked ? "opacity-60" : ""}`}>
                   <button
                     onClick={() => toggle(s.id)}
-                    className={`w-full text-left card-plain p-5 flex gap-4 items-start ${checked ? "opacity-60" : ""}`}
-                  >
-                    <span className={`mt-1 w-5 h-5 rounded-full border ${checked ? "bg-sage border-sage" : "border-dusk/30"}`} />
-                    <div className="flex-1 min-w-0">
-                      <p className="eyebrow">{s.phase}</p>
-                      <h3 className={`mt-1 font-serif text-[17px] italic text-dusk ${checked ? "line-through decoration-dusk/30" : ""}`}>{s.title}</h3>
-                      <p className="mt-2 text-[13px] leading-relaxed text-dusk/65">{s.body}</p>
-                    </div>
-                  </button>
-                </li>
-              );
-            })}
-          </ol>
-        </div>
+                    className={`mt-1 w-5 h-5 rounded-full border shrink-0 ${checked ? "bg-sage border-sage" : "border-dusk/30"}`}
+                    aria-label={checked ? "Décocher" : "Cocher"}
+                  />
+                  <div className="flex-1 min-w-0 text-left" onClick={() => toggle(s.id)}>
+                    <p className="mono-label">{s.phase}</p>
+                    <h3 className={`mt-1 font-serif text-[17px] italic text-dusk ${checked ? "line-through decoration-dusk/30" : ""}`}>{s.title}</h3>
+                    <p className="mt-2 text-[13px] leading-relaxed text-dusk/65">{s.body}</p>
+                  </div>
+                </IvoryCard>
+              </li>
+            );
+          })}
+        </ol>
       </div>
       <ConfideDock step="démarches" />
     </Shell>

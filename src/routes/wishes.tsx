@@ -4,6 +4,7 @@ import { Shell } from "@/components/legato/Shell";
 import { ConfideDock } from "@/components/legato/ConfideDock";
 import { useLegato, type Wishes } from "@/lib/legato-state";
 import { ShareToCircle } from "@/components/legato/ShareToCircle";
+import { PageHeader, IvoryCard, SectionLabel } from "@/components/legato/EditorialUI";
 
 export const Route = createFileRoute("/wishes")({
   head: () => ({
@@ -62,35 +63,23 @@ function WishesPage() {
   return (
     <Shell>
       <div className="relative pb-12">
-        
         <div className="relative z-10">
-          <div className="px-7 pt-10 flex items-center justify-between">
-            <Link to="/practical" className="eyebrow">← Retour</Link>
-            <div className="flex items-center gap-3">
-              <ShareToCircle
-                kind="wish"
-                title={`Mes volontés — ${name || "moi"}`}
-                payload={wishes as unknown as Record<string, unknown>}
-                label="Partager"
-              />
-              <span className="eyebrow">Pages personnelles</span>
-            </div>
-          </div>
+          <PageHeader title="VOLONTÉS" />
 
-          <header className="px-7 pt-12">
-            <p className="eyebrow">Mes volontés</p>
-            <h1 className="mt-3 display-xl text-dusk">
+          <section className="px-6 pt-4 pb-6">
+            <p className="mono-label">Mes volontés</p>
+            <h1 className="mt-3 ed-page-title text-dusk">
               Écrire ce que <span className="italic">je voudrais,</span> pour le jour venu.
             </h1>
             <p className="mt-5 max-w-[34ch] text-[14px] leading-relaxed text-dusk/65">
               Rien n'est obligatoire. Vous remplissez ce qui compte, à votre rythme. C'est pour vos proches, pour les soulager d'avoir à deviner.
             </p>
-          </header>
+          </section>
 
-          <div className="px-5 mt-8 space-y-4">
+          <div className="px-5 mt-2 space-y-3">
             {FIELDS.map((f) => (
-              <div key={f.key} className="card-plain p-6">
-                <p className="eyebrow">{f.label}</p>
+              <IvoryCard key={f.key} className="p-5">
+                <p className="mono-label">{f.label}</p>
                 <p className="mt-1 text-[12px] text-dusk/55">{f.hint}</p>
                 <textarea
                   value={wishes[f.key]}
@@ -100,18 +89,18 @@ function WishesPage() {
                   className="mt-3 w-full bg-transparent resize-none outline-none text-[15px] leading-[24px] text-dusk placeholder:text-dusk/25"
                 />
                 {f.key === "flowers" && (
-                  <Link to="/practical/flowers" className="mt-3 inline-block text-[11px] uppercase tracking-[0.18em] text-dusk/55">
+                  <Link to="/practical/flowers" className="mt-3 inline-block mono-label">
                     → composer une ambiance florale
                   </Link>
                 )}
-              </div>
+              </IvoryCard>
             ))}
           </div>
 
           {/* Sharing */}
           <div className="px-5 mt-6">
-            <div className="card-plain p-6">
-              <p className="eyebrow">Partager avec un proche</p>
+            <IvoryCard className="p-5">
+              <p className="mono-label">Partager avec un proche</p>
               <p className="mt-1 text-[12px] text-dusk/55">
                 Ajoutez le prénom ou l'e-mail des personnes qui pourront consulter ces volontés.
               </p>
@@ -125,7 +114,7 @@ function WishesPage() {
                 />
                 <button
                   onClick={addShare}
-                  className="ceramic-soft organic-radius px-4 py-1.5 text-[11px] uppercase tracking-[0.18em] text-dusk/70"
+                  className="rounded-[14px] px-4 py-1.5 text-[11px] uppercase tracking-[0.18em] text-dusk/70 border border-dusk/10 hover:bg-dusk/5 transition-colors"
                 >
                   Ajouter
                 </button>
@@ -133,7 +122,7 @@ function WishesPage() {
               {wishes.sharedWith.length > 0 && (
                 <div className="mt-4 flex flex-wrap gap-2">
                   {wishes.sharedWith.map((p) => (
-                    <span key={p} className="card-plain px-3 py-1.5 text-[12px] text-dusk/75 flex items-center gap-2">
+                    <span key={p} className="rounded-[14px] border border-dusk/10 px-3 py-1.5 text-[12px] text-dusk/75 flex items-center gap-2">
                       {p}
                       <button
                         onClick={() => removeShare(p)}
@@ -148,11 +137,11 @@ function WishesPage() {
               )}
               <button
                 onClick={sendToProche}
-                className="mt-5 w-full ceramic organic-radius-3 px-5 py-3 font-serif italic text-[14px] text-dusk"
+                className="mt-5 w-full rounded-[14px] border border-dusk/10 px-5 py-3 font-serif italic text-[14px] text-dusk hover:bg-dusk/5 transition-colors"
               >
                 Envoyer mes volontés par mail à un proche →
               </button>
-            </div>
+            </IvoryCard>
           </div>
 
           <div className="px-7 mt-8 text-center">
