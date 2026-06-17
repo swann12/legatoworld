@@ -172,7 +172,7 @@ export const shareItem = createServerFn({ method: "POST" })
         circle_id: data.circleId,
         kind: data.kind,
         title: data.title,
-        payload: data.payload ?? {},
+        payload: (data.payload ?? {}) as any,
         author_id: userId,
         assignee_id: data.assigneeId ?? null,
         status: data.status ?? (data.kind === "task" ? "open" : null),
