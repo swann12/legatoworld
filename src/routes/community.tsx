@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
 import { Shell } from "@/components/legato/Shell";
 import { LegatoMark } from "@/components/legato/LegatoMark";
 
@@ -41,6 +42,14 @@ function Community() {
           <p className="mt-5 body-meta max-w-[34ch]">
             Des cercles en ligne, animés chaque semaine par des thérapeutes du deuil. Petits effectifs. Aucune obligation de parler.
           </p>
+        </section>
+
+        <section className="px-6 pb-6">
+          <Link to="/circle" className="block card-plain p-5 hover:bg-dusk/[0.03] transition">
+            <p className="eyebrow">Votre cercle privé</p>
+            <p className="mt-2 font-serif text-[20px] text-dusk leading-tight">Inviter vos proches, déléguer, partager →</p>
+            <p className="mt-2 text-[12.5px] text-dusk/65">Un espace privé entre vous et celles et ceux qui comptent.</p>
+          </Link>
         </section>
 
         <section className="px-5 grid grid-cols-2 gap-3">
