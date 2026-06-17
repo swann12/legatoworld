@@ -627,6 +627,96 @@
   .hairline { height: 1px; background: color-mix(in oklab, var(--dusk) 12%, transparent); }
 }
 
+/* ─── Editorial grammar — index numerals, captioned plates, marginalia ─── */
+@layer components {
+  /* Oversized index number, italic serif, used as a marginal mark */
+  .index-num {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 64px;
+    line-height: 0.85;
+    letter-spacing: -0.02em;
+    color: color-mix(in oklab, var(--dusk) 75%, transparent);
+  }
+  .index-num-sm {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 28px;
+    line-height: 1;
+    letter-spacing: -0.01em;
+  }
+
+  /* Hairline rule with inline label (magazine section divider) */
+  .rule-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .rule-label::before,
+  .rule-label::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: color-mix(in oklab, var(--dusk) 14%, transparent);
+  }
+  .rule-label > span {
+    font-family: var(--font-sans);
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: color-mix(in oklab, var(--dusk) 55%, transparent);
+  }
+
+  /* Caption strip at the bottom of an image/colour plate */
+  .plate-caption {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    padding-top: 14px;
+    margin-top: 18px;
+    border-top: 1px solid color-mix(in oklab, currentColor 22%, transparent);
+    font-family: var(--font-sans);
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    opacity: 0.85;
+  }
+
+  /* Folio-style page header (Nº · section · date) */
+  .folio {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: var(--font-sans);
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: color-mix(in oklab, var(--dusk) 60%, transparent);
+  }
+
+  /* Editorial title — Playfair, big, balanced */
+  .ed-title {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    letter-spacing: -0.015em;
+    line-height: 0.96;
+    text-wrap: balance;
+  }
+
+  /* Card surfaces — squarer corners closer to print plates */
+  .plate {
+    border-radius: 14px;
+    overflow: hidden;
+    display: block;
+  }
+}
+
 /* === A11y polish === */
 @layer base {
   :where(button, a, [role="button"]):focus-visible {
