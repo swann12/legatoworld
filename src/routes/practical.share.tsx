@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Shell } from "@/components/legato/Shell";
 import { ConfideDock } from "@/components/legato/ConfideDock";
 import { loadPractical } from "@/lib/practical-store";
+import { PageHeader, IvoryCard } from "@/components/legato/EditorialUI";
 
 export const Route = createFileRoute("/practical/share")({
   head: () => ({ meta: [{ title: "Partage et relais — Legato" }] }),
@@ -40,40 +41,35 @@ function Share() {
 
   return (
     <Shell hideNav>
-      <div className="relative pb-12">
-        
-        <div className="relative z-10">
-          <div className="px-7 pt-10 flex items-center justify-between">
-            <Link to="/practical" className="eyebrow">← Aides concrètes</Link>
-            <span className="eyebrow">Partage</span>
-          </div>
-          <header className="px-7 pt-12">
-            <p className="eyebrow">Transmettre, déléguer</p>
-            <h1 className="mt-3 display-xl text-dusk">
-              D'autres mains <span className="italic">peuvent prendre.</span>
-            </h1>
-            <p className="mt-5 max-w-[36ch] text-[14px] leading-relaxed text-dusk/65">
-              Un mail pré-écrit pour chaque interlocuteur. Vous relisez, vous envoyez.
-            </p>
-          </header>
+      <div className="min-h-dvh bg-paper text-dusk pb-12">
+        <PageHeader title="PARTAGE" back="/practical" />
 
-          <div className="px-5 mt-8 space-y-3">
-            {RELAY.map((r) => (
-              <a key={r.who} href={buildMail(state, r.who)} className="card-plain p-5 flex items-baseline justify-between">
-                <div>
-                  <p className="eyebrow">{r.who}</p>
-                  <p className="mt-1.5 font-serif italic text-[15px] text-dusk">{r.body}</p>
-                </div>
-                <span className="text-dusk/40">✉</span>
-              </a>
-            ))}
-          </div>
+        <section className="px-6 pt-4 pb-6">
+          <p className="mono-label">Transmettre, déléguer</p>
+          <h1 className="mt-3 ed-page-title">
+            D'autres mains <span className="italic">peuvent prendre.</span>
+          </h1>
+          <p className="mt-5 max-w-[36ch] text-[14px] leading-relaxed text-dusk/65">
+            Un mail pré-écrit pour chaque interlocuteur. Vous relisez, vous envoyez.
+          </p>
+        </section>
 
-          <div className="px-7 mt-10 text-center">
-            <p className="font-serif italic text-[14px] text-dusk/55 max-w-[28ch] mx-auto text-balance">
-              Vous n'êtes pas obligée·e de tout porter seule.
-            </p>
-          </div>
+        <section className="px-5 space-y-3">
+          {RELAY.map((r) => (
+            <a key={r.who} href={buildMail(state, r.who)} className="block rounded-[18px] border border-dusk/10 bg-paper p-5 flex items-baseline justify-between hover:bg-dusk/[0.02] transition-colors">
+              <div>
+                <p className="mono-label">{r.who}</p>
+                <p className="mt-1.5 font-serif italic text-[15px] text-dusk">{r.body}</p>
+              </div>
+              <span className="text-dusk/40">✉</span>
+            </a>
+          ))}
+        </section>
+
+        <div className="px-7 mt-10 text-center pb-8">
+          <p className="font-serif italic text-[14px] text-dusk/55 max-w-[28ch] mx-auto text-balance">
+            Vous n'êtes pas obligée·e de tout porter seule.
+          </p>
         </div>
       </div>
       <ConfideDock step="partage" />
