@@ -18,13 +18,16 @@ export const Route = createFileRoute("/onboarding/")({
 /* ─── Étape 2 : IDENTIFICATION ───
  * Une seule page : prénom + Continuer → /space. */
 function Onboarding() {
-  const { name, setName } = useLegato();
+  const { name, setName, setCareOnboarded, setPracticalOnboarded } = useLegato();
   const navigate = useNavigate();
   const canContinue = name.trim().length > 0;
   const record = useServerFn(recordEmotion);
 
   const proceed = async () => {
     if (!canContinue) return;
+    // Onboarding unique : on libère les deux espaces.
+    setCareOnboarded(true);
+    setPracticalOnboarded(true);
     const { data } = await supabase.auth.getSession();
     if (data.session) {
       record({ data: { source: "onboarding", tags: ["accueil"], note: `Prénom : ${name}` } }).catch(() => {});
