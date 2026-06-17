@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Shell } from "@/components/legato/Shell";
 import { ConfideDock } from "@/components/legato/ConfideDock";
 import { useLegato, type Wishes } from "@/lib/legato-state";
+import { ShareToCircle } from "@/components/legato/ShareToCircle";
 
 export const Route = createFileRoute("/wishes")({
   head: () => ({
