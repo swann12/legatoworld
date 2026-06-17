@@ -26,7 +26,9 @@ import { Route as HelpRouteImport } from './routes/help'
 import { Route as DatesRouteImport } from './routes/dates'
 import { Route as CrisisRouteImport } from './routes/crisis'
 import { Route as CommunityRouteImport } from './routes/community'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AppointmentsRouteImport } from './routes/appointments'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ResourcesIndexRouteImport } from './routes/resources.index'
 import { Route as PracticalIndexRouteImport } from './routes/practical.index'
@@ -46,9 +48,11 @@ import { Route as ParcoursTaskIdRouteImport } from './routes/parcours.$taskId'
 import { Route as OnboardingPracticalRouteImport } from './routes/onboarding.practical'
 import { Route as OnboardingCareRouteImport } from './routes/onboarding.care'
 import { Route as LibraryKindRouteImport } from './routes/library.$kind'
+import { Route as InviteTokenRouteImport } from './routes/invite.$token'
 import { Route as HelpCorpsRouteImport } from './routes/help.corps'
 import { Route as GardenZoneRouteImport } from './routes/garden.$zone'
 import { Route as ComposeZoneRouteImport } from './routes/compose.$zone'
+import { Route as AuthenticatedCircleRouteImport } from './routes/_authenticated/circle'
 import { Route as ResourcesConfirmProviderIdRouteImport } from './routes/resources.confirm.$providerId'
 import { Route as ResourcesCategoryProviderIdRouteImport } from './routes/resources.$category.$providerId'
 import { Route as HelpCorpsNuitsRouteImport } from './routes/help.corps.nuits'
@@ -142,9 +146,18 @@ const CommunityRoute = CommunityRouteImport.update({
   path: '/community',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AppointmentsRoute = AppointmentsRouteImport.update({
   id: '/appointments',
   path: '/appointments',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -242,6 +255,11 @@ const LibraryKindRoute = LibraryKindRouteImport.update({
   path: '/library/$kind',
   getParentRoute: () => rootRouteImport,
 } as any)
+const InviteTokenRoute = InviteTokenRouteImport.update({
+  id: '/invite/$token',
+  path: '/invite/$token',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const HelpCorpsRoute = HelpCorpsRouteImport.update({
   id: '/corps',
   path: '/corps',
@@ -256,6 +274,11 @@ const ComposeZoneRoute = ComposeZoneRouteImport.update({
   id: '/compose/$zone',
   path: '/compose/$zone',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedCircleRoute = AuthenticatedCircleRouteImport.update({
+  id: '/circle',
+  path: '/circle',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const ResourcesConfirmProviderIdRoute =
   ResourcesConfirmProviderIdRouteImport.update({
@@ -298,6 +321,7 @@ const ApiPublicSouffleSoundIdRoute = ApiPublicSouffleSoundIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/appointments': typeof AppointmentsRoute
+  '/auth': typeof AuthRoute
   '/community': typeof CommunityRoute
   '/crisis': typeof CrisisRoute
   '/dates': typeof DatesRoute
@@ -315,9 +339,11 @@ export interface FileRoutesByFullPath {
   '/start': typeof StartRoute
   '/vitrine': typeof VitrineRoute
   '/wishes': typeof WishesRoute
+  '/circle': typeof AuthenticatedCircleRoute
   '/compose/$zone': typeof ComposeZoneRoute
   '/garden/$zone': typeof GardenZoneRoute
   '/help/corps': typeof HelpCorpsRouteWithChildren
+  '/invite/$token': typeof InviteTokenRoute
   '/library/$kind': typeof LibraryKindRoute
   '/onboarding/care': typeof OnboardingCareRoute
   '/onboarding/practical': typeof OnboardingPracticalRoute
@@ -347,6 +373,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/appointments': typeof AppointmentsRoute
+  '/auth': typeof AuthRoute
   '/community': typeof CommunityRoute
   '/crisis': typeof CrisisRoute
   '/dates': typeof DatesRoute
@@ -362,9 +389,11 @@ export interface FileRoutesByTo {
   '/start': typeof StartRoute
   '/vitrine': typeof VitrineRoute
   '/wishes': typeof WishesRoute
+  '/circle': typeof AuthenticatedCircleRoute
   '/compose/$zone': typeof ComposeZoneRoute
   '/garden/$zone': typeof GardenZoneRoute
   '/help/corps': typeof HelpCorpsRouteWithChildren
+  '/invite/$token': typeof InviteTokenRoute
   '/library/$kind': typeof LibraryKindRoute
   '/onboarding/care': typeof OnboardingCareRoute
   '/onboarding/practical': typeof OnboardingPracticalRoute
@@ -394,7 +423,9 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/appointments': typeof AppointmentsRoute
+  '/auth': typeof AuthRoute
   '/community': typeof CommunityRoute
   '/crisis': typeof CrisisRoute
   '/dates': typeof DatesRoute
@@ -412,9 +443,11 @@ export interface FileRoutesById {
   '/start': typeof StartRoute
   '/vitrine': typeof VitrineRoute
   '/wishes': typeof WishesRoute
+  '/_authenticated/circle': typeof AuthenticatedCircleRoute
   '/compose/$zone': typeof ComposeZoneRoute
   '/garden/$zone': typeof GardenZoneRoute
   '/help/corps': typeof HelpCorpsRouteWithChildren
+  '/invite/$token': typeof InviteTokenRoute
   '/library/$kind': typeof LibraryKindRoute
   '/onboarding/care': typeof OnboardingCareRoute
   '/onboarding/practical': typeof OnboardingPracticalRoute
@@ -446,6 +479,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/appointments'
+    | '/auth'
     | '/community'
     | '/crisis'
     | '/dates'
@@ -463,9 +497,11 @@ export interface FileRouteTypes {
     | '/start'
     | '/vitrine'
     | '/wishes'
+    | '/circle'
     | '/compose/$zone'
     | '/garden/$zone'
     | '/help/corps'
+    | '/invite/$token'
     | '/library/$kind'
     | '/onboarding/care'
     | '/onboarding/practical'
@@ -495,6 +531,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/appointments'
+    | '/auth'
     | '/community'
     | '/crisis'
     | '/dates'
@@ -510,9 +547,11 @@ export interface FileRouteTypes {
     | '/start'
     | '/vitrine'
     | '/wishes'
+    | '/circle'
     | '/compose/$zone'
     | '/garden/$zone'
     | '/help/corps'
+    | '/invite/$token'
     | '/library/$kind'
     | '/onboarding/care'
     | '/onboarding/practical'
@@ -541,7 +580,9 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/_authenticated'
     | '/appointments'
+    | '/auth'
     | '/community'
     | '/crisis'
     | '/dates'
@@ -559,9 +600,11 @@ export interface FileRouteTypes {
     | '/start'
     | '/vitrine'
     | '/wishes'
+    | '/_authenticated/circle'
     | '/compose/$zone'
     | '/garden/$zone'
     | '/help/corps'
+    | '/invite/$token'
     | '/library/$kind'
     | '/onboarding/care'
     | '/onboarding/practical'
@@ -591,7 +634,9 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AppointmentsRoute: typeof AppointmentsRoute
+  AuthRoute: typeof AuthRoute
   CommunityRoute: typeof CommunityRoute
   CrisisRoute: typeof CrisisRoute
   DatesRoute: typeof DatesRoute
@@ -611,6 +656,7 @@ export interface RootRouteChildren {
   WishesRoute: typeof WishesRoute
   ComposeZoneRoute: typeof ComposeZoneRoute
   GardenZoneRoute: typeof GardenZoneRoute
+  InviteTokenRoute: typeof InviteTokenRoute
   LibraryKindRoute: typeof LibraryKindRoute
   OnboardingCareRoute: typeof OnboardingCareRoute
   OnboardingPracticalRoute: typeof OnboardingPracticalRoute
@@ -743,11 +789,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CommunityRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/appointments': {
       id: '/appointments'
       path: '/appointments'
       fullPath: '/appointments'
       preLoaderRoute: typeof AppointmentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -883,6 +943,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LibraryKindRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/invite/$token': {
+      id: '/invite/$token'
+      path: '/invite/$token'
+      fullPath: '/invite/$token'
+      preLoaderRoute: typeof InviteTokenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/help/corps': {
       id: '/help/corps'
       path: '/corps'
@@ -903,6 +970,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/compose/$zone'
       preLoaderRoute: typeof ComposeZoneRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/circle': {
+      id: '/_authenticated/circle'
+      path: '/circle'
+      fullPath: '/circle'
+      preLoaderRoute: typeof AuthenticatedCircleRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/resources/confirm/$providerId': {
       id: '/resources/confirm/$providerId'
@@ -955,6 +1029,17 @@ declare module '@tanstack/react-router' {
     }
   }
 }
+
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedCircleRoute: typeof AuthenticatedCircleRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedCircleRoute: AuthenticatedCircleRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
 interface HelpCorpsRouteChildren {
   HelpCorpsEauRoute: typeof HelpCorpsEauRoute
@@ -1039,7 +1124,9 @@ const ResourcesCategoryRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AppointmentsRoute: AppointmentsRoute,
+  AuthRoute: AuthRoute,
   CommunityRoute: CommunityRoute,
   CrisisRoute: CrisisRoute,
   DatesRoute: DatesRoute,
@@ -1059,6 +1146,7 @@ const rootRouteChildren: RootRouteChildren = {
   WishesRoute: WishesRoute,
   ComposeZoneRoute: ComposeZoneRoute,
   GardenZoneRoute: GardenZoneRoute,
+  InviteTokenRoute: InviteTokenRoute,
   LibraryKindRoute: LibraryKindRoute,
   OnboardingCareRoute: OnboardingCareRoute,
   OnboardingPracticalRoute: OnboardingPracticalRoute,
