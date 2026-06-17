@@ -662,21 +662,26 @@
 @layer components {
   /* Oversized index number, italic serif, used as a marginal mark */
   .index-num {
-    font-family: var(--font-serif);
-    font-style: italic;
+    /* Tamed: instead of a heavy floating № marginalia, render as a small
+     * mono section number aligned in the grid. Legacy callers now feel
+     * editorial, not decorative. */
+    font-family: var(--font-mono);
+    font-style: normal;
     font-weight: 400;
-    font-size: 64px;
-    line-height: 0.85;
-    letter-spacing: -0.02em;
-    color: color-mix(in oklab, var(--dusk) 75%, transparent);
+    font-size: 11px;
+    line-height: 1;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: color-mix(in oklab, var(--dusk) 55%, transparent);
   }
   .index-num-sm {
-    font-family: var(--font-serif);
-    font-style: italic;
+    font-family: var(--font-mono);
+    font-style: normal;
     font-weight: 400;
-    font-size: 28px;
+    font-size: 11px;
     line-height: 1;
-    letter-spacing: -0.01em;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
   }
 
   /* Hairline rule with inline label (magazine section divider) */
