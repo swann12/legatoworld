@@ -1,6 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
+import { useQuery } from "@tanstack/react-query";
+import { toast } from "sonner";
 import { Shell } from "@/components/legato/Shell";
 import { LegatoMark } from "@/components/legato/LegatoMark";
+import { listMyCircles, shareItem } from "@/lib/circle.functions";
 
 export const Route = createFileRoute("/parcours/$taskId")({
   head: () => ({ meta: [{ title: "Étape — Legato" }] }),
@@ -40,6 +45,34 @@ function TaskDetail() {
     questions: [],
     budget: "—",
   };
+
+  const listFn = useServerFn(listMyCircles);
+  const shareFn = useServerFn(shareItem);
+  const [delegating, setDelegating] = useState(false);
+  const [done, setDone] = useState(false);
+  const { data: circles } = useQuery({
+    queryKey: ["my-circles"],
+    queryFn: () => listFn({}),
+    enabled: delegating,
+  });
+
+  async function delegate(circleId: string) {
+    try {
+      await shareFn({
+        data: {
+          circleId,
+          kind: "task",
+          title: t.title,
+          status: "delegated",
+          payload: { taskId, when: t.when, why: t.why },
+        },
+      });
+      toast.success("Tâche déléguée au cercle.");
+      setDelegating(false);
+    } catch (e: any) {
+      toast.error(e?.message ?? "Délégation impossible.");
+    }
+  }
 
   return (
     <Shell livingBg={false}>
@@ -86,9 +119,43 @@ function TaskDetail() {
             Commencer cette étape →
           </button>
           <div className="grid grid-cols-2 gap-2.5">
-            <button className="btn-ghost py-3 rounded-[14px]">Déléguer</button>
-            <button className="btn-ghost py-3 rounded-[14px]">Marquer fait</button>
+            <button
+              onClick={() => setDelegating((v) => !v)}
+              className="btn-ghost py-3 rounded-[14px] min-h-11"
+              aria-expanded={delegating}
+            >
+              Déléguer
+            </button>
+            <button
+              onClick={() => { setDone(true); toast.success("Étape marquée comme faite."); }}
+              className="btn-ghost py-3 rounded-[14px] min-h-11"
+            >
+              {done ? "✓ Fait" : "Marquer fait"}
+            </button>
           </div>
+          {delegating && (
+            <div className="paper-card p-4 mt-2">
+              <p className="eyebrow mb-2">Choisir un cercle</p>
+              {(circles?.circles?.length ?? 0) === 0 ? (
+                <p className="text-[13px] text-dusk/65">
+                  Aucun cercle pour l'instant. <Link to="/circle" className="underline">Créer un cercle</Link>.
+                </p>
+              ) : (
+                <ul className="space-y-1">
+                  {circles?.circles?.map((c) => (
+                    <li key={c.id}>
+                      <button
+                        onClick={() => delegate(c.id)}
+                        className="w-full text-left text-[14px] text-dusk hover:bg-dusk/[0.04] rounded-[10px] px-3 py-2 min-h-11"
+                      >
+                        {c.name}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          )}
           <div className="grid grid-cols-3 gap-2.5 pt-1">
             <button className="btn-ghost py-2.5 rounded-[14px]">Appeler</button>
             <button className="btn-ghost py-2.5 rounded-[14px]">Écrire</button>
