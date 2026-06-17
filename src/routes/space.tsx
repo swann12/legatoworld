@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useLegato } from "@/lib/legato-state";
 import { LegatoMark } from "@/components/legato/LegatoMark";
-import type { ReactNode } from "react";
 
 export const Route = createFileRoute("/space")({
   head: () => ({
