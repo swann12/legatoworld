@@ -43,141 +43,172 @@ function Home() {
   return (
     <Shell livingBg={false}>
       <div className="min-h-dvh bg-paper text-dusk pb-32">
-        {/* Header simple : logo + label espace */}
-        <header className="px-6 pt-9 pb-6 flex items-center justify-between">
-          <LegatoMark to="/space" size={22} />
-          <span className="eyebrow">Aujourd'hui</span>
+        {/* Folio header */}
+        <header className="px-6 pt-8 pb-6">
+          <div className="folio">
+            <LegatoMark to="/space" size={22} />
+            <span>Espace · Soi</span>
+          </div>
         </header>
 
-        {/* HERO — phrase éditoriale */}
+        {/* HERO — index marginal + titre éditorial */}
         <section className="px-6 pb-10">
           <p className="eyebrow">{greeting}, {name}</p>
-          <h1 className="mt-5 display-xl">
-            Vous n'avez pas à porter ça <span className="italic" style={{ color: "var(--terracotta)" }}>seul·e</span>.
-          </h1>
-          <p className="mt-5 body-meta max-w-[34ch]">
+          <div className="mt-4 grid grid-cols-[auto_1fr] gap-x-4 items-start">
+            <span className="index-num leading-none -mt-1">№</span>
+            <h1 className="ed-title text-[46px]">
+              Vous n'avez pas à
+              <br />
+              porter ça
+              <br />
+              <span className="italic" style={{ color: "var(--terracotta)" }}>seul·e</span>.
+            </h1>
+          </div>
+          <p className="mt-7 body-meta max-w-[32ch] pl-[3.25rem]">
             Voici ce qui compte aujourd'hui — sans urgence inutile, à votre rythme.
           </p>
         </section>
 
         {focus && (
-          <section className="px-5 pb-6">
-            <Link to={focus.cta.to} className="block paper-card p-5 hover:bg-dusk/[0.02] transition-colors">
-              <p className="eyebrow">Suggestion du moment</p>
-              <p className="mt-3 font-serif text-[22px] leading-[1.1] text-dusk">{focus.title}</p>
-              <p className="mt-2 text-[13.5px] text-dusk/70 leading-[1.5] max-w-[34ch]">{focus.body}</p>
-              <p className="mt-3 eyebrow text-dusk">{focus.cta.label} <span aria-hidden>→</span></p>
+          <section className="px-6 pb-8">
+            <div className="rule-label mb-5"><span>Suggestion du moment</span></div>
+            <Link to={focus.cta.to} className="block py-1">
+              <p className="font-serif italic text-[26px] leading-[1.05] text-dusk max-w-[18ch]">
+                « {focus.title} »
+              </p>
+              <p className="mt-3 text-[13px] text-dusk/70 leading-[1.55] max-w-[34ch]">{focus.body}</p>
+              <p className="mt-4 eyebrow text-dusk">{focus.cta.label} <span aria-hidden>→</span></p>
             </Link>
           </section>
         )}
+
+        {/* Rule */}
+        <div className="px-6 pb-5">
+          <div className="rule-label"><span>Aujourd'hui</span></div>
+        </div>
 
         {/* PRIORITÉ DU JOUR — carte tomato pleine */}
         <section className="px-5">
           <Link
             to="/parcours/$taskId"
             params={{ taskId: "pf" }}
-            className="block card-tomato px-6 py-7 transition-transform active:scale-[0.99]"
+            className="plate card-tomato px-6 pt-7 pb-6 transition-transform active:scale-[0.99]"
           >
-            <div className="flex items-center justify-between">
+            <div className="flex items-start justify-between gap-4">
               <span className="eyebrow-on-dark">À faire maintenant</span>
-              <span className="chip" style={{ background: "color-mix(in oklab, var(--paper) 22%, transparent)", color: "var(--paper)" }}>
-                48 h
-              </span>
+              <span className="index-num-sm opacity-80">01</span>
             </div>
-            <p className="mt-5 font-serif text-[32px] leading-[0.98] font-normal max-w-[14ch]">
-              Contacter les pompes funèbres.
+            <p className="mt-5 font-serif text-[34px] leading-[0.96] tracking-[-0.01em] font-normal max-w-[13ch]">
+              Contacter les <span className="italic">pompes funèbres</span>.
             </p>
-            <p className="mt-3 text-[13.5px] leading-relaxed opacity-85 max-w-[28ch]">
+            <p className="mt-3 text-[13px] leading-relaxed opacity-85 max-w-[30ch]">
               On vous guide étape par étape. Vous pouvez aussi déléguer cette tâche.
             </p>
-            <div className="mt-6 flex items-center justify-between">
-              <span className="text-[12px] font-medium tracking-[0.14em] uppercase opacity-90">Commencer</span>
-              <span className="font-serif text-[22px]">→</span>
+            <div className="plate-caption">
+              <span>Sous 48 h</span>
+              <span>Commencer →</span>
             </div>
           </Link>
         </section>
 
-        {/* HUMEUR + DÉMARCHES — 2 colonnes égales */}
-        <section className="mt-4 px-5 grid grid-cols-2 gap-3">
-          <Link to="/journal" className="card-sardine px-5 py-5 flex flex-col justify-between min-h-[164px]">
+        {/* HUMEUR + DÉMARCHES — split asymétrique 60/40 */}
+        <section className="mt-4 px-5 grid grid-cols-5 gap-3">
+          <Link to="/journal" className="plate card-sardine col-span-3 px-5 pt-5 pb-4 flex flex-col justify-between min-h-[180px]">
             <div>
-              <p className="eyebrow">Comment ça va</p>
-              <p className="h-section mt-3">Faire le point.</p>
+              <div className="flex items-start justify-between">
+                <p className="eyebrow">Comment ça va</p>
+                <span className="index-num-sm opacity-75">02</span>
+              </div>
+              <p className="mt-4 font-serif text-[26px] leading-[1.02] max-w-[10ch]">
+                Faire le <span className="italic">point</span>.
+              </p>
             </div>
-            <div className="mt-4 flex items-center gap-1.5">
+            <div className="mt-2 flex items-center gap-1.5">
               {[ "var(--terracotta)", "var(--sun)", "var(--bordeaux)", "var(--blush)", "var(--olive)" ].map((c, i) => (
                 <span key={i} className="h-2 w-2 rounded-full" style={{ background: c, opacity: i === 0 ? 1 : 0.35 }} />
               ))}
             </div>
+            <div className="plate-caption">
+              <span>Journal</span>
+              <span>→</span>
+            </div>
           </Link>
 
-          <Link to="/practical" className="card-butter px-5 py-5 flex flex-col justify-between min-h-[164px]">
+          <Link to="/practical" className="plate card-butter col-span-2 px-4 pt-5 pb-4 flex flex-col justify-between min-h-[180px]">
             <div>
-              <p className="eyebrow">Mes démarches</p>
-              <p className="h-section mt-3">{tasksDone} / {tasksTotal}</p>
+              <p className="eyebrow">Démarches</p>
+              <p className="mt-4 font-serif italic text-[40px] leading-[0.95]">{tasksDone}<span className="not-italic text-dusk/45">/{tasksTotal}</span></p>
             </div>
-            <div className="mt-4">
+            <div>
               <div className="h-1.5 w-full rounded-full" style={{ background: "color-mix(in oklab, var(--dusk) 12%, transparent)" }}>
                 <div className="h-full rounded-full" style={{ width: `${tasksPct}%`, background: "var(--bordeaux)" }} />
               </div>
-              <p className="mt-2 text-[11px] tracking-[0.04em] text-dusk/65">{tasksPct}% du chemin parcouru</p>
+              <p className="mt-2 text-[10.5px] tracking-[0.12em] uppercase text-dusk/65">{tasksPct}% parcouru</p>
             </div>
           </Link>
         </section>
 
-        {/* CERCLE + IA — 2 colonnes */}
-        <section className="mt-3 px-5 grid grid-cols-2 gap-3">
-          <Link to="/community" className="card-blush px-5 py-5 flex flex-col justify-between min-h-[140px]">
-            <p className="eyebrow">Mon cercle</p>
+        {/* CERCLE + IA — split asymétrique inverse 40/60 */}
+        <section className="mt-3 px-5 grid grid-cols-5 gap-3">
+          <Link to="/community" className="plate card-blush col-span-2 px-4 pt-5 pb-4 flex flex-col justify-between min-h-[150px]">
+            <p className="eyebrow">Le cercle</p>
             <div>
               <div className="flex -space-x-2">
                 {["M", "J", "A", "+"].map((l) => (
                   <span
                     key={l}
-                    className="size-8 rounded-full grid place-items-center text-[12px] font-medium border-2 border-blush"
+                    className="size-7 rounded-full grid place-items-center text-[11px] font-medium border-2 border-blush"
                     style={{ background: "var(--paper)", color: "var(--dusk)" }}
                   >
                     {l}
                   </span>
                 ))}
               </div>
-              <p className="h-section mt-3">3 proches</p>
+              <p className="mt-3 font-serif text-[22px] leading-[1.05]"><span className="italic">trois</span> proches</p>
             </div>
           </Link>
 
-          <Link to="/presence" className="card-oven px-5 py-5 flex flex-col justify-between min-h-[140px]">
-            <p className="eyebrow-on-dark">Parler maintenant</p>
+          <Link to="/presence" className="plate card-oven col-span-3 px-5 pt-5 pb-4 flex flex-col justify-between min-h-[150px]">
+            <div className="flex items-start justify-between">
+              <p className="eyebrow-on-dark">Parler maintenant</p>
+              <span className="index-num-sm opacity-70">03</span>
+            </div>
             <div>
-              <p className="font-serif text-[22px] leading-[1.05] max-w-[10ch]">Une présence calme.</p>
-              <p className="mt-2 text-[11px] tracking-[0.04em] opacity-75">Disponible à toute heure</p>
+              <p className="font-serif text-[24px] leading-[1.02] max-w-[12ch]">Une présence <span className="italic">calme</span>.</p>
+              <p className="mt-2 text-[10.5px] tracking-[0.14em] uppercase opacity-75">à toute heure</p>
             </div>
           </Link>
         </section>
 
-        {/* MÉMOIRE — entrée éditoriale */}
+        {/* MÉMOIRE — pleine carte avec caption */}
         <section className="mt-3 px-5">
-          <Link to="/garden" className="card-olive block px-6 py-6">
-            <div className="flex items-center justify-between">
+          <Link to="/garden" className="plate card-olive px-6 pt-6 pb-5">
+            <div className="flex items-start justify-between">
               <span className="eyebrow-on-dark">Le jardin</span>
-              <span className="font-serif text-[20px] opacity-80">→</span>
+              <span className="index-num-sm opacity-75">04</span>
             </div>
-            <p className="mt-3 font-serif text-[26px] leading-[1.02] max-w-[16ch]">
+            <p className="mt-4 font-serif text-[28px] leading-[1.0] tracking-[-0.005em] max-w-[16ch]">
               Garder <span className="italic">vivant</span> ce qui compte.
             </p>
-            <p className="mt-2 text-[12.5px] opacity-80 max-w-[34ch]">
+            <p className="mt-2 text-[12.5px] leading-[1.55] opacity-80 max-w-[34ch]">
               Une parcelle pour chaque être aimé. Photos, sons, fleurs, rituels.
             </p>
+            <div className="plate-caption">
+              <span>Mémoire</span>
+              <span>Entrer →</span>
+            </div>
           </Link>
         </section>
 
         {/* Aide en cas de besoin */}
-        <section className="mt-8 px-7">
+        <section className="mt-10 px-6">
+          <div className="rule-label mb-4"><span>Si aujourd'hui pèse trop</span></div>
           <Link
             to="/crisis"
-            className="text-[12.5px] underline underline-offset-4"
+            className="font-serif italic text-[18px]"
             style={{ color: "var(--terracotta)" }}
           >
-            Si aujourd'hui pèse trop — appel d'aide →
+            Demander de l'aide →
           </Link>
         </section>
       </div>
