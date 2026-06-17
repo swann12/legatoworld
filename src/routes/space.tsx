@@ -14,9 +14,11 @@ export const Route = createFileRoute("/space")({
 
 /** Page centrale du produit. Deux blocs très lisibles. Rien d'autre. */
 function Space() {
-  const { name, careOnboarded, practicalOnboarded } = useLegato();
-  const careTarget = careOnboarded ? "/home" : "/onboarding/care";
-  const practicalTarget = practicalOnboarded ? "/practical" : "/onboarding/practical";
+  const { name } = useLegato();
+  // Plus de rebouclage vers l'onboarding : les deux blocs mènent directement
+  // à leur espace. L'onboarding ne se fait qu'une fois, depuis /onboarding.
+  const careTarget = "/home";
+  const practicalTarget = "/practical";
   return (
     <main className="min-h-dvh bg-paper text-dusk">
       <div className="mobile-frame relative flex min-h-dvh flex-col">
@@ -26,11 +28,11 @@ function Space() {
 
         <section className="pt-14 px-7">
           <p className="eyebrow">{name ? `Bonjour ${name}` : "Bonjour"}</p>
-          <h1 className="mt-5 display-xl">
+          <h1 className="mt-5 font-serif text-[44px] leading-[1.02] tracking-[-0.01em] text-dusk font-normal">
             De quoi avez-vous <span className="italic" style={{ color: "var(--terracotta)" }}>besoin&nbsp;?</span>
           </h1>
           <p className="mt-5 body-meta max-w-[32ch]">
-            Deux espaces, distincts mais reliés. Vous pouvez passer de l'un à l'autre à tout moment.
+            Deux espaces, distincts mais reliés. Vous passez de l'un à l'autre à tout moment.
           </p>
         </section>
 
