@@ -2,6 +2,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useState } from "react";
 import { Shell } from "@/components/legato/Shell";
 import { Bell, Check } from "lucide-react";
+import { PageHeader } from "@/components/legato/EditorialUI";
 import { getProvider } from "@/lib/resources-data";
 import { z } from "zod";
 
@@ -32,11 +33,12 @@ function ConfirmPage() {
 
   return (
     <Shell>
+      <PageHeader title="RENDEZ-VOUS" back="/resources" />
       <div className="px-7 pt-16 text-center">
         <div className="ceramic-soft mx-auto flex size-16 items-center justify-center rounded-full">
           <Check size={22} strokeWidth={1.5} className="text-dusk/70" />
         </div>
-        <h1 className="mt-6 display-xl text-dusk">
+        <h1 className="mt-6 ed-page-title text-dusk">
           C'est noté.
         </h1>
         <p className="mt-4 font-serif text-[1.15rem] italic leading-relaxed text-dusk/80">

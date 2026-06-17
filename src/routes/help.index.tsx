@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Shell } from "@/components/legato/Shell";
-import { LegatoMark } from "@/components/legato/LegatoMark";
+import { PageHeader } from "@/components/legato/EditorialUI";
 
 export const Route = createFileRoute("/help/")({
   head: () => ({ meta: [{ title: "Aide et accompagnement — Legato" }] }),
@@ -34,14 +34,11 @@ function Help() {
   return (
     <Shell livingBg={false}>
       <div className="min-h-dvh bg-paper text-dusk pb-32">
-        <header className="px-6 pt-9 pb-6 flex items-center justify-between">
-          <LegatoMark to="/home" size={22} />
-          <span className="eyebrow">Aide</span>
-        </header>
+        <PageHeader title="AIDE" back="/home" />
 
         <section className="px-6 pb-10">
-          <p className="eyebrow">Sans s'expliquer trop</p>
-          <h1 className="mt-5 display-xl">
+          <p className="mono-label">Sans s'expliquer trop</p>
+          <h1 className="mt-5 ed-page-title">
             Demander de l'<span className="italic" style={{ color: "var(--terracotta)" }}>aide</span>.
           </h1>
           <p className="mt-5 body-meta max-w-[34ch]">

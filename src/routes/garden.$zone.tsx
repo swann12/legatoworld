@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Shell } from "@/components/legato/Shell";
-import { LegatoMark } from "@/components/legato/LegatoMark";
+import { PageHeader } from "@/components/legato/EditorialUI";
 import { CompositionThumb } from "@/components/legato/CompositionThumb";
 import { BEINGS } from "./garden.index";
 import { useMemories } from "@/lib/memories-store";
@@ -74,15 +74,12 @@ function GardenZone() {
   return (
     <Shell livingBg={false}>
       <div className="min-h-dvh bg-paper text-dusk pb-32">
-        <header className="px-6 pt-9 pb-2 flex items-center justify-between">
-          <LegatoMark to="/garden" size={22} />
-          <Link to="/garden" className="eyebrow hover:underline underline-offset-4">← Le jardin</Link>
-        </header>
+        <PageHeader title="LE JARDIN" back="/garden" />
 
         {/* Parcelle — éditorial */}
         <section className="px-6 pt-10 pb-8">
-          <p className="eyebrow">{being.kind === "person" ? "La parcelle de" : "Le coin de"}</p>
-          <h1 className="mt-4 display-xl">
+          <p className="mono-label">{being.kind === "person" ? "La parcelle de" : "Le coin de"}</p>
+          <h1 className="mt-4 ed-page-title">
             <span className="italic">{being.name}</span>
           </h1>
           <p className="mt-4 body-meta">

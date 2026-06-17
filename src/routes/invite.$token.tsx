@@ -38,9 +38,9 @@ function InvitePage() {
   return (
     <main className="min-h-dvh bg-paper text-dusk flex items-center justify-center px-6">
       <div className="max-w-[400px] w-full">
-        <p className="eyebrow">Invitation</p>
-        <h1 className="display-xl mt-4">Un proche vous invite dans son cercle.</h1>
-        <p className="mt-5 body-meta">
+        <p className="mono-label">Invitation</p>
+        <h1 className="ed-page-title mt-5">Un proche vous invite <span className="italic" style={{ color: "var(--terracotta)" }}>dans son cercle</span>.</h1>
+        <p className="mt-6 body-meta">
           Un cercle Legato est un espace doux où l'on partage souvenirs, textes, et où l'on peut s'entraider sur les démarches.
         </p>
         {authed === null ? (
