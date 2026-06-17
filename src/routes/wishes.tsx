@@ -66,7 +66,15 @@ function WishesPage() {
         <div className="relative z-10">
           <div className="px-7 pt-10 flex items-center justify-between">
             <Link to="/practical" className="eyebrow">← Retour</Link>
-            <span className="eyebrow">Pages personnelles</span>
+            <div className="flex items-center gap-3">
+              <ShareToCircle
+                kind="wish"
+                title={`Mes volontés — ${name || "moi"}`}
+                payload={wishes as unknown as Record<string, unknown>}
+                label="Partager"
+              />
+              <span className="eyebrow">Pages personnelles</span>
+            </div>
           </div>
 
           <header className="px-7 pt-12">
