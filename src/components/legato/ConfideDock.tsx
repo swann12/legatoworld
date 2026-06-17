@@ -4,6 +4,8 @@ import { useLegato } from "@/lib/legato-state";
 import { suggestPractical, type PracticalSuggestion } from "@/lib/practical-ai.functions";
 import { useServerFn } from "@tanstack/react-start";
 import { savePractical, loadPractical } from "@/lib/practical-store";
+import { recordEmotion } from "@/lib/emotional.functions";
+import { supabase } from "@/integrations/supabase/client";
 
 export function ConfideDock({ step }: { step?: string }) {
   const { mode } = useLegato();
@@ -16,6 +18,7 @@ export function ConfideDock({ step }: { step?: string }) {
   const recRef = useRef<any>(null);
 
   const ask = useServerFn(suggestPractical);
+  const record = useServerFn(recordEmotion);
 
   useEffect(() => {
     if (!open) return;
@@ -55,6 +58,12 @@ export function ConfideDock({ step }: { step?: string }) {
     setError(null);
     setSuggestion(null);
     savePractical({ lastConfide: text });
+    // Si l'utilisateur est connecté, on capture une trace émotionnelle douce
+    supabase.auth.getSession().then(({ data }) => {
+      if (data.session) {
+        record({ data: { source: "confide", note: text.slice(0, 240), mood: mode } }).catch(() => {});
+      }
+    });
     try {
       const r = await ask({ data: { description: text, mode, step, budget: loadPractical().budget || undefined } });
       if (r.error) setError(r.error);

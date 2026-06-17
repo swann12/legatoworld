@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Shell } from "@/components/legato/Shell";
 import { ConfideDock } from "@/components/legato/ConfideDock";
 import { PersonalSuggestions } from "@/components/legato/PersonalSuggestions";
+import { ShareToCircle } from "@/components/legato/ShareToCircle";
 
 export const Route = createFileRoute("/practical/texts")({
   head: () => ({ meta: [{ title: "Textes & musiques — Legato" }] }),
@@ -29,7 +30,10 @@ function Texts() {
         <div className="relative z-10">
           <div className="px-7 pt-10 flex items-center justify-between">
             <Link to="/practical/atmosphere" className="eyebrow">← Atmosphère</Link>
-            <span className="eyebrow">Textes & musiques</span>
+            <div className="flex items-center gap-3">
+              <ShareToCircle kind="text" title="Textes & musiques choisis" label="Partager" />
+              <span className="eyebrow">Textes & musiques</span>
+            </div>
           </div>
           <header className="px-7 pt-12">
             <p className="eyebrow">Lectures, poèmes, musiques</p>

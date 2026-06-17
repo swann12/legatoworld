@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Shell } from "@/components/legato/Shell";
+import { LISTENING_LINES } from "@/lib/listening-lines";
 
 export const Route = createFileRoute("/crisis")({
   head: () => ({ meta: [{ title: "Si aujourd'hui pèse trop — Legato" }] }),
@@ -94,6 +95,23 @@ function Crisis() {
               </span>
             </Link>
           </div>
+
+          <section className="w-full pb-16 text-left">
+            <p className="eyebrow">Lignes d'écoute</p>
+            <ul className="mt-3 space-y-2">
+              {LISTENING_LINES.map((l) => (
+                <li key={l.name} className="paper-card p-4">
+                  <div className="flex items-baseline justify-between gap-3">
+                    <p className="font-serif text-[16px] text-dusk">{l.name}</p>
+                    <a href={`tel:${l.phone.replace(/\s/g, "")}`} className="eyebrow text-dusk">
+                      {l.phone}
+                    </a>
+                  </div>
+                  <p className="mt-1 text-[12.5px] text-dusk/70">{l.hours} · {l.scope}</p>
+                </li>
+              ))}
+            </ul>
+          </section>
         </div>
       </div>
     </Shell>

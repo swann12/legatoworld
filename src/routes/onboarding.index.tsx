@@ -1,6 +1,9 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useLegato } from "@/lib/legato-state";
 import { LegatoMark } from "@/components/legato/LegatoMark";
+import { useServerFn } from "@tanstack/react-start";
+import { recordEmotion } from "@/lib/emotional.functions";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/onboarding/")({
   head: () => ({
@@ -18,6 +21,16 @@ function Onboarding() {
   const { name, setName } = useLegato();
   const navigate = useNavigate();
   const canContinue = name.trim().length > 0;
+  const record = useServerFn(recordEmotion);
+
+  const proceed = async () => {
+    if (!canContinue) return;
+    const { data } = await supabase.auth.getSession();
+    if (data.session) {
+      record({ data: { source: "onboarding", tags: ["accueil"], note: `Prénom : ${name}` } }).catch(() => {});
+    }
+    navigate({ to: "/space" });
+  };
 
   return (
     <main className="min-h-dvh bg-paper text-dusk">
@@ -50,7 +63,7 @@ function Onboarding() {
           </div>
 
           <button
-            onClick={() => canContinue && navigate({ to: "/space" })}
+            onClick={proceed}
             disabled={!canContinue}
             className="mt-5 block w-full card-tomato px-6 py-5 text-center disabled:opacity-40 transition-transform active:scale-[0.99]"
           >
