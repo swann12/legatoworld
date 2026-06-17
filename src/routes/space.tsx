@@ -18,86 +18,79 @@ function Space() {
   const { name } = useLegato();
   const careTarget = "/home";
   const practicalTarget = "/practical";
-  const today = new Intl.DateTimeFormat("fr-FR", { day: "2-digit", month: "long" }).format(new Date());
   return (
     <main className="min-h-dvh bg-paper text-dusk">
       <div className="mobile-frame relative flex min-h-dvh flex-col">
-        <header className="pt-8 px-6">
-          <div className="folio">
-            <LegatoMark to="/space" size={22} />
-            <span>{today}</span>
-          </div>
+        <header className="pt-9 px-6 flex justify-center">
+          <LegatoMark to="/space" size={24} />
         </header>
 
-        <section className="pt-12 px-6">
-          <p className="eyebrow">{name ? `Bonjour, ${name}` : "Bonjour"}</p>
-          <div className="mt-5 max-w-[20rem]">
-            <h1 className="ed-title text-[47px]">
-              De quoi avez-vous
-              <br />
-              <span className="italic" style={{ color: "var(--terracotta)" }}>besoin</span>&nbsp;?
-            </h1>
-          </div>
-          <p className="mt-6 body-meta max-w-[30ch]">
-            Deux espaces, distincts mais reliés. Vous passez de l'un à l'autre à tout moment.
+        <section className="px-7 pt-20 text-center">
+          {name && (
+            <p className="mono-label tracking-[0.18em] text-dusk/60">
+              Bonjour, {name}
+            </p>
+          )}
+          <h1 className="mt-7 font-serif font-normal text-[38px] leading-[1.05] tracking-[-0.01em] text-dusk">
+            De quoi avez-vous
+            <br />
+            <span className="italic" style={{ color: "var(--terracotta)" }}>besoin</span>&nbsp;?
+          </h1>
+          <p className="mt-6 mx-auto max-w-[28ch] text-[13.5px] leading-[1.6] text-dusk/65">
+            Choisissez un espace. Vous pourrez passer
+            de l'un à l'autre à tout moment.
           </p>
         </section>
 
-        <div className="px-6 mt-9">
-          <div className="rule-label"><span>Choisir un seuil</span></div>
-        </div>
-
-        <section className="px-5 pt-6 space-y-4">
-          <EditorialCard
+        <section className="px-7 pt-16 flex-1 flex flex-col justify-center gap-3">
+          <SpaceChoice
             to={careTarget}
-            tone="card-tomato"
-            eyebrow="Espace de soi"
-            title={<>Prendre soin de <span className="italic">soi</span>.</>}
-            body="Pour traverser ce que vous ressentez, écrire, respirer, parler ou préserver un souvenir."
-            detail="Journal, rituels, cercle, présence"
-            cta="Entrer dans cet espace"
+            num="01"
+            label="Espace de soi"
+            title="Prendre soin de soi"
+            hint="Ressentir, écrire, respirer."
           />
-          <EditorialCard
+          <SpaceChoice
             to={practicalTarget}
-            tone="card-oven"
-            eyebrow="Espace démarches"
-            title={<>Organiser et <span className="italic">avancer</span>.</>}
-            body="Pour être guidé·e dans les démarches, la cérémonie, les documents et les prochaines étapes."
-            detail="Checklist, priorités, documents, rendez-vous"
-            cta="Voir le plan d'action"
+            num="02"
+            label="Espace démarches"
+            title="Organiser et avancer"
+            hint="Étapes, documents, cérémonie."
           />
         </section>
 
-        <p className="mt-10 px-6 pb-10 body-meta">
-          Vous pourrez changer d'espace à tout moment.
-        </p>
+        <footer className="px-7 pt-10 pb-10 text-center">
+          <p className="mono-label tracking-[0.22em] text-dusk/45">
+            LEGATO
+          </p>
+        </footer>
       </div>
     </main>
   );
 }
 
-function EditorialCard({
-  to, tone, eyebrow, title, body, detail, cta,
+function SpaceChoice({
+  to, num, label, title, hint,
 }: {
   to: string;
-  tone: string;
-  eyebrow: string;
-  title: ReactNode;
-  body: string;
-  detail: string;
-  cta: string;
+  num: string;
+  label: string;
+  title: string;
+  hint: string;
 }) {
   return (
     <Link
       to={to as "/home"}
-      className={`plate ${tone} px-6 pt-6 pb-5 transition-transform active:scale-[0.99]`}
+      className="group block rounded-[18px] border border-dusk/12 bg-[color:var(--whisper)] px-6 py-5 transition-colors hover:border-dusk/25"
     >
-      <span className="eyebrow-on-dark">{eyebrow}</span>
-      <h2 className="mt-4 max-w-[14ch] font-serif text-[34px] font-normal leading-[0.98] tracking-[-0.01em]">{title}</h2>
-      <p className="mt-4 text-[13px] leading-[1.55] opacity-85 max-w-[32ch]">{body}</p>
-      <div className="plate-caption">
-        <span>{detail}</span>
-        <span>{cta} →</span>
+      <div className="flex items-center gap-5">
+        <span className="font-mono text-[11px] tracking-[0.18em] text-dusk/45 w-6">{num}</span>
+        <div className="flex-1 min-w-0">
+          <p className="mono-label text-dusk/55">{label}</p>
+          <p className="mt-1.5 font-serif text-[22px] leading-[1.15] text-dusk">{title}</p>
+          <p className="mt-1 text-[12.5px] text-dusk/55">{hint}</p>
+        </div>
+        <span className="text-dusk/40 text-[18px] transition-transform group-hover:translate-x-0.5">→</span>
       </div>
     </Link>
   );
