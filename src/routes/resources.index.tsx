@@ -1,8 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Shell } from "@/components/legato/Shell";
-import { LegatoMark } from "@/components/legato/LegatoMark";
 import { categoriesBySpace, type ResourceSpace } from "@/lib/resources-data";
 import { z } from "zod";
+import { PageHeader, IvoryCard, SectionLabel } from "@/components/legato/EditorialUI";
 
 export const Route = createFileRoute("/resources/")({
   validateSearch: (s) =>
@@ -36,14 +36,11 @@ function ResourcesIndex() {
   return (
     <Shell livingBg={false}>
       <div className="min-h-dvh bg-paper text-dusk pb-32">
-        <header className="px-6 pt-9 pb-6 flex items-center justify-between">
-          <LegatoMark to="/space" size={22} />
-          <span className="eyebrow">Ressources</span>
-        </header>
+        <PageHeader title="RESSOURCES" />
 
-        <section className="px-6 pb-8">
-          <p className="eyebrow">{eyebrow}</p>
-          <h1 className="mt-5 display-xl">{title}</h1>
+        <section className="px-6 pt-4 pb-8">
+          <p className="mono-label">{eyebrow}</p>
+          <h1 className="mt-5 ed-page-title">{title}</h1>
           <p className="mt-5 body-meta max-w-[34ch]">{subtitle}</p>
 
           {/* Switch d'espace */}
@@ -74,14 +71,14 @@ function ResourcesIndex() {
               to="/resources/$category"
               params={{ category: id }}
               search={{ space: activeSpace }}
-              className="card-plain p-5 flex items-start gap-4 justify-between transition-transform hover:-translate-y-0.5"
+              className="block rounded-[18px] border border-dusk/10 p-5 flex items-start gap-4 justify-between transition-transform hover:-translate-y-0.5"
               style={{ background: `color-mix(in oklab, ${tint} 22%, var(--paper))` }}
             >
               <span className="flex size-10 shrink-0 items-center justify-center rounded-full border border-dusk/10 bg-paper">
                 <Icon size={18} strokeWidth={1.5} className="text-dusk/75" />
               </span>
               <div className="flex-1 min-w-0">
-                <p className="eyebrow">{label}</p>
+                <p className="mono-label">{label}</p>
                 <p className="mt-2 max-w-[14ch] font-serif text-[22px] leading-[1.05] text-dusk">
                   {intent}
                 </p>
