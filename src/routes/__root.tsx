@@ -1,4 +1,6 @@
 import { Outlet, Link, createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useState, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { LegatoProvider } from "@/lib/legato-state";
@@ -66,7 +68,7 @@ export const Route = createRootRoute({
   notFoundComponent: NotFoundComponent,
 });
 
-function RootShell({ children }: { children: React.ReactNode }) {
+function RootShell({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <head>
@@ -81,10 +83,14 @@ function RootShell({ children }: { children: React.ReactNode }) {
 }
 
 function RootComponent() {
+  const [queryClient] = useState(() => new QueryClient());
+
   return (
-    <LegatoProvider>
-      <Outlet />
-      <Toaster />
-    </LegatoProvider>
+    <QueryClientProvider client={queryClient}>
+      <LegatoProvider>
+        <Outlet />
+        <Toaster />
+      </LegatoProvider>
+    </QueryClientProvider>
   );
 }
