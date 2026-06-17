@@ -76,7 +76,7 @@
   --color-azure: var(--azure);
   --color-magenta: var(--magenta);
 
-  --font-serif: "Instrument Serif", "Iowan Old Style", "Palatino Linotype", ui-serif, serif;
+  --font-serif: "Playfair Display", "Iowan Old Style", "Palatino Linotype", ui-serif, serif;
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   /* Refonte : suppression de la 3e famille. Les micro-labels passent en Inter uppercase. */
   --font-mono: "Inter", ui-sans-serif, system-ui, sans-serif;
