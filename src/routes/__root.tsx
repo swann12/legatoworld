@@ -2,6 +2,7 @@ import { Outlet, Link, createRootRoute, HeadContent, Scripts } from "@tanstack/r
 
 import appCss from "../styles.css?url";
 import { LegatoProvider } from "@/lib/legato-state";
+import { Toaster } from "@/components/ui/sonner";
 
 function NotFoundComponent() {
   return (
@@ -83,6 +84,7 @@ function RootComponent() {
   return (
     <LegatoProvider>
       <Outlet />
+      <Toaster />
     </LegatoProvider>
   );
 }

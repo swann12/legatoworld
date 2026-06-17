@@ -14,6 +14,115 @@ export type Database = {
   }
   public: {
     Tables: {
+      circle_invites: {
+        Row: {
+          accepted_at: string | null
+          circle_id: string
+          created_at: string
+          email: string | null
+          expires_at: string
+          invited_by: string
+          role: Database["public"]["Enums"]["circle_member_role"]
+          token: string
+        }
+        Insert: {
+          accepted_at?: string | null
+          circle_id: string
+          created_at?: string
+          email?: string | null
+          expires_at?: string
+          invited_by: string
+          role?: Database["public"]["Enums"]["circle_member_role"]
+          token: string
+        }
+        Update: {
+          accepted_at?: string | null
+          circle_id?: string
+          created_at?: string
+          email?: string | null
+          expires_at?: string
+          invited_by?: string
+          role?: Database["public"]["Enums"]["circle_member_role"]
+          token?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "circle_invites_circle_id_fkey"
+            columns: ["circle_id"]
+            isOneToOne: false
+            referencedRelation: "circles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      circle_members: {
+        Row: {
+          circle_id: string
+          created_at: string
+          display_name: string | null
+          email: string | null
+          id: string
+          role: Database["public"]["Enums"]["circle_member_role"]
+          status: Database["public"]["Enums"]["circle_member_status"]
+          user_id: string | null
+        }
+        Insert: {
+          circle_id: string
+          created_at?: string
+          display_name?: string | null
+          email?: string | null
+          id?: string
+          role?: Database["public"]["Enums"]["circle_member_role"]
+          status?: Database["public"]["Enums"]["circle_member_status"]
+          user_id?: string | null
+        }
+        Update: {
+          circle_id?: string
+          created_at?: string
+          display_name?: string | null
+          email?: string | null
+          id?: string
+          role?: Database["public"]["Enums"]["circle_member_role"]
+          status?: Database["public"]["Enums"]["circle_member_status"]
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "circle_members_circle_id_fkey"
+            columns: ["circle_id"]
+            isOneToOne: false
+            referencedRelation: "circles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      circles: {
+        Row: {
+          created_at: string
+          defunt_name: string | null
+          id: string
+          name: string
+          owner_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          defunt_name?: string | null
+          id?: string
+          name: string
+          owner_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          defunt_name?: string | null
+          id?: string
+          name?: string
+          owner_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
@@ -35,15 +144,77 @@ export type Database = {
         }
         Relationships: []
       }
+      shared_items: {
+        Row: {
+          assignee_id: string | null
+          author_id: string
+          circle_id: string
+          created_at: string
+          id: string
+          kind: Database["public"]["Enums"]["shared_item_kind"]
+          payload: Json
+          status: Database["public"]["Enums"]["shared_item_status"] | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          assignee_id?: string | null
+          author_id: string
+          circle_id: string
+          created_at?: string
+          id?: string
+          kind: Database["public"]["Enums"]["shared_item_kind"]
+          payload?: Json
+          status?: Database["public"]["Enums"]["shared_item_status"] | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          assignee_id?: string | null
+          author_id?: string
+          circle_id?: string
+          created_at?: string
+          id?: string
+          kind?: Database["public"]["Enums"]["shared_item_kind"]
+          payload?: Json
+          status?: Database["public"]["Enums"]["shared_item_status"] | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "shared_items_circle_id_fkey"
+            columns: ["circle_id"]
+            isOneToOne: false
+            referencedRelation: "circles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      is_circle_member: {
+        Args: { _circle_id: string; _user_id: string }
+        Returns: boolean
+      }
+      is_circle_owner: {
+        Args: { _circle_id: string; _user_id: string }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      circle_member_role: "owner" | "proche" | "aidant"
+      circle_member_status: "invited" | "active" | "revoked"
+      shared_item_kind: "task" | "memory" | "text" | "wish" | "doc" | "note"
+      shared_item_status:
+        | "open"
+        | "in_progress"
+        | "blocked"
+        | "done"
+        | "delegated"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -170,6 +341,17 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      circle_member_role: ["owner", "proche", "aidant"],
+      circle_member_status: ["invited", "active", "revoked"],
+      shared_item_kind: ["task", "memory", "text", "wish", "doc", "note"],
+      shared_item_status: [
+        "open",
+        "in_progress",
+        "blocked",
+        "done",
+        "delegated",
+      ],
+    },
   },
 } as const

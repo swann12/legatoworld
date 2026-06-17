@@ -5,7 +5,7 @@ import { Link, useLocation } from "@tanstack/react-router";
  * Accueil · Ressentir · Démarches · Cercle · Ressources
  */
 type Item = {
-  to: "/home" | "/journal" | "/practical" | "/community" | "/resources";
+  to: "/home" | "/journal" | "/practical" | "/circle" | "/resources";
   label: string;
   search?: { space: "care" | "practical" };
   match: (p: string) => boolean;
@@ -15,7 +15,7 @@ const ITEMS: Item[] = [
   { to: "/home",      label: "Accueil",    match: (p) => p === "/home" || p === "/" },
   { to: "/journal",   label: "Ressentir",  match: (p) => p.startsWith("/journal") || p.startsWith("/garden") || p.startsWith("/presence") || p.startsWith("/no-words") || p.startsWith("/memories") || p.startsWith("/help") },
   { to: "/practical", label: "Démarches",  match: (p) => p.startsWith("/practical") || p.startsWith("/parcours") || p.startsWith("/wishes") || p.startsWith("/appointments") || p.startsWith("/dates") },
-  { to: "/community", label: "Cercle",     match: (p) => p.startsWith("/community") },
+  { to: "/circle",    label: "Cercle",     match: (p) => p.startsWith("/circle") || p.startsWith("/community") },
   { to: "/resources", label: "Ressources", search: { space: "care" }, match: (p) => p.startsWith("/resources") || p.startsWith("/library") || p.startsWith("/inspiration") },
 ];
 
