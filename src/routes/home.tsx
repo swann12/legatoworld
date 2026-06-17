@@ -167,7 +167,6 @@ function Home() {
           </Link>
         </section>
 
-        <LinearProgress value={tasksPct} color="transparent" />
       </div>
     </Shell>
   );
