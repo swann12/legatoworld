@@ -4,8 +4,8 @@ import { useServerFn } from "@tanstack/react-start";
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { Shell } from "@/components/legato/Shell";
-import { LegatoMark } from "@/components/legato/LegatoMark";
 import { listMyCircles, shareItem } from "@/lib/circle.functions";
+import { PageHeader, IvoryCard } from "@/components/legato/EditorialUI";
 
 export const Route = createFileRoute("/parcours/$taskId")({
   head: () => ({ meta: [{ title: "Étape — Legato" }] }),
@@ -37,13 +37,8 @@ const DATA: Record<string, TaskInfo> = {
 function TaskDetail() {
   const { taskId } = Route.useParams();
   const t: TaskInfo = DATA[taskId] ?? {
-    title: "Cette étape",
-    why: "Cette étape fait partie de votre parcours.",
-    when: "Quand vous serez prêt·e.",
-    infos: [],
-    docs: [],
-    questions: [],
-    budget: "—",
+    title: "Cette étape", why: "Cette étape fait partie de votre parcours.", when: "Quand vous serez prêt·e.",
+    infos: [], docs: [], questions: [], budget: "—",
   };
 
   const listFn = useServerFn(listMyCircles);
@@ -51,115 +46,75 @@ function TaskDetail() {
   const [delegating, setDelegating] = useState(false);
   const [done, setDone] = useState(false);
   const { data: circles } = useQuery({
-    queryKey: ["my-circles"],
-    queryFn: () => listFn({}),
-    enabled: delegating,
+    queryKey: ["my-circles"], queryFn: () => listFn({}), enabled: delegating,
   });
 
   async function delegate(circleId: string) {
     try {
-      await shareFn({
-        data: {
-          circleId,
-          kind: "task",
-          title: t.title,
-          status: "delegated",
-          payload: { taskId, when: t.when, why: t.why },
-        },
-      });
-      toast.success("Tâche déléguée au cercle.");
-      setDelegating(false);
-    } catch (e: any) {
-      toast.error(e?.message ?? "Délégation impossible.");
-    }
+      await shareFn({ data: { circleId, kind: "task", title: t.title, status: "delegated", payload: { taskId, when: t.when, why: t.why } } });
+      toast.success("Tâche déléguée au cercle."); setDelegating(false);
+    } catch (e: any) { toast.error(e?.message ?? "Délégation impossible."); }
   }
 
   return (
     <Shell livingBg={false}>
       <div className="min-h-dvh bg-paper text-dusk pb-32">
-        <header className="px-6 pt-9 pb-6 flex items-center justify-between">
-          <LegatoMark to="/space" size={22} />
-          <Link to="/parcours" className="eyebrow hover:text-dusk">← Parcours</Link>
-        </header>
+        <PageHeader title="ÉTAPE" back="/parcours" />
 
-        <section className="px-6 pb-9">
-          <p className="eyebrow">Étape · Priorité</p>
-          <h1 className="mt-5 display-xl">{t.title}.</h1>
+        <section className="px-6 pt-4 pb-6">
+          <p className="mono-label">Étape · Priorité</p>
+          <h1 className="mt-5 ed-page-title">{t.title}.</h1>
         </section>
 
         <Block label="Pourquoi maintenant" body={t.why} />
-        <Block label="Quand la réaliser"   body={t.when} />
-
-        {t.infos.length > 0 && (
-          <List label="Informations à préparer" items={t.infos} />
-        )}
-        {t.docs.length > 0 && (
-          <List label="Documents utiles" items={t.docs} />
-        )}
-        {t.questions.length > 0 && (
-          <List label="Questions à poser" items={t.questions} />
-        )}
-
+        <Block label="Quand la réaliser" body={t.when} />
+        {t.infos.length > 0 && <List label="Informations à préparer" items={t.infos} />}
+        {t.docs.length > 0 && <List label="Documents utiles" items={t.docs} />}
+        {t.questions.length > 0 && <List label="Questions à poser" items={t.questions} />}
         <Block label="Budget estimé" body={t.budget} />
 
-        <section className="px-6 pt-9">
-          <p className="eyebrow">Professionnels recommandés</p>
-          <Link
-            to="/resources"
-            search={{ space: "practical" }}
-            className="mt-3 block card-plain px-5 py-4 hover:bg-dusk/[0.02]"
-          >
+        <section className="px-6 pt-8">
+          <p className="mono-label">Professionnels recommandés</p>
+          <Link to="/resources" search={{ space: "practical" }} className="mt-3 block rounded-[18px] border border-dusk/10 bg-paper px-5 py-4 hover:bg-dusk/[0.02] transition-colors">
             <p className="font-serif text-[18px] text-dusk">Voir l'annuaire</p>
             <p className="text-[12.5px] text-dusk/60 mt-1">Comparer plusieurs prestataires près de chez vous.</p>
           </Link>
         </section>
 
-        <section className="px-5 pt-9 space-y-2.5">
-          <button className="w-full card-tomato py-4 font-serif text-[20px] transition-transform active:scale-[0.99]">
+        <section className="px-5 pt-8 space-y-2.5">
+          <button className="w-full rounded-[18px] py-4 font-serif text-[20px] transition-transform active:scale-[0.99]" style={{ background: "var(--terracotta)", color: "var(--paper)" }}>
             Commencer cette étape →
           </button>
           <div className="grid grid-cols-2 gap-2.5">
-            <button
-              onClick={() => setDelegating((v) => !v)}
-              className="btn-ghost py-3 rounded-[14px] min-h-11"
-              aria-expanded={delegating}
-            >
+            <button onClick={() => setDelegating((v) => !v)} className="rounded-[14px] border border-dusk/15 px-4 py-3 text-[12px] uppercase tracking-[0.14em] font-medium text-dusk hover:bg-dusk/5 transition-colors min-h-11" aria-expanded={delegating}>
               Déléguer
             </button>
-            <button
-              onClick={() => { setDone(true); toast.success("Étape marquée comme faite."); }}
-              className="btn-ghost py-3 rounded-[14px] min-h-11"
-            >
+            <button onClick={() => { setDone(true); toast.success("Étape marquée comme faite."); }} className="rounded-[14px] border border-dusk/15 px-4 py-3 text-[12px] uppercase tracking-[0.14em] font-medium text-dusk hover:bg-dusk/5 transition-colors min-h-11">
               {done ? "✓ Fait" : "Marquer fait"}
             </button>
           </div>
           {delegating && (
-            <div className="paper-card p-4 mt-2">
-              <p className="eyebrow mb-2">Choisir un cercle</p>
+            <IvoryCard className="p-4 mt-2">
+              <p className="mono-label mb-2">Choisir un cercle</p>
               {(circles?.circles?.length ?? 0) === 0 ? (
-                <p className="text-[13px] text-dusk/65">
-                  Aucun cercle pour l'instant. <Link to="/_authenticated/circle" className="underline">Créer un cercle</Link>.
-                </p>
+                <p className="text-[13px] text-dusk/65">Aucun cercle pour l'instant. <Link to="/_authenticated/circle" className="underline">Créer un cercle</Link>.</p>
               ) : (
                 <ul className="space-y-1">
                   {circles?.circles?.map((c) => (
                     <li key={c.id}>
-                      <button
-                        onClick={() => delegate(c.id)}
-                        className="w-full text-left text-[14px] text-dusk hover:bg-dusk/[0.04] rounded-[10px] px-3 py-2 min-h-11"
-                      >
+                      <button onClick={() => delegate(c.id)} className="w-full text-left text-[14px] text-dusk hover:bg-dusk/[0.04] rounded-[10px] px-3 py-2 min-h-11">
                         {c.name}
                       </button>
                     </li>
                   ))}
                 </ul>
               )}
-            </div>
+            </IvoryCard>
           )}
           <div className="grid grid-cols-3 gap-2.5 pt-1">
-            <button className="btn-ghost py-2.5 rounded-[14px]">Appeler</button>
-            <button className="btn-ghost py-2.5 rounded-[14px]">Écrire</button>
-            <button className="btn-ghost py-2.5 rounded-[14px]">RDV</button>
+            <button className="rounded-[14px] border border-dusk/15 px-4 py-2.5 text-[12px] uppercase tracking-[0.14em] font-medium text-dusk hover:bg-dusk/5 transition-colors">Appeler</button>
+            <button className="rounded-[14px] border border-dusk/15 px-4 py-2.5 text-[12px] uppercase tracking-[0.14em] font-medium text-dusk hover:bg-dusk/5 transition-colors">Écrire</button>
+            <button className="rounded-[14px] border border-dusk/15 px-4 py-2.5 text-[12px] uppercase tracking-[0.14em] font-medium text-dusk hover:bg-dusk/5 transition-colors">RDV</button>
           </div>
         </section>
       </div>
@@ -170,7 +125,7 @@ function TaskDetail() {
 function Block({ label, body }: { label: string; body: string }) {
   return (
     <section className="px-6 pt-8">
-      <p className="eyebrow">{label}</p>
+      <p className="mono-label">{label}</p>
       <p className="mt-3 text-[15px] leading-[1.55] text-dusk/80 max-w-[40ch]">{body}</p>
     </section>
   );
@@ -179,7 +134,7 @@ function Block({ label, body }: { label: string; body: string }) {
 function List({ label, items }: { label: string; items: string[] }) {
   return (
     <section className="px-6 pt-8">
-      <p className="eyebrow">{label}</p>
+      <p className="mono-label">{label}</p>
       <ul className="mt-3 space-y-1.5">
         {items.map((it) => (
           <li key={it} className="flex items-start gap-2.5 text-[14px] text-dusk/80 leading-[1.55]">
