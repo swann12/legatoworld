@@ -76,7 +76,7 @@
   --color-azure: var(--azure);
   --color-magenta: var(--magenta);
 
-  --font-serif: "Cormorant Garamond", "Iowan Old Style", "Palatino Linotype", ui-serif, serif;
+  --font-serif: "Newsreader", "Iowan Old Style", "Palatino Linotype", ui-serif, serif;
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   /* Space Mono pour les micro-labels graphiques (sections, dates, statuts). */
   --font-mono: "Space Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
@@ -491,9 +491,9 @@
   .print-booklet .page { page-break-after: always; }
 }
 
-/* ─── Refonte Co-Star : système éditorial unifié ───
- * Une seule famille serif (Instrument Serif), une seule sans (Inter).
- * Cinq tailles canoniques. Six tons palette. Pas de décor inutile.
+/* ─── Refonte éditoriale : système typographique unifié ───
+ * Une seule famille serif (Newsreader), une seule sans (Inter).
+ * Cinq tailles canoniques. Palette restreinte. Pas de décor inutile.
  */
 @layer components {
   .eyebrow {
