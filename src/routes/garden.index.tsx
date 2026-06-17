@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Shell } from "@/components/legato/Shell";
 import { LegatoMark } from "@/components/legato/LegatoMark";
 import { useLegato } from "@/lib/legato-state";
+import { PageHeader, IvoryCard } from "@/components/legato/EditorialUI";
 import gardenPainted from "@/assets/garden-painted-v4.png";
 
 export const Route = createFileRoute("/garden/")({
@@ -19,13 +20,10 @@ type Being = {
   id: string;
   name: string;
   kind: "person" | "animal";
-  /** clickable elliptical hotspot, % of container */
   cx: number; cy: number; rx: number; ry: number;
-  /** dominant color tints used by detail pages */
   blooms: { tint: string; tint2: string }[];
 };
 
-/** Positions calibrated to the painted garden image (5 main beds). */
 export const BEINGS: Being[] = [
   { id: "elise", name: "Élise", kind: "person", cx: 16, cy: 23, rx: 16, ry: 18,
     blooms: [{ tint: "var(--rose)", tint2: "var(--peach)" }, { tint: "var(--peach)", tint2: "var(--rose)" }] },
@@ -40,12 +38,10 @@ export const BEINGS: Being[] = [
 ];
 
 function Garden() {
-  const { lostName, t, lang } = useLegato();
+  const { lostName, lang } = useLegato();
   const [hovered, setHovered] = useState<string | null>(null);
   const activeBeing = BEINGS.find((b) => b.id === hovered) ?? null;
 
-  /** Extra parcelles in the painting that don't (yet) belong to a being.
-   *  They still glow on hover, but are not clickable. */
   const EXTRA_PARCELLES = [
     { id: "_extra-top",    cx: 48, cy: 14, rx: 12, ry: 10 },
     { id: "_extra-center", cx: 50, cy: 50, rx: 16, ry: 18 },
@@ -55,13 +51,11 @@ function Garden() {
     <Shell>
       <div className="relative pb-10 garden-page-bg">
         <div className="relative z-10">
-          <header className="px-6 pt-9 pb-4 flex items-center justify-between">
-            <LegatoMark to="/space" size={22} />
-            <span className="eyebrow">Jardin</span>
-          </header>
+          <PageHeader title="JARDIN" />
+
           <section className="px-6 pt-4">
-            <p className="eyebrow">Mémoire</p>
-            <h1 className="mt-5 display-xl">
+            <p className="mono-label">Mémoire</p>
+            <h1 className="mt-5 ed-page-title">
               {lang === "fr" ? (
                 <>Un paysage <span className="italic" style={{ color: "var(--terracotta)" }}>qui se souvient</span>.</>
               ) : (
@@ -73,13 +67,9 @@ function Garden() {
             </p>
           </section>
 
-          {/* The painted garden, viewed from above */}
+          {/* The painted garden */}
           <div className="px-0 mt-6">
-            <div
-              className="relative w-full garden-canvas"
-              style={{ aspectRatio: "3 / 4" }}
-            >
-              {/* The painted garden image — dissolved into the paper, no rigid frame */}
+            <div className="relative w-full garden-canvas" style={{ aspectRatio: "3 / 4" }}>
               <img
                 src={gardenPainted}
                 alt=""
@@ -88,8 +78,6 @@ function Garden() {
                 className="absolute inset-0 w-full h-full object-cover select-none garden-dissolve"
                 draggable={false}
               />
-
-              {/* Hotspots — local lift on hover, gentle dim on the others */}
               {BEINGS.map((p) => (
                 <Link
                   key={p.id}
@@ -113,8 +101,6 @@ function Garden() {
                   }}
                 />
               ))}
-
-              {/* Hover-only spots for the unassigned parcelles */}
               {EXTRA_PARCELLES.map((p) => (
                 <div
                   key={p.id}
@@ -133,14 +119,8 @@ function Garden() {
                 />
               ))}
             </div>
-
-            {/* Discreet, subtle indication of which being a bloom belongs to */}
             <div className="mt-4 h-6 px-2 text-center">
-              <p
-                key={activeBeing?.id ?? "idle"}
-                className="text-[11px] italic text-dusk/55 transition-opacity duration-500"
-                style={{ opacity: activeBeing ? 1 : 0.5 }}
-              >
+              <p className="text-[11px] italic text-dusk/55 transition-opacity duration-500" style={{ opacity: activeBeing ? 1 : 0.5 }}>
                 {activeBeing
                   ? lang === "fr"
                     ? `ce jardin appartient à ${activeBeing.name}`
