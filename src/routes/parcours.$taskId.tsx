@@ -138,7 +138,7 @@ function TaskDetail() {
               <p className="eyebrow mb-2">Choisir un cercle</p>
               {(circles?.circles?.length ?? 0) === 0 ? (
                 <p className="text-[13px] text-dusk/65">
-                  Aucun cercle pour l'instant. <Link to="/circle" className="underline">Créer un cercle</Link>.
+                  Aucun cercle pour l'instant. <Link to="/_authenticated/circle" className="underline">Créer un cercle</Link>.
                 </p>
               ) : (
                 <ul className="space-y-1">

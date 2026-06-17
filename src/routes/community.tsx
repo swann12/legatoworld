@@ -45,7 +45,7 @@ function Community() {
         </section>
 
         <section className="px-6 pb-6">
-          <Link to="/circle" className="block card-plain p-5 hover:bg-dusk/[0.03] transition">
+          <Link to="/_authenticated/circle" className="block card-plain p-5 hover:bg-dusk/[0.03] transition">
             <p className="eyebrow">Votre cercle privé</p>
             <p className="mt-2 font-serif text-[20px] text-dusk leading-tight">Inviter vos proches, déléguer, partager →</p>
             <p className="mt-2 text-[12.5px] text-dusk/65">Un espace privé entre vous et celles et ceux qui comptent.</p>
