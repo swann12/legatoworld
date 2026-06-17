@@ -42,7 +42,7 @@ export function HelpHeader({
 }) {
   return (
     <header className="px-7 pt-10">
-      <h1 className="display-xl italic text-dusk text-balance">
+      <h1 className="ed-page-title italic text-dusk text-balance">
         {title}
       </h1>
       {subtitle && (

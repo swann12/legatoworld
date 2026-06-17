@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Shell } from "@/components/legato/Shell";
-import { LegatoMark } from "@/components/legato/LegatoMark";
+import { PageHeader } from "@/components/legato/EditorialUI";
 
 export const Route = createFileRoute("/help/corps")({
   head: () => ({ meta: [{ title: "Le corps — Aide" }] }),
@@ -18,13 +18,10 @@ function Hub() {
   return (
     <Shell livingBg={false}>
       <div className="min-h-dvh bg-paper text-dusk pb-32">
-        <header className="px-6 pt-9 pb-2 flex items-center justify-between">
-          <LegatoMark to="/home" size={22} />
-          <Link to="/help" className="eyebrow hover:underline underline-offset-4">← Aide</Link>
-        </header>
+        <PageHeader title="LE CORPS" back="/help" />
         <section className="px-6 pt-10 pb-8">
-          <p className="eyebrow">Le corps</p>
-          <h1 className="mt-4 display-xl">
+          <p className="mono-label">Le corps</p>
+          <h1 className="mt-4 ed-page-title">
             Prendre soin <span className="italic">du corps.</span>
           </h1>
           <p className="mt-5 body-meta max-w-[34ch]">

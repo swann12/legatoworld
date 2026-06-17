@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Shell } from "@/components/legato/Shell";
-import { LegatoMark } from "@/components/legato/LegatoMark";
+import { PageHeader, RingProgress } from "@/components/legato/EditorialUI";
 
 export const Route = createFileRoute("/practical/")({
   head: () => ({
@@ -75,12 +75,7 @@ function Practical() {
   return (
     <Shell livingBg={false}>
       <div className="min-h-dvh bg-paper text-dusk pb-32">
-        <header className="px-6 pt-8 pb-6">
-          <div className="folio">
-            <LegatoMark to="/space" size={22} />
-            <span>Espace · Démarches</span>
-          </div>
-        </header>
+        <PageHeader title="DÉMARCHES" back="/space" />
 
         <section className="px-6 pb-9">
           <p className="eyebrow">Plan d'action</p>
@@ -113,26 +108,19 @@ function Practical() {
             </div>
           </Link>
 
-          <div className="plate card-plain px-5 pt-5 pb-4 min-h-[208px] flex flex-col">
-            <span className="eyebrow">Votre progression</span>
-            <p className="mt-4 font-serif text-[60px] leading-[0.9] tracking-[-0.03em]" style={{ color: "var(--terracotta)" }}>
-              {progress}%
-            </p>
-            <div className="mt-4 h-1.5 w-full rounded-full" style={{ background: "color-mix(in oklab, var(--dusk) 10%, transparent)" }}>
-              <div className="h-full rounded-full" style={{ width: `${progress}%`, background: "var(--terracotta)" }} />
+          <div className="plate card-plain px-5 pt-5 pb-4 min-h-[208px] flex flex-col items-center">
+            <span className="eyebrow self-start">Progression</span>
+            <div className="mt-2 flex-1 grid place-items-center">
+              <RingProgress value={progress} size={132} stroke={10} />
             </div>
-            <div className="mt-4 grid grid-cols-3 gap-3 text-center">
+            <div className="mt-2 w-full grid grid-cols-2 gap-2 text-center">
               <div>
-                <p className="font-serif text-[22px] leading-none">{done}</p>
-                <p className="mt-1 text-[10px] uppercase tracking-[0.12em] text-dusk/55">Terminées</p>
+                <p className="font-serif text-[18px] leading-none">{done}</p>
+                <p className="mt-1 mono-label">Faites</p>
               </div>
               <div>
-                <p className="font-serif text-[22px] leading-none">{total - done}</p>
-                <p className="mt-1 text-[10px] uppercase tracking-[0.12em] text-dusk/55">En cours</p>
-              </div>
-              <div>
-                <p className="font-serif text-[22px] leading-none">4</p>
-                <p className="mt-1 text-[10px] uppercase tracking-[0.12em] text-dusk/55">Sections</p>
+                <p className="font-serif text-[18px] leading-none">{total - done}</p>
+                <p className="mt-1 mono-label">Restantes</p>
               </div>
             </div>
           </div>

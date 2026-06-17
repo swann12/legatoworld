@@ -1,7 +1,8 @@
 import { createFileRoute, Link, notFound, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { Shell } from "@/components/legato/Shell";
-import { ChevronLeft, Sparkles } from "lucide-react";
+import { Sparkles } from "lucide-react";
+import { PageHeader } from "@/components/legato/EditorialUI";
 import { getCategory, getProvider } from "@/lib/resources-data";
 
 export const Route = createFileRoute("/resources/$category/$providerId")({
@@ -46,15 +47,7 @@ function ProviderPage() {
 
   return (
     <Shell>
-      <div className="px-7 pt-10">
-        <Link
-          to="/resources/$category"
-          params={{ category }}
-          className="inline-flex items-center gap-1 text-[12px] uppercase tracking-[0.18em] text-dusk/55"
-        >
-          <ChevronLeft size={14} /> Retour
-        </Link>
-      </div>
+      <PageHeader title={cat.label.toUpperCase()} back="/resources" />
 
       {/* En-tête prestataire */}
       <header className="mt-6 px-7">
@@ -65,7 +58,7 @@ function ProviderPage() {
             background: `linear-gradient(160deg, color-mix(in oklab, ${cat.tint} 40%, var(--paper)), color-mix(in oklab, ${cat.tint} 70%, var(--clay)))`,
           }}
         />
-        <h1 className="mt-5 display-xl text-dusk text-center">
+        <h1 className="mt-5 ed-page-title text-dusk text-center">
           {p.firstName} <span className="italic">{p.lastName}</span>
         </h1>
         <p className="mt-1 text-center text-[12px] italic text-dusk/60">{p.speciality}</p>

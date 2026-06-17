@@ -1,7 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useState } from "react";
 import { Shell } from "@/components/legato/Shell";
-import { LegatoMark } from "@/components/legato/LegatoMark";
+import { PageHeader } from "@/components/legato/EditorialUI";
 import { MapPin, Video, Home as HomeIcon, Sparkles } from "lucide-react";
 import { getCategory, providersByCategory, type CategoryId } from "@/lib/resources-data";
 import { z } from "zod";
@@ -13,7 +13,7 @@ export const Route = createFileRoute("/resources/$category")({
   notFoundComponent: () => (
     <Shell>
       <div className="px-7 pt-20">
-        <p className="display-xl">Cette catégorie n'est pas encore ouverte.</p>
+        <p className="ed-page-title">Cette catégorie n'est pas encore ouverte.</p>
         <Link to="/resources" className="mt-4 inline-block eyebrow underline" style={{ color: "var(--terracotta)" }}>
           Revenir aux catégories
         </Link>
@@ -44,14 +44,11 @@ function CategoryPage() {
   return (
     <Shell livingBg={false}>
       <div className="min-h-dvh bg-paper text-dusk pb-32">
-        <header className="px-6 pt-9 pb-2 flex items-center justify-between">
-          <LegatoMark to="/home" size={22} />
-          <Link to="/resources" className="eyebrow hover:underline underline-offset-4">← Ressources</Link>
-        </header>
+        <PageHeader title="RESSOURCES" back="/resources" />
 
         <section className="px-6 pt-8 pb-6">
-          <p className="eyebrow">{cat.label}</p>
-          <h1 className="mt-4 display-xl">
+          <p className="mono-label">{cat.label}</p>
+          <h1 className="mt-4 ed-page-title">
             <span className="italic">{cat.intent}</span>
           </h1>
         </section>

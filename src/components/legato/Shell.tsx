@@ -37,8 +37,8 @@ export function ScreenHeader({
 }) {
   return (
     <header className="px-6 pt-10 pb-7">
-      {eyebrow && <p className="eyebrow mb-4">{eyebrow}</p>}
-      <h1 className="display-xl text-balance">{title}</h1>
+      {eyebrow && <p className="mono-label mb-4">{eyebrow}</p>}
+      <h1 className="ed-page-title text-balance">{title}</h1>
       {subtitle && <p className="mt-5 body-meta max-w-[34ch]">{subtitle}</p>}
     </header>
   );
