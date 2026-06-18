@@ -28,7 +28,6 @@ import { Route as DatesRouteImport } from './routes/dates'
 import { Route as CrisisRouteImport } from './routes/crisis'
 import { Route as CommunityRouteImport } from './routes/community'
 import { Route as CheckinRouteImport } from './routes/checkin'
-import { Route as CareRouteImport } from './routes/care'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AppointmentsRouteImport } from './routes/appointments'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
@@ -38,6 +37,7 @@ import { Route as PracticalIndexRouteImport } from './routes/practical.index'
 import { Route as OnboardingIndexRouteImport } from './routes/onboarding.index'
 import { Route as HelpIndexRouteImport } from './routes/help.index'
 import { Route as GardenIndexRouteImport } from './routes/garden.index'
+import { Route as CareIndexRouteImport } from './routes/care.index'
 import { Route as ResourcesCategoryRouteImport } from './routes/resources.$category'
 import { Route as PracticalVaultRouteImport } from './routes/practical.vault'
 import { Route as PracticalTextsRouteImport } from './routes/practical.texts'
@@ -160,11 +160,6 @@ const CheckinRoute = CheckinRouteImport.update({
   path: '/checkin',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CareRoute = CareRouteImport.update({
-  id: '/care',
-  path: '/care',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
@@ -207,6 +202,11 @@ const HelpIndexRoute = HelpIndexRouteImport.update({
 const GardenIndexRoute = GardenIndexRouteImport.update({
   id: '/garden/',
   path: '/garden/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CareIndexRoute = CareIndexRouteImport.update({
+  id: '/care/',
+  path: '/care/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ResourcesCategoryRoute = ResourcesCategoryRouteImport.update({
@@ -346,7 +346,6 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/appointments': typeof AppointmentsRoute
   '/auth': typeof AuthRoute
-  '/care': typeof CareRoute
   '/checkin': typeof CheckinRoute
   '/community': typeof CommunityRoute
   '/crisis': typeof CrisisRoute
@@ -385,6 +384,7 @@ export interface FileRoutesByFullPath {
   '/practical/texts': typeof PracticalTextsRoute
   '/practical/vault': typeof PracticalVaultRoute
   '/resources/$category': typeof ResourcesCategoryRouteWithChildren
+  '/care/': typeof CareIndexRoute
   '/garden/': typeof GardenIndexRoute
   '/help/': typeof HelpIndexRoute
   '/onboarding/': typeof OnboardingIndexRoute
@@ -402,7 +402,6 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/appointments': typeof AppointmentsRoute
   '/auth': typeof AuthRoute
-  '/care': typeof CareRoute
   '/checkin': typeof CheckinRoute
   '/community': typeof CommunityRoute
   '/crisis': typeof CrisisRoute
@@ -439,6 +438,7 @@ export interface FileRoutesByTo {
   '/practical/texts': typeof PracticalTextsRoute
   '/practical/vault': typeof PracticalVaultRoute
   '/resources/$category': typeof ResourcesCategoryRouteWithChildren
+  '/care': typeof CareIndexRoute
   '/garden': typeof GardenIndexRoute
   '/help': typeof HelpIndexRoute
   '/onboarding': typeof OnboardingIndexRoute
@@ -458,7 +458,6 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/appointments': typeof AppointmentsRoute
   '/auth': typeof AuthRoute
-  '/care': typeof CareRoute
   '/checkin': typeof CheckinRoute
   '/community': typeof CommunityRoute
   '/crisis': typeof CrisisRoute
@@ -497,6 +496,7 @@ export interface FileRoutesById {
   '/practical/texts': typeof PracticalTextsRoute
   '/practical/vault': typeof PracticalVaultRoute
   '/resources/$category': typeof ResourcesCategoryRouteWithChildren
+  '/care/': typeof CareIndexRoute
   '/garden/': typeof GardenIndexRoute
   '/help/': typeof HelpIndexRoute
   '/onboarding/': typeof OnboardingIndexRoute
@@ -516,7 +516,6 @@ export interface FileRouteTypes {
     | '/'
     | '/appointments'
     | '/auth'
-    | '/care'
     | '/checkin'
     | '/community'
     | '/crisis'
@@ -555,6 +554,7 @@ export interface FileRouteTypes {
     | '/practical/texts'
     | '/practical/vault'
     | '/resources/$category'
+    | '/care/'
     | '/garden/'
     | '/help/'
     | '/onboarding/'
@@ -572,7 +572,6 @@ export interface FileRouteTypes {
     | '/'
     | '/appointments'
     | '/auth'
-    | '/care'
     | '/checkin'
     | '/community'
     | '/crisis'
@@ -609,6 +608,7 @@ export interface FileRouteTypes {
     | '/practical/texts'
     | '/practical/vault'
     | '/resources/$category'
+    | '/care'
     | '/garden'
     | '/help'
     | '/onboarding'
@@ -627,7 +627,6 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/appointments'
     | '/auth'
-    | '/care'
     | '/checkin'
     | '/community'
     | '/crisis'
@@ -666,6 +665,7 @@ export interface FileRouteTypes {
     | '/practical/texts'
     | '/practical/vault'
     | '/resources/$category'
+    | '/care/'
     | '/garden/'
     | '/help/'
     | '/onboarding/'
@@ -685,7 +685,6 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AppointmentsRoute: typeof AppointmentsRoute
   AuthRoute: typeof AuthRoute
-  CareRoute: typeof CareRoute
   CheckinRoute: typeof CheckinRoute
   CommunityRoute: typeof CommunityRoute
   CrisisRoute: typeof CrisisRoute
@@ -712,6 +711,7 @@ export interface RootRouteChildren {
   OnboardingCareRoute: typeof OnboardingCareRoute
   OnboardingPracticalRoute: typeof OnboardingPracticalRoute
   ResourcesCategoryRoute: typeof ResourcesCategoryRouteWithChildren
+  CareIndexRoute: typeof CareIndexRoute
   GardenIndexRoute: typeof GardenIndexRoute
   OnboardingIndexRoute: typeof OnboardingIndexRoute
   ResourcesIndexRoute: typeof ResourcesIndexRoute
@@ -854,13 +854,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CheckinRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/care': {
-      id: '/care'
-      path: '/care'
-      fullPath: '/care'
-      preLoaderRoute: typeof CareRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/auth': {
       id: '/auth'
       path: '/auth'
@@ -922,6 +915,13 @@ declare module '@tanstack/react-router' {
       path: '/garden'
       fullPath: '/garden/'
       preLoaderRoute: typeof GardenIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/care/': {
+      id: '/care/'
+      path: '/care'
+      fullPath: '/care/'
+      preLoaderRoute: typeof CareIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/resources/$category': {
@@ -1208,7 +1208,6 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AppointmentsRoute: AppointmentsRoute,
   AuthRoute: AuthRoute,
-  CareRoute: CareRoute,
   CheckinRoute: CheckinRoute,
   CommunityRoute: CommunityRoute,
   CrisisRoute: CrisisRoute,
@@ -1235,6 +1234,7 @@ const rootRouteChildren: RootRouteChildren = {
   OnboardingCareRoute: OnboardingCareRoute,
   OnboardingPracticalRoute: OnboardingPracticalRoute,
   ResourcesCategoryRoute: ResourcesCategoryRouteWithChildren,
+  CareIndexRoute: CareIndexRoute,
   GardenIndexRoute: GardenIndexRoute,
   OnboardingIndexRoute: OnboardingIndexRoute,
   ResourcesIndexRoute: ResourcesIndexRoute,

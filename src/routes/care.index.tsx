@@ -5,7 +5,7 @@ import { useLovedName } from "@/lib/loved-name";
 import { journeyModules, CARE_LABELS, type CareModule } from "@/lib/journey-config";
 import { LegatoMark } from "@/components/legato/LegatoMark";
 
-export const Route = createFileRoute("/care")({
+export const Route = createFileRoute("/care/")({
   head: () => ({
     meta: [
       { title: "Soutien — Legato" },
