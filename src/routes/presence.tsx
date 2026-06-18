@@ -111,13 +111,11 @@ function Presence() {
     rec.lang = "fr-FR";
     rec.interimResults = true;
     rec.continuous = true;
-    let acc = "";
     rec.onresult = (e) => {
       let interim = "";
       const results = e.results as unknown as ArrayLike<{ 0: { transcript: string } }>;
       for (let i = 0; i < results.length; i++) interim += results[i][0].transcript;
-      acc = interim;
-      setDraft(acc);
+      setDraft(interim);
     };
     rec.onend = () => setListening(false);
     rec.onerror = () => setListening(false);
