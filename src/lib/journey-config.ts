@@ -148,8 +148,8 @@ export const PRACTICAL_LABELS: Record<PracticalCategory, { label: string; hint: 
   rights:     { label: "Aides & droits",          hint: "CAF, CPAM, retraite",                 to: "/practical" },
   digital:    { label: "Comptes numériques",      hint: "Mails, réseaux, abonnements",         to: "/practical" },
   housing:    { label: "Logement & biens",        hint: "Bailleur, objets",                    to: "/practical" },
-  pros:       { label: "Professionnels",          hint: "Annuaire vérifié",                    to: "/practical" },
-  wishes:     { label: "Mes volontés",            hint: "Préparer en douceur",                 to: "/wishes" },
+  pros:       { label: "Professionnels",          hint: "Annuaire vérifié",                    to: "/practical/pros" },
+  wishes:     { label: "Mes volontés",            hint: "Préparer en douceur",                 to: "/practical/wishes" },
   vault:      { label: "Coffre de documents",     hint: "Tout au même endroit",                to: "/practical/vault" },
   vet:        { label: "Vétérinaire",             hint: "Derniers soins, certificat, conseil", to: "/practical/tasks/vet" },
   cremation_animal: { label: "Crémation animale", hint: "Options, délais, lieu de recueil",     to: "/practical/tasks/cremation_animal" },
@@ -197,15 +197,15 @@ export const BUCKET_LABELS: Record<PracticalBucket, { label: string; tone: strin
 };
 
 export const CARE_LABELS: Record<CareModule, { label: string; hint: string; to: string }> = {
-  checkin:      { label: "Check-in émotionnel",  hint: "Comment vous sentez-vous ?",       to: "/checkin" },
-  journal:      { label: "Journal",               hint: "Déposer une pensée",                to: "/journal" },
+  checkin:      { label: "Check-in émotionnel",  hint: "Comment vous sentez-vous ?",       to: "/care/emotions" },
+  journal:      { label: "Journal",               hint: "Déposer une pensée",                to: "/care/journal" },
   breathe:      { label: "Respiration",           hint: "1, 3 ou 5 minutes",                 to: "/no-words" },
   sleep:        { label: "Sommeil",               hint: "Sons calmes, 4-7-8",                to: "/no-words" },
-  meditations:  { label: "Méditations deuil",     hint: "Séries courtes",                    to: "/resources" },
-  sounds:       { label: "Audios éditoriaux",     hint: "Textes, témoignages",               to: "/inspiration" },
-  letters:      { label: "Écrire à mon proche",   hint: "Sans destinataire",                 to: "/journal" },
-  community:    { label: "Communauté",            hint: "D'autres traversent aussi",         to: "/community" },
-  therapists:   { label: "Trouver un·e thérapeute", hint: "Annuaire vérifié",                to: "/resources" },
+  meditations:  { label: "Méditations deuil",     hint: "Séries courtes",                    to: "/care/resources" },
+  sounds:       { label: "Audios éditoriaux",     hint: "Textes, témoignages",               to: "/care/resources" },
+  letters:      { label: "Écrire à mon proche",   hint: "Sans destinataire",                 to: "/care/journal" },
+  community:    { label: "Communauté",            hint: "D'autres traversent aussi",         to: "/care/community" },
+  therapists:   { label: "Trouver un·e thérapeute", hint: "Annuaire vérifié",                to: "/care/help" },
   crisis:       { label: "Si ça déborde",         hint: "3114 et lignes d'écoute",           to: "/crisis" },
   anticipated:  { label: "Deuil anticipé",        hint: "Vivre avec l'idée de la perte",     to: "/resources" },
   caregiver:    { label: "Fatigue de l'aidant",   hint: "Tenir, sans se perdre",             to: "/resources" },
@@ -214,8 +214,8 @@ export const CARE_LABELS: Record<CareModule, { label: string; hint: string; to: 
 
 export const MEMORY_LABELS: Record<MemoryModule, { label: string; hint: string; to: string }> = {
   garden:    { label: "Le jardin",          hint: "Une parcelle par proche",       to: "/care/garden" },
-  timeline:  { label: "Ligne de vie",       hint: "Dates et étapes",               to: "/memories" },
-  voices:    { label: "Voix",                hint: "Garder une voix",               to: "/memories" },
+  timeline:  { label: "Ligne de vie",       hint: "Dates et étapes",               to: "/care/memory" },
+  voices:    { label: "Voix",                hint: "Garder une voix",               to: "/care/memory" },
   letters:   { label: "Lettres",             hint: "Reçues, envoyées",              to: "/care/journal" },
   dates:     { label: "Dates sensibles",     hint: "Anniversaire, fêtes",           to: "/care/dates" },
 };
