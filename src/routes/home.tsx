@@ -1,20 +1,22 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useMemo, useState } from "react";
-import { Shell } from "@/components/legato/Shell";
-import { LegatoMark } from "@/components/legato/LegatoMark";
-import { useLegato, type PrimaryNeed } from "@/lib/legato-state";
-import { useLovedName } from "@/lib/loved-name";
-import { emotionPlan, isEmotionStale, isNightHour } from "@/lib/emotion-routing";
-import { journeyModules, PRACTICAL_LABELS } from "@/lib/journey-config";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 
+// /home n'existe plus comme page distincte. On redirige vers l'espace adapté :
+// Soutien (/care) par défaut, ou Démarches (/practical) si l'utilisateur n'a que des besoins pratiques.
 export const Route = createFileRoute("/home")({
-  head: () => ({
-    meta: [
-      { title: "Aujourd'hui — Legato" },
-      { name: "description", content: "Un tableau du jour clair : soutien et démarches restent séparés." },
-    ],
-  }),
-  component: Home,
+  beforeLoad: () => {
+    if (typeof window !== "undefined") {
+      try {
+        const need = window.localStorage.getItem("legato.primaryNeed.v1");
+        if (need && need.includes("practical") && !need.includes("emotional") && !need.includes("both")) {
+          throw redirect({ to: "/practical" });
+        }
+      } catch (e) {
+        if (e && typeof e === "object" && "to" in (e as object)) throw e;
+      }
+    }
+    throw redirect({ to: "/care" });
+  },
+  component: () => null,
 });
 
 function Home() {
