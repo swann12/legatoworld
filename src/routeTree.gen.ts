@@ -43,6 +43,7 @@ import { Route as CareIndexRouteImport } from './routes/care.index'
 import { Route as ResourcesCategoryRouteImport } from './routes/resources.$category'
 import { Route as PracticalVaultRouteImport } from './routes/practical.vault'
 import { Route as PracticalTextsRouteImport } from './routes/practical.texts'
+import { Route as PracticalTasksRouteImport } from './routes/practical.tasks'
 import { Route as PracticalStepsRouteImport } from './routes/practical.steps'
 import { Route as PracticalShareRouteImport } from './routes/practical.share'
 import { Route as PracticalObjectsRouteImport } from './routes/practical.objects'
@@ -69,6 +70,7 @@ import { Route as CareCommunityRouteImport } from './routes/care.community'
 import { Route as AuthenticatedCircleRouteImport } from './routes/_authenticated/circle'
 import { Route as ResourcesConfirmProviderIdRouteImport } from './routes/resources.confirm.$providerId'
 import { Route as ResourcesCategoryProviderIdRouteImport } from './routes/resources.$category.$providerId'
+import { Route as PracticalTasksIdRouteImport } from './routes/practical.tasks.$id'
 import { Route as HelpCorpsNuitsRouteImport } from './routes/help.corps.nuits'
 import { Route as HelpCorpsMangerRouteImport } from './routes/help.corps.manger'
 import { Route as HelpCorpsHabillerRouteImport } from './routes/help.corps.habiller'
@@ -244,6 +246,11 @@ const PracticalTextsRoute = PracticalTextsRouteImport.update({
   path: '/texts',
   getParentRoute: () => PracticalRoute,
 } as any)
+const PracticalTasksRoute = PracticalTasksRouteImport.update({
+  id: '/tasks',
+  path: '/tasks',
+  getParentRoute: () => PracticalRoute,
+} as any)
 const PracticalStepsRoute = PracticalStepsRouteImport.update({
   id: '/steps',
   path: '/steps',
@@ -376,6 +383,11 @@ const ResourcesCategoryProviderIdRoute =
     path: '/$providerId',
     getParentRoute: () => ResourcesCategoryRoute,
   } as any)
+const PracticalTasksIdRoute = PracticalTasksIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => PracticalTasksRoute,
+} as any)
 const HelpCorpsNuitsRoute = HelpCorpsNuitsRouteImport.update({
   id: '/nuits',
   path: '/nuits',
@@ -451,6 +463,7 @@ export interface FileRoutesByFullPath {
   '/practical/objects': typeof PracticalObjectsRoute
   '/practical/share': typeof PracticalShareRoute
   '/practical/steps': typeof PracticalStepsRoute
+  '/practical/tasks': typeof PracticalTasksRouteWithChildren
   '/practical/texts': typeof PracticalTextsRoute
   '/practical/vault': typeof PracticalVaultRoute
   '/resources/$category': typeof ResourcesCategoryRouteWithChildren
@@ -464,6 +477,7 @@ export interface FileRoutesByFullPath {
   '/help/corps/habiller': typeof HelpCorpsHabillerRoute
   '/help/corps/manger': typeof HelpCorpsMangerRoute
   '/help/corps/nuits': typeof HelpCorpsNuitsRoute
+  '/practical/tasks/$id': typeof PracticalTasksIdRoute
   '/resources/$category/$providerId': typeof ResourcesCategoryProviderIdRoute
   '/resources/confirm/$providerId': typeof ResourcesConfirmProviderIdRoute
   '/api/public/souffle-sound/$id': typeof ApiPublicSouffleSoundIdRoute
@@ -514,6 +528,7 @@ export interface FileRoutesByTo {
   '/practical/objects': typeof PracticalObjectsRoute
   '/practical/share': typeof PracticalShareRoute
   '/practical/steps': typeof PracticalStepsRoute
+  '/practical/tasks': typeof PracticalTasksRouteWithChildren
   '/practical/texts': typeof PracticalTextsRoute
   '/practical/vault': typeof PracticalVaultRoute
   '/resources/$category': typeof ResourcesCategoryRouteWithChildren
@@ -527,6 +542,7 @@ export interface FileRoutesByTo {
   '/help/corps/habiller': typeof HelpCorpsHabillerRoute
   '/help/corps/manger': typeof HelpCorpsMangerRoute
   '/help/corps/nuits': typeof HelpCorpsNuitsRoute
+  '/practical/tasks/$id': typeof PracticalTasksIdRoute
   '/resources/$category/$providerId': typeof ResourcesCategoryProviderIdRoute
   '/resources/confirm/$providerId': typeof ResourcesConfirmProviderIdRoute
   '/api/public/souffle-sound/$id': typeof ApiPublicSouffleSoundIdRoute
@@ -582,6 +598,7 @@ export interface FileRoutesById {
   '/practical/objects': typeof PracticalObjectsRoute
   '/practical/share': typeof PracticalShareRoute
   '/practical/steps': typeof PracticalStepsRoute
+  '/practical/tasks': typeof PracticalTasksRouteWithChildren
   '/practical/texts': typeof PracticalTextsRoute
   '/practical/vault': typeof PracticalVaultRoute
   '/resources/$category': typeof ResourcesCategoryRouteWithChildren
@@ -595,6 +612,7 @@ export interface FileRoutesById {
   '/help/corps/habiller': typeof HelpCorpsHabillerRoute
   '/help/corps/manger': typeof HelpCorpsMangerRoute
   '/help/corps/nuits': typeof HelpCorpsNuitsRoute
+  '/practical/tasks/$id': typeof PracticalTasksIdRoute
   '/resources/$category/$providerId': typeof ResourcesCategoryProviderIdRoute
   '/resources/confirm/$providerId': typeof ResourcesConfirmProviderIdRoute
   '/api/public/souffle-sound/$id': typeof ApiPublicSouffleSoundIdRoute
@@ -650,6 +668,7 @@ export interface FileRouteTypes {
     | '/practical/objects'
     | '/practical/share'
     | '/practical/steps'
+    | '/practical/tasks'
     | '/practical/texts'
     | '/practical/vault'
     | '/resources/$category'
@@ -663,6 +682,7 @@ export interface FileRouteTypes {
     | '/help/corps/habiller'
     | '/help/corps/manger'
     | '/help/corps/nuits'
+    | '/practical/tasks/$id'
     | '/resources/$category/$providerId'
     | '/resources/confirm/$providerId'
     | '/api/public/souffle-sound/$id'
@@ -713,6 +733,7 @@ export interface FileRouteTypes {
     | '/practical/objects'
     | '/practical/share'
     | '/practical/steps'
+    | '/practical/tasks'
     | '/practical/texts'
     | '/practical/vault'
     | '/resources/$category'
@@ -726,6 +747,7 @@ export interface FileRouteTypes {
     | '/help/corps/habiller'
     | '/help/corps/manger'
     | '/help/corps/nuits'
+    | '/practical/tasks/$id'
     | '/resources/$category/$providerId'
     | '/resources/confirm/$providerId'
     | '/api/public/souffle-sound/$id'
@@ -780,6 +802,7 @@ export interface FileRouteTypes {
     | '/practical/objects'
     | '/practical/share'
     | '/practical/steps'
+    | '/practical/tasks'
     | '/practical/texts'
     | '/practical/vault'
     | '/resources/$category'
@@ -793,6 +816,7 @@ export interface FileRouteTypes {
     | '/help/corps/habiller'
     | '/help/corps/manger'
     | '/help/corps/nuits'
+    | '/practical/tasks/$id'
     | '/resources/$category/$providerId'
     | '/resources/confirm/$providerId'
     | '/api/public/souffle-sound/$id'
@@ -1078,6 +1102,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PracticalTextsRouteImport
       parentRoute: typeof PracticalRoute
     }
+    '/practical/tasks': {
+      id: '/practical/tasks'
+      path: '/tasks'
+      fullPath: '/practical/tasks'
+      preLoaderRoute: typeof PracticalTasksRouteImport
+      parentRoute: typeof PracticalRoute
+    }
     '/practical/steps': {
       id: '/practical/steps'
       path: '/steps'
@@ -1260,6 +1291,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResourcesCategoryProviderIdRouteImport
       parentRoute: typeof ResourcesCategoryRoute
     }
+    '/practical/tasks/$id': {
+      id: '/practical/tasks/$id'
+      path: '/$id'
+      fullPath: '/practical/tasks/$id'
+      preLoaderRoute: typeof PracticalTasksIdRouteImport
+      parentRoute: typeof PracticalTasksRoute
+    }
     '/help/corps/nuits': {
       id: '/help/corps/nuits'
       path: '/nuits'
@@ -1377,6 +1415,18 @@ const ParcoursRouteWithChildren = ParcoursRoute._addFileChildren(
   ParcoursRouteChildren,
 )
 
+interface PracticalTasksRouteChildren {
+  PracticalTasksIdRoute: typeof PracticalTasksIdRoute
+}
+
+const PracticalTasksRouteChildren: PracticalTasksRouteChildren = {
+  PracticalTasksIdRoute: PracticalTasksIdRoute,
+}
+
+const PracticalTasksRouteWithChildren = PracticalTasksRoute._addFileChildren(
+  PracticalTasksRouteChildren,
+)
+
 interface PracticalRouteChildren {
   PracticalAtmosphereRoute: typeof PracticalAtmosphereRoute
   PracticalBookletRoute: typeof PracticalBookletRoute
@@ -1385,6 +1435,7 @@ interface PracticalRouteChildren {
   PracticalObjectsRoute: typeof PracticalObjectsRoute
   PracticalShareRoute: typeof PracticalShareRoute
   PracticalStepsRoute: typeof PracticalStepsRoute
+  PracticalTasksRoute: typeof PracticalTasksRouteWithChildren
   PracticalTextsRoute: typeof PracticalTextsRoute
   PracticalVaultRoute: typeof PracticalVaultRoute
   PracticalIndexRoute: typeof PracticalIndexRoute
@@ -1398,6 +1449,7 @@ const PracticalRouteChildren: PracticalRouteChildren = {
   PracticalObjectsRoute: PracticalObjectsRoute,
   PracticalShareRoute: PracticalShareRoute,
   PracticalStepsRoute: PracticalStepsRoute,
+  PracticalTasksRoute: PracticalTasksRouteWithChildren,
   PracticalTextsRoute: PracticalTextsRoute,
   PracticalVaultRoute: PracticalVaultRoute,
   PracticalIndexRoute: PracticalIndexRoute,

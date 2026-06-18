@@ -8,6 +8,8 @@ import {
   journeyModules, PRACTICAL_LABELS, PRACTICAL_BUCKETS, BUCKET_LABELS,
   type PracticalCategory, type PracticalBucket,
 } from "@/lib/journey-config";
+import { SubNav, PRACTICAL_SUBNAV } from "@/components/legato/SubNav";
+import { TASK_STATUS_LABELS, isHiddenFromActive } from "@/lib/task-status";
 
 export const Route = createFileRoute("/practical/")({
   head: () => ({
@@ -33,16 +35,20 @@ function loadStatus(): Record<string, Status> {
 const ORDER: PracticalBucket[] = ["now", "week", "month", "later"];
 
 function Practical() {
-  const { situation, primaryNeed, stage, softDay, lovedOneRelation, legallyInvolved, hydrated } = useLegato();
+  const { situation, primaryNeed, stage, softDay, lovedOneRelation, legallyInvolved, hydrated, taskStatus } = useLegato();
   const lovedName = useLovedName();
   const { practical } = journeyModules(situation, primaryNeed, stage, { relation: lovedOneRelation, legallyInvolved });
   const [filter, setFilter] = useState<PracticalBucket | "all">("all");
+  const [showArchived, setShowArchived] = useState(false);
   const [statusMap, setStatusMap] = useState<Record<string, Status>>({});
   useEffect(() => { setStatusMap(loadStatus()); }, []);
 
-  const allowed: PracticalCategory[] = practical.length
+  const allCats: PracticalCategory[] = practical.length
     ? practical
     : (Object.keys(PRACTICAL_LABELS) as PracticalCategory[]);
+  const allowed: PracticalCategory[] = showArchived
+    ? allCats
+    : allCats.filter((c) => !isHiddenFromActive(hydrated ? taskStatus[c] : undefined));
 
   const grouped = useMemo(() => {
     const map: Record<PracticalBucket, PracticalCategory[]> = { now: [], week: [], month: [], later: [] };
@@ -80,6 +86,8 @@ function Practical() {
           </p>
         </section>
 
+        <SubNav items={PRACTICAL_SUBNAV} ariaLabel="Sous-navigation Démarches" />
+
         {!softActive && (
           <section className="px-5 pt-6">
             <div className="flex gap-2 overflow-x-auto pb-1">
@@ -89,6 +97,9 @@ function Practical() {
                   {BUCKET_LABELS[b].label}
                 </FilterChip>
               ))}
+              <FilterChip active={showArchived} onClick={() => setShowArchived((v) => !v)}>
+                {showArchived ? "Masquer archives" : "Voir archives"}
+              </FilterChip>
             </div>
           </section>
         )}
@@ -106,11 +117,13 @@ function Practical() {
               <ul className="mt-4 overflow-hidden rounded-[18px] border border-dusk/12 bg-paper">
                 {cats.map((c) => {
                   const cfg = PRACTICAL_LABELS[c];
-                  const st = statusMap[c] ?? "todo";
+                  const tsStatus = hydrated ? taskStatus[c] : undefined;
+                  const stLabel = tsStatus ? TASK_STATUS_LABELS[tsStatus] : STATUS_LABEL[statusMap[c] ?? "todo"];
                   return (
                     <li key={c} className="border-t border-dusk/10 first:border-t-0">
                       <Link
-                        to={cfg.to as "/practical"}
+                        to={"/practical/tasks/$id" as "/practical"}
+                        params={{ id: c } as never}
                         className="flex items-center justify-between gap-3 px-5 py-4 hover:bg-dusk/[0.02]"
                       >
                         <div className="min-w-0">
@@ -118,7 +131,7 @@ function Practical() {
                           <p className="mt-1 text-[11.5px] uppercase tracking-[0.1em] text-dusk/45">{cfg.hint}</p>
                         </div>
                         <span className="shrink-0 rounded-full border border-dusk/15 px-2.5 py-1 text-[10.5px] uppercase tracking-[0.08em] text-dusk/65">
-                          {STATUS_LABEL[st]}
+                          {stLabel}
                         </span>
                       </Link>
                     </li>
