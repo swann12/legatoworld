@@ -134,7 +134,7 @@ function Start() {
 
         <div className="relative z-10 flex flex-1 flex-col px-6 pb-12 pt-10">
           <p className="mono-label">
-            {mode === "signin" ? "Se reconnecter" : mode === "signup" ? "Créer un espace" : "Bienvenue"}
+            {mode === "signin" ? "Se reconnecter" : mode === "signup" ? "Créer un espace" : "Legato"}
           </p>
           <h1 className="mt-5 ed-page-title">
             {mode === "signin" ? (
@@ -142,9 +142,14 @@ function Start() {
             ) : mode === "signup" ? (
               <>Votre espace,<br /><span className="italic" style={{ color: "var(--terracotta)" }}>en quelques mots.</span></>
             ) : (
-              <>Un espace pour<br /><span className="italic" style={{ color: "var(--terracotta)" }}>traverser.</span></>
+              <>Préparer un adieu,<br /><span className="italic" style={{ color: "var(--terracotta)" }}>garder une présence.</span></>
             )}
           </h1>
+          {mode === "choice" && (
+            <p className="mt-5 text-[14px] leading-[1.55] text-dusk/65 max-w-[34ch]">
+              Composer une cérémonie, écrire ce qui compte, faire vivre le souvenir. À votre rythme.
+            </p>
+          )}
 
           <div className="mt-10 flex flex-col gap-3">
             {mode === "choice" && (
@@ -172,6 +177,9 @@ function Start() {
                   >
                     Continuer en tant qu'invité·e
                   </button>
+                  <p className="mt-1 text-[11.5px] text-dusk/45 text-center max-w-[28ch]">
+                    En mode invité·e, rien n'est conservé d'une session à l'autre.
+                  </p>
                 </div>
               </div>
             )}

@@ -1,8 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
 import { Shell } from "@/components/legato/Shell";
 import { LegatoMark } from "@/components/legato/LegatoMark";
 import { SubNav, CARE_SUBNAV } from "@/components/legato/SubNav";
 import { useLovedName } from "@/lib/loved-name";
+import { useLegato } from "@/lib/legato-state";
+import { suggestRituals } from "@/lib/rituals.functions";
 
 export const Route = createFileRoute("/care/rituels")({
   head: () => ({
@@ -14,28 +18,98 @@ export const Route = createFileRoute("/care/rituels")({
   component: CareRituels,
 });
 
+type Region = "Universel" | "Asie" | "Amériques" | "Afrique" | "Europe" | "Moyen-Orient" | "Océanie";
+const REGIONS: Region[] = ["Universel", "Asie", "Amériques", "Afrique", "Europe", "Moyen-Orient", "Océanie"];
+
 type Ritual = {
   id: string;
   title: string;
   origin: string;
+  region: Region;
   duration: string;
   hint: string;
+  detail: string;
   bg: string;
 };
 
 const RITUALS: Ritual[] = [
-  { id: "bougie",    title: "Allumer une bougie",  origin: "Universel",       duration: "2 min",    hint: "Un nom prononcé, une flamme tenue.",     bg: "var(--sun)"    },
-  { id: "obon",      title: "Lanterne sur l'eau",  origin: "Japon — Obon",    duration: "10 min",   hint: "Une lumière qu'on confie au courant.",   bg: "var(--sky)"    },
-  { id: "muertos",   title: "Petite offrande",     origin: "Mexique — Día",   duration: "20 min",   hint: "Ses fleurs, ses plats, sa photo.",       bg: "var(--blush)"  },
-  { id: "kaddish",   title: "Lire à voix haute",   origin: "Judaïsme",        duration: "5 min",    hint: "Un texte, dit pour la mémoire.",         bg: "var(--whisper)"},
-  { id: "ancestors", title: "Repas partagé",       origin: "Afrique de l'Ouest", duration: "1 soir", hint: "Réunir, raconter, manger ensemble.",    bg: "var(--sun)"    },
-  { id: "marche",    title: "Marche silencieuse",  origin: "Bouddhisme zen",  duration: "30 min",   hint: "Marcher en pensant à elle, à lui.",      bg: "var(--sky)"    },
-  { id: "shiva",     title: "Sept jours présents", origin: "Tradition juive", duration: "7 jours",  hint: "Recevoir, ne pas être seul·e.",          bg: "var(--blush)"  },
-  { id: "lettre",    title: "Lettre brûlée",       origin: "Taoïsme",         duration: "15 min",   hint: "Écrire ce qu'on n'a pas dit, le confier.", bg: "var(--whisper)"},
+  { id: "bougie",    title: "Allumer une bougie",      origin: "Universel",            region: "Universel",  duration: "2 min",   hint: "Un nom prononcé, une flamme tenue.",
+    detail: "Le geste le plus ancien et le plus partagé. On allume une lumière, on prononce le nom — et l'on reste avec, quelques minutes.", bg: "var(--sun)" },
+  { id: "obon",      title: "Lanterne sur l'eau",      origin: "Japon — Obon",         region: "Asie",       duration: "10 min",  hint: "Une lumière confiée au courant.",
+    detail: "Au Japon, pendant Obon, des lanternes en papier (tōrō nagashi) sont déposées sur l'eau. Elles guident l'âme de l'être cher et accompagnent ceux qui restent.", bg: "var(--sky)" },
+  { id: "muertos",   title: "Petite offrande",         origin: "Mexique — Día de los Muertos", region: "Amériques", duration: "20 min", hint: "Ses fleurs, ses plats, sa photo.",
+    detail: "Au Mexique, l'ofrenda rassemble la photo, les plats préférés, des fleurs de cempasúchil et une bougie. La mort y est joyeusement habitée.", bg: "var(--blush)" },
+  { id: "yahrzeit",  title: "Bougie de 24 h",          origin: "Tradition juive — Yahrzeit", region: "Moyen-Orient", duration: "1 jour", hint: "Une lumière qui veille toute la journée.",
+    detail: "Le Yahrzeit, marqué chaque année à la date du décès, fait brûler une bougie 24 heures. Une présence silencieuse qui tient compagnie au souvenir.", bg: "var(--whisper)" },
+  { id: "wake",      title: "Veillée partagée",        origin: "Irlande — wake",       region: "Europe",     duration: "1 soir",  hint: "Rire et pleurer ensemble.",
+    detail: "La wake irlandaise rassemble proches et voisins : on raconte, on chante, on rit, on pleure — tous mêlés. La douleur portée seule devient une douleur traversée à plusieurs.", bg: "var(--sun)" },
+  { id: "yaakaar",   title: "Repas et récits",         origin: "Sénégal — Yaakaar",    region: "Afrique",    duration: "1 soir",  hint: "Réunir, manger, raconter.",
+    detail: "Au Sénégal, on se rassemble autour d'un repas pour évoquer la personne — un récit, un trait, une habitude. La mémoire collective tient la peine.",
+    bg: "color-mix(in oklab, var(--olive) 35%, var(--whisper))" },
+  { id: "marche",    title: "Marche silencieuse",      origin: "Bouddhisme zen — kinhin", region: "Asie",    duration: "30 min",  hint: "Marcher en pensant à elle, à lui.",
+    detail: "Le kinhin zen : marcher très lentement, attentif au sol et au souffle. Une manière de tenir la pensée à l'être aimé, sans la forcer.", bg: "var(--sky)" },
+  { id: "shiva",     title: "Sept jours présents",     origin: "Tradition juive — Shiva", region: "Moyen-Orient", duration: "7 jours", hint: "Recevoir, ne pas être seul·e.",
+    detail: "La shiva ouvre la maison sept jours après l'enterrement. Les proches viennent — ils n'attendent rien, ils sont simplement là.", bg: "var(--blush)" },
+  { id: "lettre",    title: "Lettre brûlée",           origin: "Taoïsme",              region: "Asie",       duration: "15 min",  hint: "Écrire ce qu'on n'a pas dit, le confier.",
+    detail: "Dans le taoïsme, on écrit à la personne disparue ce qui n'a pas pu être dit, puis on confie la lettre au feu. La fumée porte les mots.", bg: "var(--whisper)" },
+  { id: "pierre",    title: "Pierre déposée",          origin: "Tradition juive",      region: "Moyen-Orient", duration: "5 min",  hint: "Une pierre, plutôt qu'une fleur.",
+    detail: "On dépose une pierre sur la tombe : elle ne fane pas. Une marque que l'on est passé, que l'on n'oublie pas.", bg: "var(--clay)" },
+  { id: "samhain",   title: "Une place à table",       origin: "Celtique — Samhain",   region: "Europe",     duration: "1 repas", hint: "Une chaise et une assiette pour iel.",
+    detail: "Samhain, ancêtre d'Halloween, invitait les âmes des proches à partager le repas. Une chaise vide, une assiette préparée — l'absence devient présence.", bg: "var(--sun)" },
+  { id: "couronne",  title: "Couronne de fleurs",      origin: "Andes — Día de las Almas", region: "Amériques", duration: "30 min", hint: "Tresser des fleurs ensemble.",
+    detail: "Dans les Andes, on tresse une couronne avec les fleurs qu'aimait la personne. Le geste lent répare et relie.", bg: "var(--blush)" },
 ];
+
+const PALETTE = ["var(--sun)", "var(--sky)", "var(--blush)", "var(--whisper)", "var(--clay)", "color-mix(in oklab, var(--olive) 35%, var(--whisper))"];
+
+function classifyRegion(origin: string): Region {
+  const o = origin.toLowerCase();
+  if (/(japon|chine|cor[ée]e|inde|vietnam|tha[iï]|tibet|bouddh|tao)/.test(o)) return "Asie";
+  if (/(mexique|p[ée]rou|br[ée]sil|argentine|colombie|andes|aztèque|inca|maya|am[ée]rique)/.test(o)) return "Amériques";
+  if (/(s[ée]n[ée]gal|nigeria|mali|congo|afriqu|yoruba|akan|maghreb|maroc|alg[ée]rie|tunisie|berb[èe]re)/.test(o)) return "Afrique";
+  if (/(irlande|celtique|nordique|scandi|grec|italie|espagne|portugal|europe|slave|orthodox|chr[ée]tien|catholique)/.test(o)) return "Europe";
+  if (/(juda[iï]|juif|musulman|islam|soufi|arabe|h[ée]breu|moyen)/.test(o)) return "Moyen-Orient";
+  if (/(maori|aborig|polyn[ée]si|oc[ée]anie|pacifique)/.test(o)) return "Océanie";
+  return "Universel";
+}
 
 function CareRituels() {
   const lovedName = useLovedName();
+  const { branch, lostName } = useLegato();
+  const callRituals = useServerFn(suggestRituals);
+  const [region, setRegion] = useState<Region | "Tout">("Tout");
+  const [open, setOpen] = useState<string | null>(null);
+  const [extra, setExtra] = useState<Ritual[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  const all = [...RITUALS, ...extra];
+  const visible = region === "Tout" ? all : all.filter((r) => r.region === region);
+
+  const inspireMore = async () => {
+    if (loading) return;
+    setLoading(true);
+    try {
+      const { quick, long } = await callRituals({
+        data: { kind: "memoire", title: `Honorer ${lostName}`, date: "à venir", branch, mode: "ancrage", lostName },
+      });
+      const mapped: Ritual[] = [...quick, ...long].map((r, i) => ({
+        id: `ai-${Date.now()}-${i}`,
+        title: r.title,
+        origin: r.origin,
+        region: classifyRegion(r.origin),
+        duration: `${r.durationMin} min`,
+        hint: r.whisper,
+        detail: r.originDetail,
+        bg: PALETTE[i % PALETTE.length],
+      }));
+      setExtra((cur) => [...mapped, ...cur].slice(0, 12));
+    } catch {
+      /* silencieux */
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <Shell livingBg={false}>
       <div className="min-h-dvh bg-paper text-dusk pb-32">
@@ -51,21 +125,63 @@ function CareRituels() {
             Honorer <span className="italic" style={{ color: "var(--terracotta)" }}>{lovedName}</span>.
           </h1>
           <p className="mt-5 text-[13.5px] leading-[1.6] text-dusk/60 max-w-[34ch]">
-            Des gestes qui viennent d'ailleurs. Choisissez celui qui résonne.
+            Des gestes qui viennent du monde entier. Cliquez pour comprendre d'où ils viennent.
           </p>
         </section>
 
-        <section className="px-5 pt-8 flex flex-col gap-3">
-          {RITUALS.map((r) => (
-            <article key={r.id} className="rounded-[18px] px-5 py-5" style={{ background: r.bg }}>
-              <div className="flex items-baseline justify-between gap-3">
-                <p className="mono-label text-dusk/65">{r.origin}</p>
-                <span className="mono-label text-dusk/50">{r.duration}</span>
-              </div>
-              <h2 className="mt-2 font-serif text-[22px] leading-[1.15]">{r.title}</h2>
-              <p className="mt-2 text-[13px] text-dusk/70">{r.hint}</p>
-            </article>
-          ))}
+        <section className="px-5 pt-6">
+          <div className="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
+            {(["Tout", ...REGIONS] as const).map((r) => {
+              const active = r === region;
+              return (
+                <button
+                  key={r}
+                  onClick={() => setRegion(r as Region | "Tout")}
+                  className={`shrink-0 rounded-full px-4 py-1.5 text-[12px] transition-colors ${active ? "bg-dusk text-paper" : "border border-dusk/15 text-dusk/65 hover:border-dusk/30"}`}
+                >
+                  {r}
+                </button>
+              );
+            })}
+          </div>
+        </section>
+
+        <section className="px-5 pt-6 flex flex-col gap-3">
+          {visible.map((r) => {
+            const isOpen = open === r.id;
+            return (
+              <button
+                key={r.id}
+                onClick={() => setOpen(isOpen ? null : r.id)}
+                className="text-left rounded-[18px] px-5 py-5 transition-transform active:scale-[0.995]"
+                style={{ background: r.bg }}
+              >
+                <div className="flex items-baseline justify-between gap-3">
+                  <p className="mono-label text-dusk/65">{r.origin}</p>
+                  <span className="mono-label text-dusk/50">{r.duration}</span>
+                </div>
+                <h2 className="mt-2 font-serif text-[22px] leading-[1.15] text-dusk">{r.title}</h2>
+                <p className="mt-2 text-[13px] text-dusk/70">{r.hint}</p>
+                {isOpen && (
+                  <div className="mt-4 border-t border-dusk/15 pt-3">
+                    <p className="mono-label text-dusk/55">D'où cela vient</p>
+                    <p className="mt-2 text-[13.5px] leading-[1.55] text-dusk/80 italic">{r.detail}</p>
+                  </div>
+                )}
+              </button>
+            );
+          })}
+
+          <button
+            onClick={inspireMore}
+            disabled={loading}
+            className="mt-2 rounded-[18px] border border-dashed border-dusk/25 px-5 py-5 text-left text-dusk/70 disabled:opacity-60"
+          >
+            <p className="mono-label" style={{ color: "var(--terracotta)" }}>Présence IA</p>
+            <p className="mt-1 font-serif italic text-[18px]">
+              {loading ? "Cherche des gestes du monde…" : "M'en proposer d'autres, adaptés"}
+            </p>
+          </button>
         </section>
       </div>
     </Shell>

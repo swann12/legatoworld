@@ -16,20 +16,24 @@ export const Route = createFileRoute("/care/garden")({
   component: CareGarden,
 });
 
-type Deposit = { kind: string; label: string; hint: string; bg: string };
+type Deposit = { kind: string; label: string; hint: string; bg: string; fg?: string };
+// Palette équilibrée, sans répétition : un ton chaud, un froid, un acide,
+// un neutre, un grenat profond, un sable.
 const DEPOSITS: Deposit[] = [
-  { kind: "photo",    label: "Photo",     hint: "Un visage, un jour",       bg: "var(--blush)"  },
-  { kind: "voix",     label: "Voix",      hint: "Un message, un rire",      bg: "var(--sky)"    },
-  { kind: "lettre",   label: "Lettre",    hint: "Quelques mots, déposés",   bg: "var(--sun)"    },
-  { kind: "musique",  label: "Musique",   hint: "Une chanson partagée",     bg: "var(--whisper)"},
-  { kind: "objet",    label: "Objet",     hint: "Une trace tangible",       bg: "var(--blush)"  },
-  { kind: "citation", label: "Citation",  hint: "Une phrase qu'on garde",   bg: "var(--sun)"    },
+  { kind: "photo",    label: "Photo",     hint: "Un visage, un jour",        bg: "var(--blush)"                                    },
+  { kind: "voix",     label: "Voix",      hint: "Un message, un rire",        bg: "var(--sky)"                                      },
+  { kind: "lettre",   label: "Lettre",    hint: "Quelques mots, déposés",     bg: "var(--sun)"                                      },
+  { kind: "musique",  label: "Musique",   hint: "Une chanson partagée",       bg: "color-mix(in oklab, var(--olive) 35%, var(--whisper))" },
+  { kind: "objet",    label: "Objet",     hint: "Une trace tangible",         bg: "var(--whisper)"                                  },
+  { kind: "citation", label: "Citation",  hint: "Une phrase qu'on garde",     bg: "var(--bordeaux)", fg: "var(--paper)"             },
 ];
 
 function CareGarden() {
   const lovedName = useLovedName();
-  const { hydrated } = useLegato();
-  const dates = hydrated ? upcomingSensitiveDates({ windowDays: 14 }).slice(0, 2) : [];
+  const { hydrated, lovedOneRelation } = useLegato();
+  const dates = hydrated
+    ? upcomingSensitiveDates({ windowDays: 14, relation: lovedOneRelation }).slice(0, 2)
+    : [];
 
   return (
     <Shell livingBg={false}>
@@ -52,7 +56,7 @@ function CareGarden() {
 
         {dates.length > 0 && (
           <section className="px-5 pt-7">
-            <Link to="/care/dates" className="block rounded-[18px] px-5 py-4" style={{ background: "var(--blush)" }}>
+            <Link to="/care/dates" className="block rounded-[18px] border border-dusk/12 bg-[color:var(--whisper)] px-5 py-4">
               <p className="mono-label" style={{ color: "var(--terracotta)" }}>Une date approche</p>
               {dates.map((d) => (
                 <p key={d.id} className="mt-2 font-serif text-[17px] italic">
@@ -73,10 +77,10 @@ function CareGarden() {
                 to={"/care/garden/$zone" as "/care/garden"}
                 params={{ zone: d.kind } as never}
                 className="rounded-[18px] px-4 py-5 min-h-[110px] flex flex-col justify-between"
-                style={{ background: d.bg }}
+                style={{ background: d.bg, color: d.fg ?? "var(--dusk)" }}
               >
                 <p className="font-serif text-[20px] leading-[1.1]">{d.label}</p>
-                <p className="text-[12px] text-dusk/65">{d.hint}</p>
+                <p className="text-[12px]" style={{ opacity: d.fg ? 0.8 : 0.65 }}>{d.hint}</p>
               </Link>
             ))}
           </div>

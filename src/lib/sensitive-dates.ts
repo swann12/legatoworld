@@ -1,3 +1,5 @@
+import type { Relation } from "./legato-state";
+
 export type SensitiveDate = {
   id: string;
   label: string;
@@ -27,6 +29,7 @@ export function upcomingSensitiveDates(opts: {
   deathDate?: string | null;
   custom?: { label: string; date: string }[];
   windowDays?: number;
+  relation?: Relation | null;
 } = {}): SensitiveDate[] {
   const window = opts.windowDays ?? 3;
   const now = new Date();
@@ -46,11 +49,15 @@ export function upcomingSensitiveDates(opts: {
     add("death", "Date du départ", nextOccurrence(m - 1, d, now), "death");
   }
 
-  // Fêtes sensibles fixes
-  add("mothers", "Fête des mères", nextOccurrence(4, 31, now), "holiday");   // approx dernier dim. mai → simplifié au 31 mai
-  add("fathers", "Fête des pères", nextOccurrence(5, 21, now), "holiday");
-  add("christmas", "Noël", nextOccurrence(11, 25, now), "holiday");
-  add("newyear", "Nouvelle année", nextOccurrence(0, 1, now), "holiday");
+  // Fêtes sensibles — uniquement celles qui ont un sens pour ce lien.
+  const r = opts.relation ?? null;
+  if (r === "mere") add("mothers", "Fête des mères", nextOccurrence(4, 31, now), "holiday");
+  if (r === "pere") add("fathers", "Fête des pères", nextOccurrence(5, 21, now), "holiday");
+  // Noël et nouvelle année sont sensibles pour toute famille proche, et neutres sinon.
+  if (r === "mere" || r === "pere" || r === "conjoint" || r === "enfant" || r === "frere_soeur" || r === "grand_parent") {
+    add("christmas", "Noël", nextOccurrence(11, 25, now), "holiday");
+    add("newyear", "Nouvelle année", nextOccurrence(0, 1, now), "holiday");
+  }
 
   for (const c of opts.custom ?? []) {
     const [, m, d] = c.date.split("-").map(Number);
