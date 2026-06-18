@@ -9,7 +9,8 @@ export type CareModule =
 export type PracticalCategory =
   | "first" | "obseques" | "ceremony" | "flowers" | "documents"
   | "letters" | "succession" | "finances" | "rights"
-  | "digital" | "housing" | "pros" | "wishes" | "vault";
+  | "digital" | "housing" | "pros" | "wishes" | "vault"
+  | "vet" | "cremation_animal" | "inhumation_animal" | "souvenir_objet" | "hommage" | "messages" | "cagnotte" | "aide_famille";
 
 export type MemoryModule = "garden" | "timeline" | "voices" | "letters" | "dates";
 
@@ -35,7 +36,7 @@ export function journeyModules(
     return {
       home: ["checkin", "memory", "support"],
       care: ["checkin", "journal", "breathe", "sleep", "meditations", "sounds", "community", "therapists", "crisis"],
-      practical: [],
+      practical: primaryNeed === "practical" || primaryNeed === "both" ? ["vet", "cremation_animal", "inhumation_animal", "souvenir_objet"] : [],
       memory: ["garden", "voices", "letters", "dates", "timeline"],
     };
   }
@@ -95,26 +96,12 @@ export function journeyModules(
       return {
         home: ["wishes", "task"],
         care: [],
-        practical: ["wishes", "ceremony", "flowers", "letters", "documents", "vault", "succession"],
+        practical: ["wishes", "ceremony", "letters", "documents", "vault"],
         memory: ["letters", "voices"],
-      };
-    case "demarches":
-      return {
-        home: ["task"],
-        care: ["crisis"],
-        practical: applyFilters(["first", "obseques", "ceremony", "documents", "letters", "succession", "finances", "rights", "digital", "housing", "pros", "vault"]),
-        memory: [],
-      };
-    case "soutien":
-      return {
-        home: ["checkin", "support"],
-        care: baseCare,
-        practical: [],
-        memory: ["garden", "dates"],
       };
     case "perdu":
     default: {
-      const isRecent = stage === "recent" || stage === "obseques_a_organiser";
+      const isRecent = stage === "nouvelle" || stage === "obseques_a_organiser" || stage === "obseques_prevues" || stage === "inconnu";
       const isAfter = stage === "apres" || stage === "obseques_passees";
       if (primaryNeed === "practical") {
         return {
