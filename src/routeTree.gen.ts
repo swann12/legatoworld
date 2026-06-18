@@ -47,6 +47,7 @@ import { Route as PracticalTextsRouteImport } from './routes/practical.texts'
 import { Route as PracticalTasksRouteImport } from './routes/practical.tasks'
 import { Route as PracticalStepsRouteImport } from './routes/practical.steps'
 import { Route as PracticalShareRouteImport } from './routes/practical.share'
+import { Route as PracticalProsRouteImport } from './routes/practical.pros'
 import { Route as PracticalObjectsRouteImport } from './routes/practical.objects'
 import { Route as PracticalFlowersRouteImport } from './routes/practical.flowers'
 import { Route as PracticalCeremonyRouteImport } from './routes/practical.ceremony'
@@ -268,6 +269,11 @@ const PracticalShareRoute = PracticalShareRouteImport.update({
   path: '/share',
   getParentRoute: () => PracticalRoute,
 } as any)
+const PracticalProsRoute = PracticalProsRouteImport.update({
+  id: '/pros',
+  path: '/pros',
+  getParentRoute: () => PracticalRoute,
+} as any)
 const PracticalObjectsRoute = PracticalObjectsRouteImport.update({
   id: '/objects',
   path: '/objects',
@@ -473,6 +479,7 @@ export interface FileRoutesByFullPath {
   '/practical/ceremony': typeof PracticalCeremonyRoute
   '/practical/flowers': typeof PracticalFlowersRoute
   '/practical/objects': typeof PracticalObjectsRoute
+  '/practical/pros': typeof PracticalProsRoute
   '/practical/share': typeof PracticalShareRoute
   '/practical/steps': typeof PracticalStepsRoute
   '/practical/tasks': typeof PracticalTasksRouteWithChildren
@@ -540,6 +547,7 @@ export interface FileRoutesByTo {
   '/practical/ceremony': typeof PracticalCeremonyRoute
   '/practical/flowers': typeof PracticalFlowersRoute
   '/practical/objects': typeof PracticalObjectsRoute
+  '/practical/pros': typeof PracticalProsRoute
   '/practical/share': typeof PracticalShareRoute
   '/practical/steps': typeof PracticalStepsRoute
   '/practical/tasks': typeof PracticalTasksRouteWithChildren
@@ -612,6 +620,7 @@ export interface FileRoutesById {
   '/practical/ceremony': typeof PracticalCeremonyRoute
   '/practical/flowers': typeof PracticalFlowersRoute
   '/practical/objects': typeof PracticalObjectsRoute
+  '/practical/pros': typeof PracticalProsRoute
   '/practical/share': typeof PracticalShareRoute
   '/practical/steps': typeof PracticalStepsRoute
   '/practical/tasks': typeof PracticalTasksRouteWithChildren
@@ -684,6 +693,7 @@ export interface FileRouteTypes {
     | '/practical/ceremony'
     | '/practical/flowers'
     | '/practical/objects'
+    | '/practical/pros'
     | '/practical/share'
     | '/practical/steps'
     | '/practical/tasks'
@@ -751,6 +761,7 @@ export interface FileRouteTypes {
     | '/practical/ceremony'
     | '/practical/flowers'
     | '/practical/objects'
+    | '/practical/pros'
     | '/practical/share'
     | '/practical/steps'
     | '/practical/tasks'
@@ -822,6 +833,7 @@ export interface FileRouteTypes {
     | '/practical/ceremony'
     | '/practical/flowers'
     | '/practical/objects'
+    | '/practical/pros'
     | '/practical/share'
     | '/practical/steps'
     | '/practical/tasks'
@@ -1154,6 +1166,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PracticalShareRouteImport
       parentRoute: typeof PracticalRoute
     }
+    '/practical/pros': {
+      id: '/practical/pros'
+      path: '/pros'
+      fullPath: '/practical/pros'
+      preLoaderRoute: typeof PracticalProsRouteImport
+      parentRoute: typeof PracticalRoute
+    }
     '/practical/objects': {
       id: '/practical/objects'
       path: '/objects'
@@ -1483,6 +1502,7 @@ interface PracticalRouteChildren {
   PracticalCeremonyRoute: typeof PracticalCeremonyRoute
   PracticalFlowersRoute: typeof PracticalFlowersRoute
   PracticalObjectsRoute: typeof PracticalObjectsRoute
+  PracticalProsRoute: typeof PracticalProsRoute
   PracticalShareRoute: typeof PracticalShareRoute
   PracticalStepsRoute: typeof PracticalStepsRoute
   PracticalTasksRoute: typeof PracticalTasksRouteWithChildren
@@ -1498,6 +1518,7 @@ const PracticalRouteChildren: PracticalRouteChildren = {
   PracticalCeremonyRoute: PracticalCeremonyRoute,
   PracticalFlowersRoute: PracticalFlowersRoute,
   PracticalObjectsRoute: PracticalObjectsRoute,
+  PracticalProsRoute: PracticalProsRoute,
   PracticalShareRoute: PracticalShareRoute,
   PracticalStepsRoute: PracticalStepsRoute,
   PracticalTasksRoute: PracticalTasksRouteWithChildren,

@@ -47,7 +47,7 @@ function Onboarding() {
 
   const needsPerson = Boolean(situation && ["perdu", "peur", "accompagner"].includes(situation));
   const needsLabel = Boolean(situation && !["questionnement", "volontes"].includes(situation));
-  const stageOptions = situation ? STAGES_BY_SITUATION[situation] : [];
+  const stageOptions = situation && situation in STAGES_BY_SITUATION ? STAGES_BY_SITUATION[situation] : [];
   const needsEmotion = primaryNeed === "emotional" || primaryNeed === "both";
   const needsLegalQuestion = (lovedOneRelation === "ami" || lovedOneRelation === "collegue" || lovedOneRelation === "autre") && (primaryNeed === "practical" || primaryNeed === "both");
 
@@ -64,6 +64,7 @@ function Onboarding() {
   const afterSituation = () => {
     if (!situation) return;
     if (situation === "questionnement" || situation === "volontes") setStep(5);
+    else if (situation === "soutenir") setStep(4);
     else setStep(3);
   };
 
@@ -98,6 +99,12 @@ function Onboarding() {
   const afterLegal = () => {
     if (needsEmotion) setStep(7);
     else finish();
+  };
+
+  const backFromEmotion = () => {
+    if (needsLegalQuestion) setStep(8);
+    else if (situation === "questionnement" || (lovedOneRelation === "animal" && situation !== "perdu")) setStep(5);
+    else setStep(6);
   };
 
   const toggleEmotion = (id: Emotion) => {
@@ -215,7 +222,7 @@ function Onboarding() {
   }
 
   return (
-    <Frame onBack={() => (needsLegalQuestion ? setStep(8) : setStep(6))} progress="7 / 7">
+    <Frame onBack={backFromEmotion} progress="7 / 7">
       <p className="mono-label">Check-in émotionnel</p>
       <h1 className="mt-5 ed-page-title">Comment vous sentez-vous <span className="italic" style={{ color: "var(--terracotta)" }}>maintenant&nbsp;?</span></h1>
       <p className="mt-5 text-[13.5px] leading-[1.6] text-dusk/60 max-w-[34ch]">Plusieurs choix possibles. Vos émotions adaptent uniquement l'espace Soutien.</p>
