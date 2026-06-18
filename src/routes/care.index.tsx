@@ -43,7 +43,7 @@ function Care() {
         <section className="px-6 pt-8">
           <p className="mono-label">Soutien psychologique</p>
           <h1 className="mt-5 ed-page-title">
-            Un espace pour <span className="italic" style={{ color: "var(--terracotta)" }}>tenir</span>.
+            Un espace pour <span className="italic" style={{ color: "var(--terracotta)" }}>traverser</span>.
           </h1>
           {(stale || focus.intro) && (
             <p className="mt-5 text-[13.5px] leading-[1.6] text-dusk/60 max-w-[35ch]">
@@ -145,7 +145,7 @@ function focusFromEmotions(emotions: Emotion[], stale: boolean): Focus {
     return { label: "Peur / anxiété", title: "Revenir au corps avant le reste.", intro: "Respiration courte, ancrage, journal bref et aide humaine accessible.", bg: "var(--mist)", modules: ["breathe", "journal", "crisis"], hidden: [] };
   }
   if (emotions.includes("fatigue")) {
-    return { label: "Fatigue", title: "Moins de contenu, plus de repos.", intro: "Des gestes courts, rien d'autre.", bg: "var(--sky)", modules: ["sleep", "breathe"], hidden: ["meditations"] };
+    return { label: "Fatigue", title: "Moins de contenu, plus de repos.", intro: "Juste se poser. Tout le reste peut attendre.", bg: "var(--sky)", modules: ["sleep", "breathe"], hidden: ["meditations"] };
   }
   if (emotions.includes("nostalgie")) {
     return { label: "Nostalgie", title: "Transformer le manque en trace.", intro: "Vos souvenirs passent devant.", bg: "var(--blush)", modules: ["letters", "journal"], hidden: [] };
