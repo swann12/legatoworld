@@ -8,7 +8,7 @@ import {
   journeyModules, PRACTICAL_LABELS, PRACTICAL_BUCKETS, BUCKET_LABELS,
   type PracticalCategory, type PracticalBucket,
 } from "@/lib/journey-config";
-import { SubNav, PRACTICAL_SUBNAV } from "@/components/legato/SubNav";
+import { SpaceToggle } from "@/components/legato/SpaceToggle";
 import { TASK_STATUS_LABELS, isHiddenFromActive } from "@/lib/task-status";
 
 export const Route = createFileRoute("/practical/")({
@@ -68,10 +68,10 @@ function Practical() {
   return (
     <Shell livingBg={false}>
       <div className="min-h-dvh bg-paper text-dusk pb-32">
-        <header className="px-6 pt-7 flex items-center justify-between">
-          <LegatoMark to="/space" size={22} />
-          <Link to="/practical/vault" className="mono-label text-dusk/55">Coffre →</Link>
+        <header className="px-6 pt-7 flex items-center justify-center">
+          <LegatoMark to="/practical" size={22} />
         </header>
+        <SpaceToggle />
 
         <section className="px-6 pt-10 pb-2">
           <p className="mono-label">Démarches</p>
@@ -87,8 +87,6 @@ function Practical() {
                 : `${total} étapes au total. Le reste peut attendre.`}
           </p>
         </section>
-
-        <SubNav items={PRACTICAL_SUBNAV} ariaLabel="Sous-navigation Démarches" />
 
         {!softActive && (
           <section className="px-5 pt-6">
