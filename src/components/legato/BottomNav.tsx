@@ -2,7 +2,7 @@ import { Link, useLocation } from "@tanstack/react-router";
 import { useLegato } from "@/lib/legato-state";
 
 type ItemDef = {
-  to: "/home" | "/care" | "/practical" | "/care/memory" | "/_authenticated/circle" | "/practical/vault" | "/profile";
+  to: string;
   label: string;
   match: (p: string) => boolean;
 };
@@ -12,6 +12,20 @@ const CARE: ItemDef    = { to: "/care",      label: "Soutien",     match: (p) =>
 const PRACT: ItemDef   = { to: "/practical", label: "Démarches",   match: (p) => p.startsWith("/practical") || p.startsWith("/parcours") || p.startsWith("/wishes") || p.startsWith("/appointments") };
 const CIRCLE: ItemDef  = { to: "/_authenticated/circle", label: "Cercle", match: (p) => p.startsWith("/_authenticated/circle") || p.startsWith("/circle") };
 const PROFILE: ItemDef = { to: "/profile",   label: "Profil",      match: (p) => p.startsWith("/profile") };
+const EMOTIONS: ItemDef = { to: "/care/emotions", label: "Émotions", match: (p) => p.startsWith("/care/emotions") };
+const JOURNAL: ItemDef = { to: "/care/journal", label: "Journal", match: (p) => p.startsWith("/care/journal") };
+const MEMORY: ItemDef = { to: "/care/memory", label: "Mémoire", match: (p) => p.startsWith("/care/memory") || p.startsWith("/care/garden") || p.startsWith("/care/dates") };
+const TASKS: ItemDef = { to: "/practical/tasks", label: "Tâches", match: (p) => p.startsWith("/practical/tasks") || p === "/practical" };
+const VAULT: ItemDef = { to: "/practical/vault", label: "Docs", match: (p) => p.startsWith("/practical/vault") };
+const PROS: ItemDef = { to: "/practical/pros", label: "Pros", match: (p) => p.startsWith("/practical/pros") || p.startsWith("/practical/ceremony") || p.startsWith("/practical/wishes") };
+
+type NavSpace = "home" | "care" | "practical";
+
+function spaceFromPath(pathname: string): NavSpace {
+  if (pathname.startsWith("/care") || pathname.startsWith("/journal") || pathname.startsWith("/no-words") || pathname.startsWith("/presence")) return "care";
+  if (pathname.startsWith("/practical") || pathname.startsWith("/parcours") || pathname.startsWith("/wishes") || pathname.startsWith("/appointments")) return "practical";
+  return "home";
+}
 
 function itemsFor(need: ReturnType<typeof useLegato>["primaryNeed"]): ItemDef[] {
   switch (need) {
@@ -26,7 +40,12 @@ export function BottomNav() {
   const { pathname } = useLocation();
   const { primaryNeed, softDay, toggleSoftDay, hydrated } = useLegato();
   // SSR-stable: use a deterministic default until client hydration.
-  const items = itemsFor(hydrated ? primaryNeed : "both");
+  const space = hydrated ? spaceFromPath(pathname) : "home";
+  const items = space === "care"
+    ? [HOME, EMOTIONS, JOURNAL, MEMORY]
+    : space === "practical"
+      ? [HOME, TASKS, VAULT, PROS]
+      : itemsFor(hydrated ? primaryNeed : "both");
   const soft = hydrated && softDay;
 
   return (
@@ -49,7 +68,7 @@ export function BottomNav() {
             ♡
           </span>
           <span className="mt-1 text-[9.5px] font-medium tracking-[0.04em] text-dusk/60">
-            {soft ? "Mode doux" : "Aujourd'hui"}
+            {soft ? "Mode doux" : "Doux"}
           </span>
         </button>
 
@@ -62,7 +81,7 @@ export function BottomNav() {
 function NavItem({ item, active }: { item: ItemDef; active: boolean }) {
   return (
     <Link
-      to={item.to}
+      to={item.to as "/home"}
       aria-label={item.label}
       className="group relative flex flex-1 flex-col items-center justify-center gap-1.5 px-1 py-1.5"
     >
