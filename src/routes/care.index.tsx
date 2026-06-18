@@ -4,6 +4,7 @@ import { useLegato } from "@/lib/legato-state";
 import { useLovedName } from "@/lib/loved-name";
 import { journeyModules, CARE_LABELS, type CareModule } from "@/lib/journey-config";
 import { LegatoMark } from "@/components/legato/LegatoMark";
+import { SubNav, CARE_SUBNAV } from "@/components/legato/SubNav";
 
 export const Route = createFileRoute("/care/")({
   head: () => ({
@@ -27,6 +28,7 @@ function Care() {
           <LegatoMark to="/space" size={22} />
           <Link to="/checkin" className="mono-label text-dusk/55">Check-in →</Link>
         </header>
+        <SubNav items={CARE_SUBNAV} ariaLabel="Sous-navigation Soutien" />
         <section className="px-6 pt-10">
           <p className="mono-label">Soutien émotionnel</p>
           <h1 className="mt-5 ed-page-title">
