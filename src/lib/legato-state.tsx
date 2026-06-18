@@ -425,6 +425,21 @@ export function LegatoProvider({ children }: { children: ReactNode }) {
   const [nightModeOverride, setNightModeOverrideState] = useState<boolean | null>(() => lsGet("lg.nightOverride", null));
   const setNightModeOverride = (v: boolean | null) => { setNightModeOverrideState(v); lsSet("lg.nightOverride", v); };
 
+  const [hydrated, setHydrated] = useState(false);
+  useEffect(() => { setHydrated(true); }, []);
+
+  const [taskStatus, setTaskStatusState] = useState<Record<string, TaskStatus>>(() => lsGet("lg.taskStatus", {} as Record<string, TaskStatus>));
+  const setTaskStatus = (id: string, status: TaskStatus) => {
+    setTaskStatusState((prev) => {
+      const next = { ...prev, [id]: status };
+      lsSet("lg.taskStatus", next);
+      return next;
+    });
+  };
+
+  const [legallyInvolved, setLegallyInvolvedState] = useState<boolean>(() => lsGet("lg.legallyInvolved", false));
+  const setLegallyInvolved = (v: boolean) => { setLegallyInvolvedState(v); lsSet("lg.legallyInvolved", v); };
+
   const t = (key: string) => DICT[key]?.[lang] ?? key;
   const addJournalEntry = (e: Omit<JournalEntry, "id" | "date">) =>
     setJournal((prev) => [
@@ -457,6 +472,9 @@ export function LegatoProvider({ children }: { children: ReactNode }) {
         currentEmotionAt,
         softDay, toggleSoftDay,
         nightModeOverride, setNightModeOverride,
+        hydrated,
+        taskStatus, setTaskStatus,
+        legallyInvolved, setLegallyInvolved,
       }}
     >
       {children}
