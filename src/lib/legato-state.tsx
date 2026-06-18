@@ -141,6 +141,13 @@ export const STAGES: { id: Stage; label: string }[] = [
   { id: "apres",                  label: "C'est plus ancien, je traverse l'après" },
 ];
 
+/** Helpers de regroupement par lien. */
+export function isAnimal(r: Relation | null): boolean { return r === "animal"; }
+export function isFriendOrColleague(r: Relation | null): boolean { return r === "ami"; }
+export function isFamilyClose(r: Relation | null): boolean {
+  return r === "parent" || r === "conjoint" || r === "enfant";
+}
+
 const EMPTY_WISHES: Wishes = {
   ceremony: "", ambiance: "", flowers: "", music: "", texts: "",
   objects: "", colors: "", materials: "", iWant: "", iDontWant: "",
@@ -293,7 +300,22 @@ type Ctx = {
   // Mode nuit override
   nightModeOverride: boolean | null;
   setNightModeOverride: (v: boolean | null) => void;
+
+  // Vrai après le 1er useEffect côté client — protège contre les mismatches SSR
+  hydrated: boolean;
+
+  // Statuts de tâches pratiques (persistés)
+  taskStatus: Record<string, TaskStatus>;
+  setTaskStatus: (id: string, status: TaskStatus) => void;
+
+  // Vrai si l'utilisateur est légalement impliqué (ami/collègue/autre)
+  legallyInvolved: boolean;
+  setLegallyInvolved: (v: boolean) => void;
 };
+
+export type TaskStatus =
+  | "todo" | "doing" | "done" | "delegated"
+  | "blocked" | "missing_doc" | "snoozed" | "not_concerned";
 
 const LegatoContext = createContext<Ctx | null>(null);
 
