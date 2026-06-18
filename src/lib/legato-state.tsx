@@ -373,14 +373,8 @@ export function LegatoProvider({ children }: { children: ReactNode }) {
   const [name, setName] = useState<string>("Swann");
   const [lostName, setLostName] = useState<string>("Élise");
   const [lang, setLang] = useState<Lang>("fr");
-  const [theme, setThemeState] = useState<ThemeMode>(() => {
-    if (typeof window === "undefined") return "auto";
-    return (localStorage.getItem("legato-theme") as ThemeMode | null) ?? "auto";
-  });
-  const [systemDark, setSystemDark] = useState<boolean>(() => {
-    if (typeof window === "undefined") return false;
-    return window.matchMedia?.("(prefers-color-scheme: dark)").matches ?? false;
-  });
+  const [theme, setThemeState] = useState<ThemeMode>("auto");
+  const [systemDark, setSystemDark] = useState<boolean>(false);
   useEffect(() => {
     if (typeof window === "undefined") return;
     const mq = window.matchMedia("(prefers-color-scheme: dark)");
@@ -429,31 +423,31 @@ export function LegatoProvider({ children }: { children: ReactNode }) {
     try { localStorage.setItem(k, JSON.stringify(v)); } catch { /* ignore */ }
   };
 
-  const [situation, setSituationState] = useState<Situation | null>(() => lsGet("lg.situation", null));
+  const [situation, setSituationState] = useState<Situation | null>(null);
   const setSituation = (s: Situation | null) => { setSituationState(s); lsSet("lg.situation", s); };
 
-  const [lovedLabel, setLovedLabelState] = useState<string>(() => lsGet("lg.lovedLabel", lsGet("lg.lovedOneName", "")));
+  const [lovedLabel, setLovedLabelState] = useState<string>("");
   const setLovedLabel = (s: string) => { setLovedLabelState(s); lsSet("lg.lovedLabel", s); lsSet("lg.lovedOneName", s); };
   const lovedOneName = lovedLabel;
   const setLovedOneName = setLovedLabel;
 
-  const [lovedOther, setLovedOtherState] = useState<string>(() => lsGet("lg.lovedOther", ""));
+  const [lovedOther, setLovedOtherState] = useState<string>("");
   const setLovedOther = (s: string) => { setLovedOtherState(s); lsSet("lg.lovedOther", s); };
 
-  const [lovedOneRelation, setLovedOneRelationState] = useState<Relation | null>(() => lsGet("lg.lovedOneRelation", null));
+  const [lovedOneRelation, setLovedOneRelationState] = useState<Relation | null>(null);
   const setLovedOneRelation = (r: Relation | null) => { setLovedOneRelationState(r); lsSet("lg.lovedOneRelation", r); };
 
-  const [timeframe, setTimeframeState] = useState<Timeframe | null>(() => lsGet("lg.timeframe", null));
+  const [timeframe, setTimeframeState] = useState<Timeframe | null>(null);
   const setTimeframe = (t: Timeframe | null) => { setTimeframeState(t); lsSet("lg.timeframe", t); };
 
-  const [stage, setStageState] = useState<Stage | null>(() => lsGet("lg.stage", null));
+  const [stage, setStageState] = useState<Stage | null>(null);
   const setStage = (s: Stage | null) => { setStageState(s); lsSet("lg.stage", s); };
 
-  const [primaryNeed, setPrimaryNeedState] = useState<PrimaryNeed | null>(() => lsGet("lg.primaryNeed", null));
+  const [primaryNeed, setPrimaryNeedState] = useState<PrimaryNeed | null>(null);
   const setPrimaryNeed = (p: PrimaryNeed | null) => { setPrimaryNeedState(p); lsSet("lg.primaryNeed", p); };
 
-  const [currentEmotions, setCurrentEmotionsState] = useState<Emotion[]>(() => lsGet("lg.currentEmotions", [] as Emotion[]));
-  const [currentEmotionAt, setCurrentEmotionAt] = useState<string | null>(() => lsGet("lg.currentEmotionAt", null));
+  const [currentEmotions, setCurrentEmotionsState] = useState<Emotion[]>([]);
+  const [currentEmotionAt, setCurrentEmotionAt] = useState<string | null>(null);
   const setCurrentEmotions = (e: Emotion[]) => {
     setCurrentEmotionsState(e);
     const now = new Date().toISOString();
@@ -462,26 +456,26 @@ export function LegatoProvider({ children }: { children: ReactNode }) {
     lsSet("lg.currentEmotionAt", now);
   };
 
-  const [softDay, setSoftDay] = useState<boolean>(() => {
+  const isStoredSoftDayActive = () => {
     const at = lsGet<string | null>("lg.softDayAt", null);
     if (!at) return false;
     const d = new Date(at);
     const today = new Date();
     return d.toDateString() === today.toDateString();
-  });
+  };
+  const [softDay, setSoftDay] = useState<boolean>(false);
   const toggleSoftDay = () => {
     const next = !softDay;
     setSoftDay(next);
     lsSet("lg.softDayAt", next ? new Date().toISOString() : null);
   };
 
-  const [nightModeOverride, setNightModeOverrideState] = useState<boolean | null>(() => lsGet("lg.nightOverride", null));
+  const [nightModeOverride, setNightModeOverrideState] = useState<boolean | null>(null);
   const setNightModeOverride = (v: boolean | null) => { setNightModeOverrideState(v); lsSet("lg.nightOverride", v); };
 
   const [hydrated, setHydrated] = useState(false);
-  useEffect(() => { setHydrated(true); }, []);
 
-  const [taskStatus, setTaskStatusState] = useState<Record<string, TaskStatus>>(() => lsGet("lg.taskStatus", {} as Record<string, TaskStatus>));
+  const [taskStatus, setTaskStatusState] = useState<Record<string, TaskStatus>>({});
   const setTaskStatus = (id: string, status: TaskStatus) => {
     setTaskStatusState((prev) => {
       const next = { ...prev, [id]: status };
@@ -490,8 +484,27 @@ export function LegatoProvider({ children }: { children: ReactNode }) {
     });
   };
 
-  const [legallyInvolved, setLegallyInvolvedState] = useState<boolean>(() => lsGet("lg.legallyInvolved", false));
+  const [legallyInvolved, setLegallyInvolvedState] = useState<boolean>(false);
   const setLegallyInvolved = (v: boolean) => { setLegallyInvolvedState(v); lsSet("lg.legallyInvolved", v); };
+
+  useEffect(() => {
+    setThemeState(lsGet("legato-theme", "auto" as ThemeMode));
+    setSystemDark(window.matchMedia?.("(prefers-color-scheme: dark)").matches ?? false);
+    setSituationState(lsGet("lg.situation", null));
+    setLovedLabelState(lsGet("lg.lovedLabel", lsGet("lg.lovedOneName", "")));
+    setLovedOtherState(lsGet("lg.lovedOther", ""));
+    setLovedOneRelationState(lsGet("lg.lovedOneRelation", null));
+    setTimeframeState(lsGet("lg.timeframe", null));
+    setStageState(lsGet("lg.stage", null));
+    setPrimaryNeedState(lsGet("lg.primaryNeed", null));
+    setCurrentEmotionsState(lsGet("lg.currentEmotions", [] as Emotion[]));
+    setCurrentEmotionAt(lsGet("lg.currentEmotionAt", null));
+    setSoftDay(isStoredSoftDayActive());
+    setNightModeOverrideState(lsGet("lg.nightOverride", null));
+    setTaskStatusState(lsGet("lg.taskStatus", {} as Record<string, TaskStatus>));
+    setLegallyInvolvedState(lsGet("lg.legallyInvolved", false));
+    setHydrated(true);
+  }, []);
 
   const t = (key: string) => DICT[key]?.[lang] ?? key;
   const addJournalEntry = (e: Omit<JournalEntry, "id" | "date">) =>

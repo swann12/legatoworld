@@ -1,89 +1,188 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Shell } from "@/components/legato/Shell";
-import { useLegato } from "@/lib/legato-state";
+import { useLegato, type Emotion } from "@/lib/legato-state";
 import { useLovedName } from "@/lib/loved-name";
-import { journeyModules, CARE_LABELS, type CareModule } from "@/lib/journey-config";
+import { journeyModules, CARE_LABELS, MEMORY_LABELS, type CareModule, type MemoryModule } from "@/lib/journey-config";
 import { LegatoMark } from "@/components/legato/LegatoMark";
 import { SubNav, CARE_SUBNAV } from "@/components/legato/SubNav";
+import { emotionPlan, isEmotionStale } from "@/lib/emotion-routing";
 
 export const Route = createFileRoute("/care/")({
   head: () => ({
     meta: [
       { title: "Soutien — Legato" },
-      { name: "description", content: "Émotions, journal, respiration, sommeil, communauté, thérapeutes — sans aucune démarche administrative." },
+      { name: "description", content: "Un espace psychologique guidé : émotions, journal, mémoire, respiration et aide humaine." },
     ],
   }),
   component: Care,
 });
 
 function Care() {
-  const { situation, primaryNeed, stage, currentEmotions, lovedOneRelation, legallyInvolved, hydrated } = useLegato();
+  const {
+    situation, primaryNeed, stage, currentEmotions, currentEmotionAt,
+    lovedOneRelation, legallyInvolved, hydrated,
+  } = useLegato();
   const lovedName = useLovedName();
-  const { care } = journeyModules(situation, primaryNeed, stage, { relation: lovedOneRelation, legallyInvolved });
+  const { care, memory } = journeyModules(situation, primaryNeed, stage, { relation: lovedOneRelation, legallyInvolved });
+  const plan = emotionPlan(hydrated ? currentEmotions : []);
+  const stale = hydrated ? isEmotionStale(currentEmotionAt) : true;
+  const selected = hydrated ? currentEmotions : [];
+  const focus = focusFromEmotions(selected, stale);
+  const visibleCare = care.filter((m) => !focus.hidden.includes(m));
+  const primaryCare = focus.modules.filter((m) => visibleCare.includes(m));
+  const restCare = visibleCare.filter((m) => !primaryCare.includes(m) && m !== "checkin").slice(0, plan.contentLength === "court" ? 3 : 5);
+  const visibleMemory = memory.length ? memory : (["garden", "voices", "letters", "dates"] as MemoryModule[]);
 
   return (
     <Shell livingBg={false}>
-      <div className="min-h-dvh bg-paper text-dusk pb-32">
+      <main className="min-h-dvh bg-paper text-dusk pb-32">
         <header className="px-6 pt-7 flex items-center justify-between">
           <LegatoMark to="/space" size={22} />
-          <Link to="/care/emotions" className="mono-label text-dusk/55">Check-in →</Link>
+          <Link to="/practical" className="mono-label text-dusk/55">Démarches →</Link>
         </header>
         <SubNav items={CARE_SUBNAV} ariaLabel="Sous-navigation Soutien" />
-        <section className="px-6 pt-10">
-          <p className="mono-label">Soutien émotionnel</p>
+
+        <section className="px-6 pt-9">
+          <p className="mono-label">Soutien psychologique</p>
           <h1 className="mt-5 ed-page-title">
-            Prendre soin de <span className="italic" style={{ color: "var(--terracotta)" }}>vous</span>
+            Un espace pour <span className="italic" style={{ color: "var(--terracotta)" }}>tenir</span>.
           </h1>
-          <p className="mt-5 text-[13.5px] leading-[1.6] text-dusk/60 max-w-[34ch]">
-            {hydrated && currentEmotions.length > 0
-              ? "Voici ce qui peut vous faire du bien, là."
-              : "Un espace tendre pour vous, et pour ce que vous traversez."}
+          <p className="mt-5 text-[13.5px] leading-[1.6] text-dusk/60 max-w-[35ch]">
+            {stale ? "Commencez par nommer ce qui est là. Le reste s'adapte ensuite." : focus.intro}
           </p>
         </section>
 
-        <section className="px-5 pt-8 flex flex-col gap-3">
-          <CareCard module="checkin" />
-          <CareCard module="journal" />
-          {/* Mémoire vit dans le Soutien */}
+        <section className="px-5 pt-8">
           <Link
-            to="/care/memory"
-            className="block rounded-[18px] border border-dusk/12 bg-[color:var(--whisper)] px-5 py-4 transition-colors hover:border-dusk/25"
+            to={(stale ? "/care/emotions" : plan.primary.to) as "/care/emotions"}
+            className="block rounded-[22px] px-6 pt-7 pb-6"
+            style={{ background: focus.bg, color: "var(--dusk)" }}
           >
-            <div className="flex items-center justify-between gap-4">
-              <div className="min-w-0">
-                <p className="font-serif text-[18px] leading-[1.2] text-dusk">Mémoire</p>
-                <p className="mt-1 text-[12.5px] text-dusk/55">{`Garder ${lovedName} — jardin, voix, lettres`}</p>
-              </div>
-              <span className="text-dusk/40 text-[16px]">→</span>
-            </div>
+            <p className="mono-label">{stale ? "Check-in émotionnel" : focus.label}</p>
+            <h2 className="mt-5 font-serif font-normal text-[27px] leading-[1.12] max-w-[18ch]">
+              {stale ? "Comment vous sentez-vous maintenant ?" : plan.primary.hint ?? focus.title}
+            </h2>
+            <span className="mt-6 inline-block mono-label" style={{ color: "var(--terracotta)" }}>
+              {stale ? "Choisir une émotion" : plan.primary.label} →
+            </span>
           </Link>
-          {care.filter((m) => m !== "checkin" && m !== "journal").map((m) => <CareCard key={m} module={m} />)}
         </section>
+
+        {primaryCare.length > 0 && (
+          <section className="px-5 pt-7">
+            <SectionKicker label="À privilégier maintenant" />
+            <div className="mt-4 grid grid-cols-2 gap-3">
+              {primaryCare.map((m) => <CareTile key={m} module={m} />)}
+            </div>
+          </section>
+        )}
+
+        <section className="px-5 pt-9">
+          <SectionKicker label={`Mémoire de ${lovedName}`} />
+          <div className="mt-4 flex flex-col gap-3">
+            {visibleMemory.slice(0, plan.contentLength === "court" ? 2 : 4).map((m) => <MemoryRow key={m} module={m} />)}
+          </div>
+        </section>
+
+        {restCare.length > 0 && (
+          <section className="px-5 pt-9">
+            <SectionKicker label="Autres appuis" />
+            <div className="mt-4 flex flex-col gap-3">
+              {restCare.map((m) => <CareRow key={m} module={m} />)}
+            </div>
+          </section>
+        )}
 
         <footer className="px-6 pt-10 text-center">
           <p className="text-[11px] italic text-dusk/45 max-w-[34ch] mx-auto">
-            L'IA de Legato ne remplace pas un·e thérapeute. En cas de détresse, un humain reste à un appel.
+            Ici, aucune démarche administrative : seulement ressentir, déposer, se souvenir, demander de l'aide.
           </p>
         </footer>
-      </div>
+      </main>
     </Shell>
   );
 }
 
-function CareCard({ module: m }: { module: CareModule }) {
+type Focus = {
+  label: string;
+  title: string;
+  intro: string;
+  bg: string;
+  modules: CareModule[];
+  hidden: CareModule[];
+};
+
+function focusFromEmotions(emotions: Emotion[], stale: boolean): Focus {
+  if (stale || emotions.length === 0) {
+    return {
+      label: "Aujourd'hui",
+      title: "Une porte d'entrée simple.",
+      intro: "Un soutien clair, selon ce que vous ressentez.",
+      bg: "var(--sun)",
+      modules: ["checkin", "journal"],
+      hidden: [],
+    };
+  }
+  if (emotions.some((e) => e === "peur" || e === "anxiete" || e === "besoin_calme")) {
+    return { label: "Peur / anxiété", title: "Revenir au corps avant le reste.", intro: "Respiration courte, ancrage, journal bref et aide humaine accessible.", bg: "var(--mist)", modules: ["breathe", "journal", "crisis"], hidden: [] };
+  }
+  if (emotions.includes("fatigue")) {
+    return { label: "Fatigue", title: "Moins de contenu, plus de repos.", intro: "Legato réduit la quantité et garde les actions les plus courtes.", bg: "var(--whisper)", modules: ["sleep", "breathe", "sounds"], hidden: ["meditations"] };
+  }
+  if (emotions.includes("nostalgie")) {
+    return { label: "Nostalgie", title: "Transformer le manque en trace.", intro: "Photos, voix, lettres et jardin deviennent prioritaires.", bg: "var(--blush)", modules: ["letters", "journal", "sounds"], hidden: [] };
+  }
+  if (emotions.includes("solitude") || emotions.includes("besoin_aide")) {
+    return { label: "Solitude / besoin d'aide", title: "Ne pas rester seul·e avec ça.", intro: "Cercle, communauté, thérapeutes et crise sont placés devant.", bg: "var(--sun)", modules: ["community", "therapists", "crisis"], hidden: [] };
+  }
+  if (emotions.includes("culpabilite") || emotions.includes("colere")) {
+    return { label: "Ce qui pèse", title: "Déposer sans juger.", intro: "Le journal, les ressources et une aide prudente passent en premier.", bg: "var(--rose)", modules: ["journal", "therapists", "breathe"], hidden: [] };
+  }
+  return { label: "Soutien adapté", title: "Une petite chose, maintenant.", intro: "Les suggestions suivent votre émotion récente.", bg: "var(--sun)", modules: ["journal", "breathe", "community"], hidden: [] };
+}
+
+function CareTile({ module: m }: { module: CareModule }) {
   const cfg = CARE_LABELS[m];
   return (
-    <Link
-      to={cfg.to as "/journal"}
-      className="block rounded-[18px] border border-dusk/12 bg-[color:var(--whisper)] px-5 py-4 transition-colors hover:border-dusk/25"
-    >
+    <Link to={cfg.to as "/care/journal"} className="rounded-[16px] border border-dusk/12 bg-paper px-4 py-4 min-h-[116px] flex flex-col justify-between">
+      <div>
+        <p className="font-serif text-[18px] leading-[1.15] text-dusk">{cfg.label}</p>
+        <p className="mt-2 text-[12px] leading-[1.35] text-dusk/55">{cfg.hint}</p>
+      </div>
+      <span className="self-end text-dusk/45">→</span>
+    </Link>
+  );
+}
+
+function CareRow({ module: m }: { module: CareModule }) {
+  const cfg = CARE_LABELS[m];
+  return <SimpleRow to={cfg.to} label={cfg.label} hint={cfg.hint} />;
+}
+
+function MemoryRow({ module: m }: { module: MemoryModule }) {
+  const cfg = MEMORY_LABELS[m];
+  return <SimpleRow to={cfg.to} label={cfg.label} hint={cfg.hint} />;
+}
+
+function SimpleRow({ to, label, hint }: { to: string; label: string; hint: string }) {
+  return (
+    <Link to={to as "/care/memory"} className="block rounded-[18px] border border-dusk/12 bg-[color:var(--whisper)] px-5 py-4">
       <div className="flex items-center justify-between gap-4">
         <div className="min-w-0">
-          <p className="font-serif text-[18px] leading-[1.2] text-dusk">{cfg.label}</p>
-          <p className="mt-1 text-[12.5px] text-dusk/55">{cfg.hint}</p>
+          <p className="font-serif text-[18px] leading-[1.2] text-dusk">{label}</p>
+          <p className="mt-1 text-[12.5px] text-dusk/55">{hint}</p>
         </div>
         <span className="text-dusk/40 text-[16px]">→</span>
       </div>
     </Link>
+  );
+}
+
+function SectionKicker({ label }: { label: string }) {
+  return (
+    <div className="flex items-center justify-between gap-3 px-1">
+      <p className="mono-label">{label}</p>
+      <div className="h-px flex-1 bg-dusk/12" />
+    </div>
   );
 }
