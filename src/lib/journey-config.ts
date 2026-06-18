@@ -149,6 +149,14 @@ export const PRACTICAL_LABELS: Record<PracticalCategory, { label: string; hint: 
   pros:       { label: "Professionnels",          hint: "Annuaire vérifié",                    to: "/practical" },
   wishes:     { label: "Mes volontés",            hint: "Préparer en douceur",                 to: "/wishes" },
   vault:      { label: "Coffre de documents",     hint: "Tout au même endroit",                to: "/practical/vault" },
+  vet:        { label: "Vétérinaire",             hint: "Derniers soins, certificat, conseil", to: "/practical/tasks/vet" },
+  cremation_animal: { label: "Crémation animale", hint: "Options, délais, lieu de recueil",     to: "/practical/tasks/cremation_animal" },
+  inhumation_animal: { label: "Inhumation animale", hint: "Ce qui est possible légalement",     to: "/practical/tasks/inhumation_animal" },
+  souvenir_objet: { label: "Objet souvenir",      hint: "Empreinte, collier, photo",            to: "/care/memory" },
+  hommage:    { label: "Hommage",                 hint: "Un geste avec les proches",           to: "/care/memory" },
+  messages:   { label: "Messages",                hint: "Prévenir, écrire, remercier",         to: "/practical/tasks/messages" },
+  cagnotte:   { label: "Cagnotte",                hint: "Participer si c'est pertinent",       to: "/practical/tasks/cagnotte" },
+  aide_famille: { label: "Aide à la famille",     hint: "Proposer sans envahir",               to: "/practical/tasks/aide_famille" },
 };
 
 /** Temporalité par défaut d'une catégorie pratique. */
@@ -169,6 +177,14 @@ export const PRACTICAL_BUCKETS: Record<PracticalCategory, PracticalBucket> = {
   pros:       "later",
   wishes:     "later",
   vault:      "later",
+  vet:        "now",
+  cremation_animal: "week",
+  inhumation_animal: "week",
+  souvenir_objet: "later",
+  hommage:    "week",
+  messages:   "now",
+  cagnotte:   "week",
+  aide_famille: "week",
 };
 
 export const BUCKET_LABELS: Record<PracticalBucket, { label: string; tone: string }> = {
