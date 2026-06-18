@@ -41,6 +41,7 @@ import { Route as HelpIndexRouteImport } from './routes/help.index'
 import { Route as GardenIndexRouteImport } from './routes/garden.index'
 import { Route as CareIndexRouteImport } from './routes/care.index'
 import { Route as ResourcesCategoryRouteImport } from './routes/resources.$category'
+import { Route as PracticalWishesRouteImport } from './routes/practical.wishes'
 import { Route as PracticalVaultRouteImport } from './routes/practical.vault'
 import { Route as PracticalTextsRouteImport } from './routes/practical.texts'
 import { Route as PracticalTasksRouteImport } from './routes/practical.tasks'
@@ -235,6 +236,11 @@ const ResourcesCategoryRoute = ResourcesCategoryRouteImport.update({
   id: '/resources/$category',
   path: '/resources/$category',
   getParentRoute: () => rootRouteImport,
+} as any)
+const PracticalWishesRoute = PracticalWishesRouteImport.update({
+  id: '/wishes',
+  path: '/wishes',
+  getParentRoute: () => PracticalRoute,
 } as any)
 const PracticalVaultRoute = PracticalVaultRouteImport.update({
   id: '/vault',
@@ -466,6 +472,7 @@ export interface FileRoutesByFullPath {
   '/practical/tasks': typeof PracticalTasksRouteWithChildren
   '/practical/texts': typeof PracticalTextsRoute
   '/practical/vault': typeof PracticalVaultRoute
+  '/practical/wishes': typeof PracticalWishesRoute
   '/resources/$category': typeof ResourcesCategoryRouteWithChildren
   '/care/': typeof CareIndexRoute
   '/garden/': typeof GardenIndexRoute
@@ -531,6 +538,7 @@ export interface FileRoutesByTo {
   '/practical/tasks': typeof PracticalTasksRouteWithChildren
   '/practical/texts': typeof PracticalTextsRoute
   '/practical/vault': typeof PracticalVaultRoute
+  '/practical/wishes': typeof PracticalWishesRoute
   '/resources/$category': typeof ResourcesCategoryRouteWithChildren
   '/care': typeof CareIndexRoute
   '/garden': typeof GardenIndexRoute
@@ -601,6 +609,7 @@ export interface FileRoutesById {
   '/practical/tasks': typeof PracticalTasksRouteWithChildren
   '/practical/texts': typeof PracticalTextsRoute
   '/practical/vault': typeof PracticalVaultRoute
+  '/practical/wishes': typeof PracticalWishesRoute
   '/resources/$category': typeof ResourcesCategoryRouteWithChildren
   '/care/': typeof CareIndexRoute
   '/garden/': typeof GardenIndexRoute
@@ -671,6 +680,7 @@ export interface FileRouteTypes {
     | '/practical/tasks'
     | '/practical/texts'
     | '/practical/vault'
+    | '/practical/wishes'
     | '/resources/$category'
     | '/care/'
     | '/garden/'
@@ -736,6 +746,7 @@ export interface FileRouteTypes {
     | '/practical/tasks'
     | '/practical/texts'
     | '/practical/vault'
+    | '/practical/wishes'
     | '/resources/$category'
     | '/care'
     | '/garden'
@@ -805,6 +816,7 @@ export interface FileRouteTypes {
     | '/practical/tasks'
     | '/practical/texts'
     | '/practical/vault'
+    | '/practical/wishes'
     | '/resources/$category'
     | '/care/'
     | '/garden/'
@@ -1087,6 +1099,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/resources/$category'
       preLoaderRoute: typeof ResourcesCategoryRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/practical/wishes': {
+      id: '/practical/wishes'
+      path: '/wishes'
+      fullPath: '/practical/wishes'
+      preLoaderRoute: typeof PracticalWishesRouteImport
+      parentRoute: typeof PracticalRoute
     }
     '/practical/vault': {
       id: '/practical/vault'
@@ -1438,6 +1457,7 @@ interface PracticalRouteChildren {
   PracticalTasksRoute: typeof PracticalTasksRouteWithChildren
   PracticalTextsRoute: typeof PracticalTextsRoute
   PracticalVaultRoute: typeof PracticalVaultRoute
+  PracticalWishesRoute: typeof PracticalWishesRoute
   PracticalIndexRoute: typeof PracticalIndexRoute
 }
 
@@ -1452,6 +1472,7 @@ const PracticalRouteChildren: PracticalRouteChildren = {
   PracticalTasksRoute: PracticalTasksRouteWithChildren,
   PracticalTextsRoute: PracticalTextsRoute,
   PracticalVaultRoute: PracticalVaultRoute,
+  PracticalWishesRoute: PracticalWishesRoute,
   PracticalIndexRoute: PracticalIndexRoute,
 }
 

@@ -6,7 +6,7 @@ import { useLegato, type Wishes } from "@/lib/legato-state";
 import { ShareToCircle } from "@/components/legato/ShareToCircle";
 import { PageHeader, IvoryCard, SectionLabel } from "@/components/legato/EditorialUI";
 
-export const Route = createFileRoute("/wishes")({
+export const Route = createFileRoute("/practical/wishes")({
   head: () => ({
     meta: [
       { title: "Mes volontés — Legato" },
