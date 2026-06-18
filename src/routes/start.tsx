@@ -35,6 +35,7 @@ const nameSchema = z
 function Start() {
   const navigate = useNavigate();
   const [mode, setMode] = useState<Mode>("choice");
+  const [intro, setIntro] = useState(true);
   const [displayName, setDisplayName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -117,6 +118,22 @@ function Start() {
 
   return (
     <main className="min-h-dvh bg-paper text-dusk">
+      {intro && mode === "choice" && (
+        <button
+          type="button"
+          onClick={() => setIntro(false)}
+          className="fixed inset-0 z-50 flex flex-col items-center justify-center px-8 text-left animate-fade-in"
+          style={{ background: "var(--blush)" }}
+        >
+          <div className="mobile-frame w-full">
+            <LegatoMark size={22} />
+            <p className="mt-10 font-serif italic text-[28px] leading-[1.25] text-dusk">
+              « Ce qui a été aimé<br />ne se perd pas&nbsp;:<br />cela devient présence. »
+            </p>
+            <p className="mt-10 mono-label text-dusk/55">Toucher pour entrer</p>
+          </div>
+        </button>
+      )}
       <div className="mobile-frame relative flex min-h-dvh flex-col">
         <header className="px-6 pt-10 flex items-center justify-between">
           {mode !== "choice" ? (
@@ -129,7 +146,7 @@ function Start() {
             </button>
           ) : <span className="mono-label opacity-0">—</span>}
           <LegatoMark size={20} />
-          <span className="mono-label text-dusk/45">Bienvenue</span>
+          <span className="mono-label opacity-0">—</span>
         </header>
 
         <div className="relative z-10 flex flex-1 flex-col px-6 pb-12 pt-10">
