@@ -43,6 +43,7 @@ import { Route as CareIndexRouteImport } from './routes/care.index'
 import { Route as ResourcesCategoryRouteImport } from './routes/resources.$category'
 import { Route as PracticalVaultRouteImport } from './routes/practical.vault'
 import { Route as PracticalTextsRouteImport } from './routes/practical.texts'
+import { Route as PracticalTasksRouteImport } from './routes/practical.tasks'
 import { Route as PracticalStepsRouteImport } from './routes/practical.steps'
 import { Route as PracticalShareRouteImport } from './routes/practical.share'
 import { Route as PracticalObjectsRouteImport } from './routes/practical.objects'
@@ -242,6 +243,11 @@ const PracticalVaultRoute = PracticalVaultRouteImport.update({
 const PracticalTextsRoute = PracticalTextsRouteImport.update({
   id: '/texts',
   path: '/texts',
+  getParentRoute: () => PracticalRoute,
+} as any)
+const PracticalTasksRoute = PracticalTasksRouteImport.update({
+  id: '/tasks',
+  path: '/tasks',
   getParentRoute: () => PracticalRoute,
 } as any)
 const PracticalStepsRoute = PracticalStepsRouteImport.update({
@@ -451,6 +457,7 @@ export interface FileRoutesByFullPath {
   '/practical/objects': typeof PracticalObjectsRoute
   '/practical/share': typeof PracticalShareRoute
   '/practical/steps': typeof PracticalStepsRoute
+  '/practical/tasks': typeof PracticalTasksRoute
   '/practical/texts': typeof PracticalTextsRoute
   '/practical/vault': typeof PracticalVaultRoute
   '/resources/$category': typeof ResourcesCategoryRouteWithChildren
@@ -514,6 +521,7 @@ export interface FileRoutesByTo {
   '/practical/objects': typeof PracticalObjectsRoute
   '/practical/share': typeof PracticalShareRoute
   '/practical/steps': typeof PracticalStepsRoute
+  '/practical/tasks': typeof PracticalTasksRoute
   '/practical/texts': typeof PracticalTextsRoute
   '/practical/vault': typeof PracticalVaultRoute
   '/resources/$category': typeof ResourcesCategoryRouteWithChildren
@@ -582,6 +590,7 @@ export interface FileRoutesById {
   '/practical/objects': typeof PracticalObjectsRoute
   '/practical/share': typeof PracticalShareRoute
   '/practical/steps': typeof PracticalStepsRoute
+  '/practical/tasks': typeof PracticalTasksRoute
   '/practical/texts': typeof PracticalTextsRoute
   '/practical/vault': typeof PracticalVaultRoute
   '/resources/$category': typeof ResourcesCategoryRouteWithChildren
@@ -650,6 +659,7 @@ export interface FileRouteTypes {
     | '/practical/objects'
     | '/practical/share'
     | '/practical/steps'
+    | '/practical/tasks'
     | '/practical/texts'
     | '/practical/vault'
     | '/resources/$category'
@@ -713,6 +723,7 @@ export interface FileRouteTypes {
     | '/practical/objects'
     | '/practical/share'
     | '/practical/steps'
+    | '/practical/tasks'
     | '/practical/texts'
     | '/practical/vault'
     | '/resources/$category'
@@ -780,6 +791,7 @@ export interface FileRouteTypes {
     | '/practical/objects'
     | '/practical/share'
     | '/practical/steps'
+    | '/practical/tasks'
     | '/practical/texts'
     | '/practical/vault'
     | '/resources/$category'
@@ -1076,6 +1088,13 @@ declare module '@tanstack/react-router' {
       path: '/texts'
       fullPath: '/practical/texts'
       preLoaderRoute: typeof PracticalTextsRouteImport
+      parentRoute: typeof PracticalRoute
+    }
+    '/practical/tasks': {
+      id: '/practical/tasks'
+      path: '/tasks'
+      fullPath: '/practical/tasks'
+      preLoaderRoute: typeof PracticalTasksRouteImport
       parentRoute: typeof PracticalRoute
     }
     '/practical/steps': {
@@ -1385,6 +1404,7 @@ interface PracticalRouteChildren {
   PracticalObjectsRoute: typeof PracticalObjectsRoute
   PracticalShareRoute: typeof PracticalShareRoute
   PracticalStepsRoute: typeof PracticalStepsRoute
+  PracticalTasksRoute: typeof PracticalTasksRoute
   PracticalTextsRoute: typeof PracticalTextsRoute
   PracticalVaultRoute: typeof PracticalVaultRoute
   PracticalIndexRoute: typeof PracticalIndexRoute
@@ -1398,6 +1418,7 @@ const PracticalRouteChildren: PracticalRouteChildren = {
   PracticalObjectsRoute: PracticalObjectsRoute,
   PracticalShareRoute: PracticalShareRoute,
   PracticalStepsRoute: PracticalStepsRoute,
+  PracticalTasksRoute: PracticalTasksRoute,
   PracticalTextsRoute: PracticalTextsRoute,
   PracticalVaultRoute: PracticalVaultRoute,
   PracticalIndexRoute: PracticalIndexRoute,
