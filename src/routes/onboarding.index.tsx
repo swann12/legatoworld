@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import {
-  useLegato, SITUATIONS, RELATIONS, TIMEFRAMES, STAGES, EMOTIONS,
-  type Relation, type Timeframe, type Stage, type Emotion, type PrimaryNeed,
+  useLegato, SITUATIONS, RELATIONS, STAGES_BY_SITUATION, EMOTIONS,
+  type Relation, type Stage, type Situation, type Emotion, type PrimaryNeed,
 } from "@/lib/legato-state";
 import { LegatoMark } from "@/components/legato/LegatoMark";
 import { useServerFn } from "@tanstack/react-start";
@@ -26,25 +26,21 @@ function Onboarding() {
     situation, setSituation,
     lovedOneName, setLovedOneName,
     lovedOneRelation, setLovedOneRelation,
-    timeframe, setTimeframe,
     stage, setStage,
     primaryNeed, setPrimaryNeed,
     currentEmotions, setCurrentEmotions,
+    legallyInvolved, setLegallyInvolved,
   } = useLegato();
   const navigate = useNavigate();
   const record = useServerFn(recordEmotion);
-  const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
+  const [step, setStep] = useState<1 | 2 | 3 | 4 | 5 | 6 | 7>(1);
 
-  const needsRelation = situation && ["perdu", "peur", "accompagner"].includes(situation);
-  const needsTimeframe = situation === "perdu";
-  const needsStage = situation === "perdu";
-  const needsNeedChoice = situation === "perdu";
-  const needsEmotion = situation && !["volontes", "demarches"].includes(situation);
-
-  const step3HasQuestions = useMemo(
-    () => Boolean(needsRelation || needsTimeframe || needsStage || needsNeedChoice || situation === "soutenir"),
-    [needsRelation, needsTimeframe, needsStage, needsNeedChoice, situation],
-  );
+  const needsPerson = situation && ["perdu", "peur", "accompagner"].includes(situation);
+  const needsLabel = situation && !["questionnement", "volontes"].includes(situation);
+  const stageOptions = situation ? STAGES_BY_SITUATION[situation] : [];
+  const needChoiceForced = situation === "questionnement" || situation === "volontes" || (lovedOneRelation === "animal" && !["vet", "cremation_animal", "inhumation_animal"].includes(stage ?? ""));
+  const needsEmotion = primaryNeed === "emotional" || primaryNeed === "both";
+  const needsLegalQuestion = (lovedOneRelation === "ami" || lovedOneRelation === "collegue" || lovedOneRelation === "autre") && (primaryNeed === "practical" || primaryNeed === "both");
 
   const finish = async () => {
     setCareOnboarded(true);
