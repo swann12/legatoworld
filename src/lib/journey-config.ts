@@ -207,9 +207,9 @@ export const CARE_LABELS: Record<CareModule, { label: string; hint: string; to: 
   community:    { label: "Communauté",            hint: "D'autres traversent aussi",         to: "/care/community" },
   therapists:   { label: "Trouver un·e thérapeute", hint: "Annuaire vérifié",                to: "/care/help" },
   crisis:       { label: "Si ça déborde",         hint: "3114 et lignes d'écoute",           to: "/crisis" },
-  anticipated:  { label: "Deuil anticipé",        hint: "Vivre avec l'idée de la perte",     to: "/resources" },
-  caregiver:    { label: "Fatigue de l'aidant",   hint: "Tenir, sans se perdre",             to: "/resources" },
-  supporting:   { label: "Quoi dire, quoi éviter", hint: "Messages prêts à envoyer",         to: "/resources" },
+  anticipated:  { label: "Deuil anticipé",        hint: "Vivre avec l'idée de la perte",     to: "/care/resources" },
+  caregiver:    { label: "Fatigue de l'aidant",   hint: "Tenir, sans se perdre",             to: "/care/resources" },
+  supporting:   { label: "Quoi dire, quoi éviter", hint: "Messages prêts à envoyer",         to: "/care/resources" },
 };
 
 export const MEMORY_LABELS: Record<MemoryModule, { label: string; hint: string; to: string }> = {
