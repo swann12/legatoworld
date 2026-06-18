@@ -39,8 +39,8 @@ export function emotionPlan(emotions: Emotion[]): EmotionPlan {
     case "culpabilite":
       return {
         tone: "tendre", contentLength: "moyen", showCrisis: false, hideHeavyTasks: false,
-        primary: { label: "Écrire ce poids", to: "/journal", hint: "Sans relire, sans juger" },
-        secondary: [{ label: "Lire un témoignage", to: "/resources" }, { label: "Trouver un·e thérapeute", to: "/resources" }],
+        primary: { label: "Écrire ce poids", to: "/care/journal", hint: "Sans relire, sans juger" },
+        secondary: [{ label: "Lire un témoignage", to: "/care/resources" }, { label: "Trouver un·e thérapeute", to: "/care/help" }],
       };
     case "sideration":
       return {
@@ -51,14 +51,14 @@ export function emotionPlan(emotions: Emotion[]): EmotionPlan {
     case "colere":
       return {
         tone: "sobre", contentLength: "moyen", showCrisis: false, hideHeavyTasks: false,
-        primary: { label: "Écrire à ce qui brûle", to: "/journal", hint: "Sans destinataire" },
+        primary: { label: "Écrire à ce qui brûle", to: "/care/journal", hint: "Sans destinataire" },
         secondary: [{ label: "Respirer", to: "/no-words" }],
       };
     case "solitude":
       return {
         tone: "tendre", contentLength: "moyen", showCrisis: false, hideHeavyTasks: false,
-        primary: { label: "Rejoindre la communauté", to: "/care", hint: "D'autres traversent aussi" },
-        secondary: [{ label: "Mon cercle", to: "/_authenticated/circle" }, { label: "Témoignages", to: "/resources" }],
+        primary: { label: "Rejoindre la communauté", to: "/care/community", hint: "D'autres traversent aussi" },
+        secondary: [{ label: "Mon cercle", to: "/_authenticated/circle" }, { label: "Témoignages", to: "/care/resources" }],
       };
     case "fatigue":
       return {
@@ -69,14 +69,14 @@ export function emotionPlan(emotions: Emotion[]): EmotionPlan {
     case "nostalgie":
       return {
         tone: "tendre", contentLength: "moyen", showCrisis: false, hideHeavyTasks: false,
-        primary: { label: "Revenir au jardin", to: "/memory", hint: "Voix, photos, souvenirs" },
-        secondary: [{ label: "Écrire une lettre", to: "/journal" }],
+        primary: { label: "Revenir au jardin", to: "/care/garden", hint: "Voix, photos, souvenirs" },
+        secondary: [{ label: "Écrire une lettre", to: "/care/journal" }],
       };
     case "tristesse":
       return {
         tone: "doux", contentLength: "moyen", showCrisis: false, hideHeavyTasks: false,
-        primary: { label: "Déposer dans le journal", to: "/journal" },
-        secondary: [{ label: "Audio doux", to: "/no-words" }, { label: "Garder un souvenir", to: "/memory" }],
+        primary: { label: "Déposer dans le journal", to: "/care/journal" },
+        secondary: [{ label: "Audio doux", to: "/no-words" }, { label: "Garder un souvenir", to: "/care/memory" }],
       };
     case "vide":
       return {
@@ -87,7 +87,7 @@ export function emotionPlan(emotions: Emotion[]): EmotionPlan {
     case "soulagement":
       return {
         tone: "tendre", contentLength: "moyen", showCrisis: false, hideHeavyTasks: false,
-        primary: { label: "Réfléchir un instant", to: "/journal", hint: "Ce qui s'est dénoué" },
+        primary: { label: "Réfléchir un instant", to: "/care/journal", hint: "Ce qui s'est dénoué" },
         secondary: [],
       };
     case "confusion":
@@ -100,7 +100,7 @@ export function emotionPlan(emotions: Emotion[]): EmotionPlan {
       return {
         tone: "sobre", contentLength: "moyen", showCrisis: false, hideHeavyTasks: false,
         primary: { label: "Avancer doucement", to: "/practical" },
-        secondary: [{ label: "Mémoire", to: "/memory" }],
+        secondary: [{ label: "Mémoire", to: "/care/memory" }],
       };
     default:
       return {
