@@ -8,13 +8,14 @@ type ItemDef = {
 };
 
 const HOME: ItemDef    = { to: "/home",      label: "Aujourd'hui", match: (p) => p === "/home" || p === "/" };
-const CARE: ItemDef    = { to: "/care",      label: "Soutien",     match: (p) => p.startsWith("/care") || p.startsWith("/journal") || p.startsWith("/presence") || p.startsWith("/no-words") || p.startsWith("/community") || p.startsWith("/help") || p.startsWith("/checkin") };
+const CARE: ItemDef    = { to: "/care",      label: "Soutien",     match: (p) => p.startsWith("/care") || p.startsWith("/journal") || p.startsWith("/no-words") || p.startsWith("/community") || p.startsWith("/help") || p.startsWith("/checkin") };
 const PRACT: ItemDef   = { to: "/practical", label: "Démarches",   match: (p) => p.startsWith("/practical") || p.startsWith("/parcours") || p.startsWith("/wishes") || p.startsWith("/appointments") };
 const CIRCLE: ItemDef  = { to: "/_authenticated/circle", label: "Cercle", match: (p) => p.startsWith("/_authenticated/circle") || p.startsWith("/circle") };
 const PROFILE: ItemDef = { to: "/profile",   label: "Profil",      match: (p) => p.startsWith("/profile") };
 const EMOTIONS: ItemDef = { to: "/care/emotions", label: "Émotions", match: (p) => p.startsWith("/care/emotions") };
 const JOURNAL: ItemDef = { to: "/care/journal", label: "Journal", match: (p) => p.startsWith("/care/journal") };
-const MEMORY: ItemDef = { to: "/care/memory", label: "Mémoire", match: (p) => p.startsWith("/care/memory") || p.startsWith("/care/garden") || p.startsWith("/care/dates") };
+const GARDEN: ItemDef = { to: "/care/garden", label: "Jardin", match: (p) => p.startsWith("/care/garden") || p.startsWith("/care/memory") || p.startsWith("/care/dates") };
+const PRESENCE: ItemDef = { to: "/presence", label: "Présence", match: (p) => p.startsWith("/presence") };
 const TASKS: ItemDef = { to: "/practical/tasks", label: "Tâches", match: (p) => p.startsWith("/practical/tasks") || p === "/practical" };
 const VAULT: ItemDef = { to: "/practical/vault", label: "Docs", match: (p) => p.startsWith("/practical/vault") };
 const PROS: ItemDef = { to: "/practical/pros", label: "Pros", match: (p) => p.startsWith("/practical/pros") || p.startsWith("/practical/ceremony") || p.startsWith("/practical/wishes") };
@@ -42,7 +43,7 @@ export function BottomNav() {
   // SSR-stable: use a deterministic default until client hydration.
   const space = hydrated ? spaceFromPath(pathname) : "home";
   const items = space === "care"
-    ? [HOME, EMOTIONS, JOURNAL, MEMORY, PROFILE]
+    ? [HOME, EMOTIONS, PRESENCE, GARDEN, PROFILE]
     : space === "practical"
       ? [HOME, TASKS, VAULT, PROS, PROFILE]
       : itemsFor(hydrated ? primaryNeed : "both");

@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Shell } from "@/components/legato/Shell";
 import { useLegato, type Emotion } from "@/lib/legato-state";
 import { useLovedName } from "@/lib/loved-name";
-import { journeyModules, CARE_LABELS, MEMORY_LABELS, type CareModule, type MemoryModule } from "@/lib/journey-config";
+import { journeyModules, CARE_LABELS, type CareModule } from "@/lib/journey-config";
 import { LegatoMark } from "@/components/legato/LegatoMark";
 import { SubNav, CARE_SUBNAV } from "@/components/legato/SubNav";
 import { emotionPlan, isEmotionStale } from "@/lib/emotion-routing";
@@ -23,7 +23,7 @@ function Care() {
     lovedOneRelation, legallyInvolved, hydrated,
   } = useLegato();
   const lovedName = useLovedName();
-  const { care, memory } = journeyModules(situation, primaryNeed, stage, { relation: lovedOneRelation, legallyInvolved });
+  const { care } = journeyModules(situation, primaryNeed, stage, { relation: lovedOneRelation, legallyInvolved });
   const plan = emotionPlan(hydrated ? currentEmotions : []);
   const stale = hydrated ? isEmotionStale(currentEmotionAt) : true;
   const selected = hydrated ? currentEmotions : [];
@@ -31,7 +31,6 @@ function Care() {
   const visibleCare = care.filter((m) => !focus.hidden.includes(m));
   const primaryCare = focus.modules.filter((m) => visibleCare.includes(m));
   const restCare = visibleCare.filter((m) => !primaryCare.includes(m) && m !== "checkin").slice(0, plan.contentLength === "court" ? 2 : 3);
-  const visibleMemory = memory.length ? memory : (["garden", "voices", "letters", "dates"] as MemoryModule[]);
 
   return (
     <Shell livingBg={false}>
@@ -80,10 +79,32 @@ function Care() {
         )}
 
         <section className="px-5 pt-9">
-          <SectionKicker label={`Mémoire de ${lovedName}`} />
-          <div className="mt-4 flex flex-col gap-3">
-            {visibleMemory.slice(0, plan.contentLength === "court" ? 2 : 4).map((m) => <MemoryRow key={m} module={m} />)}
+          <SectionKicker label="Présence & mémoire" />
+          <div className="mt-4 grid grid-cols-2 gap-3">
+            <Link to="/presence" className="rounded-[18px] px-5 py-5 min-h-[120px] flex flex-col justify-between" style={{ background: "var(--terracotta)", color: "var(--paper)" }}>
+              <p className="mono-label" style={{ opacity: 0.75 }}>Présence</p>
+              <div>
+                <p className="font-serif text-[20px] leading-[1.1]">Se confier</p>
+                <p className="mt-1 text-[12px]" style={{ opacity: 0.85 }}>Une voix qui écoute.</p>
+              </div>
+            </Link>
+            <Link to="/care/garden" className="rounded-[18px] px-5 py-5 min-h-[120px] flex flex-col justify-between" style={{ background: "var(--blush)" }}>
+              <p className="mono-label text-dusk/60">Jardin</p>
+              <div>
+                <p className="font-serif text-[20px] leading-[1.1] italic">{lovedName}</p>
+                <p className="mt-1 text-[12px] text-dusk/65">Photos · voix · lettres</p>
+              </div>
+            </Link>
           </div>
+          <Link to="/care/rituels" className="mt-3 block rounded-[18px] px-5 py-4" style={{ background: "var(--sun)" }}>
+            <div className="flex items-center justify-between gap-3">
+              <div>
+                <p className="mono-label text-dusk/60">Rituels d'hommage</p>
+                <p className="mt-1 font-serif text-[17px] leading-[1.15]">Honorer, à votre manière.</p>
+              </div>
+              <span className="text-dusk/50 text-[16px]">→</span>
+            </div>
+          </Link>
         </section>
 
         {restCare.length > 0 && (
@@ -154,11 +175,6 @@ function CareTile({ module: m }: { module: CareModule }) {
 
 function CareRow({ module: m }: { module: CareModule }) {
   const cfg = CARE_LABELS[m];
-  return <SimpleRow to={cfg.to} label={cfg.label} hint={cfg.hint} />;
-}
-
-function MemoryRow({ module: m }: { module: MemoryModule }) {
-  const cfg = MEMORY_LABELS[m];
   return <SimpleRow to={cfg.to} label={cfg.label} hint={cfg.hint} />;
 }
 
