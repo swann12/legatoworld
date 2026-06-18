@@ -105,7 +105,7 @@ export function emotionPlan(emotions: Emotion[]): EmotionPlan {
     default:
       return {
         tone: "sobre", contentLength: "moyen", showCrisis: false, hideHeavyTasks: false,
-        primary: { label: "Faire un check-in", to: "/checkin" },
+        primary: { label: "Faire un check-in", to: "/care/emotions" },
         secondary: [],
       };
   }
