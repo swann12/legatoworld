@@ -240,14 +240,26 @@ function Onboarding() {
 }
 
 function Frame({ children, onBack, progress }: { children: ReactNode; onBack: () => void; progress: string }) {
+  const [done, total] = progress.split("/").map((s) => parseInt(s.trim(), 10));
+  const safeTotal = Number.isFinite(total) && total > 0 ? total : 7;
+  const safeDone = Number.isFinite(done) ? done : 1;
   return (
     <main className="min-h-dvh bg-paper text-dusk">
       <div className="mobile-frame relative flex min-h-dvh flex-col">
         <header className="px-6 pt-10 flex items-center justify-between">
           <button onClick={onBack} className="mono-label hover:text-dusk">← Retour</button>
           <LegatoMark to="/space" size={20} />
-          <span className="mono-label text-dusk/45">{progress}</span>
+          <span className="mono-label opacity-0">—</span>
         </header>
+        <div className="px-6 mt-4 flex items-center gap-1.5">
+          {Array.from({ length: safeTotal }).map((_, i) => (
+            <span
+              key={i}
+              className="h-[3px] flex-1 rounded-full"
+              style={{ background: i < safeDone ? "var(--terracotta)" : "color-mix(in oklab, var(--dusk) 12%, transparent)" }}
+            />
+          ))}
+        </div>
         <div className="relative z-10 flex flex-1 flex-col px-6 pt-10 pb-16">{children}</div>
       </div>
     </main>
