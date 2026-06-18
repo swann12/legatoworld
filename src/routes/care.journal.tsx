@@ -2,7 +2,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { Shell } from "@/components/legato/Shell";
 import { LegatoMark } from "@/components/legato/LegatoMark";
-import { SubNav, CARE_SUBNAV } from "@/components/legato/SubNav";
 import { IvoryCard } from "@/components/legato/EditorialUI";
 import { useLegato } from "@/lib/legato-state";
 import { useLovedName } from "@/lib/loved-name";
