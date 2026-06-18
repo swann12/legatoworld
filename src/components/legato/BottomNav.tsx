@@ -68,7 +68,7 @@ export function BottomNav() {
             ♡
           </span>
           <span className="mt-1 text-[9.5px] font-medium tracking-[0.04em] text-dusk/60">
-            {soft ? "Mode doux" : "Aujourd'hui"}
+            {soft ? "Mode doux" : "Doux"}
           </span>
         </button>
 
