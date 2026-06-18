@@ -8,6 +8,7 @@ import {
   type Emotion,
   type PrimaryNeed,
   type Relation,
+  type Situation,
   type Stage,
 } from "@/lib/legato-state";
 import { IvoryCard } from "@/components/legato/EditorialUI";
@@ -289,4 +290,26 @@ function ChipGrid<T extends string>({ options, value, onChange }: {
       })}
     </div>
   );
+}
+
+function placeholderFor(relation: Relation | null) {
+  switch (relation) {
+    case "animal": return "mon chien Oslo";
+    case "ami": return "mon amie Léa";
+    case "pere": return "mon père";
+    case "mere": return "ma mère";
+    case "frere_soeur": return "ma sœur";
+    default: return "Marie";
+  }
+}
+
+function stageQuestion(situation: Situation | null) {
+  switch (situation) {
+    case "peur": return "Où en est la situation ?";
+    case "accompagner": return "Quel est votre rôle aujourd'hui ?";
+    case "soutenir": return "Quel type d'aide voulez-vous apporter ?";
+    case "questionnement": return "Qu'est-ce qui vous amène ici ?";
+    case "volontes": return "Que souhaitez-vous préparer en premier ?";
+    default: return "Où en êtes-vous aujourd'hui ?";
+  }
 }
