@@ -1,4 +1,5 @@
-import type { Situation, PrimaryNeed, Stage } from "./legato-state";
+import type { Situation, PrimaryNeed, Stage, Relation } from "./legato-state";
+import { isAnimal, isFamilyClose, isFriendOrColleague } from "./legato-state";
 
 export type CareModule =
   | "checkin" | "journal" | "breathe" | "sleep" | "meditations"
@@ -23,22 +24,57 @@ export function journeyModules(
   situation: Situation | null,
   primaryNeed: PrimaryNeed | null,
   stage: Stage | null,
+  opts: { relation?: Relation | null; legallyInvolved?: boolean } = {},
 ): JourneyModules {
   const baseCare: CareModule[] = ["checkin", "journal", "breathe", "sleep", "meditations", "sounds", "community", "therapists", "crisis"];
+  const relation = opts.relation ?? null;
+  const legallyInvolved = opts.legallyInvolved ?? false;
+
+  // ── Parcours animal : aucune démarche humaine ──
+  if (isAnimal(relation) && (situation === "perdu" || situation === "peur" || situation === "accompagner")) {
+    return {
+      home: ["checkin", "memory", "support"],
+      care: ["checkin", "journal", "breathe", "sleep", "meditations", "sounds", "community", "therapists", "crisis"],
+      practical: [],
+      memory: ["garden", "voices", "letters", "dates", "timeline"],
+    };
+  }
+
+  // ── Filtre commun : succession/finances/logement/digital invisibles
+  //    pour ami/collègue sauf si légalement impliqué.
+  const filterByRelation = (cats: PracticalCategory[]): PracticalCategory[] => {
+    if (isFamilyClose(relation) || legallyInvolved) return cats;
+    if (isFriendOrColleague(relation) || relation === "autre") {
+      const hidden: PracticalCategory[] = ["succession", "finances", "rights", "housing", "digital"];
+      return cats.filter((c) => !hidden.includes(c));
+    }
+    return cats;
+  };
+
+  // ── Filtre par stage : obsèques déjà passées → masquer obsèques/cérémonie/fleurs
+  const filterByStage = (cats: PracticalCategory[]): PracticalCategory[] => {
+    if (stage === "obseques_passees" || stage === "demarches" || stage === "apres") {
+      const hidden: PracticalCategory[] = ["obseques", "ceremony", "flowers"];
+      return cats.filter((c) => !hidden.includes(c));
+    }
+    return cats;
+  };
+
+  const applyFilters = (cats: PracticalCategory[]) => filterByStage(filterByRelation(cats));
 
   switch (situation) {
     case "peur":
       return {
         home: ["checkin", "memory", "support"],
         care: ["checkin", "breathe", "journal", "anticipated", "letters", "community", "therapists", "crisis"],
-        practical: ["wishes", "documents"],
+        practical: [],
         memory: ["voices", "letters", "timeline"],
       };
     case "accompagner":
       return {
         home: ["checkin", "task", "memory"],
         care: ["checkin", "caregiver", "breathe", "sleep", "journal", "community", "therapists", "crisis"],
-        practical: ["wishes", "documents", "ceremony", "pros"],
+        practical: applyFilters(["wishes", "documents", "ceremony", "pros"]),
         memory: ["voices", "letters", "garden", "timeline"],
       };
     case "soutenir":
@@ -66,7 +102,7 @@ export function journeyModules(
       return {
         home: ["task"],
         care: ["crisis"],
-        practical: ["first", "obseques", "ceremony", "documents", "letters", "succession", "finances", "rights", "digital", "housing", "pros", "vault"],
+        practical: applyFilters(["first", "obseques", "ceremony", "documents", "letters", "succession", "finances", "rights", "digital", "housing", "pros", "vault"]),
         memory: [],
       };
     case "soutien":
@@ -84,9 +120,9 @@ export function journeyModules(
         return {
           home: ["task", "support"],
           care: ["crisis"],
-          practical: isRecent
+          practical: applyFilters(isRecent
             ? ["first", "obseques", "ceremony", "documents", "letters", "pros", "vault"]
-            : ["documents", "letters", "succession", "finances", "rights", "digital", "housing", "pros", "vault"],
+            : ["documents", "letters", "succession", "finances", "rights", "digital", "housing", "pros", "vault"]),
           memory: [],
         };
       }
@@ -101,9 +137,9 @@ export function journeyModules(
       return {
         home: ["checkin", "task", "memory"],
         care: baseCare,
-        practical: isRecent
+        practical: applyFilters(isRecent
           ? ["first", "obseques", "ceremony", "documents", "letters", "pros", "vault"]
-          : ["documents", "letters", "succession", "finances", "digital", "housing", "pros", "vault"],
+          : ["documents", "letters", "succession", "finances", "digital", "housing", "pros", "vault"]),
         memory: ["garden", "voices", "letters", "dates"],
       };
     }
