@@ -7,10 +7,14 @@ export function useLovedName(): string {
   if (!hydrated) return "ton ou ta proche";
   if (lovedOneName && lovedOneName.trim()) return lovedOneName.trim();
   switch (lovedOneRelation) {
-    case "parent":   return "ton parent";
+    case "pere":     return "ton père";
+    case "mere":     return "ta mère";
     case "conjoint": return "ton ou ta conjoint·e";
     case "enfant":   return "ton enfant";
-    case "ami":      return "ton ami·e";
+    case "frere_soeur": return "ton frère ou ta sœur";
+    case "grand_parent": return "ton grand-parent";
+    case "ami":      return "ton amie ou ton ami";
+    case "collegue": return "ton collègue";
     case "animal":   return "ton compagnon";
     case "autre":    return "ton ou ta proche";
     default:         return "ton ou ta proche";
