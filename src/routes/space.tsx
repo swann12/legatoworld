@@ -7,7 +7,7 @@ export const Route = createFileRoute("/space")({
   head: () => ({
     meta: [
       { title: "Votre espace — Legato" },
-      { name: "description", content: "Soutien, démarches, mémoire — trois espaces distincts pour ne pas mélanger." },
+      { name: "description", content: "Soutien et démarches : deux espaces distincts, adaptés à votre situation." },
     ],
   }),
   component: Space,
@@ -43,14 +43,13 @@ function Space() {
             <span className="italic" style={{ color: "var(--terracotta)" }}>besoin</span>&nbsp;?
           </h1>
           <p className="mt-5 mx-auto max-w-[28ch] text-[13px] leading-[1.6] text-dusk/60">
-            Trois espaces. Vous passerez de l'un à l'autre quand bon vous semble.
+            Deux espaces séparés. La mémoire vit dans le soutien.
           </p>
         </section>
 
         <section className="px-7 pt-12 flex-1 flex flex-col justify-center gap-3">
-          <SpaceChoice to="/home"      num="01" label="Soutien"   title="Prendre soin de soi"      hint="Ressentir, écrire, respirer." />
-          <SpaceChoice to="/practical" num="02" label="Démarches" title="Organiser et avancer"     hint="Étapes, documents, cérémonie." />
-          <SpaceChoice to="/memory"    num="03" label="Mémoire"   title="Garder ce qui compte"     hint="Jardin, voix, dates, souvenirs." />
+          <SpaceChoice to="/care"      num="01" label="Soutien"   title="Tenir, ressentir, se souvenir" hint="Émotions, journal, mémoire, jardin." />
+          <SpaceChoice to="/practical" num="02" label="Démarches" title="Organiser et avancer"        hint="Étapes, documents, cérémonie." />
         </section>
 
         <footer className="px-7 pt-8 pb-10 text-center">
@@ -62,7 +61,7 @@ function Space() {
 }
 
 function SpaceChoice({ to, num, label, title, hint }: {
-  to: "/home" | "/practical" | "/memory";
+  to: "/care" | "/practical";
   num: string; label: string; title: string; hint: string;
 }) {
   return (

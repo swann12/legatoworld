@@ -41,11 +41,13 @@ import { Route as HelpIndexRouteImport } from './routes/help.index'
 import { Route as GardenIndexRouteImport } from './routes/garden.index'
 import { Route as CareIndexRouteImport } from './routes/care.index'
 import { Route as ResourcesCategoryRouteImport } from './routes/resources.$category'
+import { Route as PracticalWishesRouteImport } from './routes/practical.wishes'
 import { Route as PracticalVaultRouteImport } from './routes/practical.vault'
 import { Route as PracticalTextsRouteImport } from './routes/practical.texts'
 import { Route as PracticalTasksRouteImport } from './routes/practical.tasks'
 import { Route as PracticalStepsRouteImport } from './routes/practical.steps'
 import { Route as PracticalShareRouteImport } from './routes/practical.share'
+import { Route as PracticalProsRouteImport } from './routes/practical.pros'
 import { Route as PracticalObjectsRouteImport } from './routes/practical.objects'
 import { Route as PracticalFlowersRouteImport } from './routes/practical.flowers'
 import { Route as PracticalCeremonyRouteImport } from './routes/practical.ceremony'
@@ -75,6 +77,7 @@ import { Route as HelpCorpsNuitsRouteImport } from './routes/help.corps.nuits'
 import { Route as HelpCorpsMangerRouteImport } from './routes/help.corps.manger'
 import { Route as HelpCorpsHabillerRouteImport } from './routes/help.corps.habiller'
 import { Route as HelpCorpsEauRouteImport } from './routes/help.corps.eau'
+import { Route as CareGardenZoneRouteImport } from './routes/care.garden.$zone'
 import { Route as ApiPublicSouffleSoundIdRouteImport } from './routes/api/public/souffle-sound.$id'
 
 const WishesRoute = WishesRouteImport.update({
@@ -236,6 +239,11 @@ const ResourcesCategoryRoute = ResourcesCategoryRouteImport.update({
   path: '/resources/$category',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PracticalWishesRoute = PracticalWishesRouteImport.update({
+  id: '/wishes',
+  path: '/wishes',
+  getParentRoute: () => PracticalRoute,
+} as any)
 const PracticalVaultRoute = PracticalVaultRouteImport.update({
   id: '/vault',
   path: '/vault',
@@ -259,6 +267,11 @@ const PracticalStepsRoute = PracticalStepsRouteImport.update({
 const PracticalShareRoute = PracticalShareRouteImport.update({
   id: '/share',
   path: '/share',
+  getParentRoute: () => PracticalRoute,
+} as any)
+const PracticalProsRoute = PracticalProsRouteImport.update({
+  id: '/pros',
+  path: '/pros',
   getParentRoute: () => PracticalRoute,
 } as any)
 const PracticalObjectsRoute = PracticalObjectsRouteImport.update({
@@ -408,6 +421,11 @@ const HelpCorpsEauRoute = HelpCorpsEauRouteImport.update({
   path: '/eau',
   getParentRoute: () => HelpCorpsRoute,
 } as any)
+const CareGardenZoneRoute = CareGardenZoneRouteImport.update({
+  id: '/$zone',
+  path: '/$zone',
+  getParentRoute: () => CareGardenRoute,
+} as any)
 const ApiPublicSouffleSoundIdRoute = ApiPublicSouffleSoundIdRouteImport.update({
   id: '/api/public/souffle-sound/$id',
   path: '/api/public/souffle-sound/$id',
@@ -443,7 +461,7 @@ export interface FileRoutesByFullPath {
   '/care/community': typeof CareCommunityRoute
   '/care/dates': typeof CareDatesRoute
   '/care/emotions': typeof CareEmotionsRoute
-  '/care/garden': typeof CareGardenRoute
+  '/care/garden': typeof CareGardenRouteWithChildren
   '/care/help': typeof CareHelpRoute
   '/care/journal': typeof CareJournalRoute
   '/care/memory': typeof CareMemoryRoute
@@ -461,11 +479,13 @@ export interface FileRoutesByFullPath {
   '/practical/ceremony': typeof PracticalCeremonyRoute
   '/practical/flowers': typeof PracticalFlowersRoute
   '/practical/objects': typeof PracticalObjectsRoute
+  '/practical/pros': typeof PracticalProsRoute
   '/practical/share': typeof PracticalShareRoute
   '/practical/steps': typeof PracticalStepsRoute
   '/practical/tasks': typeof PracticalTasksRouteWithChildren
   '/practical/texts': typeof PracticalTextsRoute
   '/practical/vault': typeof PracticalVaultRoute
+  '/practical/wishes': typeof PracticalWishesRoute
   '/resources/$category': typeof ResourcesCategoryRouteWithChildren
   '/care/': typeof CareIndexRoute
   '/garden/': typeof GardenIndexRoute
@@ -473,6 +493,7 @@ export interface FileRoutesByFullPath {
   '/onboarding/': typeof OnboardingIndexRoute
   '/practical/': typeof PracticalIndexRoute
   '/resources/': typeof ResourcesIndexRoute
+  '/care/garden/$zone': typeof CareGardenZoneRoute
   '/help/corps/eau': typeof HelpCorpsEauRoute
   '/help/corps/habiller': typeof HelpCorpsHabillerRoute
   '/help/corps/manger': typeof HelpCorpsMangerRoute
@@ -508,7 +529,7 @@ export interface FileRoutesByTo {
   '/care/community': typeof CareCommunityRoute
   '/care/dates': typeof CareDatesRoute
   '/care/emotions': typeof CareEmotionsRoute
-  '/care/garden': typeof CareGardenRoute
+  '/care/garden': typeof CareGardenRouteWithChildren
   '/care/help': typeof CareHelpRoute
   '/care/journal': typeof CareJournalRoute
   '/care/memory': typeof CareMemoryRoute
@@ -526,11 +547,13 @@ export interface FileRoutesByTo {
   '/practical/ceremony': typeof PracticalCeremonyRoute
   '/practical/flowers': typeof PracticalFlowersRoute
   '/practical/objects': typeof PracticalObjectsRoute
+  '/practical/pros': typeof PracticalProsRoute
   '/practical/share': typeof PracticalShareRoute
   '/practical/steps': typeof PracticalStepsRoute
   '/practical/tasks': typeof PracticalTasksRouteWithChildren
   '/practical/texts': typeof PracticalTextsRoute
   '/practical/vault': typeof PracticalVaultRoute
+  '/practical/wishes': typeof PracticalWishesRoute
   '/resources/$category': typeof ResourcesCategoryRouteWithChildren
   '/care': typeof CareIndexRoute
   '/garden': typeof GardenIndexRoute
@@ -538,6 +561,7 @@ export interface FileRoutesByTo {
   '/onboarding': typeof OnboardingIndexRoute
   '/practical': typeof PracticalIndexRoute
   '/resources': typeof ResourcesIndexRoute
+  '/care/garden/$zone': typeof CareGardenZoneRoute
   '/help/corps/eau': typeof HelpCorpsEauRoute
   '/help/corps/habiller': typeof HelpCorpsHabillerRoute
   '/help/corps/manger': typeof HelpCorpsMangerRoute
@@ -578,7 +602,7 @@ export interface FileRoutesById {
   '/care/community': typeof CareCommunityRoute
   '/care/dates': typeof CareDatesRoute
   '/care/emotions': typeof CareEmotionsRoute
-  '/care/garden': typeof CareGardenRoute
+  '/care/garden': typeof CareGardenRouteWithChildren
   '/care/help': typeof CareHelpRoute
   '/care/journal': typeof CareJournalRoute
   '/care/memory': typeof CareMemoryRoute
@@ -596,11 +620,13 @@ export interface FileRoutesById {
   '/practical/ceremony': typeof PracticalCeremonyRoute
   '/practical/flowers': typeof PracticalFlowersRoute
   '/practical/objects': typeof PracticalObjectsRoute
+  '/practical/pros': typeof PracticalProsRoute
   '/practical/share': typeof PracticalShareRoute
   '/practical/steps': typeof PracticalStepsRoute
   '/practical/tasks': typeof PracticalTasksRouteWithChildren
   '/practical/texts': typeof PracticalTextsRoute
   '/practical/vault': typeof PracticalVaultRoute
+  '/practical/wishes': typeof PracticalWishesRoute
   '/resources/$category': typeof ResourcesCategoryRouteWithChildren
   '/care/': typeof CareIndexRoute
   '/garden/': typeof GardenIndexRoute
@@ -608,6 +634,7 @@ export interface FileRoutesById {
   '/onboarding/': typeof OnboardingIndexRoute
   '/practical/': typeof PracticalIndexRoute
   '/resources/': typeof ResourcesIndexRoute
+  '/care/garden/$zone': typeof CareGardenZoneRoute
   '/help/corps/eau': typeof HelpCorpsEauRoute
   '/help/corps/habiller': typeof HelpCorpsHabillerRoute
   '/help/corps/manger': typeof HelpCorpsMangerRoute
@@ -666,11 +693,13 @@ export interface FileRouteTypes {
     | '/practical/ceremony'
     | '/practical/flowers'
     | '/practical/objects'
+    | '/practical/pros'
     | '/practical/share'
     | '/practical/steps'
     | '/practical/tasks'
     | '/practical/texts'
     | '/practical/vault'
+    | '/practical/wishes'
     | '/resources/$category'
     | '/care/'
     | '/garden/'
@@ -678,6 +707,7 @@ export interface FileRouteTypes {
     | '/onboarding/'
     | '/practical/'
     | '/resources/'
+    | '/care/garden/$zone'
     | '/help/corps/eau'
     | '/help/corps/habiller'
     | '/help/corps/manger'
@@ -731,11 +761,13 @@ export interface FileRouteTypes {
     | '/practical/ceremony'
     | '/practical/flowers'
     | '/practical/objects'
+    | '/practical/pros'
     | '/practical/share'
     | '/practical/steps'
     | '/practical/tasks'
     | '/practical/texts'
     | '/practical/vault'
+    | '/practical/wishes'
     | '/resources/$category'
     | '/care'
     | '/garden'
@@ -743,6 +775,7 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/practical'
     | '/resources'
+    | '/care/garden/$zone'
     | '/help/corps/eau'
     | '/help/corps/habiller'
     | '/help/corps/manger'
@@ -800,11 +833,13 @@ export interface FileRouteTypes {
     | '/practical/ceremony'
     | '/practical/flowers'
     | '/practical/objects'
+    | '/practical/pros'
     | '/practical/share'
     | '/practical/steps'
     | '/practical/tasks'
     | '/practical/texts'
     | '/practical/vault'
+    | '/practical/wishes'
     | '/resources/$category'
     | '/care/'
     | '/garden/'
@@ -812,6 +847,7 @@ export interface FileRouteTypes {
     | '/onboarding/'
     | '/practical/'
     | '/resources/'
+    | '/care/garden/$zone'
     | '/help/corps/eau'
     | '/help/corps/habiller'
     | '/help/corps/manger'
@@ -1088,6 +1124,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResourcesCategoryRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/practical/wishes': {
+      id: '/practical/wishes'
+      path: '/wishes'
+      fullPath: '/practical/wishes'
+      preLoaderRoute: typeof PracticalWishesRouteImport
+      parentRoute: typeof PracticalRoute
+    }
     '/practical/vault': {
       id: '/practical/vault'
       path: '/vault'
@@ -1121,6 +1164,13 @@ declare module '@tanstack/react-router' {
       path: '/share'
       fullPath: '/practical/share'
       preLoaderRoute: typeof PracticalShareRouteImport
+      parentRoute: typeof PracticalRoute
+    }
+    '/practical/pros': {
+      id: '/practical/pros'
+      path: '/pros'
+      fullPath: '/practical/pros'
+      preLoaderRoute: typeof PracticalProsRouteImport
       parentRoute: typeof PracticalRoute
     }
     '/practical/objects': {
@@ -1326,6 +1376,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HelpCorpsEauRouteImport
       parentRoute: typeof HelpCorpsRoute
     }
+    '/care/garden/$zone': {
+      id: '/care/garden/$zone'
+      path: '/$zone'
+      fullPath: '/care/garden/$zone'
+      preLoaderRoute: typeof CareGardenZoneRouteImport
+      parentRoute: typeof CareGardenRoute
+    }
     '/api/public/souffle-sound/$id': {
       id: '/api/public/souffle-sound/$id'
       path: '/api/public/souffle-sound/$id'
@@ -1347,11 +1404,23 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
+interface CareGardenRouteChildren {
+  CareGardenZoneRoute: typeof CareGardenZoneRoute
+}
+
+const CareGardenRouteChildren: CareGardenRouteChildren = {
+  CareGardenZoneRoute: CareGardenZoneRoute,
+}
+
+const CareGardenRouteWithChildren = CareGardenRoute._addFileChildren(
+  CareGardenRouteChildren,
+)
+
 interface CareRouteChildren {
   CareCommunityRoute: typeof CareCommunityRoute
   CareDatesRoute: typeof CareDatesRoute
   CareEmotionsRoute: typeof CareEmotionsRoute
-  CareGardenRoute: typeof CareGardenRoute
+  CareGardenRoute: typeof CareGardenRouteWithChildren
   CareHelpRoute: typeof CareHelpRoute
   CareJournalRoute: typeof CareJournalRoute
   CareMemoryRoute: typeof CareMemoryRoute
@@ -1363,7 +1432,7 @@ const CareRouteChildren: CareRouteChildren = {
   CareCommunityRoute: CareCommunityRoute,
   CareDatesRoute: CareDatesRoute,
   CareEmotionsRoute: CareEmotionsRoute,
-  CareGardenRoute: CareGardenRoute,
+  CareGardenRoute: CareGardenRouteWithChildren,
   CareHelpRoute: CareHelpRoute,
   CareJournalRoute: CareJournalRoute,
   CareMemoryRoute: CareMemoryRoute,
@@ -1433,11 +1502,13 @@ interface PracticalRouteChildren {
   PracticalCeremonyRoute: typeof PracticalCeremonyRoute
   PracticalFlowersRoute: typeof PracticalFlowersRoute
   PracticalObjectsRoute: typeof PracticalObjectsRoute
+  PracticalProsRoute: typeof PracticalProsRoute
   PracticalShareRoute: typeof PracticalShareRoute
   PracticalStepsRoute: typeof PracticalStepsRoute
   PracticalTasksRoute: typeof PracticalTasksRouteWithChildren
   PracticalTextsRoute: typeof PracticalTextsRoute
   PracticalVaultRoute: typeof PracticalVaultRoute
+  PracticalWishesRoute: typeof PracticalWishesRoute
   PracticalIndexRoute: typeof PracticalIndexRoute
 }
 
@@ -1447,11 +1518,13 @@ const PracticalRouteChildren: PracticalRouteChildren = {
   PracticalCeremonyRoute: PracticalCeremonyRoute,
   PracticalFlowersRoute: PracticalFlowersRoute,
   PracticalObjectsRoute: PracticalObjectsRoute,
+  PracticalProsRoute: PracticalProsRoute,
   PracticalShareRoute: PracticalShareRoute,
   PracticalStepsRoute: PracticalStepsRoute,
   PracticalTasksRoute: PracticalTasksRouteWithChildren,
   PracticalTextsRoute: PracticalTextsRoute,
   PracticalVaultRoute: PracticalVaultRoute,
+  PracticalWishesRoute: PracticalWishesRoute,
   PracticalIndexRoute: PracticalIndexRoute,
 }
 

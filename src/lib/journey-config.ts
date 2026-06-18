@@ -9,7 +9,10 @@ export type CareModule =
 export type PracticalCategory =
   | "first" | "obseques" | "ceremony" | "flowers" | "documents"
   | "letters" | "succession" | "finances" | "rights"
-  | "digital" | "housing" | "pros" | "wishes" | "vault";
+  | "digital" | "housing" | "pros" | "wishes" | "vault"
+  | "vet" | "cremation_animal" | "inhumation_animal" | "souvenir_objet" | "hommage" | "messages" | "cagnotte" | "aide_famille";
+
+const FRIEND_PRACTICAL: PracticalCategory[] = ["ceremony", "flowers", "letters", "pros", "hommage", "messages", "cagnotte", "aide_famille"];
 
 export type MemoryModule = "garden" | "timeline" | "voices" | "letters" | "dates";
 
@@ -35,7 +38,7 @@ export function journeyModules(
     return {
       home: ["checkin", "memory", "support"],
       care: ["checkin", "journal", "breathe", "sleep", "meditations", "sounds", "community", "therapists", "crisis"],
-      practical: [],
+      practical: primaryNeed === "practical" || primaryNeed === "both" ? ["vet", "cremation_animal", "inhumation_animal", "souvenir_objet"] : [],
       memory: ["garden", "voices", "letters", "dates", "timeline"],
     };
   }
@@ -95,32 +98,18 @@ export function journeyModules(
       return {
         home: ["wishes", "task"],
         care: [],
-        practical: ["wishes", "ceremony", "flowers", "letters", "documents", "vault", "succession"],
+        practical: ["wishes", "ceremony", "letters", "documents", "vault"],
         memory: ["letters", "voices"],
-      };
-    case "demarches":
-      return {
-        home: ["task"],
-        care: ["crisis"],
-        practical: applyFilters(["first", "obseques", "ceremony", "documents", "letters", "succession", "finances", "rights", "digital", "housing", "pros", "vault"]),
-        memory: [],
-      };
-    case "soutien":
-      return {
-        home: ["checkin", "support"],
-        care: baseCare,
-        practical: [],
-        memory: ["garden", "dates"],
       };
     case "perdu":
     default: {
-      const isRecent = stage === "recent" || stage === "obseques_a_organiser";
+      const isRecent = stage === "nouvelle" || stage === "obseques_a_organiser" || stage === "obseques_prevues" || stage === "inconnu";
       const isAfter = stage === "apres" || stage === "obseques_passees";
       if (primaryNeed === "practical") {
         return {
           home: ["task", "support"],
           care: ["crisis"],
-          practical: applyFilters(isRecent
+          practical: isFriendOrColleague(relation) && !legallyInvolved ? filterByStage(FRIEND_PRACTICAL) : applyFilters(isRecent
             ? ["first", "obseques", "ceremony", "documents", "letters", "pros", "vault"]
             : ["documents", "letters", "succession", "finances", "rights", "digital", "housing", "pros", "vault"]),
           memory: [],
@@ -137,7 +126,7 @@ export function journeyModules(
       return {
         home: ["checkin", "task", "memory"],
         care: baseCare,
-        practical: applyFilters(isRecent
+        practical: isFriendOrColleague(relation) && !legallyInvolved ? filterByStage(FRIEND_PRACTICAL) : applyFilters(isRecent
           ? ["first", "obseques", "ceremony", "documents", "letters", "pros", "vault"]
           : ["documents", "letters", "succession", "finances", "digital", "housing", "pros", "vault"]),
         memory: ["garden", "voices", "letters", "dates"],
@@ -159,9 +148,17 @@ export const PRACTICAL_LABELS: Record<PracticalCategory, { label: string; hint: 
   rights:     { label: "Aides & droits",          hint: "CAF, CPAM, retraite",                 to: "/practical" },
   digital:    { label: "Comptes numériques",      hint: "Mails, réseaux, abonnements",         to: "/practical" },
   housing:    { label: "Logement & biens",        hint: "Bailleur, objets",                    to: "/practical" },
-  pros:       { label: "Professionnels",          hint: "Annuaire vérifié",                    to: "/practical" },
-  wishes:     { label: "Mes volontés",            hint: "Préparer en douceur",                 to: "/wishes" },
+  pros:       { label: "Professionnels",          hint: "Annuaire vérifié",                    to: "/practical/pros" },
+  wishes:     { label: "Mes volontés",            hint: "Préparer en douceur",                 to: "/practical/wishes" },
   vault:      { label: "Coffre de documents",     hint: "Tout au même endroit",                to: "/practical/vault" },
+  vet:        { label: "Vétérinaire",             hint: "Derniers soins, certificat, conseil", to: "/practical/tasks/vet" },
+  cremation_animal: { label: "Crémation animale", hint: "Options, délais, lieu de recueil",     to: "/practical/tasks/cremation_animal" },
+  inhumation_animal: { label: "Inhumation animale", hint: "Ce qui est possible légalement",     to: "/practical/tasks/inhumation_animal" },
+  souvenir_objet: { label: "Objet souvenir",      hint: "Empreinte, collier, photo",            to: "/care/memory" },
+  hommage:    { label: "Hommage",                 hint: "Un geste avec les proches",           to: "/care/memory" },
+  messages:   { label: "Messages",                hint: "Prévenir, écrire, remercier",         to: "/practical/tasks/messages" },
+  cagnotte:   { label: "Cagnotte",                hint: "Participer si c'est pertinent",       to: "/practical/tasks/cagnotte" },
+  aide_famille: { label: "Aide à la famille",     hint: "Proposer sans envahir",               to: "/practical/tasks/aide_famille" },
 };
 
 /** Temporalité par défaut d'une catégorie pratique. */
@@ -182,6 +179,14 @@ export const PRACTICAL_BUCKETS: Record<PracticalCategory, PracticalBucket> = {
   pros:       "later",
   wishes:     "later",
   vault:      "later",
+  vet:        "now",
+  cremation_animal: "week",
+  inhumation_animal: "week",
+  souvenir_objet: "later",
+  hommage:    "week",
+  messages:   "now",
+  cagnotte:   "week",
+  aide_famille: "week",
 };
 
 export const BUCKET_LABELS: Record<PracticalBucket, { label: string; tone: string }> = {
@@ -192,25 +197,25 @@ export const BUCKET_LABELS: Record<PracticalBucket, { label: string; tone: strin
 };
 
 export const CARE_LABELS: Record<CareModule, { label: string; hint: string; to: string }> = {
-  checkin:      { label: "Check-in émotionnel",  hint: "Comment vous sentez-vous ?",       to: "/checkin" },
-  journal:      { label: "Journal",               hint: "Déposer une pensée",                to: "/journal" },
+  checkin:      { label: "Check-in émotionnel",  hint: "Comment vous sentez-vous ?",       to: "/care/emotions" },
+  journal:      { label: "Journal",               hint: "Déposer une pensée",                to: "/care/journal" },
   breathe:      { label: "Respiration",           hint: "1, 3 ou 5 minutes",                 to: "/no-words" },
   sleep:        { label: "Sommeil",               hint: "Sons calmes, 4-7-8",                to: "/no-words" },
-  meditations:  { label: "Méditations deuil",     hint: "Séries courtes",                    to: "/resources" },
-  sounds:       { label: "Audios éditoriaux",     hint: "Textes, témoignages",               to: "/inspiration" },
-  letters:      { label: "Écrire à mon proche",   hint: "Sans destinataire",                 to: "/journal" },
-  community:    { label: "Communauté",            hint: "D'autres traversent aussi",         to: "/community" },
-  therapists:   { label: "Trouver un·e thérapeute", hint: "Annuaire vérifié",                to: "/resources" },
+  meditations:  { label: "Méditations deuil",     hint: "Séries courtes",                    to: "/care/resources" },
+  sounds:       { label: "Audios éditoriaux",     hint: "Textes, témoignages",               to: "/care/resources" },
+  letters:      { label: "Écrire à mon proche",   hint: "Sans destinataire",                 to: "/care/journal" },
+  community:    { label: "Communauté",            hint: "D'autres traversent aussi",         to: "/care/community" },
+  therapists:   { label: "Trouver un·e thérapeute", hint: "Annuaire vérifié",                to: "/care/help" },
   crisis:       { label: "Si ça déborde",         hint: "3114 et lignes d'écoute",           to: "/crisis" },
-  anticipated:  { label: "Deuil anticipé",        hint: "Vivre avec l'idée de la perte",     to: "/resources" },
-  caregiver:    { label: "Fatigue de l'aidant",   hint: "Tenir, sans se perdre",             to: "/resources" },
-  supporting:   { label: "Quoi dire, quoi éviter", hint: "Messages prêts à envoyer",         to: "/resources" },
+  anticipated:  { label: "Deuil anticipé",        hint: "Vivre avec l'idée de la perte",     to: "/care/resources" },
+  caregiver:    { label: "Fatigue de l'aidant",   hint: "Tenir, sans se perdre",             to: "/care/resources" },
+  supporting:   { label: "Quoi dire, quoi éviter", hint: "Messages prêts à envoyer",         to: "/care/resources" },
 };
 
 export const MEMORY_LABELS: Record<MemoryModule, { label: string; hint: string; to: string }> = {
   garden:    { label: "Le jardin",          hint: "Une parcelle par proche",       to: "/care/garden" },
-  timeline:  { label: "Ligne de vie",       hint: "Dates et étapes",               to: "/memories" },
-  voices:    { label: "Voix",                hint: "Garder une voix",               to: "/memories" },
+  timeline:  { label: "Ligne de vie",       hint: "Dates et étapes",               to: "/care/memory" },
+  voices:    { label: "Voix",                hint: "Garder une voix",               to: "/care/memory" },
   letters:   { label: "Lettres",             hint: "Reçues, envoyées",              to: "/care/journal" },
   dates:     { label: "Dates sensibles",     hint: "Anniversaire, fêtes",           to: "/care/dates" },
 };

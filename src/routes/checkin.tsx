@@ -1,10 +1,11 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
 import { Shell } from "@/components/legato/Shell";
 import { useLegato, EMOTIONS, type Emotion } from "@/lib/legato-state";
 import { LegatoMark } from "@/components/legato/LegatoMark";
 import { useState } from "react";
 
 export const Route = createFileRoute("/checkin")({
+  beforeLoad: () => { throw redirect({ to: "/care/emotions" }); },
   head: () => ({
     meta: [
       { title: "Check-in — Legato" },

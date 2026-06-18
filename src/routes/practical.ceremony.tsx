@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Shell } from "@/components/legato/Shell";
 import { ConfideDock } from "@/components/legato/ConfideDock";
 import { loadPractical, savePractical } from "@/lib/practical-store";
+import { useLegato } from "@/lib/legato-state";
 import { PageHeader, IvoryCard } from "@/components/legato/EditorialUI";
 
 export const Route = createFileRoute("/practical/ceremony")({
@@ -19,10 +20,14 @@ const KINDS = [
 ];
 
 function Ceremony() {
+  const { situation, stage, lovedOneRelation, hydrated } = useLegato();
   const [kind, setKind] = useState("");
   const [venue, setVenue] = useState("");
   useEffect(() => { const s = loadPractical(); setKind(s.ceremonyKind); setVenue(s.ceremonyVenue); }, []);
   const update = (k: string, v: string) => { setKind(k); setVenue(v); savePractical({ ceremonyKind: k, ceremonyVenue: v }); };
+  const hidden = hydrated && lovedOneRelation === "animal";
+  const passed = hydrated && situation !== "volontes" && (stage === "obseques_passees" || stage === "demarches" || stage === "apres");
+  if (hidden || passed) return <Shell livingBg={false}><div className="min-h-dvh bg-paper text-dusk p-6"><PageHeader title="CÉRÉMONIE" back="/practical" /><h1 className="mt-10 ed-page-title">Cette étape n'est pas prioritaire dans votre parcours.</h1><Link to="/care/memory" className="mt-6 inline-block mono-label">Créer un hommage symbolique →</Link></div></Shell>;
 
   return (
     <Shell livingBg={false}>

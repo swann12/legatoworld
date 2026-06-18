@@ -70,23 +70,28 @@ export type PracticalContext = {
 
 export type Situation =
   | "perdu" | "peur" | "accompagner" | "soutenir"
-  | "questionnement" | "volontes" | "demarches" | "soutien";
+  | "questionnement" | "volontes";
 
 export type Relation =
-  | "parent" | "conjoint" | "enfant" | "ami" | "animal" | "autre";
+  | "pere" | "mere" | "conjoint" | "enfant" | "frere_soeur"
+  | "grand_parent" | "ami" | "collegue" | "animal" | "autre";
 
-export type Timeframe =
-  | "today" | "thisWeek" | "thisMonth" | "months" | "overYear";
+export type Timeframe = never;
 
 export type Stage =
-  | "recent" | "obseques_a_organiser" | "obseques_passees" | "demarches" | "apres";
+  | "nouvelle" | "obseques_a_organiser" | "obseques_prevues" | "obseques_passees" | "demarches" | "apres" | "inconnu"
+  | "malade" | "fin_de_vie_proche" | "inquietude" | "peur_recurrente" | "parler_difficile"
+  | "proche" | "aidant" | "loin" | "coordonner" | "sans_reperes"
+  | "mots" | "aide_concrete" | "comprendre" | "duree" | "rejoindre_cercle"
+  | "peur_mourir" | "peur_perdre" | "pensee_recurrente" | "reflechir" | "parler_proches" | "apprendre"
+  | "ceremonie" | "documents" | "messages" | "medical" | "personnes" | "indecis";
 
 export type PrimaryNeed = "emotional" | "practical" | "both";
 
 export type Emotion =
   | "tristesse" | "colere" | "peur" | "anxiete" | "sideration"
   | "culpabilite" | "solitude" | "fatigue" | "confusion"
-  | "nostalgie" | "soulagement" | "vide" | "calme" | "aide";
+  | "nostalgie" | "soulagement" | "vide" | "besoin_calme" | "besoin_aide";
 
 export const EMOTIONS: { id: Emotion; label: string }[] = [
   { id: "tristesse",    label: "Tristesse" },
@@ -101,51 +106,90 @@ export const EMOTIONS: { id: Emotion; label: string }[] = [
   { id: "nostalgie",    label: "Nostalgie" },
   { id: "soulagement",  label: "Soulagement" },
   { id: "vide",         label: "Vide" },
-  { id: "calme",        label: "Calme" },
-  { id: "aide",         label: "Besoin d'aide" },
+  { id: "besoin_calme", label: "Besoin de calme" },
+  { id: "besoin_aide",  label: "Besoin d'aide" },
 ];
 
-export const SITUATIONS: { id: Situation; label: string; primaryNeed: PrimaryNeed }[] = [
-  { id: "perdu",          label: "J'ai perdu quelqu'un",                primaryNeed: "both" },
-  { id: "peur",           label: "J'ai peur de perdre quelqu'un",       primaryNeed: "emotional" },
-  { id: "accompagner",    label: "J'accompagne quelqu'un en fin de vie", primaryNeed: "both" },
-  { id: "soutenir",       label: "Je soutiens une personne endeuillée", primaryNeed: "emotional" },
-  { id: "questionnement", label: "Je me questionne sur la mort",        primaryNeed: "emotional" },
-  { id: "volontes",       label: "Je veux préparer mes volontés",       primaryNeed: "practical" },
-  { id: "demarches",      label: "Je veux surtout de l'aide pour les démarches", primaryNeed: "practical" },
-  { id: "soutien",        label: "Je veux surtout du soutien émotionnel", primaryNeed: "emotional" },
+export const SITUATIONS: { id: Situation; label: string }[] = [
+  { id: "perdu",          label: "J'ai perdu quelqu'un" },
+  { id: "peur",           label: "J'ai peur de perdre quelqu'un" },
+  { id: "accompagner",    label: "J'accompagne quelqu'un en fin de vie" },
+  { id: "soutenir",       label: "Je soutiens une personne endeuillée" },
+  { id: "questionnement", label: "Je me questionne sur la mort" },
+  { id: "volontes",       label: "Je veux préparer mes volontés" },
 ];
 
 export const RELATIONS: { id: Relation; label: string }[] = [
-  { id: "parent",   label: "Un parent" },
-  { id: "conjoint", label: "Mon ou ma conjoint·e" },
-  { id: "enfant",   label: "Mon enfant" },
-  { id: "ami",      label: "Un·e ami·e" },
-  { id: "animal",   label: "Un animal" },
-  { id: "autre",    label: "Une autre personne" },
+  { id: "pere",         label: "Mon père" },
+  { id: "mere",         label: "Ma mère" },
+  { id: "conjoint",     label: "Mon / ma conjoint·e" },
+  { id: "enfant",       label: "Mon enfant" },
+  { id: "frere_soeur",  label: "Un frère ou une sœur" },
+  { id: "grand_parent", label: "Un grand-parent" },
+  { id: "ami",          label: "Un ami ou une amie" },
+  { id: "collegue",     label: "Un collègue" },
+  { id: "animal",       label: "Mon animal" },
+  { id: "autre",        label: "Une autre personne" },
 ];
 
-export const TIMEFRAMES: { id: Timeframe; label: string }[] = [
-  { id: "today",      label: "Aujourd'hui ou ces derniers jours" },
-  { id: "thisWeek",   label: "Cette semaine" },
-  { id: "thisMonth",  label: "Ce mois-ci" },
-  { id: "months",     label: "Il y a quelques mois" },
-  { id: "overYear",   label: "Il y a plus d'un an" },
-];
+export const TIMEFRAMES: { id: Timeframe; label: string }[] = [];
 
-export const STAGES: { id: Stage; label: string }[] = [
-  { id: "recent",                 label: "C'est tout récent" },
-  { id: "obseques_a_organiser",   label: "J'organise les obsèques" },
-  { id: "obseques_passees",       label: "Les obsèques sont passées" },
-  { id: "demarches",              label: "Je suis dans les démarches" },
-  { id: "apres",                  label: "C'est plus ancien, je traverse l'après" },
-];
+export const STAGES_BY_SITUATION: Record<Situation, { id: Stage; label: string }[]> = {
+  perdu: [
+    { id: "nouvelle", label: "Je viens d'apprendre la nouvelle" },
+    { id: "obseques_a_organiser", label: "Les obsèques ne sont pas encore organisées" },
+    { id: "obseques_prevues", label: "Les obsèques sont prévues" },
+    { id: "obseques_passees", label: "Les obsèques sont passées" },
+    { id: "demarches", label: "Je suis dans les démarches administratives" },
+    { id: "apres", label: "Je suis dans l'après, à plus long terme" },
+    { id: "inconnu", label: "Je ne sais pas où j'en suis" },
+  ],
+  peur: [
+    { id: "malade", label: "La personne est gravement malade" },
+    { id: "fin_de_vie_proche", label: "La fin de vie approche" },
+    { id: "inquietude", label: "Je suis inquiet·ète sans certitude" },
+    { id: "peur_recurrente", label: "Je vis avec une peur récurrente" },
+    { id: "parler_difficile", label: "Je ne sais pas comment en parler" },
+  ],
+  accompagner: [
+    { id: "proche", label: "Je suis un proche" },
+    { id: "aidant", label: "Je suis aidant·e au quotidien" },
+    { id: "loin", label: "Je suis loin géographiquement" },
+    { id: "coordonner", label: "Je dois organiser avec d'autres proches" },
+    { id: "sans_reperes", label: "Je ne sais pas comment aider" },
+  ],
+  soutenir: [
+    { id: "mots", label: "Trouver les bons mots" },
+    { id: "aide_concrete", label: "Proposer une aide concrète" },
+    { id: "comprendre", label: "Comprendre ce que la personne traverse" },
+    { id: "duree", label: "Être présent·e dans le temps" },
+    { id: "rejoindre_cercle", label: "Rejoindre son cercle de soutien" },
+  ],
+  questionnement: [
+    { id: "peur_mourir", label: "J'ai peur de mourir" },
+    { id: "peur_perdre", label: "J'ai peur de perdre les autres" },
+    { id: "pensee_recurrente", label: "Je pense souvent à la mort" },
+    { id: "reflechir", label: "Je veux réfléchir à ce qui compte" },
+    { id: "parler_proches", label: "Je veux aborder le sujet avec mes proches" },
+    { id: "apprendre", label: "Je veux lire, écouter, comprendre" },
+  ],
+  volontes: [
+    { id: "ceremonie", label: "Mes souhaits de cérémonie" },
+    { id: "documents", label: "Mes documents importants" },
+    { id: "messages", label: "Mes messages à transmettre" },
+    { id: "medical", label: "Mes volontés médicales" },
+    { id: "personnes", label: "Les personnes à prévenir" },
+    { id: "indecis", label: "Je ne sais pas encore" },
+  ],
+};
+
+export const STAGES: { id: Stage; label: string }[] = Object.values(STAGES_BY_SITUATION).flat();
 
 /** Helpers de regroupement par lien. */
 export function isAnimal(r: Relation | null): boolean { return r === "animal"; }
-export function isFriendOrColleague(r: Relation | null): boolean { return r === "ami"; }
+export function isFriendOrColleague(r: Relation | null): boolean { return r === "ami" || r === "collegue"; }
 export function isFamilyClose(r: Relation | null): boolean {
-  return r === "parent" || r === "conjoint" || r === "enfant";
+  return r === "pere" || r === "mere" || r === "conjoint" || r === "enfant" || r === "frere_soeur" || r === "grand_parent";
 }
 
 const EMPTY_WISHES: Wishes = {
@@ -279,6 +323,10 @@ type Ctx = {
   setSituation: (s: Situation | null) => void;
   lovedOneName: string;
   setLovedOneName: (s: string) => void;
+  lovedLabel: string;
+  setLovedLabel: (s: string) => void;
+  lovedOther: string;
+  setLovedOther: (s: string) => void;
   lovedOneRelation: Relation | null;
   setLovedOneRelation: (r: Relation | null) => void;
   timeframe: Timeframe | null;
@@ -384,8 +432,13 @@ export function LegatoProvider({ children }: { children: ReactNode }) {
   const [situation, setSituationState] = useState<Situation | null>(() => lsGet("lg.situation", null));
   const setSituation = (s: Situation | null) => { setSituationState(s); lsSet("lg.situation", s); };
 
-  const [lovedOneName, setLovedOneNameState] = useState<string>(() => lsGet("lg.lovedOneName", ""));
-  const setLovedOneName = (s: string) => { setLovedOneNameState(s); lsSet("lg.lovedOneName", s); };
+  const [lovedLabel, setLovedLabelState] = useState<string>(() => lsGet("lg.lovedLabel", lsGet("lg.lovedOneName", "")));
+  const setLovedLabel = (s: string) => { setLovedLabelState(s); lsSet("lg.lovedLabel", s); lsSet("lg.lovedOneName", s); };
+  const lovedOneName = lovedLabel;
+  const setLovedOneName = setLovedLabel;
+
+  const [lovedOther, setLovedOtherState] = useState<string>(() => lsGet("lg.lovedOther", ""));
+  const setLovedOther = (s: string) => { setLovedOtherState(s); lsSet("lg.lovedOther", s); };
 
   const [lovedOneRelation, setLovedOneRelationState] = useState<Relation | null>(() => lsGet("lg.lovedOneRelation", null));
   const setLovedOneRelation = (r: Relation | null) => { setLovedOneRelationState(r); lsSet("lg.lovedOneRelation", r); };
@@ -464,6 +517,8 @@ export function LegatoProvider({ children }: { children: ReactNode }) {
         practicalOnboarded, setPracticalOnboarded,
         situation, setSituation,
         lovedOneName, setLovedOneName,
+        lovedLabel, setLovedLabel,
+        lovedOther, setLovedOther,
         lovedOneRelation, setLovedOneRelation,
         timeframe, setTimeframe,
         stage, setStage,

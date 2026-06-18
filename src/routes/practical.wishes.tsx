@@ -1,4 +1,4 @@
-import { createFileRoute, Link, redirect } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Shell } from "@/components/legato/Shell";
 import { ConfideDock } from "@/components/legato/ConfideDock";
@@ -6,8 +6,7 @@ import { useLegato, type Wishes } from "@/lib/legato-state";
 import { ShareToCircle } from "@/components/legato/ShareToCircle";
 import { PageHeader, IvoryCard, SectionLabel } from "@/components/legato/EditorialUI";
 
-export const Route = createFileRoute("/wishes")({
-  beforeLoad: () => { throw redirect({ to: "/practical/wishes" }); },
+export const Route = createFileRoute("/practical/wishes")({
   head: () => ({
     meta: [
       { title: "Mes volontés — Legato" },

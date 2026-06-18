@@ -45,7 +45,9 @@ function Practical() {
 
   const allCats: PracticalCategory[] = practical.length
     ? practical
-    : (Object.keys(PRACTICAL_LABELS) as PracticalCategory[]);
+    : hydrated && situation
+      ? []
+      : (Object.keys(PRACTICAL_LABELS) as PracticalCategory[]);
   const allowed: PracticalCategory[] = showArchived
     ? allCats
     : allCats.filter((c) => !isHiddenFromActive(hydrated ? taskStatus[c] : undefined));

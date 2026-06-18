@@ -10,9 +10,9 @@ export type EmotionPlan = {
 };
 
 const PRIORITY: Emotion[] = [
-  "aide", "peur", "anxiete", "culpabilite", "sideration", "colere",
+  "besoin_aide", "peur", "anxiete", "culpabilite", "sideration", "colere",
   "solitude", "tristesse", "fatigue", "vide", "nostalgie",
-  "confusion", "soulagement", "calme",
+  "confusion", "soulagement", "besoin_calme",
 ];
 
 function pick(emotions: Emotion[]): Emotion | null {
@@ -23,18 +23,18 @@ function pick(emotions: Emotion[]): Emotion | null {
 export function emotionPlan(emotions: Emotion[]): EmotionPlan {
   const e = pick(emotions);
   switch (e) {
-    case "aide":
+    case "besoin_aide":
       return {
         tone: "alerte", contentLength: "court", showCrisis: true, hideHeavyTasks: true,
         primary: { label: "Parler à quelqu'un maintenant", to: "/crisis", hint: "Aide humaine disponible" },
-        secondary: [{ label: "Mon cercle", to: "/_authenticated/circle" }, { label: "Thérapeutes", to: "/resources" }],
+        secondary: [{ label: "Mon cercle", to: "/_authenticated/circle" }, { label: "Thérapeutes", to: "/care/help" }],
       };
     case "peur":
     case "anxiete":
       return {
         tone: "doux", contentLength: "court", showCrisis: true, hideHeavyTasks: true,
         primary: { label: "Respirer une minute", to: "/no-words", hint: "Souffle court, ancrage" },
-        secondary: [{ label: "Écrire ce qui presse", to: "/journal" }, { label: "Si ça déborde", to: "/crisis" }],
+        secondary: [{ label: "Écrire ce qui presse", to: "/care/journal" }, { label: "Si ça déborde", to: "/crisis" }],
       };
     case "culpabilite":
       return {
@@ -96,16 +96,16 @@ export function emotionPlan(emotions: Emotion[]): EmotionPlan {
         primary: { label: "Une seule chose à la fois", to: "/practical" },
         secondary: [{ label: "Respirer", to: "/no-words" }],
       };
-    case "calme":
+    case "besoin_calme":
       return {
         tone: "sobre", contentLength: "moyen", showCrisis: false, hideHeavyTasks: false,
-        primary: { label: "Avancer doucement", to: "/practical" },
+        primary: { label: "Respirer au calme", to: "/no-words" },
         secondary: [{ label: "Mémoire", to: "/care/memory" }],
       };
     default:
       return {
         tone: "sobre", contentLength: "moyen", showCrisis: false, hideHeavyTasks: false,
-        primary: { label: "Faire un check-in", to: "/checkin" },
+        primary: { label: "Faire un check-in", to: "/care/emotions" },
         secondary: [],
       };
   }

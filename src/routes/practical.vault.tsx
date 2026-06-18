@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Shell } from "@/components/legato/Shell";
 import { LegatoMark } from "@/components/legato/LegatoMark";
+import { useLegato } from "@/lib/legato-state";
 
 export const Route = createFileRoute("/practical/vault")({
   head: () => ({
@@ -26,6 +27,13 @@ const CATEGORIES: { id: string; label: string; hint: string }[] = [
 ];
 
 function Vault() {
+  const { primaryNeed, lovedOneRelation, hydrated } = useLegato();
+  const hidden = hydrated && (primaryNeed === "emotional" || lovedOneRelation === "animal");
+  if (hidden) {
+    return (
+      <Shell livingBg={false}><div className="min-h-dvh bg-paper text-dusk p-6"><Link to="/practical" className="mono-label">← Démarches</Link><h1 className="mt-10 ed-page-title">Coffre non nécessaire pour ce parcours.</h1><p className="mt-5 text-[13px] text-dusk/60">Il restera accessible si une tâche concrète en a besoin.</p></div></Shell>
+    );
+  }
   return (
     <Shell livingBg={false}>
       <div className="min-h-dvh bg-paper text-dusk pb-32">

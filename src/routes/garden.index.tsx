@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { useState } from "react";
 import { Shell } from "@/components/legato/Shell";
 import { LegatoMark } from "@/components/legato/LegatoMark";
@@ -7,6 +7,7 @@ import { PageHeader, IvoryCard } from "@/components/legato/EditorialUI";
 import gardenPainted from "@/assets/garden-painted-v4.png";
 
 export const Route = createFileRoute("/garden/")({
+  beforeLoad: () => { throw redirect({ to: "/care/garden" }); },
   head: () => ({
     meta: [
       { title: "Le Jardin — Legato" },

@@ -1,8 +1,9 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { Shell } from "@/components/legato/Shell";
 import { PageHeader, IvoryCard, SectionLabel } from "@/components/legato/EditorialUI";
 
 export const Route = createFileRoute("/memories")({
+  beforeLoad: () => { throw redirect({ to: "/care/memory" }); },
   head: () => ({ meta: [{ title: "Souvenirs — Legato" }] }),
   component: Memories,
 });
