@@ -203,7 +203,7 @@ export const CARE_LABELS: Record<CareModule, { label: string; hint: string; to: 
   sleep:        { label: "Sommeil",               hint: "Sons calmes, 4-7-8",                to: "/no-words" },
   meditations:  { label: "Méditations deuil",     hint: "Séries courtes",                    to: "/care/resources" },
   sounds:       { label: "Audios éditoriaux",     hint: "Textes, témoignages",               to: "/care/resources" },
-  letters:      { label: "Écrire à mon proche",   hint: "Sans destinataire",                 to: "/care/journal" },
+  letters:      { label: "Écrire à mon proche",   hint: "Une lettre libre",                  to: "/care/journal" },
   community:    { label: "Communauté",            hint: "D'autres traversent aussi",         to: "/care/community" },
   therapists:   { label: "Trouver un·e thérapeute", hint: "Annuaire vérifié",                to: "/care/help" },
   crisis:       { label: "Si ça déborde",         hint: "3114 et lignes d'écoute",           to: "/crisis" },

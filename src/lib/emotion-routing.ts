@@ -51,7 +51,7 @@ export function emotionPlan(emotions: Emotion[]): EmotionPlan {
     case "colere":
       return {
         tone: "sobre", contentLength: "moyen", showCrisis: false, hideHeavyTasks: false,
-        primary: { label: "Écrire à ce qui brûle", to: "/care/journal", hint: "Sans destinataire" },
+        primary: { label: "Écrire à ce qui brûle", to: "/care/journal", hint: "Une lettre libre" },
         secondary: [{ label: "Respirer", to: "/no-words" }],
       };
     case "solitude":
