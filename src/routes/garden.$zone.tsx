@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { useState } from "react";
 import { Shell } from "@/components/legato/Shell";
 import { PageHeader } from "@/components/legato/EditorialUI";
@@ -19,6 +19,7 @@ const BOUQUET_BY_BEING: Record<string, string> = {
 };
 
 export const Route = createFileRoute("/garden/$zone")({
+  beforeLoad: ({ params }) => { throw redirect({ to: "/care/garden/$zone", params }); },
   head: () => ({ meta: [{ title: "Un jardin — Legato" }] }),
   component: GardenZone,
 });
