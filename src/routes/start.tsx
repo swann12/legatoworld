@@ -122,15 +122,26 @@ function Start() {
         <button
           type="button"
           onClick={() => setIntro(false)}
-          className="fixed inset-0 z-50 flex flex-col items-center justify-center px-8 text-left animate-fade-in"
-          style={{ background: "var(--blush)" }}
+          className="fixed inset-0 z-50 flex flex-col px-7 py-10 text-left animate-fade-in"
+          style={{ background: "var(--terracotta)", color: "var(--paper)" }}
         >
-          <div className="mobile-frame w-full">
-            <LegatoMark size={22} />
-            <p className="mt-10 font-serif italic text-[28px] leading-[1.25] text-dusk">
-              « Ce qui a été aimé<br />ne se perd pas&nbsp;:<br />cela devient présence. »
+          <div className="flex w-full items-center justify-between">
+            <span className="text-[10px] tracking-[0.28em] uppercase opacity-80">Souvenir</span>
+            <span className="text-[10px] tracking-[0.28em] uppercase opacity-80">Legato</span>
+          </div>
+          <div className="mt-2 h-px w-full bg-[color:var(--paper)] opacity-30" />
+          <div className="flex-1 flex flex-col justify-center">
+            <p className="font-serif text-[44px] leading-[0.98] tracking-[-0.01em]">
+              Ce qui a<br />été aimé<br />
+              <span className="italic">ne se perd</span><br />
+              <span className="italic">pas.</span>
             </p>
-            <p className="mt-10 mono-label text-dusk/55">Toucher pour entrer</p>
+          </div>
+          <div className="flex flex-col gap-1.5">
+            <p className="text-[13.5px] leading-[1.5] opacity-85 max-w-[28ch]">
+              Tenez ceci près de vous,<br />quand les jours sont lourds.
+            </p>
+            <p className="mt-4 text-[10px] tracking-[0.28em] uppercase opacity-70">Toucher pour entrer →</p>
           </div>
         </button>
       )}
