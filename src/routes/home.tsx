@@ -72,11 +72,11 @@ function Home() {
         {mode === "both" && <TwoSpaceSwitch />}
 
         {mode === "emotional" && (
-          <CareTodayBlock lovedName={lovedName} stale={stale} plan={plan} compact={mode === "both"} />
+          <CareTodayBlock lovedName={lovedName} stale={stale} plan={plan} compact={false} />
         )}
 
         {mode === "practical" && (
-          <PracticalTodayBlock lovedName={lovedName} softDay={softActive} night={night} firstTask={modules.practical[0]} compact={mode === "both"} />
+          <PracticalTodayBlock lovedName={lovedName} softDay={softActive} night={night} firstTask={modules.practical[0]} compact={false} />
         )}
 
         {mode === "emotional" && <SecondarySwitch to="/practical" label="Ouvrir les démarches concrètes" />}
