@@ -323,6 +323,10 @@ type Ctx = {
   setSituation: (s: Situation | null) => void;
   lovedOneName: string;
   setLovedOneName: (s: string) => void;
+  lovedLabel: string;
+  setLovedLabel: (s: string) => void;
+  lovedOther: string;
+  setLovedOther: (s: string) => void;
   lovedOneRelation: Relation | null;
   setLovedOneRelation: (r: Relation | null) => void;
   timeframe: Timeframe | null;
@@ -428,8 +432,13 @@ export function LegatoProvider({ children }: { children: ReactNode }) {
   const [situation, setSituationState] = useState<Situation | null>(() => lsGet("lg.situation", null));
   const setSituation = (s: Situation | null) => { setSituationState(s); lsSet("lg.situation", s); };
 
-  const [lovedOneName, setLovedOneNameState] = useState<string>(() => lsGet("lg.lovedOneName", ""));
-  const setLovedOneName = (s: string) => { setLovedOneNameState(s); lsSet("lg.lovedOneName", s); };
+  const [lovedLabel, setLovedLabelState] = useState<string>(() => lsGet("lg.lovedLabel", lsGet("lg.lovedOneName", "")));
+  const setLovedLabel = (s: string) => { setLovedLabelState(s); lsSet("lg.lovedLabel", s); lsSet("lg.lovedOneName", s); };
+  const lovedOneName = lovedLabel;
+  const setLovedOneName = setLovedLabel;
+
+  const [lovedOther, setLovedOtherState] = useState<string>(() => lsGet("lg.lovedOther", ""));
+  const setLovedOther = (s: string) => { setLovedOtherState(s); lsSet("lg.lovedOther", s); };
 
   const [lovedOneRelation, setLovedOneRelationState] = useState<Relation | null>(() => lsGet("lg.lovedOneRelation", null));
   const setLovedOneRelation = (r: Relation | null) => { setLovedOneRelationState(r); lsSet("lg.lovedOneRelation", r); };
@@ -508,6 +517,8 @@ export function LegatoProvider({ children }: { children: ReactNode }) {
         practicalOnboarded, setPracticalOnboarded,
         situation, setSituation,
         lovedOneName, setLovedOneName,
+        lovedLabel, setLovedLabel,
+        lovedOther, setLovedOther,
         lovedOneRelation, setLovedOneRelation,
         timeframe, setTimeframe,
         stage, setStage,
