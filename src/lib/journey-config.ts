@@ -208,9 +208,9 @@ export const CARE_LABELS: Record<CareModule, { label: string; hint: string; to: 
 };
 
 export const MEMORY_LABELS: Record<MemoryModule, { label: string; hint: string; to: string }> = {
-  garden:    { label: "Le jardin",          hint: "Une parcelle par proche",       to: "/garden" },
+  garden:    { label: "Le jardin",          hint: "Une parcelle par proche",       to: "/care/garden" },
   timeline:  { label: "Ligne de vie",       hint: "Dates et étapes",               to: "/memories" },
   voices:    { label: "Voix",                hint: "Garder une voix",               to: "/memories" },
-  letters:   { label: "Lettres",             hint: "Reçues, envoyées",              to: "/journal" },
-  dates:     { label: "Dates sensibles",     hint: "Anniversaire, fêtes",           to: "/dates" },
+  letters:   { label: "Lettres",             hint: "Reçues, envoyées",              to: "/care/journal" },
+  dates:     { label: "Dates sensibles",     hint: "Anniversaire, fêtes",           to: "/care/dates" },
 };

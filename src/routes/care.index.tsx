@@ -16,9 +16,9 @@ export const Route = createFileRoute("/care/")({
 });
 
 function Care() {
-  const { situation, primaryNeed, stage, currentEmotions } = useLegato();
+  const { situation, primaryNeed, stage, currentEmotions, lovedOneRelation, legallyInvolved, hydrated } = useLegato();
   const lovedName = useLovedName();
-  const { care } = journeyModules(situation, primaryNeed, stage);
+  const { care } = journeyModules(situation, primaryNeed, stage, { relation: lovedOneRelation, legallyInvolved });
 
   return (
     <Shell livingBg={false}>
@@ -33,14 +33,29 @@ function Care() {
             Prendre soin de <span className="italic" style={{ color: "var(--terracotta)" }}>vous</span>
           </h1>
           <p className="mt-5 text-[13.5px] leading-[1.6] text-dusk/60 max-w-[34ch]">
-            {currentEmotions.length > 0
+            {hydrated && currentEmotions.length > 0
               ? "Voici ce qui peut vous faire du bien, là."
-              : `Un espace tendre pour vous, ${lovedName ? "et pour ce que vous portez de " + lovedName + "." : "et pour ce que vous traversez."}`}
+              : "Un espace tendre pour vous, et pour ce que vous traversez."}
           </p>
         </section>
 
         <section className="px-5 pt-8 flex flex-col gap-3">
-          {care.map((m) => <CareCard key={m} module={m} />)}
+          <CareCard module="checkin" />
+          <CareCard module="journal" />
+          {/* Mémoire vit dans le Soutien */}
+          <Link
+            to="/care/memory"
+            className="block rounded-[18px] border border-dusk/12 bg-[color:var(--whisper)] px-5 py-4 transition-colors hover:border-dusk/25"
+          >
+            <div className="flex items-center justify-between gap-4">
+              <div className="min-w-0">
+                <p className="font-serif text-[18px] leading-[1.2] text-dusk">Mémoire</p>
+                <p className="mt-1 text-[12.5px] text-dusk/55">{`Garder ${lovedName} — jardin, voix, lettres`}</p>
+              </div>
+              <span className="text-dusk/40 text-[16px]">→</span>
+            </div>
+          </Link>
+          {care.filter((m) => m !== "checkin" && m !== "journal").map((m) => <CareCard key={m} module={m} />)}
         </section>
 
         <footer className="px-6 pt-10 text-center">
