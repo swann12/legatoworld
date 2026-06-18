@@ -76,7 +76,7 @@ function Home() {
         )}
 
         <footer className="px-6 pt-14 pb-4 flex flex-col items-center gap-3">
-          <Link to="/checkin" className="mono-label text-dusk/55 hover:text-dusk">
+          <Link to="/care/emotions" className="mono-label text-dusk/55 hover:text-dusk">
             Faire un check-in →
           </Link>
           <Link to="/crisis" className="mono-label tracking-[0.18em] text-dusk/45 hover:text-dusk">
@@ -97,13 +97,13 @@ function EmotionalView({ lovedName, stale, plan, situation, softDay, night }: {
       <PrimaryBlock
         eyebrow="Pour vous soutenir"
         title={stale ? "Où en êtes-vous, là ?" : titleFromPlan(plan)}
-        cta={stale ? { label: "Faire un check-in", to: "/checkin" } : { label: plan.primary.label, to: plan.primary.to }}
+        cta={stale ? { label: "Faire un check-in", to: "/care/emotions" } : { label: plan.primary.label, to: plan.primary.to }}
         tint="sun"
       />
       {!softDay && !night && (
         <Pair>
-          <SmallCard to="/journal" eyebrow="Journal" title="Déposer une pensée" />
-          <SmallCard to="/memory"  eyebrow="Mémoire" title={situation === "soutenir" ? "Témoigner" : `Garder ${lovedName}`} />
+          <SmallCard to="/care/journal" eyebrow="Journal" title="Déposer une pensée" />
+          <SmallCard to="/care/memory"  eyebrow="Mémoire" title={situation === "soutenir" ? "Témoigner" : `Garder ${lovedName}`} />
         </Pair>
       )}
       {plan.showCrisis && <CrisisCard />}
@@ -148,7 +148,7 @@ function BothView({ lovedName, stale, plan, softDay, night }: {
       <PrimaryBlock
         eyebrow={stale ? "Check-in" : "Suggestion"}
         title={stale ? "Où en êtes-vous, là ?" : titleFromPlan(plan)}
-        cta={stale ? { label: "Faire un check-in", to: "/checkin" } : { label: plan.primary.label, to: plan.primary.to }}
+        cta={stale ? { label: "Faire un check-in", to: "/care/emotions" } : { label: plan.primary.label, to: plan.primary.to }}
         tint="sun"
       />
       <SectionTitle>Pour avancer concrètement</SectionTitle>
