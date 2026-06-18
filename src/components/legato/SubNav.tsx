@@ -1,5 +1,3 @@
-import { Link, useLocation } from "@tanstack/react-router";
-
 export type SubNavItem = {
   to: string;
   label: string;
@@ -7,29 +5,12 @@ export type SubNavItem = {
 };
 
 /**
- * Sous-navigation rendue en haut des index Soutien / Démarches.
- * Composant purement visuel : ne modifie pas l'état global.
+ * Sous-navigation désactivée : la navigation principale est désormais
+ * dans la barre du bas + le toggle Soutien/Démarches en haut des index.
+ * Le composant reste exporté pour compatibilité, mais ne rend rien.
  */
-export function SubNav({ items, ariaLabel }: { items: SubNavItem[]; ariaLabel: string }) {
-  const { pathname } = useLocation();
-  return (
-    <nav aria-label={ariaLabel} className="px-5 pt-4">
-      <div className="flex gap-1.5 overflow-x-auto pb-1">
-        {items.map((it) => {
-          const active = it.exact ? pathname === it.to : pathname.startsWith(it.to);
-          return (
-            <Link
-              key={it.to}
-              to={it.to as "/care"}
-              className={`shrink-0 rounded-full border px-3.5 py-1.5 text-[12px] tracking-[0.02em] transition-colors ${active ? "border-dusk/40 bg-[color:var(--whisper)] text-dusk" : "border-dusk/15 bg-paper text-dusk/60 hover:border-dusk/30"}`}
-            >
-              {it.label}
-            </Link>
-          );
-        })}
-      </div>
-    </nav>
-  );
+export function SubNav(_props: { items: SubNavItem[]; ariaLabel: string }) {
+  return null;
 }
 
 export const CARE_SUBNAV: SubNavItem[] = [

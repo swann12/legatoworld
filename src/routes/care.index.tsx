@@ -4,7 +4,7 @@ import { useLegato, type Emotion } from "@/lib/legato-state";
 import { useLovedName } from "@/lib/loved-name";
 import { journeyModules, CARE_LABELS, type CareModule } from "@/lib/journey-config";
 import { LegatoMark } from "@/components/legato/LegatoMark";
-import { SubNav, CARE_SUBNAV } from "@/components/legato/SubNav";
+import { SpaceToggle } from "@/components/legato/SpaceToggle";
 import { emotionPlan, isEmotionStale } from "@/lib/emotion-routing";
 
 export const Route = createFileRoute("/care/")({
@@ -35,13 +35,12 @@ function Care() {
   return (
     <Shell livingBg={false}>
       <main className="min-h-dvh bg-paper text-dusk pb-32">
-        <header className="px-6 pt-7 flex items-center justify-between">
-          <LegatoMark to="/space" size={22} />
-          <Link to="/practical" className="mono-label text-dusk/55">Démarches →</Link>
+        <header className="px-6 pt-7 flex items-center justify-center">
+          <LegatoMark to="/care" size={22} />
         </header>
-        <SubNav items={CARE_SUBNAV} ariaLabel="Sous-navigation Soutien" />
+        <SpaceToggle />
 
-        <section className="px-6 pt-9">
+        <section className="px-6 pt-8">
           <p className="mono-label">Soutien psychologique</p>
           <h1 className="mt-5 ed-page-title">
             Un espace pour <span className="italic" style={{ color: "var(--terracotta)" }}>tenir</span>.
@@ -63,7 +62,7 @@ function Care() {
             <h2 className="mt-5 font-serif font-normal text-[27px] leading-[1.12] max-w-[18ch]">
               {stale ? "Comment vous sentez-vous maintenant ?" : plan.primary.hint ?? focus.title}
             </h2>
-            <span className="mt-6 inline-block mono-label" style={{ color: "var(--terracotta)" }}>
+            <span className="mt-6 inline-block mono-label text-dusk/80">
               {stale ? "Choisir une émotion" : plan.primary.label} →
             </span>
           </Link>
