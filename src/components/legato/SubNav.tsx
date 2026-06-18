@@ -45,4 +45,5 @@ export const PRACTICAL_SUBNAV: SubNavItem[] = [
   { to: "/practical/tasks", label: "Tâches" },
   { to: "/practical/vault", label: "Documents" },
   { to: "/practical/ceremony", label: "Cérémonie" },
+  { to: "/practical/pros", label: "Pros" },
 ];
