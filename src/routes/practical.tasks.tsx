@@ -24,7 +24,7 @@ function TasksList() {
   const { practical } = journeyModules(situation, primaryNeed, stage, { relation: lovedOneRelation, legallyInvolved });
   const [view, setView] = useState<View>("active");
 
-  const all: PracticalCategory[] = practical.length ? practical : (Object.keys(PRACTICAL_LABELS) as PracticalCategory[]);
+  const all: PracticalCategory[] = practical.length ? practical : hydrated && situation ? [] : (Object.keys(PRACTICAL_LABELS) as PracticalCategory[]);
   const filtered = all.filter((c) => {
     const st = hydrated ? taskStatus[c] : undefined;
     if (view === "active") return !isHiddenFromActive(st);
