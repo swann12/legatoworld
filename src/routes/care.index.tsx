@@ -127,18 +127,18 @@ function focusFromEmotions(emotions: Emotion[], stale: boolean): Focus {
     return { label: "Peur / anxiété", title: "Revenir au corps avant le reste.", intro: "Respiration courte, ancrage, journal bref et aide humaine accessible.", bg: "var(--mist)", modules: ["breathe", "journal", "crisis"], hidden: [] };
   }
   if (emotions.includes("fatigue")) {
-    return { label: "Fatigue", title: "Moins de contenu, plus de repos.", intro: "Legato réduit la quantité et garde les actions les plus courtes.", bg: "var(--whisper)", modules: ["sleep", "breathe", "sounds"], hidden: ["meditations"] };
+    return { label: "Fatigue", title: "Moins de contenu, plus de repos.", intro: "Des gestes courts, rien d'autre.", bg: "var(--sky)", modules: ["sleep", "breathe"], hidden: ["meditations"] };
   }
   if (emotions.includes("nostalgie")) {
-    return { label: "Nostalgie", title: "Transformer le manque en trace.", intro: "Photos, voix, lettres et jardin deviennent prioritaires.", bg: "var(--blush)", modules: ["letters", "journal", "sounds"], hidden: [] };
+    return { label: "Nostalgie", title: "Transformer le manque en trace.", intro: "Vos souvenirs passent devant.", bg: "var(--blush)", modules: ["letters", "journal"], hidden: [] };
   }
   if (emotions.includes("solitude") || emotions.includes("besoin_aide")) {
-    return { label: "Solitude / besoin d'aide", title: "Ne pas rester seul·e avec ça.", intro: "Cercle, communauté, thérapeutes et crise sont placés devant.", bg: "var(--sun)", modules: ["community", "therapists", "crisis"], hidden: [] };
+    return { label: "Vous n'êtes pas seul·e", title: "Ne pas rester seul·e avec ça.", intro: "Vos appuis humains passent devant.", bg: "var(--sun)", modules: ["community", "therapists"], hidden: [] };
   }
   if (emotions.includes("culpabilite") || emotions.includes("colere")) {
-    return { label: "Ce qui pèse", title: "Déposer sans juger.", intro: "Le journal, les ressources et une aide prudente passent en premier.", bg: "var(--rose)", modules: ["journal", "therapists", "breathe"], hidden: [] };
+    return { label: "Ce qui pèse", title: "Déposer sans juger.", intro: "Écrire avant tout le reste.", bg: "var(--blush)", modules: ["journal", "breathe"], hidden: [] };
   }
-  return { label: "Soutien adapté", title: "Une petite chose, maintenant.", intro: "Les suggestions suivent votre émotion récente.", bg: "var(--sun)", modules: ["journal", "breathe", "community"], hidden: [] };
+  return { label: "Soutien adapté", title: "Une petite chose, maintenant.", intro: "", bg: "var(--sun)", modules: ["journal", "breathe"], hidden: [] };
 }
 
 function CareTile({ module: m }: { module: CareModule }) {
