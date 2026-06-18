@@ -25,6 +25,7 @@ function Home() {
   const lovedName = useLovedName();
   const [todayLabel, setTodayLabel] = useState("");
   const [now, setNow] = useState<Date | null>(null);
+  const [view, setView] = useState<"care" | "practical">("care");
 
   useEffect(() => {
     const d = new Date();
@@ -44,6 +45,9 @@ function Home() {
   const plan = useMemo(() => emotionPlan(hydrated ? currentEmotions : []), [currentEmotions, hydrated]);
   const modules = journeyModules(situation, mode, stage, { relation: lovedOneRelation, legallyInvolved });
 
+  const activeView: "care" | "practical" =
+    mode === "emotional" ? "care" : mode === "practical" ? "practical" : view;
+
   return (
     <Shell livingBg={false}>
       <main className="min-h-dvh bg-paper text-dusk pb-32">
@@ -57,33 +61,25 @@ function Home() {
           <h1 className="mt-5 font-serif font-normal text-[36px] leading-[1.05] text-dusk">
             Votre tableau<br />du <span className="italic" style={{ color: "var(--terracotta)" }}>jour</span>.
           </h1>
-          <p className="mt-5 text-[13.5px] leading-[1.6] text-dusk/60 max-w-[34ch]">
-            {mode === "both"
-              ? "Deux entrées séparées. Aucune checklist dans le soutien, aucun journal dans les démarches."
-              : mode === "emotional"
-                ? "Votre accueil met le soutien en premier, avec un accès discret aux démarches."
-                : "Votre accueil met l'action en premier, avec un accès discret au soutien."}
-          </p>
         </section>
 
         {softActive && <SoftBanner />}
         {night && !softActive && <NightBanner />}
 
-        {mode === "both" && <TwoSpaceSwitch />}
-
-        {mode === "emotional" && (
-          <CareTodayBlock lovedName={lovedName} stale={stale} plan={plan} compact={false} />
+        {mode === "both" && (
+          <div className="px-6 pt-6">
+            <SpaceToggle value={view} onChange={setView} />
+          </div>
         )}
 
-        {mode === "practical" && (
-          <PracticalTodayBlock lovedName={lovedName} softDay={softActive} night={night} firstTask={modules.practical[0]} compact={false} />
+        {activeView === "care" && (
+          <CareTodayBlock lovedName={lovedName} stale={stale} plan={plan} />
         )}
-
-        {mode === "emotional" && <SecondarySwitch to="/practical" label="Ouvrir les démarches concrètes" />}
-        {mode === "practical" && <SecondarySwitch to="/care" label="Ouvrir le soutien psychologique" />}
+        {activeView === "practical" && (
+          <PracticalTodayBlock lovedName={lovedName} softDay={softActive} night={night} firstTask={modules.practical[0]} />
+        )}
 
         <footer className="px-6 pt-14 pb-4 flex flex-col items-center gap-3">
-          <Link to="/space" className="mono-label text-dusk/55 hover:text-dusk">Changer d'espace →</Link>
           <Link to="/crisis" className="mono-label tracking-[0.18em] text-dusk/45 hover:text-dusk">Si aujourd'hui pèse trop →</Link>
         </footer>
       </main>
@@ -91,125 +87,98 @@ function Home() {
   );
 }
 
-function CareTodayBlock({ lovedName, stale, plan, compact }: {
+function SpaceToggle({ value, onChange }: { value: "care" | "practical"; onChange: (v: "care" | "practical") => void }) {
+  return (
+    <div className="grid grid-cols-2 gap-1 rounded-full border border-dusk/12 bg-[color:var(--whisper)] p-1">
+      {([
+        { id: "care", label: "Soutien" },
+        { id: "practical", label: "Démarches" },
+      ] as const).map((t) => {
+        const active = value === t.id;
+        return (
+          <button
+            key={t.id}
+            onClick={() => onChange(t.id)}
+            className={`rounded-full px-4 py-2.5 text-[12.5px] font-medium tracking-[0.02em] transition-colors ${active ? "bg-dusk text-paper" : "text-dusk/65"}`}
+          >
+            {t.label}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+function CareTodayBlock({ lovedName, stale, plan }: {
   lovedName: string;
   stale: boolean;
   plan: ReturnType<typeof emotionPlan>;
-  compact: boolean;
 }) {
-  const secondary = stale
-    ? [{ label: "Journal", to: "/care/journal" }, { label: "Mémoire", to: "/care/memory" }]
-    : plan.secondary.slice(0, 2);
   return (
     <section className="px-5 pt-8">
-      <SectionKicker label="Soutien psychologique" />
       <Link
         to={(stale ? "/care/emotions" : plan.primary.to) as "/care"}
-        className="mt-4 block rounded-[20px] px-6 pt-7 pb-6"
+        className="block rounded-[22px] px-6 pt-7 pb-7"
         style={{ background: "var(--sun)", color: "var(--dusk)" }}
       >
         <p className="mono-label">{stale ? "Check-in" : plan.primary.label}</p>
-        <h2 className="mt-5 font-serif font-normal text-[26px] leading-[1.15] max-w-[18ch]">
-          {stale ? "Où en êtes-vous, là ?" : plan.primary.hint ?? "Une petite chose, maintenant."}
+        <h2 className="mt-4 font-serif font-normal text-[28px] leading-[1.1] max-w-[18ch]">
+          {stale ? "Comment vous sentez-vous ?" : plan.primary.hint ?? "Une petite chose, maintenant."}
         </h2>
-        <p className="mt-4 text-[12.5px] leading-[1.55] text-dusk/60 max-w-[31ch]">
-          {stale ? "Votre émotion récente adapte le journal, les audios, les ressources et la mémoire." : `Pour vous, et pour ${lovedName}.`}
-        </p>
         <span className="mt-6 inline-block mono-label" style={{ color: "var(--terracotta)" }}>
-          {stale ? "Faire un check-in" : plan.primary.label} →
+          {stale ? "Commencer" : "Ouvrir"} →
         </span>
       </Link>
-      {!compact && <CareQuickLinks items={secondary} />}
-      {compact && <SpaceDoor to="/care" title="Entrer dans le soutien" hint="Émotions, journal, mémoire, ressources." />}
+      <div className="mt-3 grid grid-cols-2 gap-3">
+        <QuickTile to="/care/journal" label="Journal" bg="var(--sky)" />
+        <QuickTile to="/care/memory" label={`Mémoire${lovedName ? ` · ${lovedName}` : ""}`} bg="var(--blush)" />
+      </div>
     </section>
   );
 }
 
-function TwoSpaceSwitch() {
-  return (
-    <section className="px-5 pt-8 flex flex-col gap-3">
-      <SpaceDoor to="/care" title="Soutien psychologique" hint="Émotions, journal, mémoire, respiration, aide humaine." />
-      <SpaceDoor to="/practical" title="Démarches concrètes" hint="Tâches, documents, cérémonie, professionnels, délégation." />
-    </section>
-  );
-}
-
-function PracticalTodayBlock({ lovedName, softDay, night, firstTask, compact }: {
+function PracticalTodayBlock({ lovedName, softDay, night, firstTask }: {
   lovedName: string;
   softDay: boolean;
   night: boolean;
   firstTask?: keyof typeof PRACTICAL_LABELS;
-  compact: boolean;
 }) {
   const cfg = firstTask ? PRACTICAL_LABELS[firstTask] : null;
   return (
     <section className="px-5 pt-8">
-      <SectionKicker label="Démarches concrètes" />
       {softDay || night ? (
-        <div className="mt-4 rounded-[20px] px-6 pt-7 pb-6" style={{ background: "var(--whisper)" }}>
+        <div className="rounded-[22px] px-6 pt-7 pb-7" style={{ background: "var(--sky)" }}>
           <p className="mono-label">À préserver</p>
-          <h2 className="mt-5 font-serif font-normal text-[25px] leading-[1.15]">Les démarches peuvent attendre.</h2>
+          <h2 className="mt-4 font-serif font-normal text-[27px] leading-[1.1]">Les démarches peuvent attendre.</h2>
           <Link to="/practical" className="mt-6 inline-block mono-label" style={{ color: "var(--terracotta)" }}>Voir seulement l'essentiel →</Link>
         </div>
       ) : (
-        <Link to="/practical" className="mt-4 block rounded-[20px] px-6 pt-7 pb-6" style={{ background: "var(--whisper)", color: "var(--dusk)" }}>
+        <Link to="/practical" className="block rounded-[22px] px-6 pt-7 pb-7" style={{ background: "var(--sky)", color: "var(--dusk)" }}>
           <p className="mono-label">Une étape concrète</p>
-          <h2 className="mt-5 font-serif font-normal text-[26px] leading-[1.15] max-w-[18ch]">
+          <h2 className="mt-4 font-serif font-normal text-[28px] leading-[1.1] max-w-[18ch]">
             {cfg ? cfg.label : "Avancer une étape."}
           </h2>
-          <p className="mt-4 text-[12.5px] leading-[1.55] text-dusk/60 max-w-[31ch]">
-            {cfg ? cfg.hint : `Un plan clair pour ${lovedName}, sans contenus émotionnels mélangés.`}
-          </p>
-          <span className="mt-6 inline-block mono-label" style={{ color: "var(--terracotta)" }}>Ouvrir les démarches →</span>
+          <span className="mt-6 inline-block mono-label" style={{ color: "var(--terracotta)" }}>Ouvrir →</span>
         </Link>
       )}
-      {compact && <SpaceDoor to="/practical" title="Entrer dans les démarches" hint="Tâches, documents, professionnels, délégation." />}
-    </section>
-  );
-}
-
-function CareQuickLinks({ items }: { items: { label: string; to: string }[] }) {
-  const fallback = items.length ? items : [{ label: "Journal", to: "/care/journal" }, { label: "Mémoire", to: "/care/memory" }];
-  return (
-    <div className="mt-3 grid grid-cols-2 gap-3">
-      {fallback.map((item) => (
-        <Link key={item.to} to={item.to as "/care"} className="rounded-[16px] border border-dusk/12 bg-paper px-4 py-4">
-          <p className="font-serif text-[17px] leading-[1.15] text-dusk">{item.label}</p>
-          <span className="mt-3 inline-block text-dusk/45">→</span>
-        </Link>
-      ))}
-    </div>
-  );
-}
-
-function SectionKicker({ label }: { label: string }) {
-  return (
-    <div className="flex items-center justify-between gap-3 px-1">
-      <p className="mono-label">{label}</p>
-      <div className="h-px flex-1 bg-dusk/12" />
-    </div>
-  );
-}
-
-function SpaceDoor({ to, title, hint }: { to: "/care" | "/practical"; title: string; hint: string }) {
-  return (
-    <Link to={to} className="mt-3 block rounded-[16px] border border-dusk/12 bg-paper px-5 py-4">
-      <div className="flex items-center justify-between gap-4">
-        <div>
-          <p className="font-serif text-[18px] leading-[1.15] text-dusk">{title}</p>
-          <p className="mt-1 text-[12px] text-dusk/55">{hint}</p>
-        </div>
-        <span className="text-dusk/45">→</span>
+      <div className="mt-3 grid grid-cols-2 gap-3">
+        <QuickTile to="/practical/vault" label="Documents" bg="var(--sun)" />
+        <QuickTile to="/practical/pros" label="Professionnels" bg="var(--blush)" />
       </div>
-    </Link>
+    </section>
   );
 }
 
-function SecondarySwitch({ to, label }: { to: "/care" | "/practical"; label: string }) {
+function QuickTile({ to, label, bg }: { to: string; label: string; bg: string }) {
   return (
-    <section className="px-6 pt-8">
-      <Link to={to} className="mono-label text-dusk/55 hover:text-dusk">{label} →</Link>
-    </section>
+    <Link
+      to={to as "/care"}
+      className="rounded-[16px] px-4 py-5 min-h-[88px] flex flex-col justify-between"
+      style={{ background: bg, color: "var(--dusk)" }}
+    >
+      <p className="font-serif text-[17px] leading-[1.15]">{label}</p>
+      <span className="self-end text-dusk/55 text-[14px]">→</span>
+    </Link>
   );
 }
 
@@ -217,7 +186,7 @@ function SoftBanner() {
   return (
     <div className="mx-6 mt-4 rounded-[14px] border border-dusk/12 bg-[color:var(--whisper)] px-4 py-3">
       <p className="mono-label" style={{ color: "var(--terracotta)" }}>Mode doux</p>
-      <p className="mt-1 text-[12.5px] text-dusk/65 italic">Le tableau du jour réduit la charge et garde les espaces séparés.</p>
+      <p className="mt-1 text-[12.5px] text-dusk/65 italic">Aujourd'hui sera plus léger.</p>
     </div>
   );
 }
@@ -226,7 +195,7 @@ function NightBanner() {
   return (
     <div className="mx-6 mt-4 rounded-[14px] border border-dusk/12 bg-[color:var(--whisper)] px-4 py-3">
       <p className="mono-label">Mode nuit</p>
-      <p className="mt-1 text-[12.5px] text-dusk/65 italic">Ce soir, Legato privilégie le calme et masque le superflu.</p>
+      <p className="mt-1 text-[12.5px] text-dusk/65 italic">Ce soir, place au calme.</p>
     </div>
   );
 }
