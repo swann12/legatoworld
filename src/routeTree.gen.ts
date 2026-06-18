@@ -76,6 +76,7 @@ import { Route as HelpCorpsNuitsRouteImport } from './routes/help.corps.nuits'
 import { Route as HelpCorpsMangerRouteImport } from './routes/help.corps.manger'
 import { Route as HelpCorpsHabillerRouteImport } from './routes/help.corps.habiller'
 import { Route as HelpCorpsEauRouteImport } from './routes/help.corps.eau'
+import { Route as CareGardenZoneRouteImport } from './routes/care.garden.$zone'
 import { Route as ApiPublicSouffleSoundIdRouteImport } from './routes/api/public/souffle-sound.$id'
 
 const WishesRoute = WishesRouteImport.update({
@@ -414,6 +415,11 @@ const HelpCorpsEauRoute = HelpCorpsEauRouteImport.update({
   path: '/eau',
   getParentRoute: () => HelpCorpsRoute,
 } as any)
+const CareGardenZoneRoute = CareGardenZoneRouteImport.update({
+  id: '/$zone',
+  path: '/$zone',
+  getParentRoute: () => CareGardenRoute,
+} as any)
 const ApiPublicSouffleSoundIdRoute = ApiPublicSouffleSoundIdRouteImport.update({
   id: '/api/public/souffle-sound/$id',
   path: '/api/public/souffle-sound/$id',
@@ -449,7 +455,7 @@ export interface FileRoutesByFullPath {
   '/care/community': typeof CareCommunityRoute
   '/care/dates': typeof CareDatesRoute
   '/care/emotions': typeof CareEmotionsRoute
-  '/care/garden': typeof CareGardenRoute
+  '/care/garden': typeof CareGardenRouteWithChildren
   '/care/help': typeof CareHelpRoute
   '/care/journal': typeof CareJournalRoute
   '/care/memory': typeof CareMemoryRoute
@@ -480,6 +486,7 @@ export interface FileRoutesByFullPath {
   '/onboarding/': typeof OnboardingIndexRoute
   '/practical/': typeof PracticalIndexRoute
   '/resources/': typeof ResourcesIndexRoute
+  '/care/garden/$zone': typeof CareGardenZoneRoute
   '/help/corps/eau': typeof HelpCorpsEauRoute
   '/help/corps/habiller': typeof HelpCorpsHabillerRoute
   '/help/corps/manger': typeof HelpCorpsMangerRoute
@@ -515,7 +522,7 @@ export interface FileRoutesByTo {
   '/care/community': typeof CareCommunityRoute
   '/care/dates': typeof CareDatesRoute
   '/care/emotions': typeof CareEmotionsRoute
-  '/care/garden': typeof CareGardenRoute
+  '/care/garden': typeof CareGardenRouteWithChildren
   '/care/help': typeof CareHelpRoute
   '/care/journal': typeof CareJournalRoute
   '/care/memory': typeof CareMemoryRoute
@@ -546,6 +553,7 @@ export interface FileRoutesByTo {
   '/onboarding': typeof OnboardingIndexRoute
   '/practical': typeof PracticalIndexRoute
   '/resources': typeof ResourcesIndexRoute
+  '/care/garden/$zone': typeof CareGardenZoneRoute
   '/help/corps/eau': typeof HelpCorpsEauRoute
   '/help/corps/habiller': typeof HelpCorpsHabillerRoute
   '/help/corps/manger': typeof HelpCorpsMangerRoute
@@ -586,7 +594,7 @@ export interface FileRoutesById {
   '/care/community': typeof CareCommunityRoute
   '/care/dates': typeof CareDatesRoute
   '/care/emotions': typeof CareEmotionsRoute
-  '/care/garden': typeof CareGardenRoute
+  '/care/garden': typeof CareGardenRouteWithChildren
   '/care/help': typeof CareHelpRoute
   '/care/journal': typeof CareJournalRoute
   '/care/memory': typeof CareMemoryRoute
@@ -617,6 +625,7 @@ export interface FileRoutesById {
   '/onboarding/': typeof OnboardingIndexRoute
   '/practical/': typeof PracticalIndexRoute
   '/resources/': typeof ResourcesIndexRoute
+  '/care/garden/$zone': typeof CareGardenZoneRoute
   '/help/corps/eau': typeof HelpCorpsEauRoute
   '/help/corps/habiller': typeof HelpCorpsHabillerRoute
   '/help/corps/manger': typeof HelpCorpsMangerRoute
@@ -688,6 +697,7 @@ export interface FileRouteTypes {
     | '/onboarding/'
     | '/practical/'
     | '/resources/'
+    | '/care/garden/$zone'
     | '/help/corps/eau'
     | '/help/corps/habiller'
     | '/help/corps/manger'
@@ -754,6 +764,7 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/practical'
     | '/resources'
+    | '/care/garden/$zone'
     | '/help/corps/eau'
     | '/help/corps/habiller'
     | '/help/corps/manger'
@@ -824,6 +835,7 @@ export interface FileRouteTypes {
     | '/onboarding/'
     | '/practical/'
     | '/resources/'
+    | '/care/garden/$zone'
     | '/help/corps/eau'
     | '/help/corps/habiller'
     | '/help/corps/manger'
@@ -1345,6 +1357,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HelpCorpsEauRouteImport
       parentRoute: typeof HelpCorpsRoute
     }
+    '/care/garden/$zone': {
+      id: '/care/garden/$zone'
+      path: '/$zone'
+      fullPath: '/care/garden/$zone'
+      preLoaderRoute: typeof CareGardenZoneRouteImport
+      parentRoute: typeof CareGardenRoute
+    }
     '/api/public/souffle-sound/$id': {
       id: '/api/public/souffle-sound/$id'
       path: '/api/public/souffle-sound/$id'
@@ -1366,11 +1385,23 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
+interface CareGardenRouteChildren {
+  CareGardenZoneRoute: typeof CareGardenZoneRoute
+}
+
+const CareGardenRouteChildren: CareGardenRouteChildren = {
+  CareGardenZoneRoute: CareGardenZoneRoute,
+}
+
+const CareGardenRouteWithChildren = CareGardenRoute._addFileChildren(
+  CareGardenRouteChildren,
+)
+
 interface CareRouteChildren {
   CareCommunityRoute: typeof CareCommunityRoute
   CareDatesRoute: typeof CareDatesRoute
   CareEmotionsRoute: typeof CareEmotionsRoute
-  CareGardenRoute: typeof CareGardenRoute
+  CareGardenRoute: typeof CareGardenRouteWithChildren
   CareHelpRoute: typeof CareHelpRoute
   CareJournalRoute: typeof CareJournalRoute
   CareMemoryRoute: typeof CareMemoryRoute
@@ -1382,7 +1413,7 @@ const CareRouteChildren: CareRouteChildren = {
   CareCommunityRoute: CareCommunityRoute,
   CareDatesRoute: CareDatesRoute,
   CareEmotionsRoute: CareEmotionsRoute,
-  CareGardenRoute: CareGardenRoute,
+  CareGardenRoute: CareGardenRouteWithChildren,
   CareHelpRoute: CareHelpRoute,
   CareJournalRoute: CareJournalRoute,
   CareMemoryRoute: CareMemoryRoute,
