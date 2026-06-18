@@ -1,189 +1,150 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useMemo, useState, type ReactNode } from "react";
 import { Shell } from "@/components/legato/Shell";
-import { PageHeader, RingProgress } from "@/components/legato/EditorialUI";
+import { LegatoMark } from "@/components/legato/LegatoMark";
+import { useLegato } from "@/lib/legato-state";
+import { useLovedName } from "@/lib/loved-name";
+import {
+  journeyModules, PRACTICAL_LABELS, PRACTICAL_BUCKETS, BUCKET_LABELS,
+  type PracticalCategory, type PracticalBucket,
+} from "@/lib/journey-config";
 
 export const Route = createFileRoute("/practical/")({
   head: () => ({
     meta: [
       { title: "Démarches — Legato" },
-      { name: "description", content: "Un plan d'action clair, organisé par temporalité. Vous voyez ce qu'il faut faire, ce qui est en cours, ce qui est délégué." },
+      { name: "description", content: "Vos démarches, organisées par temporalité et adaptées à votre situation." },
     ],
   }),
   component: Practical,
 });
 
 type Status = "todo" | "doing" | "done" | "delegate" | "blocked" | "missing";
-type Task = { id: string; title: string; meta?: string; status: Status };
-
-const GROUPS: { key: string; label: string; tone: string; tasks: Task[] }[] = [
-  {
-    key: "now",
-    label: "Immédiat",
-    tone: "var(--terracotta)",
-    tasks: [
-      { id: "pf",      title: "Contacter les pompes funèbres",      meta: "Sous 48 h",      status: "todo" },
-      { id: "mairie",  title: "Déclarer le décès en mairie",        meta: "Sous 24 h",      status: "doing" },
-    ],
-  },
-  {
-    key: "week",
-    label: "Cette semaine",
-    tone: "var(--sun)",
-    tasks: [
-      { id: "famille",   title: "Prévenir les proches",                meta: "À votre rythme", status: "doing" },
-      { id: "documents", title: "Réunir les documents importants",     meta: "Acte, livret",   status: "missing" },
-      { id: "ceremony",  title: "Préparer la cérémonie",               meta: "Lieux, textes",  status: "todo" },
-    ],
-  },
-  {
-    key: "month",
-    label: "Ce mois-ci",
-    tone: "var(--sky)",
-    tasks: [
-      { id: "notaire", title: "Prendre rendez-vous chez le notaire", meta: "Succession",    status: "todo" },
-      { id: "banque",  title: "Prévenir la banque",                  meta: "Comptes",       status: "delegate" },
-      { id: "assurances", title: "Informer les assurances",          meta: "Vie, habitation", status: "todo" },
-    ],
-  },
-  {
-    key: "later",
-    label: "Plus tard",
-    tone: "var(--olive)",
-    tasks: [
-      { id: "logement", title: "Logement & abonnements",  meta: "Sans urgence", status: "todo" },
-      { id: "objets",   title: "Objets personnels",       meta: "Quand vous serez prêt·e", status: "todo" },
-    ],
-  },
-];
-
 const STATUS_LABEL: Record<Status, string> = {
-  todo: "À faire",
-  doing: "En cours",
-  done: "Fait",
-  delegate: "Délégué",
-  blocked: "Bloqué",
-  missing: "Doc manquant",
+  todo: "À faire", doing: "En cours", done: "Fait",
+  delegate: "Délégué", blocked: "Bloqué", missing: "Doc manquant",
 };
+const STATUS_KEY = "legato.practical.status.v1";
+function loadStatus(): Record<string, Status> {
+  if (typeof window === "undefined") return {};
+  try { return JSON.parse(window.localStorage.getItem(STATUS_KEY) ?? "{}"); } catch { return {}; }
+}
+
+const ORDER: PracticalBucket[] = ["now", "week", "month", "later"];
 
 function Practical() {
-  const allTasks = GROUPS.flatMap((g) => g.tasks);
-  const done = allTasks.filter((t) => t.status === "done").length;
-  const total = allTasks.length;
-  const priority = GROUPS[0].tasks[0];
-  const progress = Math.round((done / total) * 100);
+  const { situation, primaryNeed, stage, softDay } = useLegato();
+  const lovedName = useLovedName();
+  const { practical } = journeyModules(situation, primaryNeed, stage);
+  const [filter, setFilter] = useState<PracticalBucket | "all">("all");
+  const statusMap = useMemo(loadStatus, []);
+
+  const allowed: PracticalCategory[] = practical.length
+    ? practical
+    : (Object.keys(PRACTICAL_LABELS) as PracticalCategory[]);
+
+  const grouped = useMemo(() => {
+    const map: Record<PracticalBucket, PracticalCategory[]> = { now: [], week: [], month: [], later: [] };
+    for (const c of allowed) map[PRACTICAL_BUCKETS[c]].push(c);
+    return map;
+  }, [allowed]);
+
+  const total = allowed.length;
+  const done = allowed.filter((c) => statusMap[c] === "done").length;
+
+  const visibleBuckets: PracticalBucket[] = softDay ? ["now"] : ORDER;
+  const buckets = filter === "all" ? visibleBuckets : visibleBuckets.filter((b) => b === filter);
 
   return (
     <Shell livingBg={false}>
       <div className="min-h-dvh bg-paper text-dusk pb-32">
-        <PageHeader title="DÉMARCHES" back="/space" />
+        <header className="px-6 pt-7 flex items-center justify-between">
+          <LegatoMark to="/space" size={22} />
+          <Link to="/practical/vault" className="mono-label text-dusk/55">Coffre →</Link>
+        </header>
 
-        <section className="px-6 pb-9">
-          <p className="eyebrow">Plan d'action</p>
-          <div className="mt-5 max-w-[20rem]">
-            <h1 className="ed-title text-[47px]">
-              Avancer sans se
-              <br />
-              <span className="italic" style={{ color: "var(--terracotta)" }}>brusquer</span>.
-            </h1>
-          </div>
-          <p className="mt-6 body-meta max-w-[32ch]">
-            {done} étapes terminées sur {total}. Le reste peut attendre — on vous indique l'ordre.
+        <section className="px-6 pt-10 pb-2">
+          <p className="mono-label">Démarches</p>
+          <h1 className="mt-5 font-serif font-normal text-[34px] leading-[1.05] text-dusk">
+            Avancer sans se<br />
+            <span className="italic" style={{ color: "var(--terracotta)" }}>brusquer</span>.
+          </h1>
+          <p className="mt-5 text-[13px] leading-[1.6] text-dusk/60 max-w-[34ch]">
+            {softDay
+              ? "Mode doux : seules les démarches vraiment urgentes restent visibles."
+              : `${done} sur ${total} étapes faites${lovedName ? ` pour ${lovedName}` : ""}. Le reste peut attendre.`}
           </p>
         </section>
 
-        <section className="px-5 grid grid-cols-2 gap-3">
-          <Link
-            to="/parcours/$taskId"
-            params={{ taskId: priority.id }}
-            className="plate card-butter px-5 pt-5 pb-4 min-h-[208px] flex flex-col"
-          >
-            <span className="eyebrow">À faire aujourd'hui</span>
-            <p className="mt-4 max-w-[10ch] font-serif text-[31px] leading-[0.98] tracking-[-0.01em]">
-              {priority.title}.
-            </p>
-            <p className="mt-3 text-[12px] text-dusk/70">{priority.meta}</p>
-            <div className="mt-auto plate-caption text-dusk">
-              <span>Priorité</span>
-              <span>Ouvrir →</span>
-            </div>
-          </Link>
-
-          <div className="plate card-plain px-5 pt-5 pb-4 min-h-[208px] flex flex-col items-center">
-            <span className="eyebrow self-start">Progression</span>
-            <div className="mt-2 flex-1 grid place-items-center">
-              <RingProgress value={progress} size={132} stroke={10} />
-            </div>
-            <div className="mt-2 w-full grid grid-cols-2 gap-2 text-center">
-              <div>
-                <p className="font-serif text-[18px] leading-none">{done}</p>
-                <p className="mt-1 mono-label">Faites</p>
-              </div>
-              <div>
-                <p className="font-serif text-[18px] leading-none">{total - done}</p>
-                <p className="mt-1 mono-label">Restantes</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {GROUPS.map((group) => (
-          <section key={group.key} className="px-6 pt-10">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2.5">
-                <span className="size-2 rounded-full" style={{ background: group.tone }} />
-                <p className="eyebrow">{group.label}</p>
-              </div>
-              <p className="text-[11px] uppercase tracking-[0.12em] text-dusk/45">{group.tasks.length} étapes</p>
-            </div>
-            <ol className="mt-4 overflow-hidden rounded-[18px] border border-dusk/10 bg-paper">
-              {group.tasks.map((t) => (
-                <li key={t.id} className="border-t border-dusk/10 first:border-t-0">
-                  <Link
-                    to="/parcours/$taskId"
-                    params={{ taskId: t.id }}
-                    className="flex items-start justify-between gap-4 px-5 py-4 hover:bg-dusk/[0.02]"
-                  >
-                    <div className="min-w-0">
-                      <p className="font-serif text-[20px] leading-[1.08] text-dusk">{t.title}</p>
-                      {t.meta && <p className="mt-1.5 text-[11px] uppercase tracking-[0.12em] text-dusk/50">{t.meta}</p>}
-                    </div>
-                    <div className="flex items-center gap-3 shrink-0">
-                      <span className={`chip chip-${t.status}`}>{STATUS_LABEL[t.status]}</span>
-                      <span className="font-serif text-[18px] text-dusk/45">→</span>
-                    </div>
-                  </Link>
-                </li>
+        {!softDay && (
+          <section className="px-5 pt-6">
+            <div className="flex gap-2 overflow-x-auto pb-1">
+              <FilterChip active={filter === "all"} onClick={() => setFilter("all")}>Tout</FilterChip>
+              {ORDER.map((b) => (
+                <FilterChip key={b} active={filter === b} onClick={() => setFilter(b)}>
+                  {BUCKET_LABELS[b].label}
+                </FilterChip>
               ))}
-            </ol>
+            </div>
           </section>
-        ))}
+        )}
 
-        <section className="px-6 pt-12">
-          <div className="rule-label mb-5"><span>Raccourcis</span></div>
-          <div className="grid grid-cols-1 gap-3">
-            {[
-              { to: "/wishes", eyebrow: "Documents", title: "Mes papiers", tone: "card-sardine" },
-              { to: "/appointments", eyebrow: "Agenda", title: "Rendez-vous", tone: "card-blush" },
-              { to: "/practical/ceremony", eyebrow: "Préparation", title: "Cérémonie", tone: "card-butter" },
-              { to: "/resources", eyebrow: "Annuaire", title: "Professionnels", tone: "card-plain" },
-            ].map((s) => (
-              <Link key={s.title} to={s.to as "/wishes"} search={s.to === "/resources" ? ({ space: "practical" } as never) : undefined} className={`plate ${s.tone} px-5 py-4`}>
-                <p className="eyebrow">{s.eyebrow}</p>
-                <div className="mt-3 flex items-end justify-between gap-4">
-                  <p className="font-serif text-[25px] leading-[1.02] text-dusk">{s.title}</p>
-                  <span className="font-serif text-[18px] text-dusk/50">→</span>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </section>
+        {buckets.map((b) => {
+          const cats = grouped[b];
+          if (!cats.length) return null;
+          const meta = BUCKET_LABELS[b];
+          return (
+            <section key={b} className="px-6 pt-9">
+              <div className="flex items-center gap-2.5">
+                <span className="size-2 rounded-full" style={{ background: meta.tone }} />
+                <p className="mono-label">{meta.label}</p>
+              </div>
+              <ul className="mt-4 overflow-hidden rounded-[18px] border border-dusk/12 bg-paper">
+                {cats.map((c) => {
+                  const cfg = PRACTICAL_LABELS[c];
+                  const st = statusMap[c] ?? "todo";
+                  return (
+                    <li key={c} className="border-t border-dusk/10 first:border-t-0">
+                      <Link
+                        to={cfg.to as "/practical"}
+                        className="flex items-center justify-between gap-3 px-5 py-4 hover:bg-dusk/[0.02]"
+                      >
+                        <div className="min-w-0">
+                          <p className="font-serif text-[18px] leading-[1.15] text-dusk">{cfg.label}</p>
+                          <p className="mt-1 text-[11.5px] uppercase tracking-[0.1em] text-dusk/45">{cfg.hint}</p>
+                        </div>
+                        <span className="shrink-0 rounded-full border border-dusk/15 px-2.5 py-1 text-[10.5px] uppercase tracking-[0.08em] text-dusk/65">
+                          {STATUS_LABEL[st]}
+                        </span>
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            </section>
+          );
+        })}
+
+        <footer className="px-6 pt-12 flex flex-col items-center gap-3">
+          <Link to="/care" className="mono-label text-dusk/55 hover:text-dusk">
+            Besoin de soutien plutôt ? →
+          </Link>
+          <Link to="/crisis" className="mono-label tracking-[0.18em] text-dusk/45 hover:text-dusk">
+            Si ça déborde →
+          </Link>
+        </footer>
       </div>
     </Shell>
   );
 }
 
-/* ─── Accueil ORGANISER & AVANCER ───
- * Quatre zones bien séparées : priorité du jour, à faire ensuite,
- * avancement, raccourcis. Aucun élément émotionnel (jardin, présence,
- * respiration, souvenirs).
- */
+function FilterChip({ active, onClick, children }: { active: boolean; onClick: () => void; children: ReactNode }) {
+  return (
+    <button
+      onClick={onClick}
+      className={`shrink-0 rounded-full border px-4 py-1.5 text-[12px] transition-colors ${active ? "border-dusk/40 bg-[color:var(--whisper)] text-dusk" : "border-dusk/15 bg-paper text-dusk/65 hover:border-dusk/30"}`}
+    >
+      {children}
+    </button>
+  );
+}
