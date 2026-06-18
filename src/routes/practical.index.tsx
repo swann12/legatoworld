@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useMemo, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { Shell } from "@/components/legato/Shell";
 import { LegatoMark } from "@/components/legato/LegatoMark";
 import { useLegato } from "@/lib/legato-state";
@@ -33,11 +33,12 @@ function loadStatus(): Record<string, Status> {
 const ORDER: PracticalBucket[] = ["now", "week", "month", "later"];
 
 function Practical() {
-  const { situation, primaryNeed, stage, softDay } = useLegato();
+  const { situation, primaryNeed, stage, softDay, lovedOneRelation, legallyInvolved, hydrated } = useLegato();
   const lovedName = useLovedName();
-  const { practical } = journeyModules(situation, primaryNeed, stage);
+  const { practical } = journeyModules(situation, primaryNeed, stage, { relation: lovedOneRelation, legallyInvolved });
   const [filter, setFilter] = useState<PracticalBucket | "all">("all");
-  const statusMap = useMemo(loadStatus, []);
+  const [statusMap, setStatusMap] = useState<Record<string, Status>>({});
+  useEffect(() => { setStatusMap(loadStatus()); }, []);
 
   const allowed: PracticalCategory[] = practical.length
     ? practical
@@ -52,7 +53,8 @@ function Practical() {
   const total = allowed.length;
   const done = allowed.filter((c) => statusMap[c] === "done").length;
 
-  const visibleBuckets: PracticalBucket[] = softDay ? ["now"] : ORDER;
+  const softActive = hydrated && softDay;
+  const visibleBuckets: PracticalBucket[] = softActive ? ["now"] : ORDER;
   const buckets = filter === "all" ? visibleBuckets : visibleBuckets.filter((b) => b === filter);
 
   return (
@@ -70,13 +72,15 @@ function Practical() {
             <span className="italic" style={{ color: "var(--terracotta)" }}>brusquer</span>.
           </h1>
           <p className="mt-5 text-[13px] leading-[1.6] text-dusk/60 max-w-[34ch]">
-            {softDay
+            {softActive
               ? "Mode doux : seules les démarches vraiment urgentes restent visibles."
-              : `${done} sur ${total} étapes faites${lovedName ? ` pour ${lovedName}` : ""}. Le reste peut attendre.`}
+              : hydrated
+                ? `${done} sur ${total} étapes faites${lovedName ? ` pour ${lovedName}` : ""}. Le reste peut attendre.`
+                : `${total} étapes au total. Le reste peut attendre.`}
           </p>
         </section>
 
-        {!softDay && (
+        {!softActive && (
           <section className="px-5 pt-6">
             <div className="flex gap-2 overflow-x-auto pb-1">
               <FilterChip active={filter === "all"} onClick={() => setFilter("all")}>Tout</FilterChip>

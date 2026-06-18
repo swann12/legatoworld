@@ -13,6 +13,7 @@ import { Route as WishesRouteImport } from './routes/wishes'
 import { Route as VitrineRouteImport } from './routes/vitrine'
 import { Route as StartRouteImport } from './routes/start'
 import { Route as SpaceRouteImport } from './routes/space'
+import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as PresentationRouteImport } from './routes/presentation'
 import { Route as PresenceRouteImport } from './routes/presence'
 import { Route as PracticalRouteImport } from './routes/practical'
@@ -38,6 +39,7 @@ import { Route as PracticalIndexRouteImport } from './routes/practical.index'
 import { Route as OnboardingIndexRouteImport } from './routes/onboarding.index'
 import { Route as HelpIndexRouteImport } from './routes/help.index'
 import { Route as GardenIndexRouteImport } from './routes/garden.index'
+import { Route as CareIndexRouteImport } from './routes/care.index'
 import { Route as ResourcesCategoryRouteImport } from './routes/resources.$category'
 import { Route as PracticalVaultRouteImport } from './routes/practical.vault'
 import { Route as PracticalTextsRouteImport } from './routes/practical.texts'
@@ -56,6 +58,14 @@ import { Route as InviteTokenRouteImport } from './routes/invite.$token'
 import { Route as HelpCorpsRouteImport } from './routes/help.corps'
 import { Route as GardenZoneRouteImport } from './routes/garden.$zone'
 import { Route as ComposeZoneRouteImport } from './routes/compose.$zone'
+import { Route as CareResourcesRouteImport } from './routes/care.resources'
+import { Route as CareMemoryRouteImport } from './routes/care.memory'
+import { Route as CareJournalRouteImport } from './routes/care.journal'
+import { Route as CareHelpRouteImport } from './routes/care.help'
+import { Route as CareGardenRouteImport } from './routes/care.garden'
+import { Route as CareEmotionsRouteImport } from './routes/care.emotions'
+import { Route as CareDatesRouteImport } from './routes/care.dates'
+import { Route as CareCommunityRouteImport } from './routes/care.community'
 import { Route as AuthenticatedCircleRouteImport } from './routes/_authenticated/circle'
 import { Route as ResourcesConfirmProviderIdRouteImport } from './routes/resources.confirm.$providerId'
 import { Route as ResourcesCategoryProviderIdRouteImport } from './routes/resources.$category.$providerId'
@@ -83,6 +93,11 @@ const StartRoute = StartRouteImport.update({
 const SpaceRoute = SpaceRouteImport.update({
   id: '/space',
   path: '/space',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfileRoute = ProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PresentationRoute = PresentationRouteImport.update({
@@ -209,6 +224,11 @@ const GardenIndexRoute = GardenIndexRouteImport.update({
   path: '/garden/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CareIndexRoute = CareIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => CareRoute,
+} as any)
 const ResourcesCategoryRoute = ResourcesCategoryRouteImport.update({
   id: '/resources/$category',
   path: '/resources/$category',
@@ -299,6 +319,46 @@ const ComposeZoneRoute = ComposeZoneRouteImport.update({
   path: '/compose/$zone',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CareResourcesRoute = CareResourcesRouteImport.update({
+  id: '/resources',
+  path: '/resources',
+  getParentRoute: () => CareRoute,
+} as any)
+const CareMemoryRoute = CareMemoryRouteImport.update({
+  id: '/memory',
+  path: '/memory',
+  getParentRoute: () => CareRoute,
+} as any)
+const CareJournalRoute = CareJournalRouteImport.update({
+  id: '/journal',
+  path: '/journal',
+  getParentRoute: () => CareRoute,
+} as any)
+const CareHelpRoute = CareHelpRouteImport.update({
+  id: '/help',
+  path: '/help',
+  getParentRoute: () => CareRoute,
+} as any)
+const CareGardenRoute = CareGardenRouteImport.update({
+  id: '/garden',
+  path: '/garden',
+  getParentRoute: () => CareRoute,
+} as any)
+const CareEmotionsRoute = CareEmotionsRouteImport.update({
+  id: '/emotions',
+  path: '/emotions',
+  getParentRoute: () => CareRoute,
+} as any)
+const CareDatesRoute = CareDatesRouteImport.update({
+  id: '/dates',
+  path: '/dates',
+  getParentRoute: () => CareRoute,
+} as any)
+const CareCommunityRoute = CareCommunityRouteImport.update({
+  id: '/community',
+  path: '/community',
+  getParentRoute: () => CareRoute,
+} as any)
 const AuthenticatedCircleRoute = AuthenticatedCircleRouteImport.update({
   id: '/circle',
   path: '/circle',
@@ -346,7 +406,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/appointments': typeof AppointmentsRoute
   '/auth': typeof AuthRoute
-  '/care': typeof CareRoute
+  '/care': typeof CareRouteWithChildren
   '/checkin': typeof CheckinRoute
   '/community': typeof CommunityRoute
   '/crisis': typeof CrisisRoute
@@ -362,11 +422,20 @@ export interface FileRoutesByFullPath {
   '/practical': typeof PracticalRouteWithChildren
   '/presence': typeof PresenceRoute
   '/presentation': typeof PresentationRoute
+  '/profile': typeof ProfileRoute
   '/space': typeof SpaceRoute
   '/start': typeof StartRoute
   '/vitrine': typeof VitrineRoute
   '/wishes': typeof WishesRoute
   '/circle': typeof AuthenticatedCircleRoute
+  '/care/community': typeof CareCommunityRoute
+  '/care/dates': typeof CareDatesRoute
+  '/care/emotions': typeof CareEmotionsRoute
+  '/care/garden': typeof CareGardenRoute
+  '/care/help': typeof CareHelpRoute
+  '/care/journal': typeof CareJournalRoute
+  '/care/memory': typeof CareMemoryRoute
+  '/care/resources': typeof CareResourcesRoute
   '/compose/$zone': typeof ComposeZoneRoute
   '/garden/$zone': typeof GardenZoneRoute
   '/help/corps': typeof HelpCorpsRouteWithChildren
@@ -385,6 +454,7 @@ export interface FileRoutesByFullPath {
   '/practical/texts': typeof PracticalTextsRoute
   '/practical/vault': typeof PracticalVaultRoute
   '/resources/$category': typeof ResourcesCategoryRouteWithChildren
+  '/care/': typeof CareIndexRoute
   '/garden/': typeof GardenIndexRoute
   '/help/': typeof HelpIndexRoute
   '/onboarding/': typeof OnboardingIndexRoute
@@ -402,7 +472,6 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/appointments': typeof AppointmentsRoute
   '/auth': typeof AuthRoute
-  '/care': typeof CareRoute
   '/checkin': typeof CheckinRoute
   '/community': typeof CommunityRoute
   '/crisis': typeof CrisisRoute
@@ -416,11 +485,20 @@ export interface FileRoutesByTo {
   '/parcours': typeof ParcoursRouteWithChildren
   '/presence': typeof PresenceRoute
   '/presentation': typeof PresentationRoute
+  '/profile': typeof ProfileRoute
   '/space': typeof SpaceRoute
   '/start': typeof StartRoute
   '/vitrine': typeof VitrineRoute
   '/wishes': typeof WishesRoute
   '/circle': typeof AuthenticatedCircleRoute
+  '/care/community': typeof CareCommunityRoute
+  '/care/dates': typeof CareDatesRoute
+  '/care/emotions': typeof CareEmotionsRoute
+  '/care/garden': typeof CareGardenRoute
+  '/care/help': typeof CareHelpRoute
+  '/care/journal': typeof CareJournalRoute
+  '/care/memory': typeof CareMemoryRoute
+  '/care/resources': typeof CareResourcesRoute
   '/compose/$zone': typeof ComposeZoneRoute
   '/garden/$zone': typeof GardenZoneRoute
   '/help/corps': typeof HelpCorpsRouteWithChildren
@@ -439,6 +517,7 @@ export interface FileRoutesByTo {
   '/practical/texts': typeof PracticalTextsRoute
   '/practical/vault': typeof PracticalVaultRoute
   '/resources/$category': typeof ResourcesCategoryRouteWithChildren
+  '/care': typeof CareIndexRoute
   '/garden': typeof GardenIndexRoute
   '/help': typeof HelpIndexRoute
   '/onboarding': typeof OnboardingIndexRoute
@@ -458,7 +537,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/appointments': typeof AppointmentsRoute
   '/auth': typeof AuthRoute
-  '/care': typeof CareRoute
+  '/care': typeof CareRouteWithChildren
   '/checkin': typeof CheckinRoute
   '/community': typeof CommunityRoute
   '/crisis': typeof CrisisRoute
@@ -474,11 +553,20 @@ export interface FileRoutesById {
   '/practical': typeof PracticalRouteWithChildren
   '/presence': typeof PresenceRoute
   '/presentation': typeof PresentationRoute
+  '/profile': typeof ProfileRoute
   '/space': typeof SpaceRoute
   '/start': typeof StartRoute
   '/vitrine': typeof VitrineRoute
   '/wishes': typeof WishesRoute
   '/_authenticated/circle': typeof AuthenticatedCircleRoute
+  '/care/community': typeof CareCommunityRoute
+  '/care/dates': typeof CareDatesRoute
+  '/care/emotions': typeof CareEmotionsRoute
+  '/care/garden': typeof CareGardenRoute
+  '/care/help': typeof CareHelpRoute
+  '/care/journal': typeof CareJournalRoute
+  '/care/memory': typeof CareMemoryRoute
+  '/care/resources': typeof CareResourcesRoute
   '/compose/$zone': typeof ComposeZoneRoute
   '/garden/$zone': typeof GardenZoneRoute
   '/help/corps': typeof HelpCorpsRouteWithChildren
@@ -497,6 +585,7 @@ export interface FileRoutesById {
   '/practical/texts': typeof PracticalTextsRoute
   '/practical/vault': typeof PracticalVaultRoute
   '/resources/$category': typeof ResourcesCategoryRouteWithChildren
+  '/care/': typeof CareIndexRoute
   '/garden/': typeof GardenIndexRoute
   '/help/': typeof HelpIndexRoute
   '/onboarding/': typeof OnboardingIndexRoute
@@ -532,11 +621,20 @@ export interface FileRouteTypes {
     | '/practical'
     | '/presence'
     | '/presentation'
+    | '/profile'
     | '/space'
     | '/start'
     | '/vitrine'
     | '/wishes'
     | '/circle'
+    | '/care/community'
+    | '/care/dates'
+    | '/care/emotions'
+    | '/care/garden'
+    | '/care/help'
+    | '/care/journal'
+    | '/care/memory'
+    | '/care/resources'
     | '/compose/$zone'
     | '/garden/$zone'
     | '/help/corps'
@@ -555,6 +653,7 @@ export interface FileRouteTypes {
     | '/practical/texts'
     | '/practical/vault'
     | '/resources/$category'
+    | '/care/'
     | '/garden/'
     | '/help/'
     | '/onboarding/'
@@ -572,7 +671,6 @@ export interface FileRouteTypes {
     | '/'
     | '/appointments'
     | '/auth'
-    | '/care'
     | '/checkin'
     | '/community'
     | '/crisis'
@@ -586,11 +684,20 @@ export interface FileRouteTypes {
     | '/parcours'
     | '/presence'
     | '/presentation'
+    | '/profile'
     | '/space'
     | '/start'
     | '/vitrine'
     | '/wishes'
     | '/circle'
+    | '/care/community'
+    | '/care/dates'
+    | '/care/emotions'
+    | '/care/garden'
+    | '/care/help'
+    | '/care/journal'
+    | '/care/memory'
+    | '/care/resources'
     | '/compose/$zone'
     | '/garden/$zone'
     | '/help/corps'
@@ -609,6 +716,7 @@ export interface FileRouteTypes {
     | '/practical/texts'
     | '/practical/vault'
     | '/resources/$category'
+    | '/care'
     | '/garden'
     | '/help'
     | '/onboarding'
@@ -643,11 +751,20 @@ export interface FileRouteTypes {
     | '/practical'
     | '/presence'
     | '/presentation'
+    | '/profile'
     | '/space'
     | '/start'
     | '/vitrine'
     | '/wishes'
     | '/_authenticated/circle'
+    | '/care/community'
+    | '/care/dates'
+    | '/care/emotions'
+    | '/care/garden'
+    | '/care/help'
+    | '/care/journal'
+    | '/care/memory'
+    | '/care/resources'
     | '/compose/$zone'
     | '/garden/$zone'
     | '/help/corps'
@@ -666,6 +783,7 @@ export interface FileRouteTypes {
     | '/practical/texts'
     | '/practical/vault'
     | '/resources/$category'
+    | '/care/'
     | '/garden/'
     | '/help/'
     | '/onboarding/'
@@ -685,7 +803,7 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AppointmentsRoute: typeof AppointmentsRoute
   AuthRoute: typeof AuthRoute
-  CareRoute: typeof CareRoute
+  CareRoute: typeof CareRouteWithChildren
   CheckinRoute: typeof CheckinRoute
   CommunityRoute: typeof CommunityRoute
   CrisisRoute: typeof CrisisRoute
@@ -701,6 +819,7 @@ export interface RootRouteChildren {
   PracticalRoute: typeof PracticalRouteWithChildren
   PresenceRoute: typeof PresenceRoute
   PresentationRoute: typeof PresentationRoute
+  ProfileRoute: typeof ProfileRoute
   SpaceRoute: typeof SpaceRoute
   StartRoute: typeof StartRoute
   VitrineRoute: typeof VitrineRoute
@@ -747,6 +866,13 @@ declare module '@tanstack/react-router' {
       path: '/space'
       fullPath: '/space'
       preLoaderRoute: typeof SpaceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/presentation': {
@@ -924,6 +1050,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GardenIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/care/': {
+      id: '/care/'
+      path: '/'
+      fullPath: '/care/'
+      preLoaderRoute: typeof CareIndexRouteImport
+      parentRoute: typeof CareRoute
+    }
     '/resources/$category': {
       id: '/resources/$category'
       path: '/resources/$category'
@@ -1050,6 +1183,62 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComposeZoneRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/care/resources': {
+      id: '/care/resources'
+      path: '/resources'
+      fullPath: '/care/resources'
+      preLoaderRoute: typeof CareResourcesRouteImport
+      parentRoute: typeof CareRoute
+    }
+    '/care/memory': {
+      id: '/care/memory'
+      path: '/memory'
+      fullPath: '/care/memory'
+      preLoaderRoute: typeof CareMemoryRouteImport
+      parentRoute: typeof CareRoute
+    }
+    '/care/journal': {
+      id: '/care/journal'
+      path: '/journal'
+      fullPath: '/care/journal'
+      preLoaderRoute: typeof CareJournalRouteImport
+      parentRoute: typeof CareRoute
+    }
+    '/care/help': {
+      id: '/care/help'
+      path: '/help'
+      fullPath: '/care/help'
+      preLoaderRoute: typeof CareHelpRouteImport
+      parentRoute: typeof CareRoute
+    }
+    '/care/garden': {
+      id: '/care/garden'
+      path: '/garden'
+      fullPath: '/care/garden'
+      preLoaderRoute: typeof CareGardenRouteImport
+      parentRoute: typeof CareRoute
+    }
+    '/care/emotions': {
+      id: '/care/emotions'
+      path: '/emotions'
+      fullPath: '/care/emotions'
+      preLoaderRoute: typeof CareEmotionsRouteImport
+      parentRoute: typeof CareRoute
+    }
+    '/care/dates': {
+      id: '/care/dates'
+      path: '/dates'
+      fullPath: '/care/dates'
+      preLoaderRoute: typeof CareDatesRouteImport
+      parentRoute: typeof CareRoute
+    }
+    '/care/community': {
+      id: '/care/community'
+      path: '/community'
+      fullPath: '/care/community'
+      preLoaderRoute: typeof CareCommunityRouteImport
+      parentRoute: typeof CareRoute
+    }
     '/_authenticated/circle': {
       id: '/_authenticated/circle'
       path: '/circle'
@@ -1119,6 +1308,32 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
 
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
+interface CareRouteChildren {
+  CareCommunityRoute: typeof CareCommunityRoute
+  CareDatesRoute: typeof CareDatesRoute
+  CareEmotionsRoute: typeof CareEmotionsRoute
+  CareGardenRoute: typeof CareGardenRoute
+  CareHelpRoute: typeof CareHelpRoute
+  CareJournalRoute: typeof CareJournalRoute
+  CareMemoryRoute: typeof CareMemoryRoute
+  CareResourcesRoute: typeof CareResourcesRoute
+  CareIndexRoute: typeof CareIndexRoute
+}
+
+const CareRouteChildren: CareRouteChildren = {
+  CareCommunityRoute: CareCommunityRoute,
+  CareDatesRoute: CareDatesRoute,
+  CareEmotionsRoute: CareEmotionsRoute,
+  CareGardenRoute: CareGardenRoute,
+  CareHelpRoute: CareHelpRoute,
+  CareJournalRoute: CareJournalRoute,
+  CareMemoryRoute: CareMemoryRoute,
+  CareResourcesRoute: CareResourcesRoute,
+  CareIndexRoute: CareIndexRoute,
+}
+
+const CareRouteWithChildren = CareRoute._addFileChildren(CareRouteChildren)
 
 interface HelpCorpsRouteChildren {
   HelpCorpsEauRoute: typeof HelpCorpsEauRoute
@@ -1208,7 +1423,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AppointmentsRoute: AppointmentsRoute,
   AuthRoute: AuthRoute,
-  CareRoute: CareRoute,
+  CareRoute: CareRouteWithChildren,
   CheckinRoute: CheckinRoute,
   CommunityRoute: CommunityRoute,
   CrisisRoute: CrisisRoute,
@@ -1224,6 +1439,7 @@ const rootRouteChildren: RootRouteChildren = {
   PracticalRoute: PracticalRouteWithChildren,
   PresenceRoute: PresenceRoute,
   PresentationRoute: PresentationRoute,
+  ProfileRoute: ProfileRoute,
   SpaceRoute: SpaceRoute,
   StartRoute: StartRoute,
   VitrineRoute: VitrineRoute,
@@ -1244,13 +1460,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

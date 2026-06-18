@@ -2,7 +2,7 @@ import { Link, useLocation } from "@tanstack/react-router";
 import { useLegato } from "@/lib/legato-state";
 
 type ItemDef = {
-  to: "/home" | "/care" | "/practical" | "/memory" | "/_authenticated/circle" | "/practical/vault";
+  to: "/home" | "/care" | "/practical" | "/care/memory" | "/_authenticated/circle" | "/practical/vault" | "/profile";
   label: string;
   match: (p: string) => boolean;
 };
@@ -10,14 +10,13 @@ type ItemDef = {
 const HOME: ItemDef    = { to: "/home",      label: "Aujourd'hui", match: (p) => p === "/home" || p === "/" };
 const CARE: ItemDef    = { to: "/care",      label: "Soutien",     match: (p) => p.startsWith("/care") || p.startsWith("/journal") || p.startsWith("/presence") || p.startsWith("/no-words") || p.startsWith("/community") || p.startsWith("/help") || p.startsWith("/checkin") };
 const PRACT: ItemDef   = { to: "/practical", label: "Démarches",   match: (p) => p.startsWith("/practical") || p.startsWith("/parcours") || p.startsWith("/wishes") || p.startsWith("/appointments") };
-const VAULT: ItemDef   = { to: "/practical/vault", label: "Documents", match: (p) => p.startsWith("/practical/vault") };
-const MEMORY: ItemDef  = { to: "/memory",    label: "Mémoire",     match: (p) => p.startsWith("/memory") || p.startsWith("/garden") || p.startsWith("/memories") || p.startsWith("/dates") };
 const CIRCLE: ItemDef  = { to: "/_authenticated/circle", label: "Cercle", match: (p) => p.startsWith("/_authenticated/circle") || p.startsWith("/circle") };
+const PROFILE: ItemDef = { to: "/profile",   label: "Profil",      match: (p) => p.startsWith("/profile") };
 
 function itemsFor(need: ReturnType<typeof useLegato>["primaryNeed"]): ItemDef[] {
   switch (need) {
-    case "emotional": return [HOME, CARE, MEMORY, CIRCLE];
-    case "practical": return [HOME, PRACT, VAULT, CIRCLE];
+    case "emotional": return [HOME, CARE, CIRCLE, PROFILE];
+    case "practical": return [HOME, PRACT, CIRCLE, PROFILE];
     case "both":
     default:          return [HOME, CARE, PRACT, CIRCLE];
   }

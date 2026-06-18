@@ -17,29 +17,36 @@ export const Route = createFileRoute("/home")({
 });
 
 function Home() {
-  const { name, primaryNeed, situation, currentEmotions, currentEmotionAt, softDay, nightModeOverride } = useLegato();
+  const { name, primaryNeed, situation, currentEmotions, currentEmotionAt, softDay, nightModeOverride, hydrated } = useLegato();
   const lovedName = useLovedName();
 
   const [greeting, setGreeting] = useState("Bonjour");
   const [now, setNow] = useState<Date | null>(null);
-  useEffect(() => { setGreeting(greetingForHour()); setNow(new Date()); }, []);
+  const [todayLabel, setTodayLabel] = useState<string>("");
+  useEffect(() => {
+    setGreeting(greetingForHour());
+    setNow(new Date());
+    setTodayLabel(new Intl.DateTimeFormat("fr-FR", { day: "2-digit", month: "long" }).format(new Date()));
+  }, []);
   const night = useMemo(() => {
+    if (!hydrated) return false;
     if (nightModeOverride !== null) return nightModeOverride;
     return now ? isNightHour(now) : false;
-  }, [nightModeOverride, now]);
+  }, [nightModeOverride, now, hydrated]);
 
-  const stale = isEmotionStale(currentEmotionAt);
+  const stale = hydrated ? isEmotionStale(currentEmotionAt) : true;
   const plan = useMemo(() => emotionPlan(currentEmotions), [currentEmotions]);
 
-  // Mode résolu
-  const mode: "emotional" | "practical" | "both" = primaryNeed ?? "both";
+  // Mode résolu — stable avant hydratation pour éviter les mismatches.
+  const mode: "emotional" | "practical" | "both" = hydrated ? (primaryNeed ?? "both") : "both";
+  const softActive = hydrated && softDay;
 
   return (
     <Shell livingBg={false}>
       <div className="min-h-dvh bg-paper text-dusk pb-32">
         <header className="px-6 pt-7 pb-2 flex items-center justify-between">
           <LegatoMark to="/space" size={22} />
-          <span className="mono-label">{new Intl.DateTimeFormat("fr-FR", { day: "2-digit", month: "long" }).format(new Date())}</span>
+          <span className="mono-label">{todayLabel || "\u00A0"}</span>
         </header>
 
         <section className="px-6 pt-10 pb-2">
@@ -53,19 +60,19 @@ function Home() {
           </h1>
         </section>
 
-        {softDay && <SoftBanner />}
-        {night && <NightBanner />}
+        {softActive && <SoftBanner />}
+        {night && !softActive && <NightBanner />}
 
         {mode === "emotional" && (
-          <EmotionalView lovedName={lovedName} stale={stale} plan={plan} situation={situation} softDay={softDay} night={night} />
+          <EmotionalView lovedName={lovedName} stale={stale} plan={plan} situation={situation} softDay={softActive} night={night} />
         )}
 
         {mode === "practical" && (
-          <PracticalView softDay={softDay} night={night} />
+          <PracticalView softDay={softActive} night={night} />
         )}
 
         {mode === "both" && (
-          <BothView lovedName={lovedName} stale={stale} plan={plan} situation={situation} softDay={softDay} night={night} />
+          <BothView lovedName={lovedName} stale={stale} plan={plan} situation={situation} softDay={softActive} night={night} />
         )}
 
         <footer className="px-6 pt-14 pb-4 flex flex-col items-center gap-3">

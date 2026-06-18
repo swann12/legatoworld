@@ -1,456 +1,410 @@
-# Refonte UX & parcours Legato — plan complet
+# Refonte UX Legato — Plan exhaustif
 
-Cahier des charges intégral traduit en architecture, écrans, états, contenus et règles. L'animation d'intro et la page logo Legato (`/`, `/no-words`, `/start`) ne sont pas touchées.
-
----
-
-## 0. Principe directeur (non négociable)
-
-Trois espaces strictement séparés. Jamais de mélange dans une même liste.
-
-1. **Soutien émotionnel** — émotions, journal, respiration, sommeil, méditations, ressources sensibles, communauté, thérapeutes, IA de soutien.
-2. **Démarches concrètes** — tâches, documents, obsèques, cérémonie, fleurs, textes, professionnels, courriers, succession, comptes numériques, coffre.
-3. **Mémoire** — jardin, parcelles, photos, voix, lettres, objets, dates, rituels.
-
-L'accueil ne montre **qu'une priorité à la fois**. Le contenu affiché dépend de : *situation* (onboarding) × *besoin principal* × *émotion du moment* × *heure* × *dates sensibles*.
+Objectif : Legato devient une app **vraiment conditionnelle et sur-mesure**. Onboarding linéaire qui filtre toute la suite. **Deux espaces strictement séparés** : Soutien psychologique (qui contient la Mémoire) et Démarches concrètes. Aucun contenu inutile affiché. L'animation d'intro et la page logo restent intactes.
 
 ---
 
-## 1. Modèle de données global (state + persistance localStorage)
+## 0. Périmètre intouchable
 
-Fichier : `src/lib/legato-state.tsx` — étendre le store existant.
-
-```ts
-type Situation =
-  | "perdu" | "peur" | "accompagner" | "soutenir"
-  | "questionnement" | "volontes" | "demarches" | "soutien";
-
-type Relation = "parent"|"conjoint"|"enfant"|"ami"|"animal"|"autre";
-type Timeframe = "today"|"thisWeek"|"thisMonth"|"months"|"overYear";
-type Stage = "recent"|"obseques_a_organiser"|"obseques_passees"|"demarches"|"apres";
-type PrimaryNeed = "emotional"|"practical"|"both";
-
-type Emotion =
-  | "tristesse"|"colere"|"peur"|"anxiete"|"sideration"
-  | "culpabilite"|"solitude"|"fatigue"|"confusion"
-  | "nostalgie"|"soulagement"|"vide"|"calme"|"aide";
-
-interface LegatoState {
-  name: string;
-  situation?: Situation;
-  lovedOneName?: string;        // « Marie », « papa »…
-  lovedOneRelation?: Relation;
-  timeframe?: Timeframe;
-  stage?: Stage;
-  primaryNeed?: PrimaryNeed;
-  currentEmotions: Emotion[];
-  currentEmotionAt?: string;    // ISO; expire après 4 h → re-check-in proposé
-  softDay: boolean;             // « Aujourd'hui c'est dur »
-  softDayAt?: string;           // reset à minuit
-  nightModeOverride?: boolean;
-  // existants : careOnboarded, practicalOnboarded
-}
-```
-
-Helper `useLovedName()` retourne `lovedOneName` sinon le lien (« ton père »). Utilisé partout au lieu de « le défunt ».
+- `src/routes/index.tsx` (animation + logo) — **ne pas modifier**.
+- `src/routes/start.tsx` (entrée vers onboarding) — conservé tel quel.
+- `src/routes/__root.tsx` — modifications uniquement si une redirection legacy l'exige.
+- Tous les fichiers Supabase auto-générés.
 
 ---
 
-## 2. Onboarding conditionnel
+## 1. État global (`src/lib/legato-state.tsx`)
 
-Route : `src/routes/onboarding.index.tsx` (refonte) + nouveaux écrans linéaires.
+Étendre l'état persisté (localStorage `legato.state.v2`) :
 
-Étape 1 — prénom (existant).
-Étape 2 — **« Pourquoi venez-vous sur Legato aujourd'hui ? »** → 8 cartes (1 colonne, sobres, jamais en grille bruyante) :
+| Champ | Type | Notes |
+|---|---|---|
+| `name` | string | étape 1 |
+| `situation` | `perdu \| peur \| accompagner \| soutenir \| questionnement \| volontes` | étape 2 |
+| `lovedKind` | `pere \| mere \| conjoint \| enfant \| frere_soeur \| grand_parent \| ami \| collegue \| animal \| autre \| null` | étape 3 |
+| `lovedOther` | string | si `autre` |
+| `lovedLabel` | string | étape 4 — « Marie », « mon père », « mon chien Oslo » |
+| `stage` | union dépendante de `situation` (cf. §3) | étape 5 |
+| `primaryNeed` | `emotional \| practical \| both` | étape 6 — **demandée une seule fois** |
+| `currentEmotions[]` | `Emotion[]` (14 valeurs cf. §3.7) | étape 7 |
+| `currentEmotionAt` | ISO date | |
+| `softDay` | bool | manuel |
+| `nightModeOverride` | `bool \| null` | |
+| `legallyInvolved` | bool | demandé seulement si `lovedKind ∈ {ami, collegue, autre}` ET besoin pratique |
+| `taskStatus` | `Record<TaskId, TaskStatus>` | cf. §7 |
+| `taskSnoozedUntil` | `Record<TaskId, ISO>` | |
+| `dismissedTasks` | `TaskId[]` | « non concerné » persistant |
+| `gardenParcels[]` | `{ id, label, kind, photo?, items[] }` | une par proche/animal |
+| `sensitiveDates[]` | `{ id, label, date, kind }` | dates ajoutées par l'utilisateur |
 
-- J'ai perdu quelqu'un
-- J'ai peur de perdre quelqu'un
-- J'accompagne quelqu'un en fin de vie
-- Je soutiens une personne endeuillée
-- Je me questionne sur la mort
-- Je veux préparer mes volontés
-- Je veux surtout de l'aide pour les démarches
-- Je veux surtout du soutien émotionnel
-
-Étape 3 — questions conditionnelles :
-
-| Situation | Questions |
-|---|---|
-| perdu | Lien · prénom/lien à utiliser · quand (5 choix) · où en êtes-vous (5 choix) · besoin (soutien / démarches / les deux) |
-| peur | Lien · prénom |
-| accompagner | Lien · prénom |
-| soutenir | Prénom de la personne endeuillée (optionnel) |
-| questionnement | rien (`primaryNeed = emotional`) |
-| volontes | rien (`primaryNeed = practical`) |
-| demarches | (`primaryNeed = practical`) |
-| soutien | (`primaryNeed = emotional`) |
-
-Étape 4 — premier check-in émotion (sauf `volontes` et `demarches`).
-
-À la fin : redirection vers `/home` configurée selon `primaryNeed`.
+Helpers :
+- `useLovedName()` → `lovedLabel` sinon dérivé de `lovedKind` ; **stable SSR** (retourne `"ton ou ta proche"` tant que `mounted=false`).
+- `isAnimal()`, `isFriend()`, `isFamilyClose()`.
+- `shouldShowSuccession()` = `isFamilyClose() || legallyInvolved`.
+- `softMode()` = `softDay || isNight() || hasHeavyEmotion() || nearSensitiveDate(3)`.
 
 ---
 
-## 3. Architecture des routes
+## 2. Architecture des routes (cible)
 
 ```
-/                       intro (intacte)
-/no-words               (intacte)
-/start                  auth (intacte)
-/auth                   (intacte)
-/onboarding             refonte conditionnelle
-/space                  porte d'entrée (2 ou 3 espaces selon primaryNeed)
-/home                   accueil conditionnel
-
-/care                   ★ NOUVEAU — espace Soutien émotionnel (index)
-/care/journal           → réutilise journal.tsx
-/care/breathe           respiration courte
-/care/sleep             sommeil
-/care/meditations       méditations deuil
-/care/sounds            sons & audio
-/care/letters           écrire à son proche
-/care/community         communauté segmentée
-/care/therapists        annuaire pros
-/care/crisis            ressources crise (3114…)
-
-/practical              index (refonte)
-/practical/today        priorités du jour
-/practical/categories   12 catégories listées
-/practical/vault        ★ NOUVEAU coffre de documents
-/practical/ceremony     parcours guidé (existe, à enrichir)
-/practical/flowers, texts, atmosphere, objects, booklet, share (existants)
-/practical/pros         professionnels vérifiés
-/practical/delegate     délégation au cercle
-
-/memory                 ★ NOUVEAU — index mémoire
-/memory/garden          jardin (parcelles)
-/memory/garden/$zone    parcelle
-/memory/timeline        ligne de vie
-/memory/voices          voix
-/memory/letters         lettres reçues/envoyées
-/memory/dates           dates sensibles
-
-/circle                 refonte (déjà _authenticated/circle.tsx)
-/checkin                ★ NOUVEAU check-in émotionnel autonome
-/soft-day               ★ NOUVEAU mode « aujourd'hui c'est dur »
-/resources              refonte filtrée
+/                          intro animée (intouchable)
+/start                     porte d'entrée (intouchable)
+/onboarding                machine d'étapes 1→7 (refonte)
+/home                      tableau du jour adaptatif
+/care                      SOUTIEN (contient Mémoire)
+  /care                    → index "Aujourd'hui du Soutien"
+  /care/emotions           check-in + historique
+  /care/journal            journal + lettres à mon proche
+  /care/memory             souvenirs / photos / voix / lettres / phrases / objets / timeline
+  /care/garden             jardin + parcelles
+  /care/garden/$zone       détail parcelle
+  /care/dates              dates sensibles
+  /care/rituals            rituels
+  /care/resources          ressources contextuelles
+  /care/community          communauté segmentée
+  /care/help               thérapeutes / urgence
+/practical                 DÉMARCHES
+  /practical               → index "Aujourd'hui pratique"
+  /practical/tasks         liste filtrée par statut/bucket
+  /practical/tasks/$id     détail tâche (refonte de /parcours/$taskId)
+  /practical/vault         coffre documents
+  /practical/ceremony      parcours cérémonie (conditionnel)
+  /practical/flowers       (conditionnel)
+  /practical/pros          annuaire pros
+  /practical/wishes        volontés (si situation=volontes)
+/_authenticated/circle     cercle (segmenté)
+/profile                   profil + préférences + mode doux + confidentialité
+/crisis                    accès permanent
 ```
 
-Nouvelles routes nécessitent fichiers réels + entrées dans `routeTree.gen.ts` (auto).
+**Redirections legacy** (composants vides qui `<Navigate>` vers le nouveau chemin) :
+- `/memory` → `/care/memory`
+- `/memories` → `/care/memory`
+- `/garden` → `/care/garden`
+- `/garden/$zone` → `/care/garden/$zone`
+- `/dates` → `/care/dates`
+- `/journal` → `/care/journal`
+- `/inspiration` → `/care/resources`
+- `/resources` → `/care/resources`
+- `/community` → `/care/community`
+- `/help` → `/care/help`
+- `/parcours/$taskId` → `/practical/tasks/$id`
+- `/wishes` → `/practical/wishes`
+- `/appointments` → `/practical/tasks` (vue rendez-vous)
 
 ---
 
-## 4. Espace `/space` — porte d'entrée
+## 3. Onboarding (refonte de `src/routes/onboarding.index.tsx`)
 
-Affiché si `primaryNeed === "both"` : 3 cartes (Soutien · Démarches · Mémoire).
-Sinon redirige automatiquement vers `/home` qui pointe sur l'espace dominant. Mémoire reste accessible en lien discret.
+Machine d'états linéaire `step: 1..7` avec sauts conditionnels. Une question par écran. **Jamais deux fois la même question.**
 
----
+### 3.1 Étape 1 — Prénom utilisateur
+Inchangé : champ `name`.
 
-## 5. Navigation basse (`BottomNav`)
+### 3.2 Étape 2 — Situation principale
+6 choix exactement (retirer ici toute mention « surtout démarches/soutien ») :
+`perdu, peur, accompagner, soutenir, questionnement, volontes`.
 
-Quatre onglets pilotés par `primaryNeed` :
+### 3.3 Étape 3 — Personne concernée (conditionnelle)
+- `perdu | peur | accompagner` → liste `lovedKind` (10 entrées dont **animal** et **autre**). Si `autre` → champ libre `lovedOther`.
+- `soutenir` → « Qui est la personne endeuillée ? » (lien optionnel + prénom).
+- `questionnement | volontes` → **étape sautée**.
 
-| primaryNeed | Onglets |
-|---|---|
-| emotional | Aujourd'hui · Soutien · Mémoire · Cercle |
-| practical | Aujourd'hui · Démarches · Documents · Cercle |
-| both | Aujourd'hui · Soutien · Démarches · Cercle (Mémoire dans header) |
+### 3.4 Étape 4 — Prénom/lien à utiliser
+Sauf `questionnement` et `volontes`. Champ texte stocké dans `lovedLabel`. Placeholder dynamique : « Marie », « mon père », « mon chien Oslo », « mon amie Léa ».
 
-Bouton flottant central inchangé visuellement → **« Aujourd'hui c'est dur »** (toggle `softDay`).
+### 3.5 Étape 5 — Stade du parcours (questions dédiées)
+- `perdu` : `nouvelle | obseques_a_organiser | obseques_prevues | obseques_passees | demarches | apres | inconnu`
+- `peur` : `malade | fin_de_vie_proche | inquietude | peur_recurrente | parler_difficile`
+- `accompagner` : `proche | aidant | loin | coordonner | sans_reperes`
+- `soutenir` : `mots | aide_concrete | comprendre | duree | rejoindre_cercle`
+- `questionnement` : `peur_mourir | peur_perdre | pensee_recurrente | reflechir | parler_proches | apprendre`
+- `volontes` : `ceremonie | documents | messages | medical | personnes | indecis`
 
----
+### 3.6 Étape 6 — Besoin principal
+Question : « De quoi avez-vous besoin en priorité maintenant ? » → `emotional | practical | both`.
+**Sautée** si :
+- `situation = questionnement` → forcé `emotional`
+- `situation = volontes` → forcé `practical`
+- `lovedKind = animal` ET stade non-administratif → forcé `emotional`
 
-## 6. Accueil `/home` conditionnel
+### 3.7 Étape 7 — Check-in émotionnel
+**Uniquement** si `primaryNeed ∈ {emotional, both}`. Multi-sélection sur 14 émotions :
+`tristesse, colere, peur, anxiete, sideration, culpabilite, solitude, fatigue, confusion, nostalgie, soulagement, vide, besoin_calme, besoin_aide`.
 
-Réécriture de `src/routes/home.tsx`.
-
-**Mode `emotional`** :
-- Header : LegatoMark + date.
-- Hero : « Comment vous sentez-vous, {prénom} ? » → si `currentEmotionAt` < 4 h, affiche l'émotion ; sinon CTA check-in.
-- Bloc 1 : **suggestion liée à l'émotion** (voir §8).
-- Bloc 2 : Journal (1 prompt du jour).
-- Bloc 3 : Mémoire / voix / lettre selon situation.
-- Pied : lien discret « Démarches » + « Aujourd'hui c'est dur ».
-
-**Mode `practical`** :
-- Header identique.
-- Hero : tâche prioritaire du jour (titre court).
-- Bloc 1 : prochaine échéance datée.
-- Bloc 2 : documents manquants (max 2).
-- Bloc 3 : « Déléguer » + statut tâches en cours.
-- Pied : lien discret « Soutien ».
-
-**Mode `both`** :
-- Deux blocs côte à côte (verticaux mobile) :
-  - **Pour vous soutenir aujourd'hui** → check-in / suggestion.
-  - **Pour avancer concrètement** → tâche prioritaire.
-- Aucun mélange.
-
-Mode nuit (heure 21h–6h, ou `nightModeOverride`) :
-- masque tâches admin ;
-- propose respiration, sommeil, journal court, voix d'un proche, contact ;
-- ton plus calme (typographie italique, opacité +).
+À la fin : `setCareOnboarded(true)` + `setPracticalOnboarded(true)` → `/home`.
 
 ---
 
-## 7. Check-in émotionnel `/checkin`
+## 4. Modules par parcours (`src/lib/journey-config.ts`)
 
-Sélection multiple parmi 14 émotions. Stocke `currentEmotions[]` + horodatage. Redirige vers l'accueil avec suggestion appliquée.
+Refonte de `journeyModules(situation, lovedKind, stage, primaryNeed, { legallyInvolved })` qui retourne `{ home, care, practical }` avec règles :
 
-Helper `src/lib/emotion-routing.ts` :
+### Règles d'exclusion (filtres durs)
+- `lovedKind = animal` → **aucune** catégorie humaine (mairie, CPAM, notaire, succession, banque, employeur, logement, comptes numériques) ; activer parcours animal (`vet`, `cremation_animal`, `inhumation_animal`, `souvenir_objet`, `groupe_animal`, `ressources_animal`).
+- `lovedKind ∈ {ami, collegue}` ET `!legallyInvolved` → masquer `succession`, `finances`, `rights`, `housing`, `digital` ; afficher `ceremony`, `flowers`, `letters`, `pros`, et cartes `hommage`, `messages`, `cagnotte`, `aide_famille`.
+- `stage ∈ {obseques_passees, demarches, apres}` → masquer `obseques`, `ceremony`, `flowers` (sauf rappel hommage symbolique dans `/care/memory`).
+- `stage ∈ {nouvelle, obseques_a_organiser, obseques_prevues}` → priorité `first, obseques, ceremony, documents` ; reléguer `succession, finances` en `later`.
+- `situation = volontes` → uniquement `wishes_*` (ceremony, documents, messages, medical, contacts) ; **jamais** de tâches post-décès.
+- `situation = peur | accompagner | soutenir | questionnement` → `practical = []` sauf si `primaryNeed = both` et l'utilisateur active explicitement « organiser quelque chose ».
 
-```ts
-emotionPlan(emotions) → {
-  tone: "doux"|"sobre"|"tendre"|"alerte",
-  contentLength: "court"|"moyen",
-  primary: { label, to, icon },
-  secondary: Array<{ label, to }>,
-  hideHeavyTasks: boolean,
-  showCrisis: boolean,
-}
-```
-
-Mappings :
-- peur/anxiete → respiration courte + ancrage + crise (showCrisis)
-- solitude → cercle + communauté + témoignages
-- fatigue → sommeil + action courte + report tâches (hideHeavyTasks)
-- culpabilite → journal guidé + ressource + thérapeute
-- nostalgie → mémoire + voix + lettre + rituel
-- tristesse → journal + audio doux
-- colere → écrire au proche + respiration
-- sideration → posture sobre, peu de contenu, contact proche
-- vide → audio + cercle
-- soulagement → journal de réflexion
-- calme → suggestion légère
-- aide → cercle + thérapeutes + crise
-
-Si plusieurs émotions, l'ordre de priorité = aide > peur > anxiete > culpabilite > sideration > colere > solitude > tristesse > fatigue > vide > nostalgie > confusion > soulagement > calme.
+### Tâches « non concerné » et « fait »
+Disparaissent de toutes les vues actives ; consultables dans `/practical/tasks?filter=archived`.
 
 ---
 
-## 8. Parcours par situation
+## 5. BottomNav (`src/components/legato/BottomNav.tsx`)
 
-Fichier central `src/lib/journey-config.ts` :
+Maximum 5 entrées. Conditionnel sur `primaryNeed` :
+- `emotional` : Accueil · Soutien · Cercle · Profil (+ Mode doux central)
+- `practical` : Accueil · Démarches · Cercle · Profil (+ Mode doux central)
+- `both`      : Accueil · Soutien · Démarches · Cercle (+ Mode doux ; Profil dans header)
 
-```ts
-journeyModules(situation, primaryNeed) → {
-  home: string[],          // ordre des blocs accueil
-  care: string[],          // sections visibles dans /care
-  practical: string[],     // catégories visibles dans /practical
-  memory: string[],        // modules mémoire
-  resources: string[],     // catégories ressources filtrées
-}
-```
+**Pas** de lien Mémoire ni Documents ni Coffre dans la BottomNav. Mémoire vit dans Soutien, Documents dans Démarches, accédés par leur sous-nav respective.
 
-| Situation | Particularités |
-|---|---|
-| **perdu** | tout l'éventail selon `primaryNeed` + `stage`. Si `stage=recent` → priorité démarches d'urgence + soutien immédiat. Si `apres` → mémoire + dates sensibles. |
-| **peur** | deuil anticipé : peur/anxiété en tête, respiration, journal, conversations à préparer, souvenirs à collecter *maintenant*, questions à poser, volontés à aborder, contacts. **Aucune** checklist post-décès. |
-| **accompagner** | présence quotidienne, fatigue aidant, conversations, documents calmes, volontés, mémoire en construction (voix, photos, mots), ressources aidants, cercle, pro. |
-| **soutenir** | « quoi dire / quoi éviter », messages prêts à envoyer, propositions d'aide concrète (repas/transport/garde/admin), écouter sans forcer, dates sensibles à suivre, demande d'ajout au cercle. |
-| **questionnement** | journal de réflexion, textes/lectures/podcasts, rituels symboliques, peur de mourir, rapport au temps, ce qui compte, conversations proches, volontés (si choisi). Pas de checklist. |
-| **volontes** | souhaits cérémonie, personnes à prévenir, messages à transmettre, objets, documents, directives médicales, inhumation/crémation, textes/musiques/fleurs, coffre, personnes de confiance. |
-| **demarches** | accès direct à `/practical`, soutien discret. |
-| **soutien** | accès direct à `/care`, démarches en lien pied. |
+Sous-navigation par espace (composant `SubNav` rendu en haut de chaque index) :
+- Soutien : Aujourd'hui · Émotions · Journal · Mémoire · Ressources
+- Démarches : Aujourd'hui · Tâches · Documents · Cérémonie · Pros
 
 ---
 
-## 9. Espace `/care` — Soutien émotionnel
+## 6. Home (`src/routes/home.tsx`)
 
-Index = liste verticale des sections autorisées par la situation. Chaque section :
+Tableau du jour adaptatif. **Trois variantes strictement séparées** :
 
-- **Check-in** — répété quand `currentEmotionAt` > 4 h.
-- **Journal** — libre + prompts contextuels (émotion × moment du deuil × situation). Mode « écrire à mon proche ».
-- **Respiration courte** — 1 min, 3 min, 5 min ; auto-lance si émotion peur/anxiété.
-- **Sommeil** — sons naturels, voix calme, exercice 4-7-8.
-- **Méditations deuil** — séries courtes (3–8 min).
-- **Audios éditoriaux** — textes, témoignages, poèmes.
-- **Ressources** — filtrées (voir §13).
-- **Communauté** — segmentée (voir §11).
-- **Thérapeutes** — annuaire pro vérifié (placeholder data).
-- **Crise** — toujours accessible : 3114, associations, message « l'IA ne remplace pas un thérapeute ».
+### 6.1 Mode `emotional`
+- Bloc primaire dérivé de l'émotion via `emotionPlan()`.
+- 2 cartes : Journal · Mémoire (ou Jardin si `nostalgie`).
+- Carte crise si `plan.showCrisis`.
+- Lien discret en pied vers Démarches (« si vous avez aussi une démarche urgente »).
 
-Aucune tâche administrative ici. Aucun mélange.
+### 6.2 Mode `practical`
+- Tâche prioritaire du jour selon `stage + statuts + bucket=now`.
+- 2 cartes : Coffre (documents manquants) · Cercle (déléguer).
+- Lien discret en pied vers Soutien (« si vous avez besoin de vous poser »).
 
----
+### 6.3 Mode `both`
+- **Deux blocs explicitement séparés** par un titre :
+  - « Pour vous soutenir aujourd'hui » → 1 bloc primaire émotion.
+  - « Pour avancer concrètement » → 1 bloc primaire pratique.
+- Aucune carte ne mélange les deux univers.
 
-## 10. Espace `/practical` — Démarches concrètes
+### 6.4 Modulations transverses
+- `softMode()` actif → masque toutes les démarches non-`now`, ne propose que respiration/sommeil/journal/contact ; ton IA simplifié.
+- Nuit (21h–6h) → bandeau nuit ; identique softMode.
+- Date sensible J-3 détectée → bandeau dédié au-dessus avec actions (lettre, voix, rituel, bouquet, contact).
 
-Refonte `practical.index.tsx`.
-
-**Catégories (12)** : premières démarches · obsèques · cérémonie · fleurs & hommage · documents · courriers admin · succession · finances · aides & droits · comptes numériques · logement & biens · professionnels.
-
-**Filtres temporels** : aujourd'hui · cette semaine · ce mois-ci · plus tard.
-**Statuts** : à faire · en cours · fait · délégué · bloqué · document manquant · reporté · non urgent.
-
-**Page tâche** (`/parcours/$taskId` — refondue) :
-- Titre + 1 phrase « pourquoi ».
-- Quand : échéance + délai légal.
-- Documents requis (lien vers coffre, indique manquants).
-- Modèle de courrier / message (générable par IA).
-- Aide IA contextuelle.
-- Professionnel utile (lien annuaire).
-- Actions : marquer fait · déléguer (cercle) · reporter · signaler bloqué.
-
-**Contenus pratiques (FR)** : déclaration de décès, mairie, CPAM, CAF, impôts, banques, mutuelles, assurances, retraite, employeur, bailleur, pompes funèbres, devis, inhumation/crémation, faire-part, textes, musiques, livret, notaire, succession, comptes numériques, abonnements, logement, objets.
-
-Données seed dans `src/lib/practical-store.ts` (existant à enrichir).
+### 6.5 Correctifs hydratation (urgents — runtime errors actuels)
+- `SoftBanner`, `NightBanner`, et tout texte dépendant de `softDay`/`night`/`lovedLabel` rendus **uniquement après mount** (`const [mounted, setMounted] = useState(false); useEffect(()=>setMounted(true),[])`).
+- `useLovedName()` retourne valeur stable `"ton ou ta proche"` tant que `!mounted`.
+- `greeting` et `Intl.DateTimeFormat` calculés post-mount uniquement.
 
 ---
 
-## 11. Cérémonie
+## 7. Statuts de tâche (`src/lib/task-status.ts` — nouveau)
 
-Parcours guidé `practical/ceremony` (existe, à enrichir) :
-IA aide à : hommage · musique · fleurs · bouquet/couronne · rituel · déroulé · faire-part · livret · invitation.
+Type `TaskStatus = "todo" | "doing" | "done" | "delegated" | "blocked" | "missing_doc" | "snoozed" | "not_concerned"`.
 
-Suggestions paramétrées par : lien, personnalité, saison, budget, type de cérémonie, culture/religion, énergie du moment.
+API :
+- `getStatus(id)`, `setStatus(id, status, { until? })`.
+- `isHidden(id)` = `status ∈ {done, not_concerned}` ou `snoozed && now < snoozedUntil`.
+- `visibleTasks(list)` filtre via `isHidden`.
 
----
-
-## 12. Coffre de documents `/practical/vault`
-
-Catégories : identité · acte de décès · finances · assurances · santé · logement · succession · volontés · contrats · autres.
-
-Fonctions : ajouter (upload), scanner (caméra mobile), classer, partager avec un membre du cercle autorisé, voir les manquants par démarche en cours, retrouver pendant une tâche.
-
-Persistance : Supabase Storage bucket privé `documents` (créer en passe ultérieure si non urgent — pour cette passe, UI + state local + placeholders).
-
----
-
-## 13. Mémoire & Jardin `/memory`
-
-Index : Jardin · Timeline · Voix · Lettres · Dates sensibles.
-
-**Jardin** : une parcelle par personne/animal. Dépôts possibles : souvenir, photo, note, voix, musique, citation, bouquet, couronne, offrande symbolique, rituel.
-
-**Dates sensibles** : anniversaire, date du décès, fête des mères/pères, Noël, première année, dates personnelles. Helper `src/lib/sensitive-dates.ts` calcule la fenêtre 2-3 jours avant ; badge visible sur l'accueil + notification douce (lettre, voix, rituel, contact).
+Détail tâche (`/practical/tasks/$id`) :
+- Quoi · Pourquoi · Quand
+- Documents nécessaires (lien vers coffre)
+- Modèle de courrier/message (copiable, IA peut personnaliser)
+- Pro utile (lien `/practical/pros?cat=...`)
+- Actions : Déléguer · Marquer fait · Bloqué · Reporter (J+1/J+7) · Non concerné
 
 ---
 
-## 14. Cercle `/circle`
+## 8. Espace Soutien (`/care/*`)
 
-Refonte de `src/routes/_authenticated/circle.tsx`. Deux fonctions :
+### 8.1 `/care` index — "Aujourd'hui du Soutien"
+- État émotionnel récent (chips + bouton « Mettre à jour »).
+- 1 proposition adaptée à l'émotion dominante (pas une liste).
+- Accès clairs vers Émotions, Journal, Mémoire, Ressources, Cercle, Aide humaine.
 
-1. **Soutien humain** : famille, ami·es, référent·e, thérapeute, pro, groupe, communauté.
-2. **Délégation concrète** : demandes typées (repas, transport, démarches, appels, garde d'enfant, présence, aide émotionnelle, aide admin).
+### 8.2 `/care/emotions`
+Check-in interactif (refonte de `/checkin`). Historique des émotions récentes (7 jours), évolution douce.
 
-Actions : ajouter un proche · désigner référent·e · créer espace famille · demander de l'aide · déléguer une tâche · partager un document · partager un souvenir · contacter un thérapeute · rejoindre un groupe.
+### 8.3 `/care/journal`
+Journal + bouton « Écrire à `${lovedName}` » (lettre sans destinataire).
 
----
+### 8.4 `/care/memory`
+**Centralise toute la mémoire** :
+- Sous-onglets : Souvenirs · Photos · Voix · Lettres · Phrases · Objets · Timeline · Jardin · Dates.
+- Liens vers `/care/garden`, `/care/dates`.
 
-## 15. Communauté `/care/community`
+### 8.5 `/care/garden` + `/care/garden/$zone`
+- Une parcelle par proche/animal (`gardenParcels`).
+- Détail parcelle : photo, note, souvenir, voix, musique, citation, bouquet/couronne/offrande symbolique, rituel.
 
-Segments visibles : conjoint·e · parent · enfant · périnatal · animal · suicide · mort soudaine · aidants · peur de perdre. Pas de forum générique.
+### 8.6 `/care/dates`
+- Liste des dates sensibles connues + ajout libre.
+- Anticipation J-3 : propose lettre, voix, rituel, contact proche, bouquet symbolique.
 
+### 8.7 `/care/rituals`
+Catalogue de rituels (existant `rituals-catalog.ts`) filtré par situation/émotion.
+
+### 8.8 `/care/resources`
+Ressources contextualisées (situation × stage × émotion × heure × dates). Catégories : comprendre le deuil, deuil anticipé, questionnement, émotions, sommeil, respiration, rituels, textes, podcasts, livres, films, témoignages, périnatal, animal, aider un proche.
+
+### 8.9 `/care/community`
+Segments : conjoint · parent · enfant · périnatal · animal · suicide · mort soudaine · aidants · peur · questionnement.
 Modes : lire sans parler · publier · répondre.
+Mention claire de la modération humaine.
 
-Mention claire **modération humaine** (placeholder ; pas d'illusion d'IA seule).
+### 8.10 `/care/help`
+Thérapeutes / psychologues / numéros d'urgence / 3114 / associations.
 
----
-
-## 16. Modes contextuels
-
-**« Aujourd'hui c'est dur »** (bouton central BottomNav, accessible partout) :
-- Toggle `softDay = true` jusqu'à minuit.
-- Effets globaux : masque tâches non urgentes, propose respiration/sommeil/journal/contact, possibilité de reporter, ton plus doux (espacements +, italique tendre).
-- Affiche un bandeau discret « Mode doux activé jusqu'à demain ».
-
-**Mode nuit** :
-- Auto entre 21h et 6h (sauf override).
-- Pas de contenu admin lourd.
-- Accès direct à respiration · sommeil · journal · voix · proche.
+### 8.11 Mapping émotion → suggestions (`src/lib/emotion-routing.ts`)
+À enrichir pour toutes les 14 émotions selon cahier des charges (peur/anxiété → respiration+ancrage+crise ; solitude → cercle+message+groupe ; fatigue → réduction+sommeil+report ; culpabilité → journal guidé+thérapeute ; nostalgie → photo/voix/lettre/jardin ; colère → journal libre+décharge+audio ; tristesse, sidération, confusion, soulagement, vide, besoin_calme, besoin_aide → mappings dédiés).
 
 ---
 
-## 17. Ressources `/resources`
+## 9. Espace Démarches (`/practical/*`)
 
-Refonte. Plus de blog en vrac. Filtres combinés : situation × type de perte × émotion × stage × heure × dates sensibles.
+### 9.1 `/practical` index
+Filtré par `situation × lovedKind × stage × statuts`.
+Buckets temporels : `now / week / month / later`.
+Mode doux → seul `now` visible.
+Toggle « Voir aussi : terminées / non concernées ».
 
-Catégories : comprendre le deuil · peur de perdre · deuil anticipé · questionnement existentiel · émotions · sommeil · respiration · rituels · textes · podcasts · livres · films · périnatal · animal · aider un proche · démarches FR · cérémonie · fleurs · coûts · courriers · succession · comptes numériques.
+### 9.2 `/practical/tasks` + `/practical/tasks/$id`
+Liste maître + détail (cf. §7).
 
----
+### 9.3 `/practical/vault`
+Coffre. Catégories : identité · acte de décès · finances · assurances · santé · logement · succession · volontés · contrats · autres.
+Fonctions : ajouter, scanner (placeholder), classer, partager avec proche autorisé, voir manquants, lier à une tâche.
+**Masqué** dans la nav si parcours animal ou émotionnel pur (accessible via lien tâche).
 
-## 18. Sécurité & confiance
+### 9.4 `/practical/ceremony`
+Parcours guidé. Affiché **uniquement** si :
+- humain ET obsèques pas passées, OU
+- `situation = volontes` avec stade `ceremonie`, OU
+- l'utilisateur clique « créer un hommage ».
+Aide IA : hommage, discours, musique, fleurs, bouquet, couronne, rituel, déroulé, faire-part, livret. Propositions modulées par lien, personnalité, saison, budget, type, culture, énergie utilisateur.
 
-- Accès **crise** (`/care/crisis`) depuis : BottomNav (long press « soft day »), pied de pages soutien, mode nuit.
-- 3114, associations listées, lien clic-pour-appeler.
-- Bandeau récurrent « L'IA ne remplace pas un thérapeute » sur tout écran IA.
-- Confidentialité : page courte « Vos données restent vôtres » accessible depuis profil.
-- Pas de pub, pas de revente.
+### 9.5 `/practical/pros`
+Annuaire vérifié, filtre par catégorie.
 
----
+### 9.6 `/practical/wishes` (si `situation = volontes`)
+Sous-sections : cérémonie · documents · messages · médical · personnes à prévenir.
 
-## 19. IA — règles de ton
-
-- Ne se présente jamais comme thérapeute.
-- Réponses courtes en mode `softDay`, mode nuit, ou émotion `fatigue/sideration`.
-- Toujours proposer une issue humaine (cercle, thérapeute, crise) après 2 échanges sur sujet sensible.
-- Utilise systématiquement `useLovedName()`.
-
----
-
-## 20. Substitution du prénom du proche
-
-Audit complet (recherche `défunt`, `la personne`, hardcoded names) → remplacement par `useLovedName()` dans toutes les pages :
-- présence, journal, memories, garden, parcours, ceremony, texts, booklet, share, dates, wishes, community.
-
----
-
-## 21. Refactor des écrans existants à toucher
-
-| Fichier | Action |
-|---|---|
-| `legato-state.tsx` | étendre state + helpers |
-| `onboarding.index.tsx` | refonte 4 étapes |
-| `space.tsx` | porte d'entrée conditionnelle |
-| `home.tsx` | accueil triple mode |
-| `BottomNav.tsx` | onglets pilotés par `primaryNeed`, bouton soft-day |
-| `practical.index.tsx` | catégories + temporalité + statuts |
-| `parcours.$taskId.tsx` | page tâche enrichie |
-| `journal.tsx` | prompts contextuels |
-| `presence.tsx` | check-in émotion + suggestion |
-| `community.tsx` | segments + modes lecture |
-| `_authenticated/circle.tsx` | délégation typée |
-| `resources.index.tsx` + `$category.tsx` | filtres contextuels |
-| `crisis.tsx` | déplacé sous `/care/crisis`, contenu enrichi |
-| `garden.index.tsx` + `$zone.tsx` | parcelles enrichies (offrandes/rituels) |
-| `dates.tsx` | fenêtre 2-3j + suggestions |
-
-Nouveaux fichiers :
-- `src/routes/care.tsx` + `care.index.tsx` + sous-routes
-- `src/routes/memory.tsx` + `memory.index.tsx` + sous-routes
-- `src/routes/checkin.tsx`
-- `src/routes/practical.vault.tsx`
-- `src/lib/journey-config.ts`
-- `src/lib/emotion-routing.ts`
-- `src/lib/sensitive-dates.ts`
-- `src/lib/loved-name.ts` (`useLovedName`)
-- `src/lib/letter-templates.ts` (modèles de courrier)
-- `src/lib/pros-data.ts` (annuaire thérapeutes placeholder)
+### 9.7 Contenus pratiques (apparaissent **seulement quand pertinents**)
+déclaration de décès, mairie, certificat, CPAM, CAF, impôts, banques, mutuelles, assurances, retraite, employeur, bailleur, pompes funèbres, devis, inhumation, crémation, faire-part, textes, musiques, livret de cérémonie, notaire, succession, comptes numériques, abonnements, logement, objets personnels, aides financières.
 
 ---
 
-## 22. Hors scope de cette passe
+## 10. Mode doux — état UX réel
 
-- Pas de migration Supabase nouvelle (coffre = UI + state local pour l'instant) — passe ultérieure pour bucket privé `documents`, table `support_requests`, table `loved_ones`.
-- Pas de redesign : on conserve le système éditorial (Newsreader, ivory cards, mono-labels, terracotta).
-- Animation d'intro + page logo + auth `/start` → **intactes**.
-- Génération réelle de modèles IA : on branche `practical-ai.functions.ts` existant.
+Déclencheurs (`softMode()`) :
+- Toggle manuel `softDay`.
+- Émotions : `fatigue, anxiete, sideration, vide`.
+- Nuit (21h–6h).
+- Date sensible J-3.
+
+Effets globaux (consommés par `home`, `/care`, `/practical`) :
+- Masque tâches `bucket !== "now"`.
+- Réduit à 1 carte primaire + 1 secondaire.
+- Prop `tone: "soft"` passée aux composers IA → vocabulaire simplifié, phrases courtes.
+- Pas de démarches admin sauf urgence.
+- Propose respiration, sommeil, journal, contact proche, report.
 
 ---
 
-## 23. Critères d'acceptation
+## 11. Cercle (`/_authenticated/circle`)
 
-1. Choisir « peur de perdre quelqu'un » → l'app n'affiche **jamais** de checklist post-décès.
-2. Choisir « démarches » → l'accueil ne montre **ni** journal, **ni** méditation, **ni** souvenirs en bloc principal.
-3. Choisir « les deux » → deux blocs distincts à l'accueil, jamais fusionnés.
-4. Sélectionner émotion *fatigue* → tâches non urgentes masquées, suggestions courtes, sommeil proposé.
-5. Activer « Aujourd'hui c'est dur » → admin masqué, respiration/contact en avant jusqu'au lendemain.
-6. À J-3 de la date du décès → bandeau doux sur accueil (lettre/voix/rituel).
-7. Partout où l'app parle du proche → `useLovedName()` (jamais « le défunt »).
-8. Aucune page ne mélange une démarche admin et une méditation dans la même liste.
-9. `/care/crisis` accessible en ≤ 2 taps depuis n'importe quel écran.
-10. Mode nuit auto entre 21h et 6h, contenu allégé.
+Segmentation : proches · famille · amis · personne référente · thérapeute · pro · groupe · communauté.
+Demandes d'aide typées : repas · transport · démarches · appels · garde d'enfant · présence · aide émotionnelle · aide admin.
+Affichage adapté à `primaryNeed` :
+- `emotional` → met en avant contact proche, personne de confiance, groupe, thérapeute.
+- `practical` → met en avant délégation, partage de documents, tâches assignées.
 
-Le résultat : Legato comprend la situation, sépare clairement les espaces, adapte tout à l'émotion, propose la bonne aide au bon moment sans noyer l'utilisateur.
+---
+
+## 12. Sécurité & confiance
+
+- `/crisis` accessible depuis footer global + long-press du bouton ♡.
+- Bandeau dans tout composant IA : « ne remplace pas un·e thérapeute ».
+- Orientation 3114 sur prompts à risque (détection mots-clés suicide, désespoir).
+- `/profile` : confidentialité expliquée simplement, gestion mode doux, langue, prénom, suppression données.
+- Pas de pub intrusive.
+
+---
+
+## 13. Bugs hydratation actuels (correctifs immédiats)
+
+Erreurs visibles : `SoftBanner` et texte `useLovedName()` divergent SSR/CSR.
+- Patron `mounted` dans `home.tsx`, `practical.index.tsx`, et tout composant lisant `softDay`/`lovedLabel`/`currentEmotions` issus de localStorage.
+- `useLovedName()` retourne valeur neutre stable avant mount.
+
+---
+
+## 14. Fichiers — création / refonte / suppression
+
+### Créer
+- `src/routes/care.index.tsx`, `care.emotions.tsx`, `care.memory.tsx`, `care.garden.tsx`, `care.garden.$zone.tsx`, `care.dates.tsx`, `care.rituals.tsx`, `care.resources.tsx`, `care.community.tsx`, `care.help.tsx`, `care.journal.tsx`
+- `src/routes/practical.tasks.tsx`, `practical.tasks.$id.tsx`, `practical.pros.tsx`, `practical.wishes.tsx`
+- `src/routes/profile.tsx`
+- Redirections legacy (composants `<Navigate>`)
+- `src/lib/task-status.ts`
+- `src/lib/animal-journey.ts` (catalogue tâches/ressources animal)
+- `src/lib/friend-journey.ts` (catalogue ami/collègue sans succession par défaut)
+- `src/lib/wishes-journey.ts`
+- `src/components/legato/SubNav.tsx`
+
+### Refondre
+- `src/lib/legato-state.tsx` — nouveaux champs, helpers, persistance v2 (migration douce de v1).
+- `src/lib/journey-config.ts` — matrice complète `situation × lovedKind × stage × primaryNeed × legallyInvolved`.
+- `src/lib/emotion-routing.ts` — 14 émotions.
+- `src/lib/loved-name.ts` — stabilité SSR.
+- `src/lib/sensitive-dates.ts` — anticipation J-3.
+- `src/components/legato/BottomNav.tsx` — 5 entrées max, conditionnelle.
+- `src/routes/onboarding.index.tsx` — machine 7 étapes.
+- `src/routes/home.tsx` — 3 modes + correctifs hydratation + bandeau date sensible.
+- `src/routes/care.tsx` — devient layout `<Outlet/>` (l'index passe dans `care.index.tsx`).
+- `src/routes/practical.tsx` — layout.
+- `src/routes/practical.index.tsx` — filtres durs + statuts complets + onglet archives.
+- `src/routes/practical.vault.tsx` — visibilité conditionnelle.
+- `src/routes/practical.ceremony.tsx` — gating strict.
+- `src/routes/_authenticated/circle.tsx` — segmentation + demandes typées.
+
+### Supprimer / remplacer par redirection
+- `src/routes/memory.tsx` (devenu `care.memory`)
+- Pages dupliquées si conflits.
+
+---
+
+## 15. Ordre d'implémentation
+
+1. **Correctifs hydratation** (`home.tsx`, `loved-name.ts`, `legato-state.tsx`) — débloque le preview.
+2. **État étendu** : `legato-state.tsx` (v2 + migration), `task-status.ts`, `emotion-routing.ts` (14 émotions), `sensitive-dates.ts`.
+3. **`journey-config.ts`** refondu (matrice complète + animal/ami/volontés).
+4. **Onboarding** machine 7 étapes.
+5. **Architecture routes** : layouts `/care` et `/practical` + index + redirections legacy.
+6. **BottomNav** + composant `SubNav`.
+7. **Home** 3 modes strictement séparés + bandeau date sensible + mode doux.
+8. **Soutien** : index, emotions, journal, memory, garden, dates, rituals, resources, community, help.
+9. **Démarches** : index, tasks, tasks/$id, vault (conditionnel), ceremony (gating), pros, wishes.
+10. **Cercle** segmenté + demandes typées.
+11. **Profil** + bandeaux sécurité globaux + crisis renforcée.
+12. **Nettoyage** : suppression des pages devenues redondantes, vérification qu'aucune route legacy ne fuit dans la BottomNav.
+
+---
+
+## 16. Critères d'acceptation
+
+- Choix `animal` ne fait jamais apparaître mairie/CPAM/notaire/succession/banque/logement.
+- Choix `ami` ne fait jamais apparaître succession par défaut.
+- `obseques_passees` ne fait jamais apparaître « choisir une pompe funèbre » comme priorité.
+- `volontes` ne fait jamais apparaître de démarche post-décès.
+- `primaryNeed` n'est jamais demandé deux fois.
+- Émotions jamais demandées dans un parcours `practical` pur (accès optionnel via lien discret).
+- Mémoire jamais présente comme onglet de BottomNav.
+- Home `both` montre deux blocs séparés, jamais une liste mélangée.
+- Une tâche `done` ou `not_concerned` ne réapparaît pas dans les vues actives.
+- Aucune erreur d'hydratation au chargement de `/home`, `/care`, `/practical`.

@@ -141,6 +141,13 @@ export const STAGES: { id: Stage; label: string }[] = [
   { id: "apres",                  label: "C'est plus ancien, je traverse l'après" },
 ];
 
+/** Helpers de regroupement par lien. */
+export function isAnimal(r: Relation | null): boolean { return r === "animal"; }
+export function isFriendOrColleague(r: Relation | null): boolean { return r === "ami"; }
+export function isFamilyClose(r: Relation | null): boolean {
+  return r === "parent" || r === "conjoint" || r === "enfant";
+}
+
 const EMPTY_WISHES: Wishes = {
   ceremony: "", ambiance: "", flowers: "", music: "", texts: "",
   objects: "", colors: "", materials: "", iWant: "", iDontWant: "",
@@ -293,7 +300,22 @@ type Ctx = {
   // Mode nuit override
   nightModeOverride: boolean | null;
   setNightModeOverride: (v: boolean | null) => void;
+
+  // Vrai après le 1er useEffect côté client — protège contre les mismatches SSR
+  hydrated: boolean;
+
+  // Statuts de tâches pratiques (persistés)
+  taskStatus: Record<string, TaskStatus>;
+  setTaskStatus: (id: string, status: TaskStatus) => void;
+
+  // Vrai si l'utilisateur est légalement impliqué (ami/collègue/autre)
+  legallyInvolved: boolean;
+  setLegallyInvolved: (v: boolean) => void;
 };
+
+export type TaskStatus =
+  | "todo" | "doing" | "done" | "delegated"
+  | "blocked" | "missing_doc" | "snoozed" | "not_concerned";
 
 const LegatoContext = createContext<Ctx | null>(null);
 
@@ -403,6 +425,21 @@ export function LegatoProvider({ children }: { children: ReactNode }) {
   const [nightModeOverride, setNightModeOverrideState] = useState<boolean | null>(() => lsGet("lg.nightOverride", null));
   const setNightModeOverride = (v: boolean | null) => { setNightModeOverrideState(v); lsSet("lg.nightOverride", v); };
 
+  const [hydrated, setHydrated] = useState(false);
+  useEffect(() => { setHydrated(true); }, []);
+
+  const [taskStatus, setTaskStatusState] = useState<Record<string, TaskStatus>>(() => lsGet("lg.taskStatus", {} as Record<string, TaskStatus>));
+  const setTaskStatus = (id: string, status: TaskStatus) => {
+    setTaskStatusState((prev) => {
+      const next = { ...prev, [id]: status };
+      lsSet("lg.taskStatus", next);
+      return next;
+    });
+  };
+
+  const [legallyInvolved, setLegallyInvolvedState] = useState<boolean>(() => lsGet("lg.legallyInvolved", false));
+  const setLegallyInvolved = (v: boolean) => { setLegallyInvolvedState(v); lsSet("lg.legallyInvolved", v); };
+
   const t = (key: string) => DICT[key]?.[lang] ?? key;
   const addJournalEntry = (e: Omit<JournalEntry, "id" | "date">) =>
     setJournal((prev) => [
@@ -435,6 +472,9 @@ export function LegatoProvider({ children }: { children: ReactNode }) {
         currentEmotionAt,
         softDay, toggleSoftDay,
         nightModeOverride, setNightModeOverride,
+        hydrated,
+        taskStatus, setTaskStatus,
+        legallyInvolved, setLegallyInvolved,
       }}
     >
       {children}

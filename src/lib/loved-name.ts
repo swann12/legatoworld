@@ -2,7 +2,9 @@ import { useLegato } from "./legato-state";
 
 /** Retourne le nom du proche, sinon le lien (« ton père »), sinon « la personne ». */
 export function useLovedName(): string {
-  const { lovedOneName, lovedOneRelation } = useLegato();
+  const { lovedOneName, lovedOneRelation, hydrated } = useLegato();
+  // Stable côté SSR / avant hydratation — évite les mismatches.
+  if (!hydrated) return "ton ou ta proche";
   if (lovedOneName && lovedOneName.trim()) return lovedOneName.trim();
   switch (lovedOneRelation) {
     case "parent":   return "ton parent";
