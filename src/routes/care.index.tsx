@@ -30,7 +30,7 @@ function Care() {
   const focus = focusFromEmotions(selected, stale);
   const visibleCare = care.filter((m) => !focus.hidden.includes(m));
   const primaryCare = focus.modules.filter((m) => visibleCare.includes(m));
-  const restCare = visibleCare.filter((m) => !primaryCare.includes(m) && m !== "checkin").slice(0, plan.contentLength === "court" ? 3 : 5);
+  const restCare = visibleCare.filter((m) => !primaryCare.includes(m) && m !== "checkin").slice(0, plan.contentLength === "court" ? 2 : 3);
   const visibleMemory = memory.length ? memory : (["garden", "voices", "letters", "dates"] as MemoryModule[]);
 
   return (
@@ -47,9 +47,11 @@ function Care() {
           <h1 className="mt-5 ed-page-title">
             Un espace pour <span className="italic" style={{ color: "var(--terracotta)" }}>tenir</span>.
           </h1>
-          <p className="mt-5 text-[13.5px] leading-[1.6] text-dusk/60 max-w-[35ch]">
-            {stale ? "Commencez par nommer ce qui est là. Le reste s'adapte ensuite." : focus.intro}
-          </p>
+          {(stale || focus.intro) && (
+            <p className="mt-5 text-[13.5px] leading-[1.6] text-dusk/60 max-w-[35ch]">
+              {stale ? "Commencez par nommer ce qui est là." : focus.intro}
+            </p>
+          )}
         </section>
 
         <section className="px-5 pt-8">
@@ -93,11 +95,7 @@ function Care() {
           </section>
         )}
 
-        <footer className="px-6 pt-10 text-center">
-          <p className="text-[11px] italic text-dusk/45 max-w-[34ch] mx-auto">
-            Ici, aucune démarche administrative : seulement ressentir, déposer, se souvenir, demander de l'aide.
-          </p>
-        </footer>
+        <div className="pt-10" />
       </main>
     </Shell>
   );
