@@ -24,8 +24,10 @@ function itemsFor(need: ReturnType<typeof useLegato>["primaryNeed"]): ItemDef[] 
 
 export function BottomNav() {
   const { pathname } = useLocation();
-  const { primaryNeed, softDay, toggleSoftDay } = useLegato();
-  const items = itemsFor(primaryNeed);
+  const { primaryNeed, softDay, toggleSoftDay, hydrated } = useLegato();
+  // SSR-stable: use a deterministic default until client hydration.
+  const items = itemsFor(hydrated ? primaryNeed : "both");
+  const soft = hydrated && softDay;
 
   return (
     <nav
@@ -37,17 +39,17 @@ export function BottomNav() {
 
         <button
           onClick={toggleSoftDay}
-          aria-label="Aujourd'hui c'est dur"
+          aria-label={soft ? "Mode doux activé" : "Aujourd'hui c'est dur"}
           className="group relative flex flex-col items-center justify-end gap-1 px-2 -mt-5"
         >
           <span
             className="h-12 w-12 rounded-full grid place-items-center text-paper text-[14px] shadow-sm transition-transform active:scale-95"
-            style={{ background: softDay ? "var(--terracotta)" : "var(--dusk)" }}
+            style={{ background: soft ? "var(--terracotta)" : "var(--dusk)" }}
           >
             ♡
           </span>
           <span className="mt-1 text-[9.5px] font-medium tracking-[0.04em] text-dusk/60">
-            {softDay ? "Mode doux" : "Aujourd'hui"}
+            {soft ? "Mode doux" : "Aujourd'hui"}
           </span>
         </button>
 
