@@ -18,6 +18,7 @@ import { Route as PresenceRouteImport } from './routes/presence'
 import { Route as PracticalRouteImport } from './routes/practical'
 import { Route as ParcoursRouteImport } from './routes/parcours'
 import { Route as NoWordsRouteImport } from './routes/no-words'
+import { Route as MemoryRouteImport } from './routes/memory'
 import { Route as MemoriesRouteImport } from './routes/memories'
 import { Route as JournalRouteImport } from './routes/journal'
 import { Route as InspirationRouteImport } from './routes/inspiration'
@@ -26,6 +27,8 @@ import { Route as HelpRouteImport } from './routes/help'
 import { Route as DatesRouteImport } from './routes/dates'
 import { Route as CrisisRouteImport } from './routes/crisis'
 import { Route as CommunityRouteImport } from './routes/community'
+import { Route as CheckinRouteImport } from './routes/checkin'
+import { Route as CareRouteImport } from './routes/care'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AppointmentsRouteImport } from './routes/appointments'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
@@ -36,6 +39,7 @@ import { Route as OnboardingIndexRouteImport } from './routes/onboarding.index'
 import { Route as HelpIndexRouteImport } from './routes/help.index'
 import { Route as GardenIndexRouteImport } from './routes/garden.index'
 import { Route as ResourcesCategoryRouteImport } from './routes/resources.$category'
+import { Route as PracticalVaultRouteImport } from './routes/practical.vault'
 import { Route as PracticalTextsRouteImport } from './routes/practical.texts'
 import { Route as PracticalStepsRouteImport } from './routes/practical.steps'
 import { Route as PracticalShareRouteImport } from './routes/practical.share'
@@ -106,6 +110,11 @@ const NoWordsRoute = NoWordsRouteImport.update({
   path: '/no-words',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MemoryRoute = MemoryRouteImport.update({
+  id: '/memory',
+  path: '/memory',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MemoriesRoute = MemoriesRouteImport.update({
   id: '/memories',
   path: '/memories',
@@ -144,6 +153,16 @@ const CrisisRoute = CrisisRouteImport.update({
 const CommunityRoute = CommunityRouteImport.update({
   id: '/community',
   path: '/community',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CheckinRoute = CheckinRouteImport.update({
+  id: '/checkin',
+  path: '/checkin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CareRoute = CareRouteImport.update({
+  id: '/care',
+  path: '/care',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -194,6 +213,11 @@ const ResourcesCategoryRoute = ResourcesCategoryRouteImport.update({
   id: '/resources/$category',
   path: '/resources/$category',
   getParentRoute: () => rootRouteImport,
+} as any)
+const PracticalVaultRoute = PracticalVaultRouteImport.update({
+  id: '/vault',
+  path: '/vault',
+  getParentRoute: () => PracticalRoute,
 } as any)
 const PracticalTextsRoute = PracticalTextsRouteImport.update({
   id: '/texts',
@@ -322,6 +346,8 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/appointments': typeof AppointmentsRoute
   '/auth': typeof AuthRoute
+  '/care': typeof CareRoute
+  '/checkin': typeof CheckinRoute
   '/community': typeof CommunityRoute
   '/crisis': typeof CrisisRoute
   '/dates': typeof DatesRoute
@@ -330,6 +356,7 @@ export interface FileRoutesByFullPath {
   '/inspiration': typeof InspirationRoute
   '/journal': typeof JournalRoute
   '/memories': typeof MemoriesRoute
+  '/memory': typeof MemoryRoute
   '/no-words': typeof NoWordsRoute
   '/parcours': typeof ParcoursRouteWithChildren
   '/practical': typeof PracticalRouteWithChildren
@@ -356,6 +383,7 @@ export interface FileRoutesByFullPath {
   '/practical/share': typeof PracticalShareRoute
   '/practical/steps': typeof PracticalStepsRoute
   '/practical/texts': typeof PracticalTextsRoute
+  '/practical/vault': typeof PracticalVaultRoute
   '/resources/$category': typeof ResourcesCategoryRouteWithChildren
   '/garden/': typeof GardenIndexRoute
   '/help/': typeof HelpIndexRoute
@@ -374,6 +402,8 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/appointments': typeof AppointmentsRoute
   '/auth': typeof AuthRoute
+  '/care': typeof CareRoute
+  '/checkin': typeof CheckinRoute
   '/community': typeof CommunityRoute
   '/crisis': typeof CrisisRoute
   '/dates': typeof DatesRoute
@@ -381,6 +411,7 @@ export interface FileRoutesByTo {
   '/inspiration': typeof InspirationRoute
   '/journal': typeof JournalRoute
   '/memories': typeof MemoriesRoute
+  '/memory': typeof MemoryRoute
   '/no-words': typeof NoWordsRoute
   '/parcours': typeof ParcoursRouteWithChildren
   '/presence': typeof PresenceRoute
@@ -406,6 +437,7 @@ export interface FileRoutesByTo {
   '/practical/share': typeof PracticalShareRoute
   '/practical/steps': typeof PracticalStepsRoute
   '/practical/texts': typeof PracticalTextsRoute
+  '/practical/vault': typeof PracticalVaultRoute
   '/resources/$category': typeof ResourcesCategoryRouteWithChildren
   '/garden': typeof GardenIndexRoute
   '/help': typeof HelpIndexRoute
@@ -426,6 +458,8 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/appointments': typeof AppointmentsRoute
   '/auth': typeof AuthRoute
+  '/care': typeof CareRoute
+  '/checkin': typeof CheckinRoute
   '/community': typeof CommunityRoute
   '/crisis': typeof CrisisRoute
   '/dates': typeof DatesRoute
@@ -434,6 +468,7 @@ export interface FileRoutesById {
   '/inspiration': typeof InspirationRoute
   '/journal': typeof JournalRoute
   '/memories': typeof MemoriesRoute
+  '/memory': typeof MemoryRoute
   '/no-words': typeof NoWordsRoute
   '/parcours': typeof ParcoursRouteWithChildren
   '/practical': typeof PracticalRouteWithChildren
@@ -460,6 +495,7 @@ export interface FileRoutesById {
   '/practical/share': typeof PracticalShareRoute
   '/practical/steps': typeof PracticalStepsRoute
   '/practical/texts': typeof PracticalTextsRoute
+  '/practical/vault': typeof PracticalVaultRoute
   '/resources/$category': typeof ResourcesCategoryRouteWithChildren
   '/garden/': typeof GardenIndexRoute
   '/help/': typeof HelpIndexRoute
@@ -480,6 +516,8 @@ export interface FileRouteTypes {
     | '/'
     | '/appointments'
     | '/auth'
+    | '/care'
+    | '/checkin'
     | '/community'
     | '/crisis'
     | '/dates'
@@ -488,6 +526,7 @@ export interface FileRouteTypes {
     | '/inspiration'
     | '/journal'
     | '/memories'
+    | '/memory'
     | '/no-words'
     | '/parcours'
     | '/practical'
@@ -514,6 +553,7 @@ export interface FileRouteTypes {
     | '/practical/share'
     | '/practical/steps'
     | '/practical/texts'
+    | '/practical/vault'
     | '/resources/$category'
     | '/garden/'
     | '/help/'
@@ -532,6 +572,8 @@ export interface FileRouteTypes {
     | '/'
     | '/appointments'
     | '/auth'
+    | '/care'
+    | '/checkin'
     | '/community'
     | '/crisis'
     | '/dates'
@@ -539,6 +581,7 @@ export interface FileRouteTypes {
     | '/inspiration'
     | '/journal'
     | '/memories'
+    | '/memory'
     | '/no-words'
     | '/parcours'
     | '/presence'
@@ -564,6 +607,7 @@ export interface FileRouteTypes {
     | '/practical/share'
     | '/practical/steps'
     | '/practical/texts'
+    | '/practical/vault'
     | '/resources/$category'
     | '/garden'
     | '/help'
@@ -583,6 +627,8 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/appointments'
     | '/auth'
+    | '/care'
+    | '/checkin'
     | '/community'
     | '/crisis'
     | '/dates'
@@ -591,6 +637,7 @@ export interface FileRouteTypes {
     | '/inspiration'
     | '/journal'
     | '/memories'
+    | '/memory'
     | '/no-words'
     | '/parcours'
     | '/practical'
@@ -617,6 +664,7 @@ export interface FileRouteTypes {
     | '/practical/share'
     | '/practical/steps'
     | '/practical/texts'
+    | '/practical/vault'
     | '/resources/$category'
     | '/garden/'
     | '/help/'
@@ -637,6 +685,8 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AppointmentsRoute: typeof AppointmentsRoute
   AuthRoute: typeof AuthRoute
+  CareRoute: typeof CareRoute
+  CheckinRoute: typeof CheckinRoute
   CommunityRoute: typeof CommunityRoute
   CrisisRoute: typeof CrisisRoute
   DatesRoute: typeof DatesRoute
@@ -645,6 +695,7 @@ export interface RootRouteChildren {
   InspirationRoute: typeof InspirationRoute
   JournalRoute: typeof JournalRoute
   MemoriesRoute: typeof MemoriesRoute
+  MemoryRoute: typeof MemoryRoute
   NoWordsRoute: typeof NoWordsRoute
   ParcoursRoute: typeof ParcoursRouteWithChildren
   PracticalRoute: typeof PracticalRouteWithChildren
@@ -733,6 +784,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof NoWordsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/memory': {
+      id: '/memory'
+      path: '/memory'
+      fullPath: '/memory'
+      preLoaderRoute: typeof MemoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/memories': {
       id: '/memories'
       path: '/memories'
@@ -787,6 +845,20 @@ declare module '@tanstack/react-router' {
       path: '/community'
       fullPath: '/community'
       preLoaderRoute: typeof CommunityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/checkin': {
+      id: '/checkin'
+      path: '/checkin'
+      fullPath: '/checkin'
+      preLoaderRoute: typeof CheckinRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/care': {
+      id: '/care'
+      path: '/care'
+      fullPath: '/care'
+      preLoaderRoute: typeof CareRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth': {
@@ -858,6 +930,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/resources/$category'
       preLoaderRoute: typeof ResourcesCategoryRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/practical/vault': {
+      id: '/practical/vault'
+      path: '/vault'
+      fullPath: '/practical/vault'
+      preLoaderRoute: typeof PracticalVaultRouteImport
+      parentRoute: typeof PracticalRoute
     }
     '/practical/texts': {
       id: '/practical/texts'
@@ -1092,6 +1171,7 @@ interface PracticalRouteChildren {
   PracticalShareRoute: typeof PracticalShareRoute
   PracticalStepsRoute: typeof PracticalStepsRoute
   PracticalTextsRoute: typeof PracticalTextsRoute
+  PracticalVaultRoute: typeof PracticalVaultRoute
   PracticalIndexRoute: typeof PracticalIndexRoute
 }
 
@@ -1104,6 +1184,7 @@ const PracticalRouteChildren: PracticalRouteChildren = {
   PracticalShareRoute: PracticalShareRoute,
   PracticalStepsRoute: PracticalStepsRoute,
   PracticalTextsRoute: PracticalTextsRoute,
+  PracticalVaultRoute: PracticalVaultRoute,
   PracticalIndexRoute: PracticalIndexRoute,
 }
 
@@ -1127,6 +1208,8 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AppointmentsRoute: AppointmentsRoute,
   AuthRoute: AuthRoute,
+  CareRoute: CareRoute,
+  CheckinRoute: CheckinRoute,
   CommunityRoute: CommunityRoute,
   CrisisRoute: CrisisRoute,
   DatesRoute: DatesRoute,
@@ -1135,6 +1218,7 @@ const rootRouteChildren: RootRouteChildren = {
   InspirationRoute: InspirationRoute,
   JournalRoute: JournalRoute,
   MemoriesRoute: MemoriesRoute,
+  MemoryRoute: MemoryRoute,
   NoWordsRoute: NoWordsRoute,
   ParcoursRoute: ParcoursRouteWithChildren,
   PracticalRoute: PracticalRouteWithChildren,
