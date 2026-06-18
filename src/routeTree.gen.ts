@@ -28,6 +28,7 @@ import { Route as DatesRouteImport } from './routes/dates'
 import { Route as CrisisRouteImport } from './routes/crisis'
 import { Route as CommunityRouteImport } from './routes/community'
 import { Route as CheckinRouteImport } from './routes/checkin'
+import { Route as CareRouteImport } from './routes/care'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AppointmentsRouteImport } from './routes/appointments'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
@@ -160,6 +161,11 @@ const CheckinRoute = CheckinRouteImport.update({
   path: '/checkin',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CareRoute = CareRouteImport.update({
+  id: '/care',
+  path: '/care',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
@@ -205,9 +211,9 @@ const GardenIndexRoute = GardenIndexRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const CareIndexRoute = CareIndexRouteImport.update({
-  id: '/care/',
-  path: '/care/',
-  getParentRoute: () => rootRouteImport,
+  id: '/',
+  path: '/',
+  getParentRoute: () => CareRoute,
 } as any)
 const ResourcesCategoryRoute = ResourcesCategoryRouteImport.update({
   id: '/resources/$category',
@@ -346,6 +352,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/appointments': typeof AppointmentsRoute
   '/auth': typeof AuthRoute
+  '/care': typeof CareRouteWithChildren
   '/checkin': typeof CheckinRoute
   '/community': typeof CommunityRoute
   '/crisis': typeof CrisisRoute
@@ -458,6 +465,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/appointments': typeof AppointmentsRoute
   '/auth': typeof AuthRoute
+  '/care': typeof CareRouteWithChildren
   '/checkin': typeof CheckinRoute
   '/community': typeof CommunityRoute
   '/crisis': typeof CrisisRoute
@@ -516,6 +524,7 @@ export interface FileRouteTypes {
     | '/'
     | '/appointments'
     | '/auth'
+    | '/care'
     | '/checkin'
     | '/community'
     | '/crisis'
@@ -627,6 +636,7 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/appointments'
     | '/auth'
+    | '/care'
     | '/checkin'
     | '/community'
     | '/crisis'
@@ -685,6 +695,7 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AppointmentsRoute: typeof AppointmentsRoute
   AuthRoute: typeof AuthRoute
+  CareRoute: typeof CareRouteWithChildren
   CheckinRoute: typeof CheckinRoute
   CommunityRoute: typeof CommunityRoute
   CrisisRoute: typeof CrisisRoute
@@ -711,7 +722,6 @@ export interface RootRouteChildren {
   OnboardingCareRoute: typeof OnboardingCareRoute
   OnboardingPracticalRoute: typeof OnboardingPracticalRoute
   ResourcesCategoryRoute: typeof ResourcesCategoryRouteWithChildren
-  CareIndexRoute: typeof CareIndexRoute
   GardenIndexRoute: typeof GardenIndexRoute
   OnboardingIndexRoute: typeof OnboardingIndexRoute
   ResourcesIndexRoute: typeof ResourcesIndexRoute
@@ -854,6 +864,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CheckinRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/care': {
+      id: '/care'
+      path: '/care'
+      fullPath: '/care'
+      preLoaderRoute: typeof CareRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/auth': {
       id: '/auth'
       path: '/auth'
@@ -919,10 +936,10 @@ declare module '@tanstack/react-router' {
     }
     '/care/': {
       id: '/care/'
-      path: '/care'
+      path: '/'
       fullPath: '/care/'
       preLoaderRoute: typeof CareIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof CareRoute
     }
     '/resources/$category': {
       id: '/resources/$category'
@@ -1120,6 +1137,16 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
+interface CareRouteChildren {
+  CareIndexRoute: typeof CareIndexRoute
+}
+
+const CareRouteChildren: CareRouteChildren = {
+  CareIndexRoute: CareIndexRoute,
+}
+
+const CareRouteWithChildren = CareRoute._addFileChildren(CareRouteChildren)
+
 interface HelpCorpsRouteChildren {
   HelpCorpsEauRoute: typeof HelpCorpsEauRoute
   HelpCorpsHabillerRoute: typeof HelpCorpsHabillerRoute
@@ -1208,6 +1235,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AppointmentsRoute: AppointmentsRoute,
   AuthRoute: AuthRoute,
+  CareRoute: CareRouteWithChildren,
   CheckinRoute: CheckinRoute,
   CommunityRoute: CommunityRoute,
   CrisisRoute: CrisisRoute,
@@ -1234,7 +1262,6 @@ const rootRouteChildren: RootRouteChildren = {
   OnboardingCareRoute: OnboardingCareRoute,
   OnboardingPracticalRoute: OnboardingPracticalRoute,
   ResourcesCategoryRoute: ResourcesCategoryRouteWithChildren,
-  CareIndexRoute: CareIndexRoute,
   GardenIndexRoute: GardenIndexRoute,
   OnboardingIndexRoute: OnboardingIndexRoute,
   ResourcesIndexRoute: ResourcesIndexRoute,
