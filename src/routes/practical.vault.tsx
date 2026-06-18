@@ -1,0 +1,73 @@
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { Shell } from "@/components/legato/Shell";
+import { LegatoMark } from "@/components/legato/LegatoMark";
+
+export const Route = createFileRoute("/practical/vault")({
+  head: () => ({
+    meta: [
+      { title: "Coffre de documents — Legato" },
+      { name: "description", content: "Tous vos documents au même endroit : acte de décès, identité, succession, contrats…" },
+    ],
+  }),
+  component: Vault,
+});
+
+const CATEGORIES: { id: string; label: string; hint: string }[] = [
+  { id: "id",         label: "Identité",          hint: "Pièces d'identité, livret de famille" },
+  { id: "death",      label: "Acte de décès",     hint: "Original et copies" },
+  { id: "finance",    label: "Finances",          hint: "Banques, relevés, avoirs" },
+  { id: "insurance",  label: "Assurances",        hint: "Vie, habitation, mutuelle" },
+  { id: "health",     label: "Santé",             hint: "Dossiers, CPAM, retraite" },
+  { id: "housing",    label: "Logement",          hint: "Bail, propriété, charges" },
+  { id: "succession", label: "Succession",        hint: "Notaire, héritiers" },
+  { id: "wishes",     label: "Volontés",          hint: "Directives, testaments" },
+  { id: "contracts",  label: "Contrats",          hint: "Abonnements, fournisseurs" },
+  { id: "other",      label: "Autres",            hint: "Documents libres" },
+];
+
+function Vault() {
+  return (
+    <Shell livingBg={false}>
+      <div className="min-h-dvh bg-paper text-dusk pb-32">
+        <header className="px-6 pt-7 flex items-center justify-between">
+          <Link to="/practical" className="mono-label">← Démarches</Link>
+          <LegatoMark to="/space" size={20} />
+          <span className="w-16" />
+        </header>
+        <section className="px-6 pt-10">
+          <p className="mono-label">Coffre</p>
+          <h1 className="mt-5 ed-page-title">
+            Tout au <span className="italic" style={{ color: "var(--terracotta)" }}>même endroit</span>
+          </h1>
+          <p className="mt-5 text-[13.5px] leading-[1.6] text-dusk/60 max-w-[34ch]">
+            Glissez vos documents par catégorie. Ils restent privés, accessibles à tout moment.
+          </p>
+        </section>
+
+        <section className="px-5 pt-8 grid grid-cols-2 gap-3">
+          {CATEGORIES.map((c) => (
+            <div key={c.id} className="rounded-[18px] border border-dusk/12 bg-[color:var(--whisper)] px-4 py-4 min-h-[110px] flex flex-col justify-between">
+              <div>
+                <p className="font-serif text-[16px] leading-[1.15] text-dusk">{c.label}</p>
+                <p className="mt-1 text-[11.5px] text-dusk/55">{c.hint}</p>
+              </div>
+              <p className="mt-3 mono-label text-dusk/45">0 fichier</p>
+            </div>
+          ))}
+        </section>
+
+        <section className="px-5 pt-8">
+          <button
+            className="block w-full rounded-[999px] px-6 py-5 text-center transition-transform active:scale-[0.99]"
+            style={{ background: "var(--terracotta)", color: "var(--paper)" }}
+          >
+            <span className="font-serif text-[20px]">Ajouter un document →</span>
+          </button>
+          <p className="mt-4 text-center text-[11.5px] italic text-dusk/45">
+            Le stockage chiffré sera activé bientôt. Vos données restent vôtres.
+          </p>
+        </section>
+      </div>
+    </Shell>
+  );
+}
