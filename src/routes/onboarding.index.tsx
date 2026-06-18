@@ -1,24 +1,33 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import {
-  useLegato, SITUATIONS, RELATIONS, STAGES_BY_SITUATION, EMOTIONS,
-  type Relation, type Stage, type Emotion, type PrimaryNeed,
+  EMOTIONS,
+  RELATIONS,
+  SITUATIONS,
+  STAGES_BY_SITUATION,
+  useLegato,
+  type Emotion,
+  type PrimaryNeed,
+  type Relation,
+  type Stage,
 } from "@/lib/legato-state";
+import { IvoryCard } from "@/components/legato/EditorialUI";
 import { LegatoMark } from "@/components/legato/LegatoMark";
 import { useServerFn } from "@tanstack/react-start";
 import { recordEmotion } from "@/lib/emotional.functions";
 import { supabase } from "@/integrations/supabase/client";
-import { IvoryCard } from "@/components/legato/EditorialUI";
 import { useState, type ReactNode } from "react";
 
 export const Route = createFileRoute("/onboarding/")({
   head: () => ({
     meta: [
-      { title: "Commencer doucement — Legato" },
-      { name: "description", content: "Quelques questions tranquilles pour accorder votre espace." },
+      { title: "Commencer — Legato" },
+      { name: "description", content: "Un parcours clair et conditionnel pour adapter Legato à votre situation." },
     ],
   }),
   component: Onboarding,
 });
+
+type Step = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
 
 function Onboarding() {
   const {
@@ -33,39 +42,13 @@ function Onboarding() {
   } = useLegato();
   const navigate = useNavigate();
   const record = useServerFn(recordEmotion);
-  const [step, setStep] = useState<1 | 2 | 3 | 4 | 5 | 6 | 7>(1);
+  const [step, setStep] = useState<Step>(1);
 
   const needsPerson = Boolean(situation && ["perdu", "peur", "accompagner"].includes(situation));
   const needsLabel = Boolean(situation && !["questionnement", "volontes"].includes(situation));
   const stageOptions = situation ? STAGES_BY_SITUATION[situation] : [];
-  const needChoiceForced = situation === "questionnement" || situation === "volontes" || (lovedOneRelation === "animal" && situation !== "perdu");
   const needsEmotion = primaryNeed === "emotional" || primaryNeed === "both";
   const needsLegalQuestion = (lovedOneRelation === "ami" || lovedOneRelation === "collegue" || lovedOneRelation === "autre") && (primaryNeed === "practical" || primaryNeed === "both");
-
-  const goAfterSituation = () => {
-    if (!situation) return;
-    if (situation === "questionnement" || situation === "volontes") setStep(5);
-    else setStep(3);
-  };
-
-  const goAfterStage = () => {
-    if (situation === "questionnement") {
-      setPrimaryNeed("emotional");
-      setStep(7);
-      return;
-    }
-    if (situation === "volontes") {
-      setPrimaryNeed("practical");
-      finish();
-      return;
-    }
-    if (needChoiceForced) {
-      setPrimaryNeed("emotional");
-      setStep(7);
-      return;
-    }
-    setStep(6);
-  };
 
   const finish = async () => {
     setCareOnboarded(true);
@@ -77,178 +60,173 @@ function Onboarding() {
     navigate({ to: "/home" });
   };
 
+  const afterSituation = () => {
+    if (!situation) return;
+    if (situation === "questionnement" || situation === "volontes") setStep(5);
+    else setStep(3);
+  };
+
+  const afterStage = () => {
+    if (situation === "questionnement") {
+      setPrimaryNeed("emotional");
+      setStep(7);
+      return;
+    }
+    if (situation === "volontes") {
+      setPrimaryNeed("practical");
+      finish();
+      return;
+    }
+    if (lovedOneRelation === "animal" && situation !== "perdu") {
+      setPrimaryNeed("emotional");
+      setStep(7);
+      return;
+    }
+    setStep(6);
+  };
+
+  const afterNeed = () => {
+    if (needsLegalQuestion) {
+      setStep(8);
+      return;
+    }
+    if (needsEmotion) setStep(7);
+    else finish();
+  };
+
+  const afterLegal = () => {
+    if (needsEmotion) setStep(7);
+    else finish();
+  };
+
+  const toggleEmotion = (id: Emotion) => {
+    setCurrentEmotions(currentEmotions.includes(id) ? currentEmotions.filter((e) => e !== id) : [...currentEmotions, id]);
+  };
+
   if (step === 1) {
-    const canContinue = name.trim().length > 0;
     return (
-      <Frame onBack={() => navigate({ to: "/start" })} progress="1 / 4">
+      <Frame onBack={() => navigate({ to: "/start" })} progress="1 / 7">
         <p className="mono-label">Pour commencer</p>
-        <h1 className="mt-5 ed-page-title">
-          Comment souhaitez-vous que nous <span className="italic" style={{ color: "var(--terracotta)" }}>vous appelions ?</span>
-        </h1>
+        <h1 className="mt-5 ed-page-title">Comment souhaitez-vous que Legato <span className="italic" style={{ color: "var(--terracotta)" }}>vous appelle&nbsp;?</span></h1>
         <IvoryCard className="mt-8 px-5 py-4">
-          <input
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Votre prénom"
-            className="w-full bg-transparent font-serif text-[24px] italic text-dusk placeholder:text-dusk/30 outline-none"
-            autoFocus
-          />
+          <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Votre prénom" className="w-full bg-transparent font-serif text-[24px] italic text-dusk placeholder:text-dusk/30 outline-none" autoFocus />
         </IvoryCard>
-        <PrimaryBtn disabled={!canContinue} onClick={() => setStep(2)}>Continuer →</PrimaryBtn>
+        <PrimaryBtn disabled={!name.trim()} onClick={() => setStep(2)}>Continuer →</PrimaryBtn>
       </Frame>
     );
   }
 
   if (step === 2) {
     return (
-      <Frame onBack={() => setStep(1)} progress="2 / 4">
-        <p className="mono-label">Pour vous accueillir justement</p>
-        <h1 className="mt-5 ed-page-title">
-          Pourquoi venez-vous sur <span className="italic" style={{ color: "var(--terracotta)" }}>Legato</span>&nbsp;?
-        </h1>
+      <Frame onBack={() => setStep(1)} progress="2 / 7">
+        <p className="mono-label">Situation</p>
+        <h1 className="mt-5 ed-page-title">Pourquoi venez-vous sur <span className="italic" style={{ color: "var(--terracotta)" }}>Legato</span> aujourd'hui&nbsp;?</h1>
         <div className="mt-8 flex flex-col gap-3">
-          {SITUATIONS.map((s) => {
-            const active = situation === s.id;
-            return (
-              <button
-                key={s.id}
-                onClick={() => { setSituation(s.id); setPrimaryNeed(s.primaryNeed); }}
-                className={`text-left rounded-[16px] border px-5 py-4 transition-colors ${active ? "border-dusk/40 bg-[color:var(--whisper)]" : "border-dusk/12 bg-paper hover:border-dusk/25"}`}
-              >
-                <p className="font-serif text-[18px] leading-[1.2] text-dusk">{s.label}</p>
-              </button>
-            );
-          })}
+          {SITUATIONS.map((s) => (
+            <button key={s.id} onClick={() => { setSituation(s.id); setStage(null); setPrimaryNeed(null); }} className={`text-left rounded-[16px] border px-5 py-4 transition-colors ${situation === s.id ? "border-dusk/40 bg-[color:var(--whisper)]" : "border-dusk/12 bg-paper hover:border-dusk/25"}`}>
+              <p className="font-serif text-[18px] leading-[1.2] text-dusk">{s.label}</p>
+            </button>
+          ))}
         </div>
-        <PrimaryBtn
-          disabled={!situation}
-          onClick={() => {
-            if (!situation) return;
-            if (step3HasQuestions) setStep(3);
-            else if (needsEmotion) setStep(4);
-            else finish();
-          }}
-        >Continuer →</PrimaryBtn>
+        <PrimaryBtn disabled={!situation} onClick={afterSituation}>Continuer →</PrimaryBtn>
       </Frame>
     );
   }
 
   if (step === 3) {
-    const canContinue =
-      (!needsRelation || lovedOneRelation) &&
-      (!needsTimeframe || timeframe) &&
-      (!needsStage || stage) &&
-      (!needsNeedChoice || primaryNeed);
+    const title = situation === "perdu" ? "Qui avez-vous perdu&nbsp;?" : situation === "peur" ? "De qui avez-vous peur de perdre la présence&nbsp;?" : "Qui accompagnez-vous&nbsp;?";
     return (
-      <Frame onBack={() => setStep(2)} progress="3 / 4">
-        <p className="mono-label">Encore quelques mots</p>
-        <h1 className="mt-5 ed-page-title">
-          Pour mieux <span className="italic" style={{ color: "var(--terracotta)" }}>vous accompagner</span>
-        </h1>
-
-        {needsRelation && (
-          <Field label="De qui parlons-nous ?">
-            <ChipGrid
-              options={RELATIONS.map((r) => ({ id: r.id, label: r.label }))}
-              value={lovedOneRelation}
-              onChange={(v) => setLovedOneRelation(v as Relation)}
-            />
-            <input
-              value={lovedOneName}
-              onChange={(e) => setLovedOneName(e.target.value)}
-              placeholder="Son prénom ou comment vous l'appelez (optionnel)"
-              className="mt-4 w-full rounded-[14px] border border-dusk/15 bg-paper px-4 py-3 text-[14px] text-dusk placeholder:text-dusk/35 outline-none focus:border-dusk/35"
-            />
-          </Field>
+      <Frame onBack={() => setStep(2)} progress="3 / 7">
+        <p className="mono-label">Personne concernée</p>
+        <h1 className="mt-5 ed-page-title" dangerouslySetInnerHTML={{ __html: title }} />
+        <div className="mt-8">
+          <ChipGrid options={RELATIONS.map((r) => ({ id: r.id, label: r.label }))} value={lovedOneRelation} onChange={(v) => setLovedOneRelation(v as Relation)} />
+        </div>
+        {lovedOneRelation === "autre" && (
+          <IvoryCard className="mt-5 px-4 py-3">
+            <input value={lovedOther} onChange={(e) => setLovedOther(e.target.value)} placeholder="Précisez qui, si vous le souhaitez" className="w-full bg-transparent text-[14px] text-dusk placeholder:text-dusk/35 outline-none" />
+          </IvoryCard>
         )}
-
-        {situation === "soutenir" && (
-          <Field label="Le prénom de la personne endeuillée (optionnel)">
-            <input
-              value={lovedOneName}
-              onChange={(e) => setLovedOneName(e.target.value)}
-              placeholder="Son prénom"
-              className="w-full rounded-[14px] border border-dusk/15 bg-paper px-4 py-3 text-[14px] text-dusk placeholder:text-dusk/35 outline-none focus:border-dusk/35"
-            />
-          </Field>
-        )}
-
-        {needsTimeframe && (
-          <Field label="Quand cela s'est-il passé ?">
-            <ChipGrid
-              options={TIMEFRAMES.map((t) => ({ id: t.id, label: t.label }))}
-              value={timeframe}
-              onChange={(v) => setTimeframe(v as Timeframe)}
-            />
-          </Field>
-        )}
-
-        {needsStage && (
-          <Field label="Où en êtes-vous ?">
-            <ChipGrid
-              options={STAGES.map((s) => ({ id: s.id, label: s.label }))}
-              value={stage}
-              onChange={(v) => setStage(v as Stage)}
-            />
-          </Field>
-        )}
-
-        {needsNeedChoice && (
-          <Field label="De quoi avez-vous le plus besoin ?">
-            <ChipGrid
-              options={[
-                { id: "emotional", label: "Du soutien émotionnel" },
-                { id: "practical", label: "De l'aide pour les démarches" },
-                { id: "both",      label: "Les deux" },
-              ]}
-              value={primaryNeed}
-              onChange={(v) => setPrimaryNeed(v as PrimaryNeed)}
-            />
-          </Field>
-        )}
-
-        <PrimaryBtn
-          disabled={!canContinue}
-          onClick={() => { if (needsEmotion) setStep(4); else finish(); }}
-        >Continuer →</PrimaryBtn>
+        <PrimaryBtn disabled={needsPerson && !lovedOneRelation} onClick={() => setStep(4)}>Continuer →</PrimaryBtn>
       </Frame>
     );
   }
 
-  const toggleEmotion = (id: Emotion) => {
-    setCurrentEmotions(
-      currentEmotions.includes(id)
-        ? currentEmotions.filter((e) => e !== id)
-        : [...currentEmotions, id],
+  if (step === 4) {
+    return (
+      <Frame onBack={() => (needsPerson ? setStep(3) : setStep(2))} progress="4 / 7">
+        <p className="mono-label">Nom ou lien</p>
+        <h1 className="mt-5 ed-page-title">Quel prénom ou quel lien voulez-vous utiliser dans <span className="italic" style={{ color: "var(--terracotta)" }}>Legato&nbsp;?</span></h1>
+        <IvoryCard className="mt-8 px-5 py-4">
+          <input value={lovedOneName} onChange={(e) => setLovedOneName(e.target.value)} placeholder={placeholderFor(lovedOneRelation)} className="w-full bg-transparent font-serif text-[22px] italic text-dusk placeholder:text-dusk/30 outline-none" />
+        </IvoryCard>
+        <PrimaryBtn disabled={false} onClick={() => setStep(5)}>Continuer →</PrimaryBtn>
+      </Frame>
     );
-  };
+  }
+
+  if (step === 5) {
+    return (
+      <Frame onBack={() => (needsLabel ? setStep(4) : setStep(2))} progress="5 / 7">
+        <p className="mono-label">Stade du parcours</p>
+        <h1 className="mt-5 ed-page-title">{stageQuestion(situation)}</h1>
+        <div className="mt-8">
+          <ChipGrid options={stageOptions.map((s) => ({ id: s.id, label: s.label }))} value={stage} onChange={(v) => setStage(v as Stage)} />
+        </div>
+        <PrimaryBtn disabled={!stage} onClick={afterStage}>Continuer →</PrimaryBtn>
+      </Frame>
+    );
+  }
+
+  if (step === 6) {
+    return (
+      <Frame onBack={() => setStep(5)} progress="6 / 7">
+        <p className="mono-label">Besoin principal</p>
+        <h1 className="mt-5 ed-page-title">De quoi avez-vous besoin en priorité <span className="italic" style={{ color: "var(--terracotta)" }}>maintenant&nbsp;?</span></h1>
+        <div className="mt-8">
+          <ChipGrid
+            options={[
+              { id: "emotional", label: "Être soutenu·e émotionnellement" },
+              { id: "practical", label: "Avancer dans les démarches concrètes" },
+              { id: "both", label: "Les deux, mais séparément" },
+            ]}
+            value={primaryNeed}
+            onChange={(v) => setPrimaryNeed(v as PrimaryNeed)}
+          />
+        </div>
+        <PrimaryBtn disabled={!primaryNeed} onClick={afterNeed}>Continuer →</PrimaryBtn>
+      </Frame>
+    );
+  }
+
+  if (step === 8) {
+    return (
+      <Frame onBack={() => setStep(6)} progress="6 bis / 7">
+        <p className="mono-label">Responsabilité</p>
+        <h1 className="mt-5 ed-page-title">Êtes-vous responsable légalement, ou aidez-vous la famille pour les démarches&nbsp;?</h1>
+        <div className="mt-8 flex flex-col gap-3">
+          <button onClick={() => setLegallyInvolved(true)} className={`text-left rounded-[16px] border px-5 py-4 ${legallyInvolved ? "border-dusk/40 bg-[color:var(--whisper)]" : "border-dusk/12 bg-paper"}`}><p className="font-serif text-[18px]">Oui, je suis impliqué·e</p></button>
+          <button onClick={() => setLegallyInvolved(false)} className={`text-left rounded-[16px] border px-5 py-4 ${!legallyInvolved ? "border-dusk/40 bg-[color:var(--whisper)]" : "border-dusk/12 bg-paper"}`}><p className="font-serif text-[18px]">Non, pas directement</p></button>
+        </div>
+        <PrimaryBtn onClick={afterLegal}>Continuer →</PrimaryBtn>
+      </Frame>
+    );
+  }
+
   return (
-    <Frame onBack={() => setStep(step3HasQuestions ? 3 : 2)} progress="4 / 4">
-      <p className="mono-label">Avant d'entrer</p>
-      <h1 className="mt-5 ed-page-title">
-        Comment vous sentez-vous <span className="italic" style={{ color: "var(--terracotta)" }}>maintenant&nbsp;?</span>
-      </h1>
-      <p className="mt-5 text-[13.5px] leading-[1.6] text-dusk/60 max-w-[34ch]">
-        Plusieurs choix possibles. Vous pourrez revenir ici à tout moment.
-      </p>
+    <Frame onBack={() => (needsLegalQuestion ? setStep(8) : setStep(6))} progress="7 / 7">
+      <p className="mono-label">Check-in émotionnel</p>
+      <h1 className="mt-5 ed-page-title">Comment vous sentez-vous <span className="italic" style={{ color: "var(--terracotta)" }}>maintenant&nbsp;?</span></h1>
+      <p className="mt-5 text-[13.5px] leading-[1.6] text-dusk/60 max-w-[34ch]">Plusieurs choix possibles. Vos émotions adaptent uniquement l'espace Soutien.</p>
       <div className="mt-8 flex flex-wrap gap-2">
-        {EMOTIONS.map((e) => {
-          const active = currentEmotions.includes(e.id);
-          return (
-            <button
-              key={e.id}
-              onClick={() => toggleEmotion(e.id)}
-              className={`rounded-full border px-4 py-2 text-[13px] transition-colors ${active ? "border-dusk/40 bg-[color:var(--whisper)]" : "border-dusk/15 bg-paper text-dusk/70 hover:border-dusk/25"}`}
-            >
-              {e.label}
-            </button>
-          );
-        })}
+        {EMOTIONS.map((e) => (
+          <button key={e.id} onClick={() => toggleEmotion(e.id)} className={`rounded-full border px-4 py-2 text-[13px] transition-colors ${currentEmotions.includes(e.id) ? "border-dusk/40 bg-[color:var(--whisper)]" : "border-dusk/15 bg-paper text-dusk/70 hover:border-dusk/25"}`}>
+            {e.label}
+          </button>
+        ))}
       </div>
       <PrimaryBtn onClick={finish}>Entrer dans Legato →</PrimaryBtn>
-      <button onClick={finish} className="mt-3 block w-full text-center mono-label text-dusk/55">
-        Passer cette étape
-      </button>
+      <button onClick={finish} className="mt-3 block w-full text-center mono-label text-dusk/55">Passer cette étape</button>
     </Frame>
   );
 }
