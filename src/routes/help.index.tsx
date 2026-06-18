@@ -1,105 +1,202 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import { Shell } from "@/components/legato/Shell";
 import { PageHeader } from "@/components/legato/EditorialUI";
 
 export const Route = createFileRoute("/help/")({
-  head: () => ({ meta: [{ title: "Aide et accompagnement — Legato" }] }),
+  head: () => ({ meta: [{ title: "Accompagnement du jour — Legato" }] }),
   component: Help,
 });
 
-type HelpItem = {
-  kind: string;
-  title: string;
-  body: string;
-  to: "/practical" | "/resources" | "/help/corps" | "/community" | "/crisis" | "/presence";
-  tint: string;
-};
+type Level = 1 | 2 | 3;
+const LEVEL_LABEL: Record<Level, string> = { 1: "Très bas", 2: "Moyen", 3: "Tient" };
 
-/* Choses concrètes — chaque entrée mène à une vraie page qui accompagne. */
-const PRACTICAL: HelpItem[] = [
-  { kind: "Le corps",      title: "Quand le corps oublie de manger",  body: "Cinq petites choses que l'on peut avaler sans y penser.",  to: "/help/corps", tint: "var(--peach)" },
-  { kind: "Le corps",      title: "L'eau et le corps",                body: "Se laver, une étape à la fois — sans obligation.",          to: "/help/corps", tint: "var(--mist)" },
-  { kind: "Le corps",      title: "S'habiller",                       body: "Trouver la chose la plus douce, aujourd'hui.",              to: "/help/corps", tint: "var(--blush)" },
-  { kind: "Sommeil",       title: "Les nuits qui n'en finissent pas", body: "Ce que d'autres ont fait à 3 h du matin.",                 to: "/help/corps", tint: "var(--lavender)" },
-  { kind: "Administratif", title: "Résilier, prévenir",               body: "Une liste douce. Banque, abonnements, la poste.",          to: "/practical",  tint: "var(--sun)" },
-];
-
-const RELAY: HelpItem[] = [
-  { kind: "Un·e proche",    title: "Déléguer une tâche",          body: "Nous rédigeons le message à votre place.",                          to: "/presence",  tint: "var(--sage)" },
-  { kind: "Un·e pro",       title: "Trouver un·e thérapeute",     body: "Annuaire de thérapeutes du deuil, par région et par langue.",       to: "/resources", tint: "var(--terracotta)" },
-  { kind: "Une communauté", title: "Petit cercle, chaque semaine",body: "Groupes en ligne — personne, animal, ou deuil anticipé.",           to: "/community", tint: "var(--azure)" },
-];
+function loadLevel(key: string, def: Level): Level {
+  if (typeof window === "undefined") return def;
+  const v = Number(window.localStorage.getItem(key));
+  return v === 1 || v === 2 || v === 3 ? (v as Level) : def;
+}
 
 function Help() {
+  const [hydrated, setHydrated] = useState(false);
+  const [energy, setEnergy] = useState<Level>(2);
+  const [sleep, setSleep] = useState<Level>(2);
+  const [hunger, setHunger] = useState<Level>(2);
+
+  useEffect(() => {
+    setEnergy(loadLevel("lg.help.energy", 2));
+    setSleep(loadLevel("lg.help.sleep", 2));
+    setHunger(loadLevel("lg.help.hunger", 2));
+    setHydrated(true);
+  }, []);
+
+  function update(setter: (l: Level) => void, key: string, v: Level) {
+    setter(v);
+    if (typeof window !== "undefined") window.localStorage.setItem(key, String(v));
+  }
+
+  // Programme du jour : 3 gestes choisis selon les curseurs.
+  const plan = buildPlan({ energy, sleep, hunger });
+
   return (
     <Shell livingBg={false}>
       <div className="min-h-dvh bg-paper text-dusk pb-32">
-        <PageHeader title="AIDE" back="/home" />
+        <PageHeader title="" back="/home" />
 
-        <section className="px-6 pb-10">
-          <p className="mono-label">Sans s'expliquer trop</p>
-          <h1 className="mt-5 ed-page-title">
-            Demander de l'<span className="italic" style={{ color: "var(--terracotta)" }}>aide</span>.
+        <section className="px-6 pb-2">
+          <p className="mono-label">Accompagnement du jour</p>
+          <h1 className="mt-5 font-serif font-normal text-[32px] leading-[1.06]">
+            Comment va votre<br />
+            <span className="italic" style={{ color: "var(--terracotta)" }}>corps aujourd'hui</span> ?
           </h1>
-          <p className="mt-5 body-meta max-w-[34ch]">
-            Trois portes simples : pour soi, pour déléguer, ou pour être accompagné·e.
+          <p className="mt-4 text-[13px] leading-[1.6] text-dusk/60 max-w-[34ch]">
+            Trois curseurs courts. On adapte deux ou trois gestes — rien de plus.
           </p>
         </section>
 
-        <section className="px-5">
-          <p className="eyebrow px-1 mb-3">Pour soi — concret</p>
-          <div className="grid grid-cols-2 gap-3">
-            {PRACTICAL.map((p, i) => (
+        <section className="px-5 pt-7 space-y-3">
+          <BodySlider label="Énergie" value={energy} onChange={(v) => update(setEnergy, "lg.help.energy", v)} tint="var(--sun)" />
+          <BodySlider label="Sommeil" value={sleep}  onChange={(v) => update(setSleep,  "lg.help.sleep",  v)} tint="var(--sky)" />
+          <BodySlider label="Faim"    value={hunger} onChange={(v) => update(setHunger, "lg.help.hunger", v)} tint="var(--blush)" />
+        </section>
+
+        <section className="px-5 pt-9">
+          <div className="flex items-center justify-between px-1">
+            <p className="mono-label">Pour aujourd'hui</p>
+            <div className="h-px flex-1 bg-dusk/10 ml-3" />
+          </div>
+          <div className="mt-4 space-y-3">
+            {plan.map((g) => (
               <Link
-                key={p.title}
-                to={p.to}
-                className={`card-plain px-5 py-5 flex flex-col justify-between transition-transform active:scale-[0.99] ${
-                  i === 0 ? "col-span-2 min-h-[130px]" : "min-h-[150px]"
-                }`}
-                style={{ background: `color-mix(in oklab, ${p.tint} 26%, var(--paper))` }}
+                key={g.id}
+                to={g.to as "/care"}
+                search={g.search}
+                className="block rounded-[20px] px-5 py-5"
+                style={{ background: g.bg }}
               >
-                <div>
-                  <p className="eyebrow">{p.kind}</p>
-                  <h3 className="h-section mt-3">{p.title}</h3>
-                </div>
-                <p className="mt-3 body-meta">{p.body}</p>
+                <p className="mono-label text-dusk/60">{g.kicker}</p>
+                <p className="mt-2 font-serif text-[20px] leading-[1.15]">{g.title}</p>
+                <p className="mt-1 text-[12.5px] text-dusk/65 max-w-[34ch]">{g.body}</p>
+                <p className="mt-3 mono-label text-dusk/55">{g.cta} →</p>
               </Link>
             ))}
           </div>
         </section>
 
-        <section className="px-5 mt-8">
-          <p className="eyebrow px-1 mb-3">Relais — laisser aider</p>
-          <div className="space-y-2.5">
-            {RELAY.map((p) => (
-              <Link
-                key={p.title}
-                to={p.to}
-                search={p.to === "/resources" ? { space: "care" as const } : undefined}
-                className="card-plain px-5 py-5 flex items-center gap-4 active:scale-[0.99] transition-transform"
-                style={{ background: `color-mix(in oklab, ${p.tint} 18%, var(--paper))` }}
-              >
-                <span aria-hidden className="size-10 rounded-full shrink-0" style={{ background: p.tint }} />
-                <div className="flex-1 min-w-0">
-                  <p className="eyebrow">{p.kind}</p>
-                  <h3 className="mt-1.5 font-serif text-[19px] leading-tight">{p.title}</h3>
-                  <p className="mt-1.5 body-meta">{p.body}</p>
-                </div>
-                <span className="font-serif text-[20px] opacity-50">→</span>
-              </Link>
-            ))}
+        <section className="px-5 pt-9">
+          <div className="flex items-center justify-between px-1">
+            <p className="mono-label">Laisser aider</p>
+            <div className="h-px flex-1 bg-dusk/10 ml-3" />
+          </div>
+          <div className="mt-4 grid grid-cols-2 gap-3">
+            <Link to="/care/resources" search={{ space: "care" as const }} className="rounded-[18px] px-5 py-5 min-h-[110px] flex flex-col justify-between" style={{ background: "color-mix(in oklab, var(--terracotta) 18%, var(--paper))" }}>
+              <p className="mono-label text-dusk/60">Un·e pro</p>
+              <p className="font-serif text-[17px] leading-tight">Trouver un·e thérapeute</p>
+            </Link>
+            <Link to="/care/community" className="rounded-[18px] px-5 py-5 min-h-[110px] flex flex-col justify-between" style={{ background: "color-mix(in oklab, var(--sky) 50%, var(--paper))" }}>
+              <p className="mono-label text-dusk/60">Une communauté</p>
+              <p className="font-serif text-[17px] leading-tight">Petit cercle, chaque semaine</p>
+            </Link>
           </div>
         </section>
 
-        <section className="px-7 mt-10">
+        <section className="px-7 pt-10">
           <Link to="/crisis" className="block border-t border-dusk/12 pt-6 text-center">
-            <p className="eyebrow">Si aujourd'hui est trop</p>
-            <p className="mt-2 font-serif text-[17px] italic" style={{ color: "var(--terracotta)" }}>
+            <p className="mono-label">Si aujourd'hui est trop</p>
+            <p className="mt-2 font-serif text-[17px] italic" style={{ color: "var(--bordeaux)" }}>
               Une porte calme →
             </p>
           </Link>
         </section>
+
+        {!hydrated && <div className="sr-only">Chargement…</div>}
       </div>
     </Shell>
   );
+}
+
+function BodySlider({
+  label, value, onChange, tint,
+}: { label: string; value: Level; onChange: (v: Level) => void; tint: string }) {
+  const levels: Level[] = [1, 2, 3];
+  return (
+    <div className="rounded-[18px] border border-dusk/10 bg-paper px-5 py-4">
+      <div className="flex items-center justify-between">
+        <p className="font-serif text-[16px]">{label}</p>
+        <p className="mono-label text-dusk/55">{LEVEL_LABEL[value]}</p>
+      </div>
+      <div className="mt-3 grid grid-cols-3 gap-2">
+        {levels.map((l) => {
+          const active = value === l;
+          return (
+            <button
+              key={l}
+              type="button"
+              onClick={() => onChange(l)}
+              aria-label={`${label} ${LEVEL_LABEL[l]}`}
+              className="h-[36px] rounded-full text-[12px] transition-colors"
+              style={{
+                background: active ? tint : "color-mix(in oklab, var(--dusk) 5%, transparent)",
+                color: "var(--dusk)",
+                fontWeight: active ? 600 : 500,
+              }}
+            >
+              {LEVEL_LABEL[l]}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+type Gesture = {
+  id: string;
+  kicker: string;
+  title: string;
+  body: string;
+  cta: string;
+  to: string;
+  bg: string;
+  search?: Record<string, unknown>;
+};
+
+function buildPlan({ energy, sleep, hunger }: { energy: Level; sleep: Level; hunger: Level }): Gesture[] {
+  const out: Gesture[] = [];
+
+  // Toujours : 2 min d'ancrage adapté à l'énergie
+  out.push(
+    energy === 1
+      ? { id: "calm", kicker: "Le corps d'abord", title: "Se poser deux minutes", body: "Un cercle qui guide le souffle. Rien à comprendre, juste suivre.", cta: "Respirer", to: "/no-words", search: { tab: "respirer" }, bg: "var(--mist, var(--sky))" }
+      : { id: "move", kicker: "Bouger doucement", title: "Quelques pas, une fenêtre", body: "Trois minutes dehors ou près d'une lumière. Sans objectif.", cta: "Y aller", to: "/no-words", search: { tab: "souffles" }, bg: "var(--sun)" }
+  );
+
+  // Selon la faim
+  if (hunger <= 2) {
+    out.push({
+      id: "eat", kicker: "Avaler quelque chose",
+      title: hunger === 1 ? "Une chose tiède dans la bouche" : "Une bouchée, une gorgée",
+      body: hunger === 1
+        ? "Bouillon, lait chaud, soupe en sachet. Pas besoin de cuisiner."
+        : "Pomme, biscuit, fromage. Posé à côté, pris quand ça vient.",
+      cta: "Ouvrir la fiche", to: "/help/corps/manger", bg: "var(--blush)",
+    });
+  }
+
+  // Selon le sommeil
+  if (sleep === 1) {
+    out.push({
+      id: "night", kicker: "Pour la nuit", title: "Préparer un coin doux",
+      body: "Lumière basse, une chanson lente, un texte court à relire. À garder pour 3h du matin.",
+      cta: "Voir la fiche", to: "/help/corps/nuits", bg: "color-mix(in oklab, var(--lavender, var(--sky)) 45%, var(--paper))",
+    });
+  } else {
+    out.push({
+      id: "water", kicker: "L'eau, sans corvée", title: "Un verre, un visage",
+      body: "Boire un grand verre, passer de l'eau sur le visage. Trois minutes.",
+      cta: "Voir la fiche", to: "/help/corps/eau", bg: "var(--sky)",
+    });
+  }
+
+  return out;
 }

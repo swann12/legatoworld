@@ -110,32 +110,54 @@ export function BottomNav() {
   return (
     <nav
       aria-label="Navigation principale"
-      className="fixed bottom-0 left-1/2 z-50 w-full max-w-[420px] -translate-x-1/2 border-t border-dusk/10 bg-paper/95 backdrop-blur-md"
+      className="fixed bottom-0 left-1/2 z-50 w-full max-w-[420px] -translate-x-1/2 bg-paper/95 backdrop-blur-md"
+      style={{ boxShadow: "0 -1px 0 color-mix(in oklab, var(--dusk) 8%, transparent)" }}
     >
-      <div className="grid grid-cols-5 items-stretch gap-0 px-2 pt-2 pb-[max(env(safe-area-inset-bottom),0.55rem)]">
-        {items.map((it) => <NavItem key={it.to} item={it} active={it.match(pathname)} />)}
+      <div className="grid grid-cols-5 items-stretch px-1.5 pt-2 pb-[max(env(safe-area-inset-bottom),0.5rem)]">
+        {items.map((it, i) => (
+          <NavItem key={it.to} item={it} active={it.match(pathname)} center={i === 2} />
+        ))}
       </div>
     </nav>
   );
 }
 
-function NavItem({ item, active }: { item: ItemDef; active: boolean }) {
+function NavItem({ item, active, center }: { item: ItemDef; active: boolean; center: boolean }) {
   return (
     <Link
       to={item.to as "/care"}
       aria-label={item.label}
-      className="group relative flex flex-col items-center justify-center gap-1 py-1.5"
-      style={{ color: active ? "var(--terracotta)" : "color-mix(in oklab, var(--dusk) 60%, transparent)" }}
+      className="group relative flex flex-col items-center justify-start gap-[5px] py-1.5"
+      style={{ color: active ? "var(--terracotta)" : "color-mix(in oklab, var(--dusk) 55%, transparent)" }}
     >
-      <span className="flex h-6 items-center justify-center">
+      <span
+        className="flex items-center justify-center rounded-full transition-colors"
+        style={{
+          width: center ? 38 : 30,
+          height: center ? 38 : 30,
+          background: center && active ? "color-mix(in oklab, var(--terracotta) 14%, transparent)"
+                    : center ? "color-mix(in oklab, var(--dusk) 5%, transparent)"
+                    : "transparent",
+        }}
+      >
         <Icon name={item.icon} />
       </span>
       <span
-        className="text-center leading-tight text-[10.5px] tracking-[0.02em]"
-        style={{ color: active ? "var(--dusk)" : "color-mix(in oklab, var(--dusk) 55%, transparent)", fontWeight: active ? 600 : 500 }}
+        className="text-center leading-tight text-[10px] tracking-[0.04em]"
+        style={{
+          color: active ? "var(--dusk)" : "color-mix(in oklab, var(--dusk) 55%, transparent)",
+          fontWeight: active || center ? 600 : 500,
+        }}
       >
         {item.label}
       </span>
+      {active && !center && (
+        <span
+          aria-hidden
+          className="absolute -top-[1px] h-[2px] w-7 rounded-full"
+          style={{ background: "var(--terracotta)" }}
+        />
+      )}
     </Link>
   );
 }

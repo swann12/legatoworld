@@ -41,6 +41,7 @@ import { Route as HelpIndexRouteImport } from './routes/help.index'
 import { Route as GardenIndexRouteImport } from './routes/garden.index'
 import { Route as CareIndexRouteImport } from './routes/care.index'
 import { Route as ResourcesCategoryRouteImport } from './routes/resources.$category'
+import { Route as ProfileProchesRouteImport } from './routes/profile.proches'
 import { Route as PracticalWishesRouteImport } from './routes/practical.wishes'
 import { Route as PracticalVaultRouteImport } from './routes/practical.vault'
 import { Route as PracticalTextsRouteImport } from './routes/practical.texts'
@@ -239,6 +240,11 @@ const ResourcesCategoryRoute = ResourcesCategoryRouteImport.update({
   id: '/resources/$category',
   path: '/resources/$category',
   getParentRoute: () => rootRouteImport,
+} as any)
+const ProfileProchesRoute = ProfileProchesRouteImport.update({
+  id: '/proches',
+  path: '/proches',
+  getParentRoute: () => ProfileRoute,
 } as any)
 const PracticalWishesRoute = PracticalWishesRouteImport.update({
   id: '/wishes',
@@ -458,7 +464,7 @@ export interface FileRoutesByFullPath {
   '/practical': typeof PracticalRouteWithChildren
   '/presence': typeof PresenceRoute
   '/presentation': typeof PresentationRoute
-  '/profile': typeof ProfileRoute
+  '/profile': typeof ProfileRouteWithChildren
   '/space': typeof SpaceRoute
   '/start': typeof StartRoute
   '/vitrine': typeof VitrineRoute
@@ -493,6 +499,7 @@ export interface FileRoutesByFullPath {
   '/practical/texts': typeof PracticalTextsRoute
   '/practical/vault': typeof PracticalVaultRoute
   '/practical/wishes': typeof PracticalWishesRoute
+  '/profile/proches': typeof ProfileProchesRoute
   '/resources/$category': typeof ResourcesCategoryRouteWithChildren
   '/care/': typeof CareIndexRoute
   '/garden/': typeof GardenIndexRoute
@@ -527,7 +534,7 @@ export interface FileRoutesByTo {
   '/parcours': typeof ParcoursRouteWithChildren
   '/presence': typeof PresenceRoute
   '/presentation': typeof PresentationRoute
-  '/profile': typeof ProfileRoute
+  '/profile': typeof ProfileRouteWithChildren
   '/space': typeof SpaceRoute
   '/start': typeof StartRoute
   '/vitrine': typeof VitrineRoute
@@ -562,6 +569,7 @@ export interface FileRoutesByTo {
   '/practical/texts': typeof PracticalTextsRoute
   '/practical/vault': typeof PracticalVaultRoute
   '/practical/wishes': typeof PracticalWishesRoute
+  '/profile/proches': typeof ProfileProchesRoute
   '/resources/$category': typeof ResourcesCategoryRouteWithChildren
   '/care': typeof CareIndexRoute
   '/garden': typeof GardenIndexRoute
@@ -601,7 +609,7 @@ export interface FileRoutesById {
   '/practical': typeof PracticalRouteWithChildren
   '/presence': typeof PresenceRoute
   '/presentation': typeof PresentationRoute
-  '/profile': typeof ProfileRoute
+  '/profile': typeof ProfileRouteWithChildren
   '/space': typeof SpaceRoute
   '/start': typeof StartRoute
   '/vitrine': typeof VitrineRoute
@@ -636,6 +644,7 @@ export interface FileRoutesById {
   '/practical/texts': typeof PracticalTextsRoute
   '/practical/vault': typeof PracticalVaultRoute
   '/practical/wishes': typeof PracticalWishesRoute
+  '/profile/proches': typeof ProfileProchesRoute
   '/resources/$category': typeof ResourcesCategoryRouteWithChildren
   '/care/': typeof CareIndexRoute
   '/garden/': typeof GardenIndexRoute
@@ -710,6 +719,7 @@ export interface FileRouteTypes {
     | '/practical/texts'
     | '/practical/vault'
     | '/practical/wishes'
+    | '/profile/proches'
     | '/resources/$category'
     | '/care/'
     | '/garden/'
@@ -779,6 +789,7 @@ export interface FileRouteTypes {
     | '/practical/texts'
     | '/practical/vault'
     | '/practical/wishes'
+    | '/profile/proches'
     | '/resources/$category'
     | '/care'
     | '/garden'
@@ -852,6 +863,7 @@ export interface FileRouteTypes {
     | '/practical/texts'
     | '/practical/vault'
     | '/practical/wishes'
+    | '/profile/proches'
     | '/resources/$category'
     | '/care/'
     | '/garden/'
@@ -891,7 +903,7 @@ export interface RootRouteChildren {
   PracticalRoute: typeof PracticalRouteWithChildren
   PresenceRoute: typeof PresenceRoute
   PresentationRoute: typeof PresentationRoute
-  ProfileRoute: typeof ProfileRoute
+  ProfileRoute: typeof ProfileRouteWithChildren
   SpaceRoute: typeof SpaceRoute
   StartRoute: typeof StartRoute
   VitrineRoute: typeof VitrineRoute
@@ -1135,6 +1147,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/resources/$category'
       preLoaderRoute: typeof ResourcesCategoryRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/profile/proches': {
+      id: '/profile/proches'
+      path: '/proches'
+      fullPath: '/profile/proches'
+      preLoaderRoute: typeof ProfileProchesRouteImport
+      parentRoute: typeof ProfileRoute
     }
     '/practical/wishes': {
       id: '/practical/wishes'
@@ -1553,6 +1572,17 @@ const PracticalRouteWithChildren = PracticalRoute._addFileChildren(
   PracticalRouteChildren,
 )
 
+interface ProfileRouteChildren {
+  ProfileProchesRoute: typeof ProfileProchesRoute
+}
+
+const ProfileRouteChildren: ProfileRouteChildren = {
+  ProfileProchesRoute: ProfileProchesRoute,
+}
+
+const ProfileRouteWithChildren =
+  ProfileRoute._addFileChildren(ProfileRouteChildren)
+
 interface ResourcesCategoryRouteChildren {
   ResourcesCategoryProviderIdRoute: typeof ResourcesCategoryProviderIdRoute
 }
@@ -1585,7 +1615,7 @@ const rootRouteChildren: RootRouteChildren = {
   PracticalRoute: PracticalRouteWithChildren,
   PresenceRoute: PresenceRoute,
   PresentationRoute: PresentationRoute,
-  ProfileRoute: ProfileRoute,
+  ProfileRoute: ProfileRouteWithChildren,
   SpaceRoute: SpaceRoute,
   StartRoute: StartRoute,
   VitrineRoute: VitrineRoute,

@@ -33,7 +33,7 @@ export function emotionPlan(emotions: Emotion[]): EmotionPlan {
     case "anxiete":
       return {
         tone: "doux", contentLength: "court", showCrisis: true, hideHeavyTasks: true,
-        primary: { label: "Respirer une minute", to: "/no-words", hint: "Souffle court, ancrage" },
+      primary: { label: "Respirer une minute", to: "/no-words?tab=respirer", hint: "Souffle court, ancrage" },
         secondary: [{ label: "Écrire ce qui presse", to: "/care/journal" }, { label: "Si ça déborde", to: "/crisis" }],
       };
     case "culpabilite":
@@ -63,7 +63,7 @@ export function emotionPlan(emotions: Emotion[]): EmotionPlan {
     case "fatigue":
       return {
         tone: "doux", contentLength: "court", showCrisis: false, hideHeavyTasks: true,
-        primary: { label: "Se poser, respirer", to: "/no-words", hint: "Rien à faire" },
+        primary: { label: "Se poser, respirer", to: "/no-words?tab=respirer", hint: "Rien à faire" },
         secondary: [{ label: "Une seule petite étape", to: "/practical" }],
       };
     case "nostalgie":
@@ -99,7 +99,7 @@ export function emotionPlan(emotions: Emotion[]): EmotionPlan {
     case "besoin_calme":
       return {
         tone: "sobre", contentLength: "moyen", showCrisis: false, hideHeavyTasks: false,
-        primary: { label: "Respirer au calme", to: "/no-words" },
+        primary: { label: "Respirer au calme", to: "/no-words?tab=respirer" },
         secondary: [{ label: "Mémoire", to: "/care/memory" }],
       };
     default:

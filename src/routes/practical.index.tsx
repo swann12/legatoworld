@@ -73,7 +73,7 @@ function Practical() {
         </header>
         <SpaceToggle />
 
-        <section className="px-6 pt-10 pb-2">
+        <section className="px-6 pt-8 pb-2">
           <p className="mono-label">Démarches</p>
           <h1 className="mt-5 font-serif font-normal text-[34px] leading-[1.05] text-dusk">
             Avancer sans se<br />
@@ -88,8 +88,69 @@ function Practical() {
           </p>
         </section>
 
+        {/* Bloc "Aujourd'hui" — une priorité claire + progression */}
+        {hydrated && total > 0 && (
+          <section className="px-5 pt-7">
+            <div
+              className="rounded-[22px] px-6 pt-6 pb-6"
+              style={{ background: "var(--sun)" }}
+            >
+              <div className="flex items-center justify-between gap-3">
+                <p className="mono-label text-dusk/65">Aujourd'hui</p>
+                <p className="mono-label text-dusk/65">
+                  {total ? Math.round((done / total) * 100) : 0}%
+                </p>
+              </div>
+              <h2 className="mt-4 font-serif text-[24px] leading-[1.12] max-w-[20ch]">
+                {grouped.now[0]
+                  ? PRACTICAL_LABELS[grouped.now[0]].label
+                  : "Rien d'urgent aujourd'hui."}
+              </h2>
+              {grouped.now[0] && (
+                <p className="mt-2 text-[12.5px] text-dusk/65 max-w-[28ch]">
+                  {PRACTICAL_LABELS[grouped.now[0]].hint}
+                </p>
+              )}
+              <div className="mt-5 h-[3px] rounded-full overflow-hidden" style={{ background: "color-mix(in oklab, var(--dusk) 10%, transparent)" }}>
+                <div className="h-full rounded-full" style={{ width: `${total ? (done / total) * 100 : 0}%`, background: "var(--terracotta)" }} />
+              </div>
+              {grouped.now[0] && (
+                <Link
+                  to={"/practical/tasks/$id" as "/practical"}
+                  params={{ id: grouped.now[0] } as never}
+                  className="mt-5 inline-block mono-label"
+                  style={{ color: "var(--terracotta)" }}
+                >
+                  Avancer cette étape →
+                </Link>
+              )}
+            </div>
+          </section>
+        )}
+
+        {/* Tuiles thématiques — chacune une couleur unique */}
+        <section className="px-5 pt-7">
+          <div className="grid grid-cols-2 gap-3">
+            <ThemeTile to="/practical/tasks" label="Tâches" hint="Avancer pas à pas" bg="var(--blush)" />
+            <ThemeTile to="/practical/vault" label="Documents" hint="Tout au même endroit" bg="var(--sky)" />
+            <ThemeTile to="/practical/pros"  label="Pros"     hint="Pompes funèbres, notaires" bg="color-mix(in oklab, var(--olive) 32%, var(--whisper))" />
+            <ThemeTile to="/practical/ceremony" label="Cérémonie" hint="Lieu, déroulé, hommage" bg="var(--sun)" />
+          </div>
+          <Link
+            to="/practical/wishes"
+            className="mt-3 block rounded-[18px] px-5 py-4"
+            style={{ background: "var(--bordeaux)", color: "var(--paper)" }}
+          >
+            <p className="mono-label" style={{ color: "color-mix(in oklab, var(--paper) 70%, transparent)" }}>Ancrage</p>
+            <p className="mt-1.5 font-serif text-[18px] leading-[1.15]">Mes volontés</p>
+            <p className="mt-1 text-[12px]" style={{ color: "color-mix(in oklab, var(--paper) 78%, transparent)" }}>
+              Préparer en douceur, pour soi ou pour ses proches.
+            </p>
+          </Link>
+        </section>
+
         {!softActive && (
-          <section className="px-5 pt-6">
+          <section className="px-5 pt-8">
             <div className="flex gap-2 overflow-x-auto pb-1">
               <FilterChip active={filter === "all"} onClick={() => setFilter("all")}>Tout</FilterChip>
               {ORDER.map((b) => (
@@ -149,6 +210,19 @@ function Practical() {
         </footer>
       </div>
     </Shell>
+  );
+}
+
+function ThemeTile({ to, label, hint, bg }: { to: string; label: string; hint: string; bg: string }) {
+  return (
+    <Link
+      to={to as "/practical"}
+      className="rounded-[18px] px-5 py-5 min-h-[112px] flex flex-col justify-between"
+      style={{ background: bg }}
+    >
+      <p className="font-serif text-[19px] leading-[1.12]">{label}</p>
+      <p className="text-[12px] text-dusk/65">{hint}</p>
+    </Link>
   );
 }
 

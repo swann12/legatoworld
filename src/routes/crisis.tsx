@@ -1,85 +1,98 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Shell } from "@/components/legato/Shell";
 import { LISTENING_LINES } from "@/lib/listening-lines";
-import { PageHeader, IvoryCard } from "@/components/legato/EditorialUI";
 
 export const Route = createFileRoute("/crisis")({
-  head: () => ({ meta: [{ title: "Si aujourd'hui pèse trop — Legato" }] }),
+  head: () => ({ meta: [{ title: "Ici, doucement — Legato" }] }),
   component: Crisis,
 });
 
 function Crisis() {
   return (
     <Shell hideNav>
-      <div className="min-h-dvh flex flex-col" style={{ background: "var(--bordeaux)", color: "var(--blush)" }}>
-        <PageHeader title="" />
+      <div className="min-h-dvh flex flex-col bg-[color:var(--whisper)] text-dusk">
+        <header className="px-6 pt-6 flex items-center justify-between">
+          <Link to="/home" aria-label="Retour" className="text-dusk/55 text-lg">←</Link>
+          <p className="mono-label text-dusk/55">Ici, doucement</p>
+          <span className="w-5" />
+        </header>
 
-        <div className="flex flex-1 flex-col items-center px-6 pt-6 text-center">
-          <div className="mt-6 max-w-[26ch]">
-            <p className="mono-label" style={{ color: "var(--terracotta)" }}>Ici, doucement</p>
-            <h1 className="mt-5 font-serif text-[36px] leading-[1.05] font-light" style={{ color: "var(--paper)" }}>
-              Vous êtes là, <span className="italic" style={{ color: "var(--blush)" }}>c'est déjà beaucoup.</span>
+        <main className="flex-1 px-6 pt-6 pb-16">
+          <section className="max-w-[28ch]">
+            <h1 className="font-serif font-normal text-[34px] leading-[1.05]">
+              Vous êtes là.<br />
+              <span className="italic" style={{ color: "var(--bordeaux)" }}>C'est déjà beaucoup.</span>
             </h1>
-            <p className="mt-6 text-[14.5px] leading-[1.6] max-w-[28ch] mx-auto" style={{ color: "color-mix(in oklab, var(--blush) 80%, transparent)" }}>
-              Respirez avec ce point lumineux. Une porte s'ouvrira quand vous voudrez.
+            <p className="mt-5 text-[13.5px] leading-[1.6] text-dusk/65">
+              Trois portes douces. Choisissez celle qui vous demande le moins d'effort.
             </p>
-          </div>
+          </section>
 
-          <div className="my-14 flex justify-center">
-            <div
-              className="size-28 rounded-full breath"
-              style={{
-                background: "radial-gradient(circle at 30% 30%, var(--peach), var(--rose) 70%)",
-                animationDuration: "8s",
-              }}
-            />
-          </div>
+          {/* Geste 1 — appel direct */}
+          <a
+            href="tel:3114"
+            className="mt-7 block rounded-[20px] px-5 py-5"
+            style={{ background: "var(--bordeaux)", color: "var(--paper)" }}
+          >
+            <p className="mono-label" style={{ color: "color-mix(in oklab, var(--paper) 75%, transparent)" }}>
+              Maintenant
+            </p>
+            <p className="mt-2 font-serif text-[24px] leading-[1.1]">
+              Appeler le 3114
+            </p>
+            <p className="mt-2 text-[12.5px]" style={{ color: "color-mix(in oklab, var(--paper) 80%, transparent)" }}>
+              Gratuit, confidentiel, 24h/24 — France.
+            </p>
+          </a>
 
-          <div className="w-full space-y-3 pb-14 text-left">
-            <Link
-              to="/no-words"
-              className="block rounded-[18px] px-6 py-5"
-              style={{ background: "var(--paper)", color: "var(--dusk)" }}
-            >
-              <span className="block mono-label" style={{ color: "var(--dusk)" }}>Un souffle, une lumière</span>
-              <span className="mt-2 block font-serif italic text-[22px]">Respirer, sans parler</span>
-            </Link>
-            <a
-              href="tel:3114"
-              className="block rounded-[16px] border px-6 py-4"
-              style={{ borderColor: "color-mix(in oklab, var(--blush) 25%, transparent)", background: "color-mix(in oklab, var(--bordeaux) 90%, black)" }}
-            >
-              <span className="block mono-label" style={{ color: "color-mix(in oklab, var(--blush) 60%, transparent)" }}>Écoute gratuite, confidentielle</span>
-              <span className="mt-1.5 block font-serif italic text-[18px]" style={{ color: "var(--paper)" }}>Une voix humaine</span>
-            </a>
-            <button className="w-full rounded-[16px] border px-6 py-4 text-left" style={{ borderColor: "color-mix(in oklab, var(--blush) 25%, transparent)", background: "color-mix(in oklab, var(--bordeaux) 90%, black)" }}>
-              <span className="block mono-label" style={{ color: "color-mix(in oklab, var(--blush) 60%, transparent)" }}>Quelques mots déjà prêts</span>
-              <span className="mt-1.5 block font-serif italic text-[18px]" style={{ color: "var(--paper)" }}>Prévenir un proche</span>
-            </button>
-            <Link to="/home" className="block px-6 py-4 text-center">
-              <span className="mono-label" style={{ color: "color-mix(in oklab, var(--blush) 60%, transparent)" }}>Revenir à l'accueil</span>
-            </Link>
-          </div>
+          {/* Geste 2 — respirer */}
+          <Link
+            to="/no-words"
+            search={{ tab: "respirer" as const }}
+            className="mt-3 block rounded-[20px] px-5 py-5"
+            style={{ background: "var(--blush)" }}
+          >
+            <p className="mono-label text-dusk/60">Si parler est trop</p>
+            <p className="mt-2 font-serif text-[20px] leading-[1.15]">Respirer une minute</p>
+            <p className="mt-1.5 text-[12.5px] text-dusk/60">Un cercle qui guide votre souffle.</p>
+          </Link>
 
-          <section className="w-full pb-16 text-left">
-            <p className="mono-label" style={{ color: "var(--terracotta)" }}>Lignes d'écoute</p>
-            <ul className="mt-3 space-y-2">
+          {/* Geste 3 — présence IA / écrire */}
+          <Link
+            to="/presence"
+            className="mt-3 block rounded-[20px] px-5 py-5"
+            style={{ background: "var(--sun)" }}
+          >
+            <p className="mono-label text-dusk/60">Une oreille tout de suite</p>
+            <p className="mt-2 font-serif text-[20px] leading-[1.15]">Écrire à Présence</p>
+            <p className="mt-1.5 text-[12.5px] text-dusk/60">Sans jugement. Quelques mots suffisent.</p>
+          </Link>
+
+          {/* Lignes d'écoute */}
+          <section className="mt-10">
+            <p className="mono-label text-dusk/55">Autres lignes d'écoute</p>
+            <ul className="mt-4 divide-y divide-dusk/10 rounded-[18px] border border-dusk/10 bg-paper overflow-hidden">
               {LISTENING_LINES.map((l) => (
                 <li key={l.name}>
-                  <IvoryCard className="p-4">
-                    <div className="flex items-baseline justify-between gap-3">
+                  <a
+                    href={`tel:${l.phone.replace(/\s/g, "")}`}
+                    className="flex items-baseline justify-between gap-3 px-5 py-4"
+                  >
+                    <div className="min-w-0">
                       <p className="font-serif text-[16px] text-dusk">{l.name}</p>
-                      <a href={`tel:${l.phone.replace(/\s/g, "")}`} className="mono-label text-dusk">
-                        {l.phone}
-                      </a>
+                      <p className="mt-1 text-[11.5px] text-dusk/55">{l.hours} · {l.scope}</p>
                     </div>
-                    <p className="mt-1 text-[12.5px] text-dusk/70">{l.hours} · {l.scope}</p>
-                  </IvoryCard>
+                    <span className="mono-label text-dusk shrink-0">{l.phone}</span>
+                  </a>
                 </li>
               ))}
             </ul>
           </section>
-        </div>
+
+          <Link to="/home" className="mt-10 block text-center mono-label text-dusk/50">
+            Revenir à l'accueil
+          </Link>
+        </main>
       </div>
     </Shell>
   );
