@@ -32,6 +32,18 @@ function Profile() {
           </h1>
         </section>
 
+        <section className="px-5 pt-8">
+          <Link
+            to="/profile/proches"
+            className="block rounded-[20px] px-5 py-5"
+            style={{ background: "var(--blush)" }}
+          >
+            <p className="mono-label text-dusk/60">Êtres aimés</p>
+            <p className="mt-2 font-serif text-[20px] leading-[1.15]">Toutes les parcelles</p>
+            <p className="mt-1 text-[12.5px] text-dusk/65">Consulter, ajouter, retrouver.</p>
+          </Link>
+        </section>
+
         <section className="px-6 pt-10">
           <label className="mono-label block">Prénom</label>
           <input
