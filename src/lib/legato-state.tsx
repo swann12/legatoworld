@@ -66,6 +66,81 @@ export type PracticalContext = {
   guided: boolean | null;       // true = guidez-moi
 };
 
+/* ─── Onboarding conditionnel ─── */
+
+export type Situation =
+  | "perdu" | "peur" | "accompagner" | "soutenir"
+  | "questionnement" | "volontes" | "demarches" | "soutien";
+
+export type Relation =
+  | "parent" | "conjoint" | "enfant" | "ami" | "animal" | "autre";
+
+export type Timeframe =
+  | "today" | "thisWeek" | "thisMonth" | "months" | "overYear";
+
+export type Stage =
+  | "recent" | "obseques_a_organiser" | "obseques_passees" | "demarches" | "apres";
+
+export type PrimaryNeed = "emotional" | "practical" | "both";
+
+export type Emotion =
+  | "tristesse" | "colere" | "peur" | "anxiete" | "sideration"
+  | "culpabilite" | "solitude" | "fatigue" | "confusion"
+  | "nostalgie" | "soulagement" | "vide" | "calme" | "aide";
+
+export const EMOTIONS: { id: Emotion; label: string }[] = [
+  { id: "tristesse",    label: "Tristesse" },
+  { id: "colere",       label: "Colère" },
+  { id: "peur",         label: "Peur" },
+  { id: "anxiete",      label: "Anxiété" },
+  { id: "sideration",   label: "Sidération" },
+  { id: "culpabilite",  label: "Culpabilité" },
+  { id: "solitude",     label: "Solitude" },
+  { id: "fatigue",      label: "Fatigue" },
+  { id: "confusion",    label: "Confusion" },
+  { id: "nostalgie",    label: "Nostalgie" },
+  { id: "soulagement",  label: "Soulagement" },
+  { id: "vide",         label: "Vide" },
+  { id: "calme",        label: "Calme" },
+  { id: "aide",         label: "Besoin d'aide" },
+];
+
+export const SITUATIONS: { id: Situation; label: string; primaryNeed: PrimaryNeed }[] = [
+  { id: "perdu",          label: "J'ai perdu quelqu'un",                primaryNeed: "both" },
+  { id: "peur",           label: "J'ai peur de perdre quelqu'un",       primaryNeed: "emotional" },
+  { id: "accompagner",    label: "J'accompagne quelqu'un en fin de vie", primaryNeed: "both" },
+  { id: "soutenir",       label: "Je soutiens une personne endeuillée", primaryNeed: "emotional" },
+  { id: "questionnement", label: "Je me questionne sur la mort",        primaryNeed: "emotional" },
+  { id: "volontes",       label: "Je veux préparer mes volontés",       primaryNeed: "practical" },
+  { id: "demarches",      label: "Je veux surtout de l'aide pour les démarches", primaryNeed: "practical" },
+  { id: "soutien",        label: "Je veux surtout du soutien émotionnel", primaryNeed: "emotional" },
+];
+
+export const RELATIONS: { id: Relation; label: string }[] = [
+  { id: "parent",   label: "Un parent" },
+  { id: "conjoint", label: "Mon ou ma conjoint·e" },
+  { id: "enfant",   label: "Mon enfant" },
+  { id: "ami",      label: "Un·e ami·e" },
+  { id: "animal",   label: "Un animal" },
+  { id: "autre",    label: "Une autre personne" },
+];
+
+export const TIMEFRAMES: { id: Timeframe; label: string }[] = [
+  { id: "today",      label: "Aujourd'hui ou ces derniers jours" },
+  { id: "thisWeek",   label: "Cette semaine" },
+  { id: "thisMonth",  label: "Ce mois-ci" },
+  { id: "months",     label: "Il y a quelques mois" },
+  { id: "overYear",   label: "Il y a plus d'un an" },
+];
+
+export const STAGES: { id: Stage; label: string }[] = [
+  { id: "recent",                 label: "C'est tout récent" },
+  { id: "obseques_a_organiser",   label: "J'organise les obsèques" },
+  { id: "obseques_passees",       label: "Les obsèques sont passées" },
+  { id: "demarches",              label: "Je suis dans les démarches" },
+  { id: "apres",                  label: "C'est plus ancien, je traverse l'après" },
+];
+
 const EMPTY_WISHES: Wishes = {
   ceremony: "", ambiance: "", flowers: "", music: "", texts: "",
   objects: "", colors: "", materials: "", iWant: "", iDontWant: "",
@@ -191,6 +266,33 @@ type Ctx = {
   setCareOnboarded: (v: boolean) => void;
   practicalOnboarded: boolean;
   setPracticalOnboarded: (v: boolean) => void;
+
+  // Onboarding conditionnel
+  situation: Situation | null;
+  setSituation: (s: Situation | null) => void;
+  lovedOneName: string;
+  setLovedOneName: (s: string) => void;
+  lovedOneRelation: Relation | null;
+  setLovedOneRelation: (r: Relation | null) => void;
+  timeframe: Timeframe | null;
+  setTimeframe: (t: Timeframe | null) => void;
+  stage: Stage | null;
+  setStage: (s: Stage | null) => void;
+  primaryNeed: PrimaryNeed | null;
+  setPrimaryNeed: (p: PrimaryNeed | null) => void;
+
+  // Émotion du moment
+  currentEmotions: Emotion[];
+  setCurrentEmotions: (e: Emotion[]) => void;
+  currentEmotionAt: string | null;
+
+  // Mode « aujourd'hui c'est dur »
+  softDay: boolean;
+  toggleSoftDay: () => void;
+
+  // Mode nuit override
+  nightModeOverride: boolean | null;
+  setNightModeOverride: (v: boolean | null) => void;
 };
 
 const LegatoContext = createContext<Ctx | null>(null);
@@ -246,6 +348,61 @@ export function LegatoProvider({ children }: { children: ReactNode }) {
   const [careOnboarded, setCareOnboarded] = useState(false);
   const [practicalOnboarded, setPracticalOnboarded] = useState(false);
 
+  // ── persistance localStorage pour le contexte conditionnel ──
+  const lsGet = <T,>(k: string, fb: T): T => {
+    if (typeof window === "undefined") return fb;
+    try { const v = localStorage.getItem(k); return v ? (JSON.parse(v) as T) : fb; }
+    catch { return fb; }
+  };
+  const lsSet = (k: string, v: unknown) => {
+    if (typeof window === "undefined") return;
+    try { localStorage.setItem(k, JSON.stringify(v)); } catch { /* ignore */ }
+  };
+
+  const [situation, setSituationState] = useState<Situation | null>(() => lsGet("lg.situation", null));
+  const setSituation = (s: Situation | null) => { setSituationState(s); lsSet("lg.situation", s); };
+
+  const [lovedOneName, setLovedOneNameState] = useState<string>(() => lsGet("lg.lovedOneName", ""));
+  const setLovedOneName = (s: string) => { setLovedOneNameState(s); lsSet("lg.lovedOneName", s); };
+
+  const [lovedOneRelation, setLovedOneRelationState] = useState<Relation | null>(() => lsGet("lg.lovedOneRelation", null));
+  const setLovedOneRelation = (r: Relation | null) => { setLovedOneRelationState(r); lsSet("lg.lovedOneRelation", r); };
+
+  const [timeframe, setTimeframeState] = useState<Timeframe | null>(() => lsGet("lg.timeframe", null));
+  const setTimeframe = (t: Timeframe | null) => { setTimeframeState(t); lsSet("lg.timeframe", t); };
+
+  const [stage, setStageState] = useState<Stage | null>(() => lsGet("lg.stage", null));
+  const setStage = (s: Stage | null) => { setStageState(s); lsSet("lg.stage", s); };
+
+  const [primaryNeed, setPrimaryNeedState] = useState<PrimaryNeed | null>(() => lsGet("lg.primaryNeed", null));
+  const setPrimaryNeed = (p: PrimaryNeed | null) => { setPrimaryNeedState(p); lsSet("lg.primaryNeed", p); };
+
+  const [currentEmotions, setCurrentEmotionsState] = useState<Emotion[]>(() => lsGet("lg.currentEmotions", [] as Emotion[]));
+  const [currentEmotionAt, setCurrentEmotionAt] = useState<string | null>(() => lsGet("lg.currentEmotionAt", null));
+  const setCurrentEmotions = (e: Emotion[]) => {
+    setCurrentEmotionsState(e);
+    const now = new Date().toISOString();
+    setCurrentEmotionAt(now);
+    lsSet("lg.currentEmotions", e);
+    lsSet("lg.currentEmotionAt", now);
+  };
+
+  const [softDay, setSoftDay] = useState<boolean>(() => {
+    const at = lsGet<string | null>("lg.softDayAt", null);
+    if (!at) return false;
+    const d = new Date(at);
+    const today = new Date();
+    return d.toDateString() === today.toDateString();
+  });
+  const toggleSoftDay = () => {
+    const next = !softDay;
+    setSoftDay(next);
+    lsSet("lg.softDayAt", next ? new Date().toISOString() : null);
+  };
+
+  const [nightModeOverride, setNightModeOverrideState] = useState<boolean | null>(() => lsGet("lg.nightOverride", null));
+  const setNightModeOverride = (v: boolean | null) => { setNightModeOverrideState(v); lsSet("lg.nightOverride", v); };
+
   const t = (key: string) => DICT[key]?.[lang] ?? key;
   const addJournalEntry = (e: Omit<JournalEntry, "id" | "date">) =>
     setJournal((prev) => [
@@ -268,6 +425,16 @@ export function LegatoProvider({ children }: { children: ReactNode }) {
         practicalContext, setPracticalContext,
         careOnboarded, setCareOnboarded,
         practicalOnboarded, setPracticalOnboarded,
+        situation, setSituation,
+        lovedOneName, setLovedOneName,
+        lovedOneRelation, setLovedOneRelation,
+        timeframe, setTimeframe,
+        stage, setStage,
+        primaryNeed, setPrimaryNeed,
+        currentEmotions, setCurrentEmotions,
+        currentEmotionAt,
+        softDay, toggleSoftDay,
+        nightModeOverride, setNightModeOverride,
       }}
     >
       {children}
