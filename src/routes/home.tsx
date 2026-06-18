@@ -76,7 +76,7 @@ function Home() {
           <CareTodayBlock lovedName={lovedName} stale={stale} plan={plan} />
         )}
         {activeView === "practical" && (
-          <PracticalTodayBlock lovedName={lovedName} softDay={softActive} night={night} firstTask={modules.practical[0]} />
+          <PracticalTodayBlock softDay={softActive} night={night} firstTask={modules.practical[0]} />
         )}
 
         <footer className="px-6 pt-14 pb-4 flex flex-col items-center gap-3">
@@ -137,8 +137,7 @@ function CareTodayBlock({ lovedName, stale, plan }: {
   );
 }
 
-function PracticalTodayBlock({ lovedName, softDay, night, firstTask }: {
-  lovedName: string;
+function PracticalTodayBlock({ softDay, night, firstTask }: {
   softDay: boolean;
   night: boolean;
   firstTask?: keyof typeof PRACTICAL_LABELS;
