@@ -36,8 +36,9 @@ export const CARE_SUBNAV: SubNavItem[] = [
   { to: "/care", label: "Aujourd'hui", exact: true },
   { to: "/care/emotions", label: "Émotions" },
   { to: "/care/journal", label: "Journal" },
-  { to: "/care/memory", label: "Mémoire" },
-  { to: "/care/resources", label: "Ressources" },
+  { to: "/care/garden", label: "Jardin" },
+  { to: "/presence", label: "Présence" },
+  { to: "/care/rituels", label: "Rituels" },
 ];
 
 export const PRACTICAL_SUBNAV: SubNavItem[] = [
