@@ -118,37 +118,31 @@ function Start() {
   return (
     <main className="min-h-dvh bg-paper text-dusk">
       <div className="mobile-frame relative flex min-h-dvh flex-col">
-        <header className="px-7 pt-10 flex items-center justify-between">
-          <LegatoMark size={22} />
-          {mode !== "choice" && (
+        <header className="px-6 pt-10 flex items-center justify-between">
+          {mode !== "choice" ? (
             <button
               type="button"
               onClick={() => { setMode("choice"); setError(null); setInfo(null); }}
-              className="text-[10px] uppercase tracking-[0.24em] text-dusk/50 hover:text-dusk"
-              
+              className="mono-label hover:text-dusk"
             >
               ← Retour
             </button>
-          )}
+          ) : <span className="mono-label opacity-0">—</span>}
+          <LegatoMark size={20} />
+          <span className="mono-label text-dusk/45">Bienvenue</span>
         </header>
 
-        <div className="relative z-10 flex flex-1 flex-col justify-center px-7 pb-12 pt-10">
-          <p
-            className="text-[10px] uppercase tracking-[0.28em] text-dusk/50"
-            
-          >
+        <div className="relative z-10 flex flex-1 flex-col px-6 pb-12 pt-10">
+          <p className="mono-label">
             {mode === "signin" ? "Se reconnecter" : mode === "signup" ? "Créer un espace" : "Bienvenue"}
           </p>
-          <h1
-            className="mt-4 font-serif text-[38px] leading-[1.02] text-dusk font-light"
-            style={{ textWrap: "balance" }}
-          >
+          <h1 className="mt-5 ed-page-title">
             {mode === "signin" ? (
-              <>Ravi de vous <span className="italic">revoir.</span></>
+              <>Ravi de vous <span className="italic" style={{ color: "var(--terracotta)" }}>revoir.</span></>
             ) : mode === "signup" ? (
-              <>Votre espace, <span className="italic">en quelques mots.</span></>
+              <>Votre espace,<br /><span className="italic" style={{ color: "var(--terracotta)" }}>en quelques mots.</span></>
             ) : (
-              <>Un espace pour <span className="italic" style={{ color: "var(--terracotta)" }}>traverser.</span></>
+              <>Un espace pour<br /><span className="italic" style={{ color: "var(--terracotta)" }}>traverser.</span></>
             )}
           </h1>
 
@@ -158,32 +152,26 @@ function Start() {
                 <button
                   type="button"
                   onClick={() => { setMode("signup"); setError(null); setInfo(null); }}
-                  className="block rounded-[18px] text-[color:var(--paper)] text-left px-6 py-5"
-                  style={{ background: "var(--bordeaux)" }}
+                  className="block rounded-[999px] text-[color:var(--paper)] text-center px-6 py-5 transition-transform active:scale-[0.99]"
+                  style={{ background: "var(--terracotta)" }}
                 >
-                  <span className="block font-serif text-[22px] leading-tight">Créer mon espace</span>
-                  <span className="mt-1 block text-[12.5px] opacity-80">Pour garder ce que vous écrivez.</span>
+                  <span className="block font-serif text-[20px] leading-tight">Créer mon espace →</span>
                 </button>
                 <button
                   type="button"
                   onClick={() => { setMode("signin"); setError(null); setInfo(null); }}
-                  className="rounded-[18px] border border-dusk/15 bg-paper px-6 py-4 text-left hover:bg-dusk/[0.03] transition-colors"
+                  className="rounded-[999px] border border-dusk/15 bg-[color:var(--whisper)] px-6 py-4 text-center hover:bg-dusk/[0.03] transition-colors"
                 >
                   <span className="block font-serif text-[18px] text-dusk">Me reconnecter</span>
-                  <span className="mt-0.5 block text-[12.5px] text-dusk/55">Retrouver mon espace.</span>
                 </button>
-                <div className="mt-4 flex flex-col items-center gap-1">
+                <div className="mt-6 flex flex-col items-center gap-1">
                   <button
                     type="button"
                     onClick={goNext}
-                    className="text-center text-[10px] uppercase tracking-[0.24em] text-dusk/45 hover:text-dusk transition-colors py-1"
-                    
+                    className="mono-label text-dusk/55 hover:text-dusk py-1"
                   >
                     Continuer en tant qu'invité·e
                   </button>
-                  <p className="text-center text-[11px] italic font-serif text-dusk/45">
-                    Rien ne sera gardé.
-                  </p>
                 </div>
               </div>
             )}
@@ -227,10 +215,10 @@ function Start() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="block rounded-[16px] text-[color:var(--paper)] px-6 py-4 text-center disabled:opacity-50"
-                  style={{ background: "var(--bordeaux)" }}
+                  className="block rounded-[999px] text-[color:var(--paper)] px-6 py-4 text-center disabled:opacity-50 transition-transform active:scale-[0.99]"
+                  style={{ background: "var(--terracotta)" }}
                 >
-                  <span className="block font-serif italic text-[18px]">
+                  <span className="block font-serif text-[18px]">
                     {loading
                       ? "Un instant…"
                       : mode === "signin"
@@ -241,12 +229,7 @@ function Start() {
 
                 <div className="flex items-center gap-3 py-1">
                   <span className="h-px flex-1 bg-dusk/15" />
-                  <span
-                    className="text-[9.5px] uppercase tracking-[0.28em] text-dusk/40"
-                    
-                  >
-                    ou
-                  </span>
+                  <span className="mono-label text-dusk/45">ou</span>
                   <span className="h-px flex-1 bg-dusk/15" />
                 </div>
 
@@ -254,19 +237,9 @@ function Start() {
                   type="button"
                   onClick={handleGoogle}
                   disabled={loading}
-                  className="rounded-full border border-dusk/20 bg-paper px-7 py-3.5 text-center text-[11px] uppercase tracking-[0.24em] text-dusk/75 hover:bg-dusk/5 transition-colors disabled:opacity-50"
-                  
+                  className="rounded-full border border-dusk/20 bg-paper px-7 py-3.5 text-center mono-label text-dusk/75 hover:bg-dusk/5 transition-colors disabled:opacity-50"
                 >
                   Continuer avec Google
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => { setMode("choice"); setError(null); setInfo(null); }}
-                  className="mt-1 text-center text-[10px] uppercase tracking-[0.24em] text-dusk/45 hover:text-dusk transition-colors py-1"
-                  
-                >
-                  Retour
                 </button>
               </form>
             )}

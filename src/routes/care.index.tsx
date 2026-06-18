@@ -30,7 +30,7 @@ function Care() {
   const focus = focusFromEmotions(selected, stale);
   const visibleCare = care.filter((m) => !focus.hidden.includes(m));
   const primaryCare = focus.modules.filter((m) => visibleCare.includes(m));
-  const restCare = visibleCare.filter((m) => !primaryCare.includes(m) && m !== "checkin").slice(0, plan.contentLength === "court" ? 3 : 5);
+  const restCare = visibleCare.filter((m) => !primaryCare.includes(m) && m !== "checkin").slice(0, plan.contentLength === "court" ? 2 : 3);
   const visibleMemory = memory.length ? memory : (["garden", "voices", "letters", "dates"] as MemoryModule[]);
 
   return (
@@ -47,9 +47,11 @@ function Care() {
           <h1 className="mt-5 ed-page-title">
             Un espace pour <span className="italic" style={{ color: "var(--terracotta)" }}>tenir</span>.
           </h1>
-          <p className="mt-5 text-[13.5px] leading-[1.6] text-dusk/60 max-w-[35ch]">
-            {stale ? "Commencez par nommer ce qui est là. Le reste s'adapte ensuite." : focus.intro}
-          </p>
+          {(stale || focus.intro) && (
+            <p className="mt-5 text-[13.5px] leading-[1.6] text-dusk/60 max-w-[35ch]">
+              {stale ? "Commencez par nommer ce qui est là." : focus.intro}
+            </p>
+          )}
         </section>
 
         <section className="px-5 pt-8">
@@ -93,11 +95,7 @@ function Care() {
           </section>
         )}
 
-        <footer className="px-6 pt-10 text-center">
-          <p className="text-[11px] italic text-dusk/45 max-w-[34ch] mx-auto">
-            Ici, aucune démarche administrative : seulement ressentir, déposer, se souvenir, demander de l'aide.
-          </p>
-        </footer>
+        <div className="pt-10" />
       </main>
     </Shell>
   );
@@ -127,18 +125,18 @@ function focusFromEmotions(emotions: Emotion[], stale: boolean): Focus {
     return { label: "Peur / anxiété", title: "Revenir au corps avant le reste.", intro: "Respiration courte, ancrage, journal bref et aide humaine accessible.", bg: "var(--mist)", modules: ["breathe", "journal", "crisis"], hidden: [] };
   }
   if (emotions.includes("fatigue")) {
-    return { label: "Fatigue", title: "Moins de contenu, plus de repos.", intro: "Legato réduit la quantité et garde les actions les plus courtes.", bg: "var(--whisper)", modules: ["sleep", "breathe", "sounds"], hidden: ["meditations"] };
+    return { label: "Fatigue", title: "Moins de contenu, plus de repos.", intro: "Des gestes courts, rien d'autre.", bg: "var(--sky)", modules: ["sleep", "breathe"], hidden: ["meditations"] };
   }
   if (emotions.includes("nostalgie")) {
-    return { label: "Nostalgie", title: "Transformer le manque en trace.", intro: "Photos, voix, lettres et jardin deviennent prioritaires.", bg: "var(--blush)", modules: ["letters", "journal", "sounds"], hidden: [] };
+    return { label: "Nostalgie", title: "Transformer le manque en trace.", intro: "Vos souvenirs passent devant.", bg: "var(--blush)", modules: ["letters", "journal"], hidden: [] };
   }
   if (emotions.includes("solitude") || emotions.includes("besoin_aide")) {
-    return { label: "Solitude / besoin d'aide", title: "Ne pas rester seul·e avec ça.", intro: "Cercle, communauté, thérapeutes et crise sont placés devant.", bg: "var(--sun)", modules: ["community", "therapists", "crisis"], hidden: [] };
+    return { label: "Vous n'êtes pas seul·e", title: "Ne pas rester seul·e avec ça.", intro: "Vos appuis humains passent devant.", bg: "var(--sun)", modules: ["community", "therapists"], hidden: [] };
   }
   if (emotions.includes("culpabilite") || emotions.includes("colere")) {
-    return { label: "Ce qui pèse", title: "Déposer sans juger.", intro: "Le journal, les ressources et une aide prudente passent en premier.", bg: "var(--rose)", modules: ["journal", "therapists", "breathe"], hidden: [] };
+    return { label: "Ce qui pèse", title: "Déposer sans juger.", intro: "Écrire avant tout le reste.", bg: "var(--blush)", modules: ["journal", "breathe"], hidden: [] };
   }
-  return { label: "Soutien adapté", title: "Une petite chose, maintenant.", intro: "Les suggestions suivent votre émotion récente.", bg: "var(--sun)", modules: ["journal", "breathe", "community"], hidden: [] };
+  return { label: "Soutien adapté", title: "Une petite chose, maintenant.", intro: "", bg: "var(--sun)", modules: ["journal", "breathe"], hidden: [] };
 }
 
 function CareTile({ module: m }: { module: CareModule }) {
