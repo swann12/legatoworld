@@ -6,7 +6,7 @@ export const Route = createFileRoute("/home")({
   beforeLoad: () => {
     if (typeof window !== "undefined") {
       try {
-        const raw = window.localStorage.getItem("legato.primaryNeed.v1");
+        const raw = window.localStorage.getItem("lg.primaryNeed");
         if (raw && raw.replace(/"/g, "") === "practical") {
           throw redirect({ to: "/practical" });
         }
