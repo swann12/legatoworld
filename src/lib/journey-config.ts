@@ -12,6 +12,8 @@ export type PracticalCategory =
   | "digital" | "housing" | "pros" | "wishes" | "vault"
   | "vet" | "cremation_animal" | "inhumation_animal" | "souvenir_objet" | "hommage" | "messages" | "cagnotte" | "aide_famille";
 
+const FRIEND_PRACTICAL: PracticalCategory[] = ["ceremony", "flowers", "letters", "pros", "hommage", "messages", "cagnotte", "aide_famille"];
+
 export type MemoryModule = "garden" | "timeline" | "voices" | "letters" | "dates";
 
 export type JourneyModules = {
@@ -107,7 +109,7 @@ export function journeyModules(
         return {
           home: ["task", "support"],
           care: ["crisis"],
-          practical: applyFilters(isRecent
+          practical: isFriendOrColleague(relation) && !legallyInvolved ? filterByStage(FRIEND_PRACTICAL) : applyFilters(isRecent
             ? ["first", "obseques", "ceremony", "documents", "letters", "pros", "vault"]
             : ["documents", "letters", "succession", "finances", "rights", "digital", "housing", "pros", "vault"]),
           memory: [],
@@ -124,7 +126,7 @@ export function journeyModules(
       return {
         home: ["checkin", "task", "memory"],
         care: baseCare,
-        practical: applyFilters(isRecent
+        practical: isFriendOrColleague(relation) && !legallyInvolved ? filterByStage(FRIEND_PRACTICAL) : applyFilters(isRecent
           ? ["first", "obseques", "ceremony", "documents", "letters", "pros", "vault"]
           : ["documents", "letters", "succession", "finances", "digital", "housing", "pros", "vault"]),
         memory: ["garden", "voices", "letters", "dates"],
