@@ -128,6 +128,33 @@ export const PRACTICAL_LABELS: Record<PracticalCategory, { label: string; hint: 
   vault:      { label: "Coffre de documents",     hint: "Tout au même endroit",                to: "/practical/vault" },
 };
 
+/** Temporalité par défaut d'une catégorie pratique. */
+export type PracticalBucket = "now" | "week" | "month" | "later";
+
+export const PRACTICAL_BUCKETS: Record<PracticalCategory, PracticalBucket> = {
+  first:      "now",
+  obseques:   "now",
+  ceremony:   "week",
+  flowers:    "week",
+  documents:  "week",
+  letters:    "month",
+  succession: "month",
+  finances:   "month",
+  rights:     "month",
+  digital:    "later",
+  housing:    "later",
+  pros:       "later",
+  wishes:     "later",
+  vault:      "later",
+};
+
+export const BUCKET_LABELS: Record<PracticalBucket, { label: string; tone: string }> = {
+  now:   { label: "Immédiat",       tone: "var(--terracotta)" },
+  week:  { label: "Cette semaine",  tone: "var(--sun)" },
+  month: { label: "Ce mois-ci",     tone: "var(--sky)" },
+  later: { label: "Plus tard",      tone: "var(--olive)" },
+};
+
 export const CARE_LABELS: Record<CareModule, { label: string; hint: string; to: string }> = {
   checkin:      { label: "Check-in émotionnel",  hint: "Comment vous sentez-vous ?",       to: "/checkin" },
   journal:      { label: "Journal",               hint: "Déposer une pensée",                to: "/journal" },
