@@ -114,8 +114,8 @@ function Presence() {
     let acc = "";
     rec.onresult = (e) => {
       let interim = "";
-      // @ts-expect-error native iterable
-      for (const r of e.results) interim += r[0].transcript;
+      const results = e.results as unknown as ArrayLike<{ 0: { transcript: string } }>;
+      for (let i = 0; i < results.length; i++) interim += results[i][0].transcript;
       acc = interim;
       setDraft(acc);
     };
