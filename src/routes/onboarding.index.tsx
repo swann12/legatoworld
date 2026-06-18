@@ -1,14 +1,14 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import {
   useLegato, SITUATIONS, RELATIONS, STAGES_BY_SITUATION, EMOTIONS,
-  type Relation, type Stage, type Situation, type Emotion, type PrimaryNeed,
+  type Relation, type Stage, type Emotion, type PrimaryNeed,
 } from "@/lib/legato-state";
 import { LegatoMark } from "@/components/legato/LegatoMark";
 import { useServerFn } from "@tanstack/react-start";
 import { recordEmotion } from "@/lib/emotional.functions";
 import { supabase } from "@/integrations/supabase/client";
 import { IvoryCard } from "@/components/legato/EditorialUI";
-import { useMemo, useState, type ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 
 export const Route = createFileRoute("/onboarding/")({
   head: () => ({
@@ -24,7 +24,7 @@ function Onboarding() {
   const {
     name, setName, setCareOnboarded, setPracticalOnboarded,
     situation, setSituation,
-    lovedOneName, setLovedOneName,
+    lovedOneName, setLovedOneName, lovedOther, setLovedOther,
     lovedOneRelation, setLovedOneRelation,
     stage, setStage,
     primaryNeed, setPrimaryNeed,
@@ -35,12 +35,37 @@ function Onboarding() {
   const record = useServerFn(recordEmotion);
   const [step, setStep] = useState<1 | 2 | 3 | 4 | 5 | 6 | 7>(1);
 
-  const needsPerson = situation && ["perdu", "peur", "accompagner"].includes(situation);
-  const needsLabel = situation && !["questionnement", "volontes"].includes(situation);
+  const needsPerson = Boolean(situation && ["perdu", "peur", "accompagner"].includes(situation));
+  const needsLabel = Boolean(situation && !["questionnement", "volontes"].includes(situation));
   const stageOptions = situation ? STAGES_BY_SITUATION[situation] : [];
-  const needChoiceForced = situation === "questionnement" || situation === "volontes" || (lovedOneRelation === "animal" && !["vet", "cremation_animal", "inhumation_animal"].includes(stage ?? ""));
+  const needChoiceForced = situation === "questionnement" || situation === "volontes" || (lovedOneRelation === "animal" && situation !== "perdu");
   const needsEmotion = primaryNeed === "emotional" || primaryNeed === "both";
   const needsLegalQuestion = (lovedOneRelation === "ami" || lovedOneRelation === "collegue" || lovedOneRelation === "autre") && (primaryNeed === "practical" || primaryNeed === "both");
+
+  const goAfterSituation = () => {
+    if (!situation) return;
+    if (situation === "questionnement" || situation === "volontes") setStep(5);
+    else setStep(3);
+  };
+
+  const goAfterStage = () => {
+    if (situation === "questionnement") {
+      setPrimaryNeed("emotional");
+      setStep(7);
+      return;
+    }
+    if (situation === "volontes") {
+      setPrimaryNeed("practical");
+      finish();
+      return;
+    }
+    if (needChoiceForced) {
+      setPrimaryNeed("emotional");
+      setStep(7);
+      return;
+    }
+    setStep(6);
+  };
 
   const finish = async () => {
     setCareOnboarded(true);
@@ -49,7 +74,7 @@ function Onboarding() {
     if (data.session) {
       record({ data: { source: "onboarding", tags: ["accueil", situation ?? "inconnu"], note: `Prénom : ${name}` } }).catch(() => {});
     }
-    navigate({ to: "/space" });
+    navigate({ to: "/home" });
   };
 
   if (step === 1) {
