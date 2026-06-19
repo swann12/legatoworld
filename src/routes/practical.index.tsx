@@ -10,6 +10,14 @@ import {
 } from "@/lib/journey-config";
 import { SpaceToggle } from "@/components/legato/SpaceToggle";
 import { TASK_STATUS_LABELS, isHiddenFromActive } from "@/lib/task-status";
+import { QuoteSplash } from "@/components/legato/QuoteSplash";
+
+const PRACTICAL_QUOTES: { quote: string; attribution?: string; tone: "blush" | "sun" | "sky" | "terracotta" | "bordeaux" }[] = [
+  { quote: "Avancer ne veut pas dire oublier. Juste poser un pied devant l'autre.", tone: "sun" },
+  { quote: "Un papier rempli aujourd'hui, c'est un poids en moins pour demain.", tone: "sky" },
+  { quote: "On peut prendre le temps. Personne ne tient le chronomètre.", tone: "blush" },
+  { quote: "Cérémonie, démarches, volontés : composer, à votre manière.", tone: "terracotta" },
+];
 
 export const Route = createFileRoute("/practical/")({
   head: () => ({
@@ -208,6 +216,14 @@ function Practical() {
             Si ça déborde →
           </Link>
         </footer>
+
+        <section className="px-5 pt-10">
+          {(() => {
+            const idx = (new Date().getDate() + done) % PRACTICAL_QUOTES.length;
+            const q = PRACTICAL_QUOTES[idx];
+            return <QuoteSplash quote={q.quote} attribution={q.attribution} tone={q.tone} />;
+          })()}
+        </section>
       </div>
     </Shell>
   );
