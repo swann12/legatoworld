@@ -260,7 +260,12 @@ function Frame({ children, onBack, progress }: { children: ReactNode; onBack: ()
             />
           ))}
         </div>
-        <div className="relative z-10 flex flex-1 flex-col px-6 pt-10 pb-16">{children}</div>
+        <div className="px-6 pt-5">
+          <div className="rounded-[18px] px-5 py-4" style={{ background: "var(--sun)" }}>
+            <p className="font-serif text-[18px] italic leading-snug text-dusk">On avance par petites portes. Rien d'inutile, rien à prouver.</p>
+          </div>
+        </div>
+        <div className="relative z-10 flex flex-1 flex-col px-6 pt-8 pb-16">{children}</div>
       </div>
     </main>
   );
@@ -297,11 +302,13 @@ function ChipGrid<T extends string>({ options, value, onChange }: {
     <div className="flex flex-wrap gap-2">
       {options.map((o) => {
         const active = value === o.id;
+        const tint = ["var(--sun)", "var(--blush)", "var(--sky)", "color-mix(in oklab, var(--olive) 34%, var(--whisper))", "var(--peach)"][i % 5];
         return (
           <button
             key={o.id}
             onClick={() => onChange(o.id)}
-            className={`rounded-full border px-4 py-2 text-[13px] transition-colors ${active ? "border-dusk/40 bg-[color:var(--whisper)] text-dusk" : "border-dusk/15 bg-paper text-dusk/70 hover:border-dusk/25"}`}
+            className="rounded-full border px-4 py-2 text-[13px] transition-colors text-dusk"
+            style={{ borderColor: active ? "color-mix(in oklab, var(--dusk) 35%, transparent)" : "color-mix(in oklab, var(--dusk) 14%, transparent)", background: active ? tint : "var(--paper)" }}
           >
             {o.label}
           </button>

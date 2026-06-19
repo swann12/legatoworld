@@ -123,18 +123,18 @@ function Start() {
           type="button"
           onClick={() => setIntro(false)}
           className="fixed inset-0 z-50 flex flex-col px-7 py-10 text-left animate-fade-in"
-          style={{ background: "var(--terracotta)", color: "var(--paper)" }}
+          style={{ background: "var(--sun)", color: "var(--dusk)" }}
         >
           <div className="flex w-full items-center justify-between">
             <span className="text-[10px] tracking-[0.28em] uppercase opacity-80">Souvenir</span>
             <span className="text-[10px] tracking-[0.28em] uppercase opacity-80">Legato</span>
           </div>
-          <div className="mt-2 h-px w-full bg-[color:var(--paper)] opacity-30" />
+          <div className="mt-2 h-px w-full bg-dusk/15" />
           <div className="flex-1 flex flex-col justify-center">
-            <p className="font-serif text-[44px] leading-[0.98] tracking-[-0.01em]">
+            <p className="font-serif text-[44px] leading-[0.98]">
               Ce qui a<br />été aimé<br />
-              <span className="italic">ne se perd</span><br />
-              <span className="italic">pas.</span>
+              <span className="italic" style={{ color: "var(--bordeaux)" }}>ne se perd</span><br />
+              <span className="italic" style={{ color: "var(--bordeaux)" }}>pas.</span>
             </p>
           </div>
           <div className="flex flex-col gap-1.5">
@@ -186,7 +186,7 @@ function Start() {
                   type="button"
                   onClick={() => { setMode("signup"); setError(null); setInfo(null); }}
                   className="block rounded-[999px] text-[color:var(--paper)] text-center px-6 py-5 transition-transform active:scale-[0.99]"
-                  style={{ background: "var(--terracotta)" }}
+                  style={{ background: "var(--bordeaux)" }}
                 >
                   <span className="block font-serif text-[20px] leading-tight">Créer mon espace →</span>
                 </button>
