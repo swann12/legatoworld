@@ -29,6 +29,8 @@ function CategoryPage() {
   const { space } = Route.useSearch();
   const cat = getCategory(category);
   if (!cat) throw notFound();
+  const [filter, setFilter] = useState<Filter>("tous");
+  const [city, setCity] = useState("");
   if (space && space !== cat.space) {
     return (
       <Shell livingBg={false}>
@@ -44,8 +46,6 @@ function CategoryPage() {
   }
 
   const all = providersByCategory(category as CategoryId);
-  const [filter, setFilter] = useState<Filter>("tous");
-  const [city, setCity] = useState("");
 
   const list = all.filter((p) => {
     if (filter === "visio" && !p.modes.includes("visio")) return false;
