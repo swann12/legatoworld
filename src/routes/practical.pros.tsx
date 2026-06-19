@@ -8,7 +8,7 @@ export const Route = createFileRoute("/practical/pros")({
   component: PracticalPros,
 });
 
-const PROS = [
+const PROS: { label: string; hint: string; category: "pompes" | "fleuristes" | "notaires" | "administrations" | "debarras" | "photographes"; bg: string }[] = [
   { label: "Pompes funèbres", hint: "Maisons transparentes", category: "pompes", bg: "var(--sage)" },
   { label: "Fleuristes", hint: "Compositions de cérémonie", category: "fleuristes", bg: "var(--peach)" },
   { label: "Notaires", hint: "Succession, actes", category: "notaires", bg: "var(--lavender)" },

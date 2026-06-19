@@ -47,8 +47,7 @@ function Crisis() {
 
           {/* Geste 2 — respirer */}
           <Link
-            to="/no-words"
-            search={{ tab: "respirer" as const }}
+            to="/care/respirer"
             className="mt-3 block rounded-[20px] px-5 py-5"
             style={{ background: "var(--blush)" }}
           >
