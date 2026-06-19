@@ -49,6 +49,7 @@ function Presence() {
   const [pending, setPending] = useState(false);
   const [history, setHistory] = useState<{ role: "you" | "presence"; text: string }[]>([]);
   const [listening, setListening] = useState(false);
+  const [voiceOut, setVoiceOut] = useState(false);
   const recogRef = useRef<unknown>(null);
 
   const greeting = useMemo(() => BRANCH_GREETING[branch](name, lostName), [branch, name, lostName]);
@@ -83,6 +84,13 @@ function Presence() {
         },
       });
       setHistory((m) => [...m, { role: "presence", text: reply }]);
+      if (voiceOut && typeof window !== "undefined" && "speechSynthesis" in window) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(reply);
+        utterance.lang = "fr-FR";
+        utterance.rate = 0.88;
+        window.speechSynthesis.speak(utterance);
+      }
     } catch {
       setHistory((m) => [...m, { role: "presence", text: "Je suis là, en silence. Reprenons quand tu veux." }]);
     } finally {
@@ -145,6 +153,14 @@ function Presence() {
               </button>
             ))}
           </div>
+          <button
+            type="button"
+            onClick={() => setVoiceOut((v) => !v)}
+            className="mt-3 w-full rounded-full border border-dusk/12 px-4 py-2 text-[12px] transition-colors"
+            style={{ background: voiceOut ? "var(--sun)" : "var(--paper)" }}
+          >
+            {voiceOut ? "Réponse vocale activée" : "Activer les réponses vocales"}
+          </button>
         </div>
 
         {tab === "guide" ? (
