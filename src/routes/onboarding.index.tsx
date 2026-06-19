@@ -300,7 +300,7 @@ function ChipGrid<T extends string>({ options, value, onChange }: {
 }) {
   return (
     <div className="flex flex-wrap gap-2">
-      {options.map((o) => {
+      {options.map((o, i) => {
         const active = value === o.id;
         const tint = ["var(--sun)", "var(--blush)", "var(--sky)", "color-mix(in oklab, var(--olive) 34%, var(--whisper))", "var(--peach)"][i % 5];
         return (
