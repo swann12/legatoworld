@@ -167,7 +167,7 @@ function buildPlan({ energy, sleep, hunger }: { energy: Level; sleep: Level; hun
   // Toujours : 2 min d'ancrage adapté à l'énergie
   out.push(
     energy === 1
-      ? { id: "calm", kicker: "Le corps d'abord", title: "Se poser deux minutes", body: "Un cercle qui guide le souffle. Rien à comprendre, juste suivre.", cta: "Respirer", to: "/no-words", search: { tab: "respirer" }, bg: "var(--mist, var(--sky))" }
+      ? { id: "calm", kicker: "Le corps d'abord", title: "Se poser deux minutes", body: "Un cercle qui guide le souffle. Rien à comprendre, juste suivre.", cta: "Respirer", to: "/care/respirer", bg: "var(--mist, var(--sky))" }
       : { id: "move", kicker: "Bouger doucement", title: "Quelques pas, une fenêtre", body: "Trois minutes dehors ou près d'une lumière. Sans objectif.", cta: "Y aller", to: "/no-words", search: { tab: "souffles" }, bg: "var(--sun)" }
   );
 
