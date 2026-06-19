@@ -6,6 +6,14 @@ import { journeyModules, CARE_LABELS, type CareModule } from "@/lib/journey-conf
 import { LegatoMark } from "@/components/legato/LegatoMark";
 import { SpaceToggle } from "@/components/legato/SpaceToggle";
 import { emotionPlan, isEmotionStale } from "@/lib/emotion-routing";
+import { QuoteSplash } from "@/components/legato/QuoteSplash";
+
+const CARE_QUOTES: { quote: string; attribution?: string; tone: "blush" | "sun" | "sky" | "terracotta" }[] = [
+  { quote: "Ce qui a été aimé ne se perd pas, il change de place en nous.", tone: "blush" },
+  { quote: "Le chagrin est l'envers d'un grand amour. Il en garde la forme.", attribution: "Anonyme", tone: "sun" },
+  { quote: "On ne traverse pas le deuil. Le deuil nous traverse, lentement.", tone: "sky" },
+  { quote: "Allume une bougie. Prononce son nom. Reste, juste un instant.", tone: "terracotta" },
+];
 
 export const Route = createFileRoute("/care/")({
   head: () => ({
@@ -114,6 +122,14 @@ function Care() {
             </div>
           </section>
         )}
+
+        <section className="px-5 pt-10">
+          {(() => {
+            const idx = (new Date().getDate() + (selected.length || 0)) % CARE_QUOTES.length;
+            const q = CARE_QUOTES[idx];
+            return <QuoteSplash quote={q.quote} attribution={q.attribution} tone={q.tone} />;
+          })()}
+        </section>
 
         <div className="pt-10" />
       </main>
