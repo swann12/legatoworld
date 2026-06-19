@@ -74,8 +74,8 @@ function CareGarden() {
             {DEPOSITS.map((d) => (
               <Link
                 key={d.kind}
-                to={"/care/garden/$zone" as "/care/garden"}
-                params={{ zone: d.kind } as never}
+                to="/care/garden/$zone"
+                params={{ zone: d.kind }}
                 className="rounded-[18px] px-4 py-5 min-h-[110px] flex flex-col justify-between"
                 style={{ background: d.bg, color: d.fg ?? "var(--dusk)" }}
               >

@@ -69,7 +69,7 @@ function Help() {
             {plan.map((g) => (
               <Link
                 key={g.id}
-                to={g.to as "/care"}
+                to={g.to as "/care/respirer"}
                 search={g.search}
                 className="block rounded-[20px] px-5 py-5"
                 style={{ background: g.bg }}
