@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState } from "react";
 import { Shell } from "@/components/legato/Shell";
 import { LegatoMark } from "@/components/legato/LegatoMark";
 import { useLegato } from "@/lib/legato-state";
@@ -28,6 +29,7 @@ const CATEGORIES: { id: string; label: string; hint: string }[] = [
 
 function Vault() {
   const { primaryNeed, lovedOneRelation, hydrated } = useLegato();
+  const [open, setOpen] = useState<string | null>(null);
   const hidden = hydrated && (primaryNeed === "emotional" || lovedOneRelation === "animal");
   if (hidden) {
     return (
@@ -53,14 +55,14 @@ function Vault() {
         </section>
 
         <section className="px-5 pt-8 grid grid-cols-2 gap-3">
-          {CATEGORIES.map((c) => (
-            <div key={c.id} className="rounded-[18px] border border-dusk/12 bg-[color:var(--whisper)] px-4 py-4 min-h-[110px] flex flex-col justify-between">
+          {CATEGORIES.map((c, i) => (
+            <button key={c.id} type="button" onClick={() => setOpen(open === c.id ? null : c.id)} className="rounded-[18px] border border-dusk/12 px-4 py-4 min-h-[124px] flex flex-col justify-between text-left transition-transform active:scale-[0.99]" style={{ background: ["var(--whisper)", "var(--sun)", "var(--blush)", "color-mix(in oklab, var(--sky) 40%, var(--paper))", "color-mix(in oklab, var(--olive) 28%, var(--whisper))"][i % 5] }}>
               <div>
                 <p className="font-serif text-[16px] leading-[1.15] text-dusk">{c.label}</p>
                 <p className="mt-1 text-[11.5px] text-dusk/55">{c.hint}</p>
               </div>
-              <p className="mt-3 mono-label text-dusk/45">0 fichier</p>
-            </div>
+              <p className="mt-3 mono-label text-dusk/45">{open === c.id ? "Ajouter bientôt" : "0 fichier"}</p>
+            </button>
           ))}
         </section>
 

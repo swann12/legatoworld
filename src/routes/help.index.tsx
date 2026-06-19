@@ -66,20 +66,7 @@ function Help() {
             <div className="h-px flex-1 bg-dusk/10 ml-3" />
           </div>
           <div className="mt-4 space-y-3">
-            {plan.map((g) => (
-              <Link
-                key={g.id}
-                to={g.to as "/care"}
-                search={g.search}
-                className="block rounded-[20px] px-5 py-5"
-                style={{ background: g.bg }}
-              >
-                <p className="mono-label text-dusk/60">{g.kicker}</p>
-                <p className="mt-2 font-serif text-[20px] leading-[1.15]">{g.title}</p>
-                <p className="mt-1 text-[12.5px] text-dusk/65 max-w-[34ch]">{g.body}</p>
-                <p className="mt-3 mono-label text-dusk/55">{g.cta} →</p>
-              </Link>
-            ))}
+            {plan.map((g) => <GestureCard key={g.id} gesture={g} />)}
           </div>
         </section>
 
@@ -161,13 +148,32 @@ type Gesture = {
   search?: Record<string, unknown>;
 };
 
+function GestureCard({ gesture: g }: { gesture: Gesture }) {
+  const body = (
+    <>
+      <p className="mono-label text-dusk/60">{g.kicker}</p>
+      <p className="mt-2 font-serif text-[20px] leading-[1.15]">{g.title}</p>
+      <p className="mt-1 text-[12.5px] text-dusk/65 max-w-[34ch]">{g.body}</p>
+      <p className="mt-3 mono-label text-dusk/55">{g.cta} →</p>
+    </>
+  );
+
+  const className = "block rounded-[20px] px-5 py-5";
+  const style = { background: g.bg };
+  if (g.to === "/care/respirer") return <Link to="/care/respirer" className={className} style={style}>{body}</Link>;
+  if (g.to === "/no-words") return <Link to="/no-words" search={{ tab: "souffles" }} className={className} style={style}>{body}</Link>;
+  if (g.to === "/help/corps/manger") return <Link to="/help/corps/manger" className={className} style={style}>{body}</Link>;
+  if (g.to === "/help/corps/nuits") return <Link to="/help/corps/nuits" className={className} style={style}>{body}</Link>;
+  return <Link to="/help/corps/eau" className={className} style={style}>{body}</Link>;
+}
+
 function buildPlan({ energy, sleep, hunger }: { energy: Level; sleep: Level; hunger: Level }): Gesture[] {
   const out: Gesture[] = [];
 
   // Toujours : 2 min d'ancrage adapté à l'énergie
   out.push(
     energy === 1
-      ? { id: "calm", kicker: "Le corps d'abord", title: "Se poser deux minutes", body: "Un cercle qui guide le souffle. Rien à comprendre, juste suivre.", cta: "Respirer", to: "/no-words", search: { tab: "respirer" }, bg: "var(--mist, var(--sky))" }
+      ? { id: "calm", kicker: "Le corps d'abord", title: "Se poser deux minutes", body: "Un cercle qui guide le souffle. Rien à comprendre, juste suivre.", cta: "Respirer", to: "/care/respirer", bg: "var(--mist, var(--sky))" }
       : { id: "move", kicker: "Bouger doucement", title: "Quelques pas, une fenêtre", body: "Trois minutes dehors ou près d'une lumière. Sans objectif.", cta: "Y aller", to: "/no-words", search: { tab: "souffles" }, bg: "var(--sun)" }
   );
 

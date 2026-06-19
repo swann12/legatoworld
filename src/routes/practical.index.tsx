@@ -124,8 +124,8 @@ function Practical() {
               </div>
               {grouped.now[0] && (
                 <Link
-                  to={"/practical/tasks/$id" as "/practical"}
-                  params={{ id: grouped.now[0] } as never}
+                  to="/practical/tasks/$id"
+                  params={{ id: grouped.now[0] }}
                   className="mt-5 inline-block mono-label"
                   style={{ color: "var(--terracotta)" }}
                 >
@@ -190,9 +190,9 @@ function Practical() {
                   const stLabel = tsStatus ? TASK_STATUS_LABELS[tsStatus] : STATUS_LABEL[statusMap[c] ?? "todo"];
                   return (
                     <li key={c} className="border-t border-dusk/10 first:border-t-0">
-                      <Link
-                        to={"/practical/tasks/$id" as "/practical"}
-                        params={{ id: c } as never}
+                        <Link
+                          to="/practical/tasks/$id"
+                          params={{ id: c }}
                         className="flex items-center justify-between gap-3 px-5 py-4 hover:bg-dusk/[0.02]"
                       >
                         <div className="min-w-0">

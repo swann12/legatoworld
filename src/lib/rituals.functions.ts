@@ -53,7 +53,7 @@ export const suggestRituals = createServerFn({ method: "POST" })
     try {
       const res = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
         method: "POST",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${apiKey}` },
+        headers: { "Content-Type": "application/json", "Lovable-API-Key": apiKey },
         body: JSON.stringify({
           model: "google/gemini-2.5-flash",
           messages: [

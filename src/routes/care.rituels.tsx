@@ -81,6 +81,7 @@ function CareRituels() {
   const [open, setOpen] = useState<string | null>(null);
   const [extra, setExtra] = useState<Ritual[]>([]);
   const [loading, setLoading] = useState(false);
+  const [aiError, setAiError] = useState<string | null>(null);
 
   const all = [...RITUALS, ...extra];
   const visible = region === "Tout" ? all : all.filter((r) => r.region === region);
@@ -88,6 +89,7 @@ function CareRituels() {
   const inspireMore = async () => {
     if (loading) return;
     setLoading(true);
+    setAiError(null);
     try {
       const { quick, long } = await callRituals({
         data: { kind: "memoire", title: `Honorer ${lostName}`, date: "à venir", branch, mode: "ancrage", lostName },
@@ -102,9 +104,10 @@ function CareRituels() {
         detail: r.originDetail,
         bg: PALETTE[i % PALETTE.length],
       }));
+      if (!mapped.length) setAiError("L'IA n'a pas répondu. Réessayez dans un instant.");
       setExtra((cur) => [...mapped, ...cur].slice(0, 12));
     } catch {
-      /* silencieux */
+      setAiError("Impossible de proposer de nouveaux rituels pour le moment.");
     } finally {
       setLoading(false);
     }
@@ -182,6 +185,7 @@ function CareRituels() {
               {loading ? "Cherche des gestes du monde…" : "M'en proposer d'autres, adaptés"}
             </p>
           </button>
+          {aiError && <p className="px-1 text-[12px] italic text-dusk/55">{aiError}</p>}
         </section>
       </div>
     </Shell>

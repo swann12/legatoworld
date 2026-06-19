@@ -32,7 +32,7 @@ export const similarAmbiances = createServerFn({ method: "POST" })
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${apiKey}`,
+          "Lovable-API-Key": apiKey,
         },
         body: JSON.stringify({
           model: "google/gemini-2.5-flash",

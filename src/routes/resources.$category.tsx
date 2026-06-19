@@ -26,12 +26,26 @@ type Filter = "tous" | "visio" | "presentiel";
 
 function CategoryPage() {
   const { category } = Route.useParams();
+  const { space } = Route.useSearch();
   const cat = getCategory(category);
   if (!cat) throw notFound();
-
-  const all = providersByCategory(category as CategoryId);
   const [filter, setFilter] = useState<Filter>("tous");
   const [city, setCity] = useState("");
+  if (space && space !== cat.space) {
+    return (
+      <Shell livingBg={false}>
+        <div className="min-h-dvh bg-paper text-dusk px-6 pt-20">
+          <p className="mono-label">Ressource déplacée</p>
+          <h1 className="mt-5 ed-page-title">Cette rubrique appartient à l'autre espace.</h1>
+          <Link to="/resources" search={{ space: cat.space }} className="mt-8 inline-block rounded-full px-6 py-3 font-serif text-[18px]" style={{ background: "var(--terracotta)", color: "var(--paper)" }}>
+            Ouvrir le bon espace →
+          </Link>
+        </div>
+      </Shell>
+    );
+  }
+
+  const all = providersByCategory(category as CategoryId);
 
   const list = all.filter((p) => {
     if (filter === "visio" && !p.modes.includes("visio")) return false;
