@@ -110,10 +110,9 @@ export function BottomNav() {
   return (
     <nav
       aria-label="Navigation principale"
-      className="fixed bottom-0 left-1/2 z-50 w-full max-w-[420px] -translate-x-1/2 bg-paper/95 backdrop-blur-md"
-      style={{ boxShadow: "0 -1px 0 color-mix(in oklab, var(--dusk) 8%, transparent)" }}
+      className="fixed bottom-0 left-1/2 z-50 w-full max-w-[420px] -translate-x-1/2 px-3 pb-[max(env(safe-area-inset-bottom),0.75rem)]"
     >
-      <div className="grid grid-cols-5 items-stretch px-1.5 pt-2 pb-[max(env(safe-area-inset-bottom),0.5rem)]">
+      <div className="grid grid-cols-5 items-stretch rounded-[26px] border border-dusk/10 bg-paper/92 px-1.5 py-1.5 backdrop-blur-md" style={{ boxShadow: "0 18px 60px color-mix(in oklab, var(--dusk) 14%, transparent)" }}>
         {items.map((it, i) => (
           <NavItem key={it.to} item={it} active={it.match(pathname)} center={i === 2} />
         ))}
@@ -127,17 +126,19 @@ function NavItem({ item, active, center }: { item: ItemDef; active: boolean; cen
     <Link
       to={item.to as "/care"}
       aria-label={item.label}
-      className="group relative flex flex-col items-center justify-start gap-[5px] py-1.5"
+      className="group relative flex min-h-[58px] flex-col items-center justify-start gap-[5px] py-1.5"
       style={{ color: active ? "var(--terracotta)" : "color-mix(in oklab, var(--dusk) 55%, transparent)" }}
     >
       <span
         className="flex items-center justify-center rounded-full transition-colors"
         style={{
-          width: center ? 38 : 30,
-          height: center ? 38 : 30,
-          background: center && active ? "color-mix(in oklab, var(--terracotta) 14%, transparent)"
-                    : center ? "color-mix(in oklab, var(--dusk) 5%, transparent)"
+          width: center ? 42 : 31,
+          height: center ? 42 : 31,
+          background: center && active ? "var(--bordeaux)"
+                    : center ? "var(--sun)"
+                    : active ? "color-mix(in oklab, var(--terracotta) 14%, transparent)"
                     : "transparent",
+          color: center && active ? "var(--paper)" : undefined,
         }}
       >
         <Icon name={item.icon} />
