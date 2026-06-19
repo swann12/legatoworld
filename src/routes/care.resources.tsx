@@ -10,15 +10,15 @@ export const Route = createFileRoute("/care/resources")({
 
 type Resource = { id: string; kind: string; title: string; hint: string; bg: string; to?: string };
 const FEATURED: Resource[] = [
-  { id: "comprendre", kind: "Lecture",  title: "Comprendre le deuil",  hint: "Articles courts, témoignages.", bg: "var(--terracotta)", to: "/care/resources" },
-  { id: "guides",     kind: "Pratique", title: "Guides & checklists",  hint: "Pour traverser les premiers jours.", bg: "var(--sky)", to: "/care/help" },
-  { id: "emotionnel", kind: "Outils",   title: "Soutien émotionnel",   hint: "Respiration, ancrage, journal.", bg: "var(--sun)", to: "/care/journal" },
+  { id: "therapeutes", kind: "Annuaire", title: "Thérapeutes du deuil", hint: "Des personnes formées à ce chemin.", bg: "var(--blush)", to: "/resources" },
+  { id: "ecoute",      kind: "Écoute",   title: "Lignes & groupes",     hint: "Parler sans rendez-vous.", bg: "var(--sky)", to: "/resources" },
+  { id: "corps",       kind: "Corps",    title: "Accompagnement du jour", hint: "Deux gestes adaptés à votre état.", bg: "var(--sun)", to: "/help" },
 ];
 const LIBRARY: Resource[] = [
-  { id: "podcasts",   kind: "Audio",    title: "Podcasts",             hint: "Voix qui accompagnent.",        bg: "var(--whisper)" },
-  { id: "livres",     kind: "Lecture",  title: "Livres",               hint: "Sélection sensible.",           bg: "var(--whisper)" },
-  { id: "anim",       kind: "Lien",     title: "Deuil animalier",      hint: "Honorer ce lien.",              bg: "var(--blush)"   },
-  { id: "proche",     kind: "Pratique", title: "Aider un proche",      hint: "Mots, gestes, présence.",       bg: "var(--blush)"   },
+  { id: "podcasts", kind: "Audio", title: "Podcasts", hint: "Voix qui accompagnent.", bg: "var(--whisper)" },
+  { id: "livres", kind: "Lecture", title: "Livres", hint: "Sélection sensible.", bg: "var(--whisper)" },
+  { id: "proche", kind: "Présence", title: "Aider un proche", hint: "Mots, gestes, présence.", bg: "var(--blush)" },
+  { id: "rituels", kind: "Mémoire", title: "Rituels du monde", hint: "Gestes culturels expliqués.", bg: "var(--sun)" },
 ];
 
 function CareResources() {
@@ -40,7 +40,7 @@ function CareResources() {
 
         <section className="px-5 pt-8 flex flex-col gap-3">
           {FEATURED.map((r) => (
-            <Link key={r.id} to={(r.to ?? "/care") as "/care"} className="block rounded-[20px] px-5 py-5" style={{ background: r.bg, color: r.id === "comprendre" ? "var(--paper)" : "var(--dusk)" }}>
+            <Link key={r.id} to={(r.to ?? "/care") as "/care"} search={r.to === "/resources" ? { space: "care" } : undefined} className="block rounded-[20px] px-5 py-5" style={{ background: r.bg, color: "var(--dusk)" }}>
               <p className="mono-label" style={{ opacity: 0.75 }}>{r.kind}</p>
               <p className="mt-2 font-serif text-[22px] leading-[1.15]">{r.title}</p>
               <p className="mt-1 text-[12.5px]" style={{ opacity: 0.8 }}>{r.hint}</p>
