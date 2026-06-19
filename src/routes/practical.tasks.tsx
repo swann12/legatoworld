@@ -45,6 +45,9 @@ function TasksList() {
           <h1 className="mt-3 font-serif text-[28px] leading-[1.1]">
             <span className="italic" style={{ color: "var(--terracotta)" }}>Une étape</span> à la fois
           </h1>
+          <p className="mt-4 text-[13px] leading-[1.55] text-dusk/60 max-w-[34ch]">
+            Ici, ce sont les actions concrètes. La page Démarches sert à voir l'ensemble et choisir le bon moment.
+          </p>
         </section>
 
         <section className="px-5 pt-5">
@@ -61,7 +64,7 @@ function TasksList() {
           </div>
         </section>
 
-        <ul className="mx-5 mt-5 overflow-hidden rounded-[18px] border border-dusk/12 bg-paper">
+        <ul className="mx-5 mt-5 space-y-3">
           {filtered.length === 0 && (
             <li className="px-5 py-6 text-center text-[13px] text-dusk/55 italic">Rien à montrer ici.</li>
           )}
@@ -69,11 +72,12 @@ function TasksList() {
             const cfg = PRACTICAL_LABELS[c];
             const st = hydrated ? taskStatus[c] : undefined;
             return (
-              <li key={c} className="border-t border-dusk/10 first:border-t-0">
+              <li key={c}>
                 <Link
                   to="/practical/tasks/$id"
                   params={{ id: c }}
-                  className="flex items-center justify-between gap-3 px-5 py-4 hover:bg-dusk/[0.02]"
+                  className="flex items-center justify-between gap-3 rounded-[18px] border border-dusk/10 px-5 py-4 transition-transform active:scale-[0.99]"
+                  style={{ background: ["var(--whisper)", "var(--sun)", "var(--blush)", "color-mix(in oklab, var(--sky) 40%, var(--paper))"][all.indexOf(c) % 4] }}
                 >
                   <div className="min-w-0">
                     <p className="font-serif text-[17px] leading-[1.15]">{cfg.label}</p>
