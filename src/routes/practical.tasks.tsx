@@ -66,7 +66,7 @@ function TasksList() {
 
         <ul className="mx-5 mt-5 space-y-3">
           {filtered.length === 0 && (
-            <li className="px-5 py-6 text-center text-[13px] text-dusk/55 italic">Rien à montrer ici.</li>
+            <li className="rounded-[18px] border border-dusk/10 bg-paper px-5 py-6 text-center text-[13px] text-dusk/55 italic">Rien à montrer ici.</li>
           )}
           {filtered.map((c) => {
             const cfg = PRACTICAL_LABELS[c];
