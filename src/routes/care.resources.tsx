@@ -39,11 +39,13 @@ function CareResources() {
         </section>
 
         <section className="px-5 pt-8 flex flex-col gap-3">
-          {FEATURED.map((r) => (
-            <Link key={r.id} to={(r.to ?? "/care") as "/care"} search={r.to === "/resources" ? { space: "care" } : undefined} className="block rounded-[20px] px-5 py-5" style={{ background: r.bg, color: "var(--dusk)" }}>
-              <p className="mono-label" style={{ opacity: 0.75 }}>{r.kind}</p>
-              <p className="mt-2 font-serif text-[22px] leading-[1.15]">{r.title}</p>
-              <p className="mt-1 text-[12.5px]" style={{ opacity: 0.8 }}>{r.hint}</p>
+          {FEATURED.map((r) => r.to === "/resources" ? (
+            <Link key={r.id} to="/resources" search={{ space: "care" }} className="block rounded-[20px] px-5 py-5" style={{ background: r.bg, color: "var(--dusk)" }}>
+              <ResourceContent resource={r} />
+            </Link>
+          ) : (
+            <Link key={r.id} to="/help" className="block rounded-[20px] px-5 py-5" style={{ background: r.bg, color: "var(--dusk)" }}>
+              <ResourceContent resource={r} />
             </Link>
           ))}
         </section>
@@ -64,5 +66,15 @@ function CareResources() {
         </section>
       </div>
     </Shell>
+  );
+}
+
+function ResourceContent({ resource: r }: { resource: Resource }) {
+  return (
+    <>
+      <p className="mono-label" style={{ opacity: 0.75 }}>{r.kind}</p>
+      <p className="mt-2 font-serif text-[22px] leading-[1.15]">{r.title}</p>
+      <p className="mt-1 text-[12.5px]" style={{ opacity: 0.8 }}>{r.hint}</p>
+    </>
   );
 }
