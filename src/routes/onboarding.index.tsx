@@ -267,28 +267,24 @@ function Frame({ children, onBack, progress }: { children: ReactNode; onBack: ()
   const [done, total] = progress.split("/").map((s) => parseInt(s.trim(), 10));
   const safeTotal = Number.isFinite(total) && total > 0 ? total : 7;
   const safeDone = Number.isFinite(done) ? done : 1;
-  const accents = ["var(--terracotta)", "var(--bordeaux)", "var(--sky)", "var(--olive)", "var(--bordeaux)", "var(--terracotta)", "var(--bordeaux)"];
-  const accent = accents[(Math.max(1, safeDone) - 1) % accents.length];
+  const accent = "var(--terracotta)";
   return (
     <main className="min-h-dvh bg-paper text-dusk">
       <div className="mobile-frame relative flex min-h-dvh flex-col">
-        <header className="grid grid-cols-3 items-center px-6 pt-10">
-          <button onClick={onBack} className="mono-label hover:text-dusk justify-self-start">← Retour</button>
-          <div className="justify-self-center"><LegatoMark to="/space" size={22} /></div>
-          <span className="mono-label text-dusk/50 justify-self-end">
-            {safeDone}<span className="text-dusk/30"> / {safeTotal}</span>
-          </span>
+        <header className="flex items-center justify-between px-7 pt-9">
+          <LegatoMark to="/space" size={22} />
+          <button onClick={onBack} aria-label="Retour" className="mono-label text-dusk/50 hover:text-dusk">←</button>
         </header>
-        <div className="px-6 mt-5 flex items-center gap-1.5">
+        <div className="px-7 mt-6 flex items-center gap-1.5">
           {Array.from({ length: safeTotal }).map((_, i) => (
             <span
               key={i}
-              className="h-[3px] flex-1 rounded-full"
-              style={{ background: i < safeDone ? accent : "color-mix(in oklab, var(--dusk) 12%, transparent)" }}
+              className="h-[2px] flex-1 rounded-full"
+              style={{ background: i < safeDone ? accent : "color-mix(in oklab, var(--dusk) 10%, transparent)" }}
             />
           ))}
         </div>
-        <div className="relative z-10 flex flex-1 flex-col px-6 pt-10 pb-16">{children}</div>
+        <div className="relative z-10 flex flex-1 flex-col px-7 pt-10 pb-10">{children}</div>
       </div>
     </main>
   );
