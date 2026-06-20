@@ -528,26 +528,40 @@
  letter-spacing: -0.015em;
  text-wrap: balance;
  }
- .ed-page-title {
- font-family: var(--font-serif);
- font-weight: 400;
- font-size: 36px;
- line-height: 1.02;
- letter-spacing: -0.01em;
- text-wrap: balance;
- }
-  .onboarding-title {
+  .ed-page-title {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: 36px;
+  line-height: 1.02;
+  letter-spacing: 0;
+  text-wrap: balance;
+  }
+  .legato-ref-display {
   font-family: var(--font-serif);
   font-weight: 400;
   font-size: 48px;
-  line-height: 0.98;
+  line-height: 0.94;
   letter-spacing: 0;
-  color: var(--olive);
-  text-wrap: balance;
   }
-  .onboarding-field::placeholder {
-  color: color-mix(in oklab, var(--olive) 48%, transparent);
+  .legato-ref-quote {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: 43px;
+  line-height: 0.91;
+  letter-spacing: 0;
   }
+   .onboarding-title {
+   font-family: var(--font-serif);
+   font-weight: 400;
+   font-size: 35px;
+   line-height: 1.02;
+   letter-spacing: 0;
+   color: var(--dusk);
+   text-wrap: balance;
+   }
+   .onboarding-field::placeholder {
+   color: color-mix(in oklab, var(--dusk) 48%, transparent);
+   }
  .ed-section-title {
  font-family: var(--font-serif);
  font-weight: 400;
