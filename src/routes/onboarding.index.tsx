@@ -123,7 +123,7 @@ function Onboarding() {
             onChange={(e) => setName(e.target.value)}
             placeholder="Swann"
             autoFocus
-            className="w-full rounded-full border bg-transparent px-6 py-4 font-serif text-[22px] italic outline-none transition-colors"
+            className="onboarding-field w-full rounded-full border bg-transparent px-6 py-4 font-serif text-[22px] italic outline-none transition-colors"
             style={{ borderColor: "color-mix(in oklab, var(--olive) 34%, transparent)", color: "var(--olive)" }}
           />
         </div>
@@ -270,18 +270,18 @@ function Frame({ children, onBack, progress }: { children: ReactNode; onBack: ()
   const safeDone = Number.isFinite(done) ? done : 1;
   const accent = "var(--terracotta)";
   return (
-    <main className="min-h-dvh bg-paper text-dusk">
-      <div className="mobile-frame relative flex min-h-dvh flex-col">
+    <main className="min-h-dvh" style={{ background: "var(--blush)", color: "var(--olive)" }}>
+      <div className="mobile-frame relative flex min-h-dvh flex-col" style={{ background: "var(--blush)" }}>
         <header className="flex items-center justify-between px-7 pt-9">
-          <LegatoMark to="/space" size={22} />
-          <button onClick={onBack} aria-label="Retour" className="mono-label text-dusk/50 hover:text-dusk">←</button>
+          <LegatoMark to="/space" variant="olive" size={22} />
+          <button onClick={onBack} aria-label="Retour" className="mono-label" style={{ color: "var(--olive)" }}>←</button>
         </header>
         <div className="px-7 mt-6 flex items-center gap-1.5">
           {Array.from({ length: safeTotal }).map((_, i) => (
             <span
               key={i}
               className="h-[2px] flex-1 rounded-full"
-              style={{ background: i < safeDone ? accent : "color-mix(in oklab, var(--dusk) 10%, transparent)" }}
+              style={{ background: i < safeDone ? accent : "color-mix(in oklab, var(--olive) 18%, transparent)" }}
             />
           ))}
         </div>
