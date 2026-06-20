@@ -1,6 +1,5 @@
 import { Link } from "@tanstack/react-router";
 import blackLogo from "@/assets/legato-logo-cropped.png.asset.json";
-import whiteLogo from "@/assets/legato-logo-white-cropped.png.asset.json";
 
 export function LegatoMark({
   to = "/space",
@@ -12,7 +11,6 @@ export function LegatoMark({
   size?: number;
 }) {
   const color = variant === "paper" ? "var(--paper)" : variant === "olive" ? "var(--olive)" : "var(--dusk)";
-  const logo = variant === "paper" ? whiteLogo.url : blackLogo.url;
   return (
     <Link
       to={to as "/space"}
@@ -20,7 +18,23 @@ export function LegatoMark({
       className="inline-flex items-center select-none"
       style={{ color, gap: size * 0.28 }}
     >
-      <img src={logo} alt="Legato" className="h-auto object-contain" style={{ width: size * 3.72 }} />
+      <span
+        aria-hidden="true"
+        className="block"
+        style={{
+          width: size * 3.72,
+          height: size,
+          backgroundColor: color,
+          WebkitMaskImage: `url(${blackLogo.url})`,
+          maskImage: `url(${blackLogo.url})`,
+          WebkitMaskRepeat: "no-repeat",
+          maskRepeat: "no-repeat",
+          WebkitMaskPosition: "center",
+          maskPosition: "center",
+          WebkitMaskSize: "contain",
+          maskSize: "contain",
+        }}
+      />
     </Link>
   );
 }
