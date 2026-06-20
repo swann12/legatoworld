@@ -92,7 +92,7 @@ function Vitrine() {
               href="#telecharger"
               className="ceramic organic-radius-3 px-7 py-4 text-center"
             >
-              <span className="block font-serif text-[1.1rem] italic text-dusk">
+              <span className="block font-serif text-[1.1rem] text-dusk">
                 Télécharger l'application
               </span>
               <span className="mt-1 block text-[10px] uppercase tracking-[0.22em] text-dusk/50">
@@ -199,7 +199,7 @@ function Vitrine() {
               <span className="block text-[10px] uppercase tracking-[0.22em] text-dusk/50">
                 Bientôt sur
               </span>
-              <span className="mt-1 block font-serif text-[1.3rem] italic text-dusk">
+              <span className="mt-1 block font-serif text-[1.3rem] text-dusk">
                 App Store
               </span>
             </a>
@@ -211,7 +211,7 @@ function Vitrine() {
               <span className="block text-[10px] uppercase tracking-[0.22em] text-dusk/50">
                 Bientôt sur
               </span>
-              <span className="mt-1 block font-serif text-[1.3rem] italic text-dusk">
+              <span className="mt-1 block font-serif text-[1.3rem] text-dusk">
                 Google Play
               </span>
             </a>

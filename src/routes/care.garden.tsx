@@ -59,7 +59,7 @@ function CareGarden() {
             <Link to="/care/dates" className="block rounded-[18px] border border-dusk/12 bg-[color:var(--whisper)] px-5 py-4">
               <p className="mono-label" style={{ color: "var(--terracotta)" }}>Une date approche</p>
               {dates.map((d) => (
-                <p key={d.id} className="mt-2 font-serif text-[17px] italic">
+                <p key={d.id} className="mt-2 font-serif text-[17px]">
                   {d.label} — {d.daysAway === 0 ? "aujourd'hui" : `dans ${d.daysAway} j`}
                 </p>
               ))}

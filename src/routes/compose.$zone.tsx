@@ -242,7 +242,7 @@ function ImportMemory({
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Un titre, si vous le sentez…"
-          className="w-full bg-transparent border-b border-dusk/15 focus:border-dusk/40 outline-none py-3 font-serif text-lg italic text-dusk placeholder:text-dusk/30"
+          className="w-full bg-transparent border-b border-dusk/15 focus:border-dusk/40 outline-none py-3 font-serif text-lg text-dusk placeholder:text-dusk/30"
         />
 
         {(type === "sentence" || type === "text") && (

@@ -84,7 +84,7 @@ function Dates() {
                   <div className="flex items-baseline justify-between gap-4">
                     <div>
                       <p className="mono-label">{d.kind}</p>
-                      <h3 className="mt-1.5 font-serif text-[20px] italic text-dusk">{d.title}</h3>
+                      <h3 className="mt-1.5 font-serif text-[20px] text-dusk">{d.title}</h3>
                       <p className="mt-1 text-[13px] text-dusk/55">{d.date}</p>
                     </div>
                     <div className="text-right shrink-0">

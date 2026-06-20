@@ -87,7 +87,7 @@ export function ConfideDock({ step }: { step?: string }) {
       <SheetContent side="bottom" className="bg-paper border-t border-dusk/10 p-0 max-h-[85dvh] overflow-y-auto">
         <div className="px-7 pt-7 pb-10 max-w-[640px] mx-auto">
           <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">Se confier — texte ou voix</p>
-          <h2 className="mt-2 font-serif italic text-[26px] text-dusk leading-tight text-balance">
+          <h2 className="mt-2 font-serif text-[26px] text-dusk leading-tight text-balance">
             Dites simplement ce qui est là.
           </h2>
           <p className="mt-3 text-[13px] text-dusk/60 max-w-[40ch]">
@@ -100,7 +100,7 @@ export function ConfideDock({ step }: { step?: string }) {
               onChange={(e) => setText(e.target.value)}
               rows={5}
               placeholder="Écrivez ici, ou touchez le micro pour parler…"
-              className="w-full bg-transparent outline-none resize-none font-serif italic text-[16px] leading-[26px] text-dusk placeholder:text-dusk/30"
+              className="w-full bg-transparent outline-none resize-none font-serif text-[16px] leading-[26px] text-dusk placeholder:text-dusk/30"
             />
             <div className="mt-3 flex items-center justify-between gap-2">
               <button

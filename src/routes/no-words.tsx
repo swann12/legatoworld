@@ -1053,7 +1053,7 @@ function SoufflesView() {
       {/* Title */}
       <div className="relative z-10 pt-16 text-center pointer-events-none">
         <h2
-          className="souffle-title font-serif italic text-[22px] leading-none text-dusk/85"
+          className="souffle-title font-serif text-[22px] leading-none text-dusk/85"
           style={{ textShadow: "0 1px 18px rgba(255,255,255,0.55)" }}
         >
           {noOrphan(seq.title)}

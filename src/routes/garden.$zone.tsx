@@ -231,7 +231,7 @@ function GardenZone() {
               className="card-olive block px-7 py-6 text-center"
             >
               <span className="eyebrow-on-dark">Déposer</span>
-              <p className="mt-2 font-serif text-[22px] italic">Un nouveau souvenir →</p>
+              <p className="mt-2 font-serif text-[22px]">Un nouveau souvenir →</p>
             </Link>
           </div>
       </div>

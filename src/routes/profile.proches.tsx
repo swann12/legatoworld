@@ -47,7 +47,7 @@ function Proches() {
                 <div className="flex items-start justify-between gap-3">
                   <div className="min-w-0">
                     <p className="mono-label text-dusk/60">{relationLabel ?? "Proche"}</p>
-                    <p className="mt-2 font-serif text-[26px] italic leading-[1.05]">{lovedName}</p>
+                    <p className="mt-2 font-serif text-[26px] leading-[1.05]">{lovedName}</p>
                   </div>
                   <span className="rounded-full bg-paper/70 px-3 py-1 text-[10.5px] mono-label text-dusk/70">Actif</span>
                 </div>

@@ -41,7 +41,7 @@ function ConfirmPage() {
         <h1 className="mt-6 ed-page-title text-dusk">
           C'est noté.
         </h1>
-        <p className="mt-4 font-serif text-[1.15rem] italic leading-relaxed text-dusk/80">
+        <p className="mt-4 font-serif text-[1.15rem] leading-relaxed text-dusk/80">
           {p.firstName} vous attend
           {when ? (
             <>
@@ -50,7 +50,7 @@ function ConfirmPage() {
           ) : null}
           .
         </p>
-        <p className="mt-2 font-serif text-[1.05rem] italic text-dusk/65">
+        <p className="mt-2 font-serif text-[1.05rem] text-dusk/65">
           Prenez soin de vous d'ici là.
         </p>
       </div>

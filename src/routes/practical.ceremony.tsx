@@ -74,7 +74,7 @@ function Ceremony() {
               value={venue}
               onChange={(e) => update(kind, e.target.value)}
               placeholder="Une église, un jardin, la maison, ailleurs…"
-              className="mt-3 w-full bg-transparent outline-none border-b border-dusk/15 pb-2 font-serif italic text-[16px] text-dusk placeholder:text-dusk/30"
+              className="mt-3 w-full bg-transparent outline-none border-b border-dusk/15 pb-2 font-serif text-[16px] text-dusk placeholder:text-dusk/30"
             />
           </IvoryCard>
         </section>

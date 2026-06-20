@@ -138,7 +138,7 @@ function WishesPage() {
               )}
               <button
                 onClick={sendToProche}
-                className="mt-5 w-full rounded-[14px] border border-dusk/10 px-5 py-3 font-serif italic text-[14px] text-dusk hover:bg-dusk/5 transition-colors"
+                className="mt-5 w-full rounded-[14px] border border-dusk/10 px-5 py-3 font-serif text-[14px] text-dusk hover:bg-dusk/5 transition-colors"
               >
                 Envoyer mes volontés par mail à un proche →
               </button>

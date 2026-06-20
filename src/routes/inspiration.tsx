@@ -94,7 +94,7 @@ function InspirationPage() {
               onChange={(e) => setText(e.target.value)}
               placeholder="Sa douceur, ses passions, un souvenir, ce qu'il ou elle aimait…"
               rows={7}
-              className="w-full bg-transparent resize-none outline-none font-serif italic text-[16px] leading-[26px] text-dusk placeholder:text-dusk/30"
+              className="w-full bg-transparent resize-none outline-none font-serif text-[16px] leading-[26px] text-dusk placeholder:text-dusk/30"
             />
           </IvoryCard>
           <div className="mt-3 flex flex-wrap gap-2">

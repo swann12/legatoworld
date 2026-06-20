@@ -118,7 +118,7 @@ function Manger() {
               className="glass-card organic-radius-3 px-6 py-6 animate-fade-in"
             >
               <p className="eyebrow">Étape {i + 1}</p>
-              <h3 className="mt-2 font-serif italic text-[18px] text-dusk leading-snug">{s.title}</h3>
+              <h3 className="mt-2 font-serif text-[18px] text-dusk leading-snug">{s.title}</h3>
               <p className="mt-2 text-[14px] leading-relaxed text-dusk/70">{s.body}</p>
               {i === openStep && (
                 <button
@@ -146,7 +146,7 @@ function Manger() {
             onChange={(e) => setSouvenir(e.target.value)}
             placeholder="Ce qu'il ou elle aimait..."
             rows={3}
-            className="mt-5 w-full glass-card organic-radius-3 px-5 py-4 font-serif italic text-[15px] text-dusk placeholder:text-dusk/40 outline-none resize-none"
+            className="mt-5 w-full glass-card organic-radius-3 px-5 py-4 font-serif text-[15px] text-dusk placeholder:text-dusk/40 outline-none resize-none"
           />
           {!saved ? (
             <button
@@ -158,7 +158,7 @@ function Manger() {
               Garder ce souvenir →
             </button>
           ) : (
-            <p className="mt-4 font-serif italic text-[14px] text-dusk/70">
+            <p className="mt-4 font-serif text-[14px] text-dusk/70">
               C'est gardé.
             </p>
           )}

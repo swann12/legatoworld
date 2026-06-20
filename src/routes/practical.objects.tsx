@@ -85,7 +85,7 @@ function Objects() {
           {ITEMS.map((it) => (
             <IvoryCard key={it.title} className="p-5">
               <p className="mono-label">{it.cat}</p>
-              <h3 className="mt-1.5 font-serif italic text-[17px] text-dusk">{it.title}</h3>
+              <h3 className="mt-1.5 font-serif text-[17px] text-dusk">{it.title}</h3>
               <p className="mt-2 text-[13px] leading-relaxed text-dusk/70">{it.body}</p>
               <p className="mt-3 mono-label">{it.range}</p>
               {it.refs.length > 0 && (

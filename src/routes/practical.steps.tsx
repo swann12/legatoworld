@@ -59,7 +59,7 @@ function Steps() {
                   />
                   <div className="flex-1 min-w-0 text-left" onClick={() => toggle(s.id)}>
                     <p className="mono-label">{s.phase}</p>
-                    <h3 className={`mt-1 font-serif text-[17px] italic text-dusk ${checked ? "line-through decoration-dusk/30" : ""}`}>{s.title}</h3>
+                    <h3 className={`mt-1 font-serif text-[17px] text-dusk ${checked ? "line-through decoration-dusk/30" : ""}`}>{s.title}</h3>
                     <p className="mt-2 text-[13px] leading-relaxed text-dusk/65">{s.body}</p>
                   </div>
                 </IvoryCard>

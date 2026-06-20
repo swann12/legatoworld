@@ -90,7 +90,7 @@ function Nuits() {
             </p>
             <a
               href="tel:3114"
-              className="mt-2 inline-block font-serif italic text-[15px] text-dusk hover:opacity-80 transition"
+              className="mt-2 inline-block font-serif text-[15px] text-dusk hover:opacity-80 transition"
             >
               3114 — disponible maintenant
             </a>

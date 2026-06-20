@@ -194,7 +194,7 @@ function Presence() {
                 key={s}
                 disabled={pending}
                 onClick={() => send(s)}
-                className="shrink-0 rounded-full border border-dusk/15 bg-paper px-4 py-2 text-[13px] text-dusk/75 italic font-serif disabled:opacity-40 hover:bg-dusk/5 transition-colors"
+                className="shrink-0 rounded-full border border-dusk/15 bg-paper px-4 py-2 text-[13px] text-dusk/75 font-serif disabled:opacity-40 hover:bg-dusk/5 transition-colors"
               >
                 {s}
               </button>
@@ -252,7 +252,7 @@ function Presence() {
               value={draft}
               onChange={(e) => setDraft(e.target.value)}
               placeholder={listening ? "J'écoute…" : "Écrivez, ou parlez…"}
-              className="flex-1 bg-transparent font-serif text-base italic text-dusk placeholder:text-dusk/35 outline-none py-2"
+              className="flex-1 bg-transparent font-serif text-base text-dusk placeholder:text-dusk/35 outline-none py-2"
               disabled={pending}
             />
             <button
