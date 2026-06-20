@@ -243,15 +243,27 @@ function Frame({ children, onBack, progress }: { children: ReactNode; onBack: ()
   const [done, total] = progress.split("/").map((s) => parseInt(s.trim(), 10));
   const safeTotal = Number.isFinite(total) && total > 0 ? total : 7;
   const safeDone = Number.isFinite(done) ? done : 1;
+  const pearls = [
+    { text: "Pas de bonne réponse. Seulement la vôtre.", bg: "var(--sun)" },
+    { text: "Un mot à la fois. Le reste peut attendre.", bg: "var(--blush)" },
+    { text: "On nomme, doucement. C'est déjà beaucoup.", bg: "var(--sky)" },
+    { text: "Ce que vous dites ici reste à vous.", bg: "color-mix(in oklab, var(--olive) 30%, var(--whisper))" },
+    { text: "Le chemin se dessine en marchant.", bg: "var(--peach)" },
+    { text: "Rien n'est figé. Tout peut changer demain.", bg: "var(--sun)" },
+    { text: "Vous êtes au bon endroit, à votre rythme.", bg: "var(--blush)" },
+  ];
+  const pearl = pearls[(Math.max(1, safeDone) - 1) % pearls.length];
   return (
     <main className="min-h-dvh bg-paper text-dusk">
       <div className="mobile-frame relative flex min-h-dvh flex-col">
-        <header className="px-6 pt-10 flex items-center justify-between">
-          <button onClick={onBack} className="mono-label hover:text-dusk">← Retour</button>
-          <LegatoMark to="/space" size={20} />
-          <span className="mono-label opacity-0">—</span>
+        <header className="grid grid-cols-3 items-center px-6 pt-10">
+          <button onClick={onBack} className="mono-label hover:text-dusk justify-self-start">← Retour</button>
+          <div className="justify-self-center"><LegatoMark to="/space" size={22} /></div>
+          <span className="mono-label text-dusk/50 justify-self-end">
+            {safeDone}<span className="text-dusk/30"> / {safeTotal}</span>
+          </span>
         </header>
-        <div className="px-6 mt-4 flex items-center gap-1.5">
+        <div className="px-6 mt-5 flex items-center gap-1.5">
           {Array.from({ length: safeTotal }).map((_, i) => (
             <span
               key={i}
@@ -260,9 +272,13 @@ function Frame({ children, onBack, progress }: { children: ReactNode; onBack: ()
             />
           ))}
         </div>
-        <div className="px-6 pt-5">
-          <div className="rounded-[18px] px-5 py-4" style={{ background: "var(--sun)" }}>
-            <p className="font-serif text-[18px] italic leading-snug text-dusk">On avance par petites portes. Rien d'inutile, rien à prouver.</p>
+        <div className="px-6 pt-6">
+          <div
+            className="rounded-[20px] px-5 py-5 border border-dusk/8"
+            style={{ background: pearl.bg }}
+          >
+            <p className="mono-label text-dusk/55 mb-1.5">Un mot doux</p>
+            <p className="font-serif text-[17px] italic leading-[1.35] text-dusk">{pearl.text}</p>
           </div>
         </div>
         <div className="relative z-10 flex flex-1 flex-col px-6 pt-8 pb-16">{children}</div>
