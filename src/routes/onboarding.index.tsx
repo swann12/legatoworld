@@ -114,12 +114,21 @@ function Onboarding() {
   if (step === 1) {
     return (
       <Frame onBack={() => navigate({ to: "/start" })} progress="1 / 7">
-        <p className="mono-label">Pour commencer</p>
-        <h1 className="mt-5 ed-page-title">Comment souhaitez-vous que Legato vous appelle&nbsp;?</h1>
-        <IvoryCard className="mt-8 px-5 py-4">
-          <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Votre prénom" className="w-full bg-transparent text-[20px] text-dusk placeholder:text-dusk/30 outline-none" autoFocus />
-        </IvoryCard>
-        <PrimaryBtn disabled={!name.trim()} onClick={() => setStep(2)}>Continuer →</PrimaryBtn>
+        <h1 className="mt-2 ed-page-title">
+          Comment souhaitez-vous que <span className="italic">Legato</span> vous appelle&nbsp;?
+        </h1>
+        <div className="mt-8">
+          <input
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Swann"
+            autoFocus
+            className="w-full rounded-full border border-dusk/20 bg-transparent px-6 py-4 font-serif text-[20px] italic text-dusk placeholder:italic placeholder:text-dusk/45 outline-none focus:border-dusk/40"
+          />
+        </div>
+        <div className="mt-auto" />
+        <BlushBtn disabled={!name.trim()} onClick={() => setStep(2)}>Continuer</BlushBtn>
+        <SkipLink onClick={() => setStep(2)}>Passer</SkipLink>
       </Frame>
     );
   }
@@ -127,28 +136,31 @@ function Onboarding() {
   if (step === 2) {
     return (
       <Frame onBack={() => setStep(1)} progress="2 / 7">
-        <p className="mono-label">Situation</p>
-        <h1 className="mt-5 ed-page-title">Pourquoi venez-vous sur Legato aujourd'hui&nbsp;?</h1>
-        <div className="mt-8 flex flex-col gap-3">
-          {SITUATIONS.map((s, i) => {
-            const tints = ["var(--sun)", "var(--blush)", "var(--sky)", "var(--peach)", "color-mix(in oklab, var(--olive) 30%, var(--whisper))"];
+        <h1 className="mt-2 ed-page-title">
+          Pourquoi venez-vous sur <span className="italic">Legato</span> aujourd'hui&nbsp;?
+        </h1>
+        <div className="mt-8 flex flex-col gap-2.5">
+          {SITUATIONS.map((s) => {
             const active = situation === s.id;
             return (
               <button
                 key={s.id}
                 onClick={() => { setSituation(s.id); setStage(null); setPrimaryNeed(null); }}
-                className="text-left rounded-[16px] border px-5 py-4 transition-colors"
+                className="text-left rounded-full border px-6 py-3.5 transition-colors"
                 style={{
-                  background: active ? tints[i % tints.length] : "var(--paper)",
-                  borderColor: active ? "color-mix(in oklab, var(--dusk) 35%, transparent)" : "color-mix(in oklab, var(--dusk) 12%, transparent)",
+                  background: "transparent",
+                  borderColor: active ? "var(--terracotta)" : "color-mix(in oklab, var(--dusk) 18%, transparent)",
+                  color: active ? "var(--terracotta)" : "var(--dusk)",
                 }}
               >
-                <p className="text-[15px] leading-[1.3] text-dusk">{s.label}</p>
+                <p className="text-[14px] leading-[1.3]">{s.label}</p>
               </button>
             );
           })}
         </div>
-        <PrimaryBtn disabled={!situation} onClick={afterSituation}>Continuer →</PrimaryBtn>
+        <div className="mt-auto" />
+        <BlushBtn disabled={!situation} onClick={afterSituation}>Continuer</BlushBtn>
+        <SkipLink onClick={afterSituation}>Passer</SkipLink>
       </Frame>
     );
   }
@@ -291,6 +303,27 @@ function PrimaryBtn({ children, onClick, disabled }: { children: ReactNode; onCl
       style={{ background: "var(--bordeaux)", color: "var(--paper)" }}
     >
       <span className="font-serif text-[20px]">{children}</span>
+    </button>
+  );
+}
+
+function BlushBtn({ children, onClick, disabled }: { children: ReactNode; onClick: () => void; disabled?: boolean }) {
+  return (
+    <button
+      onClick={onClick}
+      disabled={disabled}
+      className="mt-8 block w-full rounded-[6px] px-6 py-4 text-center disabled:opacity-40 transition-transform active:scale-[0.99]"
+      style={{ background: "var(--blush)", color: "var(--dusk)" }}
+    >
+      <span className="mono-label" style={{ color: "var(--dusk)", letterSpacing: "0.22em" }}>{children}</span>
+    </button>
+  );
+}
+
+function SkipLink({ children, onClick }: { children: ReactNode; onClick: () => void }) {
+  return (
+    <button onClick={onClick} className="mt-4 block w-full text-center py-1">
+      <span className="mono-label underline underline-offset-4" style={{ color: "var(--dusk)", letterSpacing: "0.22em" }}>{children}</span>
     </button>
   );
 }
