@@ -130,9 +130,9 @@ function Start() {
             <header className="pt-2">
               <LegatoMark to="/start" variant="olive" size={24} />
             </header>
-            <div className="flex flex-1 items-start pt-12">
-              <p className="font-serif text-[53px] leading-[0.96]" style={{ color: "var(--olive)", fontWeight: 400, letterSpacing: 0 }}>
-                Rien ne peut ramener l'heure passée, mais nous pouvons trouver de la force dans ce qui demeure.
+            <div className="flex flex-1 items-start pt-[54px]">
+              <p className="legato-ref-quote" style={{ color: "var(--olive)" }}>
+                Rien ne peut<br />ramener<br />l'heure passée,<br />mais nous<br />pouvons<br />trouver de<br />la force dans<br />ce qui<br />demeure.
               </p>
             </div>
             <div className="flex items-end justify-between pb-2 pt-8">
@@ -178,7 +178,7 @@ function Start() {
           >
             {mode === "signin" ? "Se reconnecter" : mode === "signup" ? "Créer un espace" : "Bienvenue"}
           </p>
-          <h1 className={mode === "choice" ? "mt-10 font-serif text-[60px] leading-[0.94] text-[color:var(--paper)] text-balance" : "mt-6 font-serif text-[48px] leading-[0.98] text-dusk text-balance"} style={{ fontWeight: 400, letterSpacing: 0 }}>
+          <h1 className={mode === "choice" ? "mt-10 legato-ref-display text-[color:var(--paper)]" : "mt-6 font-serif text-[48px] leading-[0.98] text-dusk text-balance"} style={{ fontWeight: 400, letterSpacing: 0 }}>
             {mode === "signin" ? (
               <>Ravi de vous<br />revoir.</>
             ) : mode === "signup" ? (
