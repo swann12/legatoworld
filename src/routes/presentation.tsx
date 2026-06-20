@@ -90,7 +90,7 @@ function Presentation() {
               {slide.eyebrow}
             </p>
             <h2
-              className="mt-3 font-serif text-[clamp(1.6rem,3.2vw,2.4rem)] leading-[1.08] font-light text-dusk"
+              className="mt-3 font-serif text-[clamp(1.6rem,3.2vw,2.4rem)] leading-[1.08] text-dusk"
               style={{ textWrap: "balance" }}
             >
               {slide.title}

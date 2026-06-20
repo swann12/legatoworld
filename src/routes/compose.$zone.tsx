@@ -132,7 +132,7 @@ function ChooseType({
     <div className="flex-1 flex flex-col px-7 pt-10 pb-10">
       <header>
         <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">premier pas</p>
-        <h1 className="mt-3 font-serif text-[2.2rem] leading-[1.05] font-light text-dusk text-balance">
+        <h1 className="mt-3 font-serif text-[2.2rem] leading-[1.05] text-dusk text-balance">
           Quel type de <span className="italic">souvenir ?</span>
         </h1>
         <p className="mt-4 max-w-[32ch] text-[13.5px] leading-relaxed text-dusk/60">
@@ -229,7 +229,7 @@ function ImportMemory({
     <div className="flex-1 flex flex-col px-7 pt-10 pb-10">
       <header>
         <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">le souvenir</p>
-        <h1 className="mt-3 font-serif text-[2.2rem] leading-[1.05] font-light text-dusk text-balance">
+        <h1 className="mt-3 font-serif text-[2.2rem] leading-[1.05] text-dusk text-balance">
           Déposez ce <span className="italic">souvenir.</span>
         </h1>
         <p className="mt-4 max-w-[34ch] text-[13.5px] leading-relaxed text-dusk/60">
@@ -317,7 +317,7 @@ function AskCompose({
   return (
     <div className="flex-1 flex flex-col items-center justify-center px-7 py-12 text-center">
       <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">la composition</p>
-      <h1 className="mt-5 font-serif text-[1.9rem] leading-[1.2] font-light text-dusk text-balance max-w-[20ch]">
+      <h1 className="mt-5 font-serif text-[1.9rem] leading-[1.2] text-dusk text-balance max-w-[20ch]">
         Souhaitez-vous composer un <span className="italic">jardin</span> autour de ce souvenir&nbsp;?
       </h1>
       <p className="mt-5 max-w-[28ch] text-[13.5px] leading-relaxed text-dusk/55">

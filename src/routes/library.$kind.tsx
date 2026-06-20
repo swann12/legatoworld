@@ -110,7 +110,7 @@ function LibraryPage() {
             >
               {data.eyebrow}
             </p>
-            <h1 className="mt-3 font-serif text-[34px] leading-[1.05] font-light text-balance">
+            <h1 className="mt-3 font-serif text-[34px] leading-[1.05] text-balance">
               {data.title.split(/(\bsimples?\b|\bdoux\b|\bjuste|\bvoix\b|\bseul·e\b)/).map((w, i) =>
                 /^(simples?|doux|juste|voix|seul·e)$/.test(w) ? (
                   <span key={i} className="italic" style={{ color: t.accent }}>{w}</span>

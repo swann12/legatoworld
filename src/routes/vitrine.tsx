@@ -73,7 +73,7 @@ function Vitrine() {
             Un compagnon premium pour le deuil
           </p>
           <h1
-            className="mt-6 font-serif text-[clamp(2.4rem,5vw,4rem)] leading-[1.02] font-light text-dusk"
+            className="mt-6 font-serif text-[clamp(2.4rem,5vw,4rem)] leading-[1.02] text-dusk"
             style={{ textWrap: "balance" }}
           >
             Certaines choses <span className="italic">s'accompagnent,</span><br />
@@ -125,7 +125,7 @@ function Vitrine() {
             Manifeste
           </p>
           <h2
-            className="mt-5 max-w-[24ch] font-serif text-[clamp(1.8rem,3.4vw,2.6rem)] font-light leading-[1.1] text-dusk"
+            className="mt-5 max-w-[24ch] font-serif text-[clamp(1.8rem,3.4vw,2.6rem)] leading-[1.1] text-dusk"
             style={{ textWrap: "balance" }}
           >
             Pas une app de productivité. Une présence.
@@ -156,7 +156,7 @@ function Vitrine() {
             Aperçu
           </p>
           <h2
-            className="mt-5 max-w-[28ch] font-serif text-[clamp(1.8rem,3.4vw,2.6rem)] font-light leading-[1.1] text-dusk"
+            className="mt-5 max-w-[28ch] font-serif text-[clamp(1.8rem,3.4vw,2.6rem)] leading-[1.1] text-dusk"
             style={{ textWrap: "balance" }}
           >
             Quelques fenêtres, vivantes, sur l'application.
@@ -177,7 +177,7 @@ function Vitrine() {
             Télécharger
           </p>
           <h2
-            className="mt-5 font-serif text-[clamp(2rem,4vw,3rem)] font-light leading-[1.05] text-dusk"
+            className="mt-5 font-serif text-[clamp(2rem,4vw,3rem)] leading-[1.05] text-dusk"
             style={{ textWrap: "balance" }}
           >
             Legato vit dans votre poche.
