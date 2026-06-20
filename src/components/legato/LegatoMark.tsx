@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import blackLogo from "@/assets/legato-logo-cropped.png.asset.json";
+import blackLogo from "@/assets/legato-logo-cropped.png";
 
 export function LegatoMark({
   to = "/space",
