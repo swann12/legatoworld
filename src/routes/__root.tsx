@@ -51,11 +51,16 @@ export const Route = createRootRoute({
       { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/7139190c-31c4-4d64-9e2c-f7ec7f4c6929/id-preview-d9c3a536--d91fa4d1-1c0a-4d13-9192-56ad528792b2.lovable.app-1777895039371.png" },
     ],
     links: [
+      { rel: "preconnect", href: "https://use.typekit.net" },
+      {
+        rel: "stylesheet",
+        href: "https://use.typekit.net/gaf6yrs.css",
+      },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,300;1,6..72,400;1,6..72,500&family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap",
       },
       {
         rel: "stylesheet",
