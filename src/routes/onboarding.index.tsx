@@ -310,9 +310,9 @@ function BlushBtn({ children, onClick, disabled }: { children: ReactNode; onClic
       onClick={onClick}
       disabled={disabled}
       className="mt-8 block w-full rounded-[6px] px-6 py-4 text-center disabled:opacity-40 transition-transform active:scale-[0.99]"
-      style={{ background: "var(--blush)", color: "var(--dusk)" }}
+      style={{ background: "var(--olive)", color: "var(--blush)" }}
     >
-      <span className="mono-label" style={{ color: "var(--dusk)", letterSpacing: "0.22em" }}>{children}</span>
+      <span className="mono-label" style={{ color: "var(--blush)", letterSpacing: "0.22em" }}>{children}</span>
     </button>
   );
 }
@@ -320,7 +320,7 @@ function BlushBtn({ children, onClick, disabled }: { children: ReactNode; onClic
 function SkipLink({ children, onClick }: { children: ReactNode; onClick: () => void }) {
   return (
     <button onClick={onClick} className="mt-4 block w-full text-center py-1">
-      <span className="mono-label underline underline-offset-4" style={{ color: "var(--dusk)", letterSpacing: "0.22em" }}>{children}</span>
+      <span className="mono-label underline underline-offset-4" style={{ color: "var(--olive)", letterSpacing: "0.22em" }}>{children}</span>
     </button>
   );
 }
