@@ -122,26 +122,33 @@ function Start() {
         <button
           type="button"
           onClick={goNext}
-          className="fixed inset-0 z-50 flex flex-col px-8 py-12 text-left animate-fade-in"
-          style={{ background: "var(--sun)", color: "var(--dusk)" }}
+          className="fixed inset-0 z-50 flex flex-col px-8 pt-10 pb-10 text-left animate-fade-in"
+          style={{ background: "var(--blush)", color: "var(--olive)" }}
           aria-label="Entrer dans Legato"
         >
-          <div className="flex w-full items-center justify-between border-b border-dusk/20 pb-4">
-            <span className="mono-label text-dusk/70">Souvenir</span>
-            <span className="mono-label text-dusk/55">Legato</span>
+          <div className="mobile-frame relative flex min-h-dvh flex-col px-2" style={{ background: "transparent" }}>
+            <header className="pt-2">
+              <LegatoMark to="/start" size={24} />
+            </header>
+            <div className="flex flex-1 items-start pt-10">
+              <p className="font-serif text-[44px] leading-[1.04] tracking-[-0.01em]" style={{ color: "var(--olive)" }}>
+                Rien ne peut ramener l'heure passée, mais nous pouvons trouver de la force dans ce qui demeure.
+              </p>
+            </div>
+            <div className="flex items-end justify-between pb-2 pt-8">
+              <div className="text-[13px] leading-[1.45]" style={{ color: "var(--olive)" }}>
+                <p>William Wordsworth,</p>
+                <p className="italic">Ode: Intimations of Immortality</p>
+              </div>
+              <span
+                className="flex h-12 w-12 items-center justify-center rounded-full border"
+                style={{ borderColor: "color-mix(in oklab, var(--olive) 55%, transparent)", color: "var(--olive)" }}
+                aria-hidden="true"
+              >
+                →
+              </span>
+            </div>
           </div>
-          <div className="flex flex-1 flex-col justify-center">
-            <p className="max-w-[8ch] font-serif text-[58px] leading-[0.96] text-[color:var(--terracotta)]">
-              Vous n'avez pas à faire cela seul·e.
-            </p>
-          </div>
-          <div>
-            <div className="mb-6 h-px w-12 bg-dusk/35" />
-            <p className="max-w-[24ch] text-[13px] leading-[1.55] text-dusk/70">
-              On avance avec ce qui est possible aujourd'hui. Rien de plus.
-            </p>
-          </div>
-          <p className="mono-label text-dusk/65">Toucher pour continuer →</p>
         </button>
       )}
       <div
@@ -159,7 +166,7 @@ function Start() {
                 ← Retour
               </button>
             ) : (
-              <LegatoMark to="/start" variant="paper" size={32} />
+              <LegatoMark to="/start" variant="paper" size={24} />
             )}
           </div>
         </header>
@@ -171,23 +178,15 @@ function Start() {
           >
             {mode === "signin" ? "Se reconnecter" : mode === "signup" ? "Créer un espace" : "Bienvenue"}
           </p>
-          <h1 className={mode === "choice" ? "mt-10 font-serif text-[58px] leading-[0.98] text-[color:var(--paper)] text-balance" : "mt-6 font-serif text-[44px] leading-[1.03] text-dusk text-balance"}>
+          <h1 className={mode === "choice" ? "mt-10 font-serif text-[52px] leading-[1.02] tracking-[-0.01em] text-[color:var(--paper)] text-balance" : "mt-6 font-serif text-[44px] leading-[1.03] text-dusk text-balance"}>
             {mode === "signin" ? (
               <>Ravi de vous<br />revoir.</>
             ) : mode === "signup" ? (
               <>Votre espace,<br />en quelques mots.</>
             ) : (
-              <>Préparer<br />un adieu,<br />garder une<br />présence.</>
+              <>Préparer<br />un <span className="italic">adieu</span>,<br />garder une<br /><span className="italic">présence</span>.</>
             )}
           </h1>
-          {mode === "choice" && (
-            <>
-              <div className="mt-8 h-px w-14 bg-[color:var(--paper)]/35" />
-              <p className="mt-6 max-w-[33ch] text-[15px] leading-[1.55]" style={{ color: "color-mix(in oklab, var(--paper) 72%, transparent)" }}>
-                Composer une cérémonie, écrire ce qui compte, faire vivre le souvenir. À votre rythme.
-              </p>
-            </>
-          )}
 
           <div className="mt-auto pt-12 flex flex-col gap-3">
             {mode === "choice" && (
@@ -195,29 +194,26 @@ function Start() {
                 <button
                   type="button"
                   onClick={() => { setMode("signup"); setError(null); setInfo(null); }}
-                  className="block rounded-[999px] text-center px-6 py-5 transition-transform active:scale-[0.99]"
+                  className="block rounded-[6px] text-center px-6 py-4 transition-transform active:scale-[0.99]"
                   style={{ background: "var(--paper)", color: "var(--bordeaux)" }}
                 >
-                  <span className="block mono-label" style={{ color: "var(--bordeaux)" }}>Créer son espace</span>
+                  <span className="block mono-label" style={{ color: "var(--bordeaux)", letterSpacing: "0.22em" }}>Créer son espace</span>
                 </button>
                 <button
                   type="button"
                   onClick={() => { setMode("signin"); setError(null); setInfo(null); }}
-                  className="rounded-[999px] border px-6 py-4 text-center transition-colors"
+                  className="rounded-[6px] border px-6 py-4 text-center transition-colors"
                   style={{ borderColor: "color-mix(in oklab, var(--paper) 70%, transparent)", color: "var(--paper)" }}
                 >
-                  <span className="block mono-label" style={{ color: "var(--paper)" }}>Se reconnecter</span>
+                  <span className="block mono-label" style={{ color: "var(--paper)", letterSpacing: "0.22em" }}>Se reconnecter</span>
                 </button>
                 <button
                   type="button"
                   onClick={() => setShowQuote(true)}
-                  className="mt-4 text-center py-2"
+                  className="mt-2 text-center py-2"
                 >
-                  <span className="block mono-label opacity-78" style={{ color: "var(--paper)" }}>Continuer en tant qu'invité·e</span>
+                  <span className="block mono-label" style={{ color: "color-mix(in oklab, var(--paper) 80%, transparent)", letterSpacing: "0.22em" }}>Continuer en tant qu'invité</span>
                 </button>
-                <p className="mx-auto max-w-[28ch] text-center text-[11px] leading-[1.45]" style={{ color: "color-mix(in oklab, var(--paper) 50%, transparent)" }}>
-                  En mode invité·e, rien n'est conservé d'une session à l'autre.
-                </p>
               </div>
             )}
 
