@@ -146,27 +146,33 @@ function Start() {
         </button>
       )}
       <div className="mobile-frame relative flex min-h-dvh flex-col">
-        <header className="px-6 pt-10 flex items-center justify-between">
-          {mode !== "choice" ? (
-            <button
-              type="button"
-              onClick={() => { setMode("choice"); setError(null); setInfo(null); }}
-              className="mono-label hover:text-dusk"
-            >
-              ← Retour
-            </button>
-          ) : <span className="mono-label opacity-0">—</span>}
-          <LegatoMark size={20} />
-          <span className="mono-label opacity-0">—</span>
+        <header className="grid grid-cols-3 items-center px-6 pt-10">
+          <div className="justify-self-start">
+            {mode !== "choice" ? (
+              <button
+                type="button"
+                onClick={() => { setMode("choice"); setError(null); setInfo(null); }}
+                className="mono-label hover:text-dusk"
+              >
+                ← Retour
+              </button>
+            ) : (
+              <span className="mono-label text-dusk/45">Legato</span>
+            )}
+          </div>
+          <div className="justify-self-center"><LegatoMark size={22} /></div>
+          <div className="justify-self-end">
+            <span className="mono-label text-dusk/45">2026</span>
+          </div>
         </header>
 
-        <div className="relative z-10 flex flex-1 flex-col px-6 pb-12 pt-10">
-          <p className="mono-label">
-            {mode === "signin" ? "Se reconnecter" : mode === "signup" ? "Créer un espace" : "Legato"}
+        <div className="relative z-10 flex flex-1 flex-col px-7 pb-12 pt-12">
+          <p className="mono-label text-dusk/55">
+            {mode === "signin" ? "Se reconnecter" : mode === "signup" ? "Créer un espace" : "Bienvenue"}
           </p>
-          <h1 className="mt-5 ed-page-title">
+          <h1 className="mt-6 font-serif text-[44px] leading-[1.02] tracking-[-0.01em] text-dusk text-balance">
             {mode === "signin" ? (
-              <>Ravi de vous <span className="italic" style={{ color: "var(--terracotta)" }}>revoir.</span></>
+              <>Ravi de vous<br /><span className="italic" style={{ color: "var(--terracotta)" }}>revoir.</span></>
             ) : mode === "signup" ? (
               <>Votre espace,<br /><span className="italic" style={{ color: "var(--terracotta)" }}>en quelques mots.</span></>
             ) : (
@@ -174,12 +180,18 @@ function Start() {
             )}
           </h1>
           {mode === "choice" && (
-            <p className="mt-5 text-[14px] leading-[1.55] text-dusk/65 max-w-[34ch]">
-              Composer une cérémonie, écrire ce qui compte, faire vivre le souvenir. À votre rythme.
-            </p>
+            <>
+              <div className="mt-7 h-px w-12 bg-dusk/25" />
+              <p className="mt-6 font-serif italic text-[17px] leading-[1.55] text-dusk/75 max-w-[30ch]">
+                Composer une cérémonie, écrire ce qui compte, faire vivre le souvenir.
+              </p>
+              <p className="mt-2 text-[13px] leading-[1.5] text-dusk/55 max-w-[30ch]">
+                À votre rythme — rien n'est jamais perdu, rien n'est jamais pressé.
+              </p>
+            </>
           )}
 
-          <div className="mt-10 flex flex-col gap-3">
+          <div className="mt-auto pt-12 flex flex-col gap-3">
             {mode === "choice" && (
               <div className="flex flex-col gap-3 animate-fade-in">
                 <button
