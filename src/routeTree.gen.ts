@@ -18,6 +18,7 @@ import { Route as PresentationRouteImport } from './routes/presentation'
 import { Route as PresenceRouteImport } from './routes/presence'
 import { Route as PracticalRouteImport } from './routes/practical'
 import { Route as ParcoursRouteImport } from './routes/parcours'
+import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as NoWordsRouteImport } from './routes/no-words'
 import { Route as MemoryRouteImport } from './routes/memory'
 import { Route as MemoriesRouteImport } from './routes/memories'
@@ -128,6 +129,11 @@ const ParcoursRoute = ParcoursRouteImport.update({
   path: '/parcours',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OnboardingRoute = OnboardingRouteImport.update({
+  id: '/onboarding',
+  path: '/onboarding',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const NoWordsRoute = NoWordsRouteImport.update({
   id: '/no-words',
   path: '/no-words',
@@ -218,9 +224,9 @@ const PracticalIndexRoute = PracticalIndexRouteImport.update({
   getParentRoute: () => PracticalRoute,
 } as any)
 const OnboardingIndexRoute = OnboardingIndexRouteImport.update({
-  id: '/onboarding/',
-  path: '/onboarding/',
-  getParentRoute: () => rootRouteImport,
+  id: '/',
+  path: '/',
+  getParentRoute: () => OnboardingRoute,
 } as any)
 const HelpIndexRoute = HelpIndexRouteImport.update({
   id: '/',
@@ -313,14 +319,14 @@ const ParcoursTaskIdRoute = ParcoursTaskIdRouteImport.update({
   getParentRoute: () => ParcoursRoute,
 } as any)
 const OnboardingPracticalRoute = OnboardingPracticalRouteImport.update({
-  id: '/onboarding/practical',
-  path: '/onboarding/practical',
-  getParentRoute: () => rootRouteImport,
+  id: '/practical',
+  path: '/practical',
+  getParentRoute: () => OnboardingRoute,
 } as any)
 const OnboardingCareRoute = OnboardingCareRouteImport.update({
-  id: '/onboarding/care',
-  path: '/onboarding/care',
-  getParentRoute: () => rootRouteImport,
+  id: '/care',
+  path: '/care',
+  getParentRoute: () => OnboardingRoute,
 } as any)
 const LibraryKindRoute = LibraryKindRouteImport.update({
   id: '/library/$kind',
@@ -466,6 +472,7 @@ export interface FileRoutesByFullPath {
   '/memories': typeof MemoriesRoute
   '/memory': typeof MemoryRoute
   '/no-words': typeof NoWordsRoute
+  '/onboarding': typeof OnboardingRouteWithChildren
   '/parcours': typeof ParcoursRouteWithChildren
   '/practical': typeof PracticalRouteWithChildren
   '/presence': typeof PresenceRoute
@@ -613,6 +620,7 @@ export interface FileRoutesById {
   '/memories': typeof MemoriesRoute
   '/memory': typeof MemoryRoute
   '/no-words': typeof NoWordsRoute
+  '/onboarding': typeof OnboardingRouteWithChildren
   '/parcours': typeof ParcoursRouteWithChildren
   '/practical': typeof PracticalRouteWithChildren
   '/presence': typeof PresenceRoute
@@ -689,6 +697,7 @@ export interface FileRouteTypes {
     | '/memories'
     | '/memory'
     | '/no-words'
+    | '/onboarding'
     | '/parcours'
     | '/practical'
     | '/presence'
@@ -835,6 +844,7 @@ export interface FileRouteTypes {
     | '/memories'
     | '/memory'
     | '/no-words'
+    | '/onboarding'
     | '/parcours'
     | '/practical'
     | '/presence'
@@ -911,6 +921,7 @@ export interface RootRouteChildren {
   MemoriesRoute: typeof MemoriesRoute
   MemoryRoute: typeof MemoryRoute
   NoWordsRoute: typeof NoWordsRoute
+  OnboardingRoute: typeof OnboardingRouteWithChildren
   ParcoursRoute: typeof ParcoursRouteWithChildren
   PracticalRoute: typeof PracticalRouteWithChildren
   PresenceRoute: typeof PresenceRoute
@@ -924,11 +935,8 @@ export interface RootRouteChildren {
   GardenZoneRoute: typeof GardenZoneRoute
   InviteTokenRoute: typeof InviteTokenRoute
   LibraryKindRoute: typeof LibraryKindRoute
-  OnboardingCareRoute: typeof OnboardingCareRoute
-  OnboardingPracticalRoute: typeof OnboardingPracticalRoute
   ResourcesCategoryRoute: typeof ResourcesCategoryRouteWithChildren
   GardenIndexRoute: typeof GardenIndexRoute
-  OnboardingIndexRoute: typeof OnboardingIndexRoute
   ResourcesIndexRoute: typeof ResourcesIndexRoute
   ResourcesConfirmProviderIdRoute: typeof ResourcesConfirmProviderIdRoute
   ApiPublicSouffleSoundIdRoute: typeof ApiPublicSouffleSoundIdRoute
@@ -997,6 +1005,13 @@ declare module '@tanstack/react-router' {
       path: '/parcours'
       fullPath: '/parcours'
       preLoaderRoute: typeof ParcoursRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/onboarding': {
+      id: '/onboarding'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof OnboardingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/no-words': {
@@ -1127,10 +1142,10 @@ declare module '@tanstack/react-router' {
     }
     '/onboarding/': {
       id: '/onboarding/'
-      path: '/onboarding'
+      path: '/'
       fullPath: '/onboarding/'
       preLoaderRoute: typeof OnboardingIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof OnboardingRoute
     }
     '/help/': {
       id: '/help/'
@@ -1260,17 +1275,17 @@ declare module '@tanstack/react-router' {
     }
     '/onboarding/practical': {
       id: '/onboarding/practical'
-      path: '/onboarding/practical'
+      path: '/practical'
       fullPath: '/onboarding/practical'
       preLoaderRoute: typeof OnboardingPracticalRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof OnboardingRoute
     }
     '/onboarding/care': {
       id: '/onboarding/care'
-      path: '/onboarding/care'
+      path: '/care'
       fullPath: '/onboarding/care'
       preLoaderRoute: typeof OnboardingCareRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof OnboardingRoute
     }
     '/library/$kind': {
       id: '/library/$kind'
@@ -1533,6 +1548,22 @@ const HelpRouteChildren: HelpRouteChildren = {
 
 const HelpRouteWithChildren = HelpRoute._addFileChildren(HelpRouteChildren)
 
+interface OnboardingRouteChildren {
+  OnboardingCareRoute: typeof OnboardingCareRoute
+  OnboardingPracticalRoute: typeof OnboardingPracticalRoute
+  OnboardingIndexRoute: typeof OnboardingIndexRoute
+}
+
+const OnboardingRouteChildren: OnboardingRouteChildren = {
+  OnboardingCareRoute: OnboardingCareRoute,
+  OnboardingPracticalRoute: OnboardingPracticalRoute,
+  OnboardingIndexRoute: OnboardingIndexRoute,
+}
+
+const OnboardingRouteWithChildren = OnboardingRoute._addFileChildren(
+  OnboardingRouteChildren,
+)
+
 interface ParcoursRouteChildren {
   ParcoursTaskIdRoute: typeof ParcoursTaskIdRoute
 }
@@ -1632,6 +1663,7 @@ const rootRouteChildren: RootRouteChildren = {
   MemoriesRoute: MemoriesRoute,
   MemoryRoute: MemoryRoute,
   NoWordsRoute: NoWordsRoute,
+  OnboardingRoute: OnboardingRouteWithChildren,
   ParcoursRoute: ParcoursRouteWithChildren,
   PracticalRoute: PracticalRouteWithChildren,
   PresenceRoute: PresenceRoute,
@@ -1645,11 +1677,8 @@ const rootRouteChildren: RootRouteChildren = {
   GardenZoneRoute: GardenZoneRoute,
   InviteTokenRoute: InviteTokenRoute,
   LibraryKindRoute: LibraryKindRoute,
-  OnboardingCareRoute: OnboardingCareRoute,
-  OnboardingPracticalRoute: OnboardingPracticalRoute,
   ResourcesCategoryRoute: ResourcesCategoryRouteWithChildren,
   GardenIndexRoute: GardenIndexRoute,
-  OnboardingIndexRoute: OnboardingIndexRoute,
   ResourcesIndexRoute: ResourcesIndexRoute,
   ResourcesConfirmProviderIdRoute: ResourcesConfirmProviderIdRoute,
   ApiPublicSouffleSoundIdRoute: ApiPublicSouffleSoundIdRoute,
