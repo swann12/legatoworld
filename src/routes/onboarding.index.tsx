@@ -321,6 +321,22 @@ function SkipLink({ children, onClick }: { children: ReactNode; onClick: () => v
   );
 }
 
+function OptionPill({ children, active, onClick }: { children: ReactNode; active: boolean; onClick: () => void }) {
+  return (
+    <button
+      onClick={onClick}
+      className="text-left rounded-full border px-5 py-2.5 transition-colors"
+      style={{
+        background: "transparent",
+        borderColor: active ? "var(--terracotta)" : "color-mix(in oklab, var(--dusk) 12%, transparent)",
+        color: "var(--dusk)",
+      }}
+    >
+      <span className="block text-[12px] leading-[1.25]">{children}</span>
+    </button>
+  );
+}
+
 function Field({ label, children }: { label: string; children: ReactNode }) {
   return (
     <div className="mt-8">
