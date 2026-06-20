@@ -164,12 +164,12 @@ function Start() {
           </div>
           <div className="justify-self-center" />
           <div className="justify-self-end">
-            <span className={mode === "choice" ? "mono-label text-[color:var(--paper)]/55" : "mono-label text-dusk/45"}>2026</span>
+            <span className={mode === "choice" ? "mono-label text-[color:var(--paper)] opacity-55" : "mono-label text-dusk/45"}>2026</span>
           </div>
         </header>
 
         <div className="relative z-10 flex flex-1 flex-col px-8 pb-12 pt-12">
-          <p className={mode === "choice" ? "mono-label text-[color:var(--paper)]/65" : "mono-label text-dusk/55"}>
+          <p className={mode === "choice" ? "mono-label text-[color:var(--paper)] opacity-65" : "mono-label text-dusk/55"}>
             {mode === "signin" ? "Se reconnecter" : mode === "signup" ? "Créer un espace" : "Bienvenue"}
           </p>
           <h1 className={mode === "choice" ? "mt-10 font-serif text-[58px] leading-[0.98] text-[color:var(--paper)] text-balance" : "mt-6 font-serif text-[44px] leading-[1.03] text-dusk text-balance"}>
@@ -184,7 +184,7 @@ function Start() {
           {mode === "choice" && (
             <>
               <div className="mt-8 h-px w-14 bg-[color:var(--paper)]/35" />
-              <p className="mt-6 max-w-[33ch] text-[15px] leading-[1.55] text-[color:var(--paper)]/72">
+              <p className="mt-6 max-w-[33ch] text-[15px] leading-[1.55] text-[color:var(--paper)] opacity-72">
                 Composer une cérémonie, écrire ce qui compte, faire vivre le souvenir. À votre rythme.
               </p>
             </>
@@ -214,9 +214,9 @@ function Start() {
                   onClick={() => setShowQuote(true)}
                   className="mt-4 text-center py-2"
                 >
-                  <span className="block mono-label text-[color:var(--paper)]/78">Continuer en tant qu'invité·e</span>
+                  <span className="block mono-label text-[color:var(--paper)] opacity-78">Continuer en tant qu'invité·e</span>
                 </button>
-                <p className="mx-auto max-w-[28ch] text-center text-[11px] leading-[1.45] text-[color:var(--paper)]/50">
+                <p className="mx-auto max-w-[28ch] text-center text-[11px] leading-[1.45] text-[color:var(--paper)] opacity-50">
                   En mode invité·e, rien n'est conservé d'une session à l'autre.
                 </p>
               </div>
