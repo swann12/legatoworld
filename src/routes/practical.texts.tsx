@@ -44,7 +44,7 @@ function Texts() {
           {TEXTS.map((t) => (
             <IvoryCard key={t.title} className="p-5">
               <p className="mono-label">{t.kind}</p>
-              <p className="mt-1.5 font-serif italic text-[16px] text-dusk">{t.title}</p>
+              <p className="mt-1.5 font-serif text-[16px] text-dusk">{t.title}</p>
               <p className="mt-1.5 text-[13px] text-dusk/65">{t.body}</p>
             </IvoryCard>
           ))}
@@ -55,7 +55,7 @@ function Texts() {
           {MUSIC.map((t) => (
             <IvoryCard key={t.title} className="p-5">
               <p className="mono-label">{t.kind}</p>
-              <p className="mt-1.5 font-serif italic text-[16px] text-dusk">{t.title}</p>
+              <p className="mt-1.5 font-serif text-[16px] text-dusk">{t.title}</p>
               <p className="mt-1.5 text-[13px] text-dusk/65">{t.body}</p>
             </IvoryCard>
           ))}

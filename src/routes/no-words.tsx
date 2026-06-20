@@ -1053,7 +1053,7 @@ function SoufflesView() {
       {/* Title */}
       <div className="relative z-10 pt-16 text-center pointer-events-none">
         <h2
-          className="souffle-title font-serif italic text-[22px] leading-none text-dusk/85"
+          className="souffle-title font-serif text-[22px] leading-none text-dusk/85"
           style={{ textShadow: "0 1px 18px rgba(255,255,255,0.55)" }}
         >
           {noOrphan(seq.title)}
@@ -1184,7 +1184,7 @@ function RespirerView() {
           } as React.CSSProperties}
         />
         <div className="relative text-center">
-          <p className="font-serif italic text-paper/90 text-[20px] leading-none flex justify-center">
+          <p className="font-serif text-paper/90 text-[20px] leading-none flex justify-center">
             {phase.id === "hold"
               ? <span>{noOrphan(phase.label)}</span>
               : letters.map((ch, i) => (
@@ -1227,7 +1227,7 @@ function RespirerView() {
       {closing && (
         <div className="absolute inset-0 flex items-center justify-center" style={{ background: "rgba(26,31,46,0.92)" }}
              onAnimationEnd={() => {}}>
-          <p className="font-serif italic text-paper/90 text-[22px] animate-fade-in">Bien. Prenez votre temps.</p>
+          <p className="font-serif text-paper/90 text-[22px] animate-fade-in">Bien. Prenez votre temps.</p>
         </div>
       )}
       {closing && <CloseAfter onDone={() => { setClosing(false); }} />}

@@ -59,7 +59,7 @@ function Share() {
             <a key={r.who} href={buildMail(state, r.who)} className="block rounded-[18px] border border-dusk/10 bg-paper p-5 flex items-baseline justify-between hover:bg-dusk/[0.02] transition-colors">
               <div>
                 <p className="mono-label">{r.who}</p>
-                <p className="mt-1.5 font-serif italic text-[15px] text-dusk">{r.body}</p>
+                <p className="mt-1.5 font-serif text-[15px] text-dusk">{r.body}</p>
               </div>
               <span className="text-dusk/40">✉</span>
             </a>
@@ -67,7 +67,7 @@ function Share() {
         </section>
 
         <div className="px-7 mt-10 text-center pb-8">
-          <p className="font-serif italic text-[14px] text-dusk/55 max-w-[28ch] mx-auto text-balance">
+          <p className="font-serif text-[14px] text-dusk/55 max-w-[28ch] mx-auto text-balance">
             Vous n'êtes pas obligée·e de tout porter seule.
           </p>
         </div>

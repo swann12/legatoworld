@@ -84,7 +84,7 @@ function Dates() {
                   <div className="flex items-baseline justify-between gap-4">
                     <div>
                       <p className="mono-label">{d.kind}</p>
-                      <h3 className="mt-1.5 font-serif text-[20px] italic text-dusk">{d.title}</h3>
+                      <h3 className="mt-1.5 font-serif text-[20px] text-dusk">{d.title}</h3>
                       <p className="mt-1 text-[13px] text-dusk/55">{d.date}</p>
                     </div>
                     <div className="text-right shrink-0">
@@ -115,7 +115,7 @@ function Dates() {
 
         <div className="px-5 mt-8">
           <button className="w-full rounded-[14px] border border-dusk/10 px-7 py-5 text-center hover:bg-dusk/5 transition-colors">
-            <span className="font-serif text-[18px] italic text-dusk">Ajouter une date</span>
+            <span className="font-serif text-[18px] text-dusk">Ajouter une date</span>
           </button>
         </div>
       </div>
@@ -142,7 +142,7 @@ function RitualCard({ item }: { item: Ritual }) {
   return (
     <IvoryCard className="p-4">
       <div className="flex items-baseline justify-between gap-3">
-        <p className="font-serif italic text-[15px] text-dusk">{item.title}</p>
+        <p className="font-serif text-[15px] text-dusk">{item.title}</p>
         <span className="mono-label shrink-0">{item.durationMin} min</span>
       </div>
       <p className="mt-1 text-[13px] leading-relaxed text-dusk/65">{item.whisper}</p>

@@ -40,7 +40,7 @@ function Nuits() {
               className="glass-card organic-radius-3 px-6 py-6"
               style={{ background: "color-mix(in oklab, #F0EBF8 70%, transparent)" }}
             >
-              <h3 className="font-serif italic text-[17px] text-dusk leading-snug">{c.title}</h3>
+              <h3 className="font-serif text-[17px] text-dusk leading-snug">{c.title}</h3>
               <p className="mt-2 text-[13.5px] leading-relaxed text-dusk/70">{c.body}</p>
               {c.linkLabel && c.linkTo && (
                 <Link
@@ -57,12 +57,12 @@ function Nuits() {
 
       {/* SECTION 2 — Ce que d'autres ont fait */}
       <section className="px-7 mt-14">
-        <h2 className="font-serif italic text-[1.4rem] text-dusk">Ils étaient là aussi, à 3 h du matin.</h2>
+        <h2 className="font-serif text-[1.4rem] text-dusk">Ils étaient là aussi, à 3 h du matin.</h2>
         <div className="mt-6 space-y-5">
           {TEMOIGNAGES.map((t, i) => (
             <blockquote
               key={i}
-              className="font-serif italic text-[15.5px] leading-[1.7] text-dusk/80 pl-5 py-2 border-l-2"
+              className="font-serif text-[15.5px] leading-[1.7] text-dusk/80 pl-5 py-2 border-l-2"
               style={{ borderColor: "#B0A0C8" }}
             >
               « {t} »
@@ -90,7 +90,7 @@ function Nuits() {
             </p>
             <a
               href="tel:3114"
-              className="mt-2 inline-block font-serif italic text-[15px] text-dusk hover:opacity-80 transition"
+              className="mt-2 inline-block font-serif text-[15px] text-dusk hover:opacity-80 transition"
             >
               3114 — disponible maintenant
             </a>

@@ -87,7 +87,7 @@ function Community() {
 
         <div className="px-7 mt-10 pb-8">
           <div className="h-px bg-dusk/12" />
-          <p className="mt-6 font-serif italic text-[15px] text-dusk/60 max-w-[34ch] text-balance">
+          <p className="mt-6 font-serif text-[15px] text-dusk/60 max-w-[34ch] text-balance">
             Vous pouvez juste écouter. C'est suffisant. Personne ne vous demandera de parler.
           </p>
         </div>

@@ -107,7 +107,7 @@ function AuthPage() {
 
         <p className="mt-8 text-[13px] text-dusk/70 text-center">
           {mode === "signin" ? "Pas encore de compte ?" : "Déjà inscrit·e ?"}{" "}
-          <button type="button" className="underline italic font-serif" onClick={() => setMode(mode === "signin" ? "signup" : "signin")}>
+          <button type="button" className="underline font-serif" onClick={() => setMode(mode === "signin" ? "signup" : "signin")}>
             {mode === "signin" ? "Créer un espace" : "Se connecter"}
           </button>
         </p>

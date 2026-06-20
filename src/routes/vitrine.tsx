@@ -58,7 +58,7 @@ function Vitrine() {
     <main className="min-h-dvh bg-paper text-dusk">
       {/* Top bar */}
       <header className="mx-auto flex max-w-[1200px] items-center justify-between px-6 py-6 sm:px-10">
-        <p className="font-serif text-xl italic text-dusk">Legato</p>
+        <p className="font-serif text-xl text-dusk">Legato</p>
         <nav className="flex items-center gap-6 text-[11px] uppercase tracking-[0.22em] text-dusk/55">
           <a href="#manifeste" className="hover:text-dusk">Manifeste</a>
           <a href="#apercu" className="hover:text-dusk">Aperçu</a>
@@ -73,7 +73,7 @@ function Vitrine() {
             Un compagnon premium pour le deuil
           </p>
           <h1
-            className="mt-6 font-serif text-[clamp(2.4rem,5vw,4rem)] leading-[1.02] font-light text-dusk"
+            className="mt-6 font-serif text-[clamp(2.4rem,5vw,4rem)] leading-[1.02] text-dusk"
             style={{ textWrap: "balance" }}
           >
             Certaines choses <span className="italic">s'accompagnent,</span><br />
@@ -92,7 +92,7 @@ function Vitrine() {
               href="#telecharger"
               className="ceramic organic-radius-3 px-7 py-4 text-center"
             >
-              <span className="block font-serif text-[1.1rem] italic text-dusk">
+              <span className="block font-serif text-[1.1rem] text-dusk">
                 Télécharger l'application
               </span>
               <span className="mt-1 block text-[10px] uppercase tracking-[0.22em] text-dusk/50">
@@ -125,7 +125,7 @@ function Vitrine() {
             Manifeste
           </p>
           <h2
-            className="mt-5 max-w-[24ch] font-serif text-[clamp(1.8rem,3.4vw,2.6rem)] font-light leading-[1.1] text-dusk"
+            className="mt-5 max-w-[24ch] font-serif text-[clamp(1.8rem,3.4vw,2.6rem)] leading-[1.1] text-dusk"
             style={{ textWrap: "balance" }}
           >
             Pas une app de productivité. Une présence.
@@ -137,7 +137,7 @@ function Vitrine() {
               { t: "Privé, pour de vrai", d: "Vos souvenirs, votre journal, vos êtres aimés restent vôtres. Pensé pour la pudeur de ce qu'on confie." },
             ].map((b) => (
               <div key={b.t}>
-                <h3 className="font-serif text-[1.4rem] italic font-light text-dusk">
+                <h3 className="font-serif text-[1.4rem] text-dusk">
                   {b.t}
                 </h3>
                 <p className="mt-3 text-[14.5px] leading-relaxed text-dusk/65">
@@ -156,7 +156,7 @@ function Vitrine() {
             Aperçu
           </p>
           <h2
-            className="mt-5 max-w-[28ch] font-serif text-[clamp(1.8rem,3.4vw,2.6rem)] font-light leading-[1.1] text-dusk"
+            className="mt-5 max-w-[28ch] font-serif text-[clamp(1.8rem,3.4vw,2.6rem)] leading-[1.1] text-dusk"
             style={{ textWrap: "balance" }}
           >
             Quelques fenêtres, vivantes, sur l'application.
@@ -177,7 +177,7 @@ function Vitrine() {
             Télécharger
           </p>
           <h2
-            className="mt-5 font-serif text-[clamp(2rem,4vw,3rem)] font-light leading-[1.05] text-dusk"
+            className="mt-5 font-serif text-[clamp(2rem,4vw,3rem)] leading-[1.05] text-dusk"
             style={{ textWrap: "balance" }}
           >
             Legato vit dans votre poche.
@@ -199,7 +199,7 @@ function Vitrine() {
               <span className="block text-[10px] uppercase tracking-[0.22em] text-dusk/50">
                 Bientôt sur
               </span>
-              <span className="mt-1 block font-serif text-[1.3rem] italic text-dusk">
+              <span className="mt-1 block font-serif text-[1.3rem] text-dusk">
                 App Store
               </span>
             </a>
@@ -211,7 +211,7 @@ function Vitrine() {
               <span className="block text-[10px] uppercase tracking-[0.22em] text-dusk/50">
                 Bientôt sur
               </span>
-              <span className="mt-1 block font-serif text-[1.3rem] italic text-dusk">
+              <span className="mt-1 block font-serif text-[1.3rem] text-dusk">
                 Google Play
               </span>
             </a>
@@ -226,7 +226,7 @@ function Vitrine() {
       {/* Footer */}
       <footer className="border-t border-dusk/8">
         <div className="mx-auto flex max-w-[1200px] flex-wrap items-center justify-between gap-4 px-6 py-10 sm:px-10">
-          <p className="font-serif text-lg italic text-dusk">Legato</p>
+          <p className="font-serif text-lg text-dusk">Legato</p>
           <p className="text-[10px] uppercase tracking-[0.24em] text-dusk/45">
             © {new Date().getFullYear()} · Tenu avec soin
           </p>

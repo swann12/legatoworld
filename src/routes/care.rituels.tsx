@@ -181,7 +181,7 @@ function CareRituels() {
             className="mt-2 rounded-[18px] border border-dashed border-dusk/25 px-5 py-5 text-left text-dusk/70 disabled:opacity-60"
           >
             <p className="mono-label" style={{ color: "var(--terracotta)" }}>Présence IA</p>
-            <p className="mt-1 font-serif italic text-[18px]">
+            <p className="mt-1 font-serif text-[18px]">
               {loading ? "Cherche des gestes du monde…" : "M'en proposer d'autres, adaptés"}
             </p>
           </button>

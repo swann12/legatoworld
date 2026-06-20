@@ -14,7 +14,7 @@ export const Route = createFileRoute("/resources/confirm/$providerId")({
   notFoundComponent: () => (
     <Shell>
       <div className="px-7 pt-20">
-        <p className="font-serif text-[1.6rem] italic text-dusk">Rendez-vous introuvable.</p>
+        <p className="font-serif text-[1.6rem] text-dusk">Rendez-vous introuvable.</p>
         <Link to="/resources" className="mt-4 inline-block text-sm text-dusk/60 underline">
           Revenir
         </Link>
@@ -41,7 +41,7 @@ function ConfirmPage() {
         <h1 className="mt-6 ed-page-title text-dusk">
           C'est noté.
         </h1>
-        <p className="mt-4 font-serif text-[1.15rem] italic leading-relaxed text-dusk/80">
+        <p className="mt-4 font-serif text-[1.15rem] leading-relaxed text-dusk/80">
           {p.firstName} vous attend
           {when ? (
             <>
@@ -50,7 +50,7 @@ function ConfirmPage() {
           ) : null}
           .
         </p>
-        <p className="mt-2 font-serif text-[1.05rem] italic text-dusk/65">
+        <p className="mt-2 font-serif text-[1.05rem] text-dusk/65">
           Prenez soin de vous d'ici là.
         </p>
       </div>
@@ -84,7 +84,7 @@ function ConfirmPage() {
       <div className="mt-10 px-7 text-center">
         <Link
           to="/home"
-          className="font-serif text-[14px] italic text-dusk/65 underline-offset-4 hover:underline"
+          className="font-serif text-[14px] text-dusk/65 underline-offset-4 hover:underline"
         >
           Revenir à l'accueil
         </Link>

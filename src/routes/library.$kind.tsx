@@ -74,7 +74,7 @@ export const Route = createFileRoute("/library/$kind")({
   notFoundComponent: () => (
     <Shell>
       <div className="px-7 pt-20">
-        <p className="font-serif text-[1.6rem] italic text-dusk">Pas encore ouvert.</p>
+        <p className="font-serif text-[1.6rem] text-dusk">Pas encore ouvert.</p>
         <Link to="/home" className="mt-4 inline-block text-sm text-dusk/60 underline">
           Revenir à l'accueil
         </Link>
@@ -110,7 +110,7 @@ function LibraryPage() {
             >
               {data.eyebrow}
             </p>
-            <h1 className="mt-3 font-serif text-[34px] leading-[1.05] font-light text-balance">
+            <h1 className="mt-3 font-serif text-[34px] leading-[1.05] text-balance">
               {data.title.split(/(\bsimples?\b|\bdoux\b|\bjuste|\bvoix\b|\bseul·e\b)/).map((w, i) =>
                 /^(simples?|doux|juste|voix|seul·e)$/.test(w) ? (
                   <span key={i} className="italic" style={{ color: t.accent }}>{w}</span>

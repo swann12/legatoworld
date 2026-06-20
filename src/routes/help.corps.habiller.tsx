@@ -56,7 +56,7 @@ function Habiller() {
 
       {/* SECTION 1 — La chose la plus douce */}
       <section className="px-7 mt-12">
-        <h2 className="font-serif italic text-[1.4rem] text-dusk">La chose la plus douce.</h2>
+        <h2 className="font-serif text-[1.4rem] text-dusk">La chose la plus douce.</h2>
         <p className="mt-3 text-[14px] leading-relaxed text-dusk/70 max-w-[34ch]">
           Aujourd'hui, trouvez la chose la plus douce que vous avez dans votre armoire. Pas la plus jolie. Pas la plus pratique. La plus douce au toucher.
         </p>
@@ -73,7 +73,7 @@ function Habiller() {
 
       {/* SECTION 2 — Une couleur */}
       <section className="px-7 mt-14">
-        <h2 className="font-serif italic text-[1.4rem] text-dusk">Une couleur.</h2>
+        <h2 className="font-serif text-[1.4rem] text-dusk">Une couleur.</h2>
         <p className="mt-3 text-[14px] leading-relaxed text-dusk/70">
           Est-ce qu'il y a une couleur qui vous fait du bien en ce moment ?
         </p>
@@ -90,7 +90,7 @@ function Habiller() {
           ))}
         </div>
         {picked && (
-          <p key={picked} className="mt-6 font-serif italic text-[18px] text-dusk/85 leading-snug max-w-[34ch] animate-fade-in">
+          <p key={picked} className="mt-6 font-serif text-[18px] text-dusk/85 leading-snug max-w-[34ch] animate-fade-in">
             Quelque chose de cette couleur, si vous en avez. Même juste une écharpe, une chaussette.
           </p>
         )}
@@ -99,7 +99,7 @@ function Habiller() {
       {/* SECTION 3 — Ses vêtements */}
       <section className="px-7 mt-14">
         <div className="border-t border-dusk/10 pt-8">
-          <h2 className="font-serif italic text-[1.4rem] text-dusk">Ses affaires.</h2>
+          <h2 className="font-serif text-[1.4rem] text-dusk">Ses affaires.</h2>
           <div className="mt-5 space-y-5 text-[14.5px] leading-[1.75] text-dusk/72 max-w-[36ch]">
             <p>Certaines personnes gardent un vêtement de lui, d'elle, près d'elles.</p>
             <p>Un pull. Une veste. Quelque chose qui garde son odeur.</p>
@@ -112,7 +112,7 @@ function Habiller() {
       {/* SECTION 4 — Le rituel du matin */}
       <section className="px-7 mt-14 mb-6">
         <div className="glass-card organic-radius-3 px-6 py-6">
-          <h3 className="font-serif italic text-[1.2rem] text-dusk">Un matin accompagné.</h3>
+          <h3 className="font-serif text-[1.2rem] text-dusk">Un matin accompagné.</h3>
           <p className="mt-3 text-[13.5px] leading-relaxed text-dusk/65 max-w-[36ch]">
             Si vous voulez, Legato peut vous envoyer un mot très doux le matin, à l'heure que vous choisissez. Pas une alarme. Juste une présence.
           </p>
@@ -138,7 +138,7 @@ function Habiller() {
                 type="time"
                 value={matin.hour}
                 onChange={(e) => setMatin((m) => ({ ...m, hour: e.target.value }))}
-                className="mt-2 w-full ceramic-soft organic-radius px-4 py-3 font-serif italic text-[18px] text-dusk outline-none"
+                className="mt-2 w-full ceramic-soft organic-radius px-4 py-3 font-serif text-[18px] text-dusk outline-none"
               />
               <p className="mt-3 text-[11px] leading-relaxed text-dusk/55">
                 Notification activée localement. Pour la recevoir même app fermée, votre navigateur peut vous demander l'autorisation.

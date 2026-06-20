@@ -40,7 +40,7 @@ function Atmosphere() {
             >
               <div>
                 <p className="mono-label">{t.eyebrow}</p>
-                <p className="mt-2 font-serif italic text-[17px] text-dusk">{t.title}</p>
+                <p className="mt-2 font-serif text-[17px] text-dusk">{t.title}</p>
               </div>
               <span className="text-dusk/45">→</span>
             </Link>

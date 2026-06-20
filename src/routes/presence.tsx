@@ -194,7 +194,7 @@ function Presence() {
                 key={s}
                 disabled={pending}
                 onClick={() => send(s)}
-                className="shrink-0 rounded-full border border-dusk/15 bg-paper px-4 py-2 text-[13px] text-dusk/75 italic font-serif disabled:opacity-40 hover:bg-dusk/5 transition-colors"
+                className="shrink-0 rounded-full border border-dusk/15 bg-paper px-4 py-2 text-[13px] text-dusk/75 font-serif disabled:opacity-40 hover:bg-dusk/5 transition-colors"
               >
                 {s}
               </button>
@@ -208,7 +208,7 @@ function Presence() {
             m.role === "presence" ? (
               <div key={i} className="rounded-[18px] border border-dusk/10 bg-[color:var(--whisper)] px-5 py-4 max-w-[85%]">
                 <p className="mono-label mb-1.5">Présence</p>
-                <p className="font-serif text-[17px] italic leading-relaxed text-dusk">{m.text}</p>
+                <p className="font-serif text-[17px] leading-relaxed text-dusk">{m.text}</p>
               </div>
             ) : (
               <div key={i} className="ml-auto rounded-[16px] px-5 py-3 max-w-[85%] bg-dusk text-paper">
@@ -219,7 +219,7 @@ function Presence() {
           {pending && (
             <div className="rounded-[18px] border border-dusk/10 bg-[color:var(--whisper)] px-5 py-4 max-w-[60%]">
               <p className="mono-label mb-1.5">Présence</p>
-              <p className="font-serif text-[17px] italic text-dusk/55">
+              <p className="font-serif text-[17px] text-dusk/55">
                 <span className="inline-block animate-pulse">…</span>
               </p>
             </div>
@@ -252,7 +252,7 @@ function Presence() {
               value={draft}
               onChange={(e) => setDraft(e.target.value)}
               placeholder={listening ? "J'écoute…" : "Écrivez, ou parlez…"}
-              className="flex-1 bg-transparent font-serif text-base italic text-dusk placeholder:text-dusk/35 outline-none py-2"
+              className="flex-1 bg-transparent font-serif text-base text-dusk placeholder:text-dusk/35 outline-none py-2"
               disabled={pending}
             />
             <button

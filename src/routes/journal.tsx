@@ -86,7 +86,7 @@ function Journal() {
               onChange={(e) => setBody(e.target.value)}
               placeholder={placeholder}
               rows={6}
-              className="relative w-full bg-transparent resize-none outline-none px-6 py-6 font-serif italic text-[18px] leading-[30px] text-dusk placeholder:text-dusk/30 overflow-hidden"
+              className="relative w-full bg-transparent resize-none outline-none px-6 py-6 font-serif text-[18px] leading-[30px] text-dusk placeholder:text-dusk/30 overflow-hidden"
               style={{ minHeight: 240 }}
             />
           </IvoryCard>
@@ -110,7 +110,7 @@ function Journal() {
 
         <div className="px-6">
           {journal.length === 0 ? (
-            <p className="font-serif text-[14px] italic text-dusk/60 max-w-[34ch]">
+            <p className="font-serif text-[14px] text-dusk/60 max-w-[34ch]">
               {t("journal.empty")}
             </p>
           ) : (
@@ -128,7 +128,7 @@ function Journal() {
                       <p className="text-[11px] text-dusk/45">{formatDate(e.date)}</p>
                     </div>
                     <p
-                      className={`mt-2 font-serif italic text-[16px] leading-[26px] text-dusk/85 ${
+                      className={`mt-2 font-serif text-[16px] leading-[26px] text-dusk/85 ${
                         open ? "" : "line-clamp-3"
                       }`}
                     >

@@ -56,7 +56,7 @@ export function PersonalSuggestions({
         >
           <div>
             <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">{eyebrow}</p>
-            <p className="mt-1 font-serif italic text-[16px] text-dusk leading-snug">
+            <p className="mt-1 font-serif text-[16px] text-dusk leading-snug">
               Décrire la personne, recevoir des suggestions personnelles
             </p>
           </div>
@@ -71,7 +71,7 @@ export function PersonalSuggestions({
                 onChange={(e) => onPortraitChange(e.target.value)}
                 rows={5}
                 placeholder="Sa douceur, ses passions, une habitude, une saison…"
-                className="w-full bg-transparent resize-none outline-none font-serif italic text-[15px] leading-[24px] text-dusk placeholder:text-dusk/30"
+                className="w-full bg-transparent resize-none outline-none font-serif text-[15px] leading-[24px] text-dusk placeholder:text-dusk/30"
               />
             </div>
             <p className="text-[11px] text-dusk/45 italic">
@@ -84,7 +84,7 @@ export function PersonalSuggestions({
                 loading || portrait.trim().length < 3 ? "opacity-50" : "opacity-100"
               }`}
             >
-              <span className="font-serif italic text-[16px] text-dusk">
+              <span className="font-serif text-[16px] text-dusk">
                 {loading ? "Un instant…" : cta}
               </span>
             </button>
@@ -94,7 +94,7 @@ export function PersonalSuggestions({
               <div className="mt-3 space-y-2">
                 {suggestions.map((s, i) => (
                   <article key={i} className="paper-card p-4">
-                    <p className="font-serif italic text-[15.5px] text-dusk leading-snug">{s.title}</p>
+                    <p className="font-serif text-[15.5px] text-dusk leading-snug">{s.title}</p>
                     <p className="mt-1 text-[13px] leading-relaxed text-dusk/70" style={{ textWrap: "pretty" }}>
                       {s.detail}
                     </p>

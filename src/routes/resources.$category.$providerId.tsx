@@ -10,7 +10,7 @@ export const Route = createFileRoute("/resources/$category/$providerId")({
   notFoundComponent: () => (
     <Shell>
       <div className="px-7 pt-20">
-        <p className="font-serif text-[1.6rem] italic text-dusk">
+        <p className="font-serif text-[1.6rem] text-dusk">
           Cette personne n'est plus disponible.
         </p>
         <Link to="/resources" className="mt-4 inline-block text-sm text-dusk/60 underline">
@@ -71,7 +71,7 @@ function ProviderPage() {
       {/* Approche */}
       <section className="mt-8 px-7">
         <p className="eyebrow">Son approche</p>
-        <div className="mt-3 space-y-3 font-serif text-[1.05rem] leading-relaxed italic text-dusk/85">
+        <div className="mt-3 space-y-3 font-serif text-[1.05rem] leading-relaxed text-dusk/85">
           {p.approach.map((line, i) => (
             <p key={i}>« {line} »</p>
           ))}
@@ -93,7 +93,7 @@ function ProviderPage() {
                 <p className="text-[14px] text-dusk">{o.title}</p>
                 <p className="text-[12px] text-dusk/55">{o.detail}</p>
               </div>
-              <p className="shrink-0 font-serif text-[1.05rem] italic text-dusk">{o.price}</p>
+              <p className="shrink-0 font-serif text-[1.05rem] text-dusk">{o.price}</p>
             </div>
           ))}
         </div>
@@ -119,7 +119,7 @@ function ProviderPage() {
               </div>
             ))}
             <div className="mt-3 flex items-center justify-between pt-3 text-[14px] text-dusk">
-              <span className="font-serif italic">Total estimé</span>
+              <span className="font-serif ">Total estimé</span>
               <span className="font-serif text-[1.15rem]">{p.estimate.total}</span>
             </div>
           </div>
@@ -135,7 +135,7 @@ function ProviderPage() {
           {p.testimonials.map((t, i) => (
             <blockquote
               key={i}
-              className="card-plain px-4 py-4 font-serif text-[1rem] italic leading-relaxed text-dusk/85"
+              className="card-plain px-4 py-4 font-serif text-[1rem] leading-relaxed text-dusk/85"
             >
               « {t.body} »
               <footer className="mt-2 text-[11px] not-italic text-dusk/45">— {t.from}</footer>
@@ -179,7 +179,7 @@ function ProviderPage() {
         <button
           onClick={confirm}
           disabled={!slot}
-          className="mt-6 w-full rounded-full bg-dusk px-6 py-3.5 font-serif text-[1.05rem] italic text-paper transition-all disabled:opacity-40"
+          className="mt-6 w-full rounded-full bg-dusk px-6 py-3.5 font-serif text-[1.05rem] text-paper transition-all disabled:opacity-40"
         >
           {slot ? `Confirmer — ${slot}` : "Choisir un créneau"}
         </button>

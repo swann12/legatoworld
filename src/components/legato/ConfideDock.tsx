@@ -81,13 +81,13 @@ export function ConfideDock({ step }: { step?: string }) {
           aria-label="Parler ou écrire à Lovely"
           className="dock-halo fixed bottom-24 right-5 z-40 w-14 h-14 rounded-full ceramic flex items-center justify-center"
         >
-          <span className="font-serif italic text-dusk text-[20px] leading-none">L</span>
+          <span className="font-serif text-dusk text-[20px] leading-none">L</span>
         </button>
       </SheetTrigger>
       <SheetContent side="bottom" className="bg-paper border-t border-dusk/10 p-0 max-h-[85dvh] overflow-y-auto">
         <div className="px-7 pt-7 pb-10 max-w-[640px] mx-auto">
           <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">Se confier — texte ou voix</p>
-          <h2 className="mt-2 font-serif italic text-[26px] text-dusk leading-tight text-balance">
+          <h2 className="mt-2 font-serif text-[26px] text-dusk leading-tight text-balance">
             Dites simplement ce qui est là.
           </h2>
           <p className="mt-3 text-[13px] text-dusk/60 max-w-[40ch]">
@@ -100,7 +100,7 @@ export function ConfideDock({ step }: { step?: string }) {
               onChange={(e) => setText(e.target.value)}
               rows={5}
               placeholder="Écrivez ici, ou touchez le micro pour parler…"
-              className="w-full bg-transparent outline-none resize-none font-serif italic text-[16px] leading-[26px] text-dusk placeholder:text-dusk/30"
+              className="w-full bg-transparent outline-none resize-none font-serif text-[16px] leading-[26px] text-dusk placeholder:text-dusk/30"
             />
             <div className="mt-3 flex items-center justify-between gap-2">
               <button
@@ -125,7 +125,7 @@ export function ConfideDock({ step }: { step?: string }) {
 
           {suggestion && (
             <div className="mt-6 space-y-4">
-              <p className="font-serif italic text-[16px] text-dusk/80">{suggestion.intro}</p>
+              <p className="font-serif text-[16px] text-dusk/80">{suggestion.intro}</p>
               {([
                 ["Fleurs", suggestion.flowers],
                 ["Musiques", suggestion.music],
@@ -141,7 +141,7 @@ export function ConfideDock({ step }: { step?: string }) {
                   </ul>
                 </div>
               ))}
-              <p className="font-serif italic text-[14px] text-dusk/60 text-center">{suggestion.closing}</p>
+              <p className="font-serif text-[14px] text-dusk/60 text-center">{suggestion.closing}</p>
             </div>
           )}
         </div>

@@ -73,7 +73,7 @@ export function SoftToast({ text, onDone }: { text: string; onDone?: () => void 
       className="fixed bottom-24 left-1/2 z-[55] -translate-x-1/2 px-5 py-3 ceramic organic-radius-3 animate-fade-in"
       style={{ pointerEvents: "none" }}
     >
-      <p className="font-serif italic text-[14px] text-dusk/85 text-center max-w-[26ch]">{text}</p>
+      <p className="font-serif text-[14px] text-dusk/85 text-center max-w-[26ch]">{text}</p>
     </div>
   );
 }

@@ -72,7 +72,7 @@ function Eau() {
                       boxShadow: "inset 0 0 12px rgba(255,255,255,0.4)",
                     }}
                   />
-                  <h3 className="font-serif italic text-[17px] text-dusk leading-snug">{p.title}</h3>
+                  <h3 className="font-serif text-[17px] text-dusk leading-snug">{p.title}</h3>
                   <p className="mt-1.5 text-[13.5px] leading-relaxed text-dusk/65">{p.body}</p>
                   {p.cta && i === reached && !done && (
                     <button
@@ -91,7 +91,7 @@ function Eau() {
 
         {done && (
           <div className="mt-12 py-10 text-center animate-fade-in">
-            <p className="font-serif italic text-[1.4rem] text-dusk text-balance max-w-[26ch] mx-auto">
+            <p className="font-serif text-[1.4rem] text-dusk text-balance max-w-[26ch] mx-auto">
               C'est fait. C'est suffisant pour aujourd'hui.
             </p>
           </div>

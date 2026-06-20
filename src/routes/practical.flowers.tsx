@@ -50,7 +50,7 @@ function Flowers() {
                 onClick={() => { setPreset(p.id); savePractical({ flowerStyle: p.id }); }}
                 className="w-full text-left rounded-[18px] border border-dusk/10 bg-paper p-5 active:scale-[0.99] transition-transform hover:bg-dusk/[0.02]"
               >
-                <p className="font-serif italic text-[20px] text-dusk">{p.label}</p>
+                <p className="font-serif text-[20px] text-dusk">{p.label}</p>
                 <p className="mt-1.5 body-meta">{p.body}</p>
               </button>
             ))}

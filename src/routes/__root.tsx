@@ -10,8 +10,8 @@ function NotFoundComponent() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
-        <h1 className="font-serif text-7xl font-light text-foreground">404</h1>
-        <h2 className="mt-4 font-serif text-xl italic text-foreground">A quiet, empty room</h2>
+        <h1 className="font-serif text-7xl text-foreground">404</h1>
+        <h2 className="mt-4 font-serif text-xl text-foreground">A quiet, empty room</h2>
         <p className="mt-2 text-sm text-muted-foreground">
           This page hasn't been planted yet.
         </p>

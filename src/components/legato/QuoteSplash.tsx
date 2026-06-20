@@ -36,7 +36,7 @@ export function QuoteSplash({
       style={{ background: t.bg, color: t.fg, ...style }}
     >
       <p className="mono-label opacity-70">Un souvenir</p>
-      <p className="mt-4 font-serif italic text-[28px] leading-[1.15] max-w-[24ch]">
+      <p className="mt-4 font-serif text-[28px] leading-[1.15] max-w-[24ch]">
         « {quote} »
       </p>
       {attribution && (

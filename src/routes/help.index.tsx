@@ -90,7 +90,7 @@ function Help() {
         <section className="px-7 pt-10">
           <Link to="/crisis" className="block border-t border-dusk/12 pt-6 text-center">
             <p className="mono-label">Si aujourd'hui est trop</p>
-            <p className="mt-2 font-serif text-[17px] italic" style={{ color: "var(--bordeaux)" }}>
+            <p className="mt-2 font-serif text-[17px]" style={{ color: "var(--bordeaux)" }}>
               Une porte calme →
             </p>
           </Link>
