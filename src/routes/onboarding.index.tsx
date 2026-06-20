@@ -115,9 +115,9 @@ function Onboarding() {
     return (
       <Frame onBack={() => navigate({ to: "/start" })} progress="1 / 7">
         <p className="mono-label">Pour commencer</p>
-        <h1 className="mt-5 ed-page-title">Comment souhaitez-vous que Legato <span className="italic" style={{ color: "var(--terracotta)" }}>vous appelle&nbsp;?</span></h1>
+        <h1 className="mt-5 ed-page-title">Comment souhaitez-vous que Legato vous appelle&nbsp;?</h1>
         <IvoryCard className="mt-8 px-5 py-4">
-          <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Votre prénom" className="w-full bg-transparent font-serif text-[24px] italic text-dusk placeholder:text-dusk/30 outline-none" autoFocus />
+          <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Votre prénom" className="w-full bg-transparent text-[20px] text-dusk placeholder:text-dusk/30 outline-none" autoFocus />
         </IvoryCard>
         <PrimaryBtn disabled={!name.trim()} onClick={() => setStep(2)}>Continuer →</PrimaryBtn>
       </Frame>
@@ -128,7 +128,7 @@ function Onboarding() {
     return (
       <Frame onBack={() => setStep(1)} progress="2 / 7">
         <p className="mono-label">Situation</p>
-        <h1 className="mt-5 ed-page-title">Pourquoi venez-vous sur <span className="italic" style={{ color: "var(--terracotta)" }}>Legato</span> aujourd'hui&nbsp;?</h1>
+        <h1 className="mt-5 ed-page-title">Pourquoi venez-vous sur Legato aujourd'hui&nbsp;?</h1>
         <div className="mt-8 flex flex-col gap-3">
           {SITUATIONS.map((s, i) => {
             const tints = ["var(--sun)", "var(--blush)", "var(--sky)", "var(--peach)", "color-mix(in oklab, var(--olive) 30%, var(--whisper))"];
@@ -176,9 +176,9 @@ function Onboarding() {
     return (
       <Frame onBack={() => (needsPerson ? setStep(3) : setStep(2))} progress="4 / 7">
         <p className="mono-label">Nom ou lien</p>
-        <h1 className="mt-5 ed-page-title">Quel prénom ou quel lien voulez-vous utiliser dans <span className="italic" style={{ color: "var(--terracotta)" }}>Legato&nbsp;?</span></h1>
+        <h1 className="mt-5 ed-page-title">Quel prénom ou quel lien voulez-vous utiliser dans Legato&nbsp;?</h1>
         <IvoryCard className="mt-8 px-5 py-4">
-          <input value={lovedOneName} onChange={(e) => setLovedOneName(e.target.value)} placeholder={placeholderFor(lovedOneRelation)} className="w-full bg-transparent font-serif text-[22px] italic text-dusk placeholder:text-dusk/30 outline-none" />
+          <input value={lovedOneName} onChange={(e) => setLovedOneName(e.target.value)} placeholder={placeholderFor(lovedOneRelation)} className="w-full bg-transparent text-[18px] text-dusk placeholder:text-dusk/30 outline-none" />
         </IvoryCard>
         <PrimaryBtn disabled={false} onClick={() => setStep(5)}>Continuer →</PrimaryBtn>
       </Frame>
@@ -202,7 +202,7 @@ function Onboarding() {
     return (
       <Frame onBack={() => setStep(5)} progress="6 / 7">
         <p className="mono-label">Besoin principal</p>
-        <h1 className="mt-5 ed-page-title">De quoi avez-vous besoin en priorité <span className="italic" style={{ color: "var(--terracotta)" }}>maintenant&nbsp;?</span></h1>
+        <h1 className="mt-5 ed-page-title">De quoi avez-vous besoin en priorité maintenant&nbsp;?</h1>
         <div className="mt-8">
           <ChipGrid
             options={[
@@ -236,7 +236,7 @@ function Onboarding() {
   return (
     <Frame onBack={backFromEmotion} progress="7 / 7">
       <p className="mono-label">Check-in émotionnel</p>
-      <h1 className="mt-5 ed-page-title">Comment vous sentez-vous <span className="italic" style={{ color: "var(--terracotta)" }}>maintenant&nbsp;?</span></h1>
+      <h1 className="mt-5 ed-page-title">Comment vous sentez-vous maintenant&nbsp;?</h1>
       <p className="mt-5 text-[13.5px] leading-[1.6] text-dusk/60 max-w-[34ch]">Plusieurs choix possibles. Vos émotions adaptent uniquement l'espace Soutien.</p>
       <div className="mt-8 flex flex-wrap gap-2">
         {EMOTIONS.map((e) => (
