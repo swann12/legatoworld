@@ -148,7 +148,7 @@ function Start() {
         className="mobile-frame relative flex min-h-dvh flex-col"
         style={{ background: mode === "choice" ? "var(--bordeaux)" : "var(--paper)" }}
       >
-        <header className="grid grid-cols-3 items-center px-6 pt-10">
+        <header className="grid grid-cols-3 items-center px-8 pt-10">
           <div className="justify-self-start">
             {mode !== "choice" ? (
               <button
@@ -159,13 +159,11 @@ function Start() {
                 ← Retour
               </button>
             ) : (
-              <LegatoMark to="/start" variant="paper" size={36} />
+              <LegatoMark to="/start" variant="paper" size={32} />
             )}
           </div>
           <div className="justify-self-center" />
-          <div className="justify-self-end">
-            <span className={mode === "choice" ? "mono-label text-[color:var(--paper)] opacity-55" : "mono-label text-dusk/45"}>2026</span>
-          </div>
+          <div className="justify-self-end" />
         </header>
 
         <div className="relative z-10 flex flex-1 flex-col px-8 pb-12 pt-12">
@@ -199,7 +197,7 @@ function Start() {
                   className="block rounded-[999px] text-center px-6 py-5 transition-transform active:scale-[0.99]"
                   style={{ background: "var(--paper)", color: "var(--bordeaux)" }}
                 >
-                  <span className="block mono-label">Créer son espace</span>
+                  <span className="block mono-label" style={{ color: "var(--bordeaux)" }}>Créer son espace</span>
                 </button>
                 <button
                   type="button"
@@ -207,14 +205,14 @@ function Start() {
                   className="rounded-[999px] border px-6 py-4 text-center transition-colors"
                   style={{ borderColor: "color-mix(in oklab, var(--paper) 70%, transparent)", color: "var(--paper)" }}
                 >
-                  <span className="block mono-label">Se reconnecter</span>
+                  <span className="block mono-label" style={{ color: "var(--paper)" }}>Se reconnecter</span>
                 </button>
                 <button
                   type="button"
                   onClick={() => setShowQuote(true)}
                   className="mt-4 text-center py-2"
                 >
-                  <span className="block mono-label text-[color:var(--paper)] opacity-78">Continuer en tant qu'invité·e</span>
+                  <span className="block mono-label opacity-78" style={{ color: "var(--paper)" }}>Continuer en tant qu'invité·e</span>
                 </button>
                 <p className="mx-auto max-w-[28ch] text-center text-[11px] leading-[1.45] text-[color:var(--paper)] opacity-50">
                   En mode invité·e, rien n'est conservé d'une session à l'autre.
