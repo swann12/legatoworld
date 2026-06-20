@@ -232,31 +232,30 @@ function Onboarding() {
   if (step === 8) {
     return (
       <Frame onBack={() => setStep(6)} progress="6 bis / 7">
-        <p className="mono-label">Responsabilité</p>
-        <h1 className="mt-5 ed-page-title">Êtes-vous responsable légalement, ou aidez-vous la famille pour les démarches&nbsp;?</h1>
-        <div className="mt-8 flex flex-col gap-3">
-          <button onClick={() => setLegallyInvolved(true)} className={`text-left rounded-[16px] border px-5 py-4 ${legallyInvolved ? "border-dusk/40 bg-[color:var(--whisper)]" : "border-dusk/12 bg-paper"}`}><p className="font-serif text-[18px]">Oui, je suis impliqué·e</p></button>
-          <button onClick={() => setLegallyInvolved(false)} className={`text-left rounded-[16px] border px-5 py-4 ${!legallyInvolved ? "border-dusk/40 bg-[color:var(--whisper)]" : "border-dusk/12 bg-paper"}`}><p className="font-serif text-[18px]">Non, pas directement</p></button>
+        <h1 className="mt-[36px] onboarding-title">Êtes-vous responsable légalement, ou aidez-vous la famille pour les démarches&nbsp;?</h1>
+        <div className="mt-[30px] flex flex-col gap-3">
+          <OptionPill active={legallyInvolved === true} onClick={() => setLegallyInvolved(true)}>Oui, je suis impliqué·e</OptionPill>
+          <OptionPill active={legallyInvolved === false} onClick={() => setLegallyInvolved(false)}>Non, pas directement</OptionPill>
         </div>
-        <PrimaryBtn onClick={afterLegal}>Continuer →</PrimaryBtn>
+        <div className="mt-auto" />
+        <BlushBtn onClick={afterLegal}>Continuer</BlushBtn>
       </Frame>
     );
   }
 
   return (
     <Frame onBack={backFromEmotion} progress="7 / 7">
-      <p className="mono-label">Check-in émotionnel</p>
-      <h1 className="mt-5 ed-page-title">Comment vous sentez-vous maintenant&nbsp;?</h1>
-      <p className="mt-5 text-[13.5px] leading-[1.6] text-dusk/60 max-w-[34ch]">Plusieurs choix possibles. Vos émotions adaptent uniquement l'espace Soutien.</p>
-      <div className="mt-8 flex flex-wrap gap-2">
+      <h1 className="mt-[36px] onboarding-title">Comment vous sentez-vous maintenant&nbsp;?</h1>
+      <div className="mt-[30px] flex flex-col gap-3">
         {EMOTIONS.map((e) => (
-          <button key={e.id} onClick={() => toggleEmotion(e.id)} className={`rounded-full border px-4 py-2 text-[13px] transition-colors ${currentEmotions.includes(e.id) ? "border-dusk/40 bg-[color:var(--whisper)]" : "border-dusk/15 bg-paper text-dusk/70 hover:border-dusk/25"}`}>
+          <OptionPill key={e.id} active={currentEmotions.includes(e.id)} onClick={() => toggleEmotion(e.id)}>
             {e.label}
-          </button>
+          </OptionPill>
         ))}
       </div>
-      <PrimaryBtn onClick={finish}>Entrer dans Legato →</PrimaryBtn>
-      <button onClick={finish} className="mt-3 block w-full text-center mono-label text-dusk/55">Passer cette étape</button>
+      <div className="mt-auto" />
+      <BlushBtn onClick={finish}>Continuer</BlushBtn>
+      <SkipLink onClick={finish}>Passer</SkipLink>
     </Frame>
   );
 }
