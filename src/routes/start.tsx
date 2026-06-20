@@ -35,7 +35,7 @@ const nameSchema = z
 function Start() {
   const navigate = useNavigate();
   const [mode, setMode] = useState<Mode>("choice");
-  const [intro, setIntro] = useState(true);
+  const [introStep, setIntroStep] = useState<0 | 1 | 2>(0); // 0 welcome, 1 quote, 2 done
   const [displayName, setDisplayName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -118,31 +118,48 @@ function Start() {
 
   return (
     <main className="min-h-dvh bg-paper text-dusk">
-      {intro && mode === "choice" && (
+      {introStep === 0 && mode === "choice" && (
         <button
           type="button"
-          onClick={() => setIntro(false)}
+          onClick={() => setIntroStep(1)}
           className="fixed inset-0 z-50 flex flex-col px-7 py-10 text-left animate-fade-in"
           style={{ background: "var(--sun)", color: "var(--dusk)" }}
+          aria-label="Continuer"
         >
           <div className="flex w-full items-center justify-between">
-            <span className="text-[10px] tracking-[0.28em] uppercase opacity-80">Souvenir</span>
-            <span className="text-[10px] tracking-[0.28em] uppercase opacity-80">Legato</span>
+            <LegatoMark to="/start" size={22} />
+            <span className="text-[10px] tracking-[0.28em] uppercase opacity-70">Bienvenue</span>
           </div>
-          <div className="mt-2 h-px w-full bg-dusk/15" />
           <div className="flex-1 flex flex-col justify-center">
-            <p className="font-serif text-[44px] leading-[0.98]">
-              Ce qui a<br />été aimé<br />
-              <span className="italic" style={{ color: "var(--bordeaux)" }}>ne se perd</span><br />
-              <span className="italic" style={{ color: "var(--bordeaux)" }}>pas.</span>
+            <p className="font-serif text-[44px] leading-[1.02]">
+              Vous êtes<br />arrivé·e.<br />
+              <span style={{ color: "var(--bordeaux)" }}>Prenez le temps</span><br />
+              <span style={{ color: "var(--bordeaux)" }}>qu'il faut.</span>
             </p>
           </div>
-          <div className="flex flex-col gap-1.5">
-            <p className="text-[13.5px] leading-[1.5] opacity-85 max-w-[28ch]">
-              Tenez ceci près de vous,<br />quand les jours sont lourds.
-            </p>
-            <p className="mt-4 text-[10px] tracking-[0.28em] uppercase opacity-70">Toucher pour entrer →</p>
+          <p className="text-[10px] tracking-[0.28em] uppercase opacity-65">Toucher pour continuer →</p>
+        </button>
+      )}
+      {introStep === 1 && mode === "choice" && (
+        <button
+          type="button"
+          onClick={() => setIntroStep(2)}
+          className="fixed inset-0 z-50 flex flex-col px-7 py-10 text-left animate-fade-in"
+          style={{ background: "var(--bordeaux)", color: "var(--paper)" }}
+          aria-label="Entrer"
+        >
+          <div className="flex w-full items-center justify-between">
+            <LegatoMark to="/start" variant="paper" size={22} />
+            <span className="text-[10px] tracking-[0.28em] uppercase opacity-65">Souvenir</span>
           </div>
+          <div className="flex-1 flex flex-col justify-center">
+            <p className="font-serif text-[40px] leading-[1.02]">
+              Ce qui a été<br />aimé<br />
+              <span style={{ color: "var(--blush)" }}>ne se perd</span><br />
+              <span style={{ color: "var(--blush)" }}>pas.</span>
+            </p>
+          </div>
+          <p className="text-[10px] tracking-[0.28em] uppercase opacity-65">Toucher pour entrer →</p>
         </button>
       )}
       <div className="mobile-frame relative flex min-h-dvh flex-col">
@@ -157,10 +174,10 @@ function Start() {
                 ← Retour
               </button>
             ) : (
-              <span className="mono-label text-dusk/45">Legato</span>
+              <LegatoMark to="/start" size={20} />
             )}
           </div>
-          <div className="justify-self-center"><LegatoMark size={22} /></div>
+          <div className="justify-self-center" />
           <div className="justify-self-end">
             <span className="mono-label text-dusk/45">2026</span>
           </div>
@@ -176,17 +193,14 @@ function Start() {
             ) : mode === "signup" ? (
               <>Votre espace,<br /><span className="italic" style={{ color: "var(--terracotta)" }}>en quelques mots.</span></>
             ) : (
-              <>Préparer un adieu,<br /><span className="italic" style={{ color: "var(--terracotta)" }}>garder une présence.</span></>
+              <>Préparer<br />un <span className="italic" style={{ color: "var(--terracotta)" }}>adieu,</span><br />garder une<br /><span className="italic" style={{ color: "var(--terracotta)" }}>présence.</span></>
             )}
           </h1>
           {mode === "choice" && (
             <>
               <div className="mt-7 h-px w-12 bg-dusk/25" />
-              <p className="mt-6 font-serif italic text-[17px] leading-[1.55] text-dusk/75 max-w-[30ch]">
+              <p className="mt-6 text-[14px] leading-[1.55] text-dusk/70 max-w-[32ch]">
                 Composer une cérémonie, écrire ce qui compte, faire vivre le souvenir.
-              </p>
-              <p className="mt-2 text-[13px] leading-[1.5] text-dusk/55 max-w-[30ch]">
-                À votre rythme — rien n'est jamais perdu, rien n'est jamais pressé.
               </p>
             </>
           )}
@@ -209,18 +223,14 @@ function Start() {
                 >
                   <span className="block font-serif text-[18px] text-dusk">Me reconnecter</span>
                 </button>
-                <div className="mt-6 flex flex-col items-center gap-1">
-                  <button
-                    type="button"
-                    onClick={goNext}
-                    className="mono-label text-dusk/55 hover:text-dusk py-1"
-                  >
-                    Continuer en tant qu'invité·e
-                  </button>
-                  <p className="mt-1 text-[11.5px] text-dusk/45 text-center max-w-[28ch]">
-                    En mode invité·e, rien n'est conservé d'une session à l'autre.
-                  </p>
-                </div>
+                <button
+                  type="button"
+                  onClick={goNext}
+                  className="mt-4 text-center py-2"
+                >
+                  <span className="block mono-label text-dusk/60 hover:text-dusk">Continuer en tant qu'invité·e</span>
+                  <span className="mt-1 block text-[11px] text-dusk/40">Rien n'est conservé d'une session à l'autre.</span>
+                </button>
               </div>
             )}
 
