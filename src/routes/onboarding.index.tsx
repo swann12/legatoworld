@@ -11,7 +11,6 @@ import {
   type Situation,
   type Stage,
 } from "@/lib/legato-state";
-import { IvoryCard } from "@/components/legato/EditorialUI";
 import { LegatoMark } from "@/components/legato/LegatoMark";
 import { useServerFn } from "@tanstack/react-start";
 import { recordEmotion } from "@/lib/emotional.functions";
@@ -114,17 +113,17 @@ function Onboarding() {
   if (step === 1) {
     return (
       <Frame onBack={() => navigate({ to: "/start" })} progress="1 / 7">
-        <h1 className="mt-7 onboarding-title">
-          Comment <span className="whitespace-nowrap">souhaitez‑vous</span> que <span className="italic">Legato</span> vous appelle&nbsp;?
+        <h1 className="mt-[54px] onboarding-title">
+          Comment<br /><span className="whitespace-nowrap">souhaitez‑vous que</span><br /><span className="italic">Legato</span> vous appelle&nbsp;?
         </h1>
-        <div className="mt-8">
+        <div className="mt-[30px]">
           <input
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Swann"
             autoFocus
-            className="onboarding-field w-full rounded-full border bg-transparent px-6 py-4 font-serif text-[22px] italic outline-none transition-colors"
-            style={{ borderColor: "color-mix(in oklab, var(--olive) 34%, transparent)", color: "var(--olive)" }}
+            className="onboarding-field w-full rounded-full border bg-transparent px-6 py-3 font-serif text-[18px] italic outline-none transition-colors"
+            style={{ borderColor: "color-mix(in oklab, var(--dusk) 12%, transparent)", color: "var(--dusk)" }}
           />
         </div>
         <div className="mt-auto" />
@@ -137,24 +136,24 @@ function Onboarding() {
   if (step === 2) {
     return (
       <Frame onBack={() => setStep(1)} progress="2 / 7">
-        <h1 className="mt-7 onboarding-title">
-          Pourquoi venez-vous sur <span className="italic">Legato</span> aujourd'hui&nbsp;?
+        <h1 className="mt-[54px] onboarding-title">
+          Pourquoi venez-vous<br />sur <span className="italic">Legato</span> aujourd'hui&nbsp;?
         </h1>
-        <div className="mt-8 flex flex-col gap-2.5">
+        <div className="mt-[30px] flex flex-col gap-3">
           {SITUATIONS.map((s) => {
             const active = situation === s.id;
             return (
               <button
                 key={s.id}
                 onClick={() => { setSituation(s.id); setStage(null); setPrimaryNeed(null); }}
-                className="text-left rounded-full border px-6 py-3.5 transition-colors"
+                className="text-left rounded-full border px-5 py-2.5 transition-colors"
                 style={{
                   background: "transparent",
-                  borderColor: active ? "var(--rose)" : "color-mix(in oklab, var(--olive) 34%, transparent)",
-                  color: "var(--olive)",
+                  borderColor: active ? "var(--terracotta)" : "color-mix(in oklab, var(--dusk) 12%, transparent)",
+                  color: "var(--dusk)",
                 }}
               >
-                <p className="text-[14px] leading-[1.3]">{s.label}</p>
+                <p className="text-[12px] leading-[1.25]">{s.label}</p>
               </button>
             );
           })}
