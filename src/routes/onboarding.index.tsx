@@ -166,20 +166,18 @@ function Onboarding() {
   }
 
   if (step === 3) {
-    const title = situation === "perdu" ? "Qui avez-vous perdu&nbsp;?" : situation === "peur" ? "De qui avez-vous peur de perdre la présence&nbsp;?" : "Qui accompagnez-vous&nbsp;?";
+    const title = situation === "perdu" ? <>Qui avez-vous<br />perdu&nbsp;?</> : situation === "peur" ? <>De qui avez-vous peur<br />de perdre la présence&nbsp;?</> : <>Qui accompagnez-vous&nbsp;?</>;
     return (
       <Frame onBack={() => setStep(2)} progress="3 / 7">
-        <p className="mono-label">Personne concernée</p>
-        <h1 className="mt-5 ed-page-title" dangerouslySetInnerHTML={{ __html: title }} />
-        <div className="mt-8">
+        <h1 className="mt-[36px] onboarding-title">{title}</h1>
+        <div className="mt-[30px]">
           <ChipGrid options={RELATIONS.map((r) => ({ id: r.id, label: r.label }))} value={lovedOneRelation} onChange={(v) => setLovedOneRelation(v as Relation)} />
         </div>
         {lovedOneRelation === "autre" && (
-          <IvoryCard className="mt-5 px-4 py-3">
-            <input value={lovedOther} onChange={(e) => setLovedOther(e.target.value)} placeholder="Précisez qui, si vous le souhaitez" className="w-full bg-transparent text-[14px] text-dusk placeholder:text-dusk/35 outline-none" />
-          </IvoryCard>
+          <input value={lovedOther} onChange={(e) => setLovedOther(e.target.value)} placeholder="Précisez qui" className="onboarding-field mt-3 w-full rounded-full border bg-transparent px-5 py-3 font-serif text-[18px] italic outline-none" style={{ borderColor: "color-mix(in oklab, var(--dusk) 12%, transparent)", color: "var(--dusk)" }} />
         )}
-        <PrimaryBtn disabled={needsPerson && !lovedOneRelation} onClick={() => setStep(4)}>Continuer →</PrimaryBtn>
+        <div className="mt-auto" />
+        <BlushBtn disabled={needsPerson && !lovedOneRelation} onClick={() => setStep(4)}>Continuer</BlushBtn>
       </Frame>
     );
   }
@@ -187,12 +185,12 @@ function Onboarding() {
   if (step === 4) {
     return (
       <Frame onBack={() => (needsPerson ? setStep(3) : setStep(2))} progress="4 / 7">
-        <p className="mono-label">Nom ou lien</p>
-        <h1 className="mt-5 ed-page-title">Quel prénom ou quel lien voulez-vous utiliser dans Legato&nbsp;?</h1>
-        <IvoryCard className="mt-8 px-5 py-4">
-          <input value={lovedOneName} onChange={(e) => setLovedOneName(e.target.value)} placeholder={placeholderFor(lovedOneRelation)} className="w-full bg-transparent text-[18px] text-dusk placeholder:text-dusk/30 outline-none" />
-        </IvoryCard>
-        <PrimaryBtn disabled={false} onClick={() => setStep(5)}>Continuer →</PrimaryBtn>
+        <h1 className="mt-[36px] onboarding-title">Quel prénom ou quel lien voulez-vous utiliser dans <span className="italic">Legato</span>&nbsp;?</h1>
+        <div className="mt-[30px]">
+          <input value={lovedOneName} onChange={(e) => setLovedOneName(e.target.value)} placeholder={placeholderFor(lovedOneRelation)} className="onboarding-field w-full rounded-full border bg-transparent px-6 py-3 font-serif text-[18px] italic outline-none" style={{ borderColor: "color-mix(in oklab, var(--dusk) 12%, transparent)", color: "var(--dusk)" }} />
+        </div>
+        <div className="mt-auto" />
+        <BlushBtn disabled={false} onClick={() => setStep(5)}>Continuer</BlushBtn>
       </Frame>
     );
   }
@@ -200,12 +198,12 @@ function Onboarding() {
   if (step === 5) {
     return (
       <Frame onBack={() => (needsLabel ? setStep(4) : setStep(2))} progress="5 / 7">
-        <p className="mono-label">Stade du parcours</p>
-        <h1 className="mt-5 ed-page-title">{stageQuestion(situation)}</h1>
-        <div className="mt-8">
+        <h1 className="mt-[36px] onboarding-title">{stageQuestion(situation)}</h1>
+        <div className="mt-[30px]">
           <ChipGrid options={stageOptions.map((s) => ({ id: s.id, label: s.label }))} value={stage} onChange={(v) => setStage(v as Stage)} />
         </div>
-        <PrimaryBtn disabled={!stage} onClick={afterStage}>Continuer →</PrimaryBtn>
+        <div className="mt-auto" />
+        <BlushBtn disabled={!stage} onClick={afterStage}>Continuer</BlushBtn>
       </Frame>
     );
   }
@@ -213,9 +211,8 @@ function Onboarding() {
   if (step === 6) {
     return (
       <Frame onBack={() => setStep(5)} progress="6 / 7">
-        <p className="mono-label">Besoin principal</p>
-        <h1 className="mt-5 ed-page-title">De quoi avez-vous besoin en priorité maintenant&nbsp;?</h1>
-        <div className="mt-8">
+        <h1 className="mt-[36px] onboarding-title">De quoi avez-vous besoin en priorité maintenant&nbsp;?</h1>
+        <div className="mt-[30px]">
           <ChipGrid
             options={[
               { id: "emotional", label: "Être soutenu·e émotionnellement" },
@@ -226,7 +223,8 @@ function Onboarding() {
             onChange={(v) => setPrimaryNeed(v as PrimaryNeed)}
           />
         </div>
-        <PrimaryBtn disabled={!primaryNeed} onClick={afterNeed}>Continuer →</PrimaryBtn>
+        <div className="mt-auto" />
+        <BlushBtn disabled={!primaryNeed} onClick={afterNeed}>Continuer</BlushBtn>
       </Frame>
     );
   }
