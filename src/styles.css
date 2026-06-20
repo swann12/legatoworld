@@ -539,14 +539,14 @@
   .legato-ref-display {
   font-family: var(--font-serif);
   font-weight: 400;
-  font-size: 48px;
-  line-height: 0.94;
+  font-size: 46px;
+  line-height: 0.95;
   letter-spacing: 0;
   }
   .legato-ref-quote {
   font-family: var(--font-serif);
   font-weight: 400;
-  font-size: 43px;
+  font-size: 47px;
   line-height: 0.91;
   letter-spacing: 0;
   }
