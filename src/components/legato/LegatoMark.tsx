@@ -14,8 +14,8 @@ export function LegatoMark({
     <Link
       to={to as "/space"}
       aria-label="Legato — accueil"
-      className="inline-flex items-center gap-3 select-none"
-      style={{ color }}
+      className="inline-flex items-center select-none"
+      style={{ color, gap: size * 0.28 }}
     >
       <svg width={size} height={size} viewBox="0 0 34 34" fill="none" aria-hidden="true">
         <rect x="7" y="2.5" width="20" height="29" rx="10" stroke="currentColor" strokeWidth="1.45" />
@@ -23,7 +23,7 @@ export function LegatoMark({
         <path d="M9.2 19.5 17 25.8l7.8-6.3" stroke="currentColor" strokeWidth="1.45" strokeLinecap="round" strokeLinejoin="round" />
         <path d="M17 25.8c-3.4 2.5-3.4 5.2 0 5.2s3.4-2.7 0-5.2Z" stroke="currentColor" strokeWidth="1.45" strokeLinejoin="round" />
       </svg>
-      <span className="font-serif text-[26px] leading-none tracking-[0.18em]" style={{ fontSize: size * 0.72 }}>
+      <span className="font-serif leading-none" style={{ fontSize: size * 0.62, letterSpacing: "0.12em" }}>
         Legato
       </span>
     </Link>
