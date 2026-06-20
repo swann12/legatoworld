@@ -1184,7 +1184,7 @@ function RespirerView() {
           } as React.CSSProperties}
         />
         <div className="relative text-center">
-          <p className="font-serif italic text-paper/90 text-[20px] leading-none flex justify-center">
+          <p className="font-serif text-paper/90 text-[20px] leading-none flex justify-center">
             {phase.id === "hold"
               ? <span>{noOrphan(phase.label)}</span>
               : letters.map((ch, i) => (
@@ -1227,7 +1227,7 @@ function RespirerView() {
       {closing && (
         <div className="absolute inset-0 flex items-center justify-center" style={{ background: "rgba(26,31,46,0.92)" }}
              onAnimationEnd={() => {}}>
-          <p className="font-serif italic text-paper/90 text-[22px] animate-fade-in">Bien. Prenez votre temps.</p>
+          <p className="font-serif text-paper/90 text-[22px] animate-fade-in">Bien. Prenez votre temps.</p>
         </div>
       )}
       {closing && <CloseAfter onDone={() => { setClosing(false); }} />}

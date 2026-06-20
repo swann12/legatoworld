@@ -106,7 +106,7 @@ function Manger() {
 
       {/* SECTION 2 — Quelque chose de chaud */}
       <section className="px-7 mt-14">
-        <h2 className="font-serif italic text-[1.4rem] text-dusk">Une étape à la fois.</h2>
+        <h2 className="font-serif text-[1.4rem] text-dusk">Une étape à la fois.</h2>
         <p className="mt-2 text-[14px] leading-relaxed text-dusk/65">
           Rien à finir. Juste commencer.
         </p>
@@ -137,7 +137,7 @@ function Manger() {
       {/* SECTION 3 — Un souvenir dans l'assiette */}
       <section className="px-7 mt-14">
         <div className="border-t border-dusk/10 pt-8">
-          <h2 className="font-serif italic text-[1.4rem] text-dusk">Un repas pour se souvenir.</h2>
+          <h2 className="font-serif text-[1.4rem] text-dusk">Un repas pour se souvenir.</h2>
           <p className="mt-3 text-[14px] leading-relaxed text-dusk/70 max-w-[34ch]">
             Y a-t-il quelque chose qu'il ou elle aimait manger ? Vous pourriez manger ça aujourd'hui — pas pour vous nourrir, mais pour être près d'elle, de lui.
           </p>

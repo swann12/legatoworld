@@ -58,7 +58,7 @@ function Vitrine() {
     <main className="min-h-dvh bg-paper text-dusk">
       {/* Top bar */}
       <header className="mx-auto flex max-w-[1200px] items-center justify-between px-6 py-6 sm:px-10">
-        <p className="font-serif text-xl italic text-dusk">Legato</p>
+        <p className="font-serif text-xl text-dusk">Legato</p>
         <nav className="flex items-center gap-6 text-[11px] uppercase tracking-[0.22em] text-dusk/55">
           <a href="#manifeste" className="hover:text-dusk">Manifeste</a>
           <a href="#apercu" className="hover:text-dusk">Aperçu</a>
@@ -137,7 +137,7 @@ function Vitrine() {
               { t: "Privé, pour de vrai", d: "Vos souvenirs, votre journal, vos êtres aimés restent vôtres. Pensé pour la pudeur de ce qu'on confie." },
             ].map((b) => (
               <div key={b.t}>
-                <h3 className="font-serif text-[1.4rem] italic font-light text-dusk">
+                <h3 className="font-serif text-[1.4rem] text-dusk">
                   {b.t}
                 </h3>
                 <p className="mt-3 text-[14.5px] leading-relaxed text-dusk/65">
@@ -226,7 +226,7 @@ function Vitrine() {
       {/* Footer */}
       <footer className="border-t border-dusk/8">
         <div className="mx-auto flex max-w-[1200px] flex-wrap items-center justify-between gap-4 px-6 py-10 sm:px-10">
-          <p className="font-serif text-lg italic text-dusk">Legato</p>
+          <p className="font-serif text-lg text-dusk">Legato</p>
           <p className="text-[10px] uppercase tracking-[0.24em] text-dusk/45">
             © {new Date().getFullYear()} · Tenu avec soin
           </p>

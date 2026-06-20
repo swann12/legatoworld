@@ -74,7 +74,7 @@ export const Route = createFileRoute("/library/$kind")({
   notFoundComponent: () => (
     <Shell>
       <div className="px-7 pt-20">
-        <p className="font-serif text-[1.6rem] italic text-dusk">Pas encore ouvert.</p>
+        <p className="font-serif text-[1.6rem] text-dusk">Pas encore ouvert.</p>
         <Link to="/home" className="mt-4 inline-block text-sm text-dusk/60 underline">
           Revenir à l'accueil
         </Link>

@@ -119,7 +119,7 @@ function InspirationPage() {
               loading || text.trim().length < 3 ? "opacity-50" : "opacity-100"
             }`}
           >
-            <span className="font-serif text-[18px] italic text-dusk">
+            <span className="font-serif text-[18px] text-dusk">
               {loading ? "Un instant…" : "Recevoir des pistes"}
             </span>
           </button>
@@ -132,8 +132,8 @@ function InspirationPage() {
             <IvoryCard className="p-7 space-y-3 text-dusk/80">
               <ReactMarkdown
                 components={{
-                  h1: (p) => <h2 className="font-serif italic text-[24px] text-dusk mt-2" {...p} />,
-                  h2: (p) => <h3 className="font-serif italic text-[20px] text-dusk mt-4" {...p} />,
+                  h1: (p) => <h2 className="font-serif text-[24px] text-dusk mt-2" {...p} />,
+                  h2: (p) => <h3 className="font-serif text-[20px] text-dusk mt-4" {...p} />,
                   h3: (p) => <p className="mono-label mt-5 mb-1" {...p} />,
                   p:  (p) => <p className="text-[14.5px] leading-relaxed text-dusk/75" {...p} />,
                   ul: (p) => <ul className="list-disc pl-5 space-y-1.5" {...p} />,

@@ -10,7 +10,7 @@ export const Route = createFileRoute("/resources/$category/$providerId")({
   notFoundComponent: () => (
     <Shell>
       <div className="px-7 pt-20">
-        <p className="font-serif text-[1.6rem] italic text-dusk">
+        <p className="font-serif text-[1.6rem] text-dusk">
           Cette personne n'est plus disponible.
         </p>
         <Link to="/resources" className="mt-4 inline-block text-sm text-dusk/60 underline">
@@ -71,7 +71,7 @@ function ProviderPage() {
       {/* Approche */}
       <section className="mt-8 px-7">
         <p className="eyebrow">Son approche</p>
-        <div className="mt-3 space-y-3 font-serif text-[1.05rem] leading-relaxed italic text-dusk/85">
+        <div className="mt-3 space-y-3 font-serif text-[1.05rem] leading-relaxed text-dusk/85">
           {p.approach.map((line, i) => (
             <p key={i}>« {line} »</p>
           ))}
@@ -119,7 +119,7 @@ function ProviderPage() {
               </div>
             ))}
             <div className="mt-3 flex items-center justify-between pt-3 text-[14px] text-dusk">
-              <span className="font-serif italic">Total estimé</span>
+              <span className="font-serif ">Total estimé</span>
               <span className="font-serif text-[1.15rem]">{p.estimate.total}</span>
             </div>
           </div>

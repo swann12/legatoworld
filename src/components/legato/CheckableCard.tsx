@@ -70,7 +70,7 @@ export function CheckableCard({
           </div>
         )}
         <div className="flex-1 min-w-0">
-          <h3 className="font-serif italic text-[17px] leading-snug text-dusk">{title}</h3>
+          <h3 className="font-serif text-[17px] leading-snug text-dusk">{title}</h3>
           <div className="mt-1.5 text-[13px] leading-relaxed text-dusk/65">{body}</div>
         </div>
         <span

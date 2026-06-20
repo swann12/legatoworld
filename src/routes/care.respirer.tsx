@@ -80,7 +80,7 @@ function CareRespirer() {
               }}
             />
             <div className="relative text-center">
-              <p className="font-serif text-[30px] italic leading-none">{phase.label}</p>
+              <p className="font-serif text-[30px] leading-none">{phase.label}</p>
               <p className="mt-4 text-[40px] font-serif tabular-nums leading-none">{seconds}</p>
               <div className="mx-auto mt-5 h-[3px] w-24 overflow-hidden rounded-full bg-dusk/10">
                 <div className="h-full rounded-full" style={{ width: `${Math.max(8, progress * 100)}%`, background: "var(--terracotta)" }} />

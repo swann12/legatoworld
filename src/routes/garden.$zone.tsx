@@ -195,7 +195,7 @@ function GardenZone() {
                             <span className="text-[11px] tabular-nums text-dusk/65">{it.preview}</span>
                           </div>
                         ) : (
-                          <p className="font-serif italic text-[16px] leading-relaxed text-balance" style={{ color: "var(--dusk)" }}>
+                          <p className="font-serif text-[16px] leading-relaxed text-balance" style={{ color: "var(--dusk)" }}>
                             {it.preview || "Touchez à nouveau pour refermer."}
                           </p>
                         )}

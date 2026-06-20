@@ -84,7 +84,7 @@ export function PersonalSuggestions({
                 loading || portrait.trim().length < 3 ? "opacity-50" : "opacity-100"
               }`}
             >
-              <span className="font-serif italic text-[16px] text-dusk">
+              <span className="font-serif text-[16px] text-dusk">
                 {loading ? "Un instant…" : cta}
               </span>
             </button>
@@ -94,7 +94,7 @@ export function PersonalSuggestions({
               <div className="mt-3 space-y-2">
                 {suggestions.map((s, i) => (
                   <article key={i} className="paper-card p-4">
-                    <p className="font-serif italic text-[15.5px] text-dusk leading-snug">{s.title}</p>
+                    <p className="font-serif text-[15.5px] text-dusk leading-snug">{s.title}</p>
                     <p className="mt-1 text-[13px] leading-relaxed text-dusk/70" style={{ textWrap: "pretty" }}>
                       {s.detail}
                     </p>

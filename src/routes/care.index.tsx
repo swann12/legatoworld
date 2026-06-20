@@ -98,7 +98,7 @@ function Care() {
             <Link to="/care/garden" className="rounded-[18px] px-5 py-5 min-h-[120px] flex flex-col justify-between" style={{ background: "var(--blush)" }}>
               <p className="mono-label text-dusk/60">Jardin</p>
               <div>
-                <p className="font-serif text-[20px] leading-[1.1] italic">{lovedName}</p>
+                <p className="font-serif text-[20px] leading-[1.1] ">{lovedName}</p>
                 <p className="mt-1 text-[12px] text-dusk/65">Photos · voix · lettres</p>
               </div>
             </Link>

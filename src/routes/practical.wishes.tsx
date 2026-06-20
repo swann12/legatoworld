@@ -145,7 +145,7 @@ function WishesPage() {
           </div>
 
           <div className="px-7 mt-8 text-center">
-            <p className="font-serif italic text-[14px] text-dusk/55 max-w-[30ch] mx-auto text-balance">
+            <p className="font-serif text-[14px] text-dusk/55 max-w-[30ch] mx-auto text-balance">
               Merci, {name}. Ces pages restent à vous, modifiables à tout moment.
             </p>
           </div>

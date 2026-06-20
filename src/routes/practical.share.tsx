@@ -67,7 +67,7 @@ function Share() {
         </section>
 
         <div className="px-7 mt-10 text-center pb-8">
-          <p className="font-serif italic text-[14px] text-dusk/55 max-w-[28ch] mx-auto text-balance">
+          <p className="font-serif text-[14px] text-dusk/55 max-w-[28ch] mx-auto text-balance">
             Vous n'êtes pas obligée·e de tout porter seule.
           </p>
         </div>

@@ -58,7 +58,7 @@ function Ceremony() {
                 }`}
               >
                 <div className="flex items-baseline justify-between">
-                  <p className="font-serif italic text-[18px] text-dusk">{k.label}</p>
+                  <p className="font-serif text-[18px] text-dusk">{k.label}</p>
                   {active && <span className="mono-label">Choisi</span>}
                 </div>
                 <p className="mt-1.5 text-[13px] leading-[1.5] text-dusk/65">{k.body}</p>
@@ -81,11 +81,11 @@ function Ceremony() {
 
         <section className="px-5 mt-6 space-y-2.5">
           <Link to="/practical/atmosphere" className="block rounded-[14px] border border-dusk/10 bg-paper p-5 flex items-baseline justify-between hover:bg-dusk/[0.02] transition-colors">
-            <span className="font-serif italic text-[16px] text-dusk">Composer l'atmosphère</span>
+            <span className="font-serif text-[16px] text-dusk">Composer l'atmosphère</span>
             <span className="text-dusk/45">→</span>
           </Link>
           <Link to="/practical/booklet" className="block rounded-[14px] border border-dusk/10 bg-paper p-5 flex items-baseline justify-between hover:bg-dusk/[0.02] transition-colors">
-            <span className="font-serif italic text-[16px] text-dusk">Préparer un livret de cérémonie</span>
+            <span className="font-serif text-[16px] text-dusk">Préparer un livret de cérémonie</span>
             <span className="text-dusk/45">→</span>
           </Link>
         </section>
@@ -95,7 +95,7 @@ function Ceremony() {
             className="w-full rounded-[14px] py-4"
             style={{ background: "var(--bordeaux)", color: "var(--paper)" }}
           >
-            <span className="font-serif italic text-[18px]">Me proposer une première version</span>
+            <span className="font-serif text-[18px]">Me proposer une première version</span>
           </button>
           <p className="mt-3 text-center text-[12px] text-dusk/55">
             Vous pourrez tout modifier ensuite.

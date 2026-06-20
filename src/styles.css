@@ -11,484 +11,484 @@
  */
 
 @theme inline {
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --radius-2xl: calc(var(--radius) + 8px);
-  --radius-3xl: calc(var(--radius) + 12px);
-  --radius-4xl: calc(var(--radius) + 16px);
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-destructive-foreground: var(--destructive-foreground);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-  --color-ring-offset-background: var(--background);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
+ --radius-sm: calc(var(--radius) - 4px);
+ --radius-md: calc(var(--radius) - 2px);
+ --radius-lg: var(--radius);
+ --radius-xl: calc(var(--radius) + 4px);
+ --radius-2xl: calc(var(--radius) + 8px);
+ --radius-3xl: calc(var(--radius) + 12px);
+ --radius-4xl: calc(var(--radius) + 16px);
+ --color-background: var(--background);
+ --color-foreground: var(--foreground);
+ --color-card: var(--card);
+ --color-card-foreground: var(--card-foreground);
+ --color-popover: var(--popover);
+ --color-popover-foreground: var(--popover-foreground);
+ --color-primary: var(--primary);
+ --color-primary-foreground: var(--primary-foreground);
+ --color-secondary: var(--secondary);
+ --color-secondary-foreground: var(--secondary-foreground);
+ --color-muted: var(--muted);
+ --color-muted-foreground: var(--muted-foreground);
+ --color-accent: var(--accent);
+ --color-accent-foreground: var(--accent-foreground);
+ --color-destructive: var(--destructive);
+ --color-destructive-foreground: var(--destructive-foreground);
+ --color-border: var(--border);
+ --color-input: var(--input);
+ --color-ring: var(--ring);
+ --color-ring-offset-background: var(--background);
+ --color-chart-1: var(--chart-1);
+ --color-chart-2: var(--chart-2);
+ --color-chart-3: var(--chart-3);
+ --color-chart-4: var(--chart-4);
+ --color-chart-5: var(--chart-5);
+ --color-sidebar: var(--sidebar);
+ --color-sidebar-foreground: var(--sidebar-foreground);
+ --color-sidebar-primary: var(--sidebar-primary);
+ --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+ --color-sidebar-accent: var(--sidebar-accent);
+ --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+ --color-sidebar-border: var(--sidebar-border);
+ --color-sidebar-ring: var(--sidebar-ring);
 
-  /* Legato palette */
-  --color-paper: var(--paper);
-  --color-clay: var(--clay);
-  --color-dusk: var(--dusk);
-  --color-rose: var(--rose);
-  --color-peach: var(--peach);
-  --color-sage: var(--sage);
-  --color-mist: var(--mist);
-  --color-lavender: var(--lavender);
-  --color-ink: var(--ink);
-  --color-whisper: var(--whisper);
-  --color-terracotta: var(--terracotta);
-  --color-olive: var(--olive);
-  --color-bordeaux: var(--bordeaux);
-  --color-blush: var(--blush);
-  --color-sky: var(--sky);
+ /* Legato palette */
+ --color-paper: var(--paper);
+ --color-clay: var(--clay);
+ --color-dusk: var(--dusk);
+ --color-rose: var(--rose);
+ --color-peach: var(--peach);
+ --color-sage: var(--sage);
+ --color-mist: var(--mist);
+ --color-lavender: var(--lavender);
+ --color-ink: var(--ink);
+ --color-whisper: var(--whisper);
+ --color-terracotta: var(--terracotta);
+ --color-olive: var(--olive);
+ --color-bordeaux: var(--bordeaux);
+ --color-blush: var(--blush);
+ --color-sky: var(--sky);
 
-  /* Refonte — accents éditoriaux assumés */
-  --color-navy: var(--navy);
-  --color-ember: var(--ember);
-  --color-sun: var(--sun);
-  --color-azure: var(--azure);
-  --color-magenta: var(--magenta);
+ /* Refonte — accents éditoriaux assumés */
+ --color-navy: var(--navy);
+ --color-ember: var(--ember);
+ --color-sun: var(--sun);
+ --color-azure: var(--azure);
+ --color-magenta: var(--magenta);
 
-  --font-serif: "ivypresto-display", "Iowan Old Style", "Palatino Linotype", ui-serif, serif;
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  /* Space Mono pour les micro-labels graphiques (sections, dates, statuts). */
-  --font-mono: "Space Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+ --font-serif: "ivypresto-display", "Iowan Old Style", "Palatino Linotype", ui-serif, serif;
+ --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+ /* Space Mono pour les micro-labels graphiques (sections, dates, statuts). */
+ --font-mono: "Space Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
 }
 
 :root {
-  --radius: 1.5rem;
+ --radius: 1.5rem;
 
-  /* Palette directement réalignée sur les références partagées :
-   * butter stick, tomato soup, sardine tin, oven glow, olive, blush. */
-  --paper: #FAF5EE;
-  --whisper: #FFF9F1;
-  --clay: #F4EBDD;
-  --dusk: #201917;
-  --ink: #161110;
-  --terracotta: #EB5E3A;
-  --rose: #F3BEC5;
-  --blush: #F6D6D6;
-  --peach: #F1C8AF;
-  --olive: #8A8E3A;
-  --sage: #D9D9AE;
-  --mist: #C9D7F0;
-  --sky: #7CA2E0;
-  --lavender: #E5DBE9;
-  --bordeaux: #5B171D;
-  --navy: #5B7FB2;
-  --ember: #EB5E3A;
-  --sun: #F2EDBD;
-  --azure: #7CA2E0;
-  --magenta: #D89AA6;
-  --bloom-fresh: #CCD6A1;
-  --bloom-mist: #B5C9EA;
+ /* Palette directement réalignée sur les références partagées :
+ * butter stick, tomato soup, sardine tin, oven glow, olive, blush. */
+ --paper: #FAF5EE;
+ --whisper: #FFF9F1;
+ --clay: #F4EBDD;
+ --dusk: #201917;
+ --ink: #161110;
+ --terracotta: #EB5E3A;
+ --rose: #F3BEC5;
+ --blush: #F6D6D6;
+ --peach: #F1C8AF;
+ --olive: #8A8E3A;
+ --sage: #D9D9AE;
+ --mist: #C9D7F0;
+ --sky: #7CA2E0;
+ --lavender: #E5DBE9;
+ --bordeaux: #5B171D;
+ --navy: #5B7FB2;
+ --ember: #EB5E3A;
+ --sun: #F2EDBD;
+ --azure: #7CA2E0;
+ --magenta: #D89AA6;
+ --bloom-fresh: #CCD6A1;
+ --bloom-mist: #B5C9EA;
 
-  /* Shadcn semantic tokens mapped to Legato */
-  --background: var(--paper);
-  --foreground: var(--dusk);
-  --card: var(--clay);
-  --card-foreground: var(--dusk);
-  --popover: var(--paper);
-  --popover-foreground: var(--dusk);
-  --primary: var(--terracotta);
-  --primary-foreground: var(--paper);
-  --secondary: var(--clay);
-  --secondary-foreground: var(--dusk);
-  --muted: var(--whisper);
-  --muted-foreground: oklch(0.52 0.020 250);
-  --accent: var(--terracotta);
-  --accent-foreground: var(--dusk);
-  --destructive: oklch(0.58 0.10 25);
-  --destructive-foreground: var(--paper);
-  --border: oklch(0.90 0.010 240);
-  --input: oklch(0.92 0.010 240);
-  --ring: oklch(0.66 0.060 35);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: var(--paper);
-  --sidebar-foreground: var(--dusk);
-  --sidebar-primary: var(--dusk);
-  --sidebar-primary-foreground: var(--paper);
-  --sidebar-accent: var(--clay);
-  --sidebar-accent-foreground: var(--dusk);
-  --sidebar-border: oklch(0.9 0.012 60);
-  --sidebar-ring: oklch(0.7 0.02 60);
+ /* Shadcn semantic tokens mapped to Legato */
+ --background: var(--paper);
+ --foreground: var(--dusk);
+ --card: var(--clay);
+ --card-foreground: var(--dusk);
+ --popover: var(--paper);
+ --popover-foreground: var(--dusk);
+ --primary: var(--terracotta);
+ --primary-foreground: var(--paper);
+ --secondary: var(--clay);
+ --secondary-foreground: var(--dusk);
+ --muted: var(--whisper);
+ --muted-foreground: oklch(0.52 0.020 250);
+ --accent: var(--terracotta);
+ --accent-foreground: var(--dusk);
+ --destructive: oklch(0.58 0.10 25);
+ --destructive-foreground: var(--paper);
+ --border: oklch(0.90 0.010 240);
+ --input: oklch(0.92 0.010 240);
+ --ring: oklch(0.66 0.060 35);
+ --chart-1: oklch(0.646 0.222 41.116);
+ --chart-2: oklch(0.6 0.118 184.704);
+ --chart-3: oklch(0.398 0.07 227.392);
+ --chart-4: oklch(0.828 0.189 84.429);
+ --chart-5: oklch(0.769 0.188 70.08);
+ --sidebar: var(--paper);
+ --sidebar-foreground: var(--dusk);
+ --sidebar-primary: var(--dusk);
+ --sidebar-primary-foreground: var(--paper);
+ --sidebar-accent: var(--clay);
+ --sidebar-accent-foreground: var(--dusk);
+ --sidebar-border: oklch(0.9 0.012 60);
+ --sidebar-ring: oklch(0.7 0.02 60);
 }
 
 .dark {
-  /* Legato — Papier & Terre, mode nuit (bordeaux profond + cream sur fond) */
-  --paper: oklch(0.20 0.025 30);
-  --whisper: oklch(0.24 0.025 30);
-  --clay: oklch(0.26 0.030 30);
-  --dusk: oklch(0.95 0.015 75);
-  --ink: oklch(0.97 0.010 75);
-  --terracotta: oklch(0.72 0.135 40);
-  --rose: oklch(0.55 0.060 25);
-  --blush: oklch(0.45 0.040 25);
-  --peach: oklch(0.50 0.060 55);
-  --olive: oklch(0.65 0.090 115);
-  --sage: oklch(0.50 0.045 130);
-  --mist: oklch(0.45 0.035 215);
-  --sky: oklch(0.50 0.050 225);
-  --lavender: oklch(0.62 0.060 295);
-  --bordeaux: oklch(0.32 0.075 25);
-  --navy: oklch(0.30 0.060 255);
-  --ember: oklch(0.68 0.155 30);
-  --sun: oklch(0.80 0.130 88);
-  --azure: oklch(0.66 0.130 240);
-  --magenta: oklch(0.70 0.150 5);
-  --bloom-fresh: oklch(0.55 0.05 130);
-  --bloom-mist: oklch(0.45 0.03 220);
+ /* Legato — Papier & Terre, mode nuit (bordeaux profond + cream sur fond) */
+ --paper: oklch(0.20 0.025 30);
+ --whisper: oklch(0.24 0.025 30);
+ --clay: oklch(0.26 0.030 30);
+ --dusk: oklch(0.95 0.015 75);
+ --ink: oklch(0.97 0.010 75);
+ --terracotta: oklch(0.72 0.135 40);
+ --rose: oklch(0.55 0.060 25);
+ --blush: oklch(0.45 0.040 25);
+ --peach: oklch(0.50 0.060 55);
+ --olive: oklch(0.65 0.090 115);
+ --sage: oklch(0.50 0.045 130);
+ --mist: oklch(0.45 0.035 215);
+ --sky: oklch(0.50 0.050 225);
+ --lavender: oklch(0.62 0.060 295);
+ --bordeaux: oklch(0.32 0.075 25);
+ --navy: oklch(0.30 0.060 255);
+ --ember: oklch(0.68 0.155 30);
+ --sun: oklch(0.80 0.130 88);
+ --azure: oklch(0.66 0.130 240);
+ --magenta: oklch(0.70 0.150 5);
+ --bloom-fresh: oklch(0.55 0.05 130);
+ --bloom-mist: oklch(0.45 0.03 220);
 
-  --background: var(--paper);
-  --foreground: var(--dusk);
-  --card: var(--clay);
-  --card-foreground: var(--dusk);
-  --popover: var(--clay);
-  --popover-foreground: var(--dusk);
-  --primary: var(--terracotta);
-  --primary-foreground: oklch(0.18 0.025 30);
-  --secondary: var(--whisper);
-  --secondary-foreground: var(--dusk);
-  --muted: var(--whisper);
-  --muted-foreground: oklch(0.72 0.020 60);
-  --accent: var(--terracotta);
-  --accent-foreground: oklch(0.18 0.025 30);
-  --destructive: oklch(0.6 0.14 25);
-  --destructive-foreground: var(--dusk);
-  --border: oklch(1 0 0 / 12%);
-  --input: oklch(1 0 0 / 16%);
-  --ring: oklch(0.72 0.10 40);
-  --sidebar: var(--clay);
-  --sidebar-foreground: var(--dusk);
-  --sidebar-primary: var(--terracotta);
-  --sidebar-primary-foreground: oklch(0.18 0.025 30);
-  --sidebar-accent: var(--whisper);
-  --sidebar-accent-foreground: var(--dusk);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.72 0.10 40);
+ --background: var(--paper);
+ --foreground: var(--dusk);
+ --card: var(--clay);
+ --card-foreground: var(--dusk);
+ --popover: var(--clay);
+ --popover-foreground: var(--dusk);
+ --primary: var(--terracotta);
+ --primary-foreground: oklch(0.18 0.025 30);
+ --secondary: var(--whisper);
+ --secondary-foreground: var(--dusk);
+ --muted: var(--whisper);
+ --muted-foreground: oklch(0.72 0.020 60);
+ --accent: var(--terracotta);
+ --accent-foreground: oklch(0.18 0.025 30);
+ --destructive: oklch(0.6 0.14 25);
+ --destructive-foreground: var(--dusk);
+ --border: oklch(1 0 0 / 12%);
+ --input: oklch(1 0 0 / 16%);
+ --ring: oklch(0.72 0.10 40);
+ --sidebar: var(--clay);
+ --sidebar-foreground: var(--dusk);
+ --sidebar-primary: var(--terracotta);
+ --sidebar-primary-foreground: oklch(0.18 0.025 30);
+ --sidebar-accent: var(--whisper);
+ --sidebar-accent-foreground: var(--dusk);
+ --sidebar-border: oklch(1 0 0 / 10%);
+ --sidebar-ring: oklch(0.72 0.10 40);
 }
 
 @layer base {
-  * {
-    border-color: var(--color-border);
-  }
+ * {
+ border-color: var(--color-border);
+ }
 
-  body {
-    background-color: var(--color-background);
-    color: var(--color-foreground);
-    font-family: var(--font-sans);
-    font-feature-settings: "ss01", "cv11";
-    -webkit-font-smoothing: antialiased;
-  }
+ body {
+ background-color: var(--color-background);
+ color: var(--color-foreground);
+ font-family: var(--font-sans);
+ font-feature-settings: "ss01", "cv11";
+ -webkit-font-smoothing: antialiased;
+ }
 
-  .font-serif { font-family: var(--font-serif); }
-  .font-sans { font-family: var(--font-sans); }
+ .font-serif { font-family: var(--font-serif); }
+ .font-sans { font-family: var(--font-sans); }
 }
 
 @layer components {
-  /* Sculptural ceramic surface: hand-thrown bowl holding light */
-  .ceramic {
-    background: linear-gradient(160deg, color-mix(in oklab, var(--clay) 70%, white), var(--clay));
-    border: 1px solid color-mix(in oklab, var(--dusk) 10%, transparent);
-  }
+ /* Sculptural ceramic surface: hand-thrown bowl holding light */
+ .ceramic {
+ background: linear-gradient(160deg, color-mix(in oklab, var(--clay) 70%, white), var(--clay));
+ border: 1px solid color-mix(in oklab, var(--dusk) 10%, transparent);
+ }
 
-  .ceramic-soft {
-    background: linear-gradient(160deg, color-mix(in oklab, var(--paper) 90%, white), var(--clay));
-    border: 1px solid color-mix(in oklab, var(--dusk) 8%, transparent);
-  }
+ .ceramic-soft {
+ background: linear-gradient(160deg, color-mix(in oklab, var(--paper) 90%, white), var(--clay));
+ border: 1px solid color-mix(in oklab, var(--dusk) 8%, transparent);
+ }
 
-  /* Organic asymmetric radii — nothing perfectly geometric */
-  /* Tamed for the editorial language — kept available for legacy callers
-   * but rendered as clean rounded surfaces, not asymmetric blobs. */
-  .organic-radius { border-radius: 18px; }
-  .organic-radius-2 { border-radius: 18px; }
-  .organic-radius-3 { border-radius: 16px; }
+ /* Organic asymmetric radii — nothing perfectly geometric */
+ /* Tamed for the editorial language — kept available for legacy callers
+ * but rendered as clean rounded surfaces, not asymmetric blobs. */
+ .organic-radius { border-radius: 18px; }
+ .organic-radius-2 { border-radius: 18px; }
+ .organic-radius-3 { border-radius: 16px; }
 
-  /* Soft luminous halos */
-  .halo { filter: blur(60px); pointer-events: none; }
-  .halo-lg { filter: blur(90px); pointer-events: none; }
+ /* Soft luminous halos */
+ .halo { filter: blur(60px); pointer-events: none; }
+ .halo-lg { filter: blur(90px); pointer-events: none; }
 
-  /* Mobile frame for desktop preview */
-  .mobile-frame {
-    width: 100%;
-    max-width: 420px;
-    min-height: 100dvh;
-    margin-inline: auto;
-    position: relative;
-    background: var(--paper);
-    overflow: hidden;
-  }
+ /* Mobile frame for desktop preview */
+ .mobile-frame {
+ width: 100%;
+ max-width: 420px;
+ min-height: 100dvh;
+ margin-inline: auto;
+ position: relative;
+ background: var(--paper);
+ overflow: hidden;
+ }
 
-  .no-scrollbar::-webkit-scrollbar { display: none; }
-  .no-scrollbar { scrollbar-width: none; }
+ .no-scrollbar::-webkit-scrollbar { display: none; }
+ .no-scrollbar { scrollbar-width: none; }
 
-  /* Ultra-quiet pulse — for breath / presence dots */
-  @keyframes legato-breath {
-    0%, 100% { transform: scale(1); opacity: 0.7; }
-    50% { transform: scale(1.15); opacity: 1; }
-  }
-  .breath { animation: legato-breath 5.5s ease-in-out infinite; }
+ /* Ultra-quiet pulse — for breath / presence dots */
+ @keyframes legato-breath {
+ 0%, 100% { transform: scale(1); opacity: 0.7; }
+ 50% { transform: scale(1.15); opacity: 1; }
+ }
+ .breath { animation: legato-breath 5.5s ease-in-out infinite; }
 
-  @keyframes legato-drift {
-    0%, 100% { transform: translate(0, 0); }
-    50% { transform: translate(8px, -10px); }
-  }
-  .drift { animation: legato-drift 14s ease-in-out infinite; }
+ @keyframes legato-drift {
+ 0%, 100% { transform: translate(0, 0); }
+ 50% { transform: translate(8px, -10px); }
+ }
+ .drift { animation: legato-drift 14s ease-in-out infinite; }
 
-  /* Garden: slow sway for grass, leaves, planted markers */
-  @keyframes legato-sway {
-    0%, 100% { transform: translate(0, 0) rotate(-1.2deg); }
-    50%      { transform: translate(2px, -3px) rotate(1.4deg); }
-  }
-  .sway { animation: legato-sway 9s ease-in-out infinite; transform-origin: bottom center; }
+ /* Garden: slow sway for grass, leaves, planted markers */
+ @keyframes legato-sway {
+ 0%, 100% { transform: translate(0, 0) rotate(-1.2deg); }
+ 50% { transform: translate(2px, -3px) rotate(1.4deg); }
+ }
+ .sway { animation: legato-sway 9s ease-in-out infinite; transform-origin: bottom center; }
 
-  @keyframes legato-shimmer {
-    0%, 100% { opacity: 0.55; }
-    50%      { opacity: 0.85; }
-  }
-  .shimmer { animation: legato-shimmer 7s ease-in-out infinite; }
+ @keyframes legato-shimmer {
+ 0%, 100% { opacity: 0.55; }
+ 50% { opacity: 0.85; }
+ }
+ .shimmer { animation: legato-shimmer 7s ease-in-out infinite; }
 
-  /* Hide-scrollbar already exists; add a soft vertical fade for landscape edges */
-  .landscape-fade-top {
-    -webkit-mask-image: linear-gradient(to bottom, transparent, black 8%);
-            mask-image: linear-gradient(to bottom, transparent, black 8%);
-  }
+ /* Hide-scrollbar already exists; add a soft vertical fade for landscape edges */
+ .landscape-fade-top {
+ -webkit-mask-image: linear-gradient(to bottom, transparent, black 8%);
+ mask-image: linear-gradient(to bottom, transparent, black 8%);
+ }
 
-  /* Quiet bloom for selected garden element */
-  @keyframes legato-bloom {
-    0%, 100% { transform: scale(1); filter: brightness(1); }
-    50%      { transform: scale(1.06); filter: brightness(1.05); }
-  }
-  .bloom { animation: legato-bloom 3.6s ease-in-out infinite; }
+ /* Quiet bloom for selected garden element */
+ @keyframes legato-bloom {
+ 0%, 100% { transform: scale(1); filter: brightness(1); }
+ 50% { transform: scale(1.06); filter: brightness(1.05); }
+ }
+ .bloom { animation: legato-bloom 3.6s ease-in-out infinite; }
 
-  /* Slow breath — for organic signatures and resting plates */
-  @keyframes legato-breathe {
-    0%, 100% { transform: translate(0, 0) rotate(-0.4deg); }
-    50%      { transform: translate(0, -2px) rotate(0.5deg); }
-  }
-  .breathe { animation: legato-breathe 9s ease-in-out infinite; transform-origin: center; }
+ /* Slow breath — for organic signatures and resting plates */
+ @keyframes legato-breathe {
+ 0%, 100% { transform: translate(0, 0) rotate(-0.4deg); }
+ 50% { transform: translate(0, -2px) rotate(0.5deg); }
+ }
+ .breathe { animation: legato-breathe 9s ease-in-out infinite; transform-origin: center; }
 
-  /* Drift — slowly wandering atmospheric particles */
-  @keyframes legato-wander {
-    0%, 100% { transform: translate(0, 0); }
-    33%      { transform: translate(-3px, 2px); }
-    66%      { transform: translate(2px, -3px); }
-  }
-  .wander { animation: legato-wander 18s ease-in-out infinite; }
+ /* Drift — slowly wandering atmospheric particles */
+ @keyframes legato-wander {
+ 0%, 100% { transform: translate(0, 0); }
+ 33% { transform: translate(-3px, 2px); }
+ 66% { transform: translate(2px, -3px); }
+ }
+ .wander { animation: legato-wander 18s ease-in-out infinite; }
 
-  /* Soft feathered illustration — for atlas elements composed into garden */
-  .feathered {
-    filter: drop-shadow(0 0 0.4px rgba(0,0,0,0.04));
-  }
+ /* Soft feathered illustration — for atlas elements composed into garden */
+ .feathered {
+ filter: drop-shadow(0 0 0.4px rgba(0,0,0,0.04));
+ }
 
-  /* Soft feathered v2 — pictural fade for atlas elements (jardin / signature / patches) */
-  .feathered-soft {
-    filter: drop-shadow(0 0 0.6px rgba(0,0,0,0.05));
-  }
+ /* Soft feathered v2 — pictural fade for atlas elements (jardin / signature / patches) */
+ .feathered-soft {
+ filter: drop-shadow(0 0 0.6px rgba(0,0,0,0.05));
+ }
 
-  /* Pictural feather — softens the actual silhouette (alpha channel),
-   * not the bounding box. Requires the inline SVG filter #legato-feather. */
-  .feathered-pictural {
-    filter: url(#legato-feather);
-  }
+ /* Pictural feather — softens the actual silhouette (alpha channel),
+ * not the bounding box. Requires the inline SVG filter #legato-feather. */
+ .feathered-pictural {
+ filter: url(#legato-feather);
+ }
 
-  /* Garden hotspot — gentle interaction without colored halos */
-  .garden-tile-hover {
-    transition: opacity 1000ms cubic-bezier(0.22, 0.61, 0.36, 1);
-  }
-  .garden-tile-hover.is-faded { opacity: 0.72; }
+ /* Garden hotspot — gentle interaction without colored halos */
+ .garden-tile-hover {
+ transition: opacity 1000ms cubic-bezier(0.22, 0.61, 0.36, 1);
+ }
+ .garden-tile-hover.is-faded { opacity: 0.72; }
 
-  /* Bloom-in — soft scale + opacity entry for living patches */
-  @keyframes legato-bloom-in {
-    0%   { opacity: 0; transform: scale(0.92); filter: blur(2px); }
-    100% { opacity: 1; transform: scale(1);     filter: blur(0); }
-  }
-  .bloom-in { animation: legato-bloom-in 1.4s cubic-bezier(0.22, 0.61, 0.36, 1) both; }
+ /* Bloom-in — soft scale + opacity entry for living patches */
+ @keyframes legato-bloom-in {
+ 0% { opacity: 0; transform: scale(0.92); filter: blur(2px); }
+ 100% { opacity: 1; transform: scale(1); filter: blur(0); }
+ }
+ .bloom-in { animation: legato-bloom-in 1.4s cubic-bezier(0.22, 0.61, 0.36, 1) both; }
 
-  /* Per-element gentle sway — randomised via inline style --sway-dur / --sway-delay */
-  @keyframes legato-sway-soft {
-    0%, 100% { transform: rotate(-0.6deg) translateY(0); }
-    50%      { transform: rotate(0.6deg)  translateY(-1.5px); }
-  }
-  .sway-soft {
-    animation: legato-sway-soft var(--sway-dur, 8s) ease-in-out infinite;
-    animation-delay: var(--sway-delay, 0s);
-    transform-origin: bottom center;
-  }
+ /* Per-element gentle sway — randomised via inline style --sway-dur / --sway-delay */
+ @keyframes legato-sway-soft {
+ 0%, 100% { transform: rotate(-0.6deg) translateY(0); }
+ 50% { transform: rotate(0.6deg) translateY(-1.5px); }
+ }
+ .sway-soft {
+ animation: legato-sway-soft var(--sway-dur, 8s) ease-in-out infinite;
+ animation-delay: var(--sway-delay, 0s);
+ transform-origin: bottom center;
+ }
 
-  /* Painted-garden canvas — solid cream that matches the painting. */
-  .garden-canvas {
-    background: rgb(251, 248, 245);
-  }
-  /* Whole garden page tinted to match the painting cream — no boundary
-     between the painted scene and the page itself. */
-  .garden-page-bg::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    background: rgb(251, 248, 245);
-    z-index: 0;
-    pointer-events: none;
-  }
-  /* Garden image — almost full bleed, just a hair of fade at top/bottom
-     so there's no visible rectangular cut, but no wide gradient halo either. */
-  .garden-dissolve {
-    -webkit-mask-image:
-      radial-gradient(ellipse 75% 80% at 50% 50%, black 45%, transparent 95%);
-            mask-image:
-      radial-gradient(ellipse 75% 80% at 50% 50%, black 45%, transparent 95%);
-    -webkit-mask-repeat: no-repeat;
-            mask-repeat: no-repeat;
-    -webkit-mask-size: 100% 100%;
-            mask-size: 100% 100%;
-  }
-  .garden-flower-pop {
-    -webkit-mask-image: var(--flower-mask);
-            mask-image: var(--flower-mask);
-    transition: opacity 700ms cubic-bezier(0.22, 0.61, 0.36, 1),
-                filter 700ms cubic-bezier(0.22, 0.61, 0.36, 1);
-    filter: saturate(1.35) brightness(1.04) contrast(1.05);
-  }
+ /* Painted-garden canvas — solid cream that matches the painting. */
+ .garden-canvas {
+ background: rgb(251, 248, 245);
+ }
+ /* Whole garden page tinted to match the painting cream — no boundary
+ between the painted scene and the page itself. */
+ .garden-page-bg::before {
+ content: "";
+ position: fixed;
+ inset: 0;
+ background: rgb(251, 248, 245);
+ z-index: 0;
+ pointer-events: none;
+ }
+ /* Garden image — almost full bleed, just a hair of fade at top/bottom
+ so there's no visible rectangular cut, but no wide gradient halo either. */
+ .garden-dissolve {
+ -webkit-mask-image:
+ radial-gradient(ellipse 75% 80% at 50% 50%, black 45%, transparent 95%);
+ mask-image:
+ radial-gradient(ellipse 75% 80% at 50% 50%, black 45%, transparent 95%);
+ -webkit-mask-repeat: no-repeat;
+ mask-repeat: no-repeat;
+ -webkit-mask-size: 100% 100%;
+ mask-size: 100% 100%;
+ }
+ .garden-flower-pop {
+ -webkit-mask-image: var(--flower-mask);
+ mask-image: var(--flower-mask);
+ transition: opacity 700ms cubic-bezier(0.22, 0.61, 0.36, 1),
+ filter 700ms cubic-bezier(0.22, 0.61, 0.36, 1);
+ filter: saturate(1.35) brightness(1.04) contrast(1.05);
+ }
 
-  /* Falling rain droplets for the no-words mode */
-  @keyframes legato-rain {
-    0%   { transform: translate(0, -10px); opacity: 0; }
-    20%  { opacity: 0.7; }
-    100% { transform: translate(-4px, 120px); opacity: 0; }
-  }
+ /* Falling rain droplets for the no-words mode */
+ @keyframes legato-rain {
+ 0% { transform: translate(0, -10px); opacity: 0; }
+ 20% { opacity: 0.7; }
+ 100% { transform: translate(-4px, 120px); opacity: 0; }
+ }
 
-  .line-clamp-3 {
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
+ .line-clamp-3 {
+ display: -webkit-box;
+ -webkit-line-clamp: 3;
+ -webkit-box-orient: vertical;
+ overflow: hidden;
+ }
 
-  /* Soft container — quieter than ceramic, more space */
-  .paper-card {
-    background: color-mix(in oklab, var(--paper) 88%, white);
-    border: 1px solid color-mix(in oklab, var(--dusk) 10%, transparent);
-    border-radius: 18px;
-    box-shadow: 0 1px 0 color-mix(in oklab, var(--dusk) 4%, transparent);
-  }
+ /* Soft container — quieter than ceramic, more space */
+ .paper-card {
+ background: color-mix(in oklab, var(--paper) 88%, white);
+ border: 1px solid color-mix(in oklab, var(--dusk) 10%, transparent);
+ border-radius: 18px;
+ box-shadow: 0 1px 0 color-mix(in oklab, var(--dusk) 4%, transparent);
+ }
 
-  /* ─── Legato Glass system ───
-   * Verre aérien, légèrement teinté, inspiré du widget météo iOS.
-   * Posé sur un dégradé vivant — jamais sur du blanc.
-   */
-  .glass-card {
-    background: var(--paper);
-    border: 1px solid color-mix(in oklab, var(--dusk) 10%, transparent);
-    border-radius: 16px;
-  }
-  .glass-card-accent {
-    background: var(--clay);
-    border: 1px solid color-mix(in oklab, var(--dusk) 12%, transparent);
-    border-radius: 18px;
-  }
-  .glass-nav {
-    background: var(--paper);
-    border-top: 1px solid color-mix(in oklab, var(--dusk) 12%, transparent);
-  }
-  .glass-tabs {
-    background: var(--paper);
-    border: 1px solid color-mix(in oklab, var(--dusk) 10%, transparent);
-    border-radius: 999px;
-  }
-  .glass-tab-active {
-    background: var(--dusk);
-    color: var(--paper);
-  }
-  .glass-drawer {
-    background: var(--paper);
-    border-radius: 22px 22px 0 0;
-    border-top: 1px solid color-mix(in oklab, var(--dusk) 12%, transparent);
-  }
+ /* ─── Legato Glass system ───
+ * Verre aérien, légèrement teinté, inspiré du widget météo iOS.
+ * Posé sur un dégradé vivant — jamais sur du blanc.
+ */
+ .glass-card {
+ background: var(--paper);
+ border: 1px solid color-mix(in oklab, var(--dusk) 10%, transparent);
+ border-radius: 16px;
+ }
+ .glass-card-accent {
+ background: var(--clay);
+ border: 1px solid color-mix(in oklab, var(--dusk) 12%, transparent);
+ border-radius: 18px;
+ }
+ .glass-nav {
+ background: var(--paper);
+ border-top: 1px solid color-mix(in oklab, var(--dusk) 12%, transparent);
+ }
+ .glass-tabs {
+ background: var(--paper);
+ border: 1px solid color-mix(in oklab, var(--dusk) 10%, transparent);
+ border-radius: 999px;
+ }
+ .glass-tab-active {
+ background: var(--dusk);
+ color: var(--paper);
+ }
+ .glass-drawer {
+ background: var(--paper);
+ border-radius: 22px 22px 0 0;
+ border-top: 1px solid color-mix(in oklab, var(--dusk) 12%, transparent);
+ }
 
-  /* ─── Living background blobs ───
-   * Use with absolute positioning over a radial-gradient page bg.
-   * Amplitude ±12-16px translate, very slow ease-in-out.
-   */
-  @keyframes legato-float-1 {
-    from { transform: translate(0, 0); }
-    to   { transform: translate(-14px, 12px); }
-  }
-  @keyframes legato-float-2 {
-    from { transform: rotate(-28deg) translate(0, 0); }
-    to   { transform: rotate(-28deg) translate(-10px, 14px); }
-  }
-  @keyframes legato-float-3 {
-    from { transform: translateX(-50%) translateY(0); }
-    to   { transform: translateX(-50%) translateY(16px); }
-  }
-  @keyframes legato-float-4 {
-    from { transform: translate(0, 0); }
-    to   { transform: translate(12px, 10px); }
-  }
-  @keyframes legato-float-5 {
-    from { transform: translate(0, 0); }
-    to   { transform: translate(-10px, -8px); }
-  }
-  .blob-float-1 { animation: legato-float-1 20s ease-in-out alternate infinite; }
-  .blob-float-2 { animation: legato-float-2 22s ease-in-out alternate infinite; }
-  .blob-float-3 { animation: legato-float-3 18s ease-in-out alternate infinite; }
-  .blob-float-4 { animation: legato-float-4 24s ease-in-out alternate infinite; }
-  .blob-float-5 { animation: legato-float-5 19s ease-in-out alternate infinite; }
+ /* ─── Living background blobs ───
+ * Use with absolute positioning over a radial-gradient page bg.
+ * Amplitude ±12-16px translate, very slow ease-in-out.
+ */
+ @keyframes legato-float-1 {
+ from { transform: translate(0, 0); }
+ to { transform: translate(-14px, 12px); }
+ }
+ @keyframes legato-float-2 {
+ from { transform: rotate(-28deg) translate(0, 0); }
+ to { transform: rotate(-28deg) translate(-10px, 14px); }
+ }
+ @keyframes legato-float-3 {
+ from { transform: translateX(-50%) translateY(0); }
+ to { transform: translateX(-50%) translateY(16px); }
+ }
+ @keyframes legato-float-4 {
+ from { transform: translate(0, 0); }
+ to { transform: translate(12px, 10px); }
+ }
+ @keyframes legato-float-5 {
+ from { transform: translate(0, 0); }
+ to { transform: translate(-10px, -8px); }
+ }
+ .blob-float-1 { animation: legato-float-1 20s ease-in-out alternate infinite; }
+ .blob-float-2 { animation: legato-float-2 22s ease-in-out alternate infinite; }
+ .blob-float-3 { animation: legato-float-3 18s ease-in-out alternate infinite; }
+ .blob-float-4 { animation: legato-float-4 24s ease-in-out alternate infinite; }
+ .blob-float-5 { animation: legato-float-5 19s ease-in-out alternate infinite; }
 
-  @media (prefers-reduced-motion: reduce) {
-    .blob-float-1, .blob-float-2, .blob-float-3, .blob-float-4, .blob-float-5 {
-      animation: none !important;
-    }
-  }
+ @media (prefers-reduced-motion: reduce) {
+ .blob-float-1, .blob-float-2, .blob-float-3, .blob-float-4, .blob-float-5 {
+ animation: none !important;
+ }
+ }
 }
 
 /* ─── Practical / Confide dock ─── */
 .dock-halo {
-  animation: breathe 8s ease-in-out infinite;
+ animation: breathe 8s ease-in-out infinite;
 }
 .ceramic-warm {
-  background: linear-gradient(180deg, color-mix(in oklab, var(--peach) 30%, var(--paper)),
-                                       color-mix(in oklab, var(--clay) 60%, var(--paper)));
-  border: 1px solid color-mix(in oklab, var(--dusk) 8%, transparent);
+ background: linear-gradient(180deg, color-mix(in oklab, var(--peach) 30%, var(--paper)),
+ color-mix(in oklab, var(--clay) 60%, var(--paper)));
+ border: 1px solid color-mix(in oklab, var(--dusk) 8%, transparent);
 }
 
 /* Booklet print */
 @media print {
-  body { background: white; }
-  .no-print { display: none !important; }
-  .print-booklet { padding: 0; margin: 0; }
-  .print-booklet .page { page-break-after: always; }
+ body { background: white; }
+ .no-print { display: none !important; }
+ .print-booklet { padding: 0; margin: 0; }
+ .print-booklet .page { page-break-after: always; }
 }
 
 /* ─── Refonte éditoriale : système typographique unifié ───
@@ -496,277 +496,277 @@
  * Cinq tailles canoniques. Palette restreinte. Pas de décor inutile.
  */
 @layer components {
-  .eyebrow {
-    font-family: var(--font-mono);
-    font-size: 10.5px;
-    font-weight: 400;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: color-mix(in oklab, var(--dusk) 55%, transparent);
-  }
-  .eyebrow-on-dark {
-    font-family: var(--font-mono);
-    font-size: 10.5px;
-    font-weight: 400;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: color-mix(in oklab, var(--paper) 78%, transparent);
-  }
-  .mono-label {
-    font-family: var(--font-mono);
-    font-size: 10.5px;
-    font-weight: 400;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: color-mix(in oklab, var(--dusk) 60%, transparent);
-  }
-  .ed-display {
-    font-family: var(--font-serif);
-    font-weight: 400;
-    font-size: clamp(44px, 12vw, 60px);
-    line-height: 0.98;
-    letter-spacing: -0.015em;
-    text-wrap: balance;
-  }
-  .ed-page-title {
-    font-family: var(--font-serif);
-    font-weight: 400;
-    font-size: 36px;
-    line-height: 1.02;
-    letter-spacing: -0.01em;
-    text-wrap: balance;
-  }
-  .ed-section-title {
-    font-family: var(--font-serif);
-    font-weight: 400;
-    font-size: 24px;
-    line-height: 1.1;
-    letter-spacing: -0.005em;
-  }
-  .display-xl {
-    font-family: var(--font-serif);
-    font-size: clamp(40px, 11vw, 56px);
-    line-height: 0.95;
-    font-weight: 400;
-    letter-spacing: -0.01em;
-    text-wrap: balance;
-  }
-  .display-lg {
-    font-family: var(--font-serif);
-    font-size: 34px;
-    line-height: 0.98;
-    font-weight: 400;
-    text-wrap: balance;
-  }
-  .h-section {
-    font-family: var(--font-serif);
-    font-size: 24px;
-    line-height: 1.05;
-    font-weight: 400;
-  }
-  .body-meta {
-    font-family: var(--font-sans);
-    font-size: 13.5px;
-    line-height: 1.5;
-    color: color-mix(in oklab, var(--dusk) 70%, transparent);
-  }
+ .eyebrow {
+ font-family: var(--font-mono);
+ font-size: 10.5px;
+ font-weight: 400;
+ letter-spacing: 0.14em;
+ text-transform: uppercase;
+ color: color-mix(in oklab, var(--dusk) 55%, transparent);
+ }
+ .eyebrow-on-dark {
+ font-family: var(--font-mono);
+ font-size: 10.5px;
+ font-weight: 400;
+ letter-spacing: 0.14em;
+ text-transform: uppercase;
+ color: color-mix(in oklab, var(--paper) 78%, transparent);
+ }
+ .mono-label {
+ font-family: var(--font-mono);
+ font-size: 10.5px;
+ font-weight: 400;
+ letter-spacing: 0.14em;
+ text-transform: uppercase;
+ color: color-mix(in oklab, var(--dusk) 60%, transparent);
+ }
+ .ed-display {
+ font-family: var(--font-serif);
+ font-weight: 400;
+ font-size: clamp(44px, 12vw, 60px);
+ line-height: 0.98;
+ letter-spacing: -0.015em;
+ text-wrap: balance;
+ }
+ .ed-page-title {
+ font-family: var(--font-serif);
+ font-weight: 400;
+ font-size: 36px;
+ line-height: 1.02;
+ letter-spacing: -0.01em;
+ text-wrap: balance;
+ }
+ .ed-section-title {
+ font-family: var(--font-serif);
+ font-weight: 400;
+ font-size: 24px;
+ line-height: 1.1;
+ letter-spacing: -0.005em;
+ }
+ .display-xl {
+ font-family: var(--font-serif);
+ font-size: clamp(40px, 11vw, 56px);
+ line-height: 0.95;
+ font-weight: 400;
+ letter-spacing: -0.01em;
+ text-wrap: balance;
+ }
+ .display-lg {
+ font-family: var(--font-serif);
+ font-size: 34px;
+ line-height: 0.98;
+ font-weight: 400;
+ text-wrap: balance;
+ }
+ .h-section {
+ font-family: var(--font-serif);
+ font-size: 24px;
+ line-height: 1.05;
+ font-weight: 400;
+ }
+ .body-meta {
+ font-family: var(--font-sans);
+ font-size: 13.5px;
+ line-height: 1.5;
+ color: color-mix(in oklab, var(--dusk) 70%, transparent);
+ }
 
-  /* Cards */
-  .card-plain {
-    background: var(--paper);
-    border: 1px solid color-mix(in oklab, var(--dusk) 10%, transparent);
-    border-radius: 18px;
-  }
-  .card-tomato  { background: var(--terracotta); color: var(--paper); border-radius: 20px; }
-  .card-butter  { background: var(--sun);        color: var(--dusk);  border-radius: 20px; }
-  .card-sardine { background: var(--sky);        color: var(--dusk);  border-radius: 20px; }
-  .card-oven    { background: var(--bordeaux);   color: var(--paper); border-radius: 20px; }
-  .card-olive   { background: var(--olive);      color: var(--paper); border-radius: 20px; }
-  .card-blush   { background: var(--blush);      color: var(--dusk);  border-radius: 20px; }
+ /* Cards */
+ .card-plain {
+ background: var(--paper);
+ border: 1px solid color-mix(in oklab, var(--dusk) 10%, transparent);
+ border-radius: 18px;
+ }
+ .card-tomato { background: var(--terracotta); color: var(--paper); border-radius: 20px; }
+ .card-butter { background: var(--sun); color: var(--dusk); border-radius: 20px; }
+ .card-sardine { background: var(--sky); color: var(--dusk); border-radius: 20px; }
+ .card-oven { background: var(--bordeaux); color: var(--paper); border-radius: 20px; }
+ .card-olive { background: var(--olive); color: var(--paper); border-radius: 20px; }
+ .card-blush { background: var(--blush); color: var(--dusk); border-radius: 20px; }
 
-  /* Buttons */
-  .btn-primary {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    background: var(--terracotta);
-    color: var(--paper);
-    font-family: var(--font-sans);
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: 0.04em;
-    padding: 12px 22px;
-    border-radius: 999px;
-    transition: filter 200ms ease;
-  }
-  .btn-primary:hover { filter: brightness(1.05); }
-  .btn-dark {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    background: var(--ink);
-    color: var(--paper);
-    font-family: var(--font-sans);
-    font-size: 12px;
-    font-weight: 500;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    padding: 12px 22px;
-    border-radius: 999px;
-  }
-  .btn-ghost {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    background: transparent;
-    color: var(--dusk);
-    border: 1px solid color-mix(in oklab, var(--dusk) 18%, transparent);
-    font-family: var(--font-sans);
-    font-size: 12px;
-    font-weight: 500;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    padding: 12px 22px;
-    border-radius: 999px;
-  }
+ /* Buttons */
+ .btn-primary {
+ display: inline-flex;
+ align-items: center;
+ justify-content: center;
+ gap: 0.5rem;
+ background: var(--terracotta);
+ color: var(--paper);
+ font-family: var(--font-sans);
+ font-size: 13px;
+ font-weight: 500;
+ letter-spacing: 0.04em;
+ padding: 12px 22px;
+ border-radius: 999px;
+ transition: filter 200ms ease;
+ }
+ .btn-primary:hover { filter: brightness(1.05); }
+ .btn-dark {
+ display: inline-flex;
+ align-items: center;
+ justify-content: center;
+ gap: 0.5rem;
+ background: var(--ink);
+ color: var(--paper);
+ font-family: var(--font-sans);
+ font-size: 12px;
+ font-weight: 500;
+ letter-spacing: 0.14em;
+ text-transform: uppercase;
+ padding: 12px 22px;
+ border-radius: 999px;
+ }
+ .btn-ghost {
+ display: inline-flex;
+ align-items: center;
+ justify-content: center;
+ gap: 0.5rem;
+ background: transparent;
+ color: var(--dusk);
+ border: 1px solid color-mix(in oklab, var(--dusk) 18%, transparent);
+ font-family: var(--font-sans);
+ font-size: 12px;
+ font-weight: 500;
+ letter-spacing: 0.14em;
+ text-transform: uppercase;
+ padding: 12px 22px;
+ border-radius: 999px;
+ }
 
-  /* Status chips */
-  .chip {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 4px 10px;
-    border-radius: 999px;
-    font-family: var(--font-sans);
-    font-size: 10.5px;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    line-height: 1;
-  }
-  .chip-todo     { background: color-mix(in oklab, var(--sky)        30%, white); color: var(--dusk); }
-  .chip-doing    { background: color-mix(in oklab, var(--terracotta) 22%, white); color: var(--bordeaux); }
-  .chip-done     { background: color-mix(in oklab, var(--olive)      28%, white); color: #3d4017; }
-  .chip-delegate { background: color-mix(in oklab, var(--blush)      55%, white); color: var(--bordeaux); }
-  .chip-blocked  { background: color-mix(in oklab, var(--bordeaux)   18%, white); color: var(--bordeaux); }
-  .chip-missing  { background: color-mix(in oklab, var(--sun)        70%, white); color: #6b5a10; }
+ /* Status chips */
+ .chip {
+ display: inline-flex;
+ align-items: center;
+ gap: 6px;
+ padding: 4px 10px;
+ border-radius: 999px;
+ font-family: var(--font-sans);
+ font-size: 10.5px;
+ font-weight: 500;
+ letter-spacing: 0.08em;
+ text-transform: uppercase;
+ line-height: 1;
+ }
+ .chip-todo { background: color-mix(in oklab, var(--sky) 30%, white); color: var(--dusk); }
+ .chip-doing { background: color-mix(in oklab, var(--terracotta) 22%, white); color: var(--bordeaux); }
+ .chip-done { background: color-mix(in oklab, var(--olive) 28%, white); color: #3d4017; }
+ .chip-delegate { background: color-mix(in oklab, var(--blush) 55%, white); color: var(--bordeaux); }
+ .chip-blocked { background: color-mix(in oklab, var(--bordeaux) 18%, white); color: var(--bordeaux); }
+ .chip-missing { background: color-mix(in oklab, var(--sun) 70%, white); color: #6b5a10; }
 
-  /* Section divider hairline */
-  .hairline { height: 1px; background: color-mix(in oklab, var(--dusk) 12%, transparent); }
+ /* Section divider hairline */
+ .hairline { height: 1px; background: color-mix(in oklab, var(--dusk) 12%, transparent); }
 }
 
 /* ─── Editorial grammar — index numerals, captioned plates, marginalia ─── */
 @layer components {
-  /* Oversized index number, italic serif, used as a marginal mark */
-  .index-num {
-    /* Tamed: instead of a heavy floating № marginalia, render as a small
-     * mono section number aligned in the grid. Legacy callers now feel
-     * editorial, not decorative. */
-    font-family: var(--font-mono);
-    font-style: normal;
-    font-weight: 400;
-    font-size: 11px;
-    line-height: 1;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: color-mix(in oklab, var(--dusk) 55%, transparent);
-  }
-  .index-num-sm {
-    font-family: var(--font-mono);
-    font-style: normal;
-    font-weight: 400;
-    font-size: 11px;
-    line-height: 1;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-  }
+ /* Oversized index number, serif, used as a marginal mark */
+ .index-num {
+ /* Tamed: instead of a heavy floating № marginalia, render as a small
+ * mono section number aligned in the grid. Legacy callers now feel
+ * editorial, not decorative. */
+ font-family: var(--font-mono);
+ font-style: normal;
+ font-weight: 400;
+ font-size: 11px;
+ line-height: 1;
+ letter-spacing: 0.14em;
+ text-transform: uppercase;
+ color: color-mix(in oklab, var(--dusk) 55%, transparent);
+ }
+ .index-num-sm {
+ font-family: var(--font-mono);
+ font-style: normal;
+ font-weight: 400;
+ font-size: 11px;
+ line-height: 1;
+ letter-spacing: 0.14em;
+ text-transform: uppercase;
+ }
 
-  /* Hairline rule with inline label (magazine section divider) */
-  .rule-label {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  .rule-label::before,
-  .rule-label::after {
-    content: "";
-    flex: 1;
-    height: 1px;
-    background: color-mix(in oklab, var(--dusk) 14%, transparent);
-  }
-  .rule-label > span {
-    font-family: var(--font-sans);
-    font-size: 10.5px;
-    font-weight: 500;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: color-mix(in oklab, var(--dusk) 55%, transparent);
-  }
+ /* Hairline rule with inline label (magazine section divider) */
+ .rule-label {
+ display: flex;
+ align-items: center;
+ gap: 12px;
+ }
+ .rule-label::before,
+ .rule-label::after {
+ content: "";
+ flex: 1;
+ height: 1px;
+ background: color-mix(in oklab, var(--dusk) 14%, transparent);
+ }
+ .rule-label > span {
+ font-family: var(--font-sans);
+ font-size: 10.5px;
+ font-weight: 500;
+ letter-spacing: 0.22em;
+ text-transform: uppercase;
+ color: color-mix(in oklab, var(--dusk) 55%, transparent);
+ }
 
-  /* Caption strip at the bottom of an image/colour plate */
-  .plate-caption {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 12px;
-    padding-top: 14px;
-    margin-top: 18px;
-    border-top: 1px solid color-mix(in oklab, currentColor 22%, transparent);
-    font-family: var(--font-sans);
-    font-size: 10.5px;
-    font-weight: 500;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    opacity: 0.85;
-  }
+ /* Caption strip at the bottom of an image/colour plate */
+ .plate-caption {
+ display: flex;
+ align-items: baseline;
+ justify-content: space-between;
+ gap: 12px;
+ padding-top: 14px;
+ margin-top: 18px;
+ border-top: 1px solid color-mix(in oklab, currentColor 22%, transparent);
+ font-family: var(--font-sans);
+ font-size: 10.5px;
+ font-weight: 500;
+ letter-spacing: 0.18em;
+ text-transform: uppercase;
+ opacity: 0.85;
+ }
 
-  /* Folio-style page header (Nº · section · date) */
-  .folio {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-family: var(--font-sans);
-    font-size: 10.5px;
-    font-weight: 500;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: color-mix(in oklab, var(--dusk) 60%, transparent);
-  }
+ /* Folio-style page header (Nº · section · date) */
+ .folio {
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+ font-family: var(--font-sans);
+ font-size: 10.5px;
+ font-weight: 500;
+ letter-spacing: 0.22em;
+ text-transform: uppercase;
+ color: color-mix(in oklab, var(--dusk) 60%, transparent);
+ }
 
-  /* Editorial title — Playfair, big, balanced */
-  .ed-title {
-    font-family: var(--font-serif);
-    font-weight: 400;
-    letter-spacing: -0.015em;
-    line-height: 0.96;
-    text-wrap: balance;
-  }
+ /* Editorial title — Playfair, big, balanced */
+ .ed-title {
+ font-family: var(--font-serif);
+ font-weight: 400;
+ letter-spacing: -0.015em;
+ line-height: 0.96;
+ text-wrap: balance;
+ }
 
-  /* Card surfaces — squarer corners closer to print plates */
-  .plate {
-    border-radius: 14px;
-    overflow: hidden;
-    display: block;
-  }
+ /* Card surfaces — squarer corners closer to print plates */
+ .plate {
+ border-radius: 14px;
+ overflow: hidden;
+ display: block;
+ }
 }
 
 /* === A11y polish === */
 @layer base {
-  :where(button, a, [role="button"]):focus-visible {
-    outline: none;
-    box-shadow: 0 0 0 2px color-mix(in oklab, var(--dusk) 35%, transparent);
-    border-radius: 10px;
-  }
+ :where(button, a, [role="button"]):focus-visible {
+ outline: none;
+ box-shadow: 0 0 0 2px color-mix(in oklab, var(--dusk) 35%, transparent);
+ border-radius: 10px;
+ }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.001ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.001ms !important;
-    scroll-behavior: auto !important;
-  }
+ *, *::before, *::after {
+ animation-duration: 0.001ms !important;
+ animation-iteration-count: 1 !important;
+ transition-duration: 0.001ms !important;
+ scroll-behavior: auto !important;
+ }
 }

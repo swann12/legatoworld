@@ -150,7 +150,7 @@ function ChooseType({
               className={`w-full organic-radius-3 px-6 py-5 text-left transition-all ${active ? "ceramic" : "paper-card opacity-90"}`}
             >
               <div className="flex items-baseline justify-between">
-                <span className="font-serif text-xl italic text-dusk">{t.label}</span>
+                <span className="font-serif text-xl text-dusk">{t.label}</span>
                 <span className={`size-1.5 rounded-full ${active ? "bg-rose breath" : "bg-dusk/15"}`} />
               </div>
               <p className="mt-1.5 text-[12.5px] leading-relaxed text-dusk/55">{t.whisper}</p>
@@ -165,7 +165,7 @@ function ChooseType({
           disabled={!type}
           className={`w-full organic-radius-3 px-7 py-5 text-center transition-opacity ${type ? "ceramic" : "paper-card opacity-40"}`}
         >
-          <span className="font-serif text-xl italic text-dusk">Continuer</span>
+          <span className="font-serif text-xl text-dusk">Continuer</span>
         </button>
       </div>
     </div>
@@ -266,7 +266,7 @@ function ImportMemory({
               </div>
             ) : (
               <label className="block text-center cursor-pointer py-10">
-                <span className="font-serif italic text-dusk/70">Choisir une photo</span>
+                <span className="font-serif text-dusk/70">Choisir une photo</span>
                 <input type="file" accept="image/*" onChange={onPhoto} className="hidden" />
               </label>
             )}
@@ -295,7 +295,7 @@ function ImportMemory({
           disabled={!ready}
           className={`w-full organic-radius-3 px-7 py-5 text-center transition-opacity ${ready ? "ceramic" : "paper-card opacity-40"}`}
         >
-          <span className="font-serif text-xl italic text-dusk">Continuer</span>
+          <span className="font-serif text-xl text-dusk">Continuer</span>
         </button>
       </div>
     </div>
@@ -326,7 +326,7 @@ function AskCompose({
 
       <div className="w-full max-w-[340px] mt-12 space-y-3">
         <button onClick={onYes} className="w-full ceramic organic-radius-3 px-7 py-5 text-center">
-          <span className="font-serif text-xl italic text-dusk">Composer moi-même</span>
+          <span className="font-serif text-xl text-dusk">Composer moi-même</span>
         </button>
         <button onClick={onNo} className="w-full px-7 py-4 text-center">
           <span className="text-[12px] uppercase tracking-[0.2em] text-dusk/50">
@@ -683,7 +683,7 @@ function Composer({
 
           {items.length === 0 && (
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-              <p className="font-serif italic text-dusk/35 text-center px-6 text-[15px]">
+              <p className="font-serif text-dusk/35 text-center px-6 text-[15px]">
                 Une toile vide.<br />Choisissez un élément pour commencer.
               </p>
             </div>

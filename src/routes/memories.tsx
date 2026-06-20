@@ -67,7 +67,7 @@ function Memories() {
                 <p className="mono-label">{e.kind}</p>
                 <p className="mono-label">{e.date}</p>
               </div>
-              <h3 className="mt-2 font-serif text-[22px] leading-[1.15] italic text-dusk">{e.title}</h3>
+              <h3 className="mt-2 font-serif text-[22px] leading-[1.15] text-dusk">{e.title}</h3>
               {e.body && <p className="mt-2 body-meta">{e.body}</p>}
             </IvoryCard>
           ))}

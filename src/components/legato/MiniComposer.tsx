@@ -239,7 +239,7 @@ export function MiniComposer({
         })}
         {items.length === 0 && (
           <div className="absolute inset-0 flex items-center justify-center text-center px-8 pointer-events-none">
-            <p className="font-serif italic text-dusk/50 text-[15px]">
+            <p className="font-serif text-dusk/50 text-[15px]">
               Touchez une fleur en bas pour commencer.
               <br />Glissez pour déplacer.
             </p>

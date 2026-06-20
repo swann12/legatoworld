@@ -208,7 +208,7 @@ function Presence() {
             m.role === "presence" ? (
               <div key={i} className="rounded-[18px] border border-dusk/10 bg-[color:var(--whisper)] px-5 py-4 max-w-[85%]">
                 <p className="mono-label mb-1.5">Présence</p>
-                <p className="font-serif text-[17px] italic leading-relaxed text-dusk">{m.text}</p>
+                <p className="font-serif text-[17px] leading-relaxed text-dusk">{m.text}</p>
               </div>
             ) : (
               <div key={i} className="ml-auto rounded-[16px] px-5 py-3 max-w-[85%] bg-dusk text-paper">
@@ -219,7 +219,7 @@ function Presence() {
           {pending && (
             <div className="rounded-[18px] border border-dusk/10 bg-[color:var(--whisper)] px-5 py-4 max-w-[60%]">
               <p className="mono-label mb-1.5">Présence</p>
-              <p className="font-serif text-[17px] italic text-dusk/55">
+              <p className="font-serif text-[17px] text-dusk/55">
                 <span className="inline-block animate-pulse">…</span>
               </p>
             </div>

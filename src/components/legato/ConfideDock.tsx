@@ -81,7 +81,7 @@ export function ConfideDock({ step }: { step?: string }) {
           aria-label="Parler ou écrire à Lovely"
           className="dock-halo fixed bottom-24 right-5 z-40 w-14 h-14 rounded-full ceramic flex items-center justify-center"
         >
-          <span className="font-serif italic text-dusk text-[20px] leading-none">L</span>
+          <span className="font-serif text-dusk text-[20px] leading-none">L</span>
         </button>
       </SheetTrigger>
       <SheetContent side="bottom" className="bg-paper border-t border-dusk/10 p-0 max-h-[85dvh] overflow-y-auto">
@@ -125,7 +125,7 @@ export function ConfideDock({ step }: { step?: string }) {
 
           {suggestion && (
             <div className="mt-6 space-y-4">
-              <p className="font-serif italic text-[16px] text-dusk/80">{suggestion.intro}</p>
+              <p className="font-serif text-[16px] text-dusk/80">{suggestion.intro}</p>
               {([
                 ["Fleurs", suggestion.flowers],
                 ["Musiques", suggestion.music],
@@ -141,7 +141,7 @@ export function ConfideDock({ step }: { step?: string }) {
                   </ul>
                 </div>
               ))}
-              <p className="font-serif italic text-[14px] text-dusk/60 text-center">{suggestion.closing}</p>
+              <p className="font-serif text-[14px] text-dusk/60 text-center">{suggestion.closing}</p>
             </div>
           )}
         </div>

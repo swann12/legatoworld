@@ -77,7 +77,7 @@ function Booklet() {
             {d.photoUrl && (
               <img src={d.photoUrl} alt="" className="w-32 h-32 object-cover rounded-full mx-auto mb-6 grayscale" />
             )}
-            <h2 className="font-serif text-[28px] italic text-dusk leading-tight">{d.name || "Prénom Nom"}</h2>
+            <h2 className="font-serif text-[28px] text-dusk leading-tight">{d.name || "Prénom Nom"}</h2>
             <p className="mt-2 text-[13px] uppercase tracking-[0.22em] text-dusk/55">{d.dates || "1947 — 2025"}</p>
             <p className="mt-8 font-serif text-[15px] text-dusk/75 leading-relaxed whitespace-pre-line">{d.intro || "Bienvenue. Merci d'être là."}</p>
           </div>
@@ -86,7 +86,7 @@ function Booklet() {
             <p className="mt-4 font-serif text-[15px] text-dusk leading-relaxed whitespace-pre-line">{d.program || "1. Accueil\n2. Mots d'un proche\n3. Lecture\n4. Musique\n5. Recueillement"}</p>
           </div>
           <div className="page rounded-[18px] border border-dusk/10 bg-paper p-10 mt-6 text-center" style={{ minHeight: 320 }}>
-            <p className="font-serif italic text-[15px] text-dusk/75 leading-relaxed whitespace-pre-line">{d.closing || "Merci d'avoir partagé ce moment."}</p>
+            <p className="font-serif text-[15px] text-dusk/75 leading-relaxed whitespace-pre-line">{d.closing || "Merci d'avoir partagé ce moment."}</p>
           </div>
         </div>
       </div>

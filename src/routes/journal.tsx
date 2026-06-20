@@ -110,7 +110,7 @@ function Journal() {
 
         <div className="px-6">
           {journal.length === 0 ? (
-            <p className="font-serif text-[14px] italic text-dusk/60 max-w-[34ch]">
+            <p className="font-serif text-[14px] text-dusk/60 max-w-[34ch]">
               {t("journal.empty")}
             </p>
           ) : (
