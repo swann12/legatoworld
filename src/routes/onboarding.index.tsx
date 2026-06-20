@@ -130,11 +130,23 @@ function Onboarding() {
         <p className="mono-label">Situation</p>
         <h1 className="mt-5 ed-page-title">Pourquoi venez-vous sur <span className="italic" style={{ color: "var(--terracotta)" }}>Legato</span> aujourd'hui&nbsp;?</h1>
         <div className="mt-8 flex flex-col gap-3">
-          {SITUATIONS.map((s) => (
-            <button key={s.id} onClick={() => { setSituation(s.id); setStage(null); setPrimaryNeed(null); }} className={`text-left rounded-[16px] border px-5 py-4 transition-colors ${situation === s.id ? "border-dusk/40 bg-[color:var(--whisper)]" : "border-dusk/12 bg-paper hover:border-dusk/25"}`}>
-              <p className="font-serif text-[18px] leading-[1.2] text-dusk">{s.label}</p>
-            </button>
-          ))}
+          {SITUATIONS.map((s, i) => {
+            const tints = ["var(--sun)", "var(--blush)", "var(--sky)", "var(--peach)", "color-mix(in oklab, var(--olive) 30%, var(--whisper))"];
+            const active = situation === s.id;
+            return (
+              <button
+                key={s.id}
+                onClick={() => { setSituation(s.id); setStage(null); setPrimaryNeed(null); }}
+                className="text-left rounded-[16px] border px-5 py-4 transition-colors"
+                style={{
+                  background: active ? tints[i % tints.length] : "var(--paper)",
+                  borderColor: active ? "color-mix(in oklab, var(--dusk) 35%, transparent)" : "color-mix(in oklab, var(--dusk) 12%, transparent)",
+                }}
+              >
+                <p className="text-[15px] leading-[1.3] text-dusk">{s.label}</p>
+              </button>
+            );
+          })}
         </div>
         <PrimaryBtn disabled={!situation} onClick={afterSituation}>Continuer →</PrimaryBtn>
       </Frame>
@@ -243,16 +255,8 @@ function Frame({ children, onBack, progress }: { children: ReactNode; onBack: ()
   const [done, total] = progress.split("/").map((s) => parseInt(s.trim(), 10));
   const safeTotal = Number.isFinite(total) && total > 0 ? total : 7;
   const safeDone = Number.isFinite(done) ? done : 1;
-  const pearls = [
-    { text: "Pas de bonne réponse. Seulement la vôtre.", bg: "var(--sun)" },
-    { text: "Un mot à la fois. Le reste peut attendre.", bg: "var(--blush)" },
-    { text: "On nomme, doucement. C'est déjà beaucoup.", bg: "var(--sky)" },
-    { text: "Ce que vous dites ici reste à vous.", bg: "color-mix(in oklab, var(--olive) 30%, var(--whisper))" },
-    { text: "Le chemin se dessine en marchant.", bg: "var(--peach)" },
-    { text: "Rien n'est figé. Tout peut changer demain.", bg: "var(--sun)" },
-    { text: "Vous êtes au bon endroit, à votre rythme.", bg: "var(--blush)" },
-  ];
-  const pearl = pearls[(Math.max(1, safeDone) - 1) % pearls.length];
+  const accents = ["var(--terracotta)", "var(--bordeaux)", "var(--sky)", "var(--olive)", "var(--bordeaux)", "var(--terracotta)", "var(--bordeaux)"];
+  const accent = accents[(Math.max(1, safeDone) - 1) % accents.length];
   return (
     <main className="min-h-dvh bg-paper text-dusk">
       <div className="mobile-frame relative flex min-h-dvh flex-col">
@@ -268,20 +272,11 @@ function Frame({ children, onBack, progress }: { children: ReactNode; onBack: ()
             <span
               key={i}
               className="h-[3px] flex-1 rounded-full"
-              style={{ background: i < safeDone ? "var(--terracotta)" : "color-mix(in oklab, var(--dusk) 12%, transparent)" }}
+              style={{ background: i < safeDone ? accent : "color-mix(in oklab, var(--dusk) 12%, transparent)" }}
             />
           ))}
         </div>
-        <div className="px-6 pt-6">
-          <div
-            className="rounded-[20px] px-5 py-5 border border-dusk/8"
-            style={{ background: pearl.bg }}
-          >
-            <p className="mono-label text-dusk/55 mb-1.5">Un mot doux</p>
-            <p className="font-serif text-[17px] italic leading-[1.35] text-dusk">{pearl.text}</p>
-          </div>
-        </div>
-        <div className="relative z-10 flex flex-1 flex-col px-6 pt-8 pb-16">{children}</div>
+        <div className="relative z-10 flex flex-1 flex-col px-6 pt-10 pb-16">{children}</div>
       </div>
     </main>
   );
@@ -293,7 +288,7 @@ function PrimaryBtn({ children, onClick, disabled }: { children: ReactNode; onCl
       onClick={onClick}
       disabled={disabled}
       className="mt-8 block w-full rounded-[999px] px-6 py-5 text-center disabled:opacity-40 transition-transform active:scale-[0.99]"
-      style={{ background: "var(--terracotta)", color: "var(--paper)" }}
+      style={{ background: "var(--bordeaux)", color: "var(--paper)" }}
     >
       <span className="font-serif text-[20px]">{children}</span>
     </button>
