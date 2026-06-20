@@ -6,10 +6,10 @@ export function LegatoMark({
   size = 34,
 }: {
   to?: string;
-  variant?: "ink" | "paper";
+  variant?: "ink" | "paper" | "olive";
   size?: number;
 }) {
-  const color = variant === "paper" ? "var(--paper)" : "var(--dusk)";
+  const color = variant === "paper" ? "var(--paper)" : variant === "olive" ? "var(--olive)" : "var(--dusk)";
   return (
     <Link
       to={to as "/space"}

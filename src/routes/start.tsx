@@ -128,10 +128,10 @@ function Start() {
         >
           <div className="mobile-frame relative flex min-h-dvh flex-col px-2" style={{ background: "transparent" }}>
             <header className="pt-2">
-              <LegatoMark to="/start" size={24} />
+              <LegatoMark to="/start" variant="olive" size={24} />
             </header>
-            <div className="flex flex-1 items-start pt-10">
-              <p className="font-serif text-[44px] leading-[1.04] tracking-[-0.01em]" style={{ color: "var(--olive)" }}>
+            <div className="flex flex-1 items-start pt-12">
+              <p className="font-serif text-[53px] leading-[0.96]" style={{ color: "var(--olive)", fontWeight: 400, letterSpacing: 0 }}>
                 Rien ne peut ramener l'heure passée, mais nous pouvons trouver de la force dans ce qui demeure.
               </p>
             </div>
@@ -178,13 +178,13 @@ function Start() {
           >
             {mode === "signin" ? "Se reconnecter" : mode === "signup" ? "Créer un espace" : "Bienvenue"}
           </p>
-          <h1 className={mode === "choice" ? "mt-10 font-serif text-[52px] leading-[1.02] tracking-[-0.01em] text-[color:var(--paper)] text-balance" : "mt-6 font-serif text-[44px] leading-[1.03] text-dusk text-balance"}>
+          <h1 className={mode === "choice" ? "mt-10 font-serif text-[60px] leading-[0.94] text-[color:var(--paper)] text-balance" : "mt-6 font-serif text-[48px] leading-[0.98] text-dusk text-balance"} style={{ fontWeight: 400, letterSpacing: 0 }}>
             {mode === "signin" ? (
               <>Ravi de vous<br />revoir.</>
             ) : mode === "signup" ? (
               <>Votre espace,<br />en quelques mots.</>
             ) : (
-              <>Préparer<br />un <span className="italic">adieu</span>,<br />garder une<br /><span className="italic">présence</span>.</>
+              <>Préparer<br />un <span className="italic" style={{ color: "var(--rose)" }}>adieu</span>,<br />garder une<br /><span className="italic" style={{ color: "var(--rose)" }}>présence</span>.</>
             )}
           </h1>
 

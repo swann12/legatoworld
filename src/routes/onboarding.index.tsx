@@ -114,8 +114,8 @@ function Onboarding() {
   if (step === 1) {
     return (
       <Frame onBack={() => navigate({ to: "/start" })} progress="1 / 7">
-        <h1 className="mt-2 ed-page-title">
-          Comment souhaitez-vous que <span className="italic">Legato</span> vous appelle&nbsp;?
+        <h1 className="mt-7 onboarding-title">
+          Comment <span className="whitespace-nowrap">souhaitez‑vous</span> que <span className="italic">Legato</span> vous appelle&nbsp;?
         </h1>
         <div className="mt-8">
           <input
@@ -123,7 +123,8 @@ function Onboarding() {
             onChange={(e) => setName(e.target.value)}
             placeholder="Swann"
             autoFocus
-            className="w-full rounded-full border border-dusk/20 bg-transparent px-6 py-4 font-serif text-[20px] italic text-dusk placeholder:italic placeholder:text-dusk/45 outline-none focus:border-dusk/40"
+            className="onboarding-field w-full rounded-full border bg-transparent px-6 py-4 font-serif text-[22px] italic outline-none transition-colors"
+            style={{ borderColor: "color-mix(in oklab, var(--olive) 34%, transparent)", color: "var(--olive)" }}
           />
         </div>
         <div className="mt-auto" />
@@ -136,7 +137,7 @@ function Onboarding() {
   if (step === 2) {
     return (
       <Frame onBack={() => setStep(1)} progress="2 / 7">
-        <h1 className="mt-2 ed-page-title">
+        <h1 className="mt-7 onboarding-title">
           Pourquoi venez-vous sur <span className="italic">Legato</span> aujourd'hui&nbsp;?
         </h1>
         <div className="mt-8 flex flex-col gap-2.5">
@@ -149,8 +150,8 @@ function Onboarding() {
                 className="text-left rounded-full border px-6 py-3.5 transition-colors"
                 style={{
                   background: "transparent",
-                  borderColor: active ? "var(--terracotta)" : "color-mix(in oklab, var(--dusk) 18%, transparent)",
-                  color: active ? "var(--terracotta)" : "var(--dusk)",
+                  borderColor: active ? "var(--rose)" : "color-mix(in oklab, var(--olive) 34%, transparent)",
+                  color: "var(--olive)",
                 }}
               >
                 <p className="text-[14px] leading-[1.3]">{s.label}</p>
@@ -269,18 +270,18 @@ function Frame({ children, onBack, progress }: { children: ReactNode; onBack: ()
   const safeDone = Number.isFinite(done) ? done : 1;
   const accent = "var(--terracotta)";
   return (
-    <main className="min-h-dvh bg-paper text-dusk">
-      <div className="mobile-frame relative flex min-h-dvh flex-col">
+    <main className="min-h-dvh" style={{ background: "var(--blush)", color: "var(--olive)" }}>
+      <div className="mobile-frame relative flex min-h-dvh flex-col" style={{ background: "var(--blush)" }}>
         <header className="flex items-center justify-between px-7 pt-9">
-          <LegatoMark to="/space" size={22} />
-          <button onClick={onBack} aria-label="Retour" className="mono-label text-dusk/50 hover:text-dusk">←</button>
+          <LegatoMark to="/space" variant="olive" size={22} />
+          <button onClick={onBack} aria-label="Retour" className="mono-label" style={{ color: "var(--olive)" }}>←</button>
         </header>
         <div className="px-7 mt-6 flex items-center gap-1.5">
           {Array.from({ length: safeTotal }).map((_, i) => (
             <span
               key={i}
               className="h-[2px] flex-1 rounded-full"
-              style={{ background: i < safeDone ? accent : "color-mix(in oklab, var(--dusk) 10%, transparent)" }}
+              style={{ background: i < safeDone ? accent : "color-mix(in oklab, var(--olive) 18%, transparent)" }}
             />
           ))}
         </div>
@@ -309,9 +310,9 @@ function BlushBtn({ children, onClick, disabled }: { children: ReactNode; onClic
       onClick={onClick}
       disabled={disabled}
       className="mt-8 block w-full rounded-[6px] px-6 py-4 text-center disabled:opacity-40 transition-transform active:scale-[0.99]"
-      style={{ background: "var(--blush)", color: "var(--dusk)" }}
+      style={{ background: "var(--olive)", color: "var(--blush)" }}
     >
-      <span className="mono-label" style={{ color: "var(--dusk)", letterSpacing: "0.22em" }}>{children}</span>
+      <span className="mono-label" style={{ color: "var(--blush)", letterSpacing: "0.22em" }}>{children}</span>
     </button>
   );
 }
@@ -319,7 +320,7 @@ function BlushBtn({ children, onClick, disabled }: { children: ReactNode; onClic
 function SkipLink({ children, onClick }: { children: ReactNode; onClick: () => void }) {
   return (
     <button onClick={onClick} className="mt-4 block w-full text-center py-1">
-      <span className="mono-label underline underline-offset-4" style={{ color: "var(--dusk)", letterSpacing: "0.22em" }}>{children}</span>
+      <span className="mono-label underline underline-offset-4" style={{ color: "var(--olive)", letterSpacing: "0.22em" }}>{children}</span>
     </button>
   );
 }
