@@ -126,11 +126,14 @@ function Start() {
           style={{ background: "var(--blush)", color: "var(--olive)" }}
           aria-label="Entrer dans Legato"
         >
-          <div className="mobile-frame relative flex min-h-dvh flex-col px-[39px] pt-[35px] pb-[49px]" style={{ background: "transparent" }}>
+          <div
+            className="mobile-frame relative flex min-h-dvh flex-col"
+            style={{ background: "transparent", padding: "35px 39px 49px" }}
+          >
             <header>
               <LegatoMark to="/start" variant="olive" size={23} />
             </header>
-            <div className="flex flex-1 items-start pt-[126px]">
+            <div className="flex flex-1 items-start" style={{ paddingTop: 126 }}>
               <p className="legato-ref-quote" style={{ color: "var(--olive)" }}>
                 Rien ne peut<br />ramener<br />l'heure passée,<br />mais nous<br />pouvons<br />trouver de<br />la force dans<br />ce qui<br />demeure.
               </p>
@@ -141,8 +144,8 @@ function Start() {
                 <p className="italic">Ode: Intimations of Immortality</p>
               </div>
               <span
-                className="flex h-[50px] w-[50px] items-center justify-center rounded-full border text-[34px] leading-none"
-                style={{ borderColor: "var(--olive)", color: "var(--olive)" }}
+                className="flex items-center justify-center rounded-full border leading-none"
+                style={{ borderColor: "var(--olive)", color: "var(--olive)", width: 50, height: 50, fontSize: 34 }}
                 aria-hidden="true"
               >
                 →
