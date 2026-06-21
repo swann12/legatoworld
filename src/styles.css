@@ -93,10 +93,10 @@
  --dusk: #201917;
  --ink: #161110;
  --terracotta: #EB5E3A;
- --rose: #F3BEC5;
- --blush: #F6D6D6;
+  --rose: #F3BEC5;
+  --blush: #F2D6CD;
  --peach: #F1C8AF;
- --olive: #8A8E3A;
+  --olive: #7F7D47;
  --sage: #D9D9AE;
  --mist: #C9D7F0;
  --sky: #7CA2E0;
@@ -543,13 +543,13 @@
   line-height: 0.95;
   letter-spacing: 0;
   }
-  .legato-ref-quote {
-  font-family: var(--font-serif);
-  font-weight: 400;
-  font-size: 54px;
-  line-height: 0.95;
-  letter-spacing: 0;
-  }
+   .legato-ref-quote {
+   font-family: var(--font-serif);
+   font-weight: 400;
+   font-size: 54px;
+   line-height: 0.95;
+   letter-spacing: 0;
+   }
    .onboarding-title {
    font-family: var(--font-serif);
    font-weight: 400;
