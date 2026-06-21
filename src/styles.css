@@ -546,8 +546,8 @@
    .legato-ref-quote {
    font-family: var(--font-serif);
    font-weight: 400;
-   font-size: 58px;
-   line-height: 0.96;
+   font-size: 54px;
+   line-height: 0.95;
    letter-spacing: 0;
    }
    .onboarding-title {
