@@ -166,14 +166,19 @@ function Onboarding() {
     return (
       <Frame onBack={() => setStep(2)} progress="3 / 7">
         <h1 className="mt-[36px] onboarding-title">{title}</h1>
-        <div className="mt-[30px]">
-          <ChipGrid options={RELATIONS.map((r) => ({ id: r.id, label: r.label }))} value={lovedOneRelation} onChange={(v) => setLovedOneRelation(v as Relation)} />
+        <div className="mt-[30px] flex flex-col gap-3">
+          {RELATIONS.map((r) => (
+            <OptionPill key={r.id} active={lovedOneRelation === r.id} onClick={() => setLovedOneRelation(r.id as Relation)}>
+              {r.label}
+            </OptionPill>
+          ))}
         </div>
         {lovedOneRelation === "autre" && (
           <input value={lovedOther} onChange={(e) => setLovedOther(e.target.value)} placeholder="Précisez qui" className="onboarding-field mt-3 w-full rounded-full border bg-transparent px-5 py-3 font-serif text-[18px] italic outline-none" style={{ borderColor: "color-mix(in oklab, var(--dusk) 12%, transparent)", color: "var(--dusk)" }} />
         )}
         <div className="mt-auto" />
         <BlushBtn disabled={needsPerson && !lovedOneRelation} onClick={() => setStep(4)}>Continuer</BlushBtn>
+        <SkipLink onClick={() => setStep(4)}>Passer</SkipLink>
       </Frame>
     );
   }
@@ -181,12 +186,15 @@ function Onboarding() {
   if (step === 4) {
     return (
       <Frame onBack={() => (needsPerson ? setStep(3) : setStep(2))} progress="4 / 7">
-        <h1 className="mt-[36px] onboarding-title">Quel prénom ou quel lien voulez-vous utiliser dans <span className="italic">Legato</span>&nbsp;?</h1>
+        <h1 className="mt-[36px] onboarding-title">
+          Quel prénom<br />ou quel lien<br />voulez-vous utiliser<br />dans <span className="italic">Legato</span>&nbsp;?
+        </h1>
         <div className="mt-[30px]">
           <input value={lovedOneName} onChange={(e) => setLovedOneName(e.target.value)} placeholder={placeholderFor(lovedOneRelation)} className="onboarding-field w-full rounded-full border bg-transparent px-6 py-3 font-serif text-[18px] italic outline-none" style={{ borderColor: "color-mix(in oklab, var(--dusk) 12%, transparent)", color: "var(--dusk)" }} />
         </div>
         <div className="mt-auto" />
         <BlushBtn disabled={false} onClick={() => setStep(5)}>Continuer</BlushBtn>
+        <SkipLink onClick={() => setStep(5)}>Passer</SkipLink>
       </Frame>
     );
   }
@@ -195,11 +203,16 @@ function Onboarding() {
     return (
       <Frame onBack={() => (needsLabel ? setStep(4) : setStep(2))} progress="5 / 7">
         <h1 className="mt-[36px] onboarding-title">{stageQuestion(situation)}</h1>
-        <div className="mt-[30px]">
-          <ChipGrid options={stageOptions.map((s) => ({ id: s.id, label: s.label }))} value={stage} onChange={(v) => setStage(v as Stage)} />
+        <div className="mt-[30px] flex flex-col gap-3">
+          {stageOptions.map((s) => (
+            <OptionPill key={s.id} active={stage === s.id} onClick={() => setStage(s.id as Stage)}>
+              {s.label}
+            </OptionPill>
+          ))}
         </div>
         <div className="mt-auto" />
         <BlushBtn disabled={!stage} onClick={afterStage}>Continuer</BlushBtn>
+        <SkipLink onClick={afterStage}>Passer</SkipLink>
       </Frame>
     );
   }
@@ -207,20 +220,21 @@ function Onboarding() {
   if (step === 6) {
     return (
       <Frame onBack={() => setStep(5)} progress="6 / 7">
-        <h1 className="mt-[36px] onboarding-title">De quoi avez-vous besoin en priorité maintenant&nbsp;?</h1>
-        <div className="mt-[30px]">
-          <ChipGrid
-            options={[
-              { id: "emotional", label: "Être soutenu·e émotionnellement" },
-              { id: "practical", label: "Avancer dans les démarches concrètes" },
-              { id: "both", label: "Les deux, mais séparément" },
-            ]}
-            value={primaryNeed}
-            onChange={(v) => setPrimaryNeed(v as PrimaryNeed)}
-          />
+        <h1 className="mt-[36px] onboarding-title">De quoi avez-vous besoin<br />en priorité maintenant&nbsp;?</h1>
+        <div className="mt-[30px] flex flex-col gap-3">
+          {([
+            { id: "emotional", label: "Être soutenu·e émotionnellement" },
+            { id: "practical", label: "Avancer dans les démarches concrètes" },
+            { id: "both", label: "Les deux, mais séparément" },
+          ] as { id: PrimaryNeed; label: string }[]).map((o) => (
+            <OptionPill key={o.id} active={primaryNeed === o.id} onClick={() => setPrimaryNeed(o.id)}>
+              {o.label}
+            </OptionPill>
+          ))}
         </div>
         <div className="mt-auto" />
         <BlushBtn disabled={!primaryNeed} onClick={afterNeed}>Continuer</BlushBtn>
+        <SkipLink onClick={afterNeed}>Passer</SkipLink>
       </Frame>
     );
   }
