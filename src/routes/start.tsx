@@ -137,8 +137,8 @@ function Start() {
             </div>
             <div className="flex items-end justify-between pb-2 pt-8">
               <div className="text-[13px] leading-[1.45]" style={{ color: "var(--olive)" }}>
-                <p>William Wordsworth,</p>
-                <p className="italic">Ode: Intimations of Immortality</p>
+                <p style={{ fontWeight: 500 }}>William Wordsworth,</p>
+                <p className="italic" style={{ fontWeight: 600 }}>Ode: Intimations of Immortality</p>
               </div>
               <span
                 className="flex h-12 w-12 items-center justify-center rounded-full border"
