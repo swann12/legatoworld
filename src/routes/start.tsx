@@ -133,7 +133,7 @@ function Start() {
             <header>
               <LegatoMark to="/start" variant="olive" size={23} />
             </header>
-            <div className="flex flex-1 items-start" style={{ paddingTop: 126 }}>
+            <div className="flex flex-1 items-start" style={{ paddingTop: 88 }}>
               <p className="legato-ref-quote" style={{ color: "var(--olive)" }}>
                 Rien ne peut<br />ramener<br />l'heure passée,<br />mais nous<br />pouvons<br />trouver de<br />la force dans<br />ce qui<br />demeure.
               </p>
