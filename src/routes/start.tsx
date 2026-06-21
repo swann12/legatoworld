@@ -137,8 +137,8 @@ function Start() {
             </div>
             <div className="flex items-end justify-between pb-2 pt-8">
               <div className="text-[13px] leading-[1.45]" style={{ color: "var(--olive)" }}>
-                <p>William Wordsworth,</p>
-                <p className="italic">Ode: Intimations of Immortality</p>
+                <p style={{ fontWeight: 500 }}>William Wordsworth,</p>
+                <p className="italic" style={{ fontWeight: 600 }}>Ode: Intimations of Immortality</p>
               </div>
               <span
                 className="flex h-12 w-12 items-center justify-center rounded-full border"
@@ -172,13 +172,12 @@ function Start() {
         </header>
 
         <div className="relative z-10 flex flex-1 flex-col px-8 pb-12 pt-12">
-          <p
-            className="mono-label"
-            style={{ color: mode === "choice" ? "color-mix(in oklab, var(--paper) 65%, transparent)" : undefined }}
-          >
-            {mode === "signin" ? "Se reconnecter" : mode === "signup" ? "Créer un espace" : "Bienvenue"}
-          </p>
-          <h1 className={mode === "choice" ? "mt-10 legato-ref-display text-[color:var(--paper)]" : "mt-6 font-serif text-[48px] leading-[0.98] text-dusk text-balance"} style={{ fontWeight: 400, letterSpacing: 0 }}>
+          {mode !== "choice" && (
+            <p className="mono-label">
+              {mode === "signin" ? "Se reconnecter" : "Créer un espace"}
+            </p>
+          )}
+          <h1 className={mode === "choice" ? "legato-ref-display text-[color:var(--paper)]" : "mt-6 font-serif text-[48px] leading-[0.98] text-dusk text-balance"} style={{ fontWeight: 400, letterSpacing: 0 }}>
             {mode === "signin" ? (
               <>Ravi de vous<br />revoir.</>
             ) : mode === "signup" ? (
