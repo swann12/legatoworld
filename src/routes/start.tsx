@@ -122,27 +122,27 @@ function Start() {
         <button
           type="button"
           onClick={goNext}
-          className="fixed inset-0 z-50 flex flex-col px-8 pt-10 pb-10 text-left animate-fade-in"
+          className="fixed inset-0 z-50 flex flex-col text-left animate-fade-in"
           style={{ background: "var(--blush)", color: "var(--olive)" }}
           aria-label="Entrer dans Legato"
         >
-          <div className="mobile-frame relative flex min-h-dvh flex-col px-2" style={{ background: "transparent" }}>
-            <header className="pt-2">
-              <LegatoMark to="/start" variant="olive" size={24} />
+          <div className="mobile-frame relative flex min-h-dvh flex-col px-[39px] pt-[35px] pb-[49px]" style={{ background: "transparent" }}>
+            <header>
+              <LegatoMark to="/start" variant="olive" size={23} />
             </header>
-            <div className="flex flex-1 items-start pt-[54px]">
+            <div className="flex flex-1 items-start pt-[126px]">
               <p className="legato-ref-quote" style={{ color: "var(--olive)" }}>
                 Rien ne peut<br />ramener<br />l'heure passée,<br />mais nous<br />pouvons<br />trouver de<br />la force dans<br />ce qui<br />demeure.
               </p>
             </div>
-            <div className="flex items-end justify-between pb-2 pt-8">
-              <div className="text-[13px] leading-[1.45]" style={{ color: "var(--olive)" }}>
-                <p style={{ fontWeight: 500 }}>William Wordsworth,</p>
-                <p className="italic" style={{ fontWeight: 600 }}>Ode: Intimations of Immortality</p>
+            <div className="flex items-end justify-between pt-8">
+              <div className="text-[13px] leading-[1.34]" style={{ color: "var(--olive)", fontWeight: 700 }}>
+                <p>William Wordsworth,</p>
+                <p className="italic">Ode: Intimations of Immortality</p>
               </div>
               <span
-                className="flex h-12 w-12 items-center justify-center rounded-full border"
-                style={{ borderColor: "color-mix(in oklab, var(--olive) 55%, transparent)", color: "var(--olive)" }}
+                className="flex h-[50px] w-[50px] items-center justify-center rounded-full border text-[34px] leading-none"
+                style={{ borderColor: "var(--olive)", color: "var(--olive)" }}
                 aria-hidden="true"
               >
                 →
