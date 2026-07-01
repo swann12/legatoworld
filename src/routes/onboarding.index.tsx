@@ -256,12 +256,24 @@ function Onboarding() {
   return (
     <Frame onBack={backFromEmotion} progress="7 / 7">
       <h1 className="mt-[36px] onboarding-title">Comment vous sentez-vous maintenant&nbsp;?</h1>
-      <div className="mt-[30px] flex flex-col gap-3">
-        {EMOTIONS.map((e) => (
-          <OptionPill key={e.id} active={currentEmotions.includes(e.id)} onClick={() => toggleEmotion(e.id)}>
-            {e.label}
-          </OptionPill>
-        ))}
+      <div className="mt-[30px] grid grid-cols-3 gap-3">
+        {EMOTIONS.map((e) => {
+          const active = currentEmotions.includes(e.id);
+          return (
+            <button
+              key={e.id}
+              onClick={() => toggleEmotion(e.id)}
+              className="rounded-2xl border aspect-square flex items-center justify-center px-2 transition-colors"
+              style={{
+                background: active ? "var(--terracotta)" : "transparent",
+                borderColor: active ? "var(--terracotta)" : "color-mix(in oklab, var(--dusk) 12%, transparent)",
+                color: active ? "var(--paper)" : "var(--dusk)",
+              }}
+            >
+              <span className="text-[12px] text-center leading-tight">{e.label}</span>
+            </button>
+          );
+        })}
       </div>
       <div className="mt-auto" />
       <BlushBtn onClick={finish}>Continuer</BlushBtn>
