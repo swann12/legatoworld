@@ -76,7 +76,7 @@
  --color-azure: var(--azure);
  --color-magenta: var(--magenta);
 
- --font-serif: "ivyora-display", "Iowan Old Style", "Palatino Linotype", ui-serif, serif;
+ --font-serif: "ivyora-text", "Iowan Old Style", "Palatino Linotype", ui-serif, serif;
  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
  /* Space Mono pour les micro-labels graphiques (sections, dates, statuts). */
  --font-mono: "Space Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
@@ -85,30 +85,31 @@
 :root {
  --radius: 1.5rem;
 
- /* Palette directement réalignée sur les références partagées :
- * butter stick, tomato soup, sardine tin, oven glow, olive, blush. */
- --paper: #FAF5EE;
- --whisper: #FFF9F1;
- --clay: #F4EBDD;
- --dusk: #201917;
- --ink: #161110;
- --terracotta: #EB5E3A;
-  --rose: #F3BEC5;
-  --blush: #F2D6CD;
- --peach: #F1C8AF;
-  --olive: #7F7D47;
- --sage: #D9D9AE;
- --mist: #C9D7F0;
- --sky: #7CA2E0;
- --lavender: #E5DBE9;
- --bordeaux: #5B171D;
- --navy: #5B7FB2;
- --ember: #EB5E3A;
- --sun: #F2EDBD;
- --azure: #7CA2E0;
- --magenta: #D89AA6;
- --bloom-fresh: #CCD6A1;
- --bloom-mist: #B5C9EA;
+ /* Palette Legato — 9 teintes canoniques (aucune autre couleur autorisée).
+  * Cream, pearl, bordeaux · butter, mustard, terracotta · sage, olive, blush. */
+ --paper:      #F7F3EB;  /* cream */
+ --whisper:    #FBF7EF;  /* cream + light */
+ --clay:       #F0E6DC;  /* pearl */
+ --dusk:       #603730;  /* bordeaux — devient l'encre principale */
+ --ink:        #4A2A25;  /* bordeaux plus profond */
+ --bordeaux:   #603730;
+ --terracotta: #D06C4D;
+ --olive:      #7E8148;
+ --sage:       #A9B18E;
+ --sun:        #F6EDC1;  /* butter */
+ --peach:      #E3A94A;  /* mustard */
+ --blush:      #F0D0CC;  /* blush pink */
+ --rose:       #F0D0CC;
+ /* Tokens hors palette remappés sur les teintes autorisées */
+ --mist:       #F0E6DC;  /* → pearl */
+ --sky:        #A9B18E;  /* → sage */
+ --lavender:   #F0D0CC;  /* → blush */
+ --navy:       #7E8148;  /* → olive */
+ --azure:      #A9B18E;  /* → sage */
+ --magenta:    #D06C4D;  /* → terracotta */
+ --ember:      #D06C4D;  /* → terracotta */
+ --bloom-fresh:#A9B18E;
+ --bloom-mist: #F0E6DC;
 
  /* Shadcn semantic tokens mapped to Legato */
  --background: var(--paper);
