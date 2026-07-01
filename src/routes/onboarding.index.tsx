@@ -143,14 +143,13 @@ function Onboarding() {
           {SITUATIONS.map((s) => {
             const active = situation === s.id;
             return (
-              <button
+              <OptionPill
                 key={s.id}
+                active={active}
                 onClick={() => { setSituation(s.id); setStage(null); setPrimaryNeed(null); }}
-                className="text-left rounded-full border px-5 py-2.5 transition-colors"
-                style={{ background: "transparent", borderColor: active ? "var(--terracotta)" : "color-mix(in oklab, var(--dusk) 12%, transparent)", color: "var(--dusk)" }}
               >
-                <p className="text-[12px] leading-[1.25]">{s.label}</p>
-              </button>
+                {s.label}
+              </OptionPill>
             );
           })}
         </div>
