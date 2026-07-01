@@ -143,14 +143,13 @@ function Onboarding() {
           {SITUATIONS.map((s) => {
             const active = situation === s.id;
             return (
-              <button
+              <OptionPill
                 key={s.id}
+                active={active}
                 onClick={() => { setSituation(s.id); setStage(null); setPrimaryNeed(null); }}
-                className="text-left rounded-full border px-5 py-2.5 transition-colors"
-                style={{ background: "transparent", borderColor: active ? "var(--terracotta)" : "color-mix(in oklab, var(--dusk) 12%, transparent)", color: "var(--dusk)" }}
               >
-                <p className="text-[12px] leading-[1.25]">{s.label}</p>
-              </button>
+                {s.label}
+              </OptionPill>
             );
           })}
         </div>
@@ -290,20 +289,17 @@ function Frame({ children, onBack, progress }: { children: ReactNode; onBack: ()
   return (
     <main className="min-h-dvh" style={{ background: "var(--paper)", color: "var(--dusk)" }}>
       <div className="mobile-frame relative flex min-h-dvh flex-col" style={{ background: "var(--paper)" }}>
-        <header className="flex items-center justify-between px-[50px] pt-9">
-          <LegatoMark to="/space" variant="ink" size={22} />
-          <button onClick={onBack} aria-label="Retour" className="mono-label" style={{ color: "var(--dusk)" }}>←</button>
-        </header>
-        <div className="px-[50px] mt-6 flex items-center gap-1.5">
+        <div className="px-[40px] pt-12 flex items-center gap-1.5">
           {Array.from({ length: safeTotal }).map((_, i) => (
             <span
               key={i}
-              className="h-[2px] flex-1 rounded-full"
-              style={{ background: i < safeDone ? accent : "color-mix(in oklab, var(--dusk) 8%, transparent)" }}
+              className="h-[3px] flex-1 rounded-full"
+              style={{ background: i < safeDone ? accent : "color-mix(in oklab, var(--dusk) 10%, transparent)" }}
             />
           ))}
         </div>
-        <div className="relative z-10 flex flex-1 flex-col px-[50px] pt-0 pb-10">{children}</div>
+        <button onClick={onBack} aria-label="Retour" className="sr-only">Retour</button>
+        <div className="relative z-10 flex flex-1 flex-col px-[40px] pt-0 pb-12">{children}</div>
       </div>
     </main>
   );
@@ -324,21 +320,23 @@ function PrimaryBtn({ children, onClick, disabled }: { children: ReactNode; onCl
 
 function BlushBtn({ children, onClick, disabled }: { children: ReactNode; onClick: () => void; disabled?: boolean }) {
   return (
-    <button
-      onClick={onClick}
-      disabled={disabled}
-      className="mt-8 block w-full rounded-[6px] px-6 py-4 text-center disabled:opacity-40 transition-transform active:scale-[0.99]"
-      style={{ background: "var(--blush)", color: "var(--dusk)" }}
-    >
-      <span className="mono-label" style={{ color: "var(--dusk)", letterSpacing: "0.22em" }}>{children}</span>
-    </button>
+    <div className="mt-8 flex justify-center">
+      <button
+        onClick={onClick}
+        disabled={disabled}
+        className="rounded-full text-center disabled:opacity-40 transition-transform active:scale-[0.99]"
+        style={{ background: "var(--blush)", color: "var(--dusk)", padding: "13px 44px", minWidth: 240 }}
+      >
+        <span className="mono-label" style={{ color: "var(--dusk)", letterSpacing: "0.28em", fontSize: 10 }}>{children}</span>
+      </button>
+    </div>
   );
 }
 
 function SkipLink({ children, onClick }: { children: ReactNode; onClick: () => void }) {
   return (
-    <button onClick={onClick} className="mt-4 block w-full text-center py-1">
-      <span className="mono-label underline underline-offset-4" style={{ color: "var(--dusk)", letterSpacing: "0.22em" }}>{children}</span>
+    <button onClick={onClick} className="mt-3 block w-full text-center py-1">
+      <span className="mono-label underline underline-offset-4" style={{ color: "var(--dusk)", letterSpacing: "0.28em", fontSize: 10 }}>{children}</span>
     </button>
   );
 }
@@ -347,14 +345,22 @@ function OptionPill({ children, active, onClick }: { children: ReactNode; active
   return (
     <button
       onClick={onClick}
-      className="text-left rounded-full border px-5 py-2.5 transition-colors"
+      className="text-left rounded-full border px-5 py-3 transition-colors flex items-center gap-3"
       style={{
-        background: "transparent",
-        borderColor: active ? "var(--terracotta)" : "color-mix(in oklab, var(--dusk) 12%, transparent)",
+        background: "var(--paper)",
+        borderColor: active ? "var(--terracotta)" : "color-mix(in oklab, var(--dusk) 14%, transparent)",
         color: "var(--dusk)",
       }}
     >
-      <span className="block text-[12px] leading-[1.25]">{children}</span>
+      <span
+        className="inline-block rounded-full shrink-0"
+        style={{
+          width: 10, height: 10,
+          background: active ? "var(--terracotta)" : "transparent",
+          border: `1px solid ${active ? "var(--terracotta)" : "color-mix(in oklab, var(--dusk) 25%, transparent)"}`,
+        }}
+      />
+      <span className="text-[12px] leading-[1.25]">{children}</span>
     </button>
   );
 }
