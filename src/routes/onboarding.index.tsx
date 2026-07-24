@@ -11,7 +11,6 @@ import {
   type Situation,
   type Stage,
 } from "@/lib/legato-state";
-import { LegatoMark } from "@/components/legato/LegatoMark";
 import { useServerFn } from "@tanstack/react-start";
 import { recordEmotion } from "@/lib/emotional.functions";
 import { supabase } from "@/integrations/supabase/client";
