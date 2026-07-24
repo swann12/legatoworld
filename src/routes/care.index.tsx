@@ -6,7 +6,7 @@ import { journeyModules, CARE_LABELS, type CareModule } from "@/lib/journey-conf
 import { LegatoMark } from "@/components/legato/LegatoMark";
 import { SpaceToggle } from "@/components/legato/SpaceToggle";
 import { emotionPlan, isEmotionStale } from "@/lib/emotion-routing";
-import { useLegato as useLegatoName } from "@/lib/legato-state";
+
 
 export const Route = createFileRoute("/care/")({
   head: () => ({
