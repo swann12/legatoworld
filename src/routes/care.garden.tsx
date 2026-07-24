@@ -20,12 +20,12 @@ type Deposit = { kind: string; label: string; hint: string; bg: string; fg?: str
 // Palette équilibrée, sans répétition : un ton chaud, un froid, un acide,
 // un neutre, un grenat profond, un sable.
 const DEPOSITS: Deposit[] = [
-  { kind: "photo",    label: "Photo",     hint: "Un visage, un jour",        bg: "var(--blush)"                                    },
-  { kind: "voix",     label: "Voix",      hint: "Un message, un rire",        bg: "var(--sky)"                                      },
+  { kind: "photo",    label: "Photo",     hint: "Un visage, un jour",        bg: "var(--whisper)"                                  },
+  { kind: "voix",     label: "Voix",      hint: "Un message, un rire",        bg: "var(--blush)"                                    },
   { kind: "lettre",   label: "Lettre",    hint: "Quelques mots, déposés",     bg: "var(--sun)"                                      },
-  { kind: "musique",  label: "Musique",   hint: "Une chanson partagée",       bg: "color-mix(in oklab, var(--olive) 35%, var(--whisper))" },
+  { kind: "musique",  label: "Musique",   hint: "Une chanson partagée",       bg: "color-mix(in oklab, var(--olive) 22%, var(--whisper))" },
   { kind: "objet",    label: "Objet",     hint: "Une trace tangible",         bg: "var(--whisper)"                                  },
-  { kind: "citation", label: "Citation",  hint: "Une phrase qu'on garde",     bg: "var(--bordeaux)", fg: "var(--paper)"             },
+  { kind: "citation", label: "Citation",  hint: "Une phrase qu'on garde",     bg: "color-mix(in oklab, var(--bordeaux) 18%, var(--whisper))" },
 ];
 
 function CareGarden() {
