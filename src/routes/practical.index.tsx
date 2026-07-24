@@ -10,14 +10,7 @@ import {
 } from "@/lib/journey-config";
 import { SpaceToggle } from "@/components/legato/SpaceToggle";
 import { TASK_STATUS_LABELS, isHiddenFromActive } from "@/lib/task-status";
-import { QuoteSplash } from "@/components/legato/QuoteSplash";
 
-const PRACTICAL_QUOTES: { quote: string; attribution?: string; tone: "blush" | "sun" | "sky" | "terracotta" | "bordeaux" }[] = [
-  { quote: "Avancer ne veut pas dire oublier. Juste poser un pied devant l'autre.", tone: "sun" },
-  { quote: "Un papier rempli aujourd'hui, c'est un poids en moins pour demain.", tone: "sky" },
-  { quote: "On peut prendre le temps. Personne ne tient le chronomètre.", tone: "blush" },
-  { quote: "Cérémonie, démarches, volontés : composer, à votre manière.", tone: "terracotta" },
-];
 
 export const Route = createFileRoute("/practical/")({
   head: () => ({
@@ -43,7 +36,7 @@ function loadStatus(): Record<string, Status> {
 const ORDER: PracticalBucket[] = ["now", "week", "month", "later"];
 
 function Practical() {
-  const { situation, primaryNeed, stage, softDay, lovedOneRelation, legallyInvolved, hydrated, taskStatus } = useLegato();
+  const { situation, primaryNeed, stage, softDay, lovedOneRelation, legallyInvolved, hydrated, taskStatus, name } = useLegato();
   const lovedName = useLovedName();
   const { practical } = journeyModules(situation, primaryNeed, stage, { relation: lovedOneRelation, legallyInvolved });
   const [filter, setFilter] = useState<PracticalBucket | "all">("all");
@@ -76,8 +69,16 @@ function Practical() {
   return (
     <Shell livingBg={false}>
       <div className="min-h-dvh bg-paper text-dusk pb-32">
-        <header className="px-6 pt-7 flex items-center justify-center">
-          <LegatoMark to="/practical" size={22} />
+        <header className="px-6 pt-7 flex items-center justify-between">
+          <LegatoMark to="/practical" size={20} />
+          <Link
+            to="/profile"
+            aria-label="Mon profil"
+            className="inline-flex items-center justify-center rounded-full text-[12px] font-medium"
+            style={{ width: 30, height: 30, background: "var(--blush)", color: "var(--dusk)" }}
+          >
+            {(name || "?").trim().charAt(0).toUpperCase() || "?"}
+          </Link>
         </header>
         <SpaceToggle />
 
@@ -139,9 +140,9 @@ function Practical() {
         {/* Tuiles thématiques — chacune une couleur unique */}
         <section className="px-5 pt-7">
           <div className="grid grid-cols-2 gap-3">
-            <ThemeTile to="/practical/tasks" label="Tâches" hint="Avancer pas à pas" bg="var(--blush)" />
-            <ThemeTile to="/practical/vault" label="Documents" hint="Tout au même endroit" bg="var(--sky)" />
-            <ThemeTile to="/practical/pros"  label="Pros"     hint="Pompes funèbres, notaires" bg="color-mix(in oklab, var(--olive) 32%, var(--whisper))" />
+            <ThemeTile to="/practical/tasks" label="Tâches" hint="Avancer pas à pas" bg="var(--whisper)" />
+            <ThemeTile to="/practical/vault" label="Documents" hint="Tout au même endroit" bg="var(--whisper)" />
+            <ThemeTile to="/practical/pros"  label="Pros"     hint="Pompes funèbres, notaires" bg="var(--blush)" />
             <ThemeTile to="/practical/ceremony" label="Cérémonie" hint="Lieu, déroulé, hommage" bg="var(--sun)" />
           </div>
           <Link
@@ -217,13 +218,7 @@ function Practical() {
           </Link>
         </footer>
 
-        <section className="px-5 pt-10">
-          {(() => {
-            const idx = (new Date().getDate() + done) % PRACTICAL_QUOTES.length;
-            const q = PRACTICAL_QUOTES[idx];
-            return <QuoteSplash quote={q.quote} attribution={q.attribution} tone={q.tone} />;
-          })()}
-        </section>
+        <div className="pt-6" />
       </div>
     </Shell>
   );
