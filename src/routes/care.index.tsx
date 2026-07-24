@@ -6,14 +6,7 @@ import { journeyModules, CARE_LABELS, type CareModule } from "@/lib/journey-conf
 import { LegatoMark } from "@/components/legato/LegatoMark";
 import { SpaceToggle } from "@/components/legato/SpaceToggle";
 import { emotionPlan, isEmotionStale } from "@/lib/emotion-routing";
-import { QuoteSplash } from "@/components/legato/QuoteSplash";
-
-const CARE_QUOTES: { quote: string; attribution?: string; tone: "blush" | "sun" | "sky" | "terracotta" }[] = [
-  { quote: "Ce qui a été aimé ne se perd pas, il change de place en nous.", tone: "blush" },
-  { quote: "Le chagrin est l'envers d'un grand amour. Il en garde la forme.", attribution: "Anonyme", tone: "sun" },
-  { quote: "On ne traverse pas le deuil. Le deuil nous traverse, lentement.", tone: "sky" },
-  { quote: "Allume une bougie. Prononce son nom. Reste, juste un instant.", tone: "terracotta" },
-];
+import { useLegato as useLegatoName } from "@/lib/legato-state";
 
 export const Route = createFileRoute("/care/")({
   head: () => ({
@@ -28,7 +21,7 @@ export const Route = createFileRoute("/care/")({
 function Care() {
   const {
     situation, primaryNeed, stage, currentEmotions, currentEmotionAt,
-    lovedOneRelation, legallyInvolved, hydrated,
+    lovedOneRelation, legallyInvolved, hydrated, name,
   } = useLegato();
   const lovedName = useLovedName();
   const { care } = journeyModules(situation, primaryNeed, stage, { relation: lovedOneRelation, legallyInvolved });
@@ -43,8 +36,16 @@ function Care() {
   return (
     <Shell livingBg={false}>
       <main className="min-h-dvh bg-paper text-dusk pb-32">
-        <header className="px-6 pt-7 flex items-center justify-center">
-          <LegatoMark to="/care" size={22} />
+        <header className="px-6 pt-7 flex items-center justify-between">
+          <LegatoMark to="/care" size={20} />
+          <Link
+            to="/profile"
+            aria-label="Mon profil"
+            className="inline-flex items-center justify-center rounded-full text-[12px] font-medium"
+            style={{ width: 30, height: 30, background: "var(--blush)", color: "var(--dusk)" }}
+          >
+            {(name || "?").trim().charAt(0).toUpperCase() || "?"}
+          </Link>
         </header>
         <SpaceToggle />
 
@@ -122,14 +123,6 @@ function Care() {
             </div>
           </section>
         )}
-
-        <section className="px-5 pt-10">
-          {(() => {
-            const idx = (new Date().getDate() + (selected.length || 0)) % CARE_QUOTES.length;
-            const q = CARE_QUOTES[idx];
-            return <QuoteSplash quote={q.quote} attribution={q.attribution} tone={q.tone} />;
-          })()}
-        </section>
 
         <div className="pt-10" />
       </main>
