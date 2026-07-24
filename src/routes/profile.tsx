@@ -1,6 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Shell } from "@/components/legato/Shell";
-import { LegatoMark } from "@/components/legato/LegatoMark";
 import { useLegato } from "@/lib/legato-state";
 
 export const Route = createFileRoute("/profile")({
@@ -19,10 +18,8 @@ function Profile() {
   return (
     <Shell livingBg={false}>
       <div className="min-h-dvh bg-paper text-dusk pb-32">
-        <header className="px-6 pt-7 flex items-center justify-between">
-          <Link to="/home" className="mono-label">← Accueil</Link>
-          <LegatoMark to="/space" size={22} />
-          <span className="w-12" />
+        <header className="px-6 pt-7 flex items-center">
+          <Link to="/home" aria-label="Retour" className="text-dusk/60 text-lg leading-none">←</Link>
         </header>
 
         <section className="px-6 pt-10">
@@ -39,8 +36,8 @@ function Profile() {
             style={{ background: "var(--blush)" }}
           >
             <p className="mono-label text-dusk/60">Êtres aimés</p>
-            <p className="mt-2 font-serif text-[20px] leading-[1.15]">Toutes les parcelles</p>
-            <p className="mt-1 text-[12.5px] text-dusk/65">Consulter, ajouter, retrouver.</p>
+            <p className="mt-2 font-serif text-[20px] leading-[1.15]">Vos êtres aimés</p>
+            <p className="mt-1 text-[12.5px] text-dusk/65">Consulter, ajouter, retrouver ceux que vous avez archivés.</p>
           </Link>
         </section>
 

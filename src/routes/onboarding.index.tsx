@@ -11,7 +11,6 @@ import {
   type Situation,
   type Stage,
 } from "@/lib/legato-state";
-import { LegatoMark } from "@/components/legato/LegatoMark";
 import { useServerFn } from "@tanstack/react-start";
 import { recordEmotion } from "@/lib/emotional.functions";
 import { supabase } from "@/integrations/supabase/client";
@@ -186,7 +185,7 @@ function Onboarding() {
     return (
       <Frame onBack={() => (needsPerson ? setStep(3) : setStep(2))} progress="4 / 7">
         <h1 className="onboarding-title">
-          Quel prénom<br />ou quel lien<br />voulez-vous utiliser<br />dans <span className="italic">Legato</span>&nbsp;?
+          Comment aimeriez-vous<br />l'appeler dans <span className="italic">Legato</span>&nbsp;?
         </h1>
         <div className="mt-[28px]">
           <input value={lovedOneName} onChange={(e) => setLovedOneName(e.target.value)} placeholder={placeholderFor(lovedOneRelation)} className="onboarding-field w-full rounded-full border bg-transparent px-5 font-serif text-[15px] italic outline-none" style={{ borderColor: "color-mix(in oklab, var(--dusk) 12%, transparent)", color: "var(--dusk)", height: 36 }} />
@@ -254,25 +253,25 @@ function Onboarding() {
 
   return (
     <Frame onBack={backFromEmotion} progress="7 / 7">
-      <h1 className="onboarding-title">Comment vous sentez-vous maintenant&nbsp;?</h1>
-      <div className="mt-[28px] grid justify-center gap-[10px]" style={{ gridTemplateColumns: "repeat(3, 68px)" }}>
+      <h1 className="onboarding-title">
+        Comment vous<br />sentez-vous<br />maintenant&nbsp;?
+      </h1>
+      <div className="mt-[28px] grid gap-[10px] w-full" style={{ gridTemplateColumns: "repeat(3, minmax(0,1fr))" }}>
         {EMOTIONS.map((e) => {
           const active = currentEmotions.includes(e.id);
           return (
             <button
               key={e.id}
               onClick={() => toggleEmotion(e.id)}
-              className="border flex items-center justify-center px-1.5 transition-colors"
+              className="border flex items-center justify-center px-1.5 transition-colors aspect-square w-full"
               style={{
                 background: active ? "var(--terracotta)" : "transparent",
                 borderColor: active ? "var(--terracotta)" : "color-mix(in oklab, var(--dusk) 12%, transparent)",
                 color: active ? "var(--paper)" : "var(--dusk)",
-                width: 68,
-                height: 68,
                 borderRadius: 7,
               }}
             >
-              <span className="text-[9.5px] text-center leading-[1.15]">{e.label}</span>
+              <span className="text-[11px] text-center leading-[1.18]">{e.label}</span>
             </button>
           );
         })}
@@ -292,10 +291,10 @@ function Frame({ children, onBack, progress }: { children: ReactNode; onBack: ()
   return (
     <main className="min-h-dvh" style={{ background: "var(--paper)", color: "var(--dusk)" }}>
       <div className="mobile-frame relative flex min-h-dvh flex-col" style={{ background: "var(--paper)" }}>
-        <header className="px-[46px] pt-[44px]">
-          <LegatoMark to="/start" variant="ink" size={30} />
+        <header className="px-[46px] pt-[44px] flex items-center">
+          <button onClick={onBack} aria-label="Retour" className="text-dusk/60 text-lg leading-none">←</button>
         </header>
-        <div className="px-[46px] mt-[38px] flex items-center gap-1.5">
+        <div className="px-[46px] mt-[26px] flex items-center gap-1.5">
           {Array.from({ length: safeTotal }).map((_, i) => (
             <span
               key={i}
@@ -304,7 +303,6 @@ function Frame({ children, onBack, progress }: { children: ReactNode; onBack: ()
             />
           ))}
         </div>
-        <button onClick={onBack} aria-label="Retour" className="sr-only">Retour</button>
         <div className="relative z-10 flex flex-1 flex-col px-[46px] pt-[38px] pb-[42px]">{children}</div>
       </div>
     </main>

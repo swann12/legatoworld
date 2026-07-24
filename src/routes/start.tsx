@@ -19,7 +19,7 @@ export const Route = createFileRoute("/start")({
   component: Start,
 });
 
-type Stage = "splash" | "choice" | "signin" | "signup" | "quote";
+type Stage = "choice" | "signin" | "signup";
 
 const emailSchema = z.string().trim().email({ message: "Adresse e-mail invalide" }).max(255);
 const passwordSchema = z
@@ -34,7 +34,7 @@ const nameSchema = z
 
 function Start() {
   const navigate = useNavigate();
-  const [stage, setStage] = useState<Stage>("splash");
+  const [stage, setStage] = useState<Stage>("choice");
   const [displayName, setDisplayName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -81,7 +81,7 @@ function Start() {
       setError("Identifiants incorrects.");
       return;
     }
-    setStage("quote");
+    goNext();
   };
 
   const handleSignUp = async (e: FormEvent) => {
@@ -109,57 +109,11 @@ function Start() {
       return;
     }
     if (data.session) {
-      setStage("quote");
+      goNext();
     } else {
       setInfo("Vérifiez votre boîte mail pour confirmer votre inscription.");
     }
   };
-
-  // ─── SPLASH ─── centered logo + ENTRER
-  if (stage === "splash") {
-    return (
-      <main className="min-h-dvh" style={{ background: "var(--paper)", color: "var(--dusk)" }}>
-        <div className="mobile-frame relative flex min-h-dvh flex-col items-center" style={{ background: "var(--paper)", padding: "60px 48px 72px" }}>
-          <div className="flex flex-1 items-center justify-center">
-            <LegatoMark to="/start" variant="ink" size={112} stacked />
-          </div>
-          <button
-            type="button"
-            onClick={() => setStage("choice")}
-            className="rounded-full border transition-colors"
-            style={{ borderColor: "color-mix(in oklab, var(--dusk) 16%, transparent)", padding: "10px 36px" }}
-          >
-            <span className="mono-label" style={{ color: "var(--dusk)", letterSpacing: "0.28em", fontSize: 8.5 }}>Entrer</span>
-          </button>
-        </div>
-      </main>
-    );
-  }
-
-  // ─── QUOTE ─── blush + olive, copied from the reference rhythm
-  if (stage === "quote") {
-    return (
-      <main className="min-h-dvh" style={{ background: "var(--blush)" }}>
-        <button
-          type="button"
-          onClick={goNext}
-          className="mobile-frame relative flex min-h-dvh w-full flex-col text-left animate-fade-in"
-          style={{ background: "var(--blush)", color: "var(--olive)", padding: "126px 46px 54px" }}
-          aria-label="Entrer dans Legato"
-        >
-          <p className="font-serif" style={{ fontSize: 48, lineHeight: 0.96, color: "var(--olive)", maxWidth: 285 }}>
-            Rien ne peut<br />ramener<br />l’heure passée,<br />mais nous<br />pouvons<br />trouver de<br />la force dans<br />ce qui<br />demeure.
-          </p>
-          <div className="mt-auto flex items-end justify-between gap-6">
-            <p style={{ color: "var(--olive)", fontSize: 11, lineHeight: 1.25 }}>
-              William Wordsworth,<br /><span className="italic">Ode: Intimations of Immortality</span>
-            </p>
-            <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full border" style={{ borderColor: "color-mix(in oklab, var(--olive) 36%, transparent)", color: "var(--olive)", fontSize: 20 }}>→</span>
-          </div>
-        </button>
-      </main>
-    );
-  }
 
   if (stage === "choice") {
     return (
@@ -188,8 +142,11 @@ function Start() {
             >
               <span className="mono-label" style={{ color: "var(--paper)", letterSpacing: "0.28em", fontSize: 10 }}>Se reconnecter</span>
             </button>
-            <button type="button" onClick={() => setStage("quote")} className="pt-3 text-center">
-              <span className="mono-label" style={{ color: "var(--paper)", letterSpacing: "0.28em", fontSize: 10 }}>Continuer en tant qu’invité</span>
+            <button type="button" onClick={goNext} className="pt-3 text-center">
+              <span className="mono-label block" style={{ color: "var(--paper)", letterSpacing: "0.28em", fontSize: 10 }}>Continuer en tant qu’invité</span>
+              <span className="mt-2 block text-[10.5px] italic" style={{ color: "color-mix(in oklab, var(--paper) 68%, transparent)" }}>
+                En mode invité·e, rien n'est conservé d'une session à l'autre.
+              </span>
             </button>
           </div>
         </div>

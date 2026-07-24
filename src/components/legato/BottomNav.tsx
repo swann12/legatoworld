@@ -78,7 +78,7 @@ type ItemDef = {
 };
 
 const TODAY_CARE: ItemDef     = { to: "/care",            label: "Aujourd'hui", icon: "today",  match: (p) => p === "/care" || p === "/care/" };
-const EMOTIONS: ItemDef       = { to: "/care/emotions",   label: "Émotions",    icon: "heart",  match: (p) => p.startsWith("/care/emotions") };
+const APPUIS: ItemDef         = { to: "/care/resources",  label: "Appuis",      icon: "heart",  match: (p) => p.startsWith("/care/resources") || p.startsWith("/care/emotions") };
 const JARDIN: ItemDef         = { to: "/care/garden",     label: "Jardin",      icon: "sprout", match: (p) => p.startsWith("/care/garden") || p.startsWith("/care/memory") || p.startsWith("/care/dates") };
 const PRESENCE: ItemDef       = { to: "/presence",        label: "Présence",    icon: "spark",  match: (p) => p.startsWith("/presence") };
 const PROFILE: ItemDef        = { to: "/profile",         label: "Profil",      icon: "user",   match: (p) => p.startsWith("/profile") };
@@ -104,8 +104,8 @@ export function BottomNav() {
 
   // 5 items, "Aujourd'hui" toujours au centre (index 2) → barre équilibrée.
   const items: ItemDef[] = space === "care"
-    ? [EMOTIONS, JARDIN, TODAY_CARE, PRESENCE, PROFILE]
-    : [TASKS,    VAULT,  TODAY_PRACT, PROS,    PROFILE];
+    ? [APPUIS, JARDIN, TODAY_CARE, PRESENCE, PROFILE]
+    : [TASKS,  VAULT,  TODAY_PRACT, PROS,    PROFILE];
 
   return (
     <nav
