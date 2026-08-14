@@ -97,7 +97,7 @@ function TaskDetail() {
             <IvoryCard className="p-4 mt-2">
               <p className="mono-label mb-2">Choisir un cercle</p>
               {(circles?.circles?.length ?? 0) === 0 ? (
-                <p className="text-[13px] text-dusk/65">Aucun cercle pour l'instant. <Link to="/_authenticated/circle" className="underline">Créer un cercle</Link>.</p>
+                <p className="text-[13px] text-dusk/65">Aucun cercle pour l'instant. <Link to="/circle" className="underline">Créer un cercle</Link>.</p>
               ) : (
                 <ul className="space-y-1">
                   {circles?.circles?.map((c) => (

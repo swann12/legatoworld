@@ -75,7 +75,7 @@ function Crisis() {
                 <p className="font-serif text-[17px] leading-[1.15]">Rejoindre un cercle</p>
                 <p className="mt-1 text-[12px] text-dusk/60">Forums, groupes de parole et d'écriture, par thématique.</p>
               </Link>
-              <Link to="/_authenticated/circle" className="block rounded-[18px] px-5 py-4" style={{ background: "var(--whisper)" }}>
+              <Link to="/circle" className="block rounded-[18px] px-5 py-4" style={{ background: "var(--whisper)" }}>
                 <p className="font-serif text-[17px] leading-[1.15]">Écrire à un proche</p>
                 <p className="mt-1 text-[12px] text-dusk/60">Message automatique, demande de présence, délégation d'une tâche.</p>
               </Link>

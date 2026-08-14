@@ -100,7 +100,7 @@ function TaskDetail() {
           <div className="rounded-[18px] border border-dusk/12 bg-paper px-5 py-4">
             <p className="mono-label">Confier à un proche</p>
             <p className="mt-2 text-[13px] text-dusk/65">Vous n'êtes pas obligé·e de tout porter. Quelqu'un de confiance peut prendre cette étape.</p>
-            <Link to="/_authenticated/circle" className="mono-label mt-3 inline-block" style={{ color: "var(--terracotta)" }}>
+            <Link to="/circle" className="mono-label mt-3 inline-block" style={{ color: "var(--terracotta)" }}>
               Voir mon cercle →
             </Link>
           </div>
