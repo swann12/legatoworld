@@ -121,10 +121,10 @@ function Start() {
       <main className="min-h-dvh" style={{ background: "var(--paper)", color: "var(--dusk)" }}>
         <div
           className="mobile-frame relative flex min-h-dvh flex-col items-center justify-center animate-fade-in"
-          style={{ background: "var(--paper)", padding: "0 46px 62px" }}
+          style={{ background: "var(--paper)", padding: "0 31px 35px" }}
         >
           <div className="flex flex-1 items-center justify-center">
-            <LegatoMark to="/start" variant="ink" size={148} stacked />
+            <LegatoMark to="/start" variant="ink" size={112} stacked />
           </div>
           <button
             type="button"
@@ -132,11 +132,11 @@ function Start() {
             className="rounded-full border transition-colors"
             style={{
               borderColor: "color-mix(in oklab, var(--dusk) 28%, transparent)",
-              height: 38,
-              width: 138,
+              height: 30,
+              width: 96,
             }}
           >
-            <span className="mono-label" style={{ color: "var(--dusk)", letterSpacing: "0.28em", fontSize: 8.5 }}>Entrer</span>
+            <span className="mono-label" style={{ color: "var(--dusk)", letterSpacing: "0.22em", fontSize: 7 }}>Entrer</span>
           </button>
         </div>
       </main>
@@ -145,23 +145,22 @@ function Start() {
 
   if (stage === "quote") {
     return (
-      <main className="min-h-dvh" style={{ background: "var(--bordeaux)", color: "var(--paper)" }}>
+      <main className="min-h-dvh" style={{ background: "var(--blush)", color: "var(--olive)" }}>
         <div
-          className="mobile-frame relative flex min-h-dvh flex-col items-center justify-center text-center animate-fade-in"
-          style={{ background: "var(--bordeaux)", padding: "0 34px 54px" }}
+          className="mobile-frame relative flex min-h-dvh flex-col animate-fade-in"
+          style={{ background: "var(--blush)", padding: "29px 31px 34px" }}
           onClick={enterApp}
         >
-          <div className="flex flex-1 items-center justify-center">
-            <p className="font-serif" style={{ fontSize: 43, lineHeight: 1.0, color: "var(--paper)", fontWeight: 400 }}>
-              Rien ne peut ramener l’heure passée, mais nous pouvons trouver de la force dans ce qui demeure.
-            </p>
-          </div>
-          <p
-            className="mono-label"
-            style={{ color: "color-mix(in oklab, var(--paper) 72%, transparent)", fontSize: 8, letterSpacing: "0.22em", lineHeight: 1.7 }}
-          >
-            William Wordsworth,<br />Ode: Intimations of Immortality
+          <LegatoMark to="/start" variant="olive" size={29} />
+          <p className="font-serif mt-[74px]" style={{ fontSize: 43, lineHeight: 0.97, color: "var(--olive)", fontWeight: 400 }}>
+            Rien ne peut<br />ramener<br />l’heure passée,<br />mais nous<br />pouvons<br />trouver de<br />la force dans<br />ce qui<br />demeure.
           </p>
+          <div className="mt-auto flex items-end justify-between gap-4">
+            <p style={{ color: "var(--olive)", fontSize: 10, lineHeight: 1.35, fontWeight: 600 }}>
+              William Wordsworth,<br /><span className="italic">Ode: Intimations of Immortality</span>
+            </p>
+            <span className="flex size-[39px] shrink-0 items-center justify-center rounded-full border" style={{ borderColor: "var(--olive)", color: "var(--olive)", fontSize: 25 }}>→</span>
+          </div>
         </div>
       </main>
     );
@@ -169,32 +168,32 @@ function Start() {
 
   if (stage === "choice") {
     return (
-      <main className="min-h-dvh" style={{ background: "var(--paper)", color: "var(--dusk)" }}>
-        <div className="mobile-frame relative flex min-h-dvh flex-col items-center animate-fade-in" style={{ background: "var(--paper)", padding: "56px 46px 58px" }}>
-          <LegatoMark to="/start" variant="ink" size={40} stacked />
-          <h1 className="font-serif text-center" style={{ marginTop: 92, fontSize: 44, lineHeight: 1.06, color: "var(--dusk)", fontWeight: 400 }}>
+      <main className="min-h-dvh" style={{ background: "var(--bordeaux)", color: "var(--paper)" }}>
+        <div className="mobile-frame relative flex min-h-dvh flex-col animate-fade-in" style={{ background: "var(--bordeaux)", padding: "30px 31px 35px" }}>
+          <LegatoMark to="/start" variant="paper" size={29} />
+          <h1 className="font-serif" style={{ marginTop: 74, fontSize: 43, lineHeight: 1.02, color: "var(--paper)", fontWeight: 400 }}>
             Préparer<br />un <span className="italic">adieu</span>,<br />garder une<br /><span className="italic">présence</span>.
           </h1>
-          <div className="mt-auto flex w-full flex-col items-stretch gap-2.5">
+          <div className="mt-auto flex w-full flex-col items-stretch gap-8px">
             <button
               type="button"
               onClick={() => { setStage("signup"); setError(null); setInfo(null); }}
               className="rounded-full text-center transition-transform active:scale-[0.99]"
-              style={{ background: "var(--blush)", color: "var(--dusk)", height: 38 }}
+               style={{ background: "var(--paper)", color: "var(--bordeaux)", height: 32, borderRadius: 2 }}
             >
-              <span className="mono-label" style={{ color: "var(--dusk)", letterSpacing: "0.28em", fontSize: 8.5 }}>Créer son espace</span>
+              <span className="mono-label" style={{ color: "var(--bordeaux)", letterSpacing: "0.22em", fontSize: 7 }}>Créer son espace</span>
             </button>
             <button
               type="button"
               onClick={() => { setStage("signin"); setError(null); setInfo(null); }}
-              className="rounded-full border text-center transition-colors"
-              style={{ borderColor: "color-mix(in oklab, var(--dusk) 20%, transparent)", color: "var(--dusk)", height: 38 }}
+              className="border text-center transition-colors"
+              style={{ borderColor: "color-mix(in oklab, var(--paper) 52%, transparent)", color: "var(--paper)", height: 32, borderRadius: 2 }}
             >
-              <span className="mono-label" style={{ color: "var(--dusk)", letterSpacing: "0.28em", fontSize: 8.5 }}>Se reconnecter</span>
+              <span className="mono-label" style={{ color: "var(--paper)", letterSpacing: "0.22em", fontSize: 7 }}>Se reconnecter</span>
             </button>
-            <button type="button" onClick={goNext} className="pt-2.5 text-center">
-              <span className="mono-label block underline underline-offset-4" style={{ color: "var(--dusk)", letterSpacing: "0.28em", fontSize: 8.5 }}>Continuer en tant qu’invité</span>
-              <span className="mt-2.5 block text-[10px] italic" style={{ color: "color-mix(in oklab, var(--dusk) 55%, transparent)" }}>
+            <button type="button" onClick={goNext} className="pt-2 text-center">
+              <span className="mono-label block underline underline-offset-4" style={{ color: "var(--paper)", letterSpacing: "0.2em", fontSize: 7 }}>Continuer en tant qu’invité</span>
+              <span className="mt-2 block text-[8px]" style={{ color: "color-mix(in oklab, var(--paper) 68%, transparent)" }}>
                 En mode invité·e, rien n'est conservé d'une session à l'autre.
               </span>
             </button>
