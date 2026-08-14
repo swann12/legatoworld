@@ -113,16 +113,16 @@ function Onboarding() {
     return (
       <Frame onBack={() => navigate({ to: "/start" })} progress="1 / 7">
         <h1 className="onboarding-title">
-          Comment<br /><span className="whitespace-nowrap">souhaitez-vous que</span><br /><span className="italic">Legato</span> vous appelle&nbsp;?
+          Comment souhaitez-vous<br />que Legato t’appelle&nbsp;?
         </h1>
-        <div className="mt-[28px]">
+        <div className="mt-[31px]">
           <input
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Swann"
             autoFocus
-            className="onboarding-field w-full rounded-full border bg-transparent px-5 font-serif text-[15px] italic outline-none transition-colors"
-            style={{ borderColor: "color-mix(in oklab, var(--dusk) 12%, transparent)", color: "var(--dusk)", height: 36 }}
+            className="onboarding-field w-full border bg-transparent px-4 font-sans text-[10px] outline-none transition-colors"
+            style={{ borderColor: "color-mix(in oklab, var(--dusk) 12%, transparent)", color: "var(--dusk)", height: 34, borderRadius: 2 }}
           />
         </div>
         <div className="mt-auto" />
@@ -138,7 +138,7 @@ function Onboarding() {
         <h1 className="onboarding-title">
           Pourquoi venez-vous<br />sur <span className="italic">Legato</span> aujourd'hui&nbsp;?
         </h1>
-        <div className="mt-[28px] flex flex-col gap-[9px]">
+        <div className="mt-[31px] flex flex-col gap-[7px]">
           {SITUATIONS.map((s) => {
             const active = situation === s.id;
             return (
@@ -291,11 +291,10 @@ function Frame({ children, onBack, progress }: { children: ReactNode; onBack: ()
   return (
     <main className="min-h-dvh" style={{ background: "var(--paper)", color: "var(--dusk)" }}>
       <div className="mobile-frame relative flex min-h-dvh flex-col" style={{ background: "var(--paper)" }}>
-        <header className="px-[36px] pt-[35px] flex items-center">
-          <button onClick={onBack} aria-label="Retour" className="sr-only">Retour</button>
-          <span className="font-serif text-[20px] leading-none tracking-[0.18em]" aria-label="Legato">⑧&nbsp; Legato</span>
+        <header className="sr-only">
+          <button onClick={onBack} aria-label="Retour">Retour</button>
         </header>
-        <div className="px-[36px] mt-[38px] flex items-center gap-1">
+        <div className="px-[46px] pt-[53px] flex items-center gap-1">
           {Array.from({ length: safeTotal }).map((_, i) => (
             <span
               key={i}
@@ -304,7 +303,7 @@ function Frame({ children, onBack, progress }: { children: ReactNode; onBack: ()
             />
           ))}
         </div>
-        <div className="relative z-10 flex flex-1 flex-col px-[36px] pt-[35px] pb-[36px]">{children}</div>
+        <div className="relative z-10 flex flex-1 flex-col px-[46px] pt-[31px] pb-[38px]">{children}</div>
       </div>
     </main>
   );
@@ -330,9 +329,9 @@ function BlushBtn({ children, onClick, disabled }: { children: ReactNode; onClic
         onClick={onClick}
         disabled={disabled}
         className="w-full text-center disabled:opacity-40 transition-transform active:scale-[0.99]"
-        style={{ background: "var(--blush)", color: "var(--dusk)", height: 44, borderRadius: 3 }}
+        style={{ background: "var(--clay)", color: "var(--dusk)", height: 32, borderRadius: 999 }}
       >
-        <span className="mono-label" style={{ color: "var(--dusk)", letterSpacing: "0.28em", fontSize: 8.5 }}>{children}</span>
+        <span className="mono-label" style={{ color: "var(--dusk)", letterSpacing: "0.22em", fontSize: 7 }}>{children}</span>
       </button>
     </div>
   );
@@ -350,12 +349,12 @@ function OptionPill({ children, active, onClick }: { children: ReactNode; active
   return (
     <button
       onClick={onClick}
-      className="text-left rounded-full border px-4 transition-colors flex items-center gap-2.5"
+      className="text-left rounded-full border px-3.5 transition-colors flex items-center gap-2"
       style={{
         background: "var(--paper)",
         borderColor: active ? "var(--terracotta)" : "color-mix(in oklab, var(--dusk) 14%, transparent)",
         color: "var(--dusk)",
-        minHeight: 36,
+        minHeight: 32,
       }}
     >
       <span
@@ -366,7 +365,7 @@ function OptionPill({ children, active, onClick }: { children: ReactNode; active
           border: active ? "none" : "0 solid transparent",
         }}
       />
-      <span className="text-[11.5px] leading-[1.15]">{children}</span>
+      <span className="text-[9px] leading-[1.15]">{children}</span>
     </button>
   );
 }
