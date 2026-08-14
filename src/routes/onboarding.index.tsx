@@ -113,7 +113,7 @@ function Onboarding() {
     return (
       <Frame onBack={() => navigate({ to: "/start" })} progress="1 / 7">
         <h1 className="onboarding-title">
-          Comment<br /><span className="whitespace-nowrap">souhaitez‑vous que</span><br /><span className="italic">Legato</span> vous appelle&nbsp;?
+          Comment<br /><span className="whitespace-nowrap">souhaitez-vous que</span><br /><span className="italic">Legato</span> vous appelle&nbsp;?
         </h1>
         <div className="mt-[28px]">
           <input
@@ -291,10 +291,11 @@ function Frame({ children, onBack, progress }: { children: ReactNode; onBack: ()
   return (
     <main className="min-h-dvh" style={{ background: "var(--paper)", color: "var(--dusk)" }}>
       <div className="mobile-frame relative flex min-h-dvh flex-col" style={{ background: "var(--paper)" }}>
-        <header className="px-[46px] pt-[44px] flex items-center">
-          <button onClick={onBack} aria-label="Retour" className="text-dusk/60 text-lg leading-none">←</button>
+        <header className="px-[36px] pt-[35px] flex items-center">
+          <button onClick={onBack} aria-label="Retour" className="sr-only">Retour</button>
+          <span className="font-serif text-[20px] leading-none tracking-[0.18em]" aria-label="Legato">⑧&nbsp; Legato</span>
         </header>
-        <div className="px-[46px] mt-[26px] flex items-center gap-1.5">
+        <div className="px-[36px] mt-[38px] flex items-center gap-1">
           {Array.from({ length: safeTotal }).map((_, i) => (
             <span
               key={i}
@@ -303,7 +304,7 @@ function Frame({ children, onBack, progress }: { children: ReactNode; onBack: ()
             />
           ))}
         </div>
-        <div className="relative z-10 flex flex-1 flex-col px-[46px] pt-[38px] pb-[42px]">{children}</div>
+        <div className="relative z-10 flex flex-1 flex-col px-[36px] pt-[35px] pb-[36px]">{children}</div>
       </div>
     </main>
   );
@@ -329,7 +330,7 @@ function BlushBtn({ children, onClick, disabled }: { children: ReactNode; onClic
         onClick={onClick}
         disabled={disabled}
         className="w-full text-center disabled:opacity-40 transition-transform active:scale-[0.99]"
-        style={{ background: "var(--blush)", color: "var(--dusk)", height: 38, borderRadius: 2 }}
+        style={{ background: "var(--blush)", color: "var(--dusk)", height: 44, borderRadius: 3 }}
       >
         <span className="mono-label" style={{ color: "var(--dusk)", letterSpacing: "0.28em", fontSize: 8.5 }}>{children}</span>
       </button>

@@ -217,6 +217,15 @@
  .font-sans { font-family: var(--font-sans); }
 }
 
+.onboarding-title {
+ font-family: var(--font-serif);
+ color: var(--dusk);
+ font-size: 29px;
+ font-weight: 400;
+ line-height: 0.98;
+ letter-spacing: 0;
+}
+
 @layer components {
  /* Sculptural ceramic surface: hand-thrown bowl holding light */
  .ceramic {
