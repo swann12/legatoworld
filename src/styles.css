@@ -797,3 +797,13 @@
  scroll-behavior: auto !important;
  }
 }
+
+.onboarding-title {
+ font-family: var(--font-serif);
+ color: var(--dusk);
+ font-size: 42px;
+ font-weight: 400;
+ line-height: 0.98;
+ letter-spacing: 0;
+ text-wrap: balance;
+}
