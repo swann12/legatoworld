@@ -115,14 +115,14 @@ function Onboarding() {
         <h1 className="onboarding-title">
           Comment souhaitez-vous<br />que Legato t’appelle&nbsp;?
         </h1>
-        <div className="mt-[31px]">
+        <div className="mt-[38px]">
           <input
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Swann"
             autoFocus
-            className="onboarding-field w-full border bg-transparent px-4 font-sans text-[10px] outline-none transition-colors"
-            style={{ borderColor: "color-mix(in oklab, var(--dusk) 12%, transparent)", color: "var(--dusk)", height: 34, borderRadius: 2 }}
+            className="onboarding-field w-full border bg-transparent px-5 font-sans text-[14px] outline-none transition-colors"
+            style={{ borderColor: "color-mix(in oklab, var(--dusk) 12%, transparent)", color: "var(--dusk)", height: 52, borderRadius: 999 }}
           />
         </div>
         <div className="mt-auto" />
@@ -138,7 +138,7 @@ function Onboarding() {
         <h1 className="onboarding-title">
           Pourquoi venez-vous<br />sur <span className="italic">Legato</span> aujourd'hui&nbsp;?
         </h1>
-        <div className="mt-[31px] flex flex-col gap-[7px]">
+        <div className="mt-[38px] flex flex-col gap-[10px]">
           {SITUATIONS.map((s) => {
             const active = situation === s.id;
             return (
@@ -294,7 +294,7 @@ function Frame({ children, onBack, progress }: { children: ReactNode; onBack: ()
         <header className="sr-only">
           <button onClick={onBack} aria-label="Retour">Retour</button>
         </header>
-        <div className="px-[46px] pt-[53px] flex items-center gap-1">
+        <div className="px-[38px] pt-[46px] flex items-center gap-1.5">
           {Array.from({ length: safeTotal }).map((_, i) => (
             <span
               key={i}
@@ -303,7 +303,7 @@ function Frame({ children, onBack, progress }: { children: ReactNode; onBack: ()
             />
           ))}
         </div>
-        <div className="relative z-10 flex flex-1 flex-col px-[46px] pt-[31px] pb-[38px]">{children}</div>
+        <div className="relative z-10 flex flex-1 flex-col px-[38px] pt-[42px] pb-[38px]">{children}</div>
       </div>
     </main>
   );
@@ -329,9 +329,9 @@ function BlushBtn({ children, onClick, disabled }: { children: ReactNode; onClic
         onClick={onClick}
         disabled={disabled}
         className="w-full text-center disabled:opacity-40 transition-transform active:scale-[0.99]"
-        style={{ background: "var(--clay)", color: "var(--dusk)", height: 32, borderRadius: 999 }}
+        style={{ background: "var(--clay)", color: "var(--dusk)", height: 48, borderRadius: 999 }}
       >
-        <span className="mono-label" style={{ color: "var(--dusk)", letterSpacing: "0.22em", fontSize: 7 }}>{children}</span>
+        <span className="mono-label" style={{ color: "var(--dusk)", letterSpacing: "0.18em", fontSize: 9 }}>{children}</span>
       </button>
     </div>
   );
@@ -349,23 +349,23 @@ function OptionPill({ children, active, onClick }: { children: ReactNode; active
   return (
     <button
       onClick={onClick}
-      className="text-left rounded-full border px-3.5 transition-colors flex items-center gap-2"
+      className="text-left rounded-full border px-5 transition-colors flex items-center gap-3"
       style={{
         background: "var(--paper)",
         borderColor: active ? "var(--terracotta)" : "color-mix(in oklab, var(--dusk) 14%, transparent)",
         color: "var(--dusk)",
-        minHeight: 32,
+        minHeight: 50,
       }}
     >
       <span
         className="inline-block rounded-full shrink-0"
         style={{
-          width: 5, height: 5,
+          width: 7, height: 7,
           background: active ? "var(--terracotta)" : "transparent",
           border: active ? "none" : "0 solid transparent",
         }}
       />
-      <span className="text-[9px] leading-[1.15]">{children}</span>
+      <span className="text-[13px] leading-[1.2]">{children}</span>
     </button>
   );
 }
