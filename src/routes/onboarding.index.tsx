@@ -113,16 +113,16 @@ function Onboarding() {
     return (
       <Frame onBack={() => navigate({ to: "/start" })} progress="1 / 7">
         <h1 className="onboarding-title">
-          Comment souhaitez-vous<br />que Legato t’appelle&nbsp;?
+          Comment souhaites-tu<br />que Legato t’appelle&nbsp;?
         </h1>
-        <div className="mt-[38px]">
+        <div className="mt-[52px]">
           <input
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Swann"
             autoFocus
-            className="onboarding-field w-full border bg-transparent px-5 font-sans text-[14px] outline-none transition-colors"
-            style={{ borderColor: "color-mix(in oklab, var(--dusk) 12%, transparent)", color: "var(--dusk)", height: 52, borderRadius: 999 }}
+            className="onboarding-field w-full border bg-transparent px-5 font-sans text-[12px] outline-none transition-colors"
+            style={{ borderColor: "color-mix(in oklab, var(--dusk) 12%, transparent)", color: "var(--dusk)", height: 48, borderRadius: 4 }}
           />
         </div>
         <div className="mt-auto" />
@@ -138,7 +138,7 @@ function Onboarding() {
         <h1 className="onboarding-title">
           Pourquoi venez-vous<br />sur <span className="italic">Legato</span> aujourd'hui&nbsp;?
         </h1>
-        <div className="mt-[38px] flex flex-col gap-[10px]">
+        <div className="mt-[52px] flex flex-col gap-[10px]">
           {SITUATIONS.map((s) => {
             const active = situation === s.id;
             return (
@@ -256,19 +256,19 @@ function Onboarding() {
       <h1 className="onboarding-title">
         Comment vous<br />sentez-vous<br />maintenant&nbsp;?
       </h1>
-      <div className="mt-[28px] grid gap-[10px] w-full" style={{ gridTemplateColumns: "repeat(3, minmax(0,1fr))" }}>
+      <div className="mt-[45px] grid gap-[12px] w-full" style={{ gridTemplateColumns: "repeat(3, minmax(0,1fr))" }}>
         {EMOTIONS.map((e) => {
           const active = currentEmotions.includes(e.id);
           return (
             <button
               key={e.id}
               onClick={() => toggleEmotion(e.id)}
-              className="border flex items-center justify-center px-1.5 transition-colors aspect-square w-full"
+               className="border flex items-center justify-center px-1.5 transition-colors w-full h-[83px]"
               style={{
                 background: active ? "var(--terracotta)" : "transparent",
                 borderColor: active ? "var(--terracotta)" : "color-mix(in oklab, var(--dusk) 12%, transparent)",
                 color: active ? "var(--paper)" : "var(--dusk)",
-                borderRadius: 7,
+                 borderRadius: 7,
               }}
             >
               <span className="text-[11px] text-center leading-[1.18]">{e.label}</span>
@@ -294,7 +294,7 @@ function Frame({ children, onBack, progress }: { children: ReactNode; onBack: ()
         <header className="sr-only">
           <button onClick={onBack} aria-label="Retour">Retour</button>
         </header>
-        <div className="px-[38px] pt-[46px] flex items-center gap-1.5">
+        <div className="px-[50px] pt-[60px] flex items-center gap-1.5">
           {Array.from({ length: safeTotal }).map((_, i) => (
             <span
               key={i}
@@ -303,7 +303,7 @@ function Frame({ children, onBack, progress }: { children: ReactNode; onBack: ()
             />
           ))}
         </div>
-        <div className="relative z-10 flex flex-1 flex-col px-[38px] pt-[42px] pb-[38px]">{children}</div>
+        <div className="relative z-10 flex flex-1 flex-col px-[50px] pt-[62px] pb-[38px]">{children}</div>
       </div>
     </main>
   );
@@ -314,7 +314,7 @@ function PrimaryBtn({ children, onClick, disabled }: { children: ReactNode; onCl
     <button
       onClick={onClick}
       disabled={disabled}
-      className="mt-8 block w-full rounded-[999px] px-6 py-5 text-center disabled:opacity-40 transition-transform active:scale-[0.99]"
+      className="mt-8 block w-full rounded-[4px] px-6 py-5 text-center disabled:opacity-40 transition-transform active:scale-[0.99]"
       style={{ background: "var(--bordeaux)", color: "var(--paper)" }}
     >
       <span className="font-serif text-[20px]">{children}</span>
@@ -329,7 +329,7 @@ function BlushBtn({ children, onClick, disabled }: { children: ReactNode; onClic
         onClick={onClick}
         disabled={disabled}
         className="w-full text-center disabled:opacity-40 transition-transform active:scale-[0.99]"
-        style={{ background: "var(--clay)", color: "var(--dusk)", height: 48, borderRadius: 999 }}
+        style={{ background: "var(--clay)", color: "var(--dusk)", height: 47, borderRadius: 999 }}
       >
         <span className="mono-label" style={{ color: "var(--dusk)", letterSpacing: "0.18em", fontSize: 9 }}>{children}</span>
       </button>
@@ -349,12 +349,12 @@ function OptionPill({ children, active, onClick }: { children: ReactNode; active
   return (
     <button
       onClick={onClick}
-      className="text-left rounded-full border px-5 transition-colors flex items-center gap-3"
+      className="text-left rounded-[4px] border px-4 transition-colors flex items-center gap-3"
       style={{
         background: "var(--paper)",
         borderColor: active ? "var(--terracotta)" : "color-mix(in oklab, var(--dusk) 14%, transparent)",
         color: "var(--dusk)",
-        minHeight: 50,
+        minHeight: 47,
       }}
     >
       <span
@@ -365,7 +365,7 @@ function OptionPill({ children, active, onClick }: { children: ReactNode; active
           border: active ? "none" : "0 solid transparent",
         }}
       />
-      <span className="text-[13px] leading-[1.2]">{children}</span>
+      <span className="text-[11px] leading-[1.2]">{children}</span>
     </button>
   );
 }
