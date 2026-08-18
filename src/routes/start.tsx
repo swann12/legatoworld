@@ -123,7 +123,7 @@ function Start() {
           className="mobile-frame relative flex min-h-dvh flex-col items-center justify-center animate-fade-in"
           style={{ background: "var(--paper)", padding: "0 50px 60px" }}
         >
-          <div className="flex flex-1 items-center justify-center">
+          <div className="flex flex-1 translate-y-7 items-center justify-center">
             <LegatoMark to="/start" variant="ink" size={160} stacked />
           </div>
           <button
@@ -167,7 +167,7 @@ function Start() {
       <main className="min-h-dvh" style={{ background: "var(--paper)", color: "var(--dusk)" }}>
         <div className="mobile-frame relative flex min-h-dvh flex-col items-center animate-fade-in" style={{ background: "var(--paper)", padding: "64px 50px 42px" }}>
           <LegatoMark to="/start" variant="ink" size={39} stacked />
-          <h1 className="font-serif text-center" style={{ marginTop: 166, fontSize: 50, lineHeight: 0.94, color: "var(--dusk)", fontWeight: 400 }}>
+          <h1 className="font-serif text-center" style={{ marginTop: 140, fontSize: 50, lineHeight: 0.94, color: "var(--dusk)", fontWeight: 400 }}>
             Préparer<br />un <span className="italic">adieu</span>,<br />garder une<br /><span className="italic">présence</span>.
           </h1>
           <div className="mt-auto flex w-full flex-col items-stretch gap-[10px]">
