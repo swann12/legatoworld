@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { Plate } from "@/components/legato/Plate";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { Shell } from "@/components/legato/Shell";
 import { LegatoMark } from "@/components/legato/LegatoMark";
@@ -95,6 +96,7 @@ function Practical() {
                 ? `${done} sur ${total} étapes faites${lovedName ? ` pour ${lovedName}` : ""}. Le reste peut attendre.`
                 : `${total} étapes au total. Le reste peut attendre.`}
           </p>
+          <Plate name="demarches" caption="Papiers, clés, choses à poser" className="mt-7" ratio="4 / 3" />
         </section>
 
         {/* Bloc "Aujourd'hui" — une priorité claire + progression */}
