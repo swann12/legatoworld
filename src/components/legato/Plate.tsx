@@ -6,11 +6,12 @@ import memoire from "@/assets/ill-memoire.jpg";
 import souffle from "@/assets/ill-souffle.jpg";
 
 export const PLATES = {
-  presence: { src: presence, alt: "Planche : une main ouverte tenant un galet, une graminée séchée" },
-  demarches: { src: demarches, alt: "Planche : papier plié, petite clé, fougère pressée, fragments" },
-  corps: { src: corps, alt: "Planche : bol d'eau, linge plié, pain, feuille d'olivier" },
-  nuit: { src: nuit, alt: "Planche : nuée d'encre bleue, lune pâle, herbes fines" },
-  memoire: { src: memoire, alt: "Planche : fragment de lettre, fleur séchée, photographie de ciel" },
+  presence: { src: presence, alt: "Planche : main de mousse tenant un galet" },
+  demarches: { src: demarches, alt: "Planche : deux mains liées, dessin à l'encre" },
+  corps: { src: corps, alt: "Planche : colline de mousse et arbre solitaire" },
+  nuit: { src: nuit, alt: "Planche : nuit bleue, lune pâle, île de mousse" },
+  memoire: { src: memoire, alt: "Planche : spirale de nautile dorée sur bleu nuit" },
+
   souffle: { src: souffle, alt: "Planche : aigrette de pissenlit et graines emportées" },
 } as const;
 
@@ -46,9 +47,9 @@ export function Plate({
           width={1024}
           height={1024}
           loading={priority ? "eager" : "lazy"}
-          className="h-full w-full object-contain"
-          style={{ mixBlendMode: "multiply", opacity: 0.97 }}
+          className="h-full w-full object-cover"
         />
+
       </div>
       {caption && (
         <figcaption
