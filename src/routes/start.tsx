@@ -146,10 +146,10 @@ function Start() {
       <main className="min-h-dvh" style={{ background: "var(--bordeaux)", color: "var(--blush)" }}>
         <div
           className="mobile-frame relative flex min-h-dvh flex-col items-center text-center animate-fade-in"
-          style={{ background: "var(--bordeaux)", padding: "104px 54px 79px" }}
+          style={{ background: "var(--bordeaux)", padding: "110px 40px 79px" }}
           onClick={enterApp}
         >
-          <p className="font-serif" style={{ fontSize: 60, lineHeight: 0.97, color: "var(--clay)", fontWeight: 400, letterSpacing: "-0.005em" }}>
+          <p className="font-serif" style={{ fontSize: 52, lineHeight: 1.0, whiteSpace: "nowrap", color: "var(--clay)", fontWeight: 400, letterSpacing: "-0.005em" }}>
             Rien ne peut<br />ramener<br />l’heure passée,<br />mais nous<br />pouvons<br />trouver de<br />la force dans<br />ce qui<br />demeure.
           </p>
           <p className="mt-auto font-mono uppercase" style={{ color: "var(--clay)", fontSize: 13.5, letterSpacing: "0.03em", lineHeight: 1.35 }}>
