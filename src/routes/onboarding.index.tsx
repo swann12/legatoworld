@@ -217,9 +217,9 @@ function Onboarding() {
 
   if (step === 5) {
     return (
-      <Frame onBack={() => (needsLabel ? setStep(4) : setStep(2))} progress={4} compact>
+      <Frame onBack={() => (needsLabel ? setStep(4) : setStep(2))} progress={4}>
         <h1 className="onboarding-title">{stageQuestion(situation)}</h1>
-        <div className="mt-[28px] flex flex-col gap-[9px]">
+        <div className="mt-[62px] flex flex-col gap-[7px]">
           {stageOptions.map((s) => (
             <OptionPill key={s.id} active={stage === s.id} onClick={() => setStage(s.id as Stage)}>
               {s.label}
@@ -257,7 +257,7 @@ function Onboarding() {
 
   if (step === 8) {
     return (
-      <Frame onBack={() => setStep(6)} progress={4}>
+      <Frame onBack={() => setStep(6)} progress={5}>
         <h1 className="onboarding-title">Êtes-vous responsable légalement, ou aidez-vous la famille pour les démarches&nbsp;?</h1>
         <div className="mt-[28px] flex flex-col gap-[9px]">
           <OptionPill active={legallyInvolved === true} onClick={() => setLegallyInvolved(true)}>Oui, je suis impliqué·e</OptionPill>
@@ -270,7 +270,7 @@ function Onboarding() {
   }
 
   return (
-    <Frame onBack={backFromEmotion} progress={3} wideProgress>
+    <Frame onBack={backFromEmotion} progress={5}>
       <h1 className="onboarding-title">
         Comment<br />vous sentez-vous<br />aujourd’hui&nbsp;?
       </h1>
@@ -301,14 +301,14 @@ function Onboarding() {
   );
 }
 
-function Frame({ children, onBack, progress, compact = false, wideProgress = false }: { children: ReactNode; onBack: () => void; progress: number; compact?: boolean; wideProgress?: boolean }) {
+function Frame({ children, onBack, progress, compact = false }: { children: ReactNode; onBack: () => void; progress: number; compact?: boolean }) {
   return (
     <main className="min-h-dvh" style={{ background: "var(--paper)", color: "var(--dusk)" }}>
       <div className="mobile-frame relative flex min-h-dvh flex-col" style={{ background: "var(--paper)" }}>
         <header className="sr-only">
           <button onClick={onBack} aria-label="Retour">Retour</button>
         </header>
-        <div className={`flex items-center gap-[5px] pt-[73px] ${wideProgress ? "px-[39px]" : "px-[47px]"}`}>
+        <div className="flex items-center gap-[5px] px-[51px] pt-[73px]">
           {Array.from({ length: 5 }).map((_, i) => (
             <span
               key={i}
