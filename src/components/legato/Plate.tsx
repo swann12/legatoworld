@@ -36,8 +36,9 @@ export function Plate({
   const plate = PLATES[name];
   return (
     <figure className={`relative ${className}`}>
+      <Scatter seed={name} />
       <div
-        className="overflow-hidden"
+        className="relative overflow-hidden"
         style={{ aspectRatio: ratio, background: "transparent" }}
       >
         <img
