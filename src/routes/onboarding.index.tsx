@@ -307,7 +307,7 @@ function Frame({ children, onBack, progress, compact = false, wideProgress = fal
         <header className="sr-only">
           <button onClick={onBack} aria-label="Retour">Retour</button>
         </header>
-        <div className={`flex items-center gap-[5px] pt-[73px] ${wideProgress ? "px-[39px]" : "px-[47px]"}`}>
+        <div className="flex items-center gap-[5px] px-[39px] pt-[73px]">
           {Array.from({ length: 5 }).map((_, i) => (
             <span
               key={i}
@@ -316,7 +316,7 @@ function Frame({ children, onBack, progress, compact = false, wideProgress = fal
             />
           ))}
         </div>
-        <div className={`relative z-10 flex flex-1 flex-col px-[51px] pb-[77px] ${compact ? "pt-[55px]" : "pt-[58px]"}`}>{children}</div>
+         <div className={`relative z-10 flex flex-1 flex-col px-[40px] pb-[77px] ${compact ? "pt-[55px]" : "pt-[58px]"}`}>{children}</div>
       </div>
     </main>
   );
@@ -341,8 +341,8 @@ function BlushBtn({ children, onClick, disabled }: { children: ReactNode; onClic
       <Button
         onClick={onClick}
         disabled={disabled}
-        className="h-[45px] w-full rounded-full p-0 text-center font-normal shadow-none disabled:opacity-40 transition-transform active:scale-[0.99]"
-        style={{ background: "var(--clay)", color: "var(--dusk)", height: 47, borderRadius: 999 }}
+        className="h-[44px] w-full rounded-full p-0 text-center font-normal shadow-none disabled:opacity-40 transition-transform active:scale-[0.99]"
+        style={{ background: "var(--clay)", color: "var(--dusk)", borderRadius: 999 }}
       >
         <span className="mono-label" style={{ color: "var(--dusk)", letterSpacing: "0.18em", fontSize: 9 }}>{children}</span>
       </Button>
