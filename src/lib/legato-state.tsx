@@ -370,7 +370,7 @@ const LegatoContext = createContext<Ctx | null>(null);
 export function LegatoProvider({ children }: { children: ReactNode }) {
   const [branch, setBranch] = useState<Branch>("person");
   const [mode, setMode] = useState<Mode>("cocoon");
-  const [name, setName] = useState<string>("Swann");
+  const [name, setName] = useState<string>("");
   const [lostName, setLostName] = useState<string>("Élise");
   const [lang, setLang] = useState<Lang>("fr");
   const [theme, setThemeState] = useState<ThemeMode>("auto");

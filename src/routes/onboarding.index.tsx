@@ -38,12 +38,14 @@ function Onboarding() {
     primaryNeed, setPrimaryNeed,
     currentEmotions, setCurrentEmotions,
     legallyInvolved, setLegallyInvolved,
+    hydrated,
   } = useLegato();
   const navigate = useNavigate();
   const record = useServerFn(recordEmotion);
   const [step, setStep] = useState<Step>(1);
 
   useEffect(() => {
+    if (!hydrated) return;
     setName("");
     setSituation(null);
     setLovedOneName("");
@@ -53,7 +55,7 @@ function Onboarding() {
     setPrimaryNeed(null);
     setCurrentEmotions([]);
     setLegallyInvolved(null);
-  }, []);
+  }, [hydrated]);
 
   const needsPerson = Boolean(situation && ["perdu", "peur", "accompagner"].includes(situation));
   const needsLabel = Boolean(situation && !["questionnement", "volontes"].includes(situation));
