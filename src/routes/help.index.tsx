@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { Plate } from "@/components/legato/Plate";
 import { useEffect, useState } from "react";
 import { Shell } from "@/components/legato/Shell";
 import { PageHeader } from "@/components/legato/EditorialUI";
@@ -52,6 +53,7 @@ function Help() {
           <p className="mt-4 text-[13px] leading-[1.6] text-dusk/60 max-w-[34ch]">
             Trois curseurs courts. On adapte deux ou trois gestes — rien de plus.
           </p>
+          <Plate name="corps" caption="Boire, manger, se couvrir" className="mt-7" ratio="4 / 3" />
         </section>
 
         <section className="px-5 pt-7 space-y-3">
