@@ -357,8 +357,8 @@ type Ctx = {
   setTaskStatus: (id: string, status: TaskStatus) => void;
 
   // Vrai si l'utilisateur est légalement impliqué (ami/collègue/autre)
-  legallyInvolved: boolean;
-  setLegallyInvolved: (v: boolean) => void;
+  legallyInvolved: boolean | null;
+  setLegallyInvolved: (v: boolean | null) => void;
 };
 
 export type TaskStatus =
@@ -370,7 +370,7 @@ const LegatoContext = createContext<Ctx | null>(null);
 export function LegatoProvider({ children }: { children: ReactNode }) {
   const [branch, setBranch] = useState<Branch>("person");
   const [mode, setMode] = useState<Mode>("cocoon");
-  const [name, setName] = useState<string>("Swann");
+  const [name, setName] = useState<string>("");
   const [lostName, setLostName] = useState<string>("Élise");
   const [lang, setLang] = useState<Lang>("fr");
   const [theme, setThemeState] = useState<ThemeMode>("auto");
@@ -484,8 +484,8 @@ export function LegatoProvider({ children }: { children: ReactNode }) {
     });
   };
 
-  const [legallyInvolved, setLegallyInvolvedState] = useState<boolean>(false);
-  const setLegallyInvolved = (v: boolean) => { setLegallyInvolvedState(v); lsSet("lg.legallyInvolved", v); };
+  const [legallyInvolved, setLegallyInvolvedState] = useState<boolean | null>(null);
+  const setLegallyInvolved = (v: boolean | null) => { setLegallyInvolvedState(v); lsSet("lg.legallyInvolved", v); };
 
   useEffect(() => {
     setThemeState(lsGet("legato-theme", "auto" as ThemeMode));
@@ -502,7 +502,7 @@ export function LegatoProvider({ children }: { children: ReactNode }) {
     setSoftDay(isStoredSoftDayActive());
     setNightModeOverrideState(lsGet("lg.nightOverride", null));
     setTaskStatusState(lsGet("lg.taskStatus", {} as Record<string, TaskStatus>));
-    setLegallyInvolvedState(lsGet("lg.legallyInvolved", false));
+    setLegallyInvolvedState(lsGet("lg.legallyInvolved", null));
     setHydrated(true);
   }, []);
 

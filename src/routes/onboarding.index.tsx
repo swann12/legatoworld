@@ -14,7 +14,7 @@ import {
 import { useServerFn } from "@tanstack/react-start";
 import { recordEmotion } from "@/lib/emotional.functions";
 import { supabase } from "@/integrations/supabase/client";
-import { useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 
 export const Route = createFileRoute("/onboarding/")({
   head: () => ({
@@ -38,10 +38,24 @@ function Onboarding() {
     primaryNeed, setPrimaryNeed,
     currentEmotions, setCurrentEmotions,
     legallyInvolved, setLegallyInvolved,
+    hydrated,
   } = useLegato();
   const navigate = useNavigate();
   const record = useServerFn(recordEmotion);
   const [step, setStep] = useState<Step>(1);
+
+  useEffect(() => {
+    if (!hydrated) return;
+    setName("");
+    setSituation(null);
+    setLovedOneName("");
+    setLovedOther("");
+    setLovedOneRelation(null);
+    setStage(null);
+    setPrimaryNeed(null);
+    setCurrentEmotions([]);
+    setLegallyInvolved(null);
+  }, [hydrated]);
 
   const needsPerson = Boolean(situation && ["perdu", "peur", "accompagner"].includes(situation));
   const needsLabel = Boolean(situation && !["questionnement", "volontes"].includes(situation));
@@ -185,7 +199,7 @@ function Onboarding() {
     return (
       <Frame onBack={() => (needsPerson ? setStep(3) : setStep(2))} progress="4 / 7">
         <h1 className="onboarding-title">
-          Comment aimeriez-vous<br />l'appeler dans <span className="italic">Legato</span>&nbsp;?
+          <span className="whitespace-nowrap">Comment aimeriez-vous</span><br />l'appeler dans <span className="italic">Legato</span>&nbsp;?
         </h1>
         <div className="mt-[28px]">
           <input value={lovedOneName} onChange={(e) => setLovedOneName(e.target.value)} placeholder={placeholderFor(lovedOneRelation)} className="onboarding-field w-full rounded-full border bg-transparent px-5 font-serif text-[15px] italic outline-none" style={{ borderColor: "color-mix(in oklab, var(--dusk) 12%, transparent)", color: "var(--dusk)", height: 36 }} />
@@ -267,7 +281,7 @@ function Onboarding() {
               style={{
                 background: active ? "var(--terracotta)" : "transparent",
                 borderColor: active ? "var(--terracotta)" : "color-mix(in oklab, var(--dusk) 12%, transparent)",
-                color: active ? "var(--paper)" : "var(--dusk)",
+                color: "var(--dusk)",
                  borderRadius: 7,
               }}
             >
