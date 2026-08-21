@@ -219,7 +219,7 @@ function Onboarding() {
     return (
       <Frame onBack={() => (needsLabel ? setStep(4) : setStep(2))} progress={4}>
         <h1 className="onboarding-title">{stageQuestion(situation)}</h1>
-        <div className="mt-[62px] flex flex-col gap-[7px]">
+        <div className="mt-[46px] flex flex-col gap-[7px] overflow-y-auto pb-[6px]">
           {stageOptions.map((s) => (
             <OptionPill key={s.id} active={stage === s.id} onClick={() => setStage(s.id as Stage)}>
               {s.label}
@@ -364,7 +364,7 @@ function OptionPill({ children, active, onClick }: { children: ReactNode; active
     <Button
       onClick={onClick}
       variant="outline"
-      className="flex min-h-[45px] w-full items-center justify-start gap-3 rounded-[7px] border px-[16px] text-left font-normal shadow-none transition-colors hover:text-dusk"
+      className="flex min-h-[45px] w-full items-center justify-start gap-3 whitespace-normal rounded-[7px] border px-[16px] py-[10px] text-left font-normal shadow-none transition-colors hover:text-dusk"
       style={{
         background: "var(--paper)",
         borderColor: active ? "var(--terracotta)" : "color-mix(in oklab, var(--dusk) 14%, transparent)",
@@ -379,7 +379,7 @@ function OptionPill({ children, active, onClick }: { children: ReactNode; active
           border: active ? "none" : "1px solid color-mix(in oklab, var(--dusk) 15%, transparent)",
         }}
       />
-      <span className="text-[12px] leading-[1.2]">{children}</span>
+      <span className="min-w-0 flex-1 whitespace-normal break-words text-[12px] leading-[1.25]">{children}</span>
     </Button>
   );
 }
