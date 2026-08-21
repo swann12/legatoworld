@@ -39,7 +39,7 @@ const nameSchema = z
 
 function Start() {
   const navigate = useNavigate();
-  const [stage, setStage] = useState<Stage>("splash");
+  const [stage, setStage] = useState<Stage>("choice");
   const [displayName, setDisplayName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -121,26 +121,6 @@ function Start() {
     }
   };
 
-  if (stage === "splash") {
-    return (
-      <main className="min-h-dvh bg-paper text-dusk">
-        <div className="mobile-frame flex min-h-dvh flex-col items-center bg-paper px-[50px] pb-[59px] pt-[297px]">
-          <div className="translate-x-[5px]">
-            <LegatoMark to="/start" variant="ink" size={160} stacked />
-          </div>
-          <Button
-            type="button"
-            variant="outline"
-            onClick={() => setStage("choice")}
-            className="mt-auto h-[46px] w-[148px] rounded-full border-dusk/15 bg-paper p-0 font-mono text-[10px] font-normal uppercase text-dusk shadow-none hover:bg-paper hover:text-dusk"
-          >
-            <span className="tracking-[0.17em]">Entrer</span>
-          </Button>
-        </div>
-      </main>
-    );
-  }
-
   if (stage === "quote") {
     return (
       <main className="min-h-dvh" style={{ background: "var(--bordeaux)", color: "var(--blush)" }}>
@@ -149,7 +129,7 @@ function Start() {
           style={{ background: "var(--bordeaux)", padding: "110px 40px 79px" }}
           onClick={enterApp}
         >
-          <p className="font-serif" style={{ fontSize: 52, lineHeight: 1.0, whiteSpace: "nowrap", color: "var(--clay)", fontWeight: 400, letterSpacing: "-0.005em" }}>
+          <p className="font-serif" style={{ fontSize: 46, lineHeight: 1.11, whiteSpace: "nowrap", color: "var(--clay)", fontWeight: 400, letterSpacing: "-0.005em" }}>
             Rien ne peut<br />ramener<br />l’heure passée,<br />mais nous<br />pouvons<br />trouver de<br />la force dans<br />ce qui<br />demeure.
           </p>
           <p className="mt-auto font-mono uppercase" style={{ color: "var(--clay)", fontSize: 13.5, letterSpacing: "0.03em", lineHeight: 1.35 }}>
