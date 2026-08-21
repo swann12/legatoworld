@@ -307,7 +307,7 @@ function Frame({ children, onBack, progress, compact = false, wideProgress = fal
         <header className="sr-only">
           <button onClick={onBack} aria-label="Retour">Retour</button>
         </header>
-        <div className="flex items-center gap-[5px] px-[39px] pt-[73px]">
+        <div className={`flex items-center gap-[5px] pt-[73px] ${wideProgress ? "px-[39px]" : "px-[47px]"}`}>
           {Array.from({ length: 5 }).map((_, i) => (
             <span
               key={i}
@@ -316,7 +316,7 @@ function Frame({ children, onBack, progress, compact = false, wideProgress = fal
             />
           ))}
         </div>
-         <div className={`relative z-10 flex flex-1 flex-col px-[40px] pb-[77px] ${compact ? "pt-[55px]" : "pt-[58px]"}`}>{children}</div>
+         <div className={`relative z-10 flex flex-1 flex-col px-[51px] pb-[77px] ${compact ? "pt-[55px]" : "pt-[58px]"}`}>{children}</div>
       </div>
     </main>
   );
