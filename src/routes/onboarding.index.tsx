@@ -134,7 +134,7 @@ function Onboarding() {
         <h1 className="onboarding-title">
           <span className="whitespace-nowrap">Comment souhaites-tu</span><br />que Legato t’appelle&nbsp;?
         </h1>
-        <div className="mt-[61px]">
+        <div className="mt-[63px]">
           <input
             value={name}
             onChange={(e) => setName(e.target.value)}
@@ -269,19 +269,19 @@ function Onboarding() {
   }
 
   return (
-    <Frame onBack={backFromEmotion} progress={3}>
+    <Frame onBack={backFromEmotion} progress={3} wideProgress>
       <h1 className="onboarding-title">
         Comment<br />vous sentez-vous<br />aujourd’hui&nbsp;?
       </h1>
-      <div className="mt-[56px] grid w-full grid-cols-3 gap-[8px]">
-        {EMOTIONS.slice(0, 8).concat([{ id: "besoin_aide", label: "Autre" }]).map((e) => {
+      <div className="mt-[47px] grid w-full grid-cols-3 gap-[8px]">
+        {EMOTIONS.filter((emotion) => ["colere", "soulagement", "nostalgie", "tristesse", "solitude", "culpabilite", "fatigue", "peur"].includes(emotion.id)).concat([{ id: "besoin_aide", label: "Autre" }]).map((e) => {
           const active = currentEmotions.includes(e.id);
           return (
              <Button
               key={e.id}
               onClick={() => toggleEmotion(e.id)}
                variant="outline"
-               className="flex h-[78px] w-full items-center justify-center rounded-[11px] border p-1 font-normal shadow-none transition-colors hover:text-dusk"
+               className="flex h-[80px] w-full items-center justify-center rounded-[10px] border p-1 font-normal shadow-none transition-colors hover:text-dusk"
               style={{
                 background: active ? "var(--terracotta)" : "transparent",
                 borderColor: active ? "var(--terracotta)" : "color-mix(in oklab, var(--dusk) 12%, transparent)",
@@ -300,14 +300,14 @@ function Onboarding() {
   );
 }
 
-function Frame({ children, onBack, progress, compact = false }: { children: ReactNode; onBack: () => void; progress: number; compact?: boolean }) {
+function Frame({ children, onBack, progress, compact = false, wideProgress = false }: { children: ReactNode; onBack: () => void; progress: number; compact?: boolean; wideProgress?: boolean }) {
   return (
     <main className="min-h-dvh" style={{ background: "var(--paper)", color: "var(--dusk)" }}>
       <div className="mobile-frame relative flex min-h-dvh flex-col" style={{ background: "var(--paper)" }}>
         <header className="sr-only">
           <button onClick={onBack} aria-label="Retour">Retour</button>
         </header>
-        <div className="flex items-center gap-[5px] px-[50px] pt-[73px]">
+        <div className={`flex items-center gap-[5px] pt-[73px] ${wideProgress ? "px-[39px]" : "px-[47px]"}`}>
           {Array.from({ length: 5 }).map((_, i) => (
             <span
               key={i}
@@ -316,7 +316,7 @@ function Frame({ children, onBack, progress, compact = false }: { children: Reac
             />
           ))}
         </div>
-        <div className={`relative z-10 flex flex-1 flex-col px-[50px] pb-[55px] ${compact ? "pt-[57px]" : "pt-[60px]"}`}>{children}</div>
+        <div className={`relative z-10 flex flex-1 flex-col px-[51px] pb-[77px] ${compact ? "pt-[55px]" : "pt-[58px]"}`}>{children}</div>
       </div>
     </main>
   );

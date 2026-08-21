@@ -124,8 +124,10 @@ function Start() {
   if (stage === "splash") {
     return (
       <main className="min-h-dvh bg-paper text-dusk">
-        <div className="mobile-frame flex min-h-dvh flex-col items-center bg-paper px-[50px] pb-[59px] pt-[281px]">
-          <LegatoMark to="/start" variant="ink" size={116} stacked />
+        <div className="mobile-frame flex min-h-dvh flex-col items-center bg-paper px-[50px] pb-[59px] pt-[300px]">
+          <div className="translate-x-[5px]">
+            <LegatoMark to="/start" variant="ink" size={160} stacked />
+          </div>
           <Button
             type="button"
             variant="outline"
@@ -144,10 +146,10 @@ function Start() {
       <main className="min-h-dvh" style={{ background: "var(--bordeaux)", color: "var(--blush)" }}>
         <div
           className="mobile-frame relative flex min-h-dvh flex-col items-center text-center animate-fade-in"
-          style={{ background: "var(--bordeaux)", padding: "105px 43px 72px" }}
+          style={{ background: "var(--bordeaux)", padding: "101px 54px 72px" }}
           onClick={enterApp}
         >
-          <p className="font-serif" style={{ fontSize: 48, lineHeight: 1.02, color: "var(--clay)", fontWeight: 400, letterSpacing: 0 }}>
+          <p className="font-serif" style={{ fontSize: 46, lineHeight: 1.16, color: "var(--clay)", fontWeight: 400, letterSpacing: 0 }}>
             Rien ne peut<br />ramener<br />l’heure passée,<br />mais nous<br />pouvons<br />trouver de<br />la force dans<br />ce qui<br />demeure.
           </p>
           <p className="mt-auto font-mono uppercase" style={{ color: "var(--clay)", fontSize: 10.5, letterSpacing: "0.04em", lineHeight: 1.32 }}>
@@ -161,9 +163,9 @@ function Start() {
   if (stage === "choice") {
     return (
       <main className="min-h-dvh" style={{ background: "var(--paper)", color: "var(--dusk)" }}>
-        <div className="mobile-frame relative flex min-h-dvh flex-col items-center animate-fade-in" style={{ background: "var(--paper)", padding: "56px 51px 26px" }}>
+        <div className="mobile-frame relative flex min-h-dvh flex-col items-center animate-fade-in" style={{ background: "var(--paper)", padding: "56px 52px 26px" }}>
           <LegatoMark to="/start" variant="ink" size={50} stacked />
-          <h1 className="font-serif text-center" style={{ marginTop: 161, fontSize: 50, lineHeight: 1.04, color: "var(--dusk)", fontWeight: 400, letterSpacing: 0 }}>
+          <h1 className="font-serif text-center" style={{ marginTop: 152, fontSize: 46, lineHeight: 1.11, color: "var(--dusk)", fontWeight: 400, letterSpacing: 0 }}>
             Préparer<br />un <span className="italic">adieu</span>,<br />garder une<br /><span className="italic">présence</span>.
           </h1>
           <div className="mt-auto flex w-full flex-col items-stretch gap-[10px]">
