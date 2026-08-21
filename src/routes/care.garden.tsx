@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { Plate } from "@/components/legato/Plate";
 import { Shell } from "@/components/legato/Shell";
 import { LegatoMark } from "@/components/legato/LegatoMark";
 import { SubNav, CARE_SUBNAV } from "@/components/legato/SubNav";
@@ -52,6 +53,7 @@ function CareGarden() {
           <p className="mt-5 text-[13.5px] leading-[1.6] text-dusk/60 max-w-[34ch]">
             Tout se dépose ici. Rien ne s'efface.
           </p>
+          <Plate name="souffle" caption="Ce qui pousse, sans qu'on le force" className="mt-7" ratio="4 / 3" />
         </section>
 
         {dates.length > 0 && (

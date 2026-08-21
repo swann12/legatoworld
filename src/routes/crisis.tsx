@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { Plate } from "@/components/legato/Plate";
 import { Shell } from "@/components/legato/Shell";
 import { LISTENING_LINES } from "@/lib/listening-lines";
 
@@ -27,6 +28,8 @@ function Crisis() {
               Quelques portes douces. Choisissez celle qui vous demande le moins d'effort.
             </p>
           </section>
+
+          <Plate name="nuit" caption="La nuit tient, elle aussi" className="mt-7" ratio="16 / 10" />
 
           {/* Geste 1 — écrire à une Présence */}
           <Link

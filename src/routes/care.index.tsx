@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { Plate } from "@/components/legato/Plate";
 import { Shell } from "@/components/legato/Shell";
 import { useLegato, type Emotion } from "@/lib/legato-state";
 import { useLovedName } from "@/lib/loved-name";
@@ -59,6 +60,7 @@ function Care() {
               {stale ? "Commencez par nommer ce qui est là." : focus.intro}
             </p>
           )}
+          <Plate name="presence" caption="Ce qui reste tient dans la main" className="mt-7" ratio="1 / 1" priority />
         </section>
 
         <section className="px-5 pt-8">
