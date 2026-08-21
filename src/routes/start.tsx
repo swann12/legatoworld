@@ -175,7 +175,7 @@ function Start() {
               className="h-[44px] w-full rounded-full p-0 text-center font-normal shadow-none transition-transform active:scale-[0.99]"
               style={{ background: "var(--clay)", color: "var(--dusk)", height: 46, borderRadius: 999 }}
             >
-              <span className="mono-label" style={{ color: "var(--dusk)", letterSpacing: "0.18em", fontSize: 9 }}>Créer son espace</span>
+               <span className="mono-label" style={{ color: "var(--dusk)", letterSpacing: "0.18em", fontSize: 10.5 }}>Créer son espace</span>
             </Button>
             <Button
               type="button"
@@ -184,10 +184,10 @@ function Start() {
               className="h-[44px] w-full rounded-full border-dusk/15 bg-paper p-0 text-center font-normal text-dusk shadow-none transition-colors hover:bg-paper hover:text-dusk"
               style={{ borderColor: "color-mix(in oklab, var(--dusk) 22%, transparent)", color: "var(--dusk)", height: 46, borderRadius: 999 }}
             >
-              <span className="mono-label" style={{ color: "var(--dusk)", letterSpacing: "0.18em", fontSize: 9 }}>Se reconnecter</span>
+               <span className="mono-label" style={{ color: "var(--dusk)", letterSpacing: "0.18em", fontSize: 10.5 }}>Se reconnecter</span>
             </Button>
             <Button type="button" variant="link" onClick={goNext} className="h-auto pt-2 text-center font-normal text-dusk hover:text-dusk">
-              <span className="mono-label block underline underline-offset-4" style={{ color: "var(--dusk)", letterSpacing: "0.16em", fontSize: 8 }}>Continuer en tant qu’invité</span>
+               <span className="mono-label block underline underline-offset-4" style={{ color: "var(--dusk)", letterSpacing: "0.16em", fontSize: 9.5 }}>Continuer en tant qu’invité</span>
             </Button>
           </div>
         </div>
