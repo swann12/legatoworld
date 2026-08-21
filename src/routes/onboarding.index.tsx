@@ -179,15 +179,16 @@ function Onboarding() {
   if (step === 3) {
     const title = situation === "perdu" ? <>Qui avez-vous<br />perdu&nbsp;?</> : situation === "peur" ? <>De qui avez-vous peur<br />de perdre la présence&nbsp;?</> : <>Qui accompagnez-vous&nbsp;?</>;
     return (
-      <Frame onBack={() => setStep(2)} progress={3} compact>
+      <Frame onBack={() => setStep(2)} progress={3}>
         <h1 className="onboarding-title">{title}</h1>
-        <div className="mt-[32px] grid grid-cols-2 gap-[7px]">
+        <div className="mt-[62px] flex flex-col gap-[7px]">
           {RELATIONS.map((r) => (
             <OptionPill key={r.id} active={lovedOneRelation === r.id} onClick={() => setLovedOneRelation(r.id as Relation)}>
               {r.label}
             </OptionPill>
           ))}
         </div>
+
         {lovedOneRelation === "autre" && (
           <input value={lovedOther} onChange={(e) => setLovedOther(e.target.value)} placeholder="Précisez qui" className="onboarding-field mt-[9px] w-full rounded-full border bg-transparent px-5 font-serif text-[15px] italic outline-none" style={{ borderColor: "color-mix(in oklab, var(--dusk) 12%, transparent)", color: "var(--dusk)", height: 36 }} />
         )}
