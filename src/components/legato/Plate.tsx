@@ -1,9 +1,9 @@
-import presence from "@/assets/ill-presence.jpg";
-import demarches from "@/assets/ill-demarches.jpg";
-import corps from "@/assets/ill-corps.jpg";
-import nuit from "@/assets/ill-nuit.jpg";
-import memoire from "@/assets/ill-memoire.jpg";
-import souffle from "@/assets/ill-souffle.jpg";
+import presence from "@/assets/ill-presence.png";
+import demarches from "@/assets/ill-demarches.png";
+import corps from "@/assets/ill-corps.png";
+import nuit from "@/assets/ill-nuit.png";
+import memoire from "@/assets/ill-memoire.png";
+import souffle from "@/assets/ill-souffle.png";
 
 export const PLATES = {
   presence: { src: presence, alt: "Planche : main de mousse tenant un galet" },
@@ -38,7 +38,7 @@ export function Plate({
   return (
     <figure className={`relative ${className}`}>
       <div
-        className="relative overflow-hidden"
+        className="relative"
         style={{ aspectRatio: ratio, background: "transparent" }}
       >
         <img
@@ -48,9 +48,7 @@ export function Plate({
           height={1024}
           loading={priority ? "eager" : "lazy"}
           className="h-full w-full object-contain"
-          style={{ mixBlendMode: "multiply" }}
         />
-
       </div>
       {caption && (
         <figcaption
