@@ -27,7 +27,7 @@ export function journeyModules(
   situation: Situation | null,
   primaryNeed: PrimaryNeed | null,
   stage: Stage | null,
-  opts: { relation?: Relation | null; legallyInvolved?: boolean } = {},
+  opts: { relation?: Relation | null; legallyInvolved?: boolean | null } = {},
 ): JourneyModules {
   const baseCare: CareModule[] = ["checkin", "journal", "breathe", "sleep", "meditations", "sounds", "community", "therapists", "crisis"];
   const relation = opts.relation ?? null;
