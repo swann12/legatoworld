@@ -179,18 +179,19 @@ function Onboarding() {
   if (step === 3) {
     const title = situation === "perdu" ? <>Qui avez-vous<br />perdu&nbsp;?</> : situation === "peur" ? <>De qui avez-vous peur<br />de perdre la présence&nbsp;?</> : <>Qui accompagnez-vous&nbsp;?</>;
     return (
-      <Frame onBack={() => setStep(2)} progress={3} compact>
+      <Frame onBack={() => setStep(2)} progress={3}>
         <h1 className="onboarding-title">{title}</h1>
-        <div className="mt-[32px] grid grid-cols-2 gap-[7px]">
+        <div className="mt-[30px] flex flex-1 flex-col gap-[6px] overflow-y-auto pb-[10px]">
           {RELATIONS.map((r) => (
             <OptionPill key={r.id} active={lovedOneRelation === r.id} onClick={() => setLovedOneRelation(r.id as Relation)}>
               {r.label}
             </OptionPill>
           ))}
+          {lovedOneRelation === "autre" && (
+            <input value={lovedOther} onChange={(e) => setLovedOther(e.target.value)} placeholder="Précisez qui" className="onboarding-field h-[45px] w-full shrink-0 rounded-[7px] border border-dusk/15 bg-transparent px-[26px] font-sans text-[12px] text-dusk outline-none" />
+          )}
         </div>
-        {lovedOneRelation === "autre" && (
-          <input value={lovedOther} onChange={(e) => setLovedOther(e.target.value)} placeholder="Précisez qui" className="onboarding-field mt-[9px] w-full rounded-full border bg-transparent px-5 font-serif text-[15px] italic outline-none" style={{ borderColor: "color-mix(in oklab, var(--dusk) 12%, transparent)", color: "var(--dusk)", height: 36 }} />
-        )}
+
         <div className="mt-auto" />
         <BlushBtn disabled={needsPerson && !lovedOneRelation} onClick={() => setStep(4)}>Continuer</BlushBtn>
         <SkipLink onClick={() => setStep(4)}>Passer</SkipLink>
@@ -216,9 +217,9 @@ function Onboarding() {
 
   if (step === 5) {
     return (
-      <Frame onBack={() => (needsLabel ? setStep(4) : setStep(2))} progress={4} compact>
+      <Frame onBack={() => (needsLabel ? setStep(4) : setStep(2))} progress={4}>
         <h1 className="onboarding-title">{stageQuestion(situation)}</h1>
-        <div className="mt-[28px] flex flex-col gap-[9px]">
+        <div className="mt-[62px] flex flex-col gap-[7px]">
           {stageOptions.map((s) => (
             <OptionPill key={s.id} active={stage === s.id} onClick={() => setStage(s.id as Stage)}>
               {s.label}
@@ -256,7 +257,7 @@ function Onboarding() {
 
   if (step === 8) {
     return (
-      <Frame onBack={() => setStep(6)} progress={4}>
+      <Frame onBack={() => setStep(6)} progress={5}>
         <h1 className="onboarding-title">Êtes-vous responsable légalement, ou aidez-vous la famille pour les démarches&nbsp;?</h1>
         <div className="mt-[28px] flex flex-col gap-[9px]">
           <OptionPill active={legallyInvolved === true} onClick={() => setLegallyInvolved(true)}>Oui, je suis impliqué·e</OptionPill>
@@ -269,7 +270,7 @@ function Onboarding() {
   }
 
   return (
-    <Frame onBack={backFromEmotion} progress={3} wideProgress>
+    <Frame onBack={backFromEmotion} progress={5}>
       <h1 className="onboarding-title">
         Comment<br />vous sentez-vous<br />aujourd’hui&nbsp;?
       </h1>
@@ -300,14 +301,14 @@ function Onboarding() {
   );
 }
 
-function Frame({ children, onBack, progress, compact = false, wideProgress = false }: { children: ReactNode; onBack: () => void; progress: number; compact?: boolean; wideProgress?: boolean }) {
+function Frame({ children, onBack, progress, compact = false }: { children: ReactNode; onBack: () => void; progress: number; compact?: boolean }) {
   return (
     <main className="min-h-dvh" style={{ background: "var(--paper)", color: "var(--dusk)" }}>
       <div className="mobile-frame relative flex min-h-dvh flex-col" style={{ background: "var(--paper)" }}>
         <header className="sr-only">
           <button onClick={onBack} aria-label="Retour">Retour</button>
         </header>
-        <div className={`flex items-center gap-[5px] pt-[73px] ${wideProgress ? "px-[39px]" : "px-[47px]"}`}>
+        <div className="flex items-center gap-[5px] px-[51px] pt-[73px]">
           {Array.from({ length: 5 }).map((_, i) => (
             <span
               key={i}
