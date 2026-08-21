@@ -121,13 +121,13 @@ function Start() {
       <main className="min-h-dvh" style={{ background: "var(--bordeaux)", color: "var(--blush)" }}>
         <div
           className="mobile-frame relative flex min-h-dvh flex-col items-center text-center animate-fade-in"
-          style={{ background: "var(--bordeaux)", padding: "91px 42px 48px" }}
+          style={{ background: "var(--bordeaux)", padding: "116px 34px 78px" }}
           onClick={enterApp}
         >
-          <p className="font-serif" style={{ fontSize: 34, lineHeight: 1.02, color: "var(--blush)", fontWeight: 400, letterSpacing: 0 }}>
+          <p className="font-serif" style={{ fontSize: 48, lineHeight: 0.95, color: "var(--blush)", fontWeight: 400, letterSpacing: 0 }}>
             Rien ne peut<br />ramener<br />l’heure passée,<br />mais nous<br />pouvons<br />trouver de<br />la force dans<br />ce qui<br />demeure.
           </p>
-          <p className="mono-label mt-auto" style={{ color: "var(--blush)", fontSize: 5.5, letterSpacing: "0.14em", lineHeight: 1.45 }}>
+          <p className="mono-label mt-auto" style={{ color: "var(--blush)", fontSize: 6, letterSpacing: "0.14em", lineHeight: 1.55 }}>
             William Wordsworth,<br />Ode: Intimations of Immortality
           </p>
         </div>
@@ -138,9 +138,9 @@ function Start() {
   if (stage === "choice") {
     return (
       <main className="min-h-dvh" style={{ background: "var(--paper)", color: "var(--dusk)" }}>
-        <div className="mobile-frame relative flex min-h-dvh flex-col items-center animate-fade-in" style={{ background: "var(--paper)", padding: "52px 50px 42px" }}>
-          <LegatoMark to="/start" variant="ink" size={31} stacked />
-          <h1 className="font-serif text-center" style={{ marginTop: 103, fontSize: 37, lineHeight: 0.98, color: "var(--dusk)", fontWeight: 400, letterSpacing: 0 }}>
+        <div className="mobile-frame relative flex min-h-dvh flex-col items-center animate-fade-in" style={{ background: "var(--paper)", padding: "62px 50px 42px" }}>
+          <LegatoMark to="/start" variant="ink" size={39} stacked />
+          <h1 className="font-serif text-center" style={{ marginTop: 138, fontSize: 50, lineHeight: 0.94, color: "var(--dusk)", fontWeight: 400, letterSpacing: 0 }}>
             Préparer<br />un <span className="italic">adieu</span>,<br />garder une<br /><span className="italic">présence</span>.
           </h1>
           <div className="mt-auto flex w-full flex-col items-stretch gap-[10px]">
