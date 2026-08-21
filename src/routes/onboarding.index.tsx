@@ -15,12 +15,17 @@ import { useServerFn } from "@tanstack/react-start";
 import { recordEmotion } from "@/lib/emotional.functions";
 import { supabase } from "@/integrations/supabase/client";
 import { useEffect, useState, type ReactNode } from "react";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/onboarding/")({
   head: () => ({
     meta: [
       { title: "Commencer — Legato" },
       { name: "description", content: "Un parcours clair et conditionnel pour adapter Legato à votre situation." },
+      { property: "og:title", content: "Commencer — Legato" },
+      { property: "og:description", content: "Quelques questions pour adapter Legato à votre situation et à vos besoins." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: Onboarding,
@@ -125,18 +130,16 @@ function Onboarding() {
 
   if (step === 1) {
     return (
-      <Frame onBack={() => navigate({ to: "/start" })} progress="1 / 7">
+      <Frame onBack={() => navigate({ to: "/start" })} progress={1}>
         <h1 className="onboarding-title">
           <span className="whitespace-nowrap">Comment souhaites-tu</span><br />que Legato t’appelle&nbsp;?
         </h1>
-        <div className="mt-[52px]">
+        <div className="mt-[61px]">
           <input
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Swann"
-            autoFocus
-            className="onboarding-field w-full border bg-transparent px-5 font-sans text-[12px] outline-none transition-colors"
-            style={{ borderColor: "color-mix(in oklab, var(--dusk) 12%, transparent)", color: "var(--dusk)", height: 48, borderRadius: 4 }}
+            className="onboarding-field h-[45px] w-full rounded-[7px] border border-dusk/15 bg-transparent px-[26px] font-sans text-[12px] text-dusk outline-none transition-colors"
           />
         </div>
         <div className="mt-auto" />
@@ -148,11 +151,11 @@ function Onboarding() {
 
   if (step === 2) {
     return (
-      <Frame onBack={() => setStep(1)} progress="2 / 7">
+      <Frame onBack={() => setStep(1)} progress={2}>
         <h1 className="onboarding-title">
           Pourquoi venez-vous<br />sur <span className="italic">Legato</span> aujourd'hui&nbsp;?
         </h1>
-        <div className="mt-[52px] flex flex-col gap-[10px]">
+        <div className="mt-[62px] flex flex-col gap-[7px]">
           {SITUATIONS.map((s) => {
             const active = situation === s.id;
             return (
@@ -176,9 +179,9 @@ function Onboarding() {
   if (step === 3) {
     const title = situation === "perdu" ? <>Qui avez-vous<br />perdu&nbsp;?</> : situation === "peur" ? <>De qui avez-vous peur<br />de perdre la présence&nbsp;?</> : <>Qui accompagnez-vous&nbsp;?</>;
     return (
-      <Frame onBack={() => setStep(2)} progress="3 / 7">
+      <Frame onBack={() => setStep(2)} progress={3} compact>
         <h1 className="onboarding-title">{title}</h1>
-        <div className="mt-[28px] flex flex-col gap-[9px]">
+        <div className="mt-[32px] grid grid-cols-2 gap-[7px]">
           {RELATIONS.map((r) => (
             <OptionPill key={r.id} active={lovedOneRelation === r.id} onClick={() => setLovedOneRelation(r.id as Relation)}>
               {r.label}
@@ -197,12 +200,12 @@ function Onboarding() {
 
   if (step === 4) {
     return (
-      <Frame onBack={() => (needsPerson ? setStep(3) : setStep(2))} progress="4 / 7">
+      <Frame onBack={() => (needsPerson ? setStep(3) : setStep(2))} progress={3}>
         <h1 className="onboarding-title">
           <span className="whitespace-nowrap">Comment aimeriez-vous</span><br />l'appeler dans <span className="italic">Legato</span>&nbsp;?
         </h1>
-        <div className="mt-[28px]">
-          <input value={lovedOneName} onChange={(e) => setLovedOneName(e.target.value)} placeholder={placeholderFor(lovedOneRelation)} className="onboarding-field w-full rounded-full border bg-transparent px-5 font-serif text-[15px] italic outline-none" style={{ borderColor: "color-mix(in oklab, var(--dusk) 12%, transparent)", color: "var(--dusk)", height: 36 }} />
+        <div className="mt-[61px]">
+          <input value={lovedOneName} onChange={(e) => setLovedOneName(e.target.value)} placeholder={placeholderFor(lovedOneRelation)} className="onboarding-field h-[45px] w-full rounded-[7px] border border-dusk/15 bg-transparent px-[26px] font-sans text-[12px] text-dusk outline-none" />
         </div>
         <div className="mt-auto" />
         <BlushBtn disabled={false} onClick={() => setStep(5)}>Continuer</BlushBtn>
@@ -213,7 +216,7 @@ function Onboarding() {
 
   if (step === 5) {
     return (
-      <Frame onBack={() => (needsLabel ? setStep(4) : setStep(2))} progress="5 / 7">
+      <Frame onBack={() => (needsLabel ? setStep(4) : setStep(2))} progress={4} compact>
         <h1 className="onboarding-title">{stageQuestion(situation)}</h1>
         <div className="mt-[28px] flex flex-col gap-[9px]">
           {stageOptions.map((s) => (
@@ -231,7 +234,7 @@ function Onboarding() {
 
   if (step === 6) {
     return (
-      <Frame onBack={() => setStep(5)} progress="6 / 7">
+      <Frame onBack={() => setStep(5)} progress={4}>
         <h1 className="onboarding-title">De quoi avez-vous besoin<br />en priorité maintenant&nbsp;?</h1>
         <div className="mt-[28px] flex flex-col gap-[9px]">
           {([
@@ -253,7 +256,7 @@ function Onboarding() {
 
   if (step === 8) {
     return (
-      <Frame onBack={() => setStep(6)} progress="6 bis / 7">
+      <Frame onBack={() => setStep(6)} progress={4}>
         <h1 className="onboarding-title">Êtes-vous responsable légalement, ou aidez-vous la famille pour les démarches&nbsp;?</h1>
         <div className="mt-[28px] flex flex-col gap-[9px]">
           <OptionPill active={legallyInvolved === true} onClick={() => setLegallyInvolved(true)}>Oui, je suis impliqué·e</OptionPill>
@@ -266,27 +269,27 @@ function Onboarding() {
   }
 
   return (
-    <Frame onBack={backFromEmotion} progress="7 / 7">
+    <Frame onBack={backFromEmotion} progress={3}>
       <h1 className="onboarding-title">
-        Comment vous<br />sentez-vous<br />maintenant&nbsp;?
+        Comment<br />vous sentez-vous<br />aujourd’hui&nbsp;?
       </h1>
-      <div className="mt-[45px] grid gap-[12px] w-full" style={{ gridTemplateColumns: "repeat(3, minmax(0,1fr))" }}>
-        {EMOTIONS.map((e) => {
+      <div className="mt-[56px] grid w-full grid-cols-3 gap-[8px]">
+        {EMOTIONS.slice(0, 8).concat([{ id: "besoin_aide", label: "Autre" }]).map((e) => {
           const active = currentEmotions.includes(e.id);
           return (
-            <button
+             <Button
               key={e.id}
               onClick={() => toggleEmotion(e.id)}
-               className="border flex items-center justify-center px-1.5 transition-colors w-full h-[83px]"
+               variant="outline"
+               className="flex h-[78px] w-full items-center justify-center rounded-[11px] border p-1 font-normal shadow-none transition-colors hover:text-dusk"
               style={{
                 background: active ? "var(--terracotta)" : "transparent",
                 borderColor: active ? "var(--terracotta)" : "color-mix(in oklab, var(--dusk) 12%, transparent)",
                 color: "var(--dusk)",
-                 borderRadius: 7,
               }}
             >
-              <span className="text-[11px] text-center leading-[1.18]">{e.label}</span>
-            </button>
+               <span className="text-center text-[12px] leading-[1.18]">{e.label}</span>
+             </Button>
           );
         })}
       </div>
@@ -297,27 +300,23 @@ function Onboarding() {
   );
 }
 
-function Frame({ children, onBack, progress }: { children: ReactNode; onBack: () => void; progress: string }) {
-  const [done, total] = progress.split("/").map((s) => parseInt(s.trim(), 10));
-  const safeTotal = Number.isFinite(total) && total > 0 ? total : 7;
-  const safeDone = Number.isFinite(done) ? done : 1;
-  const accent = "var(--terracotta)";
+function Frame({ children, onBack, progress, compact = false }: { children: ReactNode; onBack: () => void; progress: number; compact?: boolean }) {
   return (
     <main className="min-h-dvh" style={{ background: "var(--paper)", color: "var(--dusk)" }}>
       <div className="mobile-frame relative flex min-h-dvh flex-col" style={{ background: "var(--paper)" }}>
         <header className="sr-only">
           <button onClick={onBack} aria-label="Retour">Retour</button>
         </header>
-        <div className="px-[50px] pt-[60px] flex items-center gap-1.5">
-          {Array.from({ length: safeTotal }).map((_, i) => (
+        <div className="flex items-center gap-[5px] px-[50px] pt-[73px]">
+          {Array.from({ length: 5 }).map((_, i) => (
             <span
               key={i}
-              className="h-[2px] flex-1 rounded-full"
-              style={{ background: i < safeDone ? accent : "color-mix(in oklab, var(--dusk) 10%, transparent)" }}
+               className="h-[4px] flex-1 rounded-full border border-dusk/10"
+               style={{ background: i < progress ? "var(--terracotta)" : "var(--paper)" }}
             />
           ))}
         </div>
-        <div className="relative z-10 flex flex-1 flex-col px-[50px] pt-[62px] pb-[38px]">{children}</div>
+        <div className={`relative z-10 flex flex-1 flex-col px-[50px] pb-[55px] ${compact ? "pt-[57px]" : "pt-[60px]"}`}>{children}</div>
       </div>
     </main>
   );
@@ -339,48 +338,48 @@ function PrimaryBtn({ children, onClick, disabled }: { children: ReactNode; onCl
 function BlushBtn({ children, onClick, disabled }: { children: ReactNode; onClick: () => void; disabled?: boolean }) {
   return (
     <div className="mt-8 flex justify-center">
-      <button
+      <Button
         onClick={onClick}
         disabled={disabled}
-        className="w-full text-center disabled:opacity-40 transition-transform active:scale-[0.99]"
+        className="h-[45px] w-full rounded-full p-0 text-center font-normal shadow-none disabled:opacity-40 transition-transform active:scale-[0.99]"
         style={{ background: "var(--clay)", color: "var(--dusk)", height: 47, borderRadius: 999 }}
       >
         <span className="mono-label" style={{ color: "var(--dusk)", letterSpacing: "0.18em", fontSize: 9 }}>{children}</span>
-      </button>
+      </Button>
     </div>
   );
 }
 
 function SkipLink({ children, onClick }: { children: ReactNode; onClick: () => void }) {
   return (
-    <button onClick={onClick} className="mt-3 block w-full text-center py-1">
+    <Button variant="link" onClick={onClick} className="mt-3 h-auto w-full py-1 text-center font-normal text-dusk hover:text-dusk">
       <span className="mono-label underline underline-offset-4" style={{ color: "var(--dusk)", letterSpacing: "0.28em", fontSize: 8.5 }}>{children}</span>
-    </button>
+    </Button>
   );
 }
 
 function OptionPill({ children, active, onClick }: { children: ReactNode; active: boolean; onClick: () => void }) {
   return (
-    <button
+    <Button
       onClick={onClick}
-      className="text-left rounded-[4px] border px-4 transition-colors flex items-center gap-3"
+      variant="outline"
+      className="flex min-h-[45px] w-full items-center justify-start gap-3 rounded-[7px] border px-[16px] text-left font-normal shadow-none transition-colors hover:text-dusk"
       style={{
         background: "var(--paper)",
         borderColor: active ? "var(--terracotta)" : "color-mix(in oklab, var(--dusk) 14%, transparent)",
         color: "var(--dusk)",
-        minHeight: 47,
       }}
     >
       <span
         className="inline-block rounded-full shrink-0"
         style={{
-          width: 7, height: 7,
+          width: 8, height: 8,
           background: active ? "var(--terracotta)" : "transparent",
-          border: active ? "none" : "0 solid transparent",
+          border: active ? "none" : "1px solid color-mix(in oklab, var(--dusk) 15%, transparent)",
         }}
       />
-      <span className="text-[11px] leading-[1.2]">{children}</span>
-    </button>
+      <span className="text-[12px] leading-[1.2]">{children}</span>
+    </Button>
   );
 }
 
