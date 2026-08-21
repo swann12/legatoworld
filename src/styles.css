@@ -87,13 +87,13 @@
 
  /* Palette Legato — 9 teintes canoniques (aucune autre couleur autorisée).
   * Cream, pearl, bordeaux · butter, mustard, terracotta · sage, olive, blush. */
- --paper:      #F7F3EB;  /* cream */
+ --paper:      #F9F6EF;  /* cream — référence Start / Onboarding */
  --whisper:    #FBF7EF;  /* cream + light */
- --clay:       #F0E6DC;  /* pearl */
- --dusk:       #603730;  /* bordeaux — devient l'encre principale */
- --ink:        #4A2A25;  /* bordeaux plus profond */
- --bordeaux:   #603730;
- --terracotta: #D06C4D;
+ --clay:       #F3E7DB;  /* pearl — référence CTA */
+ --dusk:       #542421;  /* bordeaux — encre principale */
+ --ink:        #000000;  /* noir du logo */
+ --bordeaux:   #662F2A;  /* référence citation */
+ --terracotta: #DC6744;
  --olive:      #7E8148;
  --sage:       #A9B18E;
  --sun:        #F6EDC1;  /* butter */
