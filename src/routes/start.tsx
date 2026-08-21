@@ -127,7 +127,7 @@ function Start() {
           <p className="font-serif" style={{ fontSize: 48, lineHeight: 0.95, color: "var(--blush)", fontWeight: 400, letterSpacing: 0 }}>
             Rien ne peut<br />ramener<br />l’heure passée,<br />mais nous<br />pouvons<br />trouver de<br />la force dans<br />ce qui<br />demeure.
           </p>
-          <p className="mono-label mt-auto" style={{ color: "var(--blush)", fontSize: 11, letterSpacing: "0.1em", lineHeight: 1.45 }}>
+          <p className="mono-label mt-auto" style={{ color: "var(--blush)", fontSize: 14, letterSpacing: "0.08em", lineHeight: 1.4 }}>
             William Wordsworth,<br />Ode: Intimations of Immortality
           </p>
         </div>
