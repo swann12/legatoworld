@@ -36,7 +36,6 @@ export function Plate({
   const plate = PLATES[name];
   return (
     <figure className={`relative ${className}`}>
-      <Scatter seed={name} />
       <div
         className="relative overflow-hidden"
         style={{ aspectRatio: ratio, background: "transparent" }}
@@ -60,54 +59,5 @@ export function Plate({
         </figcaption>
       )}
     </figure>
-  );
-}
-
-/* Éléments épars — fragments colorés qui débordent de la planche.
- * Déterministe par nom de planche : même composition à chaque visite. */
-const SCATTER_PALETTE = ["#2C3E7B", "#D9552F", "#7F7D47", "#E8A62B"];
-
-function hashSeed(s: string) {
-  let h = 0;
-  for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0;
-  return Math.abs(h);
-}
-
-function Scatter({ seed }: { seed: string }) {
-  const h = hashSeed(seed);
-  const bits = Array.from({ length: 7 }, (_, i) => {
-    const n = h + i * 977;
-    const round = (n >> 3) % 3 !== 0;
-    return {
-      color: SCATTER_PALETTE[(n >> 2) % SCATTER_PALETTE.length],
-      size: 5 + (n % 13),
-      top: -5 + ((n >> 4) % 112),
-      left: -7 + ((n >> 6) % 116),
-      round,
-      rot: ((n >> 5) % 90) - 45,
-      opacity: 0.5 + ((n >> 7) % 4) / 10,
-    };
-  });
-
-  return (
-    <div aria-hidden className="pointer-events-none absolute -inset-6 overflow-visible">
-      {bits.map((b, i) => (
-        <span
-          key={i}
-          className="absolute block"
-          style={{
-            top: `${b.top}%`,
-            left: `${b.left}%`,
-            width: b.size,
-            height: b.round ? b.size : Math.max(2, b.size / 4),
-            background: b.color,
-            opacity: b.opacity,
-            borderRadius: b.round ? "9999px" : "1px",
-            transform: `rotate(${b.rot}deg)`,
-            mixBlendMode: "multiply",
-          }}
-        />
-      ))}
-    </div>
   );
 }
