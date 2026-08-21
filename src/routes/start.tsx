@@ -146,15 +146,16 @@ function Start() {
       <main className="min-h-dvh" style={{ background: "var(--bordeaux)", color: "var(--blush)" }}>
         <div
           className="mobile-frame relative flex min-h-dvh flex-col items-center text-center animate-fade-in"
-          style={{ background: "var(--bordeaux)", padding: "98px 54px 81px" }}
+          style={{ background: "var(--bordeaux)", padding: "110px 40px 79px" }}
           onClick={enterApp}
         >
-          <p className="font-serif" style={{ fontSize: 46, lineHeight: 1.16, color: "var(--clay)", fontWeight: 400, letterSpacing: 0 }}>
+          <p className="font-serif" style={{ fontSize: 52, lineHeight: 1.0, whiteSpace: "nowrap", color: "var(--clay)", fontWeight: 400, letterSpacing: "-0.005em" }}>
             Rien ne peut<br />ramener<br />l’heure passée,<br />mais nous<br />pouvons<br />trouver de<br />la force dans<br />ce qui<br />demeure.
           </p>
-          <p className="mt-auto font-mono uppercase" style={{ color: "var(--clay)", fontSize: 10.5, letterSpacing: "0.04em", lineHeight: 1.32 }}>
+          <p className="mt-auto font-mono uppercase" style={{ color: "var(--clay)", fontSize: 13.5, letterSpacing: "0.03em", lineHeight: 1.35 }}>
             William Wordsworth,<br />Ode: Intimations of Immortality
           </p>
+
         </div>
       </main>
     );
