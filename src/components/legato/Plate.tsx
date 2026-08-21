@@ -46,9 +46,9 @@ export function Plate({
           width={1024}
           height={1024}
           loading={priority ? "eager" : "lazy"}
-          className="h-full w-full object-contain"
-          style={{ mixBlendMode: "multiply", opacity: 0.97 }}
+          className="h-full w-full object-cover"
         />
+
       </div>
       {caption && (
         <figcaption
