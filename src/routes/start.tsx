@@ -4,6 +4,7 @@ import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
 import { LegatoMark } from "@/components/legato/LegatoMark";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/start")({
   head: () => ({
@@ -14,12 +15,16 @@ export const Route = createFileRoute("/start")({
         content:
           "Un compagnon premium, doux et sensible, pour le deuil, la perte et la peur de perdre quelqu'un.",
       },
+      { property: "og:title", content: "Legato — Préparer un adieu, garder une présence" },
+      { property: "og:description", content: "Un espace sensible pour traverser le deuil, préparer et préserver les souvenirs." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: Start,
 });
 
-type Stage = "choice" | "quote" | "signin" | "signup";
+type Stage = "splash" | "choice" | "quote" | "signin" | "signup";
 
 const emailSchema = z.string().trim().email({ message: "Adresse e-mail invalide" }).max(255);
 const passwordSchema = z
@@ -34,7 +39,7 @@ const nameSchema = z
 
 function Start() {
   const navigate = useNavigate();
-  const [stage, setStage] = useState<Stage>("choice");
+  const [stage, setStage] = useState<Stage>("splash");
   const [displayName, setDisplayName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -116,18 +121,36 @@ function Start() {
     }
   };
 
+  if (stage === "splash") {
+    return (
+      <main className="min-h-dvh bg-paper text-dusk">
+        <div className="mobile-frame flex min-h-dvh flex-col items-center bg-paper px-[50px] pb-[59px] pt-[281px]">
+          <LegatoMark to="/start" variant="ink" size={116} stacked />
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => setStage("choice")}
+            className="mt-auto h-[46px] w-[148px] rounded-full border-dusk/15 bg-paper p-0 font-mono text-[10px] font-normal uppercase text-dusk shadow-none hover:bg-paper hover:text-dusk"
+          >
+            <span className="tracking-[0.17em]">Entrer</span>
+          </Button>
+        </div>
+      </main>
+    );
+  }
+
   if (stage === "quote") {
     return (
       <main className="min-h-dvh" style={{ background: "var(--bordeaux)", color: "var(--blush)" }}>
         <div
           className="mobile-frame relative flex min-h-dvh flex-col items-center text-center animate-fade-in"
-          style={{ background: "var(--bordeaux)", padding: "116px 34px 78px" }}
+          style={{ background: "var(--bordeaux)", padding: "105px 43px 72px" }}
           onClick={enterApp}
         >
-          <p className="font-serif" style={{ fontSize: 48, lineHeight: 0.95, color: "var(--blush)", fontWeight: 400, letterSpacing: 0 }}>
+          <p className="font-serif" style={{ fontSize: 48, lineHeight: 1.02, color: "var(--clay)", fontWeight: 400, letterSpacing: 0 }}>
             Rien ne peut<br />ramener<br />l’heure passée,<br />mais nous<br />pouvons<br />trouver de<br />la force dans<br />ce qui<br />demeure.
           </p>
-          <p className="mono-label mt-auto" style={{ color: "var(--blush)", fontSize: 14, letterSpacing: "0.08em", lineHeight: 1.4 }}>
+          <p className="mt-auto font-mono uppercase" style={{ color: "var(--clay)", fontSize: 10.5, letterSpacing: "0.04em", lineHeight: 1.32 }}>
             William Wordsworth,<br />Ode: Intimations of Immortality
           </p>
         </div>
@@ -138,34 +161,32 @@ function Start() {
   if (stage === "choice") {
     return (
       <main className="min-h-dvh" style={{ background: "var(--paper)", color: "var(--dusk)" }}>
-        <div className="mobile-frame relative flex min-h-dvh flex-col items-center animate-fade-in" style={{ background: "var(--paper)", padding: "62px 50px 42px" }}>
-          <LegatoMark to="/start" variant="ink" size={39} stacked />
-          <h1 className="font-serif text-center" style={{ marginTop: 138, fontSize: 50, lineHeight: 0.94, color: "var(--dusk)", fontWeight: 400, letterSpacing: 0 }}>
+        <div className="mobile-frame relative flex min-h-dvh flex-col items-center animate-fade-in" style={{ background: "var(--paper)", padding: "56px 51px 26px" }}>
+          <LegatoMark to="/start" variant="ink" size={50} stacked />
+          <h1 className="font-serif text-center" style={{ marginTop: 161, fontSize: 50, lineHeight: 1.04, color: "var(--dusk)", fontWeight: 400, letterSpacing: 0 }}>
             Préparer<br />un <span className="italic">adieu</span>,<br />garder une<br /><span className="italic">présence</span>.
           </h1>
           <div className="mt-auto flex w-full flex-col items-stretch gap-[10px]">
-            <button
+            <Button
               type="button"
               onClick={() => { setStage("signup"); setError(null); setInfo(null); }}
-              className="text-center transition-transform active:scale-[0.99]"
+              className="h-[44px] w-full rounded-full p-0 text-center font-normal shadow-none transition-transform active:scale-[0.99]"
               style={{ background: "var(--clay)", color: "var(--dusk)", height: 46, borderRadius: 999 }}
             >
               <span className="mono-label" style={{ color: "var(--dusk)", letterSpacing: "0.18em", fontSize: 9 }}>Créer son espace</span>
-            </button>
-            <button
+            </Button>
+            <Button
               type="button"
               onClick={() => { setStage("signin"); setError(null); setInfo(null); }}
-              className="border text-center transition-colors"
+              variant="outline"
+              className="h-[44px] w-full rounded-full border-dusk/15 bg-paper p-0 text-center font-normal text-dusk shadow-none transition-colors hover:bg-paper hover:text-dusk"
               style={{ borderColor: "color-mix(in oklab, var(--dusk) 22%, transparent)", color: "var(--dusk)", height: 46, borderRadius: 999 }}
             >
               <span className="mono-label" style={{ color: "var(--dusk)", letterSpacing: "0.18em", fontSize: 9 }}>Se reconnecter</span>
-            </button>
-            <button type="button" onClick={goNext} className="pt-2 text-center">
+            </Button>
+            <Button type="button" variant="link" onClick={goNext} className="h-auto pt-2 text-center font-normal text-dusk hover:text-dusk">
               <span className="mono-label block underline underline-offset-4" style={{ color: "var(--dusk)", letterSpacing: "0.16em", fontSize: 8 }}>Continuer en tant qu’invité</span>
-              <span className="mt-2 block text-[9px] leading-[1.35]" style={{ color: "color-mix(in oklab, var(--dusk) 58%, transparent)" }}>
-                En mode invité·e, rien n'est conservé d'une session à l'autre.
-              </span>
-            </button>
+            </Button>
           </div>
         </div>
       </main>
