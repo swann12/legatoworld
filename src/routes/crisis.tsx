@@ -29,7 +29,7 @@ function Crisis() {
             </p>
           </section>
 
-          <Plate name="nuit" caption="La nuit tient, elle aussi" className="mt-7" ratio="16 / 10" />
+          <Plate name="nuit" caption="La nuit tient, elle aussi" className="mt-7" ratio="1 / 1" />
 
           {/* Geste 1 — écrire à une Présence */}
           <Link

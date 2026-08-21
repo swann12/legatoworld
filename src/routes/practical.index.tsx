@@ -96,7 +96,7 @@ function Practical() {
                 ? `${done} sur ${total} étapes faites${lovedName ? ` pour ${lovedName}` : ""}. Le reste peut attendre.`
                 : `${total} étapes au total. Le reste peut attendre.`}
           </p>
-          <Plate name="demarches" caption="Papiers, clés, choses à poser" className="mt-7" ratio="4 / 3" />
+          <Plate name="demarches" caption="Papiers, clés, choses à poser" className="mt-7" ratio="1 / 1" />
         </section>
 
         {/* Bloc "Aujourd'hui" — une priorité claire + progression */}
