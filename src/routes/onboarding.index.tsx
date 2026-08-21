@@ -181,17 +181,17 @@ function Onboarding() {
     return (
       <Frame onBack={() => setStep(2)} progress={3}>
         <h1 className="onboarding-title">{title}</h1>
-        <div className="mt-[62px] flex flex-col gap-[7px]">
+        <div className="mt-[30px] flex flex-1 flex-col gap-[6px] overflow-y-auto pb-[10px]">
           {RELATIONS.map((r) => (
             <OptionPill key={r.id} active={lovedOneRelation === r.id} onClick={() => setLovedOneRelation(r.id as Relation)}>
               {r.label}
             </OptionPill>
           ))}
+          {lovedOneRelation === "autre" && (
+            <input value={lovedOther} onChange={(e) => setLovedOther(e.target.value)} placeholder="Précisez qui" className="onboarding-field h-[45px] w-full shrink-0 rounded-[7px] border border-dusk/15 bg-transparent px-[26px] font-sans text-[12px] text-dusk outline-none" />
+          )}
         </div>
 
-        {lovedOneRelation === "autre" && (
-          <input value={lovedOther} onChange={(e) => setLovedOther(e.target.value)} placeholder="Précisez qui" className="onboarding-field mt-[9px] w-full rounded-full border bg-transparent px-5 font-serif text-[15px] italic outline-none" style={{ borderColor: "color-mix(in oklab, var(--dusk) 12%, transparent)", color: "var(--dusk)", height: 36 }} />
-        )}
         <div className="mt-auto" />
         <BlushBtn disabled={needsPerson && !lovedOneRelation} onClick={() => setStep(4)}>Continuer</BlushBtn>
         <SkipLink onClick={() => setStep(4)}>Passer</SkipLink>
