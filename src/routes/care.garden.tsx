@@ -53,7 +53,7 @@ function CareGarden() {
           <p className="mt-5 text-[13.5px] leading-[1.6] text-dusk/60 max-w-[34ch]">
             Tout se dépose ici. Rien ne s'efface.
           </p>
-          <Plate name="souffle" caption="Ce qui pousse, sans qu'on le force" className="mt-7" ratio="4 / 3" />
+          <Plate name="souffle" caption="Ce qui pousse, sans qu'on le force" className="mt-7" ratio="1 / 1" />
         </section>
 
         {dates.length > 0 && (

@@ -6,12 +6,12 @@ import memoire from "@/assets/ill-memoire.jpg";
 import souffle from "@/assets/ill-souffle.jpg";
 
 export const PLATES = {
-  presence: { src: presence, alt: "Collage : une main ouverte tenant une mousse et un galet" },
-  demarches: { src: demarches, alt: "Collage : enveloppe, papiers superposés, fougère pressée et petite clé" },
-  corps: { src: corps, alt: "Collage : bol d'eau, pain, linge plié et paysage de collines" },
-  nuit: { src: nuit, alt: "Collage : deux silhouettes assises dans les herbes sous une lune pâle" },
-  memoire: { src: memoire, alt: "Collage : fragments de lettres et fleurs séchées pressées" },
-  souffle: { src: souffle, alt: "Collage : herbes fines et souffle coloré montant vers le ciel" },
+  presence: { src: presence, alt: "Planche : une main ouverte tenant un galet, une graminée séchée" },
+  demarches: { src: demarches, alt: "Planche : papier plié, petite clé, fougère pressée, fragments" },
+  corps: { src: corps, alt: "Planche : bol d'eau, linge plié, pain, feuille d'olivier" },
+  nuit: { src: nuit, alt: "Planche : nuée d'encre bleue, lune pâle, herbes fines" },
+  memoire: { src: memoire, alt: "Planche : fragment de lettre, fleur séchée, photographie de ciel" },
+  souffle: { src: souffle, alt: "Planche : aigrette de pissenlit et graines emportées" },
 } as const;
 
 export type PlateName = keyof typeof PLATES;
@@ -23,7 +23,7 @@ export type PlateName = keyof typeof PLATES;
 export function Plate({
   name,
   caption,
-  ratio = "4 / 3",
+  ratio = "1 / 1",
   className = "",
   priority = false,
 }: {
@@ -37,8 +37,8 @@ export function Plate({
   return (
     <figure className={`relative ${className}`}>
       <div
-        className="overflow-hidden rounded-[18px]"
-        style={{ aspectRatio: ratio, background: "var(--paper)" }}
+        className="overflow-hidden"
+        style={{ aspectRatio: ratio, background: "transparent" }}
       >
         <img
           src={plate.src}
@@ -46,8 +46,8 @@ export function Plate({
           width={1024}
           height={1024}
           loading={priority ? "eager" : "lazy"}
-          className="h-full w-full object-cover"
-          style={{ mixBlendMode: "multiply", opacity: 0.96 }}
+          className="h-full w-full object-contain"
+          style={{ mixBlendMode: "multiply", opacity: 0.97 }}
         />
       </div>
       {caption && (

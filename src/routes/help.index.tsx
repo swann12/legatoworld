@@ -53,7 +53,7 @@ function Help() {
           <p className="mt-4 text-[13px] leading-[1.6] text-dusk/60 max-w-[34ch]">
             Trois curseurs courts. On adapte deux ou trois gestes — rien de plus.
           </p>
-          <Plate name="corps" caption="Boire, manger, se couvrir" className="mt-7" ratio="4 / 3" />
+          <Plate name="corps" caption="Boire, manger, se couvrir" className="mt-7" ratio="1 / 1" />
         </section>
 
         <section className="px-5 pt-7 space-y-3">
