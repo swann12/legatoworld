@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { BottomNav } from "./BottomNav";
+import { SpaceSwitch } from "./SpaceSwitch";
 import { ModeBackground } from "./ModeBackground";
 import { useLegato } from "@/lib/legato-state";
 
@@ -21,7 +21,7 @@ export function Shell({
         {livingBg && <ModeBackground mode={mode} />}
         <div className="relative" style={{ zIndex: 1 }}>{children}</div>
       </div>
-      {!hideNav && <BottomNav />}
+      {!hideNav && <SpaceSwitch />}
     </div>
   );
 }
