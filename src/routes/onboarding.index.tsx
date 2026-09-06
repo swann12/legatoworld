@@ -219,20 +219,39 @@ function Onboarding() {
   }
 
   if (step === 4) {
+    const suggestions = nameSuggestions(lovedOneRelation);
+    const isOther = Boolean(lovedOneName) && !suggestions.includes(lovedOneName);
     return (
       <Frame onBack={() => (needsPerson ? setStep(3) : setStep(2))} progress={posOf(4)} total={total}>
         <h1 className="onboarding-title">
           <span className="whitespace-nowrap">Comment aimeriez-vous</span><br />l'appeler dans <span className="italic">Legato</span>&nbsp;?
         </h1>
-        <div className="mt-[61px]">
-          <input value={lovedOneName} onChange={(e) => setLovedOneName(e.target.value)} placeholder={placeholderFor(lovedOneRelation)} className="onboarding-field h-[45px] w-full rounded-[7px] border border-dusk/15 bg-transparent px-[26px] font-sans text-[12px] text-dusk outline-none" />
+        <div className="mt-[46px] flex flex-col gap-[7px]">
+          {suggestions.map((s) => (
+            <OptionPill key={s} active={lovedOneName === s} onClick={() => setLovedOneName(s)}>
+              {s}
+            </OptionPill>
+          ))}
+          <OptionPill active={isOther} onClick={() => setLovedOneName(isOther ? lovedOneName : " ")}>
+            Autre — son prénom
+          </OptionPill>
+          {isOther && (
+            <input
+              autoFocus
+              value={lovedOneName.trim()}
+              onChange={(e) => setLovedOneName(e.target.value || " ")}
+              placeholder="Son prénom"
+              className="onboarding-field h-[45px] w-full rounded-[7px] border border-dusk/15 bg-transparent px-[26px] font-sans text-[12px] text-dusk outline-none"
+            />
+          )}
         </div>
         <div className="mt-auto" />
         <BlushBtn disabled={false} onClick={() => setStep(5)}>Continuer</BlushBtn>
-        <SkipLink onClick={() => setStep(5)}>Passer</SkipLink>
+        <SkipLink onClick={() => { setLovedOneName(""); setStep(5); }}>Passer</SkipLink>
       </Frame>
     );
   }
+
 
   if (step === 5) {
     return (
