@@ -12,17 +12,17 @@ export const Route = createFileRoute("/presence")({
 });
 
 const BRANCH_GREETING: Record<Branch, (name: string, lostName: string) => string> = {
-  person:    (_n, l) => `Je suis là. Si tu veux, parle-moi de ${l || "celle ou celui qui te manque"}.`,
-  animal:    (_n, l) => `Je suis là. Si tu veux, raconte-moi ${l ? l : "cet être fidèle"} — un geste, une habitude.`,
-  fear:      ()      => "Je suis là. Pas besoin d'anticiper. Que ressens-tu, juste maintenant ?",
+  person:    (_n, l) => `Je suis là. Si vous le souhaitez, parlez-moi de ${l || "celle ou celui qui vous manque"}.`,
+  animal:    (_n, l) => `Je suis là. Si vous le souhaitez, racontez-moi ${l ? l : "cet être fidèle"} — un geste, une habitude.`,
+  fear:      ()      => "Je suis là. Pas besoin d'anticiper. Que ressentez-vous, juste maintenant ?",
   anxiety:   ()      => "Je suis là. On peut s'approcher tout doucement, sans rien décider.",
   practical: (n)     => `Je suis là, ${n || ""}. Pas de démarches ici — juste un instant à respirer.`,
   unknown:   ()      => "Je suis là. Rien à dire, simplement présent·e.",
 };
 
 const BRANCH_SUGGESTIONS: Record<Branch, string[]> = {
-  person:    ["Te raconter un souvenir", "Ce qui me manque, ce soir", "Je n'ai pas de mots"],
-  animal:    ["Te parler de mon compagnon", "Ce vide à la maison", "Une habitude qui me revient"],
+  person:    ["Vous raconter un souvenir", "Ce qui me manque, ce soir", "Je n'ai pas de mots"],
+  animal:    ["Vous parler de mon compagnon", "Ce vide à la maison", "Une habitude qui me revient"],
   fear:      ["Cette peur qui revient", "Ce que je n'arrive pas à dire", "Comment être présent·e"],
   anxiety:   ["Apprivoiser cette idée", "Ce qui m'angoisse en silence", "Juste respirer un peu"],
   practical: ["Cette journée, en deux mots", "Un seul tout petit pas", "Je suis épuisé·e"],
@@ -92,7 +92,7 @@ function Presence() {
         window.speechSynthesis.speak(utterance);
       }
     } catch {
-      setHistory((m) => [...m, { role: "presence", text: "Je suis là, en silence. Reprenons quand tu veux." }]);
+      setHistory((m) => [...m, { role: "presence", text: "Je suis là, en silence. Reprenons quand vous voulez." }]);
     } finally {
       setPending(false);
     }
