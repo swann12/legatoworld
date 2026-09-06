@@ -224,6 +224,9 @@ function Practical() {
         )}
 
         <footer className="px-6 pt-12 flex flex-col items-center gap-3">
+          <Link to="/practical/resources" className="mono-label tracking-[0.18em] text-dusk/55 hover:text-dusk">
+            Comprendre les démarches →
+          </Link>
           <Link to="/crisis" className="mono-label tracking-[0.18em] text-dusk/45 hover:text-dusk">
             Si ça déborde →
           </Link>
