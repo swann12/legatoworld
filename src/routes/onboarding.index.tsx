@@ -220,7 +220,7 @@ function Onboarding() {
 
   if (step === 4) {
     return (
-      <Frame onBack={() => (needsPerson ? setStep(3) : setStep(2))} progress={posOf(3)} total={total}>
+      <Frame onBack={() => (needsPerson ? setStep(3) : setStep(2))} progress={posOf(4)} total={total}>
         <h1 className="onboarding-title">
           <span className="whitespace-nowrap">Comment aimeriez-vous</span><br />l'appeler dans <span className="italic">Legato</span>&nbsp;?
         </h1>
@@ -236,7 +236,7 @@ function Onboarding() {
 
   if (step === 5) {
     return (
-      <Frame onBack={() => (needsLabel ? setStep(4) : setStep(2))} progress={posOf(4)} total={total}>
+      <Frame onBack={() => (needsLabel ? setStep(4) : setStep(2))} progress={posOf(5)} total={total}>
         <h1 className="onboarding-title">{stageQuestion(situation)}</h1>
         <div className="mt-[46px] flex flex-col gap-[7px] overflow-y-auto pb-[6px]">
           {stageOptions.map((s) => (
@@ -254,7 +254,7 @@ function Onboarding() {
 
   if (step === 6) {
     return (
-      <Frame onBack={() => setStep(5)} progress={posOf(4)} total={total}>
+      <Frame onBack={() => setStep(5)} progress={posOf(6)} total={total}>
         <h1 className="onboarding-title">De quoi avez-vous besoin<br />en priorité maintenant&nbsp;?</h1>
         <div className="mt-[28px] flex flex-col gap-[9px]">
           {([
@@ -276,7 +276,7 @@ function Onboarding() {
 
   if (step === 8) {
     return (
-      <Frame onBack={() => setStep(6)} progress={posOf(5)} total={total}>
+      <Frame onBack={() => setStep(6)} progress={posOf(8)} total={total}>
         <h1 className="onboarding-title">Êtes-vous responsable légalement, ou aidez-vous la famille pour les démarches&nbsp;?</h1>
         <div className="mt-[28px] flex flex-col gap-[9px]">
           <OptionPill active={legallyInvolved === true} onClick={() => setLegallyInvolved(true)}>Oui, je suis impliqué·e</OptionPill>
@@ -289,7 +289,7 @@ function Onboarding() {
   }
 
   return (
-    <Frame onBack={backFromEmotion} progress={posOf(5)} total={total}>
+    <Frame onBack={backFromEmotion} progress={posOf(7)} total={total}>
       <h1 className="onboarding-title">
         Comment<br />vous sentez-vous<br />aujourd’hui&nbsp;?
       </h1>
