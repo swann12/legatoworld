@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Shell } from "@/components/legato/Shell";
 import { LegatoMark } from "@/components/legato/LegatoMark";
-import { SubNav, CARE_SUBNAV } from "@/components/legato/SubNav";
 
 export const Route = createFileRoute("/care/resources")({
   head: () => ({ meta: [{ title: "Ressources — Legato" }] }),
@@ -29,7 +28,6 @@ function CareResources() {
           <LegatoMark size={22} />
           <Link to="/care" className="mono-label text-dusk/55">Soutien →</Link>
         </header>
-        <SubNav items={CARE_SUBNAV} ariaLabel="Sous-navigation Soutien" />
 
         <section className="px-6 pt-8">
           <p className="mono-label">Ressources</p>

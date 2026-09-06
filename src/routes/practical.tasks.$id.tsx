@@ -4,7 +4,6 @@ import { LegatoMark } from "@/components/legato/LegatoMark";
 import { useLegato, type TaskStatus } from "@/lib/legato-state";
 import { PRACTICAL_LABELS, PRACTICAL_BUCKETS, BUCKET_LABELS, type PracticalCategory } from "@/lib/journey-config";
 import { TASK_STATUS_LABELS } from "@/lib/task-status";
-import { SubNav, PRACTICAL_SUBNAV } from "@/components/legato/SubNav";
 
 export const Route = createFileRoute("/practical/tasks/$id")({
   component: TaskDetail,
@@ -49,7 +48,6 @@ function TaskDetail() {
           <LegatoMark size={22} />
           <Link to="/practical/tasks" className="mono-label text-dusk/55">← Tâches</Link>
         </header>
-        <SubNav items={PRACTICAL_SUBNAV} ariaLabel="Sous-navigation Démarches" />
 
         <section className="px-6 pt-6">
           <p className="mono-label" style={{ color: BUCKET_LABELS[bucket].tone }}>{BUCKET_LABELS[bucket].label}</p>

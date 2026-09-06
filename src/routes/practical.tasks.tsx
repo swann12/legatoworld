@@ -4,7 +4,6 @@ import { Shell } from "@/components/legato/Shell";
 import { LegatoMark } from "@/components/legato/LegatoMark";
 import { useLegato } from "@/lib/legato-state";
 import { journeyModules, PRACTICAL_LABELS, type PracticalCategory } from "@/lib/journey-config";
-import { SubNav, PRACTICAL_SUBNAV } from "@/components/legato/SubNav";
 import { TASK_STATUS_LABELS, isHiddenFromActive, isArchived } from "@/lib/task-status";
 
 export const Route = createFileRoute("/practical/tasks")({
@@ -20,7 +19,8 @@ export const Route = createFileRoute("/practical/tasks")({
 type View = "active" | "archived" | "all";
 
 function TasksList() {
-  const { situation, primaryNeed, stage, lovedOneRelation, legallyInvolved, hydrated, taskStatus } = useLegato();
+  const { situation, primaryNeed, stage, lovedOneRelation, legallyInvolved, hydrated, taskStatus, lightMode } = useLegato();
+  const light = hydrated && lightMode;
   const { practical } = journeyModules(situation, primaryNeed, stage, { relation: lovedOneRelation, legallyInvolved });
   const [view, setView] = useState<View>("active");
 
@@ -32,6 +32,8 @@ function TasksList() {
     return true;
   });
 
+  const shown = light ? filtered.slice(0, 3) : filtered;
+
   return (
     <Shell livingBg={false}>
       <div className="min-h-dvh bg-paper text-dusk pb-32">
@@ -39,17 +41,19 @@ function TasksList() {
           <LegatoMark size={22} />
           <Link to="/practical" className="mono-label text-dusk/55">← Aujourd'hui</Link>
         </header>
-        <SubNav items={PRACTICAL_SUBNAV} ariaLabel="Sous-navigation Démarches" />
         <section className="px-6 pt-6">
           <p className="mono-label">Toutes les démarches</p>
           <h1 className="mt-3 font-serif text-[28px] leading-[1.1]">
             <span className="italic" style={{ color: "var(--terracotta)" }}>Une étape</span> à la fois
           </h1>
-          <p className="mt-4 text-[13px] leading-[1.55] text-dusk/60 max-w-[34ch]">
-            Ici, ce sont les actions concrètes. La page Démarches sert à voir l'ensemble et choisir le bon moment.
-          </p>
+          {!light && (
+            <p className="mt-4 text-[13px] leading-[1.55] text-dusk/60 max-w-[34ch]">
+              Ici, ce sont les actions concrètes. La page Démarches sert à voir l'ensemble et choisir le bon moment.
+            </p>
+          )}
         </section>
 
+        {!light && (
         <section className="px-5 pt-5">
           <div className="flex gap-2">
             {(["active", "archived", "all"] as View[]).map((v) => (
@@ -63,12 +67,13 @@ function TasksList() {
             ))}
           </div>
         </section>
+        )}
 
         <ul className="mx-5 mt-5 space-y-3">
-          {filtered.length === 0 && (
+          {shown.length === 0 && (
             <li className="rounded-[18px] border border-dusk/10 bg-paper px-5 py-6 text-center text-[13px] text-dusk/55 italic">Rien à montrer ici.</li>
           )}
-          {filtered.map((c) => {
+          {shown.map((c) => {
             const cfg = PRACTICAL_LABELS[c];
             const st = hydrated ? taskStatus[c] : undefined;
             return (

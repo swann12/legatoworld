@@ -169,9 +169,6 @@ function Practical() {
                   {BUCKET_LABELS[b].label}
                 </FilterChip>
               ))}
-              <FilterChip active={showArchived} onClick={() => setShowArchived((v) => !v)}>
-                {showArchived ? "Masquer archives" : "Voir archives"}
-              </FilterChip>
             </div>
           </section>
         )}
@@ -213,6 +210,18 @@ function Practical() {
             </section>
           );
         })}
+
+        {!softActive && (
+          <div className="px-6 pt-8">
+            <button
+              type="button"
+              onClick={() => setShowArchived((v) => !v)}
+              className="text-[12px] text-dusk/50 underline underline-offset-4 hover:text-dusk"
+            >
+              {showArchived ? "Masquer les éléments archivés" : "Voir les éléments archivés"}
+            </button>
+          </div>
+        )}
 
         <footer className="px-6 pt-12 flex flex-col items-center gap-3">
           <Link to="/crisis" className="mono-label tracking-[0.18em] text-dusk/45 hover:text-dusk">

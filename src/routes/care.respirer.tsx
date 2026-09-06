@@ -3,7 +3,6 @@ import { Plate } from "@/components/legato/Plate";
 import { useEffect, useMemo, useState } from "react";
 import { Shell } from "@/components/legato/Shell";
 import { LegatoMark } from "@/components/legato/LegatoMark";
-import { SubNav, CARE_SUBNAV } from "@/components/legato/SubNav";
 
 export const Route = createFileRoute("/care/respirer")({
   head: () => ({ meta: [{ title: "Respirer — Legato" }] }),
@@ -56,7 +55,6 @@ function CareRespirer() {
           <LegatoMark size={22} />
           <Link to="/care" className="mono-label text-dusk/55">Soutien →</Link>
         </header>
-        <SubNav items={CARE_SUBNAV} ariaLabel="Sous-navigation Soutien" />
 
         <section className="px-6 pt-8">
           <p className="mono-label">Respirer</p>

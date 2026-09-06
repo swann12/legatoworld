@@ -2,7 +2,6 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Plate } from "@/components/legato/Plate";
 import { Shell } from "@/components/legato/Shell";
 import { LegatoMark } from "@/components/legato/LegatoMark";
-import { SubNav, CARE_SUBNAV } from "@/components/legato/SubNav";
 import { useLovedName } from "@/lib/loved-name";
 import { upcomingSensitiveDates } from "@/lib/sensitive-dates";
 import { useLegato } from "@/lib/legato-state";
@@ -43,7 +42,6 @@ function CareGarden() {
           <LegatoMark size={22} />
           <span className="mono-label text-dusk/45">Jardin</span>
         </header>
-        <SubNav items={CARE_SUBNAV} ariaLabel="Sous-navigation Soutien" />
 
         <section className="px-6 pt-8">
           <p className="mono-label">La parcelle de</p>
