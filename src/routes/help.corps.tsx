@@ -4,118 +4,165 @@ import { Shell } from "@/components/legato/Shell";
 import { PageHeader } from "@/components/legato/EditorialUI";
 
 export const Route = createFileRoute("/help/corps")({
-  head: () => ({ meta: [{ title: "Le corps — Aide" }] }),
-  component: Hub,
+  head: () => ({
+    meta: [
+      { title: "Le corps — Legato" },
+      { name: "description", content: "Trois questions simples sur l'énergie, le sommeil et l'alimentation, puis une à trois pistes adaptées." },
+      { property: "og:title", content: "Le corps — Legato" },
+      { property: "og:description", content: "Trois questions simples, puis une à trois pistes adaptées." },
+    ],
+  }),
+  component: Corps,
 });
 
-function Hub() {
-  const [step, setStep] = useState<"scan" | "action" | "content">("scan");
-  const [energy, setEnergy] = useState(3);
-  const [sleep, setSleep] = useState(3);
-  const [hunger, setHunger] = useState(3);
+type StateId = string;
+type Step = { key: "energy" | "sleep" | "food"; label: string; question: string; options: { id: StateId; label: string }[] };
 
-  // Simple routing: lowest signal decides the single next action.
-  const pick = (): { to: "/help/corps/manger" | "/help/corps/eau" | "/help/corps/habiller" | "/help/corps/nuits"; label: string; body: string } => {
-    const scores = [
-      { key: "sleep",  v: sleep,  to: "/help/corps/nuits" as const,    label: "Reposer un peu",     body: "Quelques minutes pour la nuit d'après." },
-      { key: "hunger", v: hunger, to: "/help/corps/manger" as const,   label: "Manger, sans y penser", body: "Une petite chose facile à avaler." },
-      { key: "energy", v: energy, to: "/help/corps/eau" as const,      label: "Un peu d'eau",       body: "Un verre, puis on verra." },
-    ].sort((a, b) => a.v - b.v);
-    return scores[0];
+const STEPS: Step[] = [
+  {
+    key: "energy",
+    label: "Énergie",
+    question: "Comment est votre énergie aujourd'hui ?",
+    options: [
+      { id: "vide", label: "À plat, rien dans les jambes" },
+      { id: "lente", label: "Au ralenti, mais debout" },
+      { id: "agitee", label: "Agitée, je n'arrive pas à me poser" },
+      { id: "ok", label: "Ça va, à peu près" },
+    ],
+  },
+  {
+    key: "sleep",
+    label: "Sommeil",
+    question: "Et vos nuits ?",
+    options: [
+      { id: "peu", label: "Je dors très peu" },
+      { id: "coupe", label: "Je me réveille souvent" },
+      { id: "endormir", label: "J'ai du mal à m'endormir" },
+      { id: "ok", label: "Je dors à peu près" },
+    ],
+  },
+  {
+    key: "food",
+    label: "Alimentation",
+    question: "Et manger, en ce moment ?",
+    options: [
+      { id: "rien", label: "Je n'y arrive pas" },
+      { id: "oubli", label: "J'oublie les repas" },
+      { id: "trop", label: "Je mange n'importe quand" },
+      { id: "ok", label: "Je mange à peu près" },
+    ],
+  },
+];
+
+type Piste = { title: string; body: string; to: "/help/corps/nuits" | "/help/corps/manger" | "/help/corps/eau" | "/help/corps/habiller" | "/care/respirer" | "/crisis"; bg: string };
+
+const PISTES: Record<string, Piste> = {
+  nuits: { title: "Préparer la nuit", body: "Quelques minutes pour aider la nuit d'après.", to: "/help/corps/nuits", bg: "var(--sky)" },
+  manger: { title: "Manger sans y penser", body: "Une petite chose facile à avaler.", to: "/help/corps/manger", bg: "var(--sun)" },
+  eau: { title: "Boire un verre d'eau", body: "Un verre, puis on verra.", to: "/help/corps/eau", bg: "var(--whisper)" },
+  habiller: { title: "S'habiller, doucement", body: "Un geste simple pour entrer dans la journée.", to: "/help/corps/habiller", bg: "var(--blush)" },
+  souffle: { title: "Ralentir le souffle", body: "Trois minutes pour calmer l'agitation.", to: "/care/respirer", bg: "var(--sage)" },
+  humain: { title: "Parler à quelqu'un", body: "Quand le corps lâche, une présence humaine aide.", to: "/crisis", bg: "var(--peach)" },
+};
+
+function pistesFor(a: Record<string, string>): Piste[] {
+  const out: Piste[] = [];
+  if (a.sleep === "peu" || a.sleep === "coupe" || a.sleep === "endormir") out.push(PISTES.nuits);
+  if (a.food === "rien" || a.food === "oubli") out.push(PISTES.manger);
+  if (a.energy === "agitee") out.push(PISTES.souffle);
+  if (a.energy === "vide") out.push(PISTES.eau);
+  if (a.energy === "lente" && out.length < 2) out.push(PISTES.habiller);
+  if (a.energy === "vide" && a.food === "rien" && a.sleep === "peu") out.push(PISTES.humain);
+  if (!out.length) out.push(PISTES.eau);
+  return out.slice(0, 3);
+}
+
+function Corps() {
+  const [index, setIndex] = useState(0);
+  const [answers, setAnswers] = useState<Record<string, string>>({});
+  const done = index >= STEPS.length;
+
+  const choose = (key: string, id: string) => {
+    setAnswers((a) => ({ ...a, [key]: id }));
+    setIndex((i) => i + 1);
   };
-  const action = pick();
+
+  const step = STEPS[Math.min(index, STEPS.length - 1)];
+  const pistes = done ? pistesFor(answers) : [];
 
   return (
     <Shell livingBg={false}>
       <div className="min-h-dvh bg-paper text-dusk pb-32">
         <PageHeader title="LE CORPS" back="/help" />
 
-        {step === "scan" && (
+        {!done ? (
           <>
-            <section className="px-6 pt-10 pb-6">
-              <p className="mono-label">Le corps</p>
-              <h1 className="mt-4 ed-page-title">Comment va votre <span className="italic">corps</span>&nbsp;?</h1>
-              <p className="mt-5 body-meta max-w-[34ch]">Un curseur à la fois. On adapte ensuite.</p>
-            </section>
-            <section className="px-6 space-y-6">
-              <Slider label="Énergie"  value={energy} onChange={setEnergy} />
-              <Slider label="Sommeil"  value={sleep}  onChange={setSleep} />
-              <Slider label="Appétit"  value={hunger} onChange={setHunger} />
-            </section>
-            <section className="px-6 pt-10">
-              <button onClick={() => setStep("action")} className="w-full rounded-full py-4" style={{ background: "var(--terracotta)", color: "var(--paper)" }}>
-                <span className="mono-label" style={{ color: "var(--paper)", letterSpacing: "0.2em", fontSize: 10 }}>Continuer</span>
-              </button>
-            </section>
-          </>
-        )}
+            <div className="px-6 pt-2 flex gap-1.5">
+              {STEPS.map((s, i) => (
+                <span
+                  key={s.key}
+                  className="h-[1.5px] flex-1 rounded-full"
+                  style={{ background: i <= index ? "var(--terracotta)" : "color-mix(in oklab, var(--dusk) 14%, transparent)" }}
+                />
+              ))}
+            </div>
 
-        {step === "action" && (
-          <>
-            <section className="px-6 pt-10 pb-4">
-              <p className="mono-label">Une seule chose</p>
-              <h1 className="mt-4 ed-page-title">{action.label}</h1>
-              <p className="mt-5 body-meta max-w-[34ch]">{action.body}</p>
+            <section className="px-6 pt-8 pb-2">
+              <p className="mono-label">{step.label}</p>
+              <h1 className="mt-4 ed-page-title text-[28px]">{step.question}</h1>
             </section>
-            <section className="px-5 pt-4 space-y-3">
-              <Link to={action.to} className="block rounded-[18px] px-5 py-5" style={{ background: "var(--blush)" }}>
-                <p className="font-serif text-[18px] leading-[1.15]">Faire ce geste</p>
-                <p className="mt-1 text-[12px] text-dusk/60">Guidé, quelques minutes.</p>
-              </Link>
-              <button onClick={() => setStep("scan")} className="block w-full text-left rounded-[18px] px-5 py-4" style={{ background: "var(--whisper)" }}>
-                <p className="font-serif text-[16px]">Proposer autre chose</p>
-                <p className="mt-1 text-[12px] text-dusk/60">Refaire le point.</p>
-              </button>
-              <button onClick={() => setStep("content")} className="block w-full text-left rounded-[18px] px-5 py-4" style={{ background: "var(--sun)" }}>
-                <p className="font-serif text-[16px]">C'est déjà assez</p>
-                <p className="mt-1 text-[12px] text-dusk/60">Vous voir suggérer un peu d'écoute, de lecture.</p>
-              </button>
-            </section>
-          </>
-        )}
 
-        {step === "content" && (
+            <section className="px-5 pt-6 flex flex-col gap-2.5">
+              {step.options.map((o) => (
+                <button
+                  key={o.id}
+                  type="button"
+                  onClick={() => choose(step.key, o.id)}
+                  className="text-left rounded-[18px] border border-dusk/12 bg-[color:var(--whisper)] px-5 py-4 font-serif text-[17px] leading-[1.2] transition-transform active:scale-[0.99]"
+                >
+                  {o.label}
+                </button>
+              ))}
+            </section>
+
+            {index > 0 && (
+              <div className="px-6 pt-6">
+                <button type="button" onClick={() => setIndex((i) => i - 1)} className="mono-label text-dusk/50">
+                  ← Question précédente
+                </button>
+              </div>
+            )}
+          </>
+        ) : (
           <>
-            <section className="px-6 pt-10 pb-4">
-              <p className="mono-label">Pour vous</p>
-              <h1 className="mt-4 ed-page-title">Un peu de <span className="italic">douceur.</span></h1>
-              <p className="mt-5 body-meta max-w-[34ch]">Trois suggestions, rien de plus.</p>
+            <section className="px-6 pt-8 pb-2">
+              <p className="mono-label">Pour vous, maintenant</p>
+              <h1 className="mt-4 ed-page-title text-[28px]">
+                {pistes.length === 1 ? "Une piste" : `${pistes.length} pistes`}, <span className="italic">rien de plus.</span>
+              </h1>
             </section>
-            <section className="px-5 pt-4 space-y-3">
-              <Link to="/care/resources" className="block rounded-[18px] px-5 py-4" style={{ background: "var(--whisper)" }}>
-                <p className="mono-label text-dusk/60">Podcasts</p>
-                <p className="mt-1 font-serif text-[17px]">Voix qui accompagnent</p>
-              </Link>
-              <Link to="/care/resources" className="block rounded-[18px] px-5 py-4" style={{ background: "var(--whisper)" }}>
-                <p className="mono-label text-dusk/60">Lectures</p>
-                <p className="mt-1 font-serif text-[17px]">Quelques pages, sans presser</p>
-              </Link>
-              <Link to="/crisis" className="block rounded-[18px] px-5 py-4" style={{ background: "var(--blush)" }}>
-                <p className="mono-label text-dusk/60">Si c'est trop</p>
-                <p className="mt-1 font-serif text-[17px]">Demander une présence humaine</p>
-              </Link>
+
+            <section className="px-5 pt-6 flex flex-col gap-3">
+              {pistes.map((p) => (
+                <Link key={p.title} to={p.to} className="block rounded-[18px] px-5 py-5" style={{ background: p.bg }}>
+                  <p className="font-serif text-[19px] leading-[1.15]">{p.title}</p>
+                  <p className="mt-1.5 text-[12.5px] text-dusk/65">{p.body}</p>
+                </Link>
+              ))}
             </section>
+
+            <div className="px-6 pt-8">
+              <button
+                type="button"
+                onClick={() => { setAnswers({}); setIndex(0); }}
+                className="text-[12px] text-dusk/50 underline underline-offset-4 hover:text-dusk"
+              >
+                Refaire le point
+              </button>
+            </div>
           </>
         )}
       </div>
     </Shell>
-  );
-}
-
-function Slider({ label, value, onChange }: { label: string; value: number; onChange: (v: number) => void }) {
-  return (
-    <div>
-      <div className="flex items-baseline justify-between">
-        <p className="font-serif text-[17px]">{label}</p>
-        <span className="mono-label text-dusk/55">{value}/5</span>
-      </div>
-      <input
-        type="range" min={1} max={5} step={1}
-        value={value}
-        onChange={(e) => onChange(parseInt(e.target.value, 10))}
-        className="mt-3 w-full"
-        style={{ accentColor: "var(--terracotta)" }}
-      />
-    </div>
   );
 }
