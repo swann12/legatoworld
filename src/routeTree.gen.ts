@@ -74,6 +74,7 @@ import { Route as CareEmotionsRouteImport } from './routes/care.emotions'
 import { Route as CareDatesRouteImport } from './routes/care.dates'
 import { Route as CareCommunityRouteImport } from './routes/care.community'
 import { Route as AuthenticatedCircleRouteImport } from './routes/_authenticated/circle'
+import { Route as CareGardenIndexRouteImport } from './routes/care.garden.index'
 import { Route as ResourcesConfirmProviderIdRouteImport } from './routes/resources.confirm.$providerId'
 import { Route as ResourcesCategoryProviderIdRouteImport } from './routes/resources.$category.$providerId'
 import { Route as PracticalTasksIdRouteImport } from './routes/practical.tasks.$id'
@@ -408,6 +409,11 @@ const AuthenticatedCircleRoute = AuthenticatedCircleRouteImport.update({
   path: '/circle',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const CareGardenIndexRoute = CareGardenIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => CareGardenRoute,
+} as any)
 const ResourcesConfirmProviderIdRoute =
   ResourcesConfirmProviderIdRouteImport.update({
     id: '/resources/confirm/$providerId',
@@ -529,6 +535,7 @@ export interface FileRoutesByFullPath {
   '/practical/tasks/$id': typeof PracticalTasksIdRoute
   '/resources/$category/$providerId': typeof ResourcesCategoryProviderIdRoute
   '/resources/confirm/$providerId': typeof ResourcesConfirmProviderIdRoute
+  '/care/garden/': typeof CareGardenIndexRoute
   '/api/public/souffle-sound/$id': typeof ApiPublicSouffleSoundIdRoute
 }
 export interface FileRoutesByTo {
@@ -557,7 +564,6 @@ export interface FileRoutesByTo {
   '/care/community': typeof CareCommunityRoute
   '/care/dates': typeof CareDatesRoute
   '/care/emotions': typeof CareEmotionsRoute
-  '/care/garden': typeof CareGardenRouteWithChildren
   '/care/help': typeof CareHelpRoute
   '/care/journal': typeof CareJournalRoute
   '/care/memory': typeof CareMemoryRoute
@@ -600,6 +606,7 @@ export interface FileRoutesByTo {
   '/practical/tasks/$id': typeof PracticalTasksIdRoute
   '/resources/$category/$providerId': typeof ResourcesCategoryProviderIdRoute
   '/resources/confirm/$providerId': typeof ResourcesConfirmProviderIdRoute
+  '/care/garden': typeof CareGardenIndexRoute
   '/api/public/souffle-sound/$id': typeof ApiPublicSouffleSoundIdRoute
 }
 export interface FileRoutesById {
@@ -677,6 +684,7 @@ export interface FileRoutesById {
   '/practical/tasks/$id': typeof PracticalTasksIdRoute
   '/resources/$category/$providerId': typeof ResourcesCategoryProviderIdRoute
   '/resources/confirm/$providerId': typeof ResourcesConfirmProviderIdRoute
+  '/care/garden/': typeof CareGardenIndexRoute
   '/api/public/souffle-sound/$id': typeof ApiPublicSouffleSoundIdRoute
 }
 export interface FileRouteTypes {
@@ -754,6 +762,7 @@ export interface FileRouteTypes {
     | '/practical/tasks/$id'
     | '/resources/$category/$providerId'
     | '/resources/confirm/$providerId'
+    | '/care/garden/'
     | '/api/public/souffle-sound/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -782,7 +791,6 @@ export interface FileRouteTypes {
     | '/care/community'
     | '/care/dates'
     | '/care/emotions'
-    | '/care/garden'
     | '/care/help'
     | '/care/journal'
     | '/care/memory'
@@ -825,6 +833,7 @@ export interface FileRouteTypes {
     | '/practical/tasks/$id'
     | '/resources/$category/$providerId'
     | '/resources/confirm/$providerId'
+    | '/care/garden'
     | '/api/public/souffle-sound/$id'
   id:
     | '__root__'
@@ -901,6 +910,7 @@ export interface FileRouteTypes {
     | '/practical/tasks/$id'
     | '/resources/$category/$providerId'
     | '/resources/confirm/$providerId'
+    | '/care/garden/'
     | '/api/public/souffle-sound/$id'
   fileRoutesById: FileRoutesById
 }
@@ -1399,6 +1409,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedCircleRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/care/garden/': {
+      id: '/care/garden/'
+      path: '/'
+      fullPath: '/care/garden/'
+      preLoaderRoute: typeof CareGardenIndexRouteImport
+      parentRoute: typeof CareGardenRoute
+    }
     '/resources/confirm/$providerId': {
       id: '/resources/confirm/$providerId'
       path: '/resources/confirm/$providerId'
@@ -1478,10 +1495,12 @@ const AuthenticatedRouteRouteWithChildren =
 
 interface CareGardenRouteChildren {
   CareGardenZoneRoute: typeof CareGardenZoneRoute
+  CareGardenIndexRoute: typeof CareGardenIndexRoute
 }
 
 const CareGardenRouteChildren: CareGardenRouteChildren = {
   CareGardenZoneRoute: CareGardenZoneRoute,
+  CareGardenIndexRoute: CareGardenIndexRoute,
 }
 
 const CareGardenRouteWithChildren = CareGardenRoute._addFileChildren(
