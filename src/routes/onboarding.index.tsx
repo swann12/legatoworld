@@ -324,10 +324,17 @@ function Frame({ children, onBack, progress, total, compact = false }: { childre
   return (
     <main className="min-h-dvh" style={{ background: "var(--paper)", color: "var(--dusk)" }}>
       <div className="mobile-frame relative flex min-h-dvh flex-col" style={{ background: "var(--paper)" }}>
-        <header className="sr-only">
-          <button onClick={onBack} aria-label="Retour">Retour</button>
+        <header className="px-[51px] pt-[46px]">
+          <button
+            onClick={onBack}
+            aria-label="Revenir à l'étape précédente"
+            className="mono-label inline-flex min-h-9 items-center gap-1.5"
+            style={{ color: "color-mix(in oklab, var(--dusk) 60%, transparent)", fontSize: 9.5, letterSpacing: "0.2em" }}
+          >
+            <span aria-hidden>←</span> Retour
+          </button>
         </header>
-        <div className="flex items-center gap-[5px] px-[51px] pt-[73px]">
+        <div className="flex items-center gap-[5px] px-[51px] pt-[22px]">
           {Array.from({ length: total }).map((_, i) => (
             <span
               key={i}
