@@ -138,7 +138,7 @@ function Onboarding() {
           <input
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="Swann"
+            placeholder="Votre prénom"
             className="onboarding-field h-[45px] w-full rounded-[7px] border border-dusk/15 bg-transparent px-[26px] font-sans text-[12px] text-dusk outline-none transition-colors"
           />
         </div>
