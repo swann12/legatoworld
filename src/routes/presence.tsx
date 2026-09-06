@@ -12,17 +12,17 @@ export const Route = createFileRoute("/presence")({
 });
 
 const BRANCH_GREETING: Record<Branch, (name: string, lostName: string) => string> = {
-  person:    (_n, l) => `Je suis là. Si tu veux, parle-moi de ${l || "celle ou celui qui te manque"}.`,
-  animal:    (_n, l) => `Je suis là. Si tu veux, raconte-moi ${l ? l : "cet être fidèle"} — un geste, une habitude.`,
-  fear:      ()      => "Je suis là. Pas besoin d'anticiper. Que ressens-tu, juste maintenant ?",
+  person:    (_n, l) => `Je suis là. Si vous le souhaitez, parlez-moi de ${l || "celle ou celui qui vous manque"}.`,
+  animal:    (_n, l) => `Je suis là. Si vous le souhaitez, racontez-moi ${l ? l : "cet être fidèle"} — un geste, une habitude.`,
+  fear:      ()      => "Je suis là. Pas besoin d'anticiper. Que ressentez-vous, juste maintenant ?",
   anxiety:   ()      => "Je suis là. On peut s'approcher tout doucement, sans rien décider.",
   practical: (n)     => `Je suis là, ${n || ""}. Pas de démarches ici — juste un instant à respirer.`,
   unknown:   ()      => "Je suis là. Rien à dire, simplement présent·e.",
 };
 
 const BRANCH_SUGGESTIONS: Record<Branch, string[]> = {
-  person:    ["Te raconter un souvenir", "Ce qui me manque, ce soir", "Je n'ai pas de mots"],
-  animal:    ["Te parler de mon compagnon", "Ce vide à la maison", "Une habitude qui me revient"],
+  person:    ["Vous raconter un souvenir", "Ce qui me manque, ce soir", "Je n'ai pas de mots"],
+  animal:    ["Vous parler de mon compagnon", "Ce vide à la maison", "Une habitude qui me revient"],
   fear:      ["Cette peur qui revient", "Ce que je n'arrive pas à dire", "Comment être présent·e"],
   anxiety:   ["Apprivoiser cette idée", "Ce qui m'angoisse en silence", "Juste respirer un peu"],
   practical: ["Cette journée, en deux mots", "Un seul tout petit pas", "Je suis épuisé·e"],
@@ -92,7 +92,7 @@ function Presence() {
         window.speechSynthesis.speak(utterance);
       }
     } catch {
-      setHistory((m) => [...m, { role: "presence", text: "Je suis là, en silence. Reprenons quand tu veux." }]);
+      setHistory((m) => [...m, { role: "presence", text: "Je suis là, en silence. Reprenons quand vous voulez." }]);
     } finally {
       setPending(false);
     }
@@ -140,50 +140,23 @@ function Presence() {
       <div className="min-h-dvh bg-paper text-dusk pb-32">
         <PageHeader title="PRÉSENCE" />
 
-        {/* Bascule Libre / Guidé */}
-        <div className="px-6 pt-2">
-          <div className="grid grid-cols-2 gap-1 rounded-full border border-dusk/12 bg-[color:var(--whisper)] p-1">
-            {(["libre", "guide"] as const).map((t) => (
-              <button
-                key={t}
-                onClick={() => setTab(t)}
-                className={`rounded-full px-4 py-2 text-[12.5px] font-medium tracking-[0.02em] transition-colors ${tab === t ? "bg-dusk text-paper" : "text-dusk/65 hover:text-dusk"}`}
-              >
-                {t === "libre" ? "Libre" : "Guidé en 5 temps"}
-              </button>
-            ))}
-          </div>
-          <button
-            type="button"
-            onClick={() => setVoiceOut((v) => !v)}
-            className="mt-3 w-full rounded-full border border-dusk/12 px-4 py-2 text-[12px] transition-colors"
-            style={{ background: voiceOut ? "var(--sun)" : "var(--paper)" }}
-          >
-            {voiceOut ? "Réponse vocale activée" : "Activer les réponses vocales"}
-          </button>
-        </div>
+        <section className="px-6 pt-2 pb-1">
+          <h1 className="ed-page-title text-[30px]">Comment c'est <span className="italic" style={{ color: "var(--terracotta)" }}>aujourd'hui</span>&nbsp;?</h1>
+          <p className="mt-4 text-[13px] leading-[1.6] text-dusk/60 max-w-[34ch]">
+            Écrivez ou parlez, à votre rythme. Rien à raconter d'un coup.
+          </p>
+        </section>
 
-        {tab === "guide" ? (
+        {tab === "guide" && (
           <>
-            <div className="px-6 pt-5 pb-2">
+            <div className="px-6 pt-6 pb-2">
               <LinearProgress value={pct} />
               <p className="mt-3 mono-label">Étape {step + 1} / {STEPS.length} · {current.label}</p>
             </div>
-            <section className="px-6 pt-4 pb-2">
-              <h1 className="ed-page-title text-[28px]">{current.q}</h1>
-              <p className="mt-4 body-meta max-w-[32ch]">Prenez votre temps. Il n'y a pas de bonne réponse.</p>
+            <section className="px-6 pt-3 pb-1">
+              <h2 className="font-serif text-[22px] leading-[1.2] text-dusk">{current.q}</h2>
             </section>
           </>
-        ) : (
-          <section className="px-6 pt-6 pb-2">
-            <p className="mono-label" style={{ color: "var(--terracotta)" }}>Une oreille calme</p>
-            <h1 className="mt-4 ed-page-title text-[28px]">
-              Parlez-moi, <span className="italic">à votre rythme.</span>
-            </h1>
-            <p className="mt-3 text-[13px] text-dusk/60 max-w-[34ch]">
-              Écrit, ou voix. Rien à raconter d'un coup. Je suis là.
-            </p>
-          </section>
         )}
 
         {/* Suggestions */}
@@ -224,6 +197,34 @@ function Presence() {
               </p>
             </div>
           )}
+        </div>
+
+        {/* Second niveau : options et explication */}
+        <div className="px-6 pt-2">
+          <details className="rounded-[18px] border border-dusk/12 bg-[color:var(--whisper)] px-5 py-3">
+            <summary className="cursor-pointer list-none mono-label text-dusk/60">Options & comment ça marche</summary>
+            <div className="pt-4 pb-1 space-y-3">
+              <button
+                type="button"
+                onClick={() => setTab(tab === "libre" ? "guide" : "libre")}
+                className="w-full rounded-full border border-dusk/12 bg-paper px-4 py-2 text-[12.5px]"
+              >
+                {tab === "libre" ? "Passer en parcours guidé (5 temps)" : "Revenir à la conversation libre"}
+              </button>
+              <button
+                type="button"
+                onClick={() => setVoiceOut((v) => !v)}
+                className="w-full rounded-full border border-dusk/12 px-4 py-2 text-[12.5px]"
+                style={{ background: voiceOut ? "var(--sun)" : "var(--paper)" }}
+              >
+                {voiceOut ? "Réponse vocale activée" : "Activer les réponses vocales"}
+              </button>
+              <p className="text-[12px] leading-[1.55] text-dusk/55">
+                Présence est une écoute automatisée : elle répond avec une intelligence artificielle,
+                jamais à la place d'un professionnel. Vos échanges restent sur cet appareil.
+              </p>
+            </div>
+          </details>
         </div>
 
         {/* Input */}

@@ -43,25 +43,6 @@ function ResourcesIndex() {
           <h1 className="mt-5 ed-page-title">{title}</h1>
           <p className="mt-5 body-meta max-w-[34ch]">{subtitle}</p>
 
-          {/* Switch d'espace */}
-          <div className="mt-7 inline-flex rounded-full border border-dusk/15 bg-paper p-1">
-            <Link
-              to="/resources" search={{ space: "care" }}
-              className={`px-4 py-1.5 rounded-full text-[11px] uppercase tracking-[0.14em] font-medium transition-colors ${
-                activeSpace === "care" ? "bg-dusk text-paper" : "text-dusk/60 hover:text-dusk"
-              }`}
-            >
-              Soi
-            </Link>
-            <Link
-              to="/resources" search={{ space: "practical" }}
-              className={`px-4 py-1.5 rounded-full text-[11px] uppercase tracking-[0.14em] font-medium transition-colors ${
-                activeSpace === "practical" ? "bg-dusk text-paper" : "text-dusk/60 hover:text-dusk"
-              }`}
-            >
-              Démarches
-            </Link>
-          </div>
         </section>
 
         <section className="px-5 grid grid-cols-1 gap-3">
