@@ -74,7 +74,8 @@ function classifyRegion(origin: string): Region {
 
 function CareRituels() {
   const lovedName = useLovedName();
-  const { branch, lostName } = useLegato();
+  const { branch, lostName, lightMode, hydrated } = useLegato();
+  const light = hydrated && lightMode;
   const callRituals = useServerFn(suggestRituals);
   const [region, setRegion] = useState<Region | "Tout">("Tout");
   const [open, setOpen] = useState<string | null>(null);
@@ -125,11 +126,14 @@ function CareRituels() {
           <h1 className="mt-4 ed-page-title">
             Honorer <span className="italic" style={{ color: "var(--terracotta)" }}>{lovedName}</span>.
           </h1>
-          <p className="mt-5 text-[13.5px] leading-[1.6] text-dusk/60 max-w-[34ch]">
-            Des gestes qui viennent du monde entier. Cliquez pour comprendre d'où ils viennent.
-          </p>
+          {!light && (
+            <p className="mt-5 text-[13.5px] leading-[1.6] text-dusk/60 max-w-[34ch]">
+              Des gestes qui viennent du monde entier. Cliquez pour comprendre d'où ils viennent.
+            </p>
+          )}
         </section>
 
+        {!light && (
         <section className="px-5 pt-6">
           <div className="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
             {(["Tout", ...REGIONS] as const).map((r) => {
@@ -146,9 +150,10 @@ function CareRituels() {
             })}
           </div>
         </section>
+        )}
 
         <section className="px-5 pt-6 flex flex-col gap-3">
-          {visible.map((r) => {
+          {(light ? visible.slice(0, 3) : visible).map((r) => {
             const isOpen = open === r.id;
             return (
               <button
