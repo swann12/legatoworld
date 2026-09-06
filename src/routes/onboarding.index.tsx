@@ -419,14 +419,8 @@ function ChipGrid<T extends string>({ options, value, onChange }: {
 }
 
 function placeholderFor(relation: Relation | null) {
-  switch (relation) {
-    case "animal": return "mon chien Oslo";
-    case "ami": return "mon amie Léa";
-    case "pere": return "mon père";
-    case "mere": return "ma mère";
-    case "frere_soeur": return "ma sœur";
-    default: return "Marie";
-  }
+  const match = RELATIONS.find((r) => r.id === relation);
+  return match ? match.label : "Son prénom";
 }
 
 function stageQuestion(situation: Situation | null) {
