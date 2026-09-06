@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Shell } from "@/components/legato/Shell";
 import { LegatoMark } from "@/components/legato/LegatoMark";
-import { SubNav, CARE_SUBNAV } from "@/components/legato/SubNav";
 import { EMOTIONS, useLegato, type Emotion } from "@/lib/legato-state";
 
 // Couleur sémantique par émotion — pastilles colorées sur fond clair,
@@ -35,7 +34,6 @@ function CareEmotions() {
     <Shell livingBg={false}>
       <div className="min-h-dvh bg-paper text-dusk pb-32">
         <header className="px-6 pt-7 flex items-center justify-between"><LegatoMark size={22} /><span className="mono-label text-dusk/45">Soutien</span></header>
-        <SubNav items={CARE_SUBNAV} ariaLabel="Sous-navigation Soutien" />
         <section className="px-6 pt-8">
           <p className="mono-label">Check-in émotionnel</p>
           <h1 className="mt-5 ed-page-title">Comment vous sentez-vous <span className="italic" style={{ color: "var(--terracotta)" }}>maintenant&nbsp;?</span></h1>

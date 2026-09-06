@@ -3,7 +3,6 @@ import { useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { Shell } from "@/components/legato/Shell";
 import { LegatoMark } from "@/components/legato/LegatoMark";
-import { SubNav, CARE_SUBNAV } from "@/components/legato/SubNav";
 import { useLovedName } from "@/lib/loved-name";
 import { useLegato } from "@/lib/legato-state";
 import { suggestRituals } from "@/lib/rituals.functions";
@@ -120,7 +119,6 @@ function CareRituels() {
           <LegatoMark size={22} />
           <Link to="/care/garden" className="mono-label text-dusk/55">Jardin →</Link>
         </header>
-        <SubNav items={CARE_SUBNAV} ariaLabel="Sous-navigation Soutien" />
 
         <section className="px-6 pt-8">
           <p className="mono-label">Rituels d'hommage</p>

@@ -4,7 +4,6 @@ import { Shell } from "@/components/legato/Shell";
 import { LegatoMark } from "@/components/legato/LegatoMark";
 import { useLegato } from "@/lib/legato-state";
 import { journeyModules, PRACTICAL_LABELS, type PracticalCategory } from "@/lib/journey-config";
-import { SubNav, PRACTICAL_SUBNAV } from "@/components/legato/SubNav";
 import { TASK_STATUS_LABELS, isHiddenFromActive, isArchived } from "@/lib/task-status";
 
 export const Route = createFileRoute("/practical/tasks")({
@@ -39,7 +38,6 @@ function TasksList() {
           <LegatoMark size={22} />
           <Link to="/practical" className="mono-label text-dusk/55">← Aujourd'hui</Link>
         </header>
-        <SubNav items={PRACTICAL_SUBNAV} ariaLabel="Sous-navigation Démarches" />
         <section className="px-6 pt-6">
           <p className="mono-label">Toutes les démarches</p>
           <h1 className="mt-3 font-serif text-[28px] leading-[1.1]">
