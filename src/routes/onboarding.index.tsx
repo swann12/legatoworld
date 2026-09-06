@@ -151,7 +151,7 @@ function Onboarding() {
     return (
       <Frame onBack={() => navigate({ to: "/start" })} progress={posOf(1)} total={total}>
         <h1 className="onboarding-title">
-          <span className="whitespace-nowrap">Comment souhaites-tu</span><br />que Legato t’appelle&nbsp;?
+          <span className="whitespace-nowrap">Comment souhaitez-vous</span><br />que Legato vous appelle&nbsp;?
         </h1>
         <div className="mt-[63px]">
           <input
@@ -357,11 +357,11 @@ function Frame({ children, onBack, progress, total, compact = false }: { childre
           {Array.from({ length: total }).map((_, i) => (
             <span
               key={i}
-              className="h-[2px] flex-1 rounded-full transition-colors duration-300"
+              className="h-[1.5px] flex-1 rounded-full transition-colors duration-300"
               style={{
                 background: i < progress
-                  ? "color-mix(in oklab, var(--dusk) 78%, transparent)"
-                  : "color-mix(in oklab, var(--dusk) 12%, transparent)",
+                  ? "color-mix(in oklab, var(--dusk) 55%, transparent)"
+                  : "color-mix(in oklab, var(--dusk) 9%, transparent)",
               }}
             />
           ))}
@@ -465,11 +465,6 @@ function ChipGrid<T extends string>({ options, value, onChange }: {
       })}
     </div>
   );
-}
-
-function placeholderFor(relation: Relation | null) {
-  const match = RELATIONS.find((r) => r.id === relation);
-  return match ? match.label : "Son prénom";
 }
 
 /** Propositions neutres, sans prénom inventé : « Mon ami », « Ma mère »… */
