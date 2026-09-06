@@ -472,6 +472,23 @@ function placeholderFor(relation: Relation | null) {
   return match ? match.label : "Son prénom";
 }
 
+/** Propositions neutres, sans prénom inventé : « Mon ami », « Ma mère »… */
+function nameSuggestions(relation: Relation | null): string[] {
+  switch (relation) {
+    case "pere": return ["Mon père", "Papa"];
+    case "mere": return ["Ma mère", "Maman"];
+    case "conjoint": return ["Mon amour", "Mon ou ma conjoint·e"];
+    case "enfant": return ["Mon enfant"];
+    case "frere_soeur": return ["Mon frère", "Ma sœur"];
+    case "grand_parent": return ["Mon grand-père", "Ma grand-mère"];
+    case "ami": return ["Mon ami", "Mon amie"];
+    case "collegue": return ["Mon ou ma collègue"];
+    case "animal": return ["Mon compagnon"];
+    default: return ["Mon proche"];
+  }
+}
+
+
 function stageQuestion(situation: Situation | null) {
   switch (situation) {
     case "peur": return "Où en est la situation ?";
