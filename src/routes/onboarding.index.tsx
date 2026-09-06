@@ -188,7 +188,7 @@ function Onboarding() {
             </OptionPill>
           ))}
           {lovedOneRelation === "autre" && (
-            <input value={lovedOther} onChange={(e) => setLovedOther(e.target.value)} placeholder="Précisez qui" className="onboarding-field h-[45px] w-full shrink-0 rounded-[7px] border border-dusk/15 bg-transparent px-[26px] font-sans text-[12px] text-dusk outline-none" />
+            <input value={lovedOther} onChange={(e) => setLovedOther(e.target.value)} placeholder="Précisez" className="onboarding-field h-[45px] w-full shrink-0 rounded-[7px] border border-dusk/15 bg-transparent px-[26px] font-sans text-[12px] text-dusk outline-none" />
           )}
         </div>
 
@@ -241,7 +241,7 @@ function Onboarding() {
           {([
             { id: "emotional", label: "Être soutenu·e émotionnellement" },
             { id: "practical", label: "Avancer dans les démarches concrètes" },
-            { id: "both", label: "Les deux, mais séparément" },
+            { id: "both", label: "Les deux" },
           ] as { id: PrimaryNeed; label: string }[]).map((o) => (
             <OptionPill key={o.id} active={primaryNeed === o.id} onClick={() => setPrimaryNeed(o.id)}>
               {o.label}
