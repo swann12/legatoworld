@@ -19,7 +19,8 @@ export const Route = createFileRoute("/practical/tasks")({
 type View = "active" | "archived" | "all";
 
 function TasksList() {
-  const { situation, primaryNeed, stage, lovedOneRelation, legallyInvolved, hydrated, taskStatus } = useLegato();
+  const { situation, primaryNeed, stage, lovedOneRelation, legallyInvolved, hydrated, taskStatus, lightMode } = useLegato();
+  const light = hydrated && lightMode;
   const { practical } = journeyModules(situation, primaryNeed, stage, { relation: lovedOneRelation, legallyInvolved });
   const [view, setView] = useState<View>("active");
 
@@ -30,6 +31,8 @@ function TasksList() {
     if (view === "archived") return isArchived(st);
     return true;
   });
+
+  const shown = light ? filtered.slice(0, 3) : filtered;
 
   return (
     <Shell livingBg={false}>
@@ -43,11 +46,14 @@ function TasksList() {
           <h1 className="mt-3 font-serif text-[28px] leading-[1.1]">
             <span className="italic" style={{ color: "var(--terracotta)" }}>Une étape</span> à la fois
           </h1>
-          <p className="mt-4 text-[13px] leading-[1.55] text-dusk/60 max-w-[34ch]">
-            Ici, ce sont les actions concrètes. La page Démarches sert à voir l'ensemble et choisir le bon moment.
-          </p>
+          {!light && (
+            <p className="mt-4 text-[13px] leading-[1.55] text-dusk/60 max-w-[34ch]">
+              Ici, ce sont les actions concrètes. La page Démarches sert à voir l'ensemble et choisir le bon moment.
+            </p>
+          )}
         </section>
 
+        {!light && (
         <section className="px-5 pt-5">
           <div className="flex gap-2">
             {(["active", "archived", "all"] as View[]).map((v) => (
@@ -61,12 +67,13 @@ function TasksList() {
             ))}
           </div>
         </section>
+        )}
 
         <ul className="mx-5 mt-5 space-y-3">
-          {filtered.length === 0 && (
+          {shown.length === 0 && (
             <li className="rounded-[18px] border border-dusk/10 bg-paper px-5 py-6 text-center text-[13px] text-dusk/55 italic">Rien à montrer ici.</li>
           )}
-          {filtered.map((c) => {
+          {shown.map((c) => {
             const cfg = PRACTICAL_LABELS[c];
             const st = hydrated ? taskStatus[c] : undefined;
             return (
