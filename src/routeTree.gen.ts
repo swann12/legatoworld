@@ -36,6 +36,7 @@ import { Route as AppointmentsRouteImport } from './routes/appointments'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ResourcesIndexRouteImport } from './routes/resources.index'
+import { Route as ProfileIndexRouteImport } from './routes/profile.index'
 import { Route as PracticalIndexRouteImport } from './routes/practical.index'
 import { Route as OnboardingIndexRouteImport } from './routes/onboarding.index'
 import { Route as HelpIndexRouteImport } from './routes/help.index'
@@ -218,6 +219,11 @@ const ResourcesIndexRoute = ResourcesIndexRouteImport.update({
   id: '/resources/',
   path: '/resources/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const ProfileIndexRoute = ProfileIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ProfileRoute,
 } as any)
 const PracticalIndexRoute = PracticalIndexRouteImport.update({
   id: '/',
@@ -526,6 +532,7 @@ export interface FileRoutesByFullPath {
   '/help/': typeof HelpIndexRoute
   '/onboarding/': typeof OnboardingIndexRoute
   '/practical/': typeof PracticalIndexRoute
+  '/profile/': typeof ProfileIndexRoute
   '/resources/': typeof ResourcesIndexRoute
   '/care/garden/$zone': typeof CareGardenZoneRoute
   '/help/corps/eau': typeof HelpCorpsEauRoute
@@ -555,7 +562,6 @@ export interface FileRoutesByTo {
   '/parcours': typeof ParcoursRouteWithChildren
   '/presence': typeof PresenceRoute
   '/presentation': typeof PresentationRoute
-  '/profile': typeof ProfileRouteWithChildren
   '/space': typeof SpaceRoute
   '/start': typeof StartRoute
   '/vitrine': typeof VitrineRoute
@@ -597,6 +603,7 @@ export interface FileRoutesByTo {
   '/help': typeof HelpIndexRoute
   '/onboarding': typeof OnboardingIndexRoute
   '/practical': typeof PracticalIndexRoute
+  '/profile': typeof ProfileIndexRoute
   '/resources': typeof ResourcesIndexRoute
   '/care/garden/$zone': typeof CareGardenZoneRoute
   '/help/corps/eau': typeof HelpCorpsEauRoute
@@ -675,6 +682,7 @@ export interface FileRoutesById {
   '/help/': typeof HelpIndexRoute
   '/onboarding/': typeof OnboardingIndexRoute
   '/practical/': typeof PracticalIndexRoute
+  '/profile/': typeof ProfileIndexRoute
   '/resources/': typeof ResourcesIndexRoute
   '/care/garden/$zone': typeof CareGardenZoneRoute
   '/help/corps/eau': typeof HelpCorpsEauRoute
@@ -753,6 +761,7 @@ export interface FileRouteTypes {
     | '/help/'
     | '/onboarding/'
     | '/practical/'
+    | '/profile/'
     | '/resources/'
     | '/care/garden/$zone'
     | '/help/corps/eau'
@@ -782,7 +791,6 @@ export interface FileRouteTypes {
     | '/parcours'
     | '/presence'
     | '/presentation'
-    | '/profile'
     | '/space'
     | '/start'
     | '/vitrine'
@@ -824,6 +832,7 @@ export interface FileRouteTypes {
     | '/help'
     | '/onboarding'
     | '/practical'
+    | '/profile'
     | '/resources'
     | '/care/garden/$zone'
     | '/help/corps/eau'
@@ -901,6 +910,7 @@ export interface FileRouteTypes {
     | '/help/'
     | '/onboarding/'
     | '/practical/'
+    | '/profile/'
     | '/resources/'
     | '/care/garden/$zone'
     | '/help/corps/eau'
@@ -1142,6 +1152,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/resources/'
       preLoaderRoute: typeof ResourcesIndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/profile/': {
+      id: '/profile/'
+      path: '/'
+      fullPath: '/profile/'
+      preLoaderRoute: typeof ProfileIndexRouteImport
+      parentRoute: typeof ProfileRoute
     }
     '/practical/': {
       id: '/practical/'
@@ -1645,10 +1662,12 @@ const PracticalRouteWithChildren = PracticalRoute._addFileChildren(
 
 interface ProfileRouteChildren {
   ProfileProchesRoute: typeof ProfileProchesRoute
+  ProfileIndexRoute: typeof ProfileIndexRoute
 }
 
 const ProfileRouteChildren: ProfileRouteChildren = {
   ProfileProchesRoute: ProfileProchesRoute,
+  ProfileIndexRoute: ProfileIndexRoute,
 }
 
 const ProfileRouteWithChildren =

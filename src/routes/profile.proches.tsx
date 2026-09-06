@@ -1,24 +1,33 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState } from "react";
 import { Shell } from "@/components/legato/Shell";
 import { LegatoMark } from "@/components/legato/LegatoMark";
-import { useLegato } from "@/lib/legato-state";
-import { useLovedName } from "@/lib/loved-name";
+import { RELATIONS, type Relation } from "@/lib/legato-state";
+import {
+  useSpaces, RELATION_LABEL, upcomingForSpaces, formatDaysAway, type Space,
+} from "@/lib/spaces-store";
 
 export const Route = createFileRoute("/profile/proches")({
-  head: () => ({ meta: [{ title: "Les êtres aimés — Legato" }] }),
-  component: Proches,
+  head: () => ({
+    meta: [
+      { title: "Mes espaces — Legato" },
+      { name: "description", content: "Un espace par être aimé : son jardin, ses dates, ce qui a été déposé." },
+      { property: "og:title", content: "Mes espaces — Legato" },
+      { property: "og:description", content: "Un espace par être aimé : son jardin, ses dates, ce qui a été déposé." },
+    ],
+  }),
+  component: Espaces,
 });
 
-const RELATION_LABEL: Record<string, string> = {
-  pere: "Père", mere: "Mère", conjoint: "Conjoint·e", enfant: "Enfant",
-  frere_soeur: "Frère ou sœur", grand_parent: "Grand-parent",
-  ami: "Ami·e", collegue: "Collègue", animal: "Animal", autre: "Autre",
-};
+function Espaces() {
+  const { spaces, hydrated, addSpace, updateSpace, removeSpace } = useSpaces();
+  const [adding, setAdding] = useState(false);
+  const [showArchived, setShowArchived] = useState(false);
+  const [editing, setEditing] = useState<string | null>(null);
 
-function Proches() {
-  const { lovedOneRelation, hydrated } = useLegato();
-  const lovedName = useLovedName();
-  const relationLabel = lovedOneRelation ? RELATION_LABEL[lovedOneRelation] : null;
+  const actifs = spaces.filter((s) => !s.archived);
+  const archives = spaces.filter((s) => s.archived);
+  const upcoming = upcomingForSpaces(actifs, 400);
 
   return (
     <Shell livingBg={false}>
@@ -30,50 +39,231 @@ function Proches() {
         </header>
 
         <section className="px-6 pt-8">
-          <p className="mono-label">Êtres aimés</p>
+          <p className="mono-label">Mes espaces</p>
           <h1 className="mt-5 font-serif font-normal text-[32px] leading-[1.06]">
-            Tous celles et ceux <br />
-            <span className="italic" style={{ color: "var(--terracotta)" }}>qui comptent</span>.
+            Un espace pour<br />
+            <span className="italic" style={{ color: "var(--terracotta)" }}>chacun d'eux</span>.
           </h1>
           <p className="mt-4 text-[13px] leading-[1.6] text-dusk/60 max-w-[34ch]">
-            Une fiche par personne. Le jardin, les dates sensibles, ce qui a été déposé.
+            Le jardin, les dates qui comptent, ce que vous y déposez. Rien n'est partagé sans vous.
           </p>
         </section>
 
-        <section className="px-5 pt-8">
-          <div className="grid grid-cols-1 gap-3">
-            {hydrated && lovedName && (
-              <article className="rounded-[22px] px-5 py-5" style={{ background: "var(--blush)" }}>
-                <div className="flex items-start justify-between gap-3">
-                  <div className="min-w-0">
-                    <p className="mono-label text-dusk/60">{relationLabel ?? "Proche"}</p>
-                    <p className="mt-2 font-serif text-[26px] leading-[1.05]">{lovedName}</p>
-                  </div>
-                  <span className="rounded-full bg-paper/70 px-3 py-1 text-[10.5px] mono-label text-dusk/70">Actif</span>
-                </div>
-                <div className="mt-5 grid grid-cols-2 gap-2">
-                  <Link to="/care/garden" className="rounded-[14px] bg-paper/70 px-4 py-3">
-                    <p className="mono-label text-dusk/55">Jardin</p>
-                    <p className="mt-1 text-[13px]">Photos, voix, lettres</p>
-                  </Link>
-                  <Link to="/care/dates" className="rounded-[14px] bg-paper/70 px-4 py-3">
-                    <p className="mono-label text-dusk/55">Dates</p>
-                    <p className="mt-1 text-[13px]">Anniversaire, départ</p>
-                  </Link>
-                </div>
-              </article>
-            )}
+        <section className="px-5 pt-8 space-y-3">
+          {!hydrated && <p className="px-1 text-[13px] text-dusk/50">Chargement…</p>}
 
-            {/* Placeholder for future archived loved ones */}
-            <div className="rounded-[18px] border border-dashed border-dusk/20 bg-[color:var(--whisper)] px-5 py-6 text-center">
-              <p className="mono-label text-dusk/55">Bientôt</p>
+          {hydrated && actifs.length === 0 && !adding && (
+            <div className="rounded-[20px] border border-dashed border-dusk/20 bg-[color:var(--whisper)] px-5 py-7 text-center">
+              <p className="mono-label text-dusk/55">Aucun espace</p>
               <p className="mt-2 text-[13px] text-dusk/65 max-w-[28ch] mx-auto">
-                Vous pourrez ajouter d'autres proches, archiver, et retrouver chaque parcelle ici.
+                Créez un premier espace pour la personne que vous portez.
               </p>
             </div>
-          </div>
+          )}
+
+          {actifs.map((s) =>
+            editing === s.id ? (
+              <SpaceForm
+                key={s.id}
+                initial={s}
+                onCancel={() => setEditing(null)}
+                onSubmit={(v) => { updateSpace(s.id, v); setEditing(null); }}
+              />
+            ) : (
+              <SpaceCard
+                key={s.id}
+                space={s}
+                next={upcoming.find((u) => u.spaceId === s.id)}
+                onEdit={() => setEditing(s.id)}
+                onArchive={() => updateSpace(s.id, { archived: true })}
+              />
+            ),
+          )}
+
+          {adding ? (
+            <SpaceForm
+              onCancel={() => setAdding(false)}
+              onSubmit={(v) => { addSpace(v); setAdding(false); }}
+            />
+          ) : (
+            <button
+              type="button"
+              onClick={() => setAdding(true)}
+              className="w-full rounded-[18px] border border-dusk/15 bg-paper px-5 py-4 text-left"
+            >
+              <p className="mono-label" style={{ color: "var(--terracotta)" }}>Ajouter</p>
+              <p className="mt-1 font-serif text-[18px]">Créer un nouvel espace →</p>
+            </button>
+          )}
+        </section>
+
+        {archives.length > 0 && (
+          <section className="px-5 pt-9">
+            <button
+              type="button"
+              onClick={() => setShowArchived((v) => !v)}
+              className="mono-label text-dusk/55 px-1"
+            >
+              {showArchived ? "Masquer les espaces mis de côté" : `Espaces mis de côté (${archives.length})`}
+            </button>
+            {showArchived && (
+              <div className="mt-4 space-y-3">
+                {archives.map((s) => (
+                  <div key={s.id} className="rounded-[18px] border border-dusk/12 bg-[color:var(--whisper)] px-5 py-4">
+                    <p className="font-serif text-[18px]">{s.name}</p>
+                    <div className="mt-3 flex gap-4">
+                      <button type="button" className="mono-label text-dusk/60" onClick={() => updateSpace(s.id, { archived: false })}>
+                        Réactiver
+                      </button>
+                      <button type="button" className="mono-label" style={{ color: "var(--bordeaux)" }} onClick={() => removeSpace(s.id)}>
+                        Supprimer
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </section>
+        )}
+
+        <section className="px-6 pt-10">
+          <Link to="/care/dates" className="mono-label" style={{ color: "var(--terracotta)" }}>
+            Voir toutes les dates importantes →
+          </Link>
         </section>
       </div>
     </Shell>
+  );
+}
+
+function SpaceCard({
+  space: s, next, onEdit, onArchive,
+}: {
+  space: Space;
+  next?: { label: string; daysAway: number };
+  onEdit: () => void;
+  onArchive: () => void;
+}) {
+  return (
+    <article className="rounded-[22px] px-5 py-5" style={{ background: "var(--blush)" }}>
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0">
+          <p className="mono-label text-dusk/60">{RELATION_LABEL[s.relation ?? "autre"]}</p>
+          <p className="mt-2 font-serif text-[26px] leading-[1.05]">{s.name}</p>
+        </div>
+        <button type="button" onClick={onEdit} className="rounded-full bg-paper/70 px-3 py-1 text-[10.5px] mono-label text-dusk/70">
+          Modifier
+        </button>
+      </div>
+
+      {next && (
+        <p className="mt-3 text-[12.5px] text-dusk/70">
+          {next.label} · {formatDaysAway(next.daysAway).toLowerCase()}
+        </p>
+      )}
+
+      <div className="mt-5 grid grid-cols-2 gap-2">
+        <Link to="/care/garden" className="rounded-[14px] bg-paper/70 px-4 py-3">
+          <p className="mono-label text-dusk/55">Jardin</p>
+          <p className="mt-1 text-[13px]">Photos, voix, lettres</p>
+        </Link>
+        <Link to="/care/dates" className="rounded-[14px] bg-paper/70 px-4 py-3">
+          <p className="mono-label text-dusk/55">Dates</p>
+          <p className="mt-1 text-[13px]">Anniversaire, départ</p>
+        </Link>
+      </div>
+
+      <button type="button" onClick={onArchive} className="mt-4 mono-label text-dusk/55">
+        Mettre de côté
+      </button>
+    </article>
+  );
+}
+
+function SpaceForm({
+  initial, onCancel, onSubmit,
+}: {
+  initial?: Space;
+  onCancel: () => void;
+  onSubmit: (v: { name: string; relation: Relation | null; birthday: string | null; deathDate: string | null }) => void;
+}) {
+  const [name, setName] = useState(initial?.name ?? "");
+  const [relation, setRelation] = useState<Relation | null>(initial?.relation ?? null);
+  const [birthday, setBirthday] = useState(initial?.birthday ?? "");
+  const [deathDate, setDeathDate] = useState(initial?.deathDate ?? "");
+
+  return (
+    <form
+      className="rounded-[20px] border border-dusk/15 bg-paper px-5 py-5"
+      onSubmit={(e) => {
+        e.preventDefault();
+        if (!name.trim()) return;
+        onSubmit({ name: name.trim(), relation, birthday: birthday || null, deathDate: deathDate || null });
+      }}
+    >
+      <p className="mono-label text-dusk/60">{initial ? "Modifier l'espace" : "Nouvel espace"}</p>
+
+      <label className="mt-4 block mono-label text-dusk/55">Comment l'appelez-vous ?</label>
+      <input
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        placeholder="Son prénom, ou « Maman »"
+        className="mt-2 w-full rounded-[14px] border border-dusk/15 bg-paper px-4 py-3 text-[15px] outline-none focus:border-dusk/35"
+      />
+
+      <p className="mt-5 mono-label text-dusk/55">Votre lien</p>
+      <div className="mt-2 flex flex-wrap gap-2">
+        {RELATIONS.map((r) => (
+          <button
+            key={r.id}
+            type="button"
+            onClick={() => setRelation(relation === r.id ? null : r.id)}
+            className="rounded-full border px-3.5 py-1.5 text-[12px]"
+            style={{
+              borderColor: relation === r.id ? "var(--terracotta)" : "rgba(0,0,0,0.14)",
+              background: relation === r.id ? "color-mix(in oklab, var(--terracotta) 14%, var(--paper))" : "transparent",
+            }}
+          >
+            {RELATION_LABEL[r.id]}
+          </button>
+        ))}
+      </div>
+
+      <div className="mt-5 grid grid-cols-2 gap-3">
+        <div>
+          <label className="mono-label text-dusk/55">Anniversaire</label>
+          <input
+            type="date"
+            value={birthday}
+            onChange={(e) => setBirthday(e.target.value)}
+            className="mt-2 w-full rounded-[14px] border border-dusk/15 bg-paper px-3 py-2.5 text-[13px] outline-none focus:border-dusk/35"
+          />
+        </div>
+        <div>
+          <label className="mono-label text-dusk/55">Date du départ</label>
+          <input
+            type="date"
+            value={deathDate}
+            onChange={(e) => setDeathDate(e.target.value)}
+            className="mt-2 w-full rounded-[14px] border border-dusk/15 bg-paper px-3 py-2.5 text-[13px] outline-none focus:border-dusk/35"
+          />
+        </div>
+      </div>
+      <p className="mt-2 text-[11.5px] text-dusk/50">Facultatif — vous pourrez les ajouter plus tard.</p>
+
+      <div className="mt-5 flex items-center gap-4">
+        <button
+          type="submit"
+          disabled={!name.trim()}
+          className="rounded-full px-5 py-2.5 text-[13px] disabled:opacity-40"
+          style={{ background: "var(--bordeaux)", color: "var(--paper)" }}
+        >
+          {initial ? "Enregistrer" : "Créer l'espace"}
+        </button>
+        <button type="button" onClick={onCancel} className="mono-label text-dusk/55">
+          Annuler
+        </button>
+      </div>
+    </form>
   );
 }
