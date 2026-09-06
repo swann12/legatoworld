@@ -53,7 +53,7 @@ function CareRespirer() {
     <Shell livingBg={false}>
       <main className="min-h-dvh bg-paper text-dusk pb-32">
         <header className="px-6 pt-7 flex items-center justify-between">
-          <LegatoMark to="/space" size={22} />
+          <LegatoMark size={22} />
           <Link to="/care" className="mono-label text-dusk/55">Soutien →</Link>
         </header>
         <SubNav items={CARE_SUBNAV} ariaLabel="Sous-navigation Soutien" />

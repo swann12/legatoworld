@@ -34,7 +34,7 @@ function CareEmotions() {
   return (
     <Shell livingBg={false}>
       <div className="min-h-dvh bg-paper text-dusk pb-32">
-        <header className="px-6 pt-7 flex items-center justify-between"><LegatoMark to="/space" size={22} /><span className="mono-label text-dusk/45">Soutien</span></header>
+        <header className="px-6 pt-7 flex items-center justify-between"><LegatoMark size={22} /><span className="mono-label text-dusk/45">Soutien</span></header>
         <SubNav items={CARE_SUBNAV} ariaLabel="Sous-navigation Soutien" />
         <section className="px-6 pt-8">
           <p className="mono-label">Check-in émotionnel</p>

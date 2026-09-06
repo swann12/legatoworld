@@ -18,7 +18,7 @@ export function SpaceHeader({
 
   return (
     <header className="relative pt-9 px-7 flex items-center justify-between">
-      <LegatoMark to="/space" size={22} />
+      <LegatoMark size={22} />
       <button
         onClick={() => setOpen(true)}
         className="flex items-center gap-2 rounded-full border border-dusk/15 bg-paper px-3 py-1.5 eyebrow hover:bg-dusk/5"
