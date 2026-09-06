@@ -9,7 +9,6 @@ import {
   journeyModules, PRACTICAL_LABELS, PRACTICAL_BUCKETS, BUCKET_LABELS,
   type PracticalCategory, type PracticalBucket,
 } from "@/lib/journey-config";
-import { SpaceToggle } from "@/components/legato/SpaceToggle";
 import { TASK_STATUS_LABELS, isHiddenFromActive } from "@/lib/task-status";
 
 
@@ -37,7 +36,7 @@ function loadStatus(): Record<string, Status> {
 const ORDER: PracticalBucket[] = ["now", "week", "month", "later"];
 
 function Practical() {
-  const { situation, primaryNeed, stage, softDay, lovedOneRelation, legallyInvolved, hydrated, taskStatus, name } = useLegato();
+  const { situation, primaryNeed, stage, softDay, lightMode, lovedOneRelation, legallyInvolved, hydrated, taskStatus, name } = useLegato();
   const lovedName = useLovedName();
   const { practical } = journeyModules(situation, primaryNeed, stage, { relation: lovedOneRelation, legallyInvolved });
   const [filter, setFilter] = useState<PracticalBucket | "all">("all");
@@ -63,7 +62,7 @@ function Practical() {
   const total = allowed.length;
   const done = allowed.filter((c) => statusMap[c] === "done").length;
 
-  const softActive = hydrated && softDay;
+  const softActive = hydrated && (softDay || lightMode);
   const visibleBuckets: PracticalBucket[] = softActive ? ["now"] : ORDER;
   const buckets = filter === "all" ? visibleBuckets : visibleBuckets.filter((b) => b === filter);
 
@@ -81,7 +80,6 @@ function Practical() {
             {(name || "?").trim().charAt(0).toUpperCase() || "?"}
           </Link>
         </header>
-        <SpaceToggle />
 
         <section className="px-6 pt-8 pb-2">
           <p className="mono-label">Démarches</p>
@@ -140,6 +138,7 @@ function Practical() {
         )}
 
         {/* Tuiles thématiques — chacune une couleur unique */}
+        {!softActive && (
         <section className="px-5 pt-7">
           <div className="grid grid-cols-2 gap-3">
             <ThemeTile to="/practical/tasks" label="Tâches" hint="Avancer pas à pas" bg="var(--whisper)" />
@@ -159,6 +158,7 @@ function Practical() {
             </p>
           </Link>
         </section>
+        )}
 
         {!softActive && (
           <section className="px-5 pt-8">
@@ -176,7 +176,7 @@ function Practical() {
           </section>
         )}
 
-        {buckets.map((b) => {
+        {!softActive && buckets.map((b) => {
           const cats = grouped[b];
           if (!cats.length) return null;
           const meta = BUCKET_LABELS[b];

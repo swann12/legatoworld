@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
@@ -49,6 +49,14 @@ function Start() {
 
   const goNext = () => setStage("quote");
   const enterApp = () => navigate({ to: "/onboarding" });
+
+  // La citation reste ~3 s puis laisse la place, sans faire attendre :
+  // un simple toucher passe immédiatement à la suite.
+  useEffect(() => {
+    if (stage !== "quote") return;
+    const t = window.setTimeout(() => navigate({ to: "/onboarding" }), 3000);
+    return () => window.clearTimeout(t);
+  }, [stage, navigate]);
 
   const handleGoogle = async () => {
     setError(null);

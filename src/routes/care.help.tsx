@@ -12,7 +12,7 @@ function CareHelp() {
   return (
     <Shell livingBg={false}>
       <div className="min-h-dvh bg-paper text-dusk pb-32">
-        <header className="px-6 pt-7 flex items-center justify-between"><LegatoMark to="/space" size={22} /><Link to="/crisis" className="mono-label text-dusk/55">Urgence →</Link></header>
+        <header className="px-6 pt-7 flex items-center justify-between"><LegatoMark size={22} /><Link to="/crisis" className="mono-label text-dusk/55">Urgence →</Link></header>
         <SubNav items={CARE_SUBNAV} ariaLabel="Sous-navigation Soutien" />
         <section className="px-6 pt-8"><p className="mono-label">Aide humaine</p><h1 className="mt-5 ed-page-title">Trouver quelqu'un <span className="italic" style={{ color: "var(--terracotta)" }}>à qui parler</span>.</h1></section>
         <section className="px-5 pt-8 space-y-3">

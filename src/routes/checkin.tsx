@@ -33,7 +33,7 @@ function Checkin() {
       <div className="min-h-dvh bg-paper text-dusk pb-32">
         <header className="px-6 pt-7 flex items-center justify-between">
           <button onClick={() => navigate({ to: "/home" })} className="mono-label">← Retour</button>
-          <LegatoMark to="/space" size={20} />
+          <LegatoMark size={20} />
           <span className="w-12" />
         </header>
         <section className="px-6 pt-10">

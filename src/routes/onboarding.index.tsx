@@ -124,13 +124,32 @@ function Onboarding() {
     else setStep(6);
   };
 
+  // Parcours réel : on ne compte que les étapes que cette personne va voir.
+  const flow: Step[] = (() => {
+    const seq: Step[] = [1, 2];
+    if (situation === "questionnement" || situation === "volontes") seq.push(5);
+    else if (situation === "soutenir") seq.push(4, 5);
+    else seq.push(3, 4, 5);
+    if (situation === "volontes") return seq;
+    if (situation === "questionnement" || (lovedOneRelation === "animal" && situation !== "perdu")) {
+      seq.push(7);
+      return seq;
+    }
+    seq.push(6);
+    if (needsLegalQuestion) seq.push(8);
+    if (needsEmotion || !primaryNeed) seq.push(7);
+    return seq;
+  })();
+  const posOf = (s: Step) => Math.max(1, flow.indexOf(s) + 1);
+  const total = flow.length;
+
   const toggleEmotion = (id: Emotion) => {
     setCurrentEmotions(currentEmotions.includes(id) ? currentEmotions.filter((e) => e !== id) : [...currentEmotions, id]);
   };
 
   if (step === 1) {
     return (
-      <Frame onBack={() => navigate({ to: "/start" })} progress={1}>
+      <Frame onBack={() => navigate({ to: "/start" })} progress={posOf(1)} total={total}>
         <h1 className="onboarding-title">
           <span className="whitespace-nowrap">Comment souhaites-tu</span><br />que Legato t’appelle&nbsp;?
         </h1>
@@ -138,7 +157,7 @@ function Onboarding() {
           <input
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="Swann"
+            placeholder="Votre prénom"
             className="onboarding-field h-[45px] w-full rounded-[7px] border border-dusk/15 bg-transparent px-[26px] font-sans text-[12px] text-dusk outline-none transition-colors"
           />
         </div>
@@ -151,7 +170,7 @@ function Onboarding() {
 
   if (step === 2) {
     return (
-      <Frame onBack={() => setStep(1)} progress={2}>
+      <Frame onBack={() => setStep(1)} progress={posOf(2)} total={total}>
         <h1 className="onboarding-title">
           Pourquoi venez-vous<br />sur <span className="italic">Legato</span> aujourd'hui&nbsp;?
         </h1>
@@ -179,7 +198,7 @@ function Onboarding() {
   if (step === 3) {
     const title = situation === "perdu" ? <>Qui avez-vous<br />perdu&nbsp;?</> : situation === "peur" ? <>De qui avez-vous peur<br />de perdre la présence&nbsp;?</> : <>Qui accompagnez-vous&nbsp;?</>;
     return (
-      <Frame onBack={() => setStep(2)} progress={3}>
+      <Frame onBack={() => setStep(2)} progress={posOf(3)} total={total}>
         <h1 className="onboarding-title">{title}</h1>
         <div className="mt-[30px] flex flex-1 flex-col gap-[6px] overflow-y-auto pb-[10px]">
           {RELATIONS.map((r) => (
@@ -188,7 +207,7 @@ function Onboarding() {
             </OptionPill>
           ))}
           {lovedOneRelation === "autre" && (
-            <input value={lovedOther} onChange={(e) => setLovedOther(e.target.value)} placeholder="Précisez qui" className="onboarding-field h-[45px] w-full shrink-0 rounded-[7px] border border-dusk/15 bg-transparent px-[26px] font-sans text-[12px] text-dusk outline-none" />
+            <input value={lovedOther} onChange={(e) => setLovedOther(e.target.value)} placeholder="Précisez" className="onboarding-field h-[45px] w-full shrink-0 rounded-[7px] border border-dusk/15 bg-transparent px-[26px] font-sans text-[12px] text-dusk outline-none" />
           )}
         </div>
 
@@ -201,7 +220,7 @@ function Onboarding() {
 
   if (step === 4) {
     return (
-      <Frame onBack={() => (needsPerson ? setStep(3) : setStep(2))} progress={3}>
+      <Frame onBack={() => (needsPerson ? setStep(3) : setStep(2))} progress={posOf(4)} total={total}>
         <h1 className="onboarding-title">
           <span className="whitespace-nowrap">Comment aimeriez-vous</span><br />l'appeler dans <span className="italic">Legato</span>&nbsp;?
         </h1>
@@ -217,7 +236,7 @@ function Onboarding() {
 
   if (step === 5) {
     return (
-      <Frame onBack={() => (needsLabel ? setStep(4) : setStep(2))} progress={4}>
+      <Frame onBack={() => (needsLabel ? setStep(4) : setStep(2))} progress={posOf(5)} total={total}>
         <h1 className="onboarding-title">{stageQuestion(situation)}</h1>
         <div className="mt-[46px] flex flex-col gap-[7px] overflow-y-auto pb-[6px]">
           {stageOptions.map((s) => (
@@ -235,13 +254,13 @@ function Onboarding() {
 
   if (step === 6) {
     return (
-      <Frame onBack={() => setStep(5)} progress={4}>
+      <Frame onBack={() => setStep(5)} progress={posOf(6)} total={total}>
         <h1 className="onboarding-title">De quoi avez-vous besoin<br />en priorité maintenant&nbsp;?</h1>
         <div className="mt-[28px] flex flex-col gap-[9px]">
           {([
             { id: "emotional", label: "Être soutenu·e émotionnellement" },
             { id: "practical", label: "Avancer dans les démarches concrètes" },
-            { id: "both", label: "Les deux, mais séparément" },
+            { id: "both", label: "Les deux" },
           ] as { id: PrimaryNeed; label: string }[]).map((o) => (
             <OptionPill key={o.id} active={primaryNeed === o.id} onClick={() => setPrimaryNeed(o.id)}>
               {o.label}
@@ -257,7 +276,7 @@ function Onboarding() {
 
   if (step === 8) {
     return (
-      <Frame onBack={() => setStep(6)} progress={5}>
+      <Frame onBack={() => setStep(6)} progress={posOf(8)} total={total}>
         <h1 className="onboarding-title">Êtes-vous responsable légalement, ou aidez-vous la famille pour les démarches&nbsp;?</h1>
         <div className="mt-[28px] flex flex-col gap-[9px]">
           <OptionPill active={legallyInvolved === true} onClick={() => setLegallyInvolved(true)}>Oui, je suis impliqué·e</OptionPill>
@@ -270,7 +289,7 @@ function Onboarding() {
   }
 
   return (
-    <Frame onBack={backFromEmotion} progress={5}>
+    <Frame onBack={backFromEmotion} progress={posOf(7)} total={total}>
       <h1 className="onboarding-title">
         Comment<br />vous sentez-vous<br />aujourd’hui&nbsp;?
       </h1>
@@ -301,19 +320,30 @@ function Onboarding() {
   );
 }
 
-function Frame({ children, onBack, progress, compact = false }: { children: ReactNode; onBack: () => void; progress: number; compact?: boolean }) {
+function Frame({ children, onBack, progress, total, compact = false }: { children: ReactNode; onBack: () => void; progress: number; total: number; compact?: boolean }) {
   return (
     <main className="min-h-dvh" style={{ background: "var(--paper)", color: "var(--dusk)" }}>
       <div className="mobile-frame relative flex min-h-dvh flex-col" style={{ background: "var(--paper)" }}>
-        <header className="sr-only">
-          <button onClick={onBack} aria-label="Retour">Retour</button>
+        <header className="px-[51px] pt-[46px]">
+          <button
+            onClick={onBack}
+            aria-label="Revenir à l'étape précédente"
+            className="mono-label inline-flex min-h-9 items-center gap-1.5"
+            style={{ color: "color-mix(in oklab, var(--dusk) 60%, transparent)", fontSize: 9.5, letterSpacing: "0.2em" }}
+          >
+            <span aria-hidden>←</span> Retour
+          </button>
         </header>
-        <div className="flex items-center gap-[5px] px-[51px] pt-[73px]">
-          {Array.from({ length: 5 }).map((_, i) => (
+        <div className="flex items-center gap-[5px] px-[51px] pt-[22px]">
+          {Array.from({ length: total }).map((_, i) => (
             <span
               key={i}
-               className="h-[4px] flex-1 rounded-full border border-dusk/10"
-               style={{ background: i < progress ? "var(--terracotta)" : "var(--paper)" }}
+              className="h-[2px] flex-1 rounded-full transition-colors duration-300"
+              style={{
+                background: i < progress
+                  ? "color-mix(in oklab, var(--dusk) 78%, transparent)"
+                  : "color-mix(in oklab, var(--dusk) 12%, transparent)",
+              }}
             />
           ))}
         </div>
@@ -419,14 +449,8 @@ function ChipGrid<T extends string>({ options, value, onChange }: {
 }
 
 function placeholderFor(relation: Relation | null) {
-  switch (relation) {
-    case "animal": return "mon chien Oslo";
-    case "ami": return "mon amie Léa";
-    case "pere": return "mon père";
-    case "mere": return "ma mère";
-    case "frere_soeur": return "ma sœur";
-    default: return "Marie";
-  }
+  const match = RELATIONS.find((r) => r.id === relation);
+  return match ? match.label : "Son prénom";
 }
 
 function stageQuestion(situation: Situation | null) {

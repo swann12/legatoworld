@@ -341,6 +341,10 @@ type Ctx = {
   setCurrentEmotions: (e: Emotion[]) => void;
   currentEmotionAt: string | null;
 
+  // Mode « Alléger » : moins de contenu, une action à la fois
+  lightMode: boolean;
+  setLightMode: (v: boolean) => void;
+
   // Mode « aujourd'hui c'est dur »
   softDay: boolean;
   toggleSoftDay: () => void;
@@ -446,6 +450,9 @@ export function LegatoProvider({ children }: { children: ReactNode }) {
   const [primaryNeed, setPrimaryNeedState] = useState<PrimaryNeed | null>(null);
   const setPrimaryNeed = (p: PrimaryNeed | null) => { setPrimaryNeedState(p); lsSet("lg.primaryNeed", p); };
 
+  const [lightMode, setLightModeState] = useState(false);
+  const setLightMode = (v: boolean) => { setLightModeState(v); lsSet("lg.lightMode", v); };
+
   const [currentEmotions, setCurrentEmotionsState] = useState<Emotion[]>([]);
   const [currentEmotionAt, setCurrentEmotionAt] = useState<string | null>(null);
   const setCurrentEmotions = (e: Emotion[]) => {
@@ -499,6 +506,7 @@ export function LegatoProvider({ children }: { children: ReactNode }) {
     setPrimaryNeedState(lsGet("lg.primaryNeed", null));
     setCurrentEmotionsState(lsGet("lg.currentEmotions", [] as Emotion[]));
     setCurrentEmotionAt(lsGet("lg.currentEmotionAt", null));
+    setLightModeState(lsGet("lg.lightMode", false));
     setSoftDay(isStoredSoftDayActive());
     setNightModeOverrideState(lsGet("lg.nightOverride", null));
     setTaskStatusState(lsGet("lg.taskStatus", {} as Record<string, TaskStatus>));
@@ -538,6 +546,7 @@ export function LegatoProvider({ children }: { children: ReactNode }) {
         primaryNeed, setPrimaryNeed,
         currentEmotions, setCurrentEmotions,
         currentEmotionAt,
+        lightMode, setLightMode,
         softDay, toggleSoftDay,
         nightModeOverride, setNightModeOverride,
         hydrated,

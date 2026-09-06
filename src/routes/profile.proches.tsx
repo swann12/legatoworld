@@ -25,7 +25,7 @@ function Proches() {
       <div className="min-h-dvh bg-paper text-dusk pb-32">
         <header className="px-6 pt-7 flex items-center justify-between">
           <Link to="/profile" aria-label="Retour" className="text-dusk/55 text-lg">←</Link>
-          <LegatoMark to="/space" size={22} />
+          <LegatoMark size={22} />
           <span className="w-5" />
         </header>
 

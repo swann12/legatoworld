@@ -5,7 +5,6 @@ import { useLegato, type Emotion } from "@/lib/legato-state";
 import { useLovedName } from "@/lib/loved-name";
 import { journeyModules, CARE_LABELS, type CareModule } from "@/lib/journey-config";
 import { LegatoMark } from "@/components/legato/LegatoMark";
-import { SpaceToggle } from "@/components/legato/SpaceToggle";
 import { emotionPlan, isEmotionStale } from "@/lib/emotion-routing";
 
 
@@ -22,13 +21,14 @@ export const Route = createFileRoute("/care/")({
 function Care() {
   const {
     situation, primaryNeed, stage, currentEmotions, currentEmotionAt,
-    lovedOneRelation, legallyInvolved, hydrated, name,
+    lovedOneRelation, legallyInvolved, hydrated, name, lightMode,
   } = useLegato();
   const lovedName = useLovedName();
   const { care } = journeyModules(situation, primaryNeed, stage, { relation: lovedOneRelation, legallyInvolved });
   const plan = emotionPlan(hydrated ? currentEmotions : []);
   const stale = hydrated ? isEmotionStale(currentEmotionAt) : true;
   const selected = hydrated ? currentEmotions : [];
+  const light = hydrated && lightMode;
   const focus = focusFromEmotions(selected, stale);
   const visibleCare = care.filter((m) => !focus.hidden.includes(m));
   const primaryCare = focus.modules.filter((m) => visibleCare.includes(m));
@@ -48,7 +48,6 @@ function Care() {
             {(name || "?").trim().charAt(0).toUpperCase() || "?"}
           </Link>
         </header>
-        <SpaceToggle />
 
         <section className="px-6 pt-8">
           <p className="mono-label">Soutien psychologique</p>
@@ -79,7 +78,7 @@ function Care() {
           </Link>
         </section>
 
-        {primaryCare.length > 0 && (
+        {!light && primaryCare.length > 0 && (
           <section className="px-5 pt-7">
             <SectionKicker label="À privilégier maintenant" />
             <div className="mt-4 grid grid-cols-2 gap-3">
@@ -88,6 +87,7 @@ function Care() {
           </section>
         )}
 
+        {!light && (
         <section className="px-5 pt-9">
           <SectionKicker label="Présence & mémoire" />
           <div className="mt-4 grid grid-cols-2 gap-3">
@@ -116,8 +116,9 @@ function Care() {
             </div>
           </Link>
         </section>
+        )}
 
-        {restCare.length > 0 && (
+        {!light && restCare.length > 0 && (
           <section className="px-5 pt-9">
             <SectionKicker label="Autres appuis" />
             <div className="mt-4 flex flex-col gap-3">

@@ -41,7 +41,7 @@ function Vault() {
       <div className="min-h-dvh bg-paper text-dusk pb-32">
         <header className="px-6 pt-7 flex items-center justify-between">
           <Link to="/practical" className="mono-label">← Démarches</Link>
-          <LegatoMark to="/space" size={20} />
+          <LegatoMark size={20} />
           <span className="w-16" />
         </header>
         <section className="px-6 pt-10">
