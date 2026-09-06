@@ -29,15 +29,24 @@ function Profile() {
           </h1>
         </section>
 
-        <section className="px-5 pt-8">
+        <section className="px-5 pt-8 space-y-3">
           <Link
             to="/profile/proches"
             className="block rounded-[20px] px-5 py-5"
             style={{ background: "var(--blush)" }}
           >
-            <p className="mono-label text-dusk/60">Êtres aimés</p>
-            <p className="mt-2 font-serif text-[20px] leading-[1.15]">Vos êtres aimés</p>
-            <p className="mt-1 text-[12.5px] text-dusk/65">Consulter, ajouter, retrouver ceux que vous avez archivés.</p>
+            <p className="mono-label text-dusk/60">Mes espaces</p>
+            <p className="mt-2 font-serif text-[20px] leading-[1.15]">Un espace par être aimé</p>
+            <p className="mt-1 text-[12.5px] text-dusk/65">Créer, modifier, mettre de côté — le jardin et les dates suivent.</p>
+          </Link>
+          <Link
+            to="/care/dates"
+            className="block rounded-[20px] px-5 py-5"
+            style={{ background: "var(--sun)" }}
+          >
+            <p className="mono-label text-dusk/60">Dates importantes</p>
+            <p className="mt-2 font-serif text-[20px] leading-[1.15]">Les jours qui pèsent</p>
+            <p className="mt-1 text-[12.5px] text-dusk/65">Anniversaire, date du départ, et un geste prêt à l'avance.</p>
           </Link>
         </section>
 
