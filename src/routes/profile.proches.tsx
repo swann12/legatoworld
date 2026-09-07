@@ -115,9 +115,25 @@ function Espaces() {
                       <button type="button" className="mono-label text-dusk/60" onClick={() => updateSpace(s.id, { archived: false })}>
                         Réactiver
                       </button>
-                      <button type="button" className="mono-label" style={{ color: "var(--bordeaux)" }} onClick={() => removeSpace(s.id)}>
-                        Supprimer
-                      </button>
+                      {confirmId === s.id ? (
+                        <span className="flex items-center gap-3">
+                          <button
+                            type="button"
+                            className="mono-label"
+                            style={{ color: "var(--bordeaux)" }}
+                            onClick={() => { removeSpace(s.id); setConfirmId(null); }}
+                          >
+                            Confirmer la suppression
+                          </button>
+                          <button type="button" className="mono-label text-dusk/45" onClick={() => setConfirmId(null)}>
+                            Annuler
+                          </button>
+                        </span>
+                      ) : (
+                        <button type="button" className="mono-label" style={{ color: "var(--bordeaux)" }} onClick={() => setConfirmId(s.id)}>
+                          Supprimer
+                        </button>
+                      )}
                     </div>
                   </div>
                 ))}
