@@ -6,12 +6,13 @@ import memoire from "@/assets/ill-memoire.png";
 import souffle from "@/assets/ill-souffle.png";
 
 export const PLATES = {
-  presence: { src: presence, alt: "Photomontage de matières organiques et de voiles colorés" },
-  demarches: { src: demarches, alt: "Photomontage d'archives effacées, de trames et de papiers déchirés" },
-  corps: { src: corps, alt: "Photomontage minéral traversé de peau, de pigment et de lignes décalées" },
-  nuit: { src: nuit, alt: "Photomontage bleu pâle traversé d'une ombre et de traces végétales" },
-  memoire: { src: memoire, alt: "Photomontage d'émulsion ancienne, d'empreintes et de matière translucide" },
-  souffle: { src: souffle, alt: "Photomontage abstrait de taches comprimées puis dispersées" },
+  presence: { src: presence, alt: "Sérigraphie : deux formes minérales superposées, branches à l'encre" },
+  demarches: { src: demarches, alt: "Sérigraphie : papiers déchirés empilés sous une masse, trame réglée" },
+  corps: { src: corps, alt: "Sérigraphie : pierre grainée partagée en deux, arc d'encre au-dessus" },
+  nuit: { src: nuit, alt: "Sérigraphie : aplat bleu, disque éclipsé, herbes sèches à l'encre" },
+  memoire: { src: memoire, alt: "Sérigraphie : strates de terre ouvertes, arbre et racines à l'encre" },
+  souffle: { src: souffle, alt: "Sérigraphie : arcs concentriques décalés et ellipse sombre" },
+
 } as const;
 
 export type PlateName = keyof typeof PLATES;
