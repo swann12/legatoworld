@@ -23,12 +23,14 @@ export function ProgressRing({
           cx={size / 2} cy={size / 2} r={r} fill="none" strokeWidth={stroke}
           stroke="color-mix(in oklab, var(--dusk) 12%, transparent)"
         />
-        <circle
-          cx={size / 2} cy={size / 2} r={r} fill="none" strokeWidth={stroke}
-          stroke="var(--terracotta)" strokeLinecap="round"
-          strokeDasharray={`${c * v} ${c}`}
-          style={{ transition: "stroke-dasharray 700ms ease" }}
-        />
+        {v > 0 && (
+          <circle
+            cx={size / 2} cy={size / 2} r={r} fill="none" strokeWidth={stroke}
+            stroke="var(--terracotta)" strokeLinecap="round"
+            strokeDasharray={`${c * v} ${c}`}
+            style={{ transition: "stroke-dasharray 700ms ease" }}
+          />
+        )}
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
         <span className="font-serif text-[21px] leading-none text-dusk">{Math.round(v * 100)}%</span>
