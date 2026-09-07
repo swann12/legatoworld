@@ -109,7 +109,7 @@ function Care() {
               </div>
             </Link>
           </div>
-          <Link to="/care/rituels" className="mt-3 block rounded-[18px] px-5 py-4" style={{ background: "var(--sun)" }}>
+          <Link to="/care/rituels" className="mt-3 block rounded-[18px] px-5 py-4" style={{ background: "var(--clay)" }}>
             <div className="flex items-center justify-between gap-3">
               <div>
                 <p className="mono-label text-dusk/60">Rituels d'hommage</p>
