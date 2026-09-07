@@ -7,6 +7,7 @@ import { journeyModules, CARE_LABELS, type CareModule } from "@/lib/journey-conf
 import { LegatoMark } from "@/components/legato/LegatoMark";
 import { emotionPlan, isEmotionStale } from "@/lib/emotion-routing";
 import { DateNudge } from "@/components/legato/DateNudge";
+import { Glyph, IndexMark } from "@/components/legato/Viz";
 
 
 export const Route = createFileRoute("/care/")({
