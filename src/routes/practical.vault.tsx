@@ -56,7 +56,7 @@ function Vault() {
 
         <section className="px-5 pt-8 grid grid-cols-2 gap-3">
           {CATEGORIES.map((c, i) => (
-            <button key={c.id} type="button" onClick={() => setOpen(open === c.id ? null : c.id)} className="rounded-[18px] border border-dusk/12 px-4 py-4 min-h-[124px] flex flex-col justify-between text-left transition-transform active:scale-[0.99]" style={{ background: ["var(--whisper)", "var(--sun)", "var(--blush)", "color-mix(in oklab, var(--sky) 40%, var(--paper))", "color-mix(in oklab, var(--olive) 28%, var(--whisper))"][i % 5] }}>
+            <button key={c.id} type="button" onClick={() => setOpen(open === c.id ? null : c.id)} className="rounded-[18px] border border-dusk/12 px-4 py-4 min-h-[124px] flex flex-col justify-between text-left transition-transform active:scale-[0.99]" style={{ background: i % 2 === 0 ? "var(--whisper)" : "color-mix(in oklab, var(--clay) 55%, var(--whisper))" }}>
               <div>
                 <p className="font-serif text-[16px] leading-[1.15] text-dusk">{c.label}</p>
                 <p className="mt-1 text-[11.5px] text-dusk/55">{c.hint}</p>
