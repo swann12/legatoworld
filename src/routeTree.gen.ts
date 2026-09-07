@@ -44,6 +44,7 @@ import { Route as GardenIndexRouteImport } from './routes/garden.index'
 import { Route as CareIndexRouteImport } from './routes/care.index'
 import { Route as ResourcesCategoryRouteImport } from './routes/resources.$category'
 import { Route as ProfileProchesRouteImport } from './routes/profile.proches'
+import { Route as ProfilePortraitRouteImport } from './routes/profile.portrait'
 import { Route as PracticalWishesRouteImport } from './routes/practical.wishes'
 import { Route as PracticalVaultRouteImport } from './routes/practical.vault'
 import { Route as PracticalTextsRouteImport } from './routes/practical.texts'
@@ -259,6 +260,11 @@ const ResourcesCategoryRoute = ResourcesCategoryRouteImport.update({
 const ProfileProchesRoute = ProfileProchesRouteImport.update({
   id: '/proches',
   path: '/proches',
+  getParentRoute: () => ProfileRoute,
+} as any)
+const ProfilePortraitRoute = ProfilePortraitRouteImport.update({
+  id: '/portrait',
+  path: '/portrait',
   getParentRoute: () => ProfileRoute,
 } as any)
 const PracticalWishesRoute = PracticalWishesRouteImport.update({
@@ -532,6 +538,7 @@ export interface FileRoutesByFullPath {
   '/practical/texts': typeof PracticalTextsRoute
   '/practical/vault': typeof PracticalVaultRoute
   '/practical/wishes': typeof PracticalWishesRoute
+  '/profile/portrait': typeof ProfilePortraitRoute
   '/profile/proches': typeof ProfileProchesRoute
   '/resources/$category': typeof ResourcesCategoryRouteWithChildren
   '/care/': typeof CareIndexRoute
@@ -604,6 +611,7 @@ export interface FileRoutesByTo {
   '/practical/texts': typeof PracticalTextsRoute
   '/practical/vault': typeof PracticalVaultRoute
   '/practical/wishes': typeof PracticalWishesRoute
+  '/profile/portrait': typeof ProfilePortraitRoute
   '/profile/proches': typeof ProfileProchesRoute
   '/resources/$category': typeof ResourcesCategoryRouteWithChildren
   '/care': typeof CareIndexRoute
@@ -684,6 +692,7 @@ export interface FileRoutesById {
   '/practical/texts': typeof PracticalTextsRoute
   '/practical/vault': typeof PracticalVaultRoute
   '/practical/wishes': typeof PracticalWishesRoute
+  '/profile/portrait': typeof ProfilePortraitRoute
   '/profile/proches': typeof ProfileProchesRoute
   '/resources/$category': typeof ResourcesCategoryRouteWithChildren
   '/care/': typeof CareIndexRoute
@@ -764,6 +773,7 @@ export interface FileRouteTypes {
     | '/practical/texts'
     | '/practical/vault'
     | '/practical/wishes'
+    | '/profile/portrait'
     | '/profile/proches'
     | '/resources/$category'
     | '/care/'
@@ -836,6 +846,7 @@ export interface FileRouteTypes {
     | '/practical/texts'
     | '/practical/vault'
     | '/practical/wishes'
+    | '/profile/portrait'
     | '/profile/proches'
     | '/resources/$category'
     | '/care'
@@ -915,6 +926,7 @@ export interface FileRouteTypes {
     | '/practical/texts'
     | '/practical/vault'
     | '/practical/wishes'
+    | '/profile/portrait'
     | '/profile/proches'
     | '/resources/$category'
     | '/care/'
@@ -1219,6 +1231,13 @@ declare module '@tanstack/react-router' {
       path: '/proches'
       fullPath: '/profile/proches'
       preLoaderRoute: typeof ProfileProchesRouteImport
+      parentRoute: typeof ProfileRoute
+    }
+    '/profile/portrait': {
+      id: '/profile/portrait'
+      path: '/portrait'
+      fullPath: '/profile/portrait'
+      preLoaderRoute: typeof ProfilePortraitRouteImport
       parentRoute: typeof ProfileRoute
     }
     '/practical/wishes': {
@@ -1682,11 +1701,13 @@ const PracticalRouteWithChildren = PracticalRoute._addFileChildren(
 )
 
 interface ProfileRouteChildren {
+  ProfilePortraitRoute: typeof ProfilePortraitRoute
   ProfileProchesRoute: typeof ProfileProchesRoute
   ProfileIndexRoute: typeof ProfileIndexRoute
 }
 
 const ProfileRouteChildren: ProfileRouteChildren = {
+  ProfilePortraitRoute: ProfilePortraitRoute,
   ProfileProchesRoute: ProfileProchesRoute,
   ProfileIndexRoute: ProfileIndexRoute,
 }
