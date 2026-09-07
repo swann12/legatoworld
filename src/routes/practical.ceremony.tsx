@@ -4,10 +4,24 @@ import { Shell } from "@/components/legato/Shell";
 import { ConfideDock } from "@/components/legato/ConfideDock";
 import { loadPractical, savePractical } from "@/lib/practical-store";
 import { useLegato } from "@/lib/legato-state";
+import { useLovedName } from "@/lib/loved-name";
 import { PageHeader, IvoryCard } from "@/components/legato/EditorialUI";
+import { ChipSelect } from "@/components/legato/ChipSelect";
+import { usePortrait } from "@/lib/portrait-store";
+import {
+  FLOWER_STEPS, MUSIC_STEPS, TEXT_STEPS,
+  flowerProposals, musicProposals, textProposals, type Proposal,
+} from "@/lib/ceremony-suggest";
 
 export const Route = createFileRoute("/practical/ceremony")({
-  head: () => ({ meta: [{ title: "Cérémonie — Legato" }] }),
+  head: () => ({
+    meta: [
+      { title: "Cérémonie — Legato" },
+      { name: "description", content: "Fleurs, musique, textes : un accompagnement guidé par vos choix, jamais un formulaire." },
+      { property: "og:title", content: "Préparer la cérémonie — Legato" },
+      { property: "og:description", content: "Choisissez, Legato propose : fleurs, musique et textes qui lui ressemblent." },
+    ],
+  }),
   component: Ceremony,
 });
 
@@ -21,17 +35,34 @@ const KINDS = [
 
 function Ceremony() {
   const { situation, stage, lovedOneRelation, hydrated } = useLegato();
+  const lovedName = useLovedName();
+  const { portrait } = usePortrait();
   const [kind, setKind] = useState("");
   const [venue, setVenue] = useState("");
+  const [flowers, setFlowers] = useState<Record<string, string>>({});
+  const [music, setMusic] = useState<Record<string, string>>({});
+  const [texts, setTexts] = useState<Record<string, string>>({});
+
   useEffect(() => { const s = loadPractical(); setKind(s.ceremonyKind); setVenue(s.ceremonyVenue); }, []);
   const update = (k: string, v: string) => { setKind(k); setVenue(v); savePractical({ ceremonyKind: k, ceremonyVenue: v }); };
+
   const hidden = hydrated && lovedOneRelation === "animal";
   const passed = hydrated && situation !== "volontes" && (stage === "obseques_passees" || stage === "demarches" || stage === "apres");
-  if (hidden || passed) return <Shell livingBg={false}><div className="min-h-dvh bg-paper text-dusk p-6"><PageHeader title="CÉRÉMONIE" back="/practical" /><h1 className="mt-10 ed-page-title">Cette étape n'est pas prioritaire dans votre parcours.</h1><Link to="/care/memory" className="mt-6 inline-block mono-label">Créer un hommage symbolique →</Link></div></Shell>;
+  if (hidden || passed) {
+    return (
+      <Shell livingBg={false}>
+        <div className="min-h-dvh bg-paper text-dusk p-6">
+          <PageHeader title="CÉRÉMONIE" back="/practical" />
+          <h1 className="mt-10 ed-page-title">Cette étape n'est pas prioritaire dans votre parcours.</h1>
+          <Link to="/care/memory" className="mt-6 inline-block mono-label">Créer un hommage symbolique →</Link>
+        </div>
+      </Shell>
+    );
+  }
 
   return (
     <Shell livingBg={false}>
-      <div className="min-h-dvh bg-paper text-dusk pb-12">
+      <div className="min-h-dvh bg-paper text-dusk pb-32">
         <PageHeader title="CÉRÉMONIE" back="/practical" />
 
         <section className="px-6 pt-4 pb-6">
@@ -40,7 +71,7 @@ function Ceremony() {
             Quelque chose qui <span className="italic" style={{ color: "var(--terracotta)" }}>lui ressemble.</span>
           </h1>
           <p className="mt-5 body-meta max-w-[36ch]">
-            Choisissez un cadre, puis affinez chaque élément. Vous pouvez aussi laisser Legato proposer une première version.
+            Vous choisissez, Legato propose. Rien à rédiger : tout se fait par sélection.
           </p>
         </section>
 
@@ -52,9 +83,7 @@ function Ceremony() {
                 key={k.id}
                 onClick={() => update(k.id, venue)}
                 className={`w-full text-left rounded-[14px] border p-5 transition-colors ${
-                  active
-                    ? "border-dusk/30 bg-clay"
-                    : "border-dusk/12 bg-paper hover:bg-clay/40"
+                  active ? "border-dusk/30 bg-clay" : "border-dusk/12 bg-paper hover:bg-clay/40"
                 }`}
               >
                 <div className="flex items-baseline justify-between">
@@ -79,30 +108,106 @@ function Ceremony() {
           </IvoryCard>
         </section>
 
-        <section className="px-5 mt-6 space-y-2.5">
-          <Link to="/practical/atmosphere" className="block rounded-[14px] border border-dusk/10 bg-paper p-5 flex items-baseline justify-between hover:bg-dusk/[0.02] transition-colors">
-            <span className="font-serif text-[16px] text-dusk">Composer l'atmosphère</span>
-            <span className="text-dusk/45">→</span>
-          </Link>
+        <GuidedBlock
+          label="Fleurs"
+          title="Composer les fleurs"
+          steps={FLOWER_STEPS}
+          answers={flowers}
+          setAnswers={setFlowers}
+          proposals={flowerProposals(flowers, portrait)}
+          footer={<Link to="/practical/flowers" className="mono-label" style={{ color: "var(--terracotta)" }}>Composer l'image du bouquet →</Link>}
+        />
+
+        <GuidedBlock
+          label="Musique"
+          title="Choisir la musique"
+          steps={MUSIC_STEPS}
+          answers={music}
+          setAnswers={setMusic}
+          proposals={musicProposals(music, portrait)}
+          footer={<Link to="/practical/atmosphere" className="mono-label" style={{ color: "var(--terracotta)" }}>Composer l'atmosphère →</Link>}
+        />
+
+        <GuidedBlock
+          label="Textes"
+          title="Écrire les mots"
+          steps={TEXT_STEPS}
+          answers={texts}
+          setAnswers={setTexts}
+          proposals={textProposals(texts, portrait, lovedName)}
+          footer={<Link to="/practical/texts" className="mono-label" style={{ color: "var(--terracotta)" }}>Travailler le texte →</Link>}
+        />
+
+        <section className="px-5 mt-10">
           <Link to="/practical/booklet" className="block rounded-[14px] border border-dusk/10 bg-paper p-5 flex items-baseline justify-between hover:bg-dusk/[0.02] transition-colors">
             <span className="font-serif text-[16px] text-dusk">Préparer un livret de cérémonie</span>
             <span className="text-dusk/45">→</span>
           </Link>
-        </section>
-
-        <section className="px-5 mt-10">
-          <button
-            className="w-full rounded-[14px] py-4"
-            style={{ background: "var(--bordeaux)", color: "var(--paper)" }}
+          <Link
+            to="/profile/portrait"
+            className="mt-3 block rounded-[14px] px-5 py-4"
+            style={{ background: "var(--whisper)" }}
           >
-            <span className="font-serif text-[18px]">Me proposer une première version</span>
-          </button>
-          <p className="mt-3 text-center text-[12px] text-dusk/55">
-            Vous pourrez tout modifier ensuite.
-          </p>
+            <p className="mono-label text-dusk/55">Pour des propositions plus justes</p>
+            <p className="mt-1.5 font-serif text-[16px]">Compléter son portrait →</p>
+          </Link>
         </section>
       </div>
       <ConfideDock step="cérémonie" />
     </Shell>
+  );
+}
+
+function GuidedBlock({
+  label, title, steps, answers, setAnswers, proposals, footer,
+}: {
+  label: string;
+  title: string;
+  steps: { key: string; question: string; options: { id: string; label: string }[] }[];
+  answers: Record<string, string>;
+  setAnswers: (v: Record<string, string>) => void;
+  proposals: Proposal[];
+  footer?: React.ReactNode;
+}) {
+  const answered = steps.filter((s) => answers[s.key]).length;
+  const visible = steps.slice(0, Math.min(steps.length, answered + 1));
+
+  return (
+    <section className="px-5 mt-10">
+      <div className="rounded-[22px] border border-dusk/12 bg-paper px-5 py-6">
+        <div className="flex items-baseline justify-between">
+          <p className="mono-label">{label}</p>
+          <p className="mono-label text-dusk/40">{answered}/{steps.length}</p>
+        </div>
+        <h2 className="mt-3 font-serif text-[21px] leading-[1.15]">{title}</h2>
+
+        <div className="mt-5 space-y-5">
+          {visible.map((s) => (
+            <div key={s.key}>
+              <p className="text-[13.5px] text-dusk/70">{s.question}</p>
+              <div className="mt-2.5">
+                <ChipSelect
+                  options={s.options}
+                  value={answers[s.key] ? [answers[s.key]] : []}
+                  onChange={(next) => setAnswers({ ...answers, [s.key]: next[0] ?? "" })}
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {proposals.length > 0 && (
+          <div className="mt-6 space-y-2.5">
+            {proposals.map((p) => (
+              <div key={p.title} className="rounded-[16px] px-4 py-4" style={{ background: "var(--whisper)" }}>
+                <p className="mono-label text-dusk/55">{p.title}</p>
+                <p className="mt-1.5 text-[13.5px] leading-[1.55] text-dusk/80">{p.body}</p>
+              </div>
+            ))}
+            {footer && <div className="pt-2">{footer}</div>}
+          </div>
+        )}
+      </div>
+    </section>
   );
 }
