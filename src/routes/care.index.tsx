@@ -94,30 +94,31 @@ function Care() {
         <section className="px-5 pt-9">
           <SectionKicker label="Présence & mémoire" />
           <div className="mt-4 grid grid-cols-2 gap-3">
-            <Link to="/presence" className="rounded-[18px] px-5 py-5 min-h-[120px] flex flex-col justify-between" style={{ background: "var(--terracotta)", color: "var(--paper)" }}>
-              <p className="mono-label" style={{ opacity: 0.75 }}>Présence</p>
+            <Link to="/presence" className="surf-flame rounded-[18px] px-5 py-5 min-h-[120px] flex flex-col justify-between">
+              <p className="mono-label">Présence</p>
               <div>
                 <p className="font-serif text-[20px] leading-[1.1]">Se confier</p>
-                <p className="mt-1 text-[12px]" style={{ opacity: 0.85 }}>Une voix qui écoute.</p>
+                <p className="mt-1 text-[12px] surf-sub">Une voix qui écoute.</p>
               </div>
             </Link>
-            <Link to="/care/garden" className="rounded-[18px] px-5 py-5 min-h-[120px] flex flex-col justify-between" style={{ background: "color-mix(in oklab, var(--clay) 55%, var(--whisper))" }}>
-              <p className="mono-label text-dusk/60">Jardin</p>
+            <Link to="/care/garden" className="surf-cream rounded-[18px] px-5 py-5 min-h-[120px] flex flex-col justify-between">
+              <p className="mono-label surf-sub">Jardin</p>
               <div>
-                <p className="font-serif text-[20px] leading-[1.1] ">{lovedName}</p>
-                <p className="mt-1 text-[12px] text-dusk/65">Photos · voix · lettres</p>
+                <p className="font-serif text-[20px] leading-[1.1]">{lovedName}</p>
+                <p className="mt-1 text-[12px] surf-sub">Photos · voix · lettres</p>
               </div>
             </Link>
           </div>
-          <Link to="/care/rituels" className="mt-3 block rounded-[18px] px-5 py-4" style={{ background: "var(--clay)" }}>
+          <Link to="/care/rituels" className="surf-sand mt-3 block rounded-[18px] px-5 py-4">
             <div className="flex items-center justify-between gap-3">
               <div>
-                <p className="mono-label text-dusk/60">Rituels d'hommage</p>
+                <p className="mono-label surf-sub">Rituels d'hommage</p>
                 <p className="mt-1 font-serif text-[17px] leading-[1.15]">Honorer, à votre manière.</p>
               </div>
-              <span className="text-dusk/50 text-[16px]">→</span>
+              <span className="surf-sub text-[16px]">→</span>
             </div>
           </Link>
+
         </section>
         )}
 
