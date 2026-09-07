@@ -34,7 +34,7 @@ export function emotionPlan(emotions: Emotion[]): EmotionPlan {
       return {
         tone: "doux", contentLength: "court", showCrisis: true, hideHeavyTasks: true,
       primary: { label: "Respirer une minute", to: "/care/respirer", hint: "Souffle court, ancrage" },
-        secondary: [{ label: "Écrire ce qui presse", to: "/care/journal" }, { label: "Si ça déborde", to: "/crisis" }],
+        secondary: [{ label: "Écrire ce qui presse", to: "/care/journal" }, { label: "Besoin d’aide tout de suite", to: "/crisis" }],
       };
     case "culpabilite":
       return {

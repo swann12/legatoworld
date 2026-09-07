@@ -55,7 +55,7 @@ const BLOCKS: Block[] = [
     intro: "Si la journée est difficile, commencez par là.",
     items: [
       { title: "Le corps", hint: "Trois questions, une à trois pistes.", to: "/help/corps", bg: "var(--blush)" },
-      { title: "Si ça déborde", hint: "Une présence humaine, tout de suite.", to: "/crisis", bg: "var(--terracotta)" },
+      { title: "Besoin d’aide tout de suite", hint: "Une présence humaine, tout de suite.", to: "/crisis", bg: "var(--terracotta)" },
     ],
   },
 ];
