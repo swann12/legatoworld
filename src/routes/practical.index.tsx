@@ -10,6 +10,7 @@ import {
   type PracticalCategory, type PracticalBucket,
 } from "@/lib/journey-config";
 import { TASK_STATUS_LABELS, isHiddenFromActive } from "@/lib/task-status";
+import { ProgressRing, DotTrail } from "@/components/legato/Viz";
 
 
 export const Route = createFileRoute("/practical/")({
@@ -239,7 +240,7 @@ function ThemeTile({ to, label, hint, surface }: { to: string; label: string; hi
   return (
     <Link
       to={to as "/practical"}
-      className={`${surface} rounded-[18px] px-5 py-5 min-h-[112px] flex flex-col justify-between`}
+      className={`${surface} rounded-[18px] border border-dusk/10 px-5 py-5 min-h-[112px] flex flex-col justify-between`}
     >
       <p className="font-serif text-[19px] leading-[1.12]">{label}</p>
       <p className="text-[12px] surf-sub">{hint}</p>
