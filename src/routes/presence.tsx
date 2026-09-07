@@ -4,6 +4,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { Shell } from "@/components/legato/Shell";
 import { useLegato, type Branch } from "@/lib/legato-state";
 import { talkToPresence } from "@/lib/presence.functions";
+import { usePortrait, portraitSentence } from "@/lib/portrait-store";
 import { PageHeader, LinearProgress } from "@/components/legato/EditorialUI";
 
 export const Route = createFileRoute("/presence")({
@@ -42,6 +43,8 @@ type Tab = "libre" | "guide";
 function Presence() {
   const { mode, name, branch, lostName } = useLegato();
   const callPresence = useServerFn(talkToPresence);
+  const { portrait } = usePortrait();
+  const portraitLine = portraitSentence(portrait, lostName);
 
   const [tab, setTab] = useState<Tab>("libre");
   const [step, setStep] = useState(0);
@@ -79,7 +82,7 @@ function Presence() {
     try {
       const { reply } = await callPresence({
         data: {
-          branch, mode, name, lostName,
+          branch, mode, name, lostName, portrait: portraitLine,
           history: next.map((m) => ({ role: m.role === "you" ? ("user" as const) : ("assistant" as const), content: m.text })),
         },
       });

@@ -6,6 +6,7 @@ const Input = z.object({
   mode: z.enum(["cocoon", "anchoring", "breath", "relay"]),
   name: z.string().max(60).optional().default(""),
   lostName: z.string().max(60).optional().default(""),
+  portrait: z.string().max(400).optional().default(""),
   history: z
     .array(
       z.object({
@@ -70,6 +71,7 @@ Tu t'adresses à ${userName}. Tu écris en français, au tutoiement doux ou au v
 Réponses TRÈS courtes : 1 à 3 phrases, parfois une seule. Tu peux laisser une phrase suspendue. Tu peux poser une question, mais au maximum une, et seulement si elle aide à respirer. Le silence est une réponse acceptable — tu peux écrire simplement "…" ou un mot.
 
 ${branchPrompt(data.branch, data.lostName ?? "")}
+${data.portrait ? "Ce que l’on sait de cette personne : " + data.portrait + " Tu peux t’en servir avec délicatesse." : ""}
 
 ${modePrompt(data.mode)}
 

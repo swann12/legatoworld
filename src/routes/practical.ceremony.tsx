@@ -151,7 +151,15 @@ function Ceremony() {
             <p className="mono-label text-dusk/55">Pour des propositions plus justes</p>
             <p className="mt-1.5 font-serif text-[16px]">Compléter son portrait →</p>
           </Link>
+          <Link
+            to="/practical/share"
+            className="mt-3 block rounded-[14px] border border-dusk/10 bg-paper px-5 py-4"
+          >
+            <p className="mono-label text-dusk/55">À plusieurs</p>
+            <p className="mt-1.5 font-serif text-[16px]">Envoyer ces choix à un proche →</p>
+          </Link>
         </section>
+
       </div>
       <ConfideDock step="cérémonie" />
     </Shell>

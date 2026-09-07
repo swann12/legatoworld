@@ -8,6 +8,7 @@ const InputSchema = z.object({
   branch: z.string().min(1).max(40),
   mode: z.string().min(1).max(40),
   lostName: z.string().max(80).optional(),
+  portrait: z.string().max(400).optional(),
 });
 
 const SYSTEM_PROMPT = `Tu proposes des rituels du deuil concrets, inspirés de traditions vivantes du monde entier (Mexique, Japon, Irlande, Sénégal, Inde, Corée, Pays scandinaves, Maghreb, Italie, Brésil, peuples autochtones, traditions juives, chrétiennes, bouddhistes, soufies, animistes, etc.).
@@ -44,6 +45,7 @@ export const suggestRituals = createServerFn({ method: "POST" })
       `- titre : ${data.title}`,
       `- quand : ${data.date}`,
       `- branche : ${data.branch}`,
+      data.portrait ? `- portrait de la personne : ${data.portrait}` : "",
       `- mode actuel : ${data.mode}`,
       data.lostName ? `- prénom à glisser parfois : ${data.lostName}` : null,
     ]

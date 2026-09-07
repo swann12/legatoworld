@@ -14,7 +14,7 @@ export const Route = createFileRoute("/practical/resources")({
   component: PracticalResources,
 });
 
-type Topic = { label: string; body: string; to: string; cta: string; bg: string };
+type Topic = { label: string; body: string; to: string; task?: string; cta: string; bg: string };
 
 const TOPICS: Topic[] = [
   {
@@ -25,27 +25,27 @@ const TOPICS: Topic[] = [
   {
     label: "Banque",
     body: "Les comptes personnels sont bloqués dès l'annonce. Les frais d'obsèques peuvent souvent être réglés depuis le compte du défunt, sur facture.",
-    to: "/practical/tasks", cta: "Voir cette démarche", bg: "var(--sun)",
+    to: "/practical/tasks/$id", task: "finances", cta: "Ouvrir la démarche Banque", bg: "var(--sun)",
   },
   {
     label: "Assurances",
     body: "Prévenez l'assurance habitation, l'auto et la mutuelle. Vérifiez s'il existait un contrat obsèques ou une assurance décès liée à un prêt.",
-    to: "/practical/tasks", cta: "Voir cette démarche", bg: "var(--whisper)",
+    to: "/practical/tasks/$id", task: "letters", cta: "Ouvrir les courriers de résiliation", bg: "var(--whisper)",
   },
   {
     label: "Employeur",
     body: "L'employeur ou la caisse de retraite doit être prévenu rapidement. Vous pouvez aussi demander vos jours d'absence pour deuil.",
-    to: "/practical/tasks", cta: "Voir cette démarche", bg: "var(--blush)",
+    to: "/practical/tasks/$id", task: "first", cta: "Ouvrir les premières démarches", bg: "var(--blush)",
   },
   {
     label: "Logement",
     body: "Bail, loyer, énergie, box internet : tout se résilie sur présentation de l'acte de décès. Rien ne presse pour le tri des affaires.",
-    to: "/practical/tasks", cta: "Voir cette démarche", bg: "var(--whisper)",
+    to: "/practical/tasks/$id", task: "housing", cta: "Ouvrir la démarche Logement", bg: "var(--whisper)",
   },
   {
     label: "Organismes",
     body: "CAF, CPAM, retraite, impôts : chacun demande un acte de décès. Des aides existent (capital décès, allocation veuvage).",
-    to: "/practical/tasks", cta: "Voir cette démarche", bg: "var(--sage)",
+    to: "/practical/tasks/$id", task: "rights", cta: "Ouvrir la démarche Aides & droits", bg: "var(--sage)",
   },
   {
     label: "Cérémonie",
@@ -81,6 +81,7 @@ function PracticalResources() {
               <p className="mt-3 text-[13.5px] leading-[1.6] text-dusk/80">{t.body}</p>
               <Link
                 to={t.to as "/practical"}
+                params={t.task ? ({ id: t.task } as never) : undefined}
                 className="mt-4 inline-block text-[12px] underline underline-offset-4 text-dusk/65 hover:text-dusk"
               >
                 {t.cta} →

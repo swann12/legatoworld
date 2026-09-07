@@ -1,3 +1,4 @@
+import { scopedKey, ACTIVE_SPACE_EVENT } from "./active-space";
 import { useEffect, useState } from "react";
 
 /* ───────── Persistance locale des souvenirs ─────────
@@ -40,12 +41,13 @@ export type Memory = {
   createdAt: number;
 };
 
-const KEY = "legato.memories.v1";
+const KEY_BASE = "legato.memories.v1";
+const KEY = () => scopedKey(KEY_BASE);
 
 function load(): Memory[] {
   if (typeof window === "undefined") return [];
   try {
-    const raw = window.localStorage.getItem(KEY);
+    const raw = window.localStorage.getItem(KEY());
     return raw ? (JSON.parse(raw) as Memory[]) : [];
   } catch {
     return [];
@@ -55,7 +57,7 @@ function load(): Memory[] {
 function save(list: Memory[]) {
   if (typeof window === "undefined") return;
   try {
-    window.localStorage.setItem(KEY, JSON.stringify(list));
+    window.localStorage.setItem(KEY(), JSON.stringify(list));
     window.dispatchEvent(new CustomEvent("legato:memories"));
   } catch {
     /* quota dépassé : on ignore silencieusement */
@@ -100,9 +102,12 @@ export function useMemories(zone?: string) {
     const handler = () =>
       setList(zone ? getMemoriesForZone(zone) : getAllMemories());
     window.addEventListener("legato:memories", handler);
+    window.addEventListener(ACTIVE_SPACE_EVENT, handler);
     window.addEventListener("storage", handler);
+    handler();
     return () => {
       window.removeEventListener("legato:memories", handler);
+      window.removeEventListener(ACTIVE_SPACE_EVENT, handler);
       window.removeEventListener("storage", handler);
     };
   }, [zone]);

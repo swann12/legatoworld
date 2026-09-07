@@ -1,3 +1,4 @@
+import { scopedKey } from "./active-space";
 // Lightweight localStorage helpers for the "Aides concrètes" flow.
 // No server persistence — everything stays on-device for now.
 
@@ -26,7 +27,8 @@ export type PracticalState = {
   lastConfide: string;
 };
 
-const KEY = "legato.practical.v1";
+const KEY_BASE = "legato.practical.v1";
+const KEY = () => scopedKey(KEY_BASE);
 
 const EMPTY: PracticalState = {
   budget: "",
@@ -46,7 +48,7 @@ const EMPTY: PracticalState = {
 export function loadPractical(): PracticalState {
   if (typeof window === "undefined") return EMPTY;
   try {
-    const raw = window.localStorage.getItem(KEY);
+    const raw = window.localStorage.getItem(KEY());
     if (!raw) return EMPTY;
     return { ...EMPTY, ...JSON.parse(raw) };
   } catch {
@@ -57,7 +59,7 @@ export function loadPractical(): PracticalState {
 export function savePractical(patch: Partial<PracticalState>) {
   if (typeof window === "undefined") return;
   const next = { ...loadPractical(), ...patch };
-  window.localStorage.setItem(KEY, JSON.stringify(next));
+  window.localStorage.setItem(KEY(), JSON.stringify(next));
   window.dispatchEvent(new CustomEvent("legato:practical-change"));
 }
 

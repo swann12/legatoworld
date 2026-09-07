@@ -64,7 +64,7 @@ function WishesPage() {
     <Shell>
       <div className="relative pb-12">
         <div className="relative z-10">
-          <PageHeader title="VOLONTÉS" />
+          <PageHeader title="VOLONTÉS" back="/practical" />
 
           <section className="px-6 pt-4 pb-6">
             <p className="mono-label">Mes volontés</p>

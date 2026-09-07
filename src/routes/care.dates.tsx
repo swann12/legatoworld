@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Shell } from "@/components/legato/Shell";
 import { LegatoMark } from "@/components/legato/LegatoMark";
+import { useLegato } from "@/lib/legato-state";
 import { useSpaces, upcomingForSpaces, formatDaysAway, type UpcomingDate } from "@/lib/spaces-store";
 import { ritualsForDate, type DateRitual } from "@/lib/date-rituals";
 
@@ -19,6 +20,8 @@ export const Route = createFileRoute("/care/dates")({
 
 function CareDates() {
   const { spaces, hydrated, addDate, removeDate } = useSpaces();
+  const { hydrated: lgHydrated, lightMode } = useLegato();
+  const light = lgHydrated && lightMode;
   const actifs = spaces.filter((s) => !s.archived);
   const dates = upcomingForSpaces(actifs, 400);
   const [openKey, setOpenKey] = useState<string | null>(null);
@@ -31,8 +34,8 @@ function CareDates() {
     <Shell livingBg={false}>
       <div className="min-h-dvh bg-paper text-dusk pb-32">
         <header className="px-6 pt-7 flex items-center justify-between">
+          <Link to="/profile" aria-label="Retour" className="mono-label text-dusk/55">← Profil</Link>
           <LegatoMark size={22} />
-          <Link to="/profile/proches" className="mono-label text-dusk/55">Mes espaces →</Link>
         </header>
 
         <section className="px-6 pt-8">
@@ -41,9 +44,11 @@ function CareDates() {
             Anticiper les jours<br />
             <span className="italic" style={{ color: "var(--terracotta)" }}>qui pèsent</span>.
           </h1>
-          <p className="mt-4 text-[13px] leading-[1.6] text-dusk/60 max-w-[34ch]">
-            Un anniversaire, une date de départ, un premier Noël. Pour chacune, un geste simple est déjà prêt.
-          </p>
+          {!light && (
+            <p className="mt-4 text-[13px] leading-[1.6] text-dusk/60 max-w-[34ch]">
+              Un anniversaire, une date de départ, un premier Noël. Pour chacune, un geste simple est déjà prêt.
+            </p>
+          )}
         </section>
 
         {hydrated && actifs.length === 0 && (
@@ -68,7 +73,7 @@ function CareDates() {
           </section>
         )}
 
-        {later.length > 0 && (
+        {later.length > 0 && !light && (
           <section className="px-5 pt-9">
             <p className="mono-label px-1">Plus tard dans l'année</p>
             <div className="mt-4 space-y-3">
@@ -111,12 +116,14 @@ function CareDates() {
           </section>
         )}
 
+        {!light && (
         <section className="px-7 pt-10">
           <Link to="/crisis" className="block border-t border-dusk/12 pt-6 text-center">
             <p className="mono-label">Si un de ces jours devient trop lourd</p>
             <p className="mt-2 font-serif text-[17px]" style={{ color: "var(--bordeaux)" }}>Une porte calme →</p>
           </Link>
         </section>
+        )}
       </div>
     </Shell>
   );

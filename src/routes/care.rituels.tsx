@@ -6,6 +6,7 @@ import { LegatoMark } from "@/components/legato/LegatoMark";
 import { useLovedName } from "@/lib/loved-name";
 import { useLegato } from "@/lib/legato-state";
 import { suggestRituals } from "@/lib/rituals.functions";
+import { usePortrait, portraitSentence } from "@/lib/portrait-store";
 
 export const Route = createFileRoute("/care/rituels")({
   head: () => ({
@@ -77,6 +78,8 @@ function CareRituels() {
   const { branch, lostName, lightMode, hydrated } = useLegato();
   const light = hydrated && lightMode;
   const callRituals = useServerFn(suggestRituals);
+  const { portrait } = usePortrait();
+  const portraitLine = portraitSentence(portrait, lostName);
   const [region, setRegion] = useState<Region | "Tout">("Tout");
   const [open, setOpen] = useState<string | null>(null);
   const [extra, setExtra] = useState<Ritual[]>([]);
@@ -92,7 +95,7 @@ function CareRituels() {
     setAiError(null);
     try {
       const { quick, long } = await callRituals({
-        data: { kind: "memoire", title: `Honorer ${lostName}`, date: "à venir", branch, mode: "ancrage", lostName },
+        data: { kind: "memoire", title: `Honorer ${lostName}`, date: "à venir", branch, mode: "ancrage", lostName, portrait: portraitLine || undefined },
       });
       const mapped: Ritual[] = [...quick, ...long].map((r, i) => ({
         id: `ai-${Date.now()}-${i}`,
@@ -117,8 +120,8 @@ function CareRituels() {
     <Shell livingBg={false}>
       <div className="min-h-dvh bg-paper text-dusk pb-32">
         <header className="px-6 pt-7 flex items-center justify-between">
+          <Link to="/care" aria-label="Retour" className="mono-label text-dusk/55">← Soutien</Link>
           <LegatoMark size={22} />
-          <Link to="/care/garden" className="mono-label text-dusk/55">Jardin →</Link>
         </header>
 
         <section className="px-6 pt-8">
