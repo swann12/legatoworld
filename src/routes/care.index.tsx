@@ -68,7 +68,7 @@ function Care() {
         <section className="px-5 pt-8">
           <Link
             to={(stale ? "/care/emotions" : plan.primary.to) as "/care/emotions"}
-            className={`${focus.bg} block rounded-[22px] px-6 pt-7 pb-6`}
+            className={`${focus.bg} block rounded-[22px] border border-dusk/10 px-6 pt-7 pb-6`}
           >
             <p className="mono-label">{stale ? "Check-in émotionnel" : focus.label}</p>
             <h2 className="mt-5 font-serif font-normal text-[27px] leading-[1.12] max-w-[18ch]">
