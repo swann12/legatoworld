@@ -152,28 +152,29 @@ function focusFromEmotions(emotions: Emotion[], stale: boolean): Focus {
       label: "Aujourd'hui",
       title: "Une porte d'entrée simple.",
       intro: "Un soutien clair, selon ce que vous ressentez.",
-      bg: "var(--sun)",
+      bg: "surf-ink",
       modules: ["checkin", "journal"],
       hidden: [],
     };
   }
   if (emotions.some((e) => e === "peur" || e === "anxiete" || e === "besoin_calme")) {
-    return { label: "Peur / anxiété", title: "Revenir au corps avant le reste.", intro: "Respiration courte, ancrage, journal bref et aide humaine accessible.", bg: "var(--mist)", modules: ["breathe", "journal", "crisis"], hidden: [] };
+    return { label: "Peur / anxiété", title: "Revenir au corps avant le reste.", intro: "Respiration courte, ancrage, journal bref et aide humaine accessible.", bg: "surf-sand", modules: ["breathe", "journal", "crisis"], hidden: [] };
   }
   if (emotions.includes("fatigue")) {
-    return { label: "Fatigue", title: "Moins de contenu, plus de repos.", intro: "Juste se poser. Tout le reste peut attendre.", bg: "var(--sky)", modules: ["sleep", "breathe"], hidden: ["meditations"] };
+    return { label: "Fatigue", title: "Moins de contenu, plus de repos.", intro: "Juste se poser. Tout le reste peut attendre.", bg: "surf-pearl", modules: ["sleep", "breathe"], hidden: ["meditations"] };
   }
   if (emotions.includes("nostalgie")) {
-    return { label: "Nostalgie", title: "Transformer le manque en trace.", intro: "Vos souvenirs passent devant.", bg: "var(--blush)", modules: ["letters", "journal"], hidden: [] };
+    return { label: "Nostalgie", title: "Transformer le manque en trace.", intro: "Vos souvenirs passent devant.", bg: "surf-blush", modules: ["letters", "journal"], hidden: [] };
   }
   if (emotions.includes("solitude") || emotions.includes("besoin_aide")) {
-    return { label: "Vous n'êtes pas seul·e", title: "Ne pas rester seul·e avec ça.", intro: "Vos appuis humains passent devant.", bg: "var(--sun)", modules: ["community", "therapists"], hidden: [] };
+    return { label: "Vous n'êtes pas seul·e", title: "Ne pas rester seul·e avec ça.", intro: "Vos appuis humains passent devant.", bg: "surf-mauve", modules: ["community", "therapists"], hidden: [] };
   }
   if (emotions.includes("culpabilite") || emotions.includes("colere")) {
-    return { label: "Ce qui pèse", title: "Déposer sans juger.", intro: "Écrire avant tout le reste.", bg: "var(--blush)", modules: ["journal", "breathe"], hidden: [] };
+    return { label: "Ce qui pèse", title: "Déposer sans juger.", intro: "Écrire avant tout le reste.", bg: "surf-butter", modules: ["journal", "breathe"], hidden: [] };
   }
-  return { label: "Soutien adapté", title: "Une petite chose, maintenant.", intro: "", bg: "var(--sun)", modules: ["journal", "breathe"], hidden: [] };
+  return { label: "Soutien adapté", title: "Une petite chose, maintenant.", intro: "", bg: "surf-ink", modules: ["journal", "breathe"], hidden: [] };
 }
+
 
 function CareTile({ module: m }: { module: CareModule }) {
   const cfg = CARE_LABELS[m];
