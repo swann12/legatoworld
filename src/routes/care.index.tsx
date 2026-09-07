@@ -6,6 +6,7 @@ import { useLovedName } from "@/lib/loved-name";
 import { journeyModules, CARE_LABELS, type CareModule } from "@/lib/journey-config";
 import { LegatoMark } from "@/components/legato/LegatoMark";
 import { emotionPlan, isEmotionStale } from "@/lib/emotion-routing";
+import { DateNudge } from "@/components/legato/DateNudge";
 
 
 export const Route = createFileRoute("/care/")({
@@ -61,6 +62,8 @@ function Care() {
           )}
           <Plate name="presence" caption="Ce qui reste tient dans la main" className="mt-7" ratio="1 / 1" priority />
         </section>
+
+        <DateNudge />
 
         <section className="px-5 pt-8">
           <Link
