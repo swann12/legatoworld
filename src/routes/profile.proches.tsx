@@ -24,6 +24,7 @@ function Espaces() {
   const [adding, setAdding] = useState(false);
   const [showArchived, setShowArchived] = useState(false);
   const [editing, setEditing] = useState<string | null>(null);
+  const [confirmId, setConfirmId] = useState<string | null>(null);
 
   const actifs = spaces.filter((s) => !s.archived);
   const archives = spaces.filter((s) => s.archived);
