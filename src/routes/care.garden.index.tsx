@@ -6,6 +6,7 @@ import { useLovedName } from "@/lib/loved-name";
 import { upcomingSensitiveDates } from "@/lib/sensitive-dates";
 import { useLegato } from "@/lib/legato-state";
 import { usePortrait, portraitSentence } from "@/lib/portrait-store";
+import { Glyph, IndexMark } from "@/components/legato/Viz";
 
 export const Route = createFileRoute("/care/garden/")({
   head: () => ({
