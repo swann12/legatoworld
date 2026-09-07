@@ -5,6 +5,7 @@ import { LegatoMark } from "@/components/legato/LegatoMark";
 import { useLovedName } from "@/lib/loved-name";
 import { upcomingSensitiveDates } from "@/lib/sensitive-dates";
 import { useLegato } from "@/lib/legato-state";
+import { usePortrait, portraitSentence } from "@/lib/portrait-store";
 
 export const Route = createFileRoute("/care/garden/")({
   head: () => ({
@@ -30,7 +31,10 @@ const DEPOSITS: Deposit[] = [
 
 function CareGarden() {
   const lovedName = useLovedName();
-  const { hydrated, lovedOneRelation } = useLegato();
+  const { hydrated, lovedOneRelation, lightMode } = useLegato();
+  const light = hydrated && lightMode;
+  const { portrait } = usePortrait();
+  const portraitLine = portraitSentence(portrait, lovedName);
   const dates = hydrated
     ? upcomingSensitiveDates({ windowDays: 14, relation: lovedOneRelation }).slice(0, 2)
     : [];
@@ -49,9 +53,9 @@ function CareGarden() {
             <span className="italic" style={{ color: "var(--terracotta)" }}>{lovedName}</span>
           </h1>
           <p className="mt-5 text-[13.5px] leading-[1.6] text-dusk/60 max-w-[34ch]">
-            Tout se dépose ici. Rien ne s'efface.
+            {portraitLine && !light ? portraitLine : "Tout se dépose ici. Rien ne s'efface."}
           </p>
-          <Plate name="souffle" caption="Ce qui pousse, sans qu'on le force" className="mt-7" ratio="1 / 1" />
+          {!light && <Plate name="souffle" caption="Ce qui pousse, sans qu'on le force" className="mt-7" ratio="1 / 1" />}
         </section>
 
         {dates.length > 0 && (
@@ -86,6 +90,7 @@ function CareGarden() {
           </div>
         </section>
 
+        {!light && (
         <section className="px-5 pt-8">
           <Link to="/care/rituels" className="block rounded-[20px] border border-dusk/12 px-5 py-5 bg-paper">
             <p className="mono-label" style={{ color: "var(--terracotta)" }}>Rituels d'hommage</p>
@@ -93,6 +98,7 @@ function CareGarden() {
             <p className="mt-1 text-[12.5px] text-dusk/60">Des gestes du monde — 2 minutes, ou plusieurs jours.</p>
           </Link>
         </section>
+        )}
       </div>
     </Shell>
   );
