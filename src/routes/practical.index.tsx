@@ -160,10 +160,10 @@ function Practical() {
         {!softActive && (
         <section className="px-5 pt-7">
           <div className="grid grid-cols-2 gap-3">
-            <ThemeTile i={1} to="/practical/tasks" glyph="texte" label="Tâches" hint="Avancer pas à pas" surface="surf-cream" />
-            <ThemeTile i={2} to="/practical/vault" glyph="lettre" label="Documents" hint="Tout au même endroit" surface="surf-cream" />
-            <ThemeTile i={3} to="/practical/pros" glyph="objet" label="Pros" hint="Pompes funèbres, notaires" surface="surf-cream" />
-            <ThemeTile i={4} to="/practical/ceremony" glyph="musique" label="Cérémonie" hint="Lieu, déroulé, hommage" surface="surf-cream" />
+            <ThemeTile i={1} to="/practical/tasks" label="Tâches" hint="Avancer pas à pas" surface="surf-cream" />
+            <ThemeTile i={2} to="/practical/vault" label="Documents" hint="Tout au même endroit" surface="surf-cream" />
+            <ThemeTile i={3} to="/practical/pros" label="Pros" hint="Pompes funèbres, notaires" surface="surf-cream" />
+            <ThemeTile i={4} to="/practical/ceremony" label="Cérémonie" hint="Lieu, déroulé, hommage" surface="surf-cream" />
           </div>
           <Link
             to="/practical/wishes"
