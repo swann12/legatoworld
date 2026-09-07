@@ -235,18 +235,18 @@ function Practical() {
   );
 }
 
-function ThemeTile({ to, label, hint, bg }: { to: string; label: string; hint: string; bg: string }) {
+function ThemeTile({ to, label, hint, surface }: { to: string; label: string; hint: string; surface: string }) {
   return (
     <Link
       to={to as "/practical"}
-      className="rounded-[18px] px-5 py-5 min-h-[112px] flex flex-col justify-between"
-      style={{ background: bg }}
+      className={`${surface} rounded-[18px] px-5 py-5 min-h-[112px] flex flex-col justify-between`}
     >
       <p className="font-serif text-[19px] leading-[1.12]">{label}</p>
-      <p className="text-[12px] text-dusk/65">{hint}</p>
+      <p className="text-[12px] surf-sub">{hint}</p>
     </Link>
   );
 }
+
 
 function FilterChip({ active, onClick, children }: { active: boolean; onClick: () => void; children: ReactNode }) {
   return (
