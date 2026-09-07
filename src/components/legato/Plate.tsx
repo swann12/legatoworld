@@ -6,14 +6,12 @@ import memoire from "@/assets/ill-memoire.png";
 import souffle from "@/assets/ill-souffle.png";
 
 export const PLATES = {
-  presence: { src: presence, alt: "Planche : main ouverte tenant une jeune pousse" },
-  demarches: { src: demarches, alt: "Planche : papiers quadrillés, écriture et ombelle séchée" },
-  corps: { src: corps, alt: "Planche : pierre moussue suspendue au-dessus d'une dune" },
-  nuit: { src: nuit, alt: "Planche : ciel bleu grainé, lune pâle et herbes hautes" },
-  memoire: { src: memoire, alt: "Planche : nautile en coupe et fronde de fougère" },
-
-  souffle: { src: souffle, alt: "Planche : aigrette de pissenlit et graines emportées" },
-
+  presence: { src: presence, alt: "Photomontage de matières organiques et de voiles colorés" },
+  demarches: { src: demarches, alt: "Photomontage d'archives effacées, de trames et de papiers déchirés" },
+  corps: { src: corps, alt: "Photomontage minéral traversé de peau, de pigment et de lignes décalées" },
+  nuit: { src: nuit, alt: "Photomontage bleu pâle traversé d'une ombre et de traces végétales" },
+  memoire: { src: memoire, alt: "Photomontage d'émulsion ancienne, d'empreintes et de matière translucide" },
+  souffle: { src: souffle, alt: "Photomontage abstrait de taches comprimées puis dispersées" },
 } as const;
 
 export type PlateName = keyof typeof PLATES;
