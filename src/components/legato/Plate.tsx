@@ -6,13 +6,14 @@ import memoire from "@/assets/ill-memoire.png";
 import souffle from "@/assets/ill-souffle.png";
 
 export const PLATES = {
-  presence: { src: presence, alt: "Planche : main de mousse tenant un galet" },
-  demarches: { src: demarches, alt: "Planche : deux mains liées, dessin à l'encre" },
-  corps: { src: corps, alt: "Planche : colline de mousse et arbre solitaire" },
-  nuit: { src: nuit, alt: "Planche : nuit bleue, lune pâle, île de mousse" },
-  memoire: { src: memoire, alt: "Planche : spirale de nautile dorée sur bleu nuit" },
+  presence: { src: presence, alt: "Planche : main ouverte tenant une jeune pousse" },
+  demarches: { src: demarches, alt: "Planche : papiers quadrillés et ombelle séchée" },
+  corps: { src: corps, alt: "Planche : colline-corps allongée sous un petit soleil" },
+  nuit: { src: nuit, alt: "Planche : nuit bleue, lune pâle, herbes hautes" },
+  memoire: { src: memoire, alt: "Planche : spirale de nautile en terracotta" },
 
   souffle: { src: souffle, alt: "Planche : aigrette de pissenlit et graines emportées" },
+
 } as const;
 
 export type PlateName = keyof typeof PLATES;

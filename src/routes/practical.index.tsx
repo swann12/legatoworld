@@ -10,7 +10,7 @@ import {
   type PracticalCategory, type PracticalBucket,
 } from "@/lib/journey-config";
 import { TASK_STATUS_LABELS, isHiddenFromActive } from "@/lib/task-status";
-import { Dial, DotMatrix, Ruler, IndexMark, Glyph } from "@/components/legato/Viz";
+import { Dial, DotMatrix, Ruler, IndexMark } from "@/components/legato/Viz";
 
 
 export const Route = createFileRoute("/practical/")({
@@ -160,10 +160,10 @@ function Practical() {
         {!softActive && (
         <section className="px-5 pt-7">
           <div className="grid grid-cols-2 gap-3">
-            <ThemeTile i={1} to="/practical/tasks" glyph="texte" label="Tâches" hint="Avancer pas à pas" surface="surf-cream" />
-            <ThemeTile i={2} to="/practical/vault" glyph="lettre" label="Documents" hint="Tout au même endroit" surface="surf-cream" />
-            <ThemeTile i={3} to="/practical/pros" glyph="objet" label="Pros" hint="Pompes funèbres, notaires" surface="surf-cream" />
-            <ThemeTile i={4} to="/practical/ceremony" glyph="musique" label="Cérémonie" hint="Lieu, déroulé, hommage" surface="surf-cream" />
+            <ThemeTile i={1} to="/practical/tasks" label="Tâches" hint="Avancer pas à pas" surface="surf-cream" />
+            <ThemeTile i={2} to="/practical/vault" label="Documents" hint="Tout au même endroit" surface="surf-cream" />
+            <ThemeTile i={3} to="/practical/pros" label="Pros" hint="Pompes funèbres, notaires" surface="surf-cream" />
+            <ThemeTile i={4} to="/practical/ceremony" label="Cérémonie" hint="Lieu, déroulé, hommage" surface="surf-cream" />
           </div>
           <Link
             to="/practical/wishes"
@@ -261,15 +261,14 @@ function Practical() {
 }
 
 function ThemeTile({
-  i, to, label, hint, surface, glyph,
-}: { i: number; to: string; label: string; hint: string; surface: string; glyph: string }) {
+  i, to, label, hint, surface,
+}: { i: number; to: string; label: string; hint: string; surface: string; glyph?: string }) {
   return (
     <Link
       to={to as "/practical"}
       className={`${surface} rounded-[18px] border border-dusk/12 px-5 py-5 min-h-[124px] flex flex-col justify-between`}
     >
-      <div className="flex items-start justify-between">
-        <span className="text-dusk/45"><Glyph name={glyph} size={24} /></span>
+      <div className="flex items-start justify-end">
         <IndexMark i={i} total={4} />
       </div>
       <div>
@@ -279,6 +278,7 @@ function ThemeTile({
     </Link>
   );
 }
+
 
 
 function FilterChip({ active, onClick, children }: { active: boolean; onClick: () => void; children: ReactNode }) {
