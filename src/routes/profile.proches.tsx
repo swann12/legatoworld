@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Shell } from "@/components/legato/Shell";
 import { LegatoMark } from "@/components/legato/LegatoMark";
 import { RELATIONS, type Relation } from "@/lib/legato-state";
+import { useActiveSpaceId, setActiveSpaceId } from "@/lib/active-space";
 import {
   useSpaces, RELATION_LABEL, upcomingForSpaces, formatDaysAway, type Space,
 } from "@/lib/spaces-store";
@@ -25,6 +26,7 @@ function Espaces() {
   const [showArchived, setShowArchived] = useState(false);
   const [editing, setEditing] = useState<string | null>(null);
   const [confirmId, setConfirmId] = useState<string | null>(null);
+  const activeId = useActiveSpaceId();
 
   const actifs = spaces.filter((s) => !s.archived);
   const archives = spaces.filter((s) => s.archived);
@@ -75,6 +77,8 @@ function Espaces() {
                 key={s.id}
                 space={s}
                 next={upcoming.find((u) => u.spaceId === s.id)}
+                active={activeId === s.id}
+                onActivate={() => setActiveSpaceId(s.id)}
                 onEdit={() => setEditing(s.id)}
                 onArchive={() => updateSpace(s.id, { archived: true })}
               />
@@ -84,7 +88,7 @@ function Espaces() {
           {adding ? (
             <SpaceForm
               onCancel={() => setAdding(false)}
-              onSubmit={(v) => { addSpace(v); setAdding(false); }}
+              onSubmit={(v) => { const created = addSpace(v); setActiveSpaceId(created.id); setAdding(false); }}
             />
           ) : (
             <button
@@ -154,10 +158,12 @@ function Espaces() {
 }
 
 function SpaceCard({
-  space: s, next, onEdit, onArchive,
+  space: s, next, active, onActivate, onEdit, onArchive,
 }: {
   space: Space;
   next?: { label: string; daysAway: number };
+  active: boolean;
+  onActivate: () => void;
   onEdit: () => void;
   onArchive: () => void;
 }) {
@@ -165,7 +171,9 @@ function SpaceCard({
     <article className="rounded-[22px] px-5 py-5" style={{ background: "var(--blush)" }}>
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
-          <p className="mono-label text-dusk/60">{RELATION_LABEL[s.relation ?? "autre"]}</p>
+          <p className="mono-label text-dusk/60">
+            {RELATION_LABEL[s.relation ?? "autre"]}{active ? " · Espace ouvert" : ""}
+          </p>
           <p className="mt-2 font-serif text-[26px] leading-[1.05]">{s.name}</p>
         </div>
         <button type="button" onClick={onEdit} className="rounded-full bg-paper/70 px-3 py-1 text-[10.5px] mono-label text-dusk/70">
@@ -190,9 +198,16 @@ function SpaceCard({
         </Link>
       </div>
 
-      <button type="button" onClick={onArchive} className="mt-4 mono-label text-dusk/55">
-        Mettre de côté
-      </button>
+      <div className="mt-4 flex items-center gap-5">
+        {!active && (
+          <button type="button" onClick={onActivate} className="mono-label" style={{ color: "var(--bordeaux)" }}>
+            Ouvrir cet espace
+          </button>
+        )}
+        <button type="button" onClick={onArchive} className="mono-label text-dusk/55">
+          Mettre de côté
+        </button>
+      </div>
     </article>
   );
 }

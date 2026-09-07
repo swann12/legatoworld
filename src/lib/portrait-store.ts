@@ -1,3 +1,4 @@
+import { scopedKey, ACTIVE_SPACE_EVENT } from "./active-space";
 import { useCallback, useEffect, useState } from "react";
 
 /* ───────── Portrait de la personne ─────────
@@ -49,7 +50,8 @@ export const PORTRAIT_OPTIONS = {
   ],
 } as const;
 
-const KEY = "legato.portrait.v1";
+const KEY_BASE = "legato.portrait.v1";
+const KEY = () => scopedKey(KEY_BASE);
 const EVENT = "legato:portrait";
 
 export const EMPTY_PORTRAIT: Portrait = {
@@ -60,7 +62,7 @@ export const EMPTY_PORTRAIT: Portrait = {
 function load(): Portrait {
   if (typeof window === "undefined") return EMPTY_PORTRAIT;
   try {
-    const raw = window.localStorage.getItem(KEY);
+    const raw = window.localStorage.getItem(KEY());
     if (!raw) return EMPTY_PORTRAIT;
     return { ...EMPTY_PORTRAIT, ...(JSON.parse(raw) as Partial<Portrait>) };
   } catch {
@@ -77,14 +79,18 @@ export function usePortrait() {
     setHydrated(true);
     const sync = () => setPortrait(load());
     window.addEventListener(EVENT, sync);
-    return () => window.removeEventListener(EVENT, sync);
+    window.addEventListener(ACTIVE_SPACE_EVENT, sync);
+    return () => {
+      window.removeEventListener(EVENT, sync);
+      window.removeEventListener(ACTIVE_SPACE_EVENT, sync);
+    };
   }, []);
 
   const update = useCallback((patch: Partial<Portrait>) => {
     const next = { ...load(), ...patch, updatedAt: Date.now() };
     setPortrait(next);
     try {
-      window.localStorage.setItem(KEY, JSON.stringify(next));
+      window.localStorage.setItem(KEY(), JSON.stringify(next));
       window.dispatchEvent(new CustomEvent(EVENT));
     } catch {
       /* quota */

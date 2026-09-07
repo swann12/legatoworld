@@ -31,8 +31,8 @@ function CareDates() {
     <Shell livingBg={false}>
       <div className="min-h-dvh bg-paper text-dusk pb-32">
         <header className="px-6 pt-7 flex items-center justify-between">
+          <Link to="/profile" aria-label="Retour" className="mono-label text-dusk/55">← Profil</Link>
           <LegatoMark size={22} />
-          <Link to="/profile/proches" className="mono-label text-dusk/55">Mes espaces →</Link>
         </header>
 
         <section className="px-6 pt-8">
