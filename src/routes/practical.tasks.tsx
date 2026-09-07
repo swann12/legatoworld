@@ -82,7 +82,7 @@ function TasksList() {
                   to="/practical/tasks/$id"
                   params={{ id: c }}
                   className="flex items-center justify-between gap-3 rounded-[18px] border border-dusk/10 px-5 py-4 transition-transform active:scale-[0.99]"
-                  style={{ background: ["var(--whisper)", "var(--sun)", "var(--blush)", "color-mix(in oklab, var(--sky) 40%, var(--paper))"][all.indexOf(c) % 4] }}
+                  style={{ background: all.indexOf(c) % 2 === 0 ? "var(--whisper)" : "color-mix(in oklab, var(--clay) 55%, var(--whisper))" }}
                 >
                   <div className="min-w-0">
                     <p className="font-serif text-[17px] leading-[1.15]">{cfg.label}</p>
