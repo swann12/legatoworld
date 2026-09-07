@@ -100,13 +100,10 @@ function Practical() {
         {/* Bloc "Aujourd'hui" — une priorité claire + progression */}
         {hydrated && total > 0 && (
           <section className="px-5 pt-7">
-            <div
-              className="rounded-[22px] px-6 pt-6 pb-6"
-              style={{ background: "var(--clay)" }}
-            >
+            <div className="surf-ink rounded-[22px] px-6 pt-6 pb-6">
               <div className="flex items-center justify-between gap-3">
-                <p className="mono-label text-dusk/65">Aujourd'hui</p>
-                <p className="mono-label text-dusk/65">
+                <p className="mono-label">Aujourd'hui</p>
+                <p className="mono-label">
                   {total ? Math.round((done / total) * 100) : 0}%
                 </p>
               </div>
@@ -116,19 +113,19 @@ function Practical() {
                   : "Rien d'urgent aujourd'hui."}
               </h2>
               {grouped.now[0] && (
-                <p className="mt-2 text-[12.5px] text-dusk/65 max-w-[28ch]">
+                <p className="mt-2 text-[12.5px] surf-sub max-w-[28ch]">
                   {PRACTICAL_LABELS[grouped.now[0]].hint}
                 </p>
               )}
-              <div className="mt-5 h-[3px] rounded-full overflow-hidden" style={{ background: "color-mix(in oklab, var(--dusk) 10%, transparent)" }}>
-                <div className="h-full rounded-full" style={{ width: `${total ? (done / total) * 100 : 0}%`, background: "var(--terracotta)" }} />
+              <div className="mt-5 h-[3px] rounded-full overflow-hidden" style={{ background: "color-mix(in oklab, var(--paper) 22%, transparent)" }}>
+                <div className="h-full rounded-full" style={{ width: `${total ? (done / total) * 100 : 0}%`, background: "var(--sun)" }} />
               </div>
               {grouped.now[0] && (
                 <Link
                   to="/practical/tasks/$id"
                   params={{ id: grouped.now[0] }}
                   className="mt-5 inline-block mono-label"
-                  style={{ color: "var(--terracotta)" }}
+                  style={{ color: "var(--sun)" }}
                 >
                   Avancer cette étape →
                 </Link>
@@ -137,28 +134,28 @@ function Practical() {
           </section>
         )}
 
-        {/* Tuiles thématiques — chacune une couleur unique */}
+        {/* Tuiles thématiques — une seule ancre forte, le reste calme */}
         {!softActive && (
         <section className="px-5 pt-7">
           <div className="grid grid-cols-2 gap-3">
-            <ThemeTile to="/practical/tasks" label="Tâches" hint="Avancer pas à pas" bg="var(--whisper)" />
-            <ThemeTile to="/practical/vault" label="Documents" hint="Tout au même endroit" bg="var(--whisper)" />
-            <ThemeTile to="/practical/pros"  label="Pros"     hint="Pompes funèbres, notaires" bg="color-mix(in oklab, var(--clay) 55%, var(--whisper))" />
-            <ThemeTile to="/practical/ceremony" label="Cérémonie" hint="Lieu, déroulé, hommage" bg="color-mix(in oklab, var(--clay) 55%, var(--whisper))" />
+            <ThemeTile to="/practical/tasks" label="Tâches" hint="Avancer pas à pas" surface="surf-flame" />
+            <ThemeTile to="/practical/vault" label="Documents" hint="Tout au même endroit" surface="surf-cream" />
+            <ThemeTile to="/practical/pros"  label="Pros"     hint="Pompes funèbres, notaires" surface="surf-sand" />
+            <ThemeTile to="/practical/ceremony" label="Cérémonie" hint="Lieu, déroulé, hommage" surface="surf-pearl" />
           </div>
           <Link
             to="/practical/wishes"
-            className="mt-3 block rounded-[18px] px-5 py-4"
-            style={{ background: "var(--bordeaux)", color: "var(--paper)" }}
+            className="surf-butter mt-3 block rounded-[18px] px-5 py-4"
           >
-            <p className="mono-label" style={{ color: "color-mix(in oklab, var(--paper) 70%, transparent)" }}>Ancrage</p>
+            <p className="mono-label surf-sub">Ancrage</p>
             <p className="mt-1.5 font-serif text-[18px] leading-[1.15]">Mes volontés</p>
-            <p className="mt-1 text-[12px]" style={{ color: "color-mix(in oklab, var(--paper) 78%, transparent)" }}>
+            <p className="mt-1 text-[12px] surf-sub">
               Préparer en douceur, pour soi ou pour ses proches.
             </p>
           </Link>
         </section>
         )}
+
 
         {!softActive && (
           <section className="px-5 pt-8">
