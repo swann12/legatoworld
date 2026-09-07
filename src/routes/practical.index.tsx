@@ -228,7 +228,7 @@ function Practical() {
             Comprendre les démarches →
           </Link>
           <Link to="/crisis" className="mono-label tracking-[0.18em] text-dusk/45 hover:text-dusk">
-            Si ça déborde →
+            Besoin d’aide tout de suite →
           </Link>
         </footer>
 

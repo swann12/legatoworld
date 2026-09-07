@@ -206,7 +206,7 @@ export const CARE_LABELS: Record<CareModule, { label: string; hint: string; to: 
   letters:      { label: "Écrire à mon proche",   hint: "Quelques mots pour iel",            to: "/care/journal" },
   community:    { label: "Communauté",            hint: "D'autres traversent aussi",         to: "/care/community" },
   therapists:   { label: "Trouver un·e thérapeute", hint: "Annuaire vérifié",                to: "/resources?space=care" },
-  crisis:       { label: "Si ça déborde",         hint: "3114 et lignes d'écoute",           to: "/crisis" },
+  crisis:       { label: "Besoin d’aide tout de suite",         hint: "3114 et lignes d'écoute",           to: "/crisis" },
   anticipated:  { label: "Deuil anticipé",        hint: "Vivre avec l'idée de la perte",     to: "/care/resources" },
   caregiver:    { label: "Fatigue de l'aidant",   hint: "Tenir, sans se perdre",             to: "/care/resources" },
   supporting:   { label: "Quoi dire, quoi éviter", hint: "Messages prêts à envoyer",         to: "/care/resources" },
