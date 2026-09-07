@@ -101,7 +101,7 @@ function Care() {
                 <p className="mt-1 text-[12px]" style={{ opacity: 0.85 }}>Une voix qui écoute.</p>
               </div>
             </Link>
-            <Link to="/care/garden" className="rounded-[18px] px-5 py-5 min-h-[120px] flex flex-col justify-between" style={{ background: "var(--blush)" }}>
+            <Link to="/care/garden" className="rounded-[18px] px-5 py-5 min-h-[120px] flex flex-col justify-between" style={{ background: "color-mix(in oklab, var(--clay) 55%, var(--whisper))" }}>
               <p className="mono-label text-dusk/60">Jardin</p>
               <div>
                 <p className="font-serif text-[20px] leading-[1.1] ">{lovedName}</p>
@@ -109,7 +109,7 @@ function Care() {
               </div>
             </Link>
           </div>
-          <Link to="/care/rituels" className="mt-3 block rounded-[18px] px-5 py-4" style={{ background: "var(--sun)" }}>
+          <Link to="/care/rituels" className="mt-3 block rounded-[18px] px-5 py-4" style={{ background: "var(--clay)" }}>
             <div className="flex items-center justify-between gap-3">
               <div>
                 <p className="mono-label text-dusk/60">Rituels d'hommage</p>

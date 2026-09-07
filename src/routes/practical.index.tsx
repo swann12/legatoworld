@@ -102,7 +102,7 @@ function Practical() {
           <section className="px-5 pt-7">
             <div
               className="rounded-[22px] px-6 pt-6 pb-6"
-              style={{ background: "var(--sun)" }}
+              style={{ background: "var(--clay)" }}
             >
               <div className="flex items-center justify-between gap-3">
                 <p className="mono-label text-dusk/65">Aujourd'hui</p>
@@ -143,8 +143,8 @@ function Practical() {
           <div className="grid grid-cols-2 gap-3">
             <ThemeTile to="/practical/tasks" label="Tâches" hint="Avancer pas à pas" bg="var(--whisper)" />
             <ThemeTile to="/practical/vault" label="Documents" hint="Tout au même endroit" bg="var(--whisper)" />
-            <ThemeTile to="/practical/pros"  label="Pros"     hint="Pompes funèbres, notaires" bg="var(--blush)" />
-            <ThemeTile to="/practical/ceremony" label="Cérémonie" hint="Lieu, déroulé, hommage" bg="var(--sun)" />
+            <ThemeTile to="/practical/pros"  label="Pros"     hint="Pompes funèbres, notaires" bg="color-mix(in oklab, var(--clay) 55%, var(--whisper))" />
+            <ThemeTile to="/practical/ceremony" label="Cérémonie" hint="Lieu, déroulé, hommage" bg="color-mix(in oklab, var(--clay) 55%, var(--whisper))" />
           </div>
           <Link
             to="/practical/wishes"
