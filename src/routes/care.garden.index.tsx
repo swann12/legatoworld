@@ -6,6 +6,7 @@ import { useLovedName } from "@/lib/loved-name";
 import { upcomingSensitiveDates } from "@/lib/sensitive-dates";
 import { useLegato } from "@/lib/legato-state";
 import { usePortrait, portraitSentence } from "@/lib/portrait-store";
+import { Glyph, IndexMark } from "@/components/legato/Viz";
 
 export const Route = createFileRoute("/care/garden/")({
   head: () => ({
@@ -17,16 +18,17 @@ export const Route = createFileRoute("/care/garden/")({
   component: CareGarden,
 });
 
-type Deposit = { kind: string; label: string; hint: string; bg: string; fg?: string };
-// Palette équilibrée, sans répétition : un ton chaud, un froid, un acide,
-// un neutre, un grenat profond, un sable.
+type Deposit = { kind: string; label: string; hint: string };
+/* Équilibre chromatique du Jardin : une seule ancre (la première tuile, terracotta),
+ * toutes les autres en crème sur la même grille. La distinction se fait par le
+ * pictogramme et l'index, jamais par une couleur différente à chaque case. */
 const DEPOSITS: Deposit[] = [
-  { kind: "photo",    label: "Photo",     hint: "Un visage, un jour",        bg: "var(--whisper)"                                  },
-  { kind: "voix",     label: "Voix",      hint: "Un message, un rire",        bg: "var(--blush)"                                    },
-  { kind: "lettre",   label: "Lettre",    hint: "Quelques mots, déposés",     bg: "var(--sun)"                                      },
-  { kind: "musique",  label: "Musique",   hint: "Une chanson partagée",       bg: "color-mix(in oklab, var(--olive) 22%, var(--whisper))" },
-  { kind: "objet",    label: "Objet",     hint: "Une trace tangible",         bg: "var(--whisper)"                                  },
-  { kind: "citation", label: "Citation",  hint: "Une phrase qu'on garde",     bg: "color-mix(in oklab, var(--bordeaux) 18%, var(--whisper))" },
+  { kind: "photo",    label: "Photo",    hint: "Un visage, un jour" },
+  { kind: "voix",     label: "Voix",     hint: "Un message, un rire" },
+  { kind: "lettre",   label: "Lettre",   hint: "Quelques mots, déposés" },
+  { kind: "musique",  label: "Musique",  hint: "Une chanson partagée" },
+  { kind: "objet",    label: "Objet",    hint: "Une trace tangible" },
+  { kind: "citation", label: "Citation", hint: "Une phrase qu'on garde" },
 ];
 
 function CareGarden() {
@@ -73,18 +75,26 @@ function CareGarden() {
         )}
 
         <section className="px-5 pt-8">
-          <p className="mono-label px-1 text-dusk/55">Déposer</p>
+          <div className="flex items-center justify-between gap-3 px-1">
+            <p className="mono-label text-dusk/55">Déposer</p>
+            <span className="text-[9.5px] tracking-[0.16em] text-dusk/40">06 formes</span>
+          </div>
           <div className="mt-3 grid grid-cols-2 gap-3">
-            {DEPOSITS.map((d) => (
+            {DEPOSITS.map((d, i) => (
               <Link
                 key={d.kind}
                 to="/care/garden/$zone"
                 params={{ zone: d.kind }}
-                className="rounded-[18px] px-4 py-5 min-h-[110px] flex flex-col justify-between"
-                style={{ background: d.bg, color: d.fg ?? "var(--dusk)" }}
+                className={`${i === 0 ? "surf-flame" : "surf-cream"} rounded-[18px] border border-dusk/12 px-4 py-5 min-h-[124px] flex flex-col justify-between`}
               >
-                <p className="font-serif text-[20px] leading-[1.1]">{d.label}</p>
-                <p className="text-[12px]" style={{ opacity: d.fg ? 0.8 : 0.65 }}>{d.hint}</p>
+                <div className="flex items-start justify-between">
+                  <span style={{ opacity: 0.7 }}><Glyph name={d.kind} size={24} /></span>
+                  <IndexMark i={i + 1} total={DEPOSITS.length} tone="currentColor" />
+                </div>
+                <div>
+                  <p className="font-serif text-[20px] leading-[1.1]">{d.label}</p>
+                  <p className="mt-0.5 text-[12px] surf-sub">{d.hint}</p>
+                </div>
               </Link>
             ))}
           </div>

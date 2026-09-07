@@ -7,6 +7,7 @@ import { journeyModules, CARE_LABELS, type CareModule } from "@/lib/journey-conf
 import { LegatoMark } from "@/components/legato/LegatoMark";
 import { emotionPlan, isEmotionStale } from "@/lib/emotion-routing";
 import { DateNudge } from "@/components/legato/DateNudge";
+import { Glyph, IndexMark } from "@/components/legato/Viz";
 
 
 export const Route = createFileRoute("/care/")({
@@ -94,18 +95,24 @@ function Care() {
         <section className="px-5 pt-9">
           <SectionKicker label="Présence & mémoire" />
           <div className="mt-4 grid grid-cols-2 gap-3">
-            <Link to="/presence" className="surf-cream border border-dusk/10 rounded-[18px] px-5 py-5 min-h-[120px] flex flex-col justify-between">
-              <p className="mono-label">Présence</p>
+            <Link to="/presence" className="surf-flame border border-dusk/12 rounded-[18px] px-5 py-5 min-h-[124px] flex flex-col justify-between">
+              <div className="flex items-start justify-between">
+                <span style={{ opacity: 0.8 }}><Glyph name="voix" size={24} /></span>
+                <IndexMark i={1} total={2} tone="currentColor" />
+              </div>
               <div>
                 <p className="font-serif text-[20px] leading-[1.1]">Se confier</p>
-                <p className="mt-1 text-[12px] surf-sub">Une voix qui écoute.</p>
+                <p className="mt-0.5 text-[12px] surf-sub">Une voix qui écoute.</p>
               </div>
             </Link>
-            <Link to="/care/garden" className="surf-cream border border-dusk/10 rounded-[18px] px-5 py-5 min-h-[120px] flex flex-col justify-between">
-              <p className="mono-label surf-sub">Jardin</p>
+            <Link to="/care/garden" className="surf-cream border border-dusk/12 rounded-[18px] px-5 py-5 min-h-[124px] flex flex-col justify-between">
+              <div className="flex items-start justify-between">
+                <span style={{ opacity: 0.55 }}><Glyph name="photo" size={24} /></span>
+                <IndexMark i={2} total={2} />
+              </div>
               <div>
                 <p className="font-serif text-[20px] leading-[1.1]">{lovedName}</p>
-                <p className="mt-1 text-[12px] surf-sub">Photos · voix · lettres</p>
+                <p className="mt-0.5 text-[12px] surf-sub">Photos · voix · lettres</p>
               </div>
             </Link>
           </div>
