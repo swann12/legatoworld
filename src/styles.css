@@ -68,6 +68,7 @@
  --color-bordeaux: var(--bordeaux);
  --color-blush: var(--blush);
  --color-sky: var(--sky);
+ --color-apricot: var(--apricot);
 
  /* Refonte — accents éditoriaux assumés */
  --color-navy: var(--navy);
@@ -87,27 +88,28 @@
 
  /* Palette Legato officielle — 9 teintes (aucune autre couleur autorisée).
   * terracotta, butter, bleu · cream, pearl, sable · blush, mauve, bordeaux. */
- --paper:      #F9F5F1;  /* cream */
- --whisper:    #FCFAF7;  /* cream + light */
- --clay:       #F4EAE1;  /* pearl */
- --dusk:       #5B302A;  /* bordeaux — encre principale */
+ --paper:      #F8F4F0;  /* cream */
+ --whisper:    #FCFAF9;  /* cream + light */
+ --clay:       #EFE6DC;  /* pearl */
+ --dusk:       #5D322A;  /* bordeaux — encre principale */
  --ink:        #000000;  /* noir du logo */
- --bordeaux:   #5B302A;
- --terracotta: #CB6647;
- --olive:      #A8837A;  /* mauve */
- --sage:       #D0C3AF;  /* sable */
- --sun:        #F2F1C8;  /* butter */
- --peach:      #D0C3AF;  /* sable */
- --blush:      #F4D6CE;
- --rose:       #F4D6CE;
+ --bordeaux:   #5D322A;
+ --terracotta: #CE6A4E;
+ --apricot:    #F0C97C;  /* abricot */
+ --olive:      #A9857C;  /* mauve */
+ --sage:       #D0C4B2;  /* sable */
+ --sun:        #F5F0C8;  /* butter */
+ --peach:      #F0C97C;  /* abricot */
+ --blush:      #EDC5C3;
+ --rose:       #EDC5C3;
  /* Tokens hors palette remappés sur les teintes autorisées */
- --mist:       #F4EAE1;  /* → pearl */
- --sky:        #7BA3E0;  /* → bleu */
- --lavender:   #F4D6CE;  /* → blush */
- --navy:       #7BA3E0;  /* → bleu */
- --azure:      #7BA3E0;  /* → bleu */
- --magenta:    #CB6647;  /* → terracotta */
- --ember:      #CB6647;  /* → terracotta */
+ --mist:       #EFE6DC;  /* → pearl */
+ --sky:        #D6DCE8;  /* → bleu */
+ --lavender:   #EDC5C3;  /* → blush */
+ --navy:       #D6DCE8;  /* → bleu */
+ --azure:      #D6DCE8;  /* → bleu */
+ --magenta:    #CE6A4E;  /* → terracotta */
+ --ember:      #CE6A4E;  /* → terracotta */
  --bloom-fresh:#D0C3AF;
  --bloom-mist: #F4EAE1;
 

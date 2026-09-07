@@ -68,7 +68,7 @@ function Care() {
         <section className="px-5 pt-8">
           <Link
             to={(stale ? "/care/emotions" : plan.primary.to) as "/care/emotions"}
-            className={`${focus.bg} block rounded-[22px] px-6 pt-7 pb-6`}
+            className={`${focus.bg} block rounded-[22px] border border-dusk/10 px-6 pt-7 pb-6`}
           >
             <p className="mono-label">{stale ? "Check-in émotionnel" : focus.label}</p>
             <h2 className="mt-5 font-serif font-normal text-[27px] leading-[1.12] max-w-[18ch]">
@@ -94,14 +94,14 @@ function Care() {
         <section className="px-5 pt-9">
           <SectionKicker label="Présence & mémoire" />
           <div className="mt-4 grid grid-cols-2 gap-3">
-            <Link to="/presence" className="surf-flame rounded-[18px] px-5 py-5 min-h-[120px] flex flex-col justify-between">
+            <Link to="/presence" className="surf-cream border border-dusk/10 rounded-[18px] px-5 py-5 min-h-[120px] flex flex-col justify-between">
               <p className="mono-label">Présence</p>
               <div>
                 <p className="font-serif text-[20px] leading-[1.1]">Se confier</p>
                 <p className="mt-1 text-[12px] surf-sub">Une voix qui écoute.</p>
               </div>
             </Link>
-            <Link to="/care/garden" className="surf-cream rounded-[18px] px-5 py-5 min-h-[120px] flex flex-col justify-between">
+            <Link to="/care/garden" className="surf-cream border border-dusk/10 rounded-[18px] px-5 py-5 min-h-[120px] flex flex-col justify-between">
               <p className="mono-label surf-sub">Jardin</p>
               <div>
                 <p className="font-serif text-[20px] leading-[1.1]">{lovedName}</p>
@@ -109,7 +109,7 @@ function Care() {
               </div>
             </Link>
           </div>
-          <Link to="/care/rituels" className="surf-sand mt-3 block rounded-[18px] px-5 py-4">
+          <Link to="/care/rituels" className="surf-pearl border border-dusk/10 mt-3 block rounded-[18px] px-5 py-4">
             <div className="flex items-center justify-between gap-3">
               <div>
                 <p className="mono-label surf-sub">Rituels d'hommage</p>
@@ -152,7 +152,7 @@ function focusFromEmotions(emotions: Emotion[], stale: boolean): Focus {
       label: "Aujourd'hui",
       title: "Une porte d'entrée simple.",
       intro: "Un soutien clair, selon ce que vous ressentez.",
-      bg: "surf-ink",
+      bg: "surf-pearl",
       modules: ["checkin", "journal"],
       hidden: [],
     };
@@ -167,12 +167,12 @@ function focusFromEmotions(emotions: Emotion[], stale: boolean): Focus {
     return { label: "Nostalgie", title: "Transformer le manque en trace.", intro: "Vos souvenirs passent devant.", bg: "surf-blush", modules: ["letters", "journal"], hidden: [] };
   }
   if (emotions.includes("solitude") || emotions.includes("besoin_aide")) {
-    return { label: "Vous n'êtes pas seul·e", title: "Ne pas rester seul·e avec ça.", intro: "Vos appuis humains passent devant.", bg: "surf-mauve", modules: ["community", "therapists"], hidden: [] };
+    return { label: "Vous n'êtes pas seul·e", title: "Ne pas rester seul·e avec ça.", intro: "Vos appuis humains passent devant.", bg: "surf-blush", modules: ["community", "therapists"], hidden: [] };
   }
   if (emotions.includes("culpabilite") || emotions.includes("colere")) {
     return { label: "Ce qui pèse", title: "Déposer sans juger.", intro: "Écrire avant tout le reste.", bg: "surf-butter", modules: ["journal", "breathe"], hidden: [] };
   }
-  return { label: "Soutien adapté", title: "Une petite chose, maintenant.", intro: "", bg: "surf-ink", modules: ["journal", "breathe"], hidden: [] };
+  return { label: "Soutien adapté", title: "Une petite chose, maintenant.", intro: "", bg: "surf-pearl", modules: ["journal", "breathe"], hidden: [] };
 }
 
 

@@ -76,13 +76,13 @@ function TasksList() {
           {shown.map((c, i) => {
             const cfg = PRACTICAL_LABELS[c];
             const st = hydrated ? taskStatus[c] : undefined;
-            const anchor = i === 0;
+            void i;
             return (
               <li key={c}>
                 <Link
                   to="/practical/tasks/$id"
                   params={{ id: c }}
-                  className={`${anchor ? "surf-ink" : i % 3 === 1 ? "surf-cream" : "surf-pearl"} flex items-center justify-between gap-3 rounded-[18px] px-5 py-4 transition-transform active:scale-[0.99]`}
+                  className="surf-cream flex items-center justify-between gap-3 rounded-[18px] border border-dusk/10 px-5 py-4 transition-transform active:scale-[0.99]"
                 >
                   <div className="min-w-0">
                     <p className="font-serif text-[17px] leading-[1.15]">{cfg.label}</p>

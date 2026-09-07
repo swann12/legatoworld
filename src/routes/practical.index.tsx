@@ -10,6 +10,7 @@ import {
   type PracticalCategory, type PracticalBucket,
 } from "@/lib/journey-config";
 import { TASK_STATUS_LABELS, isHiddenFromActive } from "@/lib/task-status";
+import { ProgressRing, DotTrail } from "@/components/legato/Viz";
 
 
 export const Route = createFileRoute("/practical/")({
@@ -100,32 +101,32 @@ function Practical() {
         {/* Bloc "Aujourd'hui" — une priorité claire + progression */}
         {hydrated && total > 0 && (
           <section className="px-5 pt-7">
-            <div className="surf-ink rounded-[22px] px-6 pt-6 pb-6">
-              <div className="flex items-center justify-between gap-3">
-                <p className="mono-label">Aujourd'hui</p>
-                <p className="mono-label">
-                  {total ? Math.round((done / total) * 100) : 0}%
-                </p>
+            <div className="surf-pearl rounded-[22px] border border-dusk/10 px-6 pt-6 pb-6">
+              <p className="mono-label surf-sub">Aujourd'hui</p>
+              <div className="mt-4 flex items-start justify-between gap-5">
+                <div className="min-w-0">
+                  <h2 className="font-serif text-[23px] leading-[1.12] max-w-[16ch]">
+                    {grouped.now[0]
+                      ? PRACTICAL_LABELS[grouped.now[0]].label
+                      : "Rien d'urgent aujourd'hui."}
+                  </h2>
+                  {grouped.now[0] && (
+                    <p className="mt-2 text-[12.5px] surf-sub max-w-[26ch]">
+                      {PRACTICAL_LABELS[grouped.now[0]].hint}
+                    </p>
+                  )}
+                </div>
+                <ProgressRing value={total ? done / total : 0} label="fait" />
               </div>
-              <h2 className="mt-4 font-serif text-[24px] leading-[1.12] max-w-[20ch]">
-                {grouped.now[0]
-                  ? PRACTICAL_LABELS[grouped.now[0]].label
-                  : "Rien d'urgent aujourd'hui."}
-              </h2>
-              {grouped.now[0] && (
-                <p className="mt-2 text-[12.5px] surf-sub max-w-[28ch]">
-                  {PRACTICAL_LABELS[grouped.now[0]].hint}
-                </p>
-              )}
-              <div className="mt-5 h-[3px] rounded-full overflow-hidden" style={{ background: "color-mix(in oklab, var(--paper) 22%, transparent)" }}>
-                <div className="h-full rounded-full" style={{ width: `${total ? (done / total) * 100 : 0}%`, background: "var(--sun)" }} />
+              <div className="mt-5">
+                <DotTrail total={Math.min(total, 24)} done={Math.min(done, 24)} />
               </div>
               {grouped.now[0] && (
                 <Link
                   to="/practical/tasks/$id"
                   params={{ id: grouped.now[0] }}
                   className="mt-5 inline-block mono-label"
-                  style={{ color: "var(--sun)" }}
+                  style={{ color: "var(--terracotta)" }}
                 >
                   Avancer cette étape →
                 </Link>
@@ -138,10 +139,10 @@ function Practical() {
         {!softActive && (
         <section className="px-5 pt-7">
           <div className="grid grid-cols-2 gap-3">
-            <ThemeTile to="/practical/tasks" label="Tâches" hint="Avancer pas à pas" surface="surf-flame" />
+            <ThemeTile to="/practical/tasks" label="Tâches" hint="Avancer pas à pas" surface="surf-cream" />
             <ThemeTile to="/practical/vault" label="Documents" hint="Tout au même endroit" surface="surf-cream" />
-            <ThemeTile to="/practical/pros"  label="Pros"     hint="Pompes funèbres, notaires" surface="surf-sand" />
-            <ThemeTile to="/practical/ceremony" label="Cérémonie" hint="Lieu, déroulé, hommage" surface="surf-pearl" />
+            <ThemeTile to="/practical/pros"  label="Pros"     hint="Pompes funèbres, notaires" surface="surf-cream" />
+            <ThemeTile to="/practical/ceremony" label="Cérémonie" hint="Lieu, déroulé, hommage" surface="surf-cream" />
           </div>
           <Link
             to="/practical/wishes"
@@ -239,7 +240,7 @@ function ThemeTile({ to, label, hint, surface }: { to: string; label: string; hi
   return (
     <Link
       to={to as "/practical"}
-      className={`${surface} rounded-[18px] px-5 py-5 min-h-[112px] flex flex-col justify-between`}
+      className={`${surface} rounded-[18px] border border-dusk/10 px-5 py-5 min-h-[112px] flex flex-col justify-between`}
     >
       <p className="font-serif text-[19px] leading-[1.12]">{label}</p>
       <p className="text-[12px] surf-sub">{hint}</p>

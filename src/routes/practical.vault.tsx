@@ -27,14 +27,7 @@ const CATEGORIES: { id: string; label: string; hint: string }[] = [
   { id: "other",      label: "Autres",            hint: "Documents libres" },
 ];
 
-/* Rythme de couleurs : une ancre forte tous les quatre blocs, jamais côte à côte. */
-const VAULT_SURFACES = [
-  "surf-ink", "surf-cream",
-  "surf-sand", "surf-flame",
-  "surf-cream", "surf-pearl",
-  "surf-blush", "surf-cream",
-  "surf-mauve", "surf-sand",
-];
+/* Couleurs calmes : tout reste dans les crèmes, aucune rupture de teinte. */
 
 
 function Vault() {
@@ -66,7 +59,7 @@ function Vault() {
 
         <section className="px-5 pt-8 grid grid-cols-2 gap-3">
           {CATEGORIES.map((c, i) => (
-            <button key={c.id} type="button" onClick={() => setOpen(open === c.id ? null : c.id)} className={`${VAULT_SURFACES[i % VAULT_SURFACES.length]} rounded-[18px] px-4 py-4 min-h-[124px] flex flex-col justify-between text-left transition-transform active:scale-[0.99]`}>
+            <button key={c.id} type="button" onClick={() => setOpen(open === c.id ? null : c.id)} className={`${i % 3 === 1 ? "surf-pearl" : "surf-cream"} rounded-[18px] border border-dusk/10 px-4 py-4 min-h-[124px] flex flex-col justify-between text-left transition-transform active:scale-[0.99]`}>
               <div>
                 <p className="font-serif text-[16px] leading-[1.15]">{c.label}</p>
                 <p className="mt-1 text-[11.5px] surf-sub">{c.hint}</p>
