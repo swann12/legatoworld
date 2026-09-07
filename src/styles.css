@@ -612,6 +612,30 @@
  .card-olive { background: var(--olive); color: var(--paper); border-radius: 20px; }
  .card-blush { background: var(--blush); color: var(--dusk); border-radius: 20px; }
 
+ /* ── Surfaces : une grammaire unique de couleurs.
+  * Deux familles seulement : ANCRE (forte, texte clair) et CALME (claire, encre bordeaux).
+  * Règle : au plus une ancre par section, jamais deux ancres côte à côte. */
+ .surf-ink    { background: var(--bordeaux);   color: var(--paper); }
+ .surf-flame  { background: var(--terracotta); color: var(--paper); }
+ .surf-mauve  { background: var(--olive);      color: var(--paper); }
+ .surf-sand   { background: var(--sage);       color: var(--dusk); }
+ .surf-blush  { background: var(--blush);      color: var(--dusk); }
+ .surf-butter { background: var(--sun);        color: var(--dusk); }
+ .surf-pearl  { background: var(--clay);       color: var(--dusk); }
+ .surf-cream  { background: var(--whisper);    color: var(--dusk); }
+ .surf-ink .mono-label,
+ .surf-flame .mono-label,
+ .surf-mauve .mono-label { color: color-mix(in oklab, var(--paper) 72%, transparent); }
+ .surf-ink .surf-sub,
+ .surf-flame .surf-sub,
+ .surf-mauve .surf-sub { color: color-mix(in oklab, var(--paper) 82%, transparent); }
+ .surf-sand .surf-sub,
+ .surf-blush .surf-sub,
+ .surf-butter .surf-sub,
+ .surf-pearl .surf-sub,
+ .surf-cream .surf-sub { color: color-mix(in oklab, var(--dusk) 65%, transparent); }
+
+
  /* Buttons */
  .btn-primary {
  display: inline-flex;

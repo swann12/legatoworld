@@ -73,28 +73,29 @@ function TasksList() {
           {shown.length === 0 && (
             <li className="rounded-[18px] border border-dusk/10 bg-paper px-5 py-6 text-center text-[13px] text-dusk/55 italic">Rien à montrer ici.</li>
           )}
-          {shown.map((c) => {
+          {shown.map((c, i) => {
             const cfg = PRACTICAL_LABELS[c];
             const st = hydrated ? taskStatus[c] : undefined;
+            const anchor = i === 0;
             return (
               <li key={c}>
                 <Link
                   to="/practical/tasks/$id"
                   params={{ id: c }}
-                  className="flex items-center justify-between gap-3 rounded-[18px] border border-dusk/10 px-5 py-4 transition-transform active:scale-[0.99]"
-                  style={{ background: all.indexOf(c) % 2 === 0 ? "var(--whisper)" : "color-mix(in oklab, var(--clay) 55%, var(--whisper))" }}
+                  className={`${anchor ? "surf-ink" : i % 3 === 1 ? "surf-cream" : "surf-pearl"} flex items-center justify-between gap-3 rounded-[18px] px-5 py-4 transition-transform active:scale-[0.99]`}
                 >
                   <div className="min-w-0">
                     <p className="font-serif text-[17px] leading-[1.15]">{cfg.label}</p>
-                    <p className="mt-1 text-[11.5px] uppercase tracking-[0.1em] text-dusk/45">{cfg.hint}</p>
+                    <p className="mt-1 text-[11.5px] uppercase tracking-[0.1em] surf-sub">{cfg.hint}</p>
                   </div>
-                  <span className="shrink-0 rounded-full border border-dusk/15 px-2.5 py-1 text-[10.5px] uppercase tracking-[0.08em] text-dusk/65">
+                  <span className="shrink-0 rounded-full px-2.5 py-1 text-[10.5px] uppercase tracking-[0.08em] surf-sub" style={{ border: "1px solid currentColor" }}>
                     {st ? TASK_STATUS_LABELS[st] : "À faire"}
                   </span>
                 </Link>
               </li>
             );
           })}
+
         </ul>
       </div>
     </Shell>

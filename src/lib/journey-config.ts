@@ -191,10 +191,11 @@ export const PRACTICAL_BUCKETS: Record<PracticalCategory, PracticalBucket> = {
 
 export const BUCKET_LABELS: Record<PracticalBucket, { label: string; tone: string }> = {
   now:   { label: "Immédiat",       tone: "var(--terracotta)" },
-  week:  { label: "Cette semaine",  tone: "var(--sun)" },
-  month: { label: "Ce mois-ci",     tone: "var(--sky)" },
-  later: { label: "Plus tard",      tone: "var(--olive)" },
+  week:  { label: "Cette semaine",  tone: "var(--bordeaux)" },
+  month: { label: "Ce mois-ci",     tone: "var(--olive)" },
+  later: { label: "Plus tard",      tone: "var(--sage)" },
 };
+
 
 export const CARE_LABELS: Record<CareModule, { label: string; hint: string; to: string }> = {
   checkin:      { label: "Check-in émotionnel",  hint: "Comment vous sentez-vous ?",       to: "/care/emotions" },

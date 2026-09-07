@@ -68,18 +68,18 @@ function Care() {
         <section className="px-5 pt-8">
           <Link
             to={(stale ? "/care/emotions" : plan.primary.to) as "/care/emotions"}
-            className="block rounded-[22px] px-6 pt-7 pb-6"
-            style={{ background: focus.bg, color: "var(--dusk)" }}
+            className={`${focus.bg} block rounded-[22px] px-6 pt-7 pb-6`}
           >
             <p className="mono-label">{stale ? "Check-in émotionnel" : focus.label}</p>
             <h2 className="mt-5 font-serif font-normal text-[27px] leading-[1.12] max-w-[18ch]">
               {stale ? "Comment vous sentez-vous maintenant ?" : plan.primary.hint ?? focus.title}
             </h2>
-            <span className="mt-6 inline-block mono-label text-dusk/80">
+            <span className="mt-6 inline-block mono-label">
               {stale ? "Choisir une émotion" : plan.primary.label} →
             </span>
           </Link>
         </section>
+
 
         {!light && primaryCare.length > 0 && (
           <section className="px-5 pt-7">
@@ -94,30 +94,31 @@ function Care() {
         <section className="px-5 pt-9">
           <SectionKicker label="Présence & mémoire" />
           <div className="mt-4 grid grid-cols-2 gap-3">
-            <Link to="/presence" className="rounded-[18px] px-5 py-5 min-h-[120px] flex flex-col justify-between" style={{ background: "var(--terracotta)", color: "var(--paper)" }}>
-              <p className="mono-label" style={{ opacity: 0.75 }}>Présence</p>
+            <Link to="/presence" className="surf-flame rounded-[18px] px-5 py-5 min-h-[120px] flex flex-col justify-between">
+              <p className="mono-label">Présence</p>
               <div>
                 <p className="font-serif text-[20px] leading-[1.1]">Se confier</p>
-                <p className="mt-1 text-[12px]" style={{ opacity: 0.85 }}>Une voix qui écoute.</p>
+                <p className="mt-1 text-[12px] surf-sub">Une voix qui écoute.</p>
               </div>
             </Link>
-            <Link to="/care/garden" className="rounded-[18px] px-5 py-5 min-h-[120px] flex flex-col justify-between" style={{ background: "color-mix(in oklab, var(--clay) 55%, var(--whisper))" }}>
-              <p className="mono-label text-dusk/60">Jardin</p>
+            <Link to="/care/garden" className="surf-cream rounded-[18px] px-5 py-5 min-h-[120px] flex flex-col justify-between">
+              <p className="mono-label surf-sub">Jardin</p>
               <div>
-                <p className="font-serif text-[20px] leading-[1.1] ">{lovedName}</p>
-                <p className="mt-1 text-[12px] text-dusk/65">Photos · voix · lettres</p>
+                <p className="font-serif text-[20px] leading-[1.1]">{lovedName}</p>
+                <p className="mt-1 text-[12px] surf-sub">Photos · voix · lettres</p>
               </div>
             </Link>
           </div>
-          <Link to="/care/rituels" className="mt-3 block rounded-[18px] px-5 py-4" style={{ background: "var(--clay)" }}>
+          <Link to="/care/rituels" className="surf-sand mt-3 block rounded-[18px] px-5 py-4">
             <div className="flex items-center justify-between gap-3">
               <div>
-                <p className="mono-label text-dusk/60">Rituels d'hommage</p>
+                <p className="mono-label surf-sub">Rituels d'hommage</p>
                 <p className="mt-1 font-serif text-[17px] leading-[1.15]">Honorer, à votre manière.</p>
               </div>
-              <span className="text-dusk/50 text-[16px]">→</span>
+              <span className="surf-sub text-[16px]">→</span>
             </div>
           </Link>
+
         </section>
         )}
 
@@ -151,28 +152,29 @@ function focusFromEmotions(emotions: Emotion[], stale: boolean): Focus {
       label: "Aujourd'hui",
       title: "Une porte d'entrée simple.",
       intro: "Un soutien clair, selon ce que vous ressentez.",
-      bg: "var(--sun)",
+      bg: "surf-ink",
       modules: ["checkin", "journal"],
       hidden: [],
     };
   }
   if (emotions.some((e) => e === "peur" || e === "anxiete" || e === "besoin_calme")) {
-    return { label: "Peur / anxiété", title: "Revenir au corps avant le reste.", intro: "Respiration courte, ancrage, journal bref et aide humaine accessible.", bg: "var(--mist)", modules: ["breathe", "journal", "crisis"], hidden: [] };
+    return { label: "Peur / anxiété", title: "Revenir au corps avant le reste.", intro: "Respiration courte, ancrage, journal bref et aide humaine accessible.", bg: "surf-sand", modules: ["breathe", "journal", "crisis"], hidden: [] };
   }
   if (emotions.includes("fatigue")) {
-    return { label: "Fatigue", title: "Moins de contenu, plus de repos.", intro: "Juste se poser. Tout le reste peut attendre.", bg: "var(--sky)", modules: ["sleep", "breathe"], hidden: ["meditations"] };
+    return { label: "Fatigue", title: "Moins de contenu, plus de repos.", intro: "Juste se poser. Tout le reste peut attendre.", bg: "surf-pearl", modules: ["sleep", "breathe"], hidden: ["meditations"] };
   }
   if (emotions.includes("nostalgie")) {
-    return { label: "Nostalgie", title: "Transformer le manque en trace.", intro: "Vos souvenirs passent devant.", bg: "var(--blush)", modules: ["letters", "journal"], hidden: [] };
+    return { label: "Nostalgie", title: "Transformer le manque en trace.", intro: "Vos souvenirs passent devant.", bg: "surf-blush", modules: ["letters", "journal"], hidden: [] };
   }
   if (emotions.includes("solitude") || emotions.includes("besoin_aide")) {
-    return { label: "Vous n'êtes pas seul·e", title: "Ne pas rester seul·e avec ça.", intro: "Vos appuis humains passent devant.", bg: "var(--sun)", modules: ["community", "therapists"], hidden: [] };
+    return { label: "Vous n'êtes pas seul·e", title: "Ne pas rester seul·e avec ça.", intro: "Vos appuis humains passent devant.", bg: "surf-mauve", modules: ["community", "therapists"], hidden: [] };
   }
   if (emotions.includes("culpabilite") || emotions.includes("colere")) {
-    return { label: "Ce qui pèse", title: "Déposer sans juger.", intro: "Écrire avant tout le reste.", bg: "var(--blush)", modules: ["journal", "breathe"], hidden: [] };
+    return { label: "Ce qui pèse", title: "Déposer sans juger.", intro: "Écrire avant tout le reste.", bg: "surf-butter", modules: ["journal", "breathe"], hidden: [] };
   }
-  return { label: "Soutien adapté", title: "Une petite chose, maintenant.", intro: "", bg: "var(--sun)", modules: ["journal", "breathe"], hidden: [] };
+  return { label: "Soutien adapté", title: "Une petite chose, maintenant.", intro: "", bg: "surf-ink", modules: ["journal", "breathe"], hidden: [] };
 }
+
 
 function CareTile({ module: m }: { module: CareModule }) {
   const cfg = CARE_LABELS[m];
