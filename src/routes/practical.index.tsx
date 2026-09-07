@@ -10,7 +10,7 @@ import {
   type PracticalCategory, type PracticalBucket,
 } from "@/lib/journey-config";
 import { TASK_STATUS_LABELS, isHiddenFromActive } from "@/lib/task-status";
-import { ProgressRing, DotTrail } from "@/components/legato/Viz";
+import { Dial, DotMatrix, Ruler, IndexMark, Glyph } from "@/components/legato/Viz";
 
 
 export const Route = createFileRoute("/practical/")({
@@ -98,11 +98,14 @@ function Practical() {
           <Plate name="demarches" caption="Papiers, clés, choses à poser" className="mt-7" ratio="1 / 1" />
         </section>
 
-        {/* Bloc "Aujourd'hui" — une priorité claire + progression */}
+        {/* Bloc "Aujourd'hui" — une priorité claire + relevé chiffré */}
         {hydrated && total > 0 && (
           <section className="px-5 pt-7">
-            <div className="surf-pearl rounded-[22px] border border-dusk/10 px-6 pt-6 pb-6">
-              <p className="mono-label surf-sub">Aujourd'hui</p>
+            <div className="surf-cream rounded-[22px] border border-dusk/12 px-6 pt-6 pb-6">
+              <div className="flex items-center justify-between">
+                <p className="mono-label surf-sub">Aujourd'hui</p>
+                <IndexMark i={done} total={total} />
+              </div>
               <div className="mt-4 flex items-start justify-between gap-5">
                 <div className="min-w-0">
                   <h2 className="font-serif text-[23px] leading-[1.12] max-w-[16ch]">
@@ -116,10 +119,10 @@ function Practical() {
                     </p>
                   )}
                 </div>
-                <ProgressRing value={total ? done / total : 0} label="fait" />
+                <Dial value={total ? done / total : 0} caption="fait" />
               </div>
-              <div className="mt-5">
-                <DotTrail total={Math.min(total, 24)} done={Math.min(done, 24)} />
+              <div className="mt-5 border-t border-dusk/10 pt-4">
+                <DotMatrix total={Math.min(total, 36)} done={Math.min(done, 36)} />
               </div>
               {grouped.now[0] && (
                 <Link
@@ -135,21 +138,42 @@ function Practical() {
           </section>
         )}
 
-        {/* Tuiles thématiques — une seule ancre forte, le reste calme */}
+        {/* Relevé par temporalité — axe gradué, proportions réelles */}
+        {!softActive && hydrated && total > 0 && (
+          <section className="px-5 pt-4">
+            <div className="rounded-[22px] border border-dusk/12 bg-paper px-6 py-6">
+              <p className="mono-label text-dusk/55">Répartition dans le temps</p>
+              <div className="mt-4">
+                <Ruler
+                  segments={ORDER.map((b) => ({
+                    label: BUCKET_LABELS[b].label,
+                    value: grouped[b].length,
+                    tone: BUCKET_LABELS[b].tone,
+                  }))}
+                />
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* Tuiles thématiques — même grille, index systématique, une seule ancre */}
         {!softActive && (
         <section className="px-5 pt-7">
           <div className="grid grid-cols-2 gap-3">
-            <ThemeTile to="/practical/tasks" label="Tâches" hint="Avancer pas à pas" surface="surf-cream" />
-            <ThemeTile to="/practical/vault" label="Documents" hint="Tout au même endroit" surface="surf-cream" />
-            <ThemeTile to="/practical/pros"  label="Pros"     hint="Pompes funèbres, notaires" surface="surf-cream" />
-            <ThemeTile to="/practical/ceremony" label="Cérémonie" hint="Lieu, déroulé, hommage" surface="surf-cream" />
+            <ThemeTile i={1} to="/practical/tasks" glyph="texte" label="Tâches" hint="Avancer pas à pas" surface="surf-cream" />
+            <ThemeTile i={2} to="/practical/vault" glyph="lettre" label="Documents" hint="Tout au même endroit" surface="surf-cream" />
+            <ThemeTile i={3} to="/practical/pros" glyph="objet" label="Pros" hint="Pompes funèbres, notaires" surface="surf-cream" />
+            <ThemeTile i={4} to="/practical/ceremony" glyph="musique" label="Cérémonie" hint="Lieu, déroulé, hommage" surface="surf-cream" />
           </div>
           <Link
             to="/practical/wishes"
-            className="surf-blush mt-3 block rounded-[18px] px-5 py-4"
+            className="surf-flame mt-3 block rounded-[18px] px-5 py-5"
           >
-            <p className="mono-label surf-sub">Ancrage</p>
-            <p className="mt-1.5 font-serif text-[18px] leading-[1.15]">Mes volontés</p>
+            <div className="flex items-center justify-between">
+              <p className="mono-label surf-sub">Ancrage</p>
+              <span className="text-[9.5px] tracking-[0.16em] surf-sub">05/05</span>
+            </div>
+            <p className="mt-2 font-serif text-[20px] leading-[1.15]">Mes volontés</p>
             <p className="mt-1 text-[12px] surf-sub">
               Préparer en douceur, pour soi ou pour ses proches.
             </p>
