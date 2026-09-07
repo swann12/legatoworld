@@ -27,14 +27,7 @@ const CATEGORIES: { id: string; label: string; hint: string }[] = [
   { id: "other",      label: "Autres",            hint: "Documents libres" },
 ];
 
-/* Rythme de couleurs : une ancre forte tous les quatre blocs, jamais côte à côte. */
-const VAULT_SURFACES = [
-  "surf-ink", "surf-cream",
-  "surf-sand", "surf-flame",
-  "surf-cream", "surf-pearl",
-  "surf-blush", "surf-cream",
-  "surf-mauve", "surf-sand",
-];
+/* Couleurs calmes : tout reste dans les crèmes, aucune rupture de teinte. */
 
 
 function Vault() {
