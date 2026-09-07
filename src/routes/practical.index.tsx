@@ -145,7 +145,7 @@ function Practical() {
           </div>
           <Link
             to="/practical/wishes"
-            className="surf-butter mt-3 block rounded-[18px] px-5 py-4"
+            className="surf-blush mt-3 block rounded-[18px] px-5 py-4"
           >
             <p className="mono-label surf-sub">Ancrage</p>
             <p className="mt-1.5 font-serif text-[18px] leading-[1.15]">Mes volontés</p>
