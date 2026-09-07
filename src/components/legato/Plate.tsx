@@ -6,7 +6,7 @@ import memoire from "@/assets/ill-memoire.png";
 import souffle from "@/assets/ill-souffle.png";
 
 export const PLATES = {
-  presence: { src: presence, alt: "Sérigraphie : deux formes minérales superposées, branches à l'encre" },
+  presence: { src: presence, alt: "Photomontage : une pousse fragile émerge d'une pierre traversée par un fragment terracotta" },
   demarches: { src: demarches, alt: "Sérigraphie : papiers déchirés empilés sous une masse, trame réglée" },
   corps: { src: corps, alt: "Sérigraphie : pierre grainée partagée en deux, arc d'encre au-dessus" },
   nuit: { src: nuit, alt: "Sérigraphie : aplat bleu, disque éclipsé, herbes sèches à l'encre" },
