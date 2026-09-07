@@ -7,10 +7,10 @@ import souffle from "@/assets/ill-souffle.png";
 
 export const PLATES = {
   presence: { src: presence, alt: "Planche : main ouverte tenant une jeune pousse" },
-  demarches: { src: demarches, alt: "Planche : papiers quadrillés et ombelle séchée" },
-  corps: { src: corps, alt: "Planche : colline-corps allongée sous un petit soleil" },
-  nuit: { src: nuit, alt: "Planche : nuit bleue, lune pâle, herbes hautes" },
-  memoire: { src: memoire, alt: "Planche : spirale de nautile en terracotta" },
+  demarches: { src: demarches, alt: "Planche : papiers quadrillés, écriture et ombelle séchée" },
+  corps: { src: corps, alt: "Planche : pierre moussue suspendue au-dessus d'une dune" },
+  nuit: { src: nuit, alt: "Planche : ciel bleu grainé, lune pâle et herbes hautes" },
+  memoire: { src: memoire, alt: "Planche : nautile en coupe et fronde de fougère" },
 
   souffle: { src: souffle, alt: "Planche : aigrette de pissenlit et graines emportées" },
 
