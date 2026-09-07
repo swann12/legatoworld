@@ -6,7 +6,7 @@ import { useLovedName } from "@/lib/loved-name";
 import { upcomingSensitiveDates } from "@/lib/sensitive-dates";
 import { useLegato } from "@/lib/legato-state";
 import { usePortrait, portraitSentence } from "@/lib/portrait-store";
-import { Glyph, IndexMark } from "@/components/legato/Viz";
+import { IndexMark } from "@/components/legato/Viz";
 
 export const Route = createFileRoute("/care/garden/")({
   head: () => ({
@@ -87,10 +87,10 @@ function CareGarden() {
                 params={{ zone: d.kind }}
                 className={`${i === 0 ? "surf-flame" : "surf-cream"} rounded-[18px] border border-dusk/12 px-4 py-5 min-h-[124px] flex flex-col justify-between`}
               >
-                <div className="flex items-start justify-between">
-                  <span style={{ opacity: 0.7 }}><Glyph name={d.kind} size={24} /></span>
+                <div className="flex items-start justify-end">
                   <IndexMark i={i + 1} total={DEPOSITS.length} tone="currentColor" />
                 </div>
+
                 <div>
                   <p className="font-serif text-[20px] leading-[1.1]">{d.label}</p>
                   <p className="mt-0.5 text-[12px] surf-sub">{d.hint}</p>
