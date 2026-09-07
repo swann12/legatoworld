@@ -209,21 +209,3 @@ export function IndexMark({ i, total, tone }: { i: number; total: number; tone?:
     </span>
   );
 }
-
-/** Petits pictogrammes schématiques, dessinés sur la même grille 24×24,
- *  même graisse de trait — cohérents entre eux. */
-export function Glyph({ name, size = 26, color = "currentColor" }: { name: string; size?: number; color?: string }) {
-  const p = { fill: "none", stroke: color, strokeWidth: 1.2, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden="true">
-      {name === "photo" && (<g {...p}><rect x="3" y="5" width="18" height="14" rx="1.5" /><circle cx="9" cy="10" r="1.8" /><path d="M3 16l5-4 4 3 3-2 6 4" /></g>)}
-      {name === "voix" && (<g {...p}><path d="M4 10v4M8 7v10M12 4v16M16 8v8M20 11v2" /></g>)}
-      {name === "lettre" && (<g {...p}><rect x="3" y="6" width="18" height="12" rx="1.5" /><path d="M3 7l9 6 9-6" /></g>)}
-      {name === "musique" && (<g {...p}><path d="M9 18V6l10-2v12" /><circle cx="6.5" cy="18" r="2.5" /><circle cx="16.5" cy="16" r="2.5" /></g>)}
-      {name === "objet" && (<g {...p}><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z" /><path d="M4 7.5l8 4.5 8-4.5M12 12v9" /></g>)}
-      {name === "citation" && (<g {...p}><path d="M5 15c0-5 2-7 5-8M14 15c0-5 2-7 5-8" /><path d="M5 15h4v-4H5zM14 15h4v-4h-4z" /></g>)}
-      {name === "video" && (<g {...p}><rect x="3" y="6" width="12" height="12" rx="1.5" /><path d="M15 11l6-3v8l-6-3z" /></g>)}
-      {name === "texte" && (<g {...p}><path d="M5 6h14M5 10h14M5 14h10M5 18h6" /></g>)}
-    </svg>
-  );
-}
