@@ -74,18 +74,26 @@ function CareGarden() {
         )}
 
         <section className="px-5 pt-8">
-          <p className="mono-label px-1 text-dusk/55">Déposer</p>
+          <div className="flex items-center justify-between gap-3 px-1">
+            <p className="mono-label text-dusk/55">Déposer</p>
+            <span className="text-[9.5px] tracking-[0.16em] text-dusk/40">06 formes</span>
+          </div>
           <div className="mt-3 grid grid-cols-2 gap-3">
-            {DEPOSITS.map((d) => (
+            {DEPOSITS.map((d, i) => (
               <Link
                 key={d.kind}
                 to="/care/garden/$zone"
                 params={{ zone: d.kind }}
-                className="rounded-[18px] px-4 py-5 min-h-[110px] flex flex-col justify-between"
-                style={{ background: d.bg, color: d.fg ?? "var(--dusk)" }}
+                className={`${i === 0 ? "surf-flame" : "surf-cream"} rounded-[18px] border border-dusk/12 px-4 py-5 min-h-[124px] flex flex-col justify-between`}
               >
-                <p className="font-serif text-[20px] leading-[1.1]">{d.label}</p>
-                <p className="text-[12px]" style={{ opacity: d.fg ? 0.8 : 0.65 }}>{d.hint}</p>
+                <div className="flex items-start justify-between">
+                  <span style={{ opacity: 0.7 }}><Glyph name={d.kind} size={24} /></span>
+                  <IndexMark i={i + 1} total={DEPOSITS.length} tone="currentColor" />
+                </div>
+                <div>
+                  <p className="font-serif text-[20px] leading-[1.1]">{d.label}</p>
+                  <p className="mt-0.5 text-[12px] surf-sub">{d.hint}</p>
+                </div>
               </Link>
             ))}
           </div>
