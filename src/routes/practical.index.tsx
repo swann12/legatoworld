@@ -143,8 +143,8 @@ function Practical() {
           <div className="grid grid-cols-2 gap-3">
             <ThemeTile to="/practical/tasks" label="Tâches" hint="Avancer pas à pas" bg="var(--whisper)" />
             <ThemeTile to="/practical/vault" label="Documents" hint="Tout au même endroit" bg="var(--whisper)" />
-            <ThemeTile to="/practical/pros"  label="Pros"     hint="Pompes funèbres, notaires" bg="var(--blush)" />
-            <ThemeTile to="/practical/ceremony" label="Cérémonie" hint="Lieu, déroulé, hommage" bg="var(--sun)" />
+            <ThemeTile to="/practical/pros"  label="Pros"     hint="Pompes funèbres, notaires" bg="color-mix(in oklab, var(--clay) 55%, var(--whisper))" />
+            <ThemeTile to="/practical/ceremony" label="Cérémonie" hint="Lieu, déroulé, hommage" bg="color-mix(in oklab, var(--clay) 55%, var(--whisper))" />
           </div>
           <Link
             to="/practical/wishes"
