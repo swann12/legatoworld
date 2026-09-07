@@ -17,16 +17,17 @@ export const Route = createFileRoute("/care/garden/")({
   component: CareGarden,
 });
 
-type Deposit = { kind: string; label: string; hint: string; bg: string; fg?: string };
-// Palette équilibrée, sans répétition : un ton chaud, un froid, un acide,
-// un neutre, un grenat profond, un sable.
+type Deposit = { kind: string; label: string; hint: string };
+/* Équilibre chromatique du Jardin : une seule ancre (la première tuile, terracotta),
+ * toutes les autres en crème sur la même grille. La distinction se fait par le
+ * pictogramme et l'index, jamais par une couleur différente à chaque case. */
 const DEPOSITS: Deposit[] = [
-  { kind: "photo",    label: "Photo",     hint: "Un visage, un jour",        bg: "var(--whisper)"                                  },
-  { kind: "voix",     label: "Voix",      hint: "Un message, un rire",        bg: "var(--blush)"                                    },
-  { kind: "lettre",   label: "Lettre",    hint: "Quelques mots, déposés",     bg: "var(--sun)"                                      },
-  { kind: "musique",  label: "Musique",   hint: "Une chanson partagée",       bg: "color-mix(in oklab, var(--olive) 22%, var(--whisper))" },
-  { kind: "objet",    label: "Objet",     hint: "Une trace tangible",         bg: "var(--whisper)"                                  },
-  { kind: "citation", label: "Citation",  hint: "Une phrase qu'on garde",     bg: "color-mix(in oklab, var(--bordeaux) 18%, var(--whisper))" },
+  { kind: "photo",    label: "Photo",    hint: "Un visage, un jour" },
+  { kind: "voix",     label: "Voix",     hint: "Un message, un rire" },
+  { kind: "lettre",   label: "Lettre",   hint: "Quelques mots, déposés" },
+  { kind: "musique",  label: "Musique",  hint: "Une chanson partagée" },
+  { kind: "objet",    label: "Objet",    hint: "Une trace tangible" },
+  { kind: "citation", label: "Citation", hint: "Une phrase qu'on garde" },
 ];
 
 function CareGarden() {
