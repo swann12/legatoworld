@@ -6,12 +6,12 @@ import memoire from "@/assets/ill-memoire.png";
 import souffle from "@/assets/ill-souffle.png";
 
 export const PLATES = {
-  presence: { src: presence, alt: "Photomontage : une pousse fragile émerge d'une pierre traversée par un fragment terracotta" },
-  demarches: { src: demarches, alt: "Sérigraphie : papiers déchirés empilés sous une masse, trame réglée" },
-  corps: { src: corps, alt: "Sérigraphie : pierre grainée partagée en deux, arc d'encre au-dessus" },
-  nuit: { src: nuit, alt: "Sérigraphie : aplat bleu, disque éclipsé, herbes sèches à l'encre" },
-  memoire: { src: memoire, alt: "Sérigraphie : strates de terre ouvertes, arbre et racines à l'encre" },
-  souffle: { src: souffle, alt: "Sérigraphie : arcs concentriques décalés et ellipse sombre" },
+  presence: { src: presence, alt: "Collage : galet couvert de mousse, aplat terracotta décalé, tige sèche" },
+  demarches: { src: demarches, alt: "Collage : papiers déchirés empilés, ligne graduée à l'encre, aplat olive" },
+  corps: { src: corps, alt: "Collage : mousse, pierre grainée, fougère séchée et halo rose" },
+  nuit: { src: nuit, alt: "Collage : pierre dressée sur un îlot d'herbes, fleurs sèches suspendues" },
+  memoire: { src: memoire, alt: "Collage : plaques de lichen et fragments minéraux reliés par des traits fins" },
+  souffle: { src: souffle, alt: "Collage : fleurs séchées dressées au-dessus d'un aplat terracotta" },
 
 } as const;
 
