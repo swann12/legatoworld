@@ -11,6 +11,8 @@ import {
 } from "@/lib/journey-config";
 import { TASK_STATUS_LABELS, isHiddenFromActive } from "@/lib/task-status";
 import { Dial, DotMatrix, Ruler, IndexMark } from "@/components/legato/Viz";
+import { NextActions } from "@/components/legato/NextActions";
+
 
 
 export const Route = createFileRoute("/practical/")({
