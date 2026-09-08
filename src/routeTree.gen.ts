@@ -87,6 +87,7 @@ import { Route as HelpCorpsMangerRouteImport } from './routes/help.corps.manger'
 import { Route as HelpCorpsHabillerRouteImport } from './routes/help.corps.habiller'
 import { Route as HelpCorpsEauRouteImport } from './routes/help.corps.eau'
 import { Route as CareGardenZoneRouteImport } from './routes/care.garden.$zone'
+import { Route as HelpCorpsSoinIdRouteImport } from './routes/help.corps.soin.$id'
 import { Route as ApiPublicSouffleSoundIdRouteImport } from './routes/api/public/souffle-sound.$id'
 
 const WishesRoute = WishesRouteImport.update({
@@ -480,6 +481,11 @@ const CareGardenZoneRoute = CareGardenZoneRouteImport.update({
   path: '/$zone',
   getParentRoute: () => CareGardenRoute,
 } as any)
+const HelpCorpsSoinIdRoute = HelpCorpsSoinIdRouteImport.update({
+  id: '/soin/$id',
+  path: '/soin/$id',
+  getParentRoute: () => HelpCorpsRoute,
+} as any)
 const ApiPublicSouffleSoundIdRoute = ApiPublicSouffleSoundIdRouteImport.update({
   id: '/api/public/souffle-sound/$id',
   path: '/api/public/souffle-sound/$id',
@@ -565,6 +571,7 @@ export interface FileRoutesByFullPath {
   '/care/garden/': typeof CareGardenIndexRoute
   '/practical/tasks/': typeof PracticalTasksIndexRoute
   '/api/public/souffle-sound/$id': typeof ApiPublicSouffleSoundIdRoute
+  '/help/corps/soin/$id': typeof HelpCorpsSoinIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -638,6 +645,7 @@ export interface FileRoutesByTo {
   '/care/garden': typeof CareGardenIndexRoute
   '/practical/tasks': typeof PracticalTasksIndexRoute
   '/api/public/souffle-sound/$id': typeof ApiPublicSouffleSoundIdRoute
+  '/help/corps/soin/$id': typeof HelpCorpsSoinIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -720,6 +728,7 @@ export interface FileRoutesById {
   '/care/garden/': typeof CareGardenIndexRoute
   '/practical/tasks/': typeof PracticalTasksIndexRoute
   '/api/public/souffle-sound/$id': typeof ApiPublicSouffleSoundIdRoute
+  '/help/corps/soin/$id': typeof HelpCorpsSoinIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -802,6 +811,7 @@ export interface FileRouteTypes {
     | '/care/garden/'
     | '/practical/tasks/'
     | '/api/public/souffle-sound/$id'
+    | '/help/corps/soin/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -875,6 +885,7 @@ export interface FileRouteTypes {
     | '/care/garden'
     | '/practical/tasks'
     | '/api/public/souffle-sound/$id'
+    | '/help/corps/soin/$id'
   id:
     | '__root__'
     | '/'
@@ -956,6 +967,7 @@ export interface FileRouteTypes {
     | '/care/garden/'
     | '/practical/tasks/'
     | '/api/public/souffle-sound/$id'
+    | '/help/corps/soin/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -1544,6 +1556,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CareGardenZoneRouteImport
       parentRoute: typeof CareGardenRoute
     }
+    '/help/corps/soin/$id': {
+      id: '/help/corps/soin/$id'
+      path: '/soin/$id'
+      fullPath: '/help/corps/soin/$id'
+      preLoaderRoute: typeof HelpCorpsSoinIdRouteImport
+      parentRoute: typeof HelpCorpsRoute
+    }
     '/api/public/souffle-sound/$id': {
       id: '/api/public/souffle-sound/$id'
       path: '/api/public/souffle-sound/$id'
@@ -1614,6 +1633,7 @@ interface HelpCorpsRouteChildren {
   HelpCorpsHabillerRoute: typeof HelpCorpsHabillerRoute
   HelpCorpsMangerRoute: typeof HelpCorpsMangerRoute
   HelpCorpsNuitsRoute: typeof HelpCorpsNuitsRoute
+  HelpCorpsSoinIdRoute: typeof HelpCorpsSoinIdRoute
 }
 
 const HelpCorpsRouteChildren: HelpCorpsRouteChildren = {
@@ -1621,6 +1641,7 @@ const HelpCorpsRouteChildren: HelpCorpsRouteChildren = {
   HelpCorpsHabillerRoute: HelpCorpsHabillerRoute,
   HelpCorpsMangerRoute: HelpCorpsMangerRoute,
   HelpCorpsNuitsRoute: HelpCorpsNuitsRoute,
+  HelpCorpsSoinIdRoute: HelpCorpsSoinIdRoute,
 }
 
 const HelpCorpsRouteWithChildren = HelpCorpsRoute._addFileChildren(
