@@ -33,6 +33,7 @@ import { Route as CheckinRouteImport } from './routes/checkin'
 import { Route as CareRouteImport } from './routes/care'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AppointmentsRouteImport } from './routes/appointments'
+import { Route as AgendaRouteImport } from './routes/agenda'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ResourcesIndexRouteImport } from './routes/resources.index'
@@ -87,6 +88,7 @@ import { Route as HelpCorpsMangerRouteImport } from './routes/help.corps.manger'
 import { Route as HelpCorpsHabillerRouteImport } from './routes/help.corps.habiller'
 import { Route as HelpCorpsEauRouteImport } from './routes/help.corps.eau'
 import { Route as CareGardenZoneRouteImport } from './routes/care.garden.$zone'
+import { Route as HelpCorpsSoinIdRouteImport } from './routes/help.corps.soin.$id'
 import { Route as ApiPublicSouffleSoundIdRouteImport } from './routes/api/public/souffle-sound.$id'
 
 const WishesRoute = WishesRouteImport.update({
@@ -207,6 +209,11 @@ const AuthRoute = AuthRouteImport.update({
 const AppointmentsRoute = AppointmentsRouteImport.update({
   id: '/appointments',
   path: '/appointments',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AgendaRoute = AgendaRouteImport.update({
+  id: '/agenda',
+  path: '/agenda',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
@@ -480,6 +487,11 @@ const CareGardenZoneRoute = CareGardenZoneRouteImport.update({
   path: '/$zone',
   getParentRoute: () => CareGardenRoute,
 } as any)
+const HelpCorpsSoinIdRoute = HelpCorpsSoinIdRouteImport.update({
+  id: '/soin/$id',
+  path: '/soin/$id',
+  getParentRoute: () => HelpCorpsRoute,
+} as any)
 const ApiPublicSouffleSoundIdRoute = ApiPublicSouffleSoundIdRouteImport.update({
   id: '/api/public/souffle-sound/$id',
   path: '/api/public/souffle-sound/$id',
@@ -488,6 +500,7 @@ const ApiPublicSouffleSoundIdRoute = ApiPublicSouffleSoundIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/agenda': typeof AgendaRoute
   '/appointments': typeof AppointmentsRoute
   '/auth': typeof AuthRoute
   '/care': typeof CareRouteWithChildren
@@ -565,9 +578,11 @@ export interface FileRoutesByFullPath {
   '/care/garden/': typeof CareGardenIndexRoute
   '/practical/tasks/': typeof PracticalTasksIndexRoute
   '/api/public/souffle-sound/$id': typeof ApiPublicSouffleSoundIdRoute
+  '/help/corps/soin/$id': typeof HelpCorpsSoinIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/agenda': typeof AgendaRoute
   '/appointments': typeof AppointmentsRoute
   '/auth': typeof AuthRoute
   '/checkin': typeof CheckinRoute
@@ -638,11 +653,13 @@ export interface FileRoutesByTo {
   '/care/garden': typeof CareGardenIndexRoute
   '/practical/tasks': typeof PracticalTasksIndexRoute
   '/api/public/souffle-sound/$id': typeof ApiPublicSouffleSoundIdRoute
+  '/help/corps/soin/$id': typeof HelpCorpsSoinIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/agenda': typeof AgendaRoute
   '/appointments': typeof AppointmentsRoute
   '/auth': typeof AuthRoute
   '/care': typeof CareRouteWithChildren
@@ -720,11 +737,13 @@ export interface FileRoutesById {
   '/care/garden/': typeof CareGardenIndexRoute
   '/practical/tasks/': typeof PracticalTasksIndexRoute
   '/api/public/souffle-sound/$id': typeof ApiPublicSouffleSoundIdRoute
+  '/help/corps/soin/$id': typeof HelpCorpsSoinIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/agenda'
     | '/appointments'
     | '/auth'
     | '/care'
@@ -802,9 +821,11 @@ export interface FileRouteTypes {
     | '/care/garden/'
     | '/practical/tasks/'
     | '/api/public/souffle-sound/$id'
+    | '/help/corps/soin/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/agenda'
     | '/appointments'
     | '/auth'
     | '/checkin'
@@ -875,10 +896,12 @@ export interface FileRouteTypes {
     | '/care/garden'
     | '/practical/tasks'
     | '/api/public/souffle-sound/$id'
+    | '/help/corps/soin/$id'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
+    | '/agenda'
     | '/appointments'
     | '/auth'
     | '/care'
@@ -956,11 +979,13 @@ export interface FileRouteTypes {
     | '/care/garden/'
     | '/practical/tasks/'
     | '/api/public/souffle-sound/$id'
+    | '/help/corps/soin/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AgendaRoute: typeof AgendaRoute
   AppointmentsRoute: typeof AppointmentsRoute
   AuthRoute: typeof AuthRoute
   CareRoute: typeof CareRouteWithChildren
@@ -1164,6 +1189,13 @@ declare module '@tanstack/react-router' {
       path: '/appointments'
       fullPath: '/appointments'
       preLoaderRoute: typeof AppointmentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/agenda': {
+      id: '/agenda'
+      path: '/agenda'
+      fullPath: '/agenda'
+      preLoaderRoute: typeof AgendaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated': {
@@ -1544,6 +1576,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CareGardenZoneRouteImport
       parentRoute: typeof CareGardenRoute
     }
+    '/help/corps/soin/$id': {
+      id: '/help/corps/soin/$id'
+      path: '/soin/$id'
+      fullPath: '/help/corps/soin/$id'
+      preLoaderRoute: typeof HelpCorpsSoinIdRouteImport
+      parentRoute: typeof HelpCorpsRoute
+    }
     '/api/public/souffle-sound/$id': {
       id: '/api/public/souffle-sound/$id'
       path: '/api/public/souffle-sound/$id'
@@ -1614,6 +1653,7 @@ interface HelpCorpsRouteChildren {
   HelpCorpsHabillerRoute: typeof HelpCorpsHabillerRoute
   HelpCorpsMangerRoute: typeof HelpCorpsMangerRoute
   HelpCorpsNuitsRoute: typeof HelpCorpsNuitsRoute
+  HelpCorpsSoinIdRoute: typeof HelpCorpsSoinIdRoute
 }
 
 const HelpCorpsRouteChildren: HelpCorpsRouteChildren = {
@@ -1621,6 +1661,7 @@ const HelpCorpsRouteChildren: HelpCorpsRouteChildren = {
   HelpCorpsHabillerRoute: HelpCorpsHabillerRoute,
   HelpCorpsMangerRoute: HelpCorpsMangerRoute,
   HelpCorpsNuitsRoute: HelpCorpsNuitsRoute,
+  HelpCorpsSoinIdRoute: HelpCorpsSoinIdRoute,
 }
 
 const HelpCorpsRouteWithChildren = HelpCorpsRoute._addFileChildren(
@@ -1748,6 +1789,7 @@ const ResourcesCategoryRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AgendaRoute: AgendaRoute,
   AppointmentsRoute: AppointmentsRoute,
   AuthRoute: AuthRoute,
   CareRoute: CareRouteWithChildren,

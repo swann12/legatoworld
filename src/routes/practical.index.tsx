@@ -11,6 +11,8 @@ import {
 } from "@/lib/journey-config";
 import { TASK_STATUS_LABELS, isHiddenFromActive } from "@/lib/task-status";
 import { Dial, DotMatrix, Ruler, IndexMark } from "@/components/legato/Viz";
+import { NextActions } from "@/components/legato/NextActions";
+
 
 
 export const Route = createFileRoute("/practical/")({
@@ -97,6 +99,17 @@ function Practical() {
           </p>
           <Plate name="demarches" caption="Papiers, clés, choses à poser" className="mt-7" ratio="1 / 1" />
         </section>
+
+        <NextActions />
+
+        <section className="px-5 pt-7">
+          <Link to="/agenda" className="block rounded-[20px] px-5 py-4" style={{ background: "var(--whisper)" }}>
+            <p className="mono-label text-dusk/55">Agenda</p>
+            <p className="mt-1 font-serif text-[18px]">Les rendez-vous et les jours qui viennent →</p>
+          </Link>
+        </section>
+
+
 
         {/* Bloc "Aujourd'hui" — une priorité claire + relevé chiffré */}
         {hydrated && total > 0 && (

@@ -1,22 +1,26 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Shell } from "@/components/legato/Shell";
 import { PageHeader } from "@/components/legato/EditorialUI";
+import { SelfFigure } from "@/components/legato/SelfFigure";
+import {
+  activitiesFor, loadSelfCare, saveSelfCare, vitality, vitalityWords,
+  type BodyAnswers,
+} from "@/lib/self-care";
 
 export const Route = createFileRoute("/help/corps")({
   head: () => ({
     meta: [
       { title: "Le corps — Legato" },
-      { name: "description", content: "Trois questions simples sur l'énergie, le sommeil et l'alimentation, puis une à trois pistes adaptées." },
+      { name: "description", content: "Quelques questions simples, puis de vraies pratiques de soin : respiration, repos, relâchement." },
       { property: "og:title", content: "Le corps — Legato" },
-      { property: "og:description", content: "Trois questions simples, puis une à trois pistes adaptées." },
+      { property: "og:description", content: "Prendre soin de soi, concrètement, sans injonction." },
     ],
   }),
   component: Corps,
 });
 
-type StateId = string;
-type Step = { key: "energy" | "sleep" | "food"; label: string; question: string; options: { id: StateId; label: string }[] };
+type Step = { key: keyof BodyAnswers; label: string; question: string; options: { id: string; label: string }[] };
 
 const STEPS: Step[] = [
   {
@@ -52,116 +56,162 @@ const STEPS: Step[] = [
       { id: "ok", label: "Je mange à peu près" },
     ],
   },
+  {
+    key: "tension",
+    label: "Tension",
+    question: "Où en est votre tête, là, maintenant ?",
+    options: [
+      { id: "tendu", label: "Tendue, serrée" },
+      { id: "ailleurs", label: "Ailleurs, dispersée" },
+      { id: "lourd", label: "Lourde, embrumée" },
+      { id: "calme", label: "À peu près calme" },
+    ],
+  },
 ];
-
-type Piste = { title: string; body: string; to: "/help/corps/nuits" | "/help/corps/manger" | "/help/corps/eau" | "/help/corps/habiller" | "/care/respirer" | "/crisis"; bg: string };
-
-const PISTES: Record<string, Piste> = {
-  nuits: { title: "Préparer la nuit", body: "Quelques minutes pour aider la nuit d'après.", to: "/help/corps/nuits", bg: "var(--sky)" },
-  manger: { title: "Manger sans y penser", body: "Une petite chose facile à avaler.", to: "/help/corps/manger", bg: "var(--sun)" },
-  eau: { title: "Boire un verre d'eau", body: "Un verre, puis on verra.", to: "/help/corps/eau", bg: "var(--whisper)" },
-  habiller: { title: "S'habiller, doucement", body: "Un geste simple pour entrer dans la journée.", to: "/help/corps/habiller", bg: "var(--blush)" },
-  souffle: { title: "Ralentir le souffle", body: "Trois minutes pour calmer l'agitation.", to: "/care/respirer", bg: "var(--sage)" },
-  humain: { title: "Parler à quelqu'un", body: "Quand le corps lâche, une présence humaine aide.", to: "/crisis", bg: "var(--peach)" },
-};
-
-function pistesFor(a: Record<string, string>): Piste[] {
-  const out: Piste[] = [];
-  if (a.sleep === "peu" || a.sleep === "coupe" || a.sleep === "endormir") out.push(PISTES.nuits);
-  if (a.food === "rien" || a.food === "oubli") out.push(PISTES.manger);
-  if (a.energy === "agitee") out.push(PISTES.souffle);
-  if (a.energy === "vide") out.push(PISTES.eau);
-  if (a.energy === "lente" && out.length < 2) out.push(PISTES.habiller);
-  if (a.energy === "vide" && a.food === "rien" && a.sleep === "peu") out.push(PISTES.humain);
-  if (!out.length) out.push(PISTES.eau);
-  return out.slice(0, 3);
-}
 
 function Corps() {
   const [index, setIndex] = useState(0);
-  const [answers, setAnswers] = useState<Record<string, string>>({});
-  const done = index >= STEPS.length;
+  const [answers, setAnswers] = useState<BodyAnswers>({});
+  const [asking, setAsking] = useState(false);
+  const [v, setV] = useState(0.3);
+  const [answeredAt, setAnsweredAt] = useState<string | null>(null);
 
-  const choose = (key: string, id: string) => {
-    setAnswers((a) => ({ ...a, [key]: id }));
-    setIndex((i) => i + 1);
+  useEffect(() => {
+    const s = loadSelfCare();
+    setAnswers(s.answers);
+    setAnsweredAt(s.answeredAt);
+    setV(vitality(s));
+  }, []);
+
+  const choose = (key: keyof BodyAnswers, id: string) => {
+    const next = { ...answers, [key]: id };
+    setAnswers(next);
+    if (index + 1 >= STEPS.length) {
+      const at = new Date().toISOString();
+      saveSelfCare({ answers: next, answeredAt: at });
+      setAnsweredAt(at);
+      setAsking(false);
+      setIndex(0);
+    } else {
+      setIndex(index + 1);
+    }
   };
 
+  const pistes = activitiesFor(answers);
   const step = STEPS[Math.min(index, STEPS.length - 1)];
-  const pistes = done ? pistesFor(answers) : [];
+
+  if (asking) {
+    return (
+      <Shell livingBg={false}>
+        <div className="min-h-dvh bg-paper text-dusk pb-32">
+          <PageHeader title="LE CORPS" back="/help" />
+          <div className="px-6 pt-2 flex gap-1.5">
+            {STEPS.map((s, i) => (
+              <span
+                key={s.key}
+                className="h-[1.5px] flex-1 rounded-full"
+                style={{ background: i <= index ? "var(--terracotta)" : "color-mix(in oklab, var(--dusk) 14%, transparent)" }}
+              />
+            ))}
+          </div>
+
+          <section className="px-6 pt-8 pb-2">
+            <p className="mono-label">{step.label}</p>
+            <h1 className="mt-4 ed-page-title text-[28px]">{step.question}</h1>
+          </section>
+
+          <section className="px-5 pt-6 flex flex-col gap-2.5">
+            {step.options.map((o) => (
+              <button
+                key={o.id}
+                type="button"
+                onClick={() => choose(step.key, o.id)}
+                className="text-left rounded-[18px] border border-dusk/12 bg-[color:var(--whisper)] px-5 py-4 font-serif text-[17px] leading-[1.2] transition-transform active:scale-[0.99]"
+              >
+                {o.label}
+              </button>
+            ))}
+          </section>
+
+          <div className="px-6 pt-6 flex items-center justify-between">
+            <button
+              type="button"
+              onClick={() => (index > 0 ? setIndex(index - 1) : setAsking(false))}
+              className="mono-label text-dusk/50"
+            >
+              ← {index > 0 ? "Question précédente" : "Revenir"}
+            </button>
+            <button type="button" onClick={() => setAsking(false)} className="mono-label text-dusk/40">
+              Passer
+            </button>
+          </div>
+        </div>
+      </Shell>
+    );
+  }
 
   return (
     <Shell livingBg={false}>
       <div className="min-h-dvh bg-paper text-dusk pb-32">
         <PageHeader title="LE CORPS" back="/help" />
 
-        {!done ? (
-          <>
-            <div className="px-6 pt-2 flex gap-1.5">
-              {STEPS.map((s, i) => (
-                <span
-                  key={s.key}
-                  className="h-[1.5px] flex-1 rounded-full"
-                  style={{ background: i <= index ? "var(--terracotta)" : "color-mix(in oklab, var(--dusk) 14%, transparent)" }}
-                />
-              ))}
-            </div>
+        <section className="px-6 pt-2 flex flex-col items-center text-center">
+          <SelfFigure vitality={v} />
+          <p className="mt-2 font-serif text-[19px] leading-[1.35] max-w-[26ch]">{vitalityWords(v)}</p>
+          <p className="mt-3 text-[12.5px] leading-[1.6] text-dusk/55 max-w-[30ch]">
+            Cette figure vous représente ici. Elle s'ouvre quand vous prenez un moment pour vous,
+            elle se repose quand vous ne faites rien. Jamais de reproche.
+          </p>
+        </section>
 
-            <section className="px-6 pt-8 pb-2">
-              <p className="mono-label">{step.label}</p>
-              <h1 className="mt-4 ed-page-title text-[28px]">{step.question}</h1>
-            </section>
+        <section className="px-5 pt-8">
+          <button
+            type="button"
+            onClick={() => { setAsking(true); setIndex(0); }}
+            className="w-full rounded-[18px] px-5 py-5 text-left"
+            style={{ background: "var(--blush)" }}
+          >
+            <p className="mono-label text-dusk/60">{answeredAt ? "Refaire le point" : "Commencer"}</p>
+            <p className="mt-1.5 font-serif text-[19px] leading-[1.15]">
+              Comment va votre corps aujourd'hui&nbsp;?
+            </p>
+          </button>
+        </section>
 
-            <section className="px-5 pt-6 flex flex-col gap-2.5">
-              {step.options.map((o) => (
-                <button
-                  key={o.id}
-                  type="button"
-                  onClick={() => choose(step.key, o.id)}
-                  className="text-left rounded-[18px] border border-dusk/12 bg-[color:var(--whisper)] px-5 py-4 font-serif text-[17px] leading-[1.2] transition-transform active:scale-[0.99]"
-                >
-                  {o.label}
-                </button>
-              ))}
-            </section>
-
-            {index > 0 && (
-              <div className="px-6 pt-6">
-                <button type="button" onClick={() => setIndex((i) => i - 1)} className="mono-label text-dusk/50">
-                  ← Question précédente
-                </button>
-              </div>
-            )}
-          </>
-        ) : (
-          <>
-            <section className="px-6 pt-8 pb-2">
-              <p className="mono-label">Pour vous, maintenant</p>
-              <h1 className="mt-4 ed-page-title text-[28px]">
-                {pistes.length === 1 ? "Une piste" : `${pistes.length} pistes`}, <span className="italic">rien de plus.</span>
-              </h1>
-            </section>
-
-            <section className="px-5 pt-6 flex flex-col gap-3">
-              {pistes.map((p) => (
-                <Link key={p.title} to={p.to} className="block rounded-[18px] px-5 py-5" style={{ background: p.bg }}>
-                  <p className="font-serif text-[19px] leading-[1.15]">{p.title}</p>
-                  <p className="mt-1.5 text-[12.5px] text-dusk/65">{p.body}</p>
-                </Link>
-              ))}
-            </section>
-
-            <div className="px-6 pt-8">
-              <button
-                type="button"
-                onClick={() => { setAnswers({}); setIndex(0); }}
-                className="text-[12px] text-dusk/50 underline underline-offset-4 hover:text-dusk"
+        <section className="px-5 pt-9">
+          <div className="flex items-center justify-between gap-3 px-1">
+            <p className="mono-label">{answeredAt ? "D'après ce que vous avez dit" : "Pour commencer doucement"}</p>
+            <div className="h-px flex-1 bg-dusk/12" />
+          </div>
+          <div className="mt-4 flex flex-col gap-3">
+            {pistes.map((p) => (
+              <Link
+                key={p.id}
+                to="/help/corps/soin/$id"
+                params={{ id: p.id }}
+                className="block rounded-[18px] border border-dusk/12 bg-[color:var(--whisper)] px-5 py-4"
               >
-                Refaire le point
-              </button>
-            </div>
-          </>
-        )}
+                <div className="flex items-baseline justify-between gap-3">
+                  <p className="font-serif text-[18px] leading-[1.15]">{p.title}</p>
+                  <span className="mono-label text-dusk/45 shrink-0">{p.minutes} min</span>
+                </div>
+                <p className="mt-1.5 text-[12.5px] leading-[1.5] text-dusk/60">{p.intro}</p>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        <section className="px-5 pt-9 space-y-3">
+          <Link to="/help/corps/nuits" className="block rounded-[18px] border border-dusk/10 bg-paper px-5 py-4">
+            <p className="font-serif text-[17px]">Les nuits difficiles →</p>
+          </Link>
+          <Link to="/help/corps/manger" className="block rounded-[18px] border border-dusk/10 bg-paper px-5 py-4">
+            <p className="font-serif text-[17px]">Manger quand on n'y arrive pas →</p>
+          </Link>
+          <Link to="/agenda" className="block rounded-[18px] border border-dusk/10 bg-paper px-5 py-4">
+            <p className="font-serif text-[17px]">Ajuster mes journées →</p>
+          </Link>
+        </section>
       </div>
     </Shell>
   );
