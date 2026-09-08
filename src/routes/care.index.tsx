@@ -65,6 +65,8 @@ function Care() {
         </section>
 
         <DateNudge />
+        <NextActions />
+
 
         <section className="px-5 pt-8">
           <Link
