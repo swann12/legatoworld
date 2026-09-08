@@ -202,8 +202,9 @@ export const CARE_LABELS: Record<CareModule, { label: string; hint: string; to: 
   journal:      { label: "Journal",               hint: "Déposer une pensée",                to: "/care/journal" },
   breathe:      { label: "Respirer",              hint: "1, 3 ou 5 minutes",                 to: "/care/respirer" },
   sleep:        { label: "Nuits difficiles",      hint: "Sons calmes pour s'endormir",       to: "/no-words?tab=souffles" },
-  meditations:  { label: "Méditations deuil",     hint: "Séries courtes",                    to: "/care/resources" },
-  sounds:       { label: "Audios éditoriaux",     hint: "Textes, témoignages",               to: "/care/resources" },
+  meditations:  { label: "Méditations guidées",  hint: "Séances courtes à écouter",         to: "/care/respirer" },
+  sounds:       { label: "Podcasts & écoutes",    hint: "Des voix qui tiennent compagnie",   to: "/library/podcasts" },
+
   letters:      { label: "Écrire à mon proche",   hint: "Quelques mots pour iel",            to: "/care/journal" },
   community:    { label: "Communauté",            hint: "D'autres traversent aussi",         to: "/care/community" },
   therapists:   { label: "Trouver un·e thérapeute", hint: "Annuaire vérifié",                to: "/resources?space=care" },

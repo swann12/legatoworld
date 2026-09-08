@@ -257,6 +257,23 @@
  .no-scrollbar::-webkit-scrollbar { display: none; }
  .no-scrollbar { scrollbar-width: none; }
 
+ /* Barres de défilement effacées : le défilement reste, l'élément technique disparaît */
+ html, body, * {
+ scrollbar-width: thin;
+ scrollbar-color: color-mix(in oklab, var(--dusk) 12%, transparent) transparent;
+ }
+ *::-webkit-scrollbar { width: 4px; height: 4px; }
+ *::-webkit-scrollbar-track { background: transparent; }
+ *::-webkit-scrollbar-thumb {
+ background: color-mix(in oklab, var(--dusk) 10%, transparent);
+ border-radius: 999px;
+ }
+ *::-webkit-scrollbar-thumb:hover {
+ background: color-mix(in oklab, var(--dusk) 18%, transparent);
+ }
+ *::-webkit-scrollbar-corner { background: transparent; }
+
+
  /* Ultra-quiet pulse — for breath / presence dots */
  @keyframes legato-breath {
  0%, 100% { transform: scale(1); opacity: 0.7; }
