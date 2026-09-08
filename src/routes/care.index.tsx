@@ -8,6 +8,8 @@ import { LegatoMark } from "@/components/legato/LegatoMark";
 import { emotionPlan, isEmotionStale } from "@/lib/emotion-routing";
 import { DateNudge } from "@/components/legato/DateNudge";
 import { IndexMark } from "@/components/legato/Viz";
+import { NextActions } from "@/components/legato/NextActions";
+
 
 
 export const Route = createFileRoute("/care/")({
