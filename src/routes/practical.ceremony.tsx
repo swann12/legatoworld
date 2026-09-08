@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
 import { Shell } from "@/components/legato/Shell";
 import { ConfideDock } from "@/components/legato/ConfideDock";
 import { loadPractical, savePractical } from "@/lib/practical-store";
@@ -7,11 +8,13 @@ import { useLegato } from "@/lib/legato-state";
 import { useLovedName } from "@/lib/loved-name";
 import { PageHeader, IvoryCard } from "@/components/legato/EditorialUI";
 import { ChipSelect } from "@/components/legato/ChipSelect";
-import { usePortrait } from "@/lib/portrait-store";
+import { usePortrait, portraitSentence } from "@/lib/portrait-store";
+import { refineCeremony, type CeremonyIdea } from "@/lib/ceremony-ai.functions";
 import {
   FLOWER_STEPS, MUSIC_STEPS, TEXT_STEPS,
   flowerProposals, musicProposals, textProposals, type Proposal,
 } from "@/lib/ceremony-suggest";
+
 
 export const Route = createFileRoute("/practical/ceremony")({
   head: () => ({
