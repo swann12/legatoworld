@@ -167,7 +167,7 @@ function Ceremony() {
 }
 
 function GuidedBlock({
-  label, title, steps, answers, setAnswers, proposals, footer,
+  label, title, steps, answers, setAnswers, proposals, footer, section,
 }: {
   label: string;
   title: string;
@@ -176,9 +176,46 @@ function GuidedBlock({
   setAnswers: (v: Record<string, string>) => void;
   proposals: Proposal[];
   footer?: React.ReactNode;
+  section: "fleurs" | "musique" | "textes";
 }) {
   const answered = steps.filter((s) => answers[s.key]).length;
   const visible = steps.slice(0, Math.min(steps.length, answered + 1));
+
+  const { portrait } = usePortrait();
+  const lovedName = useLovedName();
+  const refine = useServerFn(refineCeremony);
+  const [brief, setBrief] = useState("");
+  const [ideas, setIdeas] = useState<CeremonyIdea[]>([]);
+  const [pending, setPending] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const ask = async () => {
+    const text = brief.trim();
+    if (text.length < 3 || pending) return;
+    setPending(true);
+    setError(null);
+    try {
+      const choices = steps
+        .filter((s) => answers[s.key])
+        .map((s) => `${s.question} ${s.options.find((o) => o.id === answers[s.key])?.label ?? ""}`)
+        .join(" · ");
+      const res = await refine({
+        data: {
+          section,
+          brief: text,
+          choices: choices || undefined,
+          portrait: portraitSentence(portrait, lovedName) || undefined,
+          lovedName: lovedName || undefined,
+        },
+      });
+      if (res.ideas.length) setIdeas(res.ideas);
+      else setError(res.error ?? "Aucune proposition pour l'instant.");
+    } catch {
+      setError("Impossible de joindre le service pour le moment.");
+    } finally {
+      setPending(false);
+    }
+  };
 
   return (
     <section className="px-5 mt-10">
@@ -215,7 +252,50 @@ function GuidedBlock({
             {footer && <div className="pt-2">{footer}</div>}
           </div>
         )}
+
+        {/* Écrire librement — l'IA part de vos mots */}
+        <div className="mt-7 border-t border-dusk/10 pt-5">
+          <p className="mono-label text-dusk/55">Ou dites-le avec vos mots</p>
+          <p className="mt-2 text-[12.5px] leading-[1.55] text-dusk/60">
+            Une intention, un souvenir, une ambiance : écrivez ce que vous avez en tête, même si aucune proposition ne correspond.
+          </p>
+          <textarea
+            value={brief}
+            onChange={(e) => setBrief(e.target.value)}
+            rows={3}
+            placeholder="Elle aimait les fleurs des champs, ramassées au bord du chemin…"
+            className="mt-3 w-full resize-none rounded-[14px] border border-dusk/15 bg-paper px-4 py-3 text-[14px] leading-[1.5] outline-none focus:border-dusk/35"
+          />
+          <div className="mt-3 flex items-center gap-4">
+            <button
+              type="button"
+              onClick={ask}
+              disabled={pending || brief.trim().length < 3}
+              className="rounded-full px-5 py-2.5 text-[13px] disabled:opacity-40"
+              style={{ background: "var(--bordeaux)", color: "var(--paper)" }}
+            >
+              {pending ? "Un instant…" : "Proposer à partir de mes mots"}
+            </button>
+            {ideas.length > 0 && (
+              <button type="button" onClick={() => { setIdeas([]); setBrief(""); }} className="mono-label text-dusk/45">
+                Effacer
+              </button>
+            )}
+          </div>
+          {error && <p className="mt-3 text-[12.5px] text-dusk/55">{error}</p>}
+          {ideas.length > 0 && (
+            <div className="mt-4 space-y-2.5">
+              {ideas.map((i) => (
+                <div key={i.title} className="rounded-[16px] px-4 py-4" style={{ background: "var(--blush)" }}>
+                  <p className="mono-label text-dusk/60">{i.title}</p>
+                  <p className="mt-1.5 text-[13.5px] leading-[1.55] text-dusk/80">{i.body}</p>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </section>
   );
 }
+
