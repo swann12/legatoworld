@@ -48,6 +48,9 @@ function Onboarding() {
   const navigate = useNavigate();
   const record = useServerFn(recordEmotion);
   const [step, setStep] = useState<Step>(1);
+  const [roleChoice, setRoleChoice] = useState<"lead" | "help" | "unknown" | null>(null);
+  const [otherEmotion, setOtherEmotion] = useState("");
+
 
   useEffect(() => {
     if (!hydrated) return;
@@ -71,12 +74,26 @@ function Onboarding() {
   const finish = async () => {
     setCareOnboarded(true);
     setPracticalOnboarded(true);
+    const custom = otherEmotion.trim();
+    if (typeof window !== "undefined") {
+      try {
+        if (custom) window.localStorage.setItem("lg.otherEmotion", JSON.stringify(custom));
+        else window.localStorage.removeItem("lg.otherEmotion");
+      } catch { /* stockage indisponible */ }
+    }
     const { data } = await supabase.auth.getSession();
     if (data.session) {
-      record({ data: { source: "onboarding", tags: ["accueil", situation ?? "inconnu"], note: `Prénom : ${name}` } }).catch(() => {});
+      record({
+        data: {
+          source: "onboarding",
+          tags: ["accueil", situation ?? "inconnu", ...(custom ? [custom.slice(0, 40)] : [])],
+          note: `Prénom : ${name}${custom ? ` — ressenti : ${custom}` : ""}`,
+        },
+      }).catch(() => {});
     }
     navigate({ to: "/home" });
   };
+
 
   const afterSituation = () => {
     if (!situation) return;
@@ -296,16 +313,29 @@ function Onboarding() {
   if (step === 8) {
     return (
       <Frame onBack={() => setStep(6)} progress={posOf(8)} total={total}>
-        <h1 className="onboarding-title">Êtes-vous responsable légalement, ou aidez-vous la famille pour les démarches&nbsp;?</h1>
+        <h1 className="onboarding-title">Quel rôle avez-vous<br />dans les démarches&nbsp;?</h1>
         <div className="mt-[28px] flex flex-col gap-[9px]">
-          <OptionPill active={legallyInvolved === true} onClick={() => setLegallyInvolved(true)}>Oui, je suis impliqué·e</OptionPill>
-          <OptionPill active={legallyInvolved === false} onClick={() => setLegallyInvolved(false)}>Non, pas directement</OptionPill>
+          <OptionPill active={roleChoice === "lead"} onClick={() => { setRoleChoice("lead"); setLegallyInvolved(true); }}>
+            Je m'occupe principalement des démarches
+          </OptionPill>
+          <OptionPill active={roleChoice === "help"} onClick={() => { setRoleChoice("help"); setLegallyInvolved(false); }}>
+            J'aide un proche ou la famille
+          </OptionPill>
+          <OptionPill active={roleChoice === "unknown"} onClick={() => { setRoleChoice("unknown"); setLegallyInvolved(null); }}>
+            Je ne sais pas encore
+          </OptionPill>
         </div>
+        <p className="mt-5 text-[11.5px] leading-[1.5] text-dusk/50">
+          Cela nous sert seulement à adapter les étapes proposées. Rien n'est figé.
+        </p>
         <div className="mt-auto" />
-        <BlushBtn onClick={afterLegal}>Continuer</BlushBtn>
+        <BlushBtn disabled={!roleChoice} onClick={afterLegal}>Continuer</BlushBtn>
+        <SkipLink onClick={afterLegal}>Passer</SkipLink>
       </Frame>
     );
   }
+
+  const otherActive = currentEmotions.includes("besoin_aide");
 
   return (
     <Frame onBack={backFromEmotion} progress={posOf(7)} total={total}>
@@ -332,12 +362,25 @@ function Onboarding() {
           );
         })}
       </div>
+      {otherActive && (
+        <div className="mt-[14px]">
+          <input
+            autoFocus
+            value={otherEmotion}
+            onChange={(ev) => setOtherEmotion(ev.target.value)}
+            placeholder="Nommez-le avec vos mots"
+            className="onboarding-field h-[45px] w-full rounded-[7px] border border-dusk/15 bg-transparent px-[20px] font-sans text-[12px] text-dusk outline-none"
+          />
+          <p className="mt-2 text-[11px] text-dusk/45">Un seul mot suffit. Vous pourrez le changer plus tard.</p>
+        </div>
+      )}
       <div className="mt-auto" />
       <BlushBtn onClick={finish}>Continuer</BlushBtn>
       <SkipLink onClick={finish}>Passer</SkipLink>
     </Frame>
   );
 }
+
 
 function Frame({ children, onBack, progress, total, compact = false }: { children: ReactNode; onBack: () => void; progress: number; total: number; compact?: boolean }) {
   return (
@@ -470,18 +513,19 @@ function ChipGrid<T extends string>({ options, value, onChange }: {
 /** Propositions neutres, sans prénom inventé : « Mon ami », « Ma mère »… */
 function nameSuggestions(relation: Relation | null): string[] {
   switch (relation) {
-    case "pere": return ["Mon père", "Papa"];
-    case "mere": return ["Ma mère", "Maman"];
-    case "conjoint": return ["Mon amour", "Mon ou ma conjoint·e"];
-    case "enfant": return ["Mon enfant"];
+    case "pere": return ["Mon père", "Papa", "Mon proche"];
+    case "mere": return ["Ma mère", "Maman", "Ma proche"];
+    case "conjoint": return ["Mon amour", "Mon compagnon", "Ma compagne"];
+    case "enfant": return ["Mon enfant", "Mon fils", "Ma fille"];
     case "frere_soeur": return ["Mon frère", "Ma sœur"];
     case "grand_parent": return ["Mon grand-père", "Ma grand-mère"];
     case "ami": return ["Mon ami", "Mon amie"];
-    case "collegue": return ["Mon ou ma collègue"];
-    case "animal": return ["Mon compagnon"];
-    default: return ["Mon proche"];
+    case "collegue": return ["Mon collègue", "Ma collègue"];
+    case "animal": return ["Mon compagnon", "Ma compagne"];
+    default: return ["Mon ami", "Mon amie", "Mon proche"];
   }
 }
+
 
 
 function stageQuestion(situation: Situation | null) {

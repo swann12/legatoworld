@@ -138,115 +138,158 @@ function Presence() {
   const current = STEPS[Math.min(step, STEPS.length - 1)];
   const pct = Math.round(((step + 1) / STEPS.length) * 100);
 
+  const started = history.length > 1 || pending;
+
   return (
     <Shell livingBg={false}>
-      <div className="min-h-dvh bg-paper text-dusk pb-32">
+      <div className="relative flex min-h-dvh flex-col bg-paper text-dusk">
         <PageHeader title="PRÉSENCE" />
 
-        <section className="px-6 pt-2 pb-1">
-          <h1 className="ed-page-title text-[30px]">Comment c'est <span className="italic" style={{ color: "var(--terracotta)" }}>aujourd'hui</span>&nbsp;?</h1>
-          <p className="mt-4 text-[13px] leading-[1.6] text-dusk/60 max-w-[34ch]">
+        {/* Ouverture — se retire dès que la conversation commence */}
+        <section
+          className="px-7 transition-all duration-700"
+          style={{
+            paddingTop: started ? 0 : 8,
+            maxHeight: started ? 0 : 320,
+            opacity: started ? 0 : 1,
+            overflow: "hidden",
+          }}
+        >
+          <h1 className="font-serif text-[34px] leading-[1.06] tracking-[-0.01em]">
+            Comment c'est
+            <br />
+            <span className="italic" style={{ color: "var(--terracotta)" }}>aujourd'hui</span>&nbsp;?
+          </h1>
+          <p className="mt-5 max-w-[30ch] text-[13px] leading-[1.7] text-dusk/55">
             Écrivez ou parlez, à votre rythme. Rien à raconter d'un coup.
           </p>
+          <span
+            aria-hidden
+            className="mt-8 block h-px w-16"
+            style={{ background: "color-mix(in oklab, var(--dusk) 16%, transparent)" }}
+          />
         </section>
 
         {tab === "guide" && (
-          <>
-            <div className="px-6 pt-6 pb-2">
-              <LinearProgress value={pct} />
-              <p className="mt-3 mono-label">Étape {step + 1} / {STEPS.length} · {current.label}</p>
-            </div>
-            <section className="px-6 pt-3 pb-1">
-              <h2 className="font-serif text-[22px] leading-[1.2] text-dusk">{current.q}</h2>
-            </section>
-          </>
-        )}
-
-        {/* Suggestions */}
-        {history.length <= 1 && (
-          <div className="px-6 pt-5 flex flex-wrap gap-2">
-            {suggestions.map((s) => (
-              <button
-                key={s}
-                disabled={pending}
-                onClick={() => send(s)}
-                className="shrink-0 rounded-full border border-dusk/15 bg-paper px-4 py-2 text-[13px] text-dusk/75 font-serif disabled:opacity-40 hover:bg-dusk/5 transition-colors"
-              >
-                {s}
-              </button>
-            ))}
+          <div className="px-7 pt-7">
+            <LinearProgress value={pct} />
+            <p className="mono-label mt-3">Temps {step + 1} / {STEPS.length} · {current.label}</p>
+            <h2 className="mt-4 font-serif text-[22px] leading-[1.25]">{current.q}</h2>
           </div>
         )}
 
-        {/* History */}
-        <div ref={scrollerRef} className="px-6 pt-6 pb-4 space-y-3 overflow-y-auto no-scrollbar">
-          {history.map((m, i) =>
-            m.role === "presence" ? (
-              <div key={i} className="rounded-[18px] border border-dusk/10 bg-[color:var(--whisper)] px-5 py-4 max-w-[85%]">
-                <p className="mono-label mb-1.5">Présence</p>
-                <p className="font-serif text-[17px] leading-relaxed text-dusk">{m.text}</p>
-              </div>
-            ) : (
-              <div key={i} className="ml-auto rounded-[16px] px-5 py-3 max-w-[85%] bg-dusk text-paper">
-                <p className="text-[14px] leading-relaxed">{m.text}</p>
-              </div>
-            )
-          )}
-          {pending && (
-            <div className="rounded-[18px] border border-dusk/10 bg-[color:var(--whisper)] px-5 py-4 max-w-[60%]">
-              <p className="mono-label mb-1.5">Présence</p>
-              <p className="font-serif text-[17px] text-dusk/55">
-                <span className="inline-block animate-pulse">…</span>
-              </p>
+        {/* Conversation */}
+        <div
+          ref={scrollerRef}
+          className="no-scrollbar flex-1 overflow-y-auto px-7 pt-8"
+          style={{ paddingBottom: 190 }}
+        >
+          <div className="space-y-7">
+            {history.map((m, i) =>
+              m.role === "presence" ? (
+                <div key={i} className="max-w-[32ch]">
+                  <p
+                    className="mono-label mb-2"
+                    style={{ color: "color-mix(in oklab, var(--dusk) 40%, transparent)" }}
+                  >
+                    Présence
+                  </p>
+                  <p className="font-serif text-[19px] leading-[1.55] text-dusk">{m.text}</p>
+                </div>
+              ) : (
+                <div key={i} className="flex justify-end">
+                  <p
+                    className="max-w-[80%] rounded-[16px] px-4 py-3 text-[14px] leading-[1.55]"
+                    style={{ background: "var(--clay)", color: "var(--dusk)" }}
+                  >
+                    {m.text}
+                  </p>
+                </div>
+              ),
+            )}
+            {pending && (
+              <p className="font-serif text-[19px] italic text-dusk/35">…</p>
+            )}
+          </div>
+
+          {/* Amorces */}
+          {history.length <= 1 && !pending && (
+            <div className="mt-10 flex flex-col items-start gap-3.5">
+              {suggestions.map((s) => (
+                <button
+                  key={s}
+                  onClick={() => send(s)}
+                  className="text-left font-serif text-[16px] leading-[1.4] text-dusk/70 underline decoration-dusk/15 underline-offset-[6px] transition-colors hover:text-dusk"
+                >
+                  {s}
+                </button>
+              ))}
             </div>
           )}
-        </div>
 
-        {/* Second niveau : options et explication */}
-        <div className="px-6 pt-2">
-          <details className="rounded-[18px] border border-dusk/12 bg-[color:var(--whisper)] px-5 py-3">
-            <summary className="cursor-pointer list-none mono-label text-dusk/60">Options & comment ça marche</summary>
-            <div className="pt-4 pb-1 space-y-3">
+          {/* Second niveau, très discret */}
+          <details className="mt-12 border-t border-dusk/8 pt-5">
+            <summary className="mono-label cursor-pointer list-none text-dusk/45">
+              Options & comment ça marche
+            </summary>
+            <div className="space-y-3 pt-5">
               <button
                 type="button"
                 onClick={() => setTab(tab === "libre" ? "guide" : "libre")}
-                className="w-full rounded-full border border-dusk/12 bg-paper px-4 py-2 text-[12.5px]"
+                className="w-full rounded-full border border-dusk/12 bg-[color:var(--whisper)] px-4 py-2.5 text-[12.5px]"
               >
                 {tab === "libre" ? "Passer en parcours guidé (5 temps)" : "Revenir à la conversation libre"}
               </button>
               <button
                 type="button"
                 onClick={() => setVoiceOut((v) => !v)}
-                className="w-full rounded-full border border-dusk/12 px-4 py-2 text-[12.5px]"
-                style={{ background: voiceOut ? "var(--sun)" : "var(--paper)" }}
+                className="w-full rounded-full border border-dusk/12 px-4 py-2.5 text-[12.5px]"
+                style={{ background: voiceOut ? "var(--clay)" : "var(--whisper)" }}
               >
                 {voiceOut ? "Réponse vocale activée" : "Activer les réponses vocales"}
               </button>
-              <p className="text-[12px] leading-[1.55] text-dusk/55">
+              <p className="text-[12px] leading-[1.6] text-dusk/50">
                 Présence est une écoute automatisée : elle répond avec une intelligence artificielle,
                 jamais à la place d'un professionnel. Vos échanges restent sur cet appareil.
               </p>
             </div>
           </details>
+
+          {tab === "guide" && (
+            <div className="flex items-center justify-between pt-8">
+              <button onClick={() => setStep((s) => Math.max(0, s - 1))} disabled={step === 0} className="mono-label text-dusk/45 disabled:opacity-30">← Précédent</button>
+              <button onClick={() => setStep((s) => Math.min(STEPS.length - 1, s + 1))} disabled={step >= STEPS.length - 1} className="mono-label" style={{ color: "var(--terracotta)" }}>Suivant →</button>
+            </div>
+          )}
         </div>
 
-        {/* Input */}
-        <div className="px-6 pb-28 pt-4">
+        {/* Composer */}
+        <div
+          className="fixed bottom-0 left-1/2 z-40 w-full max-w-[420px] -translate-x-1/2 px-6 pb-[calc(env(safe-area-inset-bottom)+72px)] pt-6"
+          style={{
+            background:
+              "linear-gradient(to top, var(--paper) 62%, color-mix(in oklab, var(--paper) 0%, transparent))",
+          }}
+        >
           <form
             onSubmit={(e) => { e.preventDefault(); send(); }}
-            className="rounded-[18px] border border-dusk/15 bg-paper flex items-center gap-2 px-3 py-2"
+            className="flex items-center gap-2 rounded-full px-2 py-1.5"
+            style={{
+              background: "var(--whisper)",
+              border: "1px solid color-mix(in oklab, var(--dusk) 10%, transparent)",
+            }}
           >
             <button
               type="button"
               onClick={toggleVoice}
               aria-label={listening ? "Arrêter la dictée" : "Parler"}
-              className="size-10 rounded-full flex items-center justify-center shrink-0 transition-colors"
+              className="flex size-9 shrink-0 items-center justify-center rounded-full transition-colors"
               style={{
-                background: listening ? "var(--terracotta)" : "var(--whisper)",
-                color: listening ? "var(--paper)" : "var(--dusk)",
+                background: listening ? "var(--terracotta)" : "transparent",
+                color: listening ? "var(--paper)" : "color-mix(in oklab, var(--dusk) 55%, transparent)",
               }}
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
                 <rect x="9" y="3" width="6" height="12" rx="3" />
                 <path d="M5 11a7 7 0 0 0 14 0" />
                 <path d="M12 18v3" />
@@ -256,28 +299,22 @@ function Presence() {
               value={draft}
               onChange={(e) => setDraft(e.target.value)}
               placeholder={listening ? "J'écoute…" : "Écrivez, ou parlez…"}
-              className="flex-1 bg-transparent font-serif text-base text-dusk placeholder:text-dusk/35 outline-none py-2"
+              className="flex-1 bg-transparent py-2 font-serif text-[15px] text-dusk outline-none placeholder:text-dusk/30"
               disabled={pending}
             />
             <button
               type="submit"
-              disabled={pending}
-              className="size-10 rounded-full text-paper text-sm flex items-center justify-center disabled:opacity-50 shrink-0"
-              style={{ background: "var(--bordeaux)" }}
+              disabled={pending || !draft.trim()}
+              className="flex size-9 shrink-0 items-center justify-center rounded-full text-[14px] disabled:opacity-30"
+              style={{ background: "var(--clay)", color: "var(--dusk)" }}
               aria-label="Envoyer"
             >
               →
             </button>
           </form>
         </div>
-
-        {tab === "guide" && (
-          <div className="px-6 pb-8 flex items-center justify-between">
-            <button onClick={() => setStep((s) => Math.max(0, s - 1))} disabled={step === 0} className="mono-label text-dusk/50 disabled:opacity-30">← Précédent</button>
-            <button onClick={() => setStep((s) => Math.min(STEPS.length - 1, s + 1))} disabled={step >= STEPS.length - 1} className="mono-label" style={{ color: "var(--terracotta)" }}>Suivant →</button>
-          </div>
-        )}
       </div>
     </Shell>
   );
 }
+

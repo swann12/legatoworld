@@ -77,6 +77,7 @@ import { Route as CareEmotionsRouteImport } from './routes/care.emotions'
 import { Route as CareDatesRouteImport } from './routes/care.dates'
 import { Route as CareCommunityRouteImport } from './routes/care.community'
 import { Route as AuthenticatedCircleRouteImport } from './routes/_authenticated/circle'
+import { Route as PracticalTasksIndexRouteImport } from './routes/practical.tasks.index'
 import { Route as CareGardenIndexRouteImport } from './routes/care.garden.index'
 import { Route as ResourcesConfirmProviderIdRouteImport } from './routes/resources.confirm.$providerId'
 import { Route as ResourcesCategoryProviderIdRouteImport } from './routes/resources.$category.$providerId'
@@ -427,6 +428,11 @@ const AuthenticatedCircleRoute = AuthenticatedCircleRouteImport.update({
   path: '/circle',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const PracticalTasksIndexRoute = PracticalTasksIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PracticalTasksRoute,
+} as any)
 const CareGardenIndexRoute = CareGardenIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -557,6 +563,7 @@ export interface FileRoutesByFullPath {
   '/resources/$category/$providerId': typeof ResourcesCategoryProviderIdRoute
   '/resources/confirm/$providerId': typeof ResourcesConfirmProviderIdRoute
   '/care/garden/': typeof CareGardenIndexRoute
+  '/practical/tasks/': typeof PracticalTasksIndexRoute
   '/api/public/souffle-sound/$id': typeof ApiPublicSouffleSoundIdRoute
 }
 export interface FileRoutesByTo {
@@ -607,7 +614,6 @@ export interface FileRoutesByTo {
   '/practical/resources': typeof PracticalResourcesRoute
   '/practical/share': typeof PracticalShareRoute
   '/practical/steps': typeof PracticalStepsRoute
-  '/practical/tasks': typeof PracticalTasksRouteWithChildren
   '/practical/texts': typeof PracticalTextsRoute
   '/practical/vault': typeof PracticalVaultRoute
   '/practical/wishes': typeof PracticalWishesRoute
@@ -630,6 +636,7 @@ export interface FileRoutesByTo {
   '/resources/$category/$providerId': typeof ResourcesCategoryProviderIdRoute
   '/resources/confirm/$providerId': typeof ResourcesConfirmProviderIdRoute
   '/care/garden': typeof CareGardenIndexRoute
+  '/practical/tasks': typeof PracticalTasksIndexRoute
   '/api/public/souffle-sound/$id': typeof ApiPublicSouffleSoundIdRoute
 }
 export interface FileRoutesById {
@@ -711,6 +718,7 @@ export interface FileRoutesById {
   '/resources/$category/$providerId': typeof ResourcesCategoryProviderIdRoute
   '/resources/confirm/$providerId': typeof ResourcesConfirmProviderIdRoute
   '/care/garden/': typeof CareGardenIndexRoute
+  '/practical/tasks/': typeof PracticalTasksIndexRoute
   '/api/public/souffle-sound/$id': typeof ApiPublicSouffleSoundIdRoute
 }
 export interface FileRouteTypes {
@@ -792,6 +800,7 @@ export interface FileRouteTypes {
     | '/resources/$category/$providerId'
     | '/resources/confirm/$providerId'
     | '/care/garden/'
+    | '/practical/tasks/'
     | '/api/public/souffle-sound/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -842,7 +851,6 @@ export interface FileRouteTypes {
     | '/practical/resources'
     | '/practical/share'
     | '/practical/steps'
-    | '/practical/tasks'
     | '/practical/texts'
     | '/practical/vault'
     | '/practical/wishes'
@@ -865,6 +873,7 @@ export interface FileRouteTypes {
     | '/resources/$category/$providerId'
     | '/resources/confirm/$providerId'
     | '/care/garden'
+    | '/practical/tasks'
     | '/api/public/souffle-sound/$id'
   id:
     | '__root__'
@@ -945,6 +954,7 @@ export interface FileRouteTypes {
     | '/resources/$category/$providerId'
     | '/resources/confirm/$providerId'
     | '/care/garden/'
+    | '/practical/tasks/'
     | '/api/public/souffle-sound/$id'
   fileRoutesById: FileRoutesById
 }
@@ -1464,6 +1474,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedCircleRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/practical/tasks/': {
+      id: '/practical/tasks/'
+      path: '/'
+      fullPath: '/practical/tasks/'
+      preLoaderRoute: typeof PracticalTasksIndexRouteImport
+      parentRoute: typeof PracticalTasksRoute
+    }
     '/care/garden/': {
       id: '/care/garden/'
       path: '/'
@@ -1652,10 +1669,12 @@ const ParcoursRouteWithChildren = ParcoursRoute._addFileChildren(
 
 interface PracticalTasksRouteChildren {
   PracticalTasksIdRoute: typeof PracticalTasksIdRoute
+  PracticalTasksIndexRoute: typeof PracticalTasksIndexRoute
 }
 
 const PracticalTasksRouteChildren: PracticalTasksRouteChildren = {
   PracticalTasksIdRoute: PracticalTasksIdRoute,
+  PracticalTasksIndexRoute: PracticalTasksIndexRoute,
 }
 
 const PracticalTasksRouteWithChildren = PracticalTasksRoute._addFileChildren(
