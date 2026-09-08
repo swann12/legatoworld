@@ -113,6 +113,7 @@ function Ceremony() {
 
         <GuidedBlock
           label="Fleurs"
+          section="fleurs"
           title="Composer les fleurs"
           steps={FLOWER_STEPS}
           answers={flowers}
@@ -123,6 +124,7 @@ function Ceremony() {
 
         <GuidedBlock
           label="Musique"
+          section="musique"
           title="Choisir la musique"
           steps={MUSIC_STEPS}
           answers={music}
@@ -133,6 +135,7 @@ function Ceremony() {
 
         <GuidedBlock
           label="Textes"
+          section="textes"
           title="Écrire les mots"
           steps={TEXT_STEPS}
           answers={texts}
