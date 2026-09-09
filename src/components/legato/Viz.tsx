@@ -76,7 +76,7 @@ export type RulerSegment = { label: string; value: number; tone?: string };
 /** Répartition : une barre empilée, puis une légende en lignes calmes. */
 export function Ruler({ segments, unit = "étapes" }: { segments: RulerSegment[]; unit?: string }) {
   const total = segments.reduce((s, x) => s + x.value, 0) || 1;
-  const tones = [ACCENT, "var(--sumi)", "var(--olive)", "var(--sage)"];
+  const tones = [ACCENT, "var(--bordeaux)", "var(--olive)", "var(--sage)"];
   return (
     <div>
       <div className="flex overflow-hidden rounded-full" style={{ height: 8 }}>
