@@ -83,7 +83,7 @@ function Care() {
 
         {!light && primaryCare.length > 0 && (
           <section className="px-5 pt-7">
-            <SectionKicker label="À privilégier maintenant" />
+            <SectionKicker label="Maintenant" />
             <div className="mt-4 grid grid-cols-2 gap-3">
               {primaryCare.map((m) => <CareTile key={m} module={m} />)}
             </div>
@@ -94,35 +94,18 @@ function Care() {
         <section className="px-5 pt-9">
           <SectionKicker label="Présence & mémoire" />
           <div className="mt-4 grid grid-cols-2 gap-3">
-            <Link to="/presence" className="surf-flame border border-dusk/12 rounded-[18px] px-5 py-5 min-h-[124px] flex flex-col justify-between">
-              <div className="flex items-start justify-end">
-                <IndexMark i={1} total={2} tone="currentColor" />
-              </div>
-
-              <div>
-                <p className="font-serif text-[20px] leading-[1.1]">Se confier</p>
-                <p className="mt-0.5 text-[12px] surf-sub">Une voix qui écoute.</p>
-              </div>
+            <Link to="/presence" className="craft flex min-h-[104px] flex-col justify-between px-5 py-4">
+              <IndexMark i={1} total={3} />
+              <p className="font-serif text-[20px] leading-[1.1]">Se confier</p>
             </Link>
-            <Link to="/care/garden" className="surf-cream border border-dusk/12 rounded-[18px] px-5 py-5 min-h-[124px] flex flex-col justify-between">
-              <div className="flex items-start justify-end">
-                <IndexMark i={2} total={2} />
-              </div>
-
-              <div>
-                <p className="font-serif text-[20px] leading-[1.1]">{lovedName}</p>
-                <p className="mt-0.5 text-[12px] surf-sub">Photos · voix · lettres</p>
-              </div>
+            <Link to="/care/garden" className="craft flex min-h-[104px] flex-col justify-between px-5 py-4">
+              <IndexMark i={2} total={3} />
+              <p className="font-serif text-[20px] leading-[1.1]">{lovedName}</p>
             </Link>
           </div>
-          <Link to="/care/rituels" className="surf-pearl border border-dusk/10 mt-3 block rounded-[18px] px-5 py-4">
-            <div className="flex items-center justify-between gap-3">
-              <div>
-                <p className="mono-label surf-sub">Rituels d'hommage</p>
-                <p className="mt-1 font-serif text-[17px] leading-[1.15]">Honorer, à votre manière.</p>
-              </div>
-              <span className="surf-sub text-[16px]">→</span>
-            </div>
+          <Link to="/care/rituels" className="craft mt-3 flex items-center justify-between gap-3 px-5 py-4">
+            <p className="font-serif text-[18px] leading-[1.15]">Rituels d'hommage</p>
+            <IndexMark i={3} total={3} />
           </Link>
 
         </section>
