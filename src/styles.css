@@ -86,32 +86,32 @@
 :root {
  --radius: 1.5rem;
 
- /* Palette Legato officielle — 9 teintes (aucune autre couleur autorisée).
-  * terracotta, butter, bleu · cream, pearl, sable · blush, mauve, bordeaux. */
- --paper:      #F8F4F0;  /* cream */
- --whisper:    #FCFAF9;  /* cream + light */
+ /* Palette Legato — huit teintes, aucune autre.
+  * terracotta · crème · pearl · sable · brun rosé · bordeaux · bleu grisé · rose poudré */
+ --paper:      #FAF6F2;  /* crème */
+ --whisper:    #FCFAF8;  /* crème clair */
  --clay:       #EFE6DC;  /* pearl */
  --dusk:       #5D322A;  /* bordeaux — encre principale */
  --ink:        #000000;  /* noir du logo */
  --bordeaux:   #5D322A;
  --terracotta: #CE6A4E;
- --apricot:    #F0C97C;  /* abricot */
- --olive:      #A9857C;  /* mauve */
- --sage:       #D0C4B2;  /* sable */
- --sun:        #F5F0C8;  /* butter */
- --peach:      #F0C97C;  /* abricot */
- --blush:      #EDC5C3;
- --rose:       #EDC5C3;
- --sumi:       #3A1F19;  /* bordeaux profond — encre sombre */
- /* Tokens hors palette remappés sur les teintes autorisées */
- --mist:       #EFE6DC;  /* → pearl */
- --sky:        #D6DCE8;  /* → bleu */
- --lavender:   #EDC5C3;  /* → blush */
- --navy:       #D6DCE8;  /* → bleu */
- --azure:      #D6DCE8;  /* → bleu */
- --magenta:    #CE6A4E;  /* → terracotta */
- --ember:      #CE6A4E;  /* → terracotta */
- --bloom-fresh:#D0C3AF;
+ --olive:      #A98679;  /* brun rosé */
+ --sage:       #DAC9B9;  /* sable */
+ --blush:      #EDC9C5;  /* rose poudré */
+ --sky:        #D3DAE5;  /* bleu grisé */
+ --sumi:       #4A2620;  /* bordeaux profond */
+ /* Tokens hérités remappés sur les huit teintes */
+ --apricot:    #DAC9B9;  /* → sable */
+ --sun:        #DAC9B9;  /* → sable */
+ --peach:      #EDC9C5;  /* → rose poudré */
+ --rose:       #EDC9C5;
+ --mist:       #EFE6DC;
+ --lavender:   #EDC9C5;
+ --navy:       #D3DAE5;
+ --azure:      #D3DAE5;
+ --magenta:    #CE6A4E;
+ --ember:      #CE6A4E;
+ --bloom-fresh:#DAC9B9;
  --bloom-mist: #F4EAE1;
 
 
