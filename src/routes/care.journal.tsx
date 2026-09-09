@@ -19,7 +19,7 @@ function CareJournal() {
   const save = () => { if (!body.trim()) return; addJournalEntry({ body: body.trim(), to: "them" }); setBody(""); };
   return (
     <Shell livingBg={false}>
-      <div className="min-h-dvh bg-paper text-dusk pb-32">
+      <div className="wash-blush min-h-dvh text-dusk pb-32">
         <header className="px-6 pt-7 flex items-center"><Link to="/care" aria-label="Retour" className="text-dusk/60 text-lg leading-none">←</Link></header>
         <section className="px-6 pt-8"><p className="mono-label">Journal</p><h1 className="mt-5 ed-page-title">Écrire à <span className="italic" style={{ color: "var(--terracotta)" }}>{lovedName}</span></h1><Plate name="memoire" caption="Ce qu'on garde, pressé entre deux pages" className="mt-7" ratio="1 / 1" /></section>
         <section className="px-5 pt-6"><IvoryCard><textarea value={body} onChange={(e) => setBody(e.target.value)} rows={8} placeholder="Laissez les mots venir, sans relire…" className="w-full bg-transparent resize-none outline-none px-5 py-5 font-serif text-[17px] leading-[28px] text-dusk placeholder:text-dusk/30" /></IvoryCard><button onClick={save} disabled={!body.trim()} className="mt-4 w-full rounded-full px-6 py-4 disabled:opacity-40" style={{ background: "var(--terracotta)", color: "var(--paper)" }}>Garder →</button></section>

@@ -30,7 +30,7 @@ function Profile() {
 
   return (
     <Shell livingBg={false}>
-      <div className="min-h-dvh bg-paper text-dusk pb-32">
+      <div className="wash-mauve min-h-dvh text-dusk pb-32">
         <header className="px-6 pt-7 flex items-center">
           <Link to="/home" aria-label="Retour" className="text-dusk/60 text-lg leading-none">←</Link>
         </header>

@@ -78,7 +78,7 @@ function CareRespirer() {
 
   return (
     <Shell livingBg={false}>
-      <main className="min-h-dvh bg-paper text-dusk pb-36">
+      <main className="wash-butter min-h-dvh text-dusk pb-36">
         <PageHeader back="/care" title="RESPIRER" />
 
         <section className="px-6 pt-2">
@@ -156,7 +156,7 @@ function CareRespirer() {
         {/* Choix du rythme */}
         <section className="px-5 pt-10">
           <SectionHead label="Rythme" meta={rhythm.formula} />
-          <ul className="surf-cream mt-3 rounded-[18px] px-5">
+          <ul className="tint-butter mt-3 rounded-[18px] px-5">
             {RHYTHMS.map((r) => {
               const on = r.id === rhythm.id;
               return (
@@ -194,7 +194,7 @@ function CareRespirer() {
         {/* Après */}
         <section className="px-5 pt-10">
           <SectionHead label="Après" />
-          <ul className="surf-cream mt-3 rounded-[18px] px-5">
+          <ul className="tint-butter mt-3 rounded-[18px] px-5">
             {[
               { to: "/care/journal", title: "Déposer quelques mots", note: "Sans relire, sans juger" },
               { to: "/help/corps", title: "Prendre soin du corps", note: "Repos, marche, relâchement" },

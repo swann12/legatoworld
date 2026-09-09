@@ -30,7 +30,7 @@ function Checkin() {
 
   return (
     <Shell livingBg={false}>
-      <div className="min-h-dvh bg-paper text-dusk pb-32">
+      <div className="wash-butter min-h-dvh text-dusk pb-32">
         <header className="px-6 pt-7 flex items-center justify-between">
           <button onClick={() => navigate({ to: "/home" })} className="mono-label">← Retour</button>
           <LegatoMark size={20} />

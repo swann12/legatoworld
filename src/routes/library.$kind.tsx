@@ -91,7 +91,7 @@ function LibraryPage() {
 
   return (
     <Shell>
-      <div className="min-h-dvh bg-paper text-dusk pb-24">
+      <div className="wash-sky min-h-dvh text-dusk pb-24">
         <div className="px-5 pt-5">
           <div
             className="rounded-[24px] px-7 pt-7 pb-9"

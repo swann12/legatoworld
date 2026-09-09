@@ -28,7 +28,7 @@ const ENTRIES = [
 function Memories() {
   return (
     <Shell livingBg={false}>
-      <div className="min-h-dvh bg-paper text-dusk pb-32">
+      <div className="wash-blush min-h-dvh text-dusk pb-32">
         <PageHeader title="SOUVENIRS" />
 
         <section className="px-6 pt-4 pb-6">

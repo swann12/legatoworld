@@ -71,7 +71,7 @@ function CareEmotions() {
 
   return (
     <Shell livingBg={false}>
-      <div className="min-h-dvh bg-paper text-dusk pb-36">
+      <div className="wash-blush min-h-dvh text-dusk pb-36">
         <PageHeader back="/care" title="CHECK-IN" />
 
         <section className="px-6 pt-2">

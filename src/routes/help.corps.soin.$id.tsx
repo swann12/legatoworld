@@ -48,7 +48,7 @@ function Soin() {
   if (!activity) {
     return (
       <Shell livingBg={false}>
-        <div className="min-h-dvh bg-paper text-dusk p-6">
+        <div className="wash-butter min-h-dvh text-dusk p-6">
           <PageHeader title="SOIN" back="/help/corps" />
           <p className="mt-10 font-serif text-[20px]">Cette pratique n'existe pas ou plus.</p>
           <Link to="/help/corps" className="mt-6 inline-block mono-label">Revenir au corps →</Link>
@@ -61,7 +61,7 @@ function Soin() {
 
   return (
     <Shell livingBg={false}>
-      <div className="min-h-dvh bg-paper text-dusk pb-32">
+      <div className="wash-butter min-h-dvh text-dusk pb-32">
         <PageHeader title="UN TEMPS DE SOIN" back="/help/corps" />
 
         <section className="px-6 pt-4">

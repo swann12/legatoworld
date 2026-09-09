@@ -88,7 +88,7 @@ function PracticalPros() {
 
   return (
     <Shell livingBg={false}>
-      <div className="min-h-dvh bg-paper text-dusk pb-36">
+      <div className="wash-sand min-h-dvh text-dusk pb-36">
         <PageHeader title="PROFESSIONNELS" back="/practical" />
 
         <section className="px-6 pt-2">
@@ -106,7 +106,7 @@ function PracticalPros() {
 
         <section className="px-5 pt-6">
           <SectionHead label="Métiers" meta={String(visible.length).padStart(2, "0")} />
-          <ul className="surf-cream mt-3 rounded-[18px] px-5">
+          <ul className="tint-sand mt-3 rounded-[18px] px-5">
             {visible.map((p, i) => {
               const isOpen = open === p.id;
               return (

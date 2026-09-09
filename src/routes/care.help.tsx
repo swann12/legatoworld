@@ -10,7 +10,7 @@ export const Route = createFileRoute("/care/help")({
 function CareHelp() {
   return (
     <Shell livingBg={false}>
-      <div className="min-h-dvh bg-paper text-dusk pb-32">
+      <div className="wash-blush min-h-dvh text-dusk pb-32">
         <PageHeader back="/care" title="AIDE HUMAINE" />
         <section className="px-6 pt-8"><h1 className="mt-5 ed-page-title">Trouver quelqu'un <span className="italic" style={{ color: "var(--terracotta)" }}>à qui parler</span>.</h1></section>
         <section className="px-5 pt-8 space-y-3">

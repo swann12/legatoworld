@@ -54,7 +54,7 @@ function Ceremony() {
   if (hidden || passed) {
     return (
       <Shell livingBg={false}>
-        <div className="min-h-dvh bg-paper text-dusk p-6">
+        <div className="wash-sand min-h-dvh text-dusk p-6">
           <PageHeader title="CÉRÉMONIE" back="/practical" />
           <h1 className="mt-10 ed-page-title">Cette étape n'est pas prioritaire dans votre parcours.</h1>
           <Link to="/care/memory" className="mt-6 inline-block mono-label">Créer un hommage symbolique →</Link>
@@ -65,7 +65,7 @@ function Ceremony() {
 
   return (
     <Shell livingBg={false}>
-      <div className="min-h-dvh bg-paper text-dusk pb-32">
+      <div className="wash-sand min-h-dvh text-dusk pb-32">
         <PageHeader title="CÉRÉMONIE" back="/practical" />
 
         <section className="px-6 pt-4 pb-6">
