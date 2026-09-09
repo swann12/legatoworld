@@ -10,7 +10,7 @@ import {
   type PracticalCategory, type PracticalBucket,
 } from "@/lib/journey-config";
 import { TASK_STATUS_LABELS, isHiddenFromActive } from "@/lib/task-status";
-import { Dial, DotMatrix, Ruler, IndexMark } from "@/components/legato/Viz";
+import { Dial, Progress, Ruler, IndexMark } from "@/components/legato/Viz";
 import { NextActions } from "@/components/legato/NextActions";
 
 
@@ -135,8 +135,9 @@ function Practical() {
                 <Dial value={total ? done / total : 0} caption="fait" />
               </div>
               <div className="mt-5 border-t border-dusk/10 pt-4">
-                <DotMatrix total={Math.min(total, 36)} done={Math.min(done, 36)} />
+                <Progress label="Étapes avancées" done={done} total={total} />
               </div>
+
               {grouped.now[0] && (
                 <Link
                   to="/practical/tasks/$id"
