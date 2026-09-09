@@ -90,22 +90,18 @@ function Practical() {
             Avancer sans se<br />
             <span className="italic" style={{ color: "var(--terracotta)" }}>brusquer</span>.
           </h1>
-          <p className="mt-5 text-[13px] leading-[1.6] text-dusk/60 max-w-[34ch]">
-            {softActive
-              ? "Mode doux : seules les démarches vraiment urgentes restent visibles."
-              : hydrated
-                ? `${done} sur ${total} étapes faites${lovedName ? ` pour ${lovedName}` : ""}. Le reste peut attendre.`
-                : `${total} étapes au total. Le reste peut attendre.`}
+          <p className="mt-4 text-[13px] text-dusk/55">
+            {softActive ? "Mode doux" : `${done} / ${total} étapes`}
           </p>
-          <Plate name="demarches" caption="Papiers, clés, choses à poser" className="mt-7" ratio="1 / 1" />
+          <Plate name="demarches" className="mt-6" ratio="4 / 3" />
         </section>
 
         <NextActions />
 
         <section className="px-5 pt-7">
-          <Link to="/agenda" className="block rounded-[20px] px-5 py-4" style={{ background: "var(--whisper)" }}>
-            <p className="mono-label text-dusk/55">Agenda</p>
-            <p className="mt-1 font-serif text-[18px]">Les rendez-vous et les jours qui viennent →</p>
+          <Link to="/agenda" className="craft flex items-center justify-between px-5 py-4">
+            <p className="font-serif text-[18px]">Agenda</p>
+            <span className="text-dusk/35">→</span>
           </Link>
         </section>
 
