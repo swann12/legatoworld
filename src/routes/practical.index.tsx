@@ -230,21 +230,13 @@ function Practical() {
   );
 }
 
-function ThemeTile({
-  i, to, label, hint, surface,
-}: { i: number; to: string; label: string; hint: string; surface: string; glyph?: string }) {
+function ThemeTile({ i, to, label }: { i: number; to: string; label: string }) {
   return (
-    <Link
-      to={to as "/practical"}
-      className={`${surface} rounded-[18px] border border-dusk/12 px-5 py-5 min-h-[124px] flex flex-col justify-between`}
-    >
+    <Link to={to as "/practical"} className="craft flex min-h-[104px] flex-col justify-between px-5 py-4">
       <div className="flex items-start justify-end">
         <IndexMark i={i} total={4} />
       </div>
-      <div>
-        <p className="font-serif text-[19px] leading-[1.12]">{label}</p>
-        <p className="mt-0.5 text-[12px] surf-sub">{hint}</p>
-      </div>
+      <p className="font-serif text-[19px] leading-[1.12]">{label}</p>
     </Link>
   );
 }
