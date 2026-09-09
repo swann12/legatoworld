@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Plate } from "@/components/legato/Plate";
+import presenceImg from "@/assets/ill-presence.png";
 import { Shell } from "@/components/legato/Shell";
 import { useLegato, type Emotion } from "@/lib/legato-state";
 import { useLovedName } from "@/lib/loved-name";
