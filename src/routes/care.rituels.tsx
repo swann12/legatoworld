@@ -1,4 +1,4 @@
-import { PageHeader } from "@/components/legato/EditorialUI";
+import { PageHeader, SectionHead, Tabs } from "@/components/legato/EditorialUI";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
