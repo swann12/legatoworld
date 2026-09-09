@@ -4,7 +4,6 @@ import { Shell } from "@/components/legato/Shell";
 import { useLegato, type Emotion } from "@/lib/legato-state";
 import { useLovedName } from "@/lib/loved-name";
 import { journeyModules, CARE_LABELS, type CareModule } from "@/lib/journey-config";
-import { LegatoMark } from "@/components/legato/LegatoMark";
 import { emotionPlan, isEmotionStale } from "@/lib/emotion-routing";
 import { DateNudge } from "@/components/legato/DateNudge";
 import { IndexMark } from "@/components/legato/Viz";
@@ -25,7 +24,7 @@ export const Route = createFileRoute("/care/")({
 function Care() {
   const {
     situation, primaryNeed, stage, currentEmotions, currentEmotionAt,
-    lovedOneRelation, legallyInvolved, hydrated, name, lightMode,
+    lovedOneRelation, legallyInvolved, hydrated, lightMode,
   } = useLegato();
   const lovedName = useLovedName();
   const { care } = journeyModules(situation, primaryNeed, stage, { relation: lovedOneRelation, legallyInvolved });
