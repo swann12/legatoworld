@@ -2,8 +2,8 @@ import { Link, useLocation } from "@tanstack/react-router";
 
 /**
  * Switch bas : Soutien · Démarches.
- * Traitement doux — bande papier sans contour dur, repère terracotta
- * qui glisse sous le mot actif. Aucun aplat plein, aucune ombre marquée.
+ * Pastille flottante en papier — un galet terracotta glisse sous le mot actif.
+ * Pas de bande pleine largeur, pas de contour dur.
  */
 export function SpaceSwitch() {
   const { pathname } = useLocation();
@@ -12,40 +12,41 @@ export function SpaceSwitch() {
   const item = (on: boolean, to: "/care" | "/practical", label: string) => (
     <Link
       to={to}
-      className="relative flex flex-1 flex-col items-center gap-2 py-3 text-[12.5px] tracking-[0.06em] transition-colors duration-300"
-      style={{
-        color: on ? "var(--bordeaux)" : "color-mix(in oklab, var(--dusk) 42%, transparent)",
-      }}
       aria-current={on ? "page" : undefined}
+      className="relative z-10 flex-1 rounded-full py-2.5 text-center text-[13px] tracking-[0.04em] transition-colors duration-300"
+      style={{ color: on ? "var(--paper)" : "color-mix(in oklab, var(--dusk) 55%, transparent)" }}
     >
-      <span>{label}</span>
-      <span
-        aria-hidden
-        className="block h-px w-8 transition-opacity duration-300"
-        style={{ background: "var(--terracotta)", opacity: on ? 1 : 0 }}
-      />
+      {label}
     </Link>
   );
 
   return (
     <nav
       aria-label="Navigation principale"
-      className="fixed bottom-0 left-1/2 z-50 w-full max-w-[420px] -translate-x-1/2"
+      className="pointer-events-none fixed bottom-0 left-1/2 z-50 w-full max-w-[420px] -translate-x-1/2 px-6 pb-[max(env(safe-area-inset-bottom),0.75rem)]"
     >
       <div
-        className="flex items-stretch px-8 pb-[max(env(safe-area-inset-bottom),0.5rem)] pt-1"
+        className="pointer-events-auto relative flex items-stretch rounded-full p-1"
         style={{
-          background: "color-mix(in oklab, var(--paper) 94%, transparent)",
-          backdropFilter: "blur(16px)",
-          WebkitBackdropFilter: "blur(16px)",
-          borderTop: "1px solid color-mix(in oklab, var(--dusk) 9%, transparent)",
+          background: "color-mix(in oklab, var(--whisper) 92%, transparent)",
+          backdropFilter: "blur(18px)",
+          WebkitBackdropFilter: "blur(18px)",
+          boxShadow: "0 6px 24px -14px color-mix(in oklab, var(--dusk) 55%, transparent)",
         }}
       >
+        <span
+          aria-hidden
+          className="absolute inset-y-1 left-1 rounded-full transition-transform duration-500"
+          style={{
+            width: "calc(50% - 0.25rem)",
+            background: practical ? "var(--bordeaux)" : "var(--terracotta)",
+            transform: practical ? "translateX(100%)" : "translateX(0)",
+            transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)",
+          }}
+        />
         {item(!practical, "/care", "Soutien")}
-        <span aria-hidden className="my-3 w-px" style={{ background: "color-mix(in oklab, var(--dusk) 10%, transparent)" }} />
         {item(practical, "/practical", "Démarches")}
       </div>
     </nav>
   );
 }
-
