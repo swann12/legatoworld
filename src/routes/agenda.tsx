@@ -53,60 +53,62 @@ function Agenda() {
   const byDay = new Map<string, AgendaEvent[]>();
   upcoming.forEach((e) => byDay.set(e.date, [...(byDay.get(e.date) ?? []), e]));
 
+  const rest = Math.max(0, upcoming.length - (byDay.get(upcoming[0]?.date ?? "")?.length ?? 0));
+
   return (
     <Shell livingBg={false}>
       <div className="min-h-dvh bg-paper text-dusk pb-32">
         <PageHeader title="AGENDA" back="/practical" />
 
         <section className="px-6 pt-4">
-          <p className="mono-label">Les jours qui viennent</p>
-          <h1 className="mt-4 ed-page-title text-[30px]">
-            Organiser sans <span className="italic" style={{ color: "var(--terracotta)" }}>se surcharger</span>.
-          </h1>
-          <p className="mt-5 body-meta max-w-[34ch]">
-            Notez ce qui vous attend. Legato propose des ajustements en fonction de votre état — et ne déplace jamais rien lui-même.
-          </p>
+          <h1 className="ed-page-title text-[32px]">Les jours qui viennent</h1>
         </section>
 
-        {hydrated && suggestions.length > 0 && (
-          <section className="px-5 pt-8">
-            <div className="flex items-center justify-between gap-3 px-1">
-              <p className="mono-label">Suggestions</p>
-              <div className="h-px flex-1 bg-dusk/12" />
-            </div>
-            <div className="mt-4 space-y-2.5">
-              {suggestions.map((s) => (
-                <p key={s.id} className="rounded-[16px] px-4 py-3.5 text-[13px] leading-[1.55] text-dusk/75" style={{ background: "var(--whisper)" }}>
-                  {s.text}
+        {/* Un seul relevé chiffré, lisible d'un coup d'œil */}
+        {hydrated && (
+          <section className="px-5 pt-6">
+            <div className="grid grid-cols-2 gap-3">
+              <div className="rounded-[18px] border border-dashed border-dusk/25 px-5 py-5">
+                <p className="font-serif text-[30px] leading-none">{upcoming.length}</p>
+                <p className="mt-2 text-[12.5px] text-dusk/55">à venir</p>
+              </div>
+              <div className="rounded-[18px] border border-dashed border-dusk/25 px-5 py-5">
+                <p className="font-serif text-[30px] leading-none">
+                  {upcoming.filter((e) => e.kind === "repos" || e.kind === "pour_soi").length}
                 </p>
-              ))}
+                <p className="mt-2 text-[12.5px] text-dusk/55">pour vous</p>
+              </div>
             </div>
           </section>
         )}
 
-        <section className="px-5 pt-9">
+        {hydrated && suggestions.length > 0 && (
+          <section className="px-5 pt-6">
+            <p className="px-1 text-[12.5px] text-dusk/45">Suggestion</p>
+            <p className="mt-2 rounded-[16px] px-4 py-3.5 text-[13.5px] leading-[1.5] text-dusk/80" style={{ background: "var(--whisper)" }}>
+              {suggestions[0].text}
+            </p>
+          </section>
+        )}
+
+        <section className="px-5 pt-7">
           {adding ? (
             <AddForm onCancel={() => setAdding(false)} onSubmit={(e) => { add(e); setAdding(false); }} />
           ) : (
             <button
               type="button"
               onClick={() => setAdding(true)}
-              className="w-full rounded-[18px] px-5 py-4 text-left"
-              style={{ background: "var(--blush)" }}
+              className="w-full rounded-[18px] border border-dashed border-dusk/30 px-5 py-4 text-center font-serif text-[17px]"
             >
-              <p className="mono-label text-dusk/60">Ajouter</p>
-              <p className="mt-1 font-serif text-[18px]">Un rendez-vous, une démarche, un temps de repos →</p>
+              + Ajouter
             </button>
           )}
         </section>
 
         {[...byDay.entries()].map(([date, list]) => (
           <section key={date} className="px-5 pt-8">
-            <div className="flex items-center justify-between gap-3 px-1">
-              <p className="mono-label">{formatDay(date)}</p>
-              <div className="h-px flex-1 bg-dusk/12" />
-            </div>
-            <div className="mt-4 space-y-3">
+            <p className="px-1 font-serif text-[19px]">{formatDay(date)}</p>
+            <div className="mt-3 divide-y divide-dusk/10 border-t border-dusk/10">
               {list.map((e) => <EventRow key={e.id} e={e} onRemove={() => remove(e.id)} />)}
             </div>
           </section>
@@ -114,11 +116,8 @@ function Agenda() {
 
         {hydrated && upcoming.length === 0 && !adding && (
           <section className="px-5 pt-8">
-            <div className="rounded-[20px] border border-dashed border-dusk/20 bg-[color:var(--whisper)] px-5 py-7 text-center">
-              <p className="mono-label text-dusk/55">Rien de prévu</p>
-              <p className="mt-2 text-[13px] text-dusk/65 max-w-[28ch] mx-auto">
-                Cet agenda peut rester vide. Il n'existe que s'il vous aide.
-              </p>
+            <div className="rounded-[20px] border border-dashed border-dusk/25 px-5 py-8 text-center">
+              <p className="text-[13.5px] text-dusk/55">Rien de prévu. C'est très bien aussi.</p>
             </div>
           </section>
         )}
@@ -126,8 +125,8 @@ function Agenda() {
         {past.length > 0 && (
           <section className="px-5 pt-9">
             <details>
-              <summary className="mono-label cursor-pointer list-none px-1 text-dusk/45">Ce qui est passé</summary>
-              <div className="mt-4 space-y-2">
+              <summary className="cursor-pointer list-none px-1 text-[12.5px] text-dusk/45">Ce qui est passé ({past.length})</summary>
+              <div className="mt-3 space-y-2">
                 {past.map((e) => (
                   <p key={e.id} className="px-1 text-[12.5px] text-dusk/50">
                     {formatDay(e.date)} · {e.title}
@@ -137,6 +136,8 @@ function Agenda() {
             </details>
           </section>
         )}
+        {void rest}
+
 
         <section className="px-5 pt-10">
           <div className="rounded-[20px] border border-dusk/12 bg-paper px-5 py-5">
