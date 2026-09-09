@@ -4,7 +4,6 @@ import { Shell } from "@/components/legato/Shell";
 import { useLegato, type Emotion } from "@/lib/legato-state";
 import { useLovedName } from "@/lib/loved-name";
 import { journeyModules, CARE_LABELS, type CareModule } from "@/lib/journey-config";
-import { LegatoMark } from "@/components/legato/LegatoMark";
 import { emotionPlan, isEmotionStale } from "@/lib/emotion-routing";
 import { DateNudge } from "@/components/legato/DateNudge";
 import { IndexMark } from "@/components/legato/Viz";
@@ -25,7 +24,7 @@ export const Route = createFileRoute("/care/")({
 function Care() {
   const {
     situation, primaryNeed, stage, currentEmotions, currentEmotionAt,
-    lovedOneRelation, legallyInvolved, hydrated, name, lightMode,
+    lovedOneRelation, legallyInvolved, hydrated, lightMode,
   } = useLegato();
   const lovedName = useLovedName();
   const { care } = journeyModules(situation, primaryNeed, stage, { relation: lovedOneRelation, legallyInvolved });
@@ -41,18 +40,6 @@ function Care() {
   return (
     <Shell livingBg={false}>
       <main className="wash-blush min-h-dvh text-dusk pb-32">
-        <header className="px-6 pt-7 flex items-center justify-between">
-          <LegatoMark to="/care" size={20} />
-          <Link
-            to="/profile"
-            aria-label="Mon profil"
-            className="inline-flex items-center justify-center rounded-full text-[12px] font-medium"
-            style={{ width: 30, height: 30, background: "var(--blush)", color: "var(--dusk)" }}
-          >
-            {(name || "?").trim().charAt(0).toUpperCase() || "?"}
-          </Link>
-        </header>
-
         {/* Deux fonds superposés : la planche illustrée, puis la feuille crème qui remonte dessus. */}
         <section className="pt-0">
           <div className="relative">
@@ -65,7 +52,7 @@ function Care() {
               />
             </div>
             <div
-              className="relative -mt-28 mx-3 rounded-[26px] px-6 pt-7 pb-7"
+              className="relative -mt-28 rounded-t-[26px] px-6 pt-7 pb-7"
               style={{
                 background: "var(--paper)",
                 boxShadow: "0 -14px 40px -22px color-mix(in oklab, var(--bordeaux) 55%, transparent)",
