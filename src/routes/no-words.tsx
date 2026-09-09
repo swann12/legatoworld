@@ -182,18 +182,13 @@ function NoWords() {
 
   return (
     <Shell livingBg={false} hideNav={isFullScreen}>
-      <div className="relative min-h-dvh flex flex-col select-none overflow-hidden">
+      <div className="relative min-h-dvh flex flex-col select-none overflow-hidden bg-paper">
         {/* Header — minimal sur pages plein écran, simple ailleurs (sans lien Foyer) */}
         {isFullScreen ? (
           <Link
             to="/home"
             aria-label="Retour"
-            className="lune-ctrl absolute top-5 left-5 z-30 size-9 rounded-full flex items-center justify-center text-dusk/75"
-            style={{
-              background: "rgba(255,255,255,0.28)",
-              backdropFilter: "blur(8px)",
-              WebkitBackdropFilter: "blur(8px)",
-            }}
+            className="lune-ctrl absolute top-5 left-5 z-30 size-9 rounded-full flex items-center justify-center border border-dusk/20 bg-paper text-dusk/75"
           >
             ←
           </Link>
@@ -668,20 +663,14 @@ const ORB_STYLES = `
   will-change: transform;
 }
 
-/* Fond doux par scène (pour la marge -8% au-delà du cadre) */
-.scene-warmth        .scene-bg { background: linear-gradient(160deg, #FFE8DC 0%, #FFF4EE 100%); }
-.scene-morning-sky   .scene-bg { background: linear-gradient(180deg, #FFE8D8 0%, #E8DEEC 60%, #D8DEEC 100%); }
-.scene-rivage        .scene-bg { background: linear-gradient(180deg, #E8DCC8 0%, #C8D8E8 60%, #B8CCE0 100%); }
-.scene-ressac        .scene-bg { background: linear-gradient(170deg, #D8E4DC 0%, #B8CCC4 60%, #98B0A8 100%); }
-.scene-rose-mist     .scene-bg { background: linear-gradient(150deg, #F8EEF4 0%, #F0ECF8 100%); }
-.scene-evening-gold  .scene-bg { background: linear-gradient(160deg, #FFF4E0 0%, #E8F0EC 100%); }
-.scene-or-soir-eau   .scene-bg { background: linear-gradient(180deg, #F6E8D8 0%, #DCE6F0 60%, #C8D8E8 100%); }
-.scene-feuilles-vert .scene-bg { background: linear-gradient(170deg, #E8F0E0 0%, #F4F8EC 100%); }
-.scene-perle         .scene-bg { background: linear-gradient(160deg, #ECEEF4 0%, #F4EEF0 100%); }
-.scene-aurore        .scene-bg { background: linear-gradient(180deg, #F8E4D8 0%, #E8DCEC 100%); }
-.scene-bougainvillier .scene-bg { background: linear-gradient(160deg, #F8DCE8 0%, #F4E8D8 100%); }
-.scene-lumiere       .scene-bg { background: linear-gradient(180deg, #FFF4D8 0%, #F4E0C8 100%); }
-.scene-lune          .scene-bg { background: radial-gradient(ellipse at 50% 35%, #4A3A52 0%, #2A1F38 55%, #14101F 100%); }
+/* Aplats francs issus de la palette officielle : aucun dégradé. */
+.scene-warmth .scene-bg, .scene-aurore .scene-bg { background: var(--terracotta); }
+.scene-morning-sky .scene-bg, .scene-rivage .scene-bg, .scene-or-soir-eau .scene-bg { background: var(--sky); }
+.scene-ressac .scene-bg, .scene-feuilles-vert .scene-bg { background: var(--sage); }
+.scene-rose-mist .scene-bg, .scene-bougainvillier .scene-bg { background: var(--blush); }
+.scene-evening-gold .scene-bg, .scene-lumiere .scene-bg { background: var(--clay); }
+.scene-perle .scene-bg { background: var(--whisper); }
+.scene-lune .scene-bg { background: var(--sumi); }
 
 /* Lune — masquer les couches photo pour garder un vrai paysage nocturne */
 .scene-lune .photo-layer,
@@ -1016,9 +1005,21 @@ function SoufflesView() {
     >
       <style>{ORB_STYLES}</style>
       <div className="scene-bg" />
-      {/* Orbs key forces remount per sequence so animations restart cleanly */}
-      <div key={seq.id} className="absolute inset-0">
-        <SouffleOrbs id={seq.id} />
+      {/* Composition franche : aplats, vide et mouvement lent — jamais de halo flou. */}
+      <div key={seq.id} className="photo-layer pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
+        <span
+          className="inner absolute left-[-12%] top-[18%] h-[34%] w-[76%] rounded-full opacity-80"
+          style={{
+            background: index % 3 === 0 ? "var(--blush)" : index % 3 === 1 ? "var(--clay)" : "var(--terracotta)",
+          }}
+        />
+        <span
+          className="inner absolute bottom-[19%] right-[-18%] h-[28%] w-[68%] rounded-full opacity-75"
+          style={{
+            background: index % 2 === 0 ? "var(--sage)" : "var(--bordeaux)",
+          }}
+        />
+        <span className="inner absolute left-[43%] top-[29%] size-16 rounded-full border border-paper/60" />
       </div>
 
       {/* Pause — top-right */}
@@ -1026,11 +1027,7 @@ function SoufflesView() {
         onClick={togglePlay}
         aria-label={playing ? "Pause" : "Reprendre"}
         className="lune-ctrl absolute top-5 right-5 z-30 size-9 rounded-full flex items-center justify-center text-dusk/75"
-        style={{
-          background: "rgba(255,255,255,0.28)",
-          backdropFilter: "blur(8px)",
-          WebkitBackdropFilter: "blur(8px)",
-        }}
+          style={{ background: "color-mix(in oklab, var(--paper) 76%, transparent)" }}
       >
         {playing ? (
           <span className="flex gap-[3px]">
@@ -1062,11 +1059,9 @@ function SoufflesView() {
       {/* Feuille basse — titre, repère de position, commandes claires */}
       <div className="relative z-10 px-4 pb-5">
         <div
-          className="lune-sheet rounded-[22px] px-5 pt-5 pb-4"
+          className="lune-sheet rounded-[18px] border border-dashed border-dusk/25 bg-paper px-5 pt-5 pb-4"
           style={{
-            background: "color-mix(in oklab, white 62%, transparent)",
-            backdropFilter: "blur(18px)",
-            WebkitBackdropFilter: "blur(18px)",
+            background: "color-mix(in oklab, var(--paper) 92%, transparent)",
           }}
         >
           <div className="flex items-baseline justify-between gap-4">

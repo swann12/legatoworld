@@ -1,9 +1,6 @@
 import { Link, useLocation } from "@tanstack/react-router";
 
-/**
- * Switch bas : Soutien · Démarches.
- * Barre sombre (sumi) — un galet clair glisse sous le mot actif.
- */
+/** Navigation basse : deux espaces, deux aplats de la palette. */
 export function SpaceSwitch() {
   const { pathname } = useLocation();
   const practical = pathname.startsWith("/practical");
@@ -12,9 +9,11 @@ export function SpaceSwitch() {
     <Link
       to={to}
       aria-current={on ? "page" : undefined}
-      className="relative z-10 flex-1 rounded-full py-2.5 text-center text-[13px] tracking-[0.04em] transition-colors duration-300"
+      className="relative z-10 flex-1 py-3 text-center text-[13px] transition-opacity duration-300"
       style={{
-        color: on ? "var(--bordeaux)" : "color-mix(in oklab, var(--paper) 76%, transparent)",
+        background: to === "/care" ? "var(--terracotta)" : "var(--bordeaux)",
+        color: "var(--paper)",
+        opacity: on ? 1 : 0.68,
       }}
     >
       {label}
@@ -27,24 +26,21 @@ export function SpaceSwitch() {
       className="pointer-events-none fixed bottom-0 left-1/2 z-50 w-full max-w-[420px] -translate-x-1/2 px-6 pb-[max(env(safe-area-inset-bottom),0.75rem)]"
     >
       <div
-        className="pointer-events-auto relative flex items-stretch rounded-full p-1"
+        className="pointer-events-auto relative flex items-stretch overflow-hidden rounded-full border border-paper/25"
         style={{
-          background: "var(--bordeaux)",
           boxShadow: "0 12px 30px -18px color-mix(in oklab, var(--bordeaux) 80%, transparent)",
         }}
       >
+        {item(!practical, "/care", "Soutien")}
+        {item(practical, "/practical", "Démarches")}
         <span
           aria-hidden
-          className="absolute inset-y-1 left-1 rounded-full transition-transform duration-500"
+          className="absolute bottom-1 h-px w-10 bg-paper transition-[left] duration-500"
           style={{
-            width: "calc(50% - 0.25rem)",
-            background: "color-mix(in oklab, var(--clay) 72%, var(--paper))",
-            transform: practical ? "translateX(100%)" : "translateX(0)",
+            left: practical ? "calc(75% - 1.25rem)" : "calc(25% - 1.25rem)",
             transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)",
           }}
         />
-        {item(!practical, "/care", "Soutien")}
-        {item(practical, "/practical", "Démarches")}
       </div>
     </nav>
   );
