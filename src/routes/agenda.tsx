@@ -58,7 +58,7 @@ function Agenda() {
 
   return (
     <Shell livingBg={false}>
-      <div className="wash-rose min-h-dvh text-dusk pb-32">
+      <div className="min-h-dvh bg-paper text-dusk pb-32">
         <PageHeader title="AGENDA" back="/practical" />
 
         <section className="px-6 pt-4">

@@ -131,7 +131,7 @@ function Corps() {
           </section>
 
           <section className="px-5 pt-7">
-            <ul className="tint-butter rounded-[18px] px-5">
+            <ul className="craft px-5">
               {step.options.map((o) => (
                 <li
                   key={o.id}
@@ -173,16 +173,16 @@ function Corps() {
       <div className="wash-butter min-h-dvh text-dusk pb-36">
         <PageHeader title="LE CORPS" back="/care" />
 
-        {/* La figure — une seule surface forte, en sable chaud */}
+        {/* La figure — une seule surface forte, encre profonde */}
         <section className="px-5 pt-2">
           <div
             className="rounded-[24px] px-6 pt-7 pb-8 flex flex-col items-center text-center"
-            style={{ background: "color-mix(in oklab, var(--clay) 70%, var(--paper))" }}
+            style={{ background: "var(--sumi)", color: "var(--paper)" }}
           >
             <SelfFigure vitality={v} />
             <p className="mt-2 font-serif text-[21px] leading-[1.3] max-w-[22ch]">{vitalityWords(v)}</p>
-            <div className="mt-5 h-px w-16" style={{ background: "color-mix(in oklab, var(--dusk) 18%, transparent)" }} />
-            <p className="mt-4 text-[11.5px] tracking-[0.12em] text-dusk/45">
+            <div className="mt-5 h-px w-16" style={{ background: "color-mix(in oklab, var(--paper) 30%, transparent)" }} />
+            <p className="mt-4 text-[11.5px] tracking-[0.12em]" style={{ color: "color-mix(in oklab, var(--paper) 55%, transparent)" }}>
               {answeredAt ? "DERNIER POINT ENREGISTRÉ" : "AUCUN POINT ENCORE"}
             </p>
           </div>
@@ -230,7 +230,7 @@ function Corps() {
         {/* Pistes de soin */}
         <section className="px-5 pt-9">
           <SectionHead label={answeredAt ? "Pour vous, maintenant" : "Pour commencer"} meta={`${pistes.length} pistes`} />
-          <ul className="tint-butter mt-3 rounded-[18px] px-5">
+          <ul className="craft mt-3 px-5">
             {pistes.map((p, i) => (
               <li
                 key={p.id}
@@ -259,7 +259,7 @@ function Corps() {
         {/* Aller plus loin */}
         <section className="px-5 pt-9">
           <SectionHead label="Aller plus loin" />
-          <ul className="tint-butter mt-3 rounded-[18px] px-5">
+          <ul className="craft mt-3 px-5">
             {[
               { to: "/help/corps/nuits", title: "Les nuits difficiles", note: "Quand le sommeil ne vient pas" },
               { to: "/help/corps/manger", title: "Manger quand on n'y arrive pas", note: "Le plus simple d'abord" },

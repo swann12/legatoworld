@@ -14,7 +14,7 @@ export function SpaceSwitch() {
       aria-current={on ? "page" : undefined}
       className="relative z-10 flex-1 rounded-full py-2.5 text-center text-[13px] tracking-[0.04em] transition-colors duration-300"
       style={{
-        color: on ? "var(--sumi)" : "color-mix(in oklab, var(--paper) 72%, transparent)",
+        color: on ? "var(--bordeaux)" : "color-mix(in oklab, var(--paper) 76%, transparent)",
       }}
     >
       {label}
@@ -29,8 +29,8 @@ export function SpaceSwitch() {
       <div
         className="pointer-events-auto relative flex items-stretch rounded-full p-1"
         style={{
-          background: "#2C2320",
-          boxShadow: "0 12px 30px -18px rgba(44, 35, 32, 0.75)",
+          background: "var(--bordeaux)",
+          boxShadow: "0 12px 30px -18px color-mix(in oklab, var(--bordeaux) 80%, transparent)",
         }}
       >
         <span
@@ -38,7 +38,7 @@ export function SpaceSwitch() {
           className="absolute inset-y-1 left-1 rounded-full transition-transform duration-500"
           style={{
             width: "calc(50% - 0.25rem)",
-            background: "var(--paper)",
+            background: "color-mix(in oklab, var(--clay) 72%, var(--paper))",
             transform: practical ? "translateX(100%)" : "translateX(0)",
             transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)",
           }}
