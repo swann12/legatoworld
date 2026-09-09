@@ -34,7 +34,7 @@ function Espaces() {
 
   return (
     <Shell livingBg={false}>
-      <div className="wash-mauve min-h-dvh text-dusk pb-32">
+      <div className="wash-beige min-h-dvh text-dusk pb-32">
         <PageHeader back="/profile" title="MES ESPACES" />
 
         <section className="px-6 pt-8">
@@ -164,7 +164,13 @@ function SpaceCard({
   onArchive: () => void;
 }) {
   return (
-    <article className="rounded-[22px] px-5 py-5" style={{ background: "var(--blush)" }}>
+    <article
+      className="rounded-[22px] px-5 py-5"
+      style={{
+        background: "var(--whisper)",
+        boxShadow: "0 12px 26px -22px color-mix(in oklab, var(--dusk) 55%, transparent)",
+      }}
+    >
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
           <p className="mono-label text-dusk/60">
@@ -172,7 +178,7 @@ function SpaceCard({
           </p>
           <p className="mt-2 font-serif text-[26px] leading-[1.05]">{s.name}</p>
         </div>
-        <button type="button" onClick={onEdit} className="rounded-full bg-paper/70 px-3 py-1 text-[10.5px] mono-label text-dusk/70">
+        <button type="button" onClick={onEdit} className="rounded-full bg-[color-mix(in_oklab,var(--clay)_55%,var(--whisper))] px-3 py-1 text-[10.5px] mono-label text-dusk/70">
           Modifier
         </button>
       </div>
@@ -184,11 +190,11 @@ function SpaceCard({
       )}
 
       <div className="mt-5 grid grid-cols-2 gap-2">
-        <Link to="/care/garden" className="rounded-[14px] bg-paper/70 px-4 py-3">
+        <Link to="/care/garden" className="rounded-[14px] bg-[color-mix(in_oklab,var(--clay)_55%,var(--whisper))] px-4 py-3">
           <p className="mono-label text-dusk/55">Jardin</p>
           <p className="mt-1 text-[13px]">Photos, voix, lettres</p>
         </Link>
-        <Link to="/care/dates" className="rounded-[14px] bg-paper/70 px-4 py-3">
+        <Link to="/care/dates" className="rounded-[14px] bg-[color-mix(in_oklab,var(--clay)_55%,var(--whisper))] px-4 py-3">
           <p className="mono-label text-dusk/55">Dates</p>
           <p className="mt-1 text-[13px]">Anniversaire, départ</p>
         </Link>
