@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Shell } from "@/components/legato/Shell";
 import { PageHeader } from "@/components/legato/EditorialUI";
+import { Switch, SettingRow, BigStat } from "@/components/legato/Viz";
 import { useLegato } from "@/lib/legato-state";
 import { loadSelfCare } from "@/lib/self-care";
 import {
