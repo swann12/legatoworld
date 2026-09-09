@@ -79,6 +79,7 @@ import { Route as CareDatesRouteImport } from './routes/care.dates'
 import { Route as CareCommunityRouteImport } from './routes/care.community'
 import { Route as AuthenticatedCircleRouteImport } from './routes/_authenticated/circle'
 import { Route as PracticalTasksIndexRouteImport } from './routes/practical.tasks.index'
+import { Route as HelpCorpsIndexRouteImport } from './routes/help.corps.index'
 import { Route as CareGardenIndexRouteImport } from './routes/care.garden.index'
 import { Route as ResourcesConfirmProviderIdRouteImport } from './routes/resources.confirm.$providerId'
 import { Route as ResourcesCategoryProviderIdRouteImport } from './routes/resources.$category.$providerId'
@@ -440,6 +441,11 @@ const PracticalTasksIndexRoute = PracticalTasksIndexRouteImport.update({
   path: '/',
   getParentRoute: () => PracticalTasksRoute,
 } as any)
+const HelpCorpsIndexRoute = HelpCorpsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => HelpCorpsRoute,
+} as any)
 const CareGardenIndexRoute = CareGardenIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -576,6 +582,7 @@ export interface FileRoutesByFullPath {
   '/resources/$category/$providerId': typeof ResourcesCategoryProviderIdRoute
   '/resources/confirm/$providerId': typeof ResourcesConfirmProviderIdRoute
   '/care/garden/': typeof CareGardenIndexRoute
+  '/help/corps/': typeof HelpCorpsIndexRoute
   '/practical/tasks/': typeof PracticalTasksIndexRoute
   '/api/public/souffle-sound/$id': typeof ApiPublicSouffleSoundIdRoute
   '/help/corps/soin/$id': typeof HelpCorpsSoinIdRoute
@@ -614,7 +621,6 @@ export interface FileRoutesByTo {
   '/care/rituels': typeof CareRituelsRoute
   '/compose/$zone': typeof ComposeZoneRoute
   '/garden/$zone': typeof GardenZoneRoute
-  '/help/corps': typeof HelpCorpsRouteWithChildren
   '/invite/$token': typeof InviteTokenRoute
   '/library/$kind': typeof LibraryKindRoute
   '/onboarding/care': typeof OnboardingCareRoute
@@ -651,6 +657,7 @@ export interface FileRoutesByTo {
   '/resources/$category/$providerId': typeof ResourcesCategoryProviderIdRoute
   '/resources/confirm/$providerId': typeof ResourcesConfirmProviderIdRoute
   '/care/garden': typeof CareGardenIndexRoute
+  '/help/corps': typeof HelpCorpsIndexRoute
   '/practical/tasks': typeof PracticalTasksIndexRoute
   '/api/public/souffle-sound/$id': typeof ApiPublicSouffleSoundIdRoute
   '/help/corps/soin/$id': typeof HelpCorpsSoinIdRoute
@@ -735,6 +742,7 @@ export interface FileRoutesById {
   '/resources/$category/$providerId': typeof ResourcesCategoryProviderIdRoute
   '/resources/confirm/$providerId': typeof ResourcesConfirmProviderIdRoute
   '/care/garden/': typeof CareGardenIndexRoute
+  '/help/corps/': typeof HelpCorpsIndexRoute
   '/practical/tasks/': typeof PracticalTasksIndexRoute
   '/api/public/souffle-sound/$id': typeof ApiPublicSouffleSoundIdRoute
   '/help/corps/soin/$id': typeof HelpCorpsSoinIdRoute
@@ -819,6 +827,7 @@ export interface FileRouteTypes {
     | '/resources/$category/$providerId'
     | '/resources/confirm/$providerId'
     | '/care/garden/'
+    | '/help/corps/'
     | '/practical/tasks/'
     | '/api/public/souffle-sound/$id'
     | '/help/corps/soin/$id'
@@ -857,7 +866,6 @@ export interface FileRouteTypes {
     | '/care/rituels'
     | '/compose/$zone'
     | '/garden/$zone'
-    | '/help/corps'
     | '/invite/$token'
     | '/library/$kind'
     | '/onboarding/care'
@@ -894,6 +902,7 @@ export interface FileRouteTypes {
     | '/resources/$category/$providerId'
     | '/resources/confirm/$providerId'
     | '/care/garden'
+    | '/help/corps'
     | '/practical/tasks'
     | '/api/public/souffle-sound/$id'
     | '/help/corps/soin/$id'
@@ -977,6 +986,7 @@ export interface FileRouteTypes {
     | '/resources/$category/$providerId'
     | '/resources/confirm/$providerId'
     | '/care/garden/'
+    | '/help/corps/'
     | '/practical/tasks/'
     | '/api/public/souffle-sound/$id'
     | '/help/corps/soin/$id'
@@ -1513,6 +1523,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PracticalTasksIndexRouteImport
       parentRoute: typeof PracticalTasksRoute
     }
+    '/help/corps/': {
+      id: '/help/corps/'
+      path: '/'
+      fullPath: '/help/corps/'
+      preLoaderRoute: typeof HelpCorpsIndexRouteImport
+      parentRoute: typeof HelpCorpsRoute
+    }
     '/care/garden/': {
       id: '/care/garden/'
       path: '/'
@@ -1653,6 +1670,7 @@ interface HelpCorpsRouteChildren {
   HelpCorpsHabillerRoute: typeof HelpCorpsHabillerRoute
   HelpCorpsMangerRoute: typeof HelpCorpsMangerRoute
   HelpCorpsNuitsRoute: typeof HelpCorpsNuitsRoute
+  HelpCorpsIndexRoute: typeof HelpCorpsIndexRoute
   HelpCorpsSoinIdRoute: typeof HelpCorpsSoinIdRoute
 }
 
@@ -1661,6 +1679,7 @@ const HelpCorpsRouteChildren: HelpCorpsRouteChildren = {
   HelpCorpsHabillerRoute: HelpCorpsHabillerRoute,
   HelpCorpsMangerRoute: HelpCorpsMangerRoute,
   HelpCorpsNuitsRoute: HelpCorpsNuitsRoute,
+  HelpCorpsIndexRoute: HelpCorpsIndexRoute,
   HelpCorpsSoinIdRoute: HelpCorpsSoinIdRoute,
 }
 
