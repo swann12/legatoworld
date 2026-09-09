@@ -41,18 +41,6 @@ function Care() {
   return (
     <Shell livingBg={false}>
       <main className="wash-blush min-h-dvh text-dusk pb-32">
-        <header className="px-6 pt-7 flex items-center justify-between">
-          <LegatoMark to="/care" size={20} />
-          <Link
-            to="/profile"
-            aria-label="Mon profil"
-            className="inline-flex items-center justify-center rounded-full text-[12px] font-medium"
-            style={{ width: 30, height: 30, background: "var(--blush)", color: "var(--dusk)" }}
-          >
-            {(name || "?").trim().charAt(0).toUpperCase() || "?"}
-          </Link>
-        </header>
-
         {/* Deux fonds superposés : la planche illustrée, puis la feuille crème qui remonte dessus. */}
         <section className="pt-0">
           <div className="relative">
