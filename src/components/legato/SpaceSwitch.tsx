@@ -29,8 +29,8 @@ export function SpaceSwitch() {
       <div
         className="pointer-events-auto relative flex items-stretch rounded-full p-1"
         style={{
-          background: "var(--sumi)",
-          boxShadow: "0 10px 28px -16px color-mix(in oklab, var(--sumi) 80%, transparent)",
+          background: "#2C2320",
+          boxShadow: "0 12px 30px -18px rgba(44, 35, 32, 0.75)",
         }}
       >
         <span

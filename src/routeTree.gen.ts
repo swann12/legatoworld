@@ -81,6 +81,7 @@ import { Route as AuthenticatedCircleRouteImport } from './routes/_authenticated
 import { Route as PracticalTasksIndexRouteImport } from './routes/practical.tasks.index'
 import { Route as HelpCorpsIndexRouteImport } from './routes/help.corps.index'
 import { Route as CareGardenIndexRouteImport } from './routes/care.garden.index'
+import { Route as CareCommunityIndexRouteImport } from './routes/care.community.index'
 import { Route as ResourcesConfirmProviderIdRouteImport } from './routes/resources.confirm.$providerId'
 import { Route as ResourcesCategoryProviderIdRouteImport } from './routes/resources.$category.$providerId'
 import { Route as PracticalTasksIdRouteImport } from './routes/practical.tasks.$id'
@@ -89,7 +90,9 @@ import { Route as HelpCorpsMangerRouteImport } from './routes/help.corps.manger'
 import { Route as HelpCorpsHabillerRouteImport } from './routes/help.corps.habiller'
 import { Route as HelpCorpsEauRouteImport } from './routes/help.corps.eau'
 import { Route as CareGardenZoneRouteImport } from './routes/care.garden.$zone'
+import { Route as CareCommunityGroupIndexRouteImport } from './routes/care.community.$group.index'
 import { Route as HelpCorpsSoinIdRouteImport } from './routes/help.corps.soin.$id'
+import { Route as CareCommunityGroupThreadRouteImport } from './routes/care.community.$group.$thread'
 import { Route as ApiPublicSouffleSoundIdRouteImport } from './routes/api/public/souffle-sound.$id'
 
 const WishesRoute = WishesRouteImport.update({
@@ -451,6 +454,11 @@ const CareGardenIndexRoute = CareGardenIndexRouteImport.update({
   path: '/',
   getParentRoute: () => CareGardenRoute,
 } as any)
+const CareCommunityIndexRoute = CareCommunityIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => CareCommunityRoute,
+} as any)
 const ResourcesConfirmProviderIdRoute =
   ResourcesConfirmProviderIdRouteImport.update({
     id: '/resources/confirm/$providerId',
@@ -493,11 +501,22 @@ const CareGardenZoneRoute = CareGardenZoneRouteImport.update({
   path: '/$zone',
   getParentRoute: () => CareGardenRoute,
 } as any)
+const CareCommunityGroupIndexRoute = CareCommunityGroupIndexRouteImport.update({
+  id: '/$group/',
+  path: '/$group/',
+  getParentRoute: () => CareCommunityRoute,
+} as any)
 const HelpCorpsSoinIdRoute = HelpCorpsSoinIdRouteImport.update({
   id: '/soin/$id',
   path: '/soin/$id',
   getParentRoute: () => HelpCorpsRoute,
 } as any)
+const CareCommunityGroupThreadRoute =
+  CareCommunityGroupThreadRouteImport.update({
+    id: '/$group/$thread',
+    path: '/$group/$thread',
+    getParentRoute: () => CareCommunityRoute,
+  } as any)
 const ApiPublicSouffleSoundIdRoute = ApiPublicSouffleSoundIdRouteImport.update({
   id: '/api/public/souffle-sound/$id',
   path: '/api/public/souffle-sound/$id',
@@ -532,7 +551,7 @@ export interface FileRoutesByFullPath {
   '/vitrine': typeof VitrineRoute
   '/wishes': typeof WishesRoute
   '/circle': typeof AuthenticatedCircleRoute
-  '/care/community': typeof CareCommunityRoute
+  '/care/community': typeof CareCommunityRouteWithChildren
   '/care/dates': typeof CareDatesRoute
   '/care/emotions': typeof CareEmotionsRoute
   '/care/garden': typeof CareGardenRouteWithChildren
@@ -581,11 +600,14 @@ export interface FileRoutesByFullPath {
   '/practical/tasks/$id': typeof PracticalTasksIdRoute
   '/resources/$category/$providerId': typeof ResourcesCategoryProviderIdRoute
   '/resources/confirm/$providerId': typeof ResourcesConfirmProviderIdRoute
+  '/care/community/': typeof CareCommunityIndexRoute
   '/care/garden/': typeof CareGardenIndexRoute
   '/help/corps/': typeof HelpCorpsIndexRoute
   '/practical/tasks/': typeof PracticalTasksIndexRoute
   '/api/public/souffle-sound/$id': typeof ApiPublicSouffleSoundIdRoute
+  '/care/community/$group/$thread': typeof CareCommunityGroupThreadRoute
   '/help/corps/soin/$id': typeof HelpCorpsSoinIdRoute
+  '/care/community/$group/': typeof CareCommunityGroupIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -610,7 +632,6 @@ export interface FileRoutesByTo {
   '/vitrine': typeof VitrineRoute
   '/wishes': typeof WishesRoute
   '/circle': typeof AuthenticatedCircleRoute
-  '/care/community': typeof CareCommunityRoute
   '/care/dates': typeof CareDatesRoute
   '/care/emotions': typeof CareEmotionsRoute
   '/care/help': typeof CareHelpRoute
@@ -656,11 +677,14 @@ export interface FileRoutesByTo {
   '/practical/tasks/$id': typeof PracticalTasksIdRoute
   '/resources/$category/$providerId': typeof ResourcesCategoryProviderIdRoute
   '/resources/confirm/$providerId': typeof ResourcesConfirmProviderIdRoute
+  '/care/community': typeof CareCommunityIndexRoute
   '/care/garden': typeof CareGardenIndexRoute
   '/help/corps': typeof HelpCorpsIndexRoute
   '/practical/tasks': typeof PracticalTasksIndexRoute
   '/api/public/souffle-sound/$id': typeof ApiPublicSouffleSoundIdRoute
+  '/care/community/$group/$thread': typeof CareCommunityGroupThreadRoute
   '/help/corps/soin/$id': typeof HelpCorpsSoinIdRoute
+  '/care/community/$group': typeof CareCommunityGroupIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -692,7 +716,7 @@ export interface FileRoutesById {
   '/vitrine': typeof VitrineRoute
   '/wishes': typeof WishesRoute
   '/_authenticated/circle': typeof AuthenticatedCircleRoute
-  '/care/community': typeof CareCommunityRoute
+  '/care/community': typeof CareCommunityRouteWithChildren
   '/care/dates': typeof CareDatesRoute
   '/care/emotions': typeof CareEmotionsRoute
   '/care/garden': typeof CareGardenRouteWithChildren
@@ -741,11 +765,14 @@ export interface FileRoutesById {
   '/practical/tasks/$id': typeof PracticalTasksIdRoute
   '/resources/$category/$providerId': typeof ResourcesCategoryProviderIdRoute
   '/resources/confirm/$providerId': typeof ResourcesConfirmProviderIdRoute
+  '/care/community/': typeof CareCommunityIndexRoute
   '/care/garden/': typeof CareGardenIndexRoute
   '/help/corps/': typeof HelpCorpsIndexRoute
   '/practical/tasks/': typeof PracticalTasksIndexRoute
   '/api/public/souffle-sound/$id': typeof ApiPublicSouffleSoundIdRoute
+  '/care/community/$group/$thread': typeof CareCommunityGroupThreadRoute
   '/help/corps/soin/$id': typeof HelpCorpsSoinIdRoute
+  '/care/community/$group/': typeof CareCommunityGroupIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -826,11 +853,14 @@ export interface FileRouteTypes {
     | '/practical/tasks/$id'
     | '/resources/$category/$providerId'
     | '/resources/confirm/$providerId'
+    | '/care/community/'
     | '/care/garden/'
     | '/help/corps/'
     | '/practical/tasks/'
     | '/api/public/souffle-sound/$id'
+    | '/care/community/$group/$thread'
     | '/help/corps/soin/$id'
+    | '/care/community/$group/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -855,7 +885,6 @@ export interface FileRouteTypes {
     | '/vitrine'
     | '/wishes'
     | '/circle'
-    | '/care/community'
     | '/care/dates'
     | '/care/emotions'
     | '/care/help'
@@ -901,11 +930,14 @@ export interface FileRouteTypes {
     | '/practical/tasks/$id'
     | '/resources/$category/$providerId'
     | '/resources/confirm/$providerId'
+    | '/care/community'
     | '/care/garden'
     | '/help/corps'
     | '/practical/tasks'
     | '/api/public/souffle-sound/$id'
+    | '/care/community/$group/$thread'
     | '/help/corps/soin/$id'
+    | '/care/community/$group'
   id:
     | '__root__'
     | '/'
@@ -985,11 +1017,14 @@ export interface FileRouteTypes {
     | '/practical/tasks/$id'
     | '/resources/$category/$providerId'
     | '/resources/confirm/$providerId'
+    | '/care/community/'
     | '/care/garden/'
     | '/help/corps/'
     | '/practical/tasks/'
     | '/api/public/souffle-sound/$id'
+    | '/care/community/$group/$thread'
     | '/help/corps/soin/$id'
+    | '/care/community/$group/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -1537,6 +1572,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CareGardenIndexRouteImport
       parentRoute: typeof CareGardenRoute
     }
+    '/care/community/': {
+      id: '/care/community/'
+      path: '/'
+      fullPath: '/care/community/'
+      preLoaderRoute: typeof CareCommunityIndexRouteImport
+      parentRoute: typeof CareCommunityRoute
+    }
     '/resources/confirm/$providerId': {
       id: '/resources/confirm/$providerId'
       path: '/resources/confirm/$providerId'
@@ -1593,12 +1635,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CareGardenZoneRouteImport
       parentRoute: typeof CareGardenRoute
     }
+    '/care/community/$group/': {
+      id: '/care/community/$group/'
+      path: '/$group'
+      fullPath: '/care/community/$group/'
+      preLoaderRoute: typeof CareCommunityGroupIndexRouteImport
+      parentRoute: typeof CareCommunityRoute
+    }
     '/help/corps/soin/$id': {
       id: '/help/corps/soin/$id'
       path: '/soin/$id'
       fullPath: '/help/corps/soin/$id'
       preLoaderRoute: typeof HelpCorpsSoinIdRouteImport
       parentRoute: typeof HelpCorpsRoute
+    }
+    '/care/community/$group/$thread': {
+      id: '/care/community/$group/$thread'
+      path: '/$group/$thread'
+      fullPath: '/care/community/$group/$thread'
+      preLoaderRoute: typeof CareCommunityGroupThreadRouteImport
+      parentRoute: typeof CareCommunityRoute
     }
     '/api/public/souffle-sound/$id': {
       id: '/api/public/souffle-sound/$id'
@@ -1621,6 +1677,22 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
+interface CareCommunityRouteChildren {
+  CareCommunityIndexRoute: typeof CareCommunityIndexRoute
+  CareCommunityGroupThreadRoute: typeof CareCommunityGroupThreadRoute
+  CareCommunityGroupIndexRoute: typeof CareCommunityGroupIndexRoute
+}
+
+const CareCommunityRouteChildren: CareCommunityRouteChildren = {
+  CareCommunityIndexRoute: CareCommunityIndexRoute,
+  CareCommunityGroupThreadRoute: CareCommunityGroupThreadRoute,
+  CareCommunityGroupIndexRoute: CareCommunityGroupIndexRoute,
+}
+
+const CareCommunityRouteWithChildren = CareCommunityRoute._addFileChildren(
+  CareCommunityRouteChildren,
+)
+
 interface CareGardenRouteChildren {
   CareGardenZoneRoute: typeof CareGardenZoneRoute
   CareGardenIndexRoute: typeof CareGardenIndexRoute
@@ -1636,7 +1708,7 @@ const CareGardenRouteWithChildren = CareGardenRoute._addFileChildren(
 )
 
 interface CareRouteChildren {
-  CareCommunityRoute: typeof CareCommunityRoute
+  CareCommunityRoute: typeof CareCommunityRouteWithChildren
   CareDatesRoute: typeof CareDatesRoute
   CareEmotionsRoute: typeof CareEmotionsRoute
   CareGardenRoute: typeof CareGardenRouteWithChildren
@@ -1650,7 +1722,7 @@ interface CareRouteChildren {
 }
 
 const CareRouteChildren: CareRouteChildren = {
-  CareCommunityRoute: CareCommunityRoute,
+  CareCommunityRoute: CareCommunityRouteWithChildren,
   CareDatesRoute: CareDatesRoute,
   CareEmotionsRoute: CareEmotionsRoute,
   CareGardenRoute: CareGardenRouteWithChildren,

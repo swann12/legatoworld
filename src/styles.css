@@ -665,7 +665,8 @@
  .craft {
  border: 1px dashed color-mix(in oklab, var(--dusk) 22%, transparent);
  border-radius: 18px;
- background: transparent;
+ /* Encart légèrement plus foncé que le papier — l'information se pose dessus. */
+ background: color-mix(in oklab, var(--clay) 34%, var(--whisper));
 }
 
  /* ── Bandeaux ponctuels — une respiration colorée pleine largeur,
