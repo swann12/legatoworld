@@ -155,44 +155,52 @@ function CareRituels() {
         </section>
         )}
 
-        <section className="px-5 pt-6 flex flex-col gap-3">
-          {(light ? visible.slice(0, 3) : visible).map((r) => {
-            const isOpen = open === r.id;
-            return (
-              <button
-                key={r.id}
-                onClick={() => setOpen(isOpen ? null : r.id)}
-                className="text-left rounded-[18px] px-5 py-5 transition-transform active:scale-[0.995]"
-                style={{ background: r.bg }}
-              >
-                <div className="flex items-baseline justify-between gap-3">
-                  <p className="mono-label text-dusk/65">{r.origin}</p>
-                  <span className="mono-label text-dusk/50">{r.duration}</span>
-                </div>
-                <h2 className="mt-2 font-serif text-[22px] leading-[1.15] text-dusk">{r.title}</h2>
-                <p className="mt-2 text-[13px] text-dusk/70">{r.hint}</p>
-                {isOpen && (
-                  <div className="mt-4 border-t border-dusk/15 pt-3">
-                    <p className="mono-label text-dusk/55">D'où cela vient</p>
-                    <p className="mt-2 text-[13.5px] leading-[1.55] text-dusk/80 italic">{r.detail}</p>
-                  </div>
-                )}
-              </button>
-            );
-          })}
+        <section className="px-5 pt-6">
+          <ul className="surf-cream rounded-[18px] px-5">
+            {(light ? visible.slice(0, 3) : visible).map((r) => {
+              const isOpen = open === r.id;
+              return (
+                <li
+                  key={r.id}
+                  className="border-b border-dashed last:border-0"
+                  style={{ borderColor: "color-mix(in oklab, var(--dusk) 15%, transparent)" }}
+                >
+                  <button
+                    onClick={() => setOpen(isOpen ? null : r.id)}
+                    className="w-full py-5 text-left"
+                    aria-expanded={isOpen}
+                  >
+                    <div className="flex items-baseline justify-between gap-3">
+                      <p className="mono-label surf-sub">{r.origin}</p>
+                      <span className="text-[11px] tabular-nums surf-sub">{r.duration}</span>
+                    </div>
+                    <h2 className="mt-2 font-serif text-[20px] leading-[1.15]">{r.title}</h2>
+                    <p className="mt-1 text-[13px] surf-sub">{r.hint}</p>
+                    {isOpen && (
+                      <p className="mt-4 border-t border-dashed pt-3 text-[13.5px] leading-[1.55] italic"
+                         style={{ borderColor: "color-mix(in oklab, var(--dusk) 18%, transparent)" }}>
+                        {r.detail}
+                      </p>
+                    )}
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
 
           <button
             onClick={inspireMore}
             disabled={loading}
-            className="mt-2 rounded-[18px] border border-dashed border-dusk/25 px-5 py-5 text-left text-dusk/70 disabled:opacity-60"
+            className="craft mt-4 w-full px-5 py-5 text-left text-dusk/70 disabled:opacity-60"
           >
-            <p className="mono-label" style={{ color: "var(--terracotta)" }}>Présence IA</p>
-            <p className="mt-1 font-serif text-[18px]">
-              {loading ? "Cherche des gestes du monde…" : "M'en proposer d'autres, adaptés"}
+            <p className="mono-label" style={{ color: "var(--terracotta)" }}>Présence</p>
+            <p className="mt-1 font-serif text-[18px] text-dusk">
+              {loading ? "Cherche des gestes du monde…" : "M'en proposer d'autres"}
             </p>
           </button>
-          {aiError && <p className="px-1 text-[12px] italic text-dusk/55">{aiError}</p>}
+          {aiError && <p className="mt-2 px-1 text-[12px] italic text-dusk/55">{aiError}</p>}
         </section>
+
       </div>
     </Shell>
   );
