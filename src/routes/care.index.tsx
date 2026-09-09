@@ -53,7 +53,7 @@ function Care() {
               />
             </div>
             <div
-              className="relative -mt-28 mx-3 rounded-[26px] px-6 pt-7 pb-7"
+              className="relative -mt-28 rounded-t-[26px] px-6 pt-7 pb-7"
               style={{
                 background: "var(--paper)",
                 boxShadow: "0 -14px 40px -22px color-mix(in oklab, var(--bordeaux) 55%, transparent)",
