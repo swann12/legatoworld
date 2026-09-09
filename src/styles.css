@@ -666,7 +666,19 @@
  border: 1px dashed color-mix(in oklab, var(--dusk) 22%, transparent);
  border-radius: 18px;
  background: transparent;
- }
+}
+
+ /* ── Bandeaux ponctuels — une respiration colorée pleine largeur,
+  * jamais deux d'affilée, jamais en fond de page. */
+ .band { position: relative; }
+ .band-sand  { background: color-mix(in oklab, var(--sage) 62%, var(--whisper)); }
+ .band-clay  { background: color-mix(in oklab, var(--clay) 92%, var(--whisper)); }
+ .band-blush { background: color-mix(in oklab, var(--blush) 58%, var(--whisper)); }
+ .band-sumi  { background: var(--sumi); color: var(--paper); }
+ .band-sumi .mono-label { color: color-mix(in oklab, var(--paper) 62%, transparent); }
+
+
+
 
   /* ── Fonds de page : papier uni, jamais de dégradé.
    * La couleur ne vient pas du fond mais des surfaces posées dessus. */

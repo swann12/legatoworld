@@ -96,22 +96,21 @@ function Care() {
           <div className="mt-4 grid grid-cols-2 gap-3">
             <Link
               to="/presence"
-              className="flex min-h-[104px] flex-col justify-between rounded-[18px] px-5 py-4"
-              style={{ background: TINT_MEMORY }}
+              className="craft flex min-h-[104px] flex-col justify-between px-5 py-4"
             >
               <IndexMark i={1} total={3} />
               <p className="font-serif text-[20px] leading-[1.1]">Se confier</p>
             </Link>
             <Link
               to="/care/garden"
-              className="flex min-h-[104px] flex-col justify-between rounded-[18px] px-5 py-4"
-              style={{ background: TINT_MEMORY }}
+              className="craft flex min-h-[104px] flex-col justify-between px-5 py-4"
             >
               <IndexMark i={2} total={3} />
               <p className="font-serif text-[20px] leading-[1.1]">{lovedName}</p>
             </Link>
 
           </div>
+
           <Link to="/care/rituels" className="craft mt-3 flex items-center justify-between gap-3 px-5 py-4">
             <p className="font-serif text-[18px] leading-[1.15]">Rituels d'hommage</p>
             <IndexMark i={3} total={3} />
@@ -176,7 +175,7 @@ function focusFromEmotions(emotions: Emotion[], stale: boolean): Focus {
 
 /** Une seule teinte par section — jamais d'alternance de couleurs. */
 const TINT_NOW = "color-mix(in oklab, var(--blush) 78%, var(--whisper))";
-const TINT_MEMORY = "color-mix(in oklab, var(--sun) 100%, var(--whisper))";
+
 
 
 

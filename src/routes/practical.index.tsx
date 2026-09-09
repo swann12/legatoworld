@@ -97,11 +97,12 @@ function Practical() {
         <NextActions scope="practical" />
 
         <section className="px-5 pt-7">
-          <Link to="/agenda" className="craft flex items-center justify-between px-5 py-4">
+          <Link to="/agenda" className="tint-sand flex items-center justify-between rounded-[18px] px-5 py-4">
             <p className="font-serif text-[18px]">Agenda</p>
-            <span className="text-dusk/35">→</span>
+            <span className="text-dusk/40">→</span>
           </Link>
         </section>
+
 
 
 
@@ -135,8 +136,9 @@ function Practical() {
 
         {/* Tuiles thématiques — une seule ancre sombre */}
         {!softActive && (
-        <section className="px-5 pt-7">
-          <div className="grid grid-cols-2 gap-3">
+        <section className="band band-clay mt-8 px-5 pt-7 pb-8">
+          <p className="mono-label">Les espaces</p>
+          <div className="mt-4 grid grid-cols-2 gap-3">
             <ThemeTile i={1} to="/practical/tasks" label="Tâches" />
             <ThemeTile i={2} to="/practical/vault" label="Documents" />
             <ThemeTile i={3} to="/practical/pros" label="Pros" />
@@ -147,6 +149,7 @@ function Practical() {
             <p className="mt-2 font-serif text-[20px] leading-[1.15]">Mes volontés</p>
           </Link>
         </section>
+
         )}
 
 
@@ -230,7 +233,11 @@ function Practical() {
 
 function ThemeTile({ i, to, label }: { i: number; to: string; label: string }) {
   return (
-    <Link to={to as "/practical"} className="craft flex min-h-[104px] flex-col justify-between px-5 py-4">
+    <Link
+      to={to as "/practical"}
+      className="flex min-h-[104px] flex-col justify-between rounded-[18px] px-5 py-4"
+      style={{ background: "color-mix(in oklab, var(--whisper) 88%, transparent)" }}
+    >
       <div className="flex items-start justify-end">
         <IndexMark i={i} total={4} />
       </div>
@@ -238,6 +245,7 @@ function ThemeTile({ i, to, label }: { i: number; to: string; label: string }) {
     </Link>
   );
 }
+
 
 
 
