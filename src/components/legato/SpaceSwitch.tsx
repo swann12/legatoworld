@@ -12,43 +12,40 @@ export function SpaceSwitch() {
   const item = (on: boolean, to: "/care" | "/practical", label: string) => (
     <Link
       to={to}
-      className="relative flex flex-1 items-center justify-center px-4 py-3.5 text-[13px] tracking-[0.05em] transition-colors duration-300"
+      className="relative flex flex-1 flex-col items-center gap-2 py-3 text-[12.5px] tracking-[0.06em] transition-colors duration-300"
       style={{
-        color: on ? "var(--bordeaux)" : "color-mix(in oklab, var(--dusk) 38%, transparent)",
-        fontWeight: on ? 600 : 450,
+        color: on ? "var(--bordeaux)" : "color-mix(in oklab, var(--dusk) 42%, transparent)",
       }}
       aria-current={on ? "page" : undefined}
     >
-      {label}
+      <span>{label}</span>
+      <span
+        aria-hidden
+        className="block h-px w-8 transition-opacity duration-300"
+        style={{ background: "var(--terracotta)", opacity: on ? 1 : 0 }}
+      />
     </Link>
   );
 
   return (
     <nav
       aria-label="Navigation principale"
-      className="fixed bottom-0 left-1/2 z-50 w-full max-w-[420px] -translate-x-1/2 px-6 pb-[max(env(safe-area-inset-bottom),0.6rem)]"
+      className="fixed bottom-0 left-1/2 z-50 w-full max-w-[420px] -translate-x-1/2"
     >
       <div
-        className="relative flex items-center rounded-full px-1"
+        className="flex items-stretch px-8 pb-[max(env(safe-area-inset-bottom),0.5rem)] pt-1"
         style={{
-          background: "color-mix(in oklab, var(--whisper) 90%, transparent)",
-          backdropFilter: "blur(18px)",
-          WebkitBackdropFilter: "blur(18px)",
-          boxShadow:
-            "0 0 0 1px color-mix(in oklab, var(--dusk) 6%, transparent), 0 8px 26px color-mix(in oklab, var(--dusk) 7%, transparent)",
+          background: "color-mix(in oklab, var(--paper) 94%, transparent)",
+          backdropFilter: "blur(16px)",
+          WebkitBackdropFilter: "blur(16px)",
+          borderTop: "1px solid color-mix(in oklab, var(--dusk) 9%, transparent)",
         }}
       >
-        <span
-          aria-hidden
-          className="pointer-events-none absolute bottom-[8px] left-0 flex w-1/2 justify-center transition-transform duration-300 ease-out"
-          style={{ transform: practical ? "translateX(100%)" : "translateX(0)" }}
-        >
-          <span className="block h-[2px] w-9 rounded-full" style={{ background: "var(--terracotta)", opacity: 0.85 }} />
-        </span>
-
         {item(!practical, "/care", "Soutien")}
+        <span aria-hidden className="my-3 w-px" style={{ background: "color-mix(in oklab, var(--dusk) 10%, transparent)" }} />
         {item(practical, "/practical", "Démarches")}
       </div>
     </nav>
   );
 }
+

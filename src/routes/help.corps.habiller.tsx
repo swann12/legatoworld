@@ -1,155 +1,136 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
-import { HelpShell, HelpHeader } from "@/components/legato/HelpShell";
-import { BloomFlower, SoftToast } from "@/components/legato/BloomFlower";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState } from "react";
+import { CorpsPage, CorpsSection, CorpsFooterNote } from "@/components/legato/CorpsPage";
 
 export const Route = createFileRoute("/help/corps/habiller")({
-  head: () => ({ meta: [{ title: "S'habiller — Aide" }] }),
+  head: () => ({
+    meta: [
+      { title: "S'habiller — Legato" },
+      { name: "description", content: "Les vêtements portent beaucoup en ce moment. Il n'y a pas de bonne façon de faire." },
+      { property: "og:title", content: "S'habiller — Legato" },
+      { property: "og:description", content: "Le plus doux, une couleur, ses affaires." },
+    ],
+  }),
   component: Habiller,
 });
 
+/* Aplats issus de la palette — jamais rose et bleu côte à côte. */
 const COLORS = [
-  { hex: "#F5C8C0", name: "rose poudré" },
-  { hex: "#C8D8E8", name: "bleu doux" },
-  { hex: "#D8E8C8", name: "vert pâle" },
-  { hex: "#F5E8C8", name: "crème chaud" },
-  { hex: "#E8C8E8", name: "lavande" },
+  { name: "Terre", v: "color-mix(in oklab, var(--terracotta) 60%, var(--whisper))" },
+  { name: "Sable", v: "color-mix(in oklab, var(--clay) 78%, var(--whisper))" },
+  { name: "Blé", v: "color-mix(in oklab, var(--sun) 70%, var(--whisper))" },
+  { name: "Bois", v: "color-mix(in oklab, var(--bordeaux) 45%, var(--whisper))" },
+  { name: "Poudre", v: "color-mix(in oklab, var(--blush) 62%, var(--whisper))" },
 ];
-
-const PREFS_KEY = "legato.help.habiller.matin";
 
 function Habiller() {
   const [foundSoft, setFoundSoft] = useState(false);
   const [picked, setPicked] = useState<string | null>(null);
-  const [bloom, setBloom] = useState<{ x: number; y: number } | null>(null);
-  const [toast, setToast] = useState<string | null>(null);
-  const [matin, setMatin] = useState({ on: false, hour: "08:00" });
-
-  useEffect(() => {
-    try {
-      const raw = localStorage.getItem(PREFS_KEY);
-      if (raw) setMatin(JSON.parse(raw));
-    } catch {}
-  }, []);
-  useEffect(() => {
-    try { localStorage.setItem(PREFS_KEY, JSON.stringify(matin)); } catch {}
-  }, [matin]);
-
-  const onSoft = (e: React.MouseEvent) => {
-    if (foundSoft) return;
-    setFoundSoft(true);
-    setBloom({ x: e.clientX, y: e.clientY });
-    setToast("C'est parfait.");
-  };
+  const [matin, setMatin] = useState({ on: false, hour: "08:30" });
 
   return (
-    <HelpShell backTo="/help/corps" backLabel="← Le corps">
-      <HelpHeader
-        title="S'habiller."
-        subtitle={
-          <>
-            Les vêtements portent beaucoup en ce moment.
-            <br />Il n'y a pas de bonne façon de faire.
-          </>
-        }
-      />
-
-      {/* SECTION 1 — La chose la plus douce */}
-      <section className="px-7 mt-12">
-        <h2 className="font-serif text-[1.4rem] text-dusk">La chose la plus douce.</h2>
-        <p className="mt-3 text-[14px] leading-relaxed text-dusk/70 max-w-[34ch]">
-          Aujourd'hui, trouvez la chose la plus douce que vous avez dans votre armoire. Pas la plus jolie. Pas la plus pratique. La plus douce au toucher.
-        </p>
-        <button
-          type="button"
-          onClick={onSoft}
-          className={`mt-5 ceramic px-5 py-2.5 rounded-full text-[12px] uppercase tracking-[0.18em] text-dusk/85 transition ${
-            foundSoft ? "opacity-50" : "hover:opacity-90"
-          }`}
-        >
-          {foundSoft ? "C'est trouvé" : "Je l'ai trouvée →"}
-        </button>
-      </section>
-
-      {/* SECTION 2 — Une couleur */}
-      <section className="px-7 mt-14">
-        <h2 className="font-serif text-[1.4rem] text-dusk">Une couleur.</h2>
-        <p className="mt-3 text-[14px] leading-relaxed text-dusk/70">
-          Est-ce qu'il y a une couleur qui vous fait du bien en ce moment ?
-        </p>
-        <div className="mt-6 flex items-center gap-4">
-          {COLORS.map((c) => (
-            <button
-              key={c.hex}
-              type="button"
-              onClick={() => setPicked(c.hex)}
-              aria-label={c.name}
-              className={`size-11 rounded-full transition-transform ${picked === c.hex ? "scale-110 ring-2 ring-dusk/30 ring-offset-2 ring-offset-transparent" : "hover:scale-105"}`}
-              style={{ background: c.hex, boxShadow: "inset 0 0 10px rgba(255,255,255,0.5), 0 4px 14px -4px rgba(0,0,0,0.1)" }}
-            />
-          ))}
-        </div>
-        {picked && (
-          <p key={picked} className="mt-6 font-serif text-[18px] text-dusk/85 leading-snug max-w-[34ch] animate-fade-in">
-            Quelque chose de cette couleur, si vous en avez. Même juste une écharpe, une chaussette.
+    <CorpsPage
+      kicker="LE CORPS · S'HABILLER"
+      title="S'habiller, sans bonne façon de faire."
+      intro="Les vêtements portent beaucoup en ce moment. Trois gestes simples, à prendre ou à laisser."
+    >
+      <CorpsSection label="Le plus doux">
+        <div className="craft px-5 py-5">
+          <p className="max-w-[34ch] text-[13.5px] leading-[1.65] text-dusk/70">
+            Cherchez la chose la plus douce de votre armoire. Pas la plus jolie, pas la plus pratique : la plus douce au toucher.
           </p>
-        )}
-      </section>
+          <button
+            type="button"
+            onClick={() => setFoundSoft(true)}
+            className="mono-label mt-4"
+            style={{ color: foundSoft ? "color-mix(in oklab, var(--dusk) 45%, transparent)" : "var(--terracotta)" }}
+          >
+            {foundSoft ? "C'est trouvé" : "Je l'ai trouvée →"}
+          </button>
+        </div>
+      </CorpsSection>
 
-      {/* SECTION 3 — Ses vêtements */}
-      <section className="px-7 mt-14">
-        <div className="border-t border-dusk/10 pt-8">
-          <h2 className="font-serif text-[1.4rem] text-dusk">Ses affaires.</h2>
-          <div className="mt-5 space-y-5 text-[14.5px] leading-[1.75] text-dusk/72 max-w-[36ch]">
-            <p>Certaines personnes gardent un vêtement de lui, d'elle, près d'elles.</p>
-            <p>Un pull. Une veste. Quelque chose qui garde son odeur.</p>
-            <p>C'est permis. Pour aussi longtemps que vous en avez besoin.</p>
-            <p>Ses affaires n'ont pas à partir. Il n'y a pas de calendrier pour ça.</p>
+      <CorpsSection label="Une couleur">
+        <div className="craft px-5 py-5">
+          <p className="text-[13.5px] leading-[1.65] text-dusk/70">
+            Y a-t-il une couleur qui vous fait du bien aujourd'hui ?
+          </p>
+          <div className="mt-5 grid grid-cols-5 gap-2">
+            {COLORS.map((c) => (
+              <button
+                key={c.name}
+                type="button"
+                onClick={() => setPicked(c.name)}
+                aria-label={c.name}
+                aria-pressed={picked === c.name}
+                className="h-14 rounded-[10px] transition-transform"
+                style={{
+                  background: c.v,
+                  outline: picked === c.name ? "1px solid var(--dusk)" : "none",
+                  outlineOffset: "3px",
+                }}
+              />
+            ))}
+          </div>
+          {picked && (
+            <p className="mt-5 max-w-[34ch] font-serif text-[16px] leading-[1.4]">
+              Quelque chose de cette couleur, si vous en avez. Même une écharpe, même une chaussette.
+            </p>
+          )}
+        </div>
+      </CorpsSection>
+
+      <CorpsSection label="Ses affaires">
+        <div className="tint-sand rounded-[18px] px-6 py-6">
+          <div className="max-w-[36ch] space-y-3 text-[14px] leading-[1.7]">
+            <p>Beaucoup gardent un vêtement de lui, d'elle, près d'eux. Un pull, une veste, quelque chose qui tient l'odeur.</p>
+            <p>C'est permis, aussi longtemps que nécessaire. Il n'existe aucun calendrier pour ça.</p>
           </div>
         </div>
-      </section>
+      </CorpsSection>
 
-      {/* SECTION 4 — Le rituel du matin */}
-      <section className="px-7 mt-14 mb-6">
-        <div className="glass-card organic-radius-3 px-6 py-6">
-          <h3 className="font-serif text-[1.2rem] text-dusk">Un matin accompagné.</h3>
-          <p className="mt-3 text-[13.5px] leading-relaxed text-dusk/65 max-w-[36ch]">
-            Si vous voulez, Legato peut vous envoyer un mot très doux le matin, à l'heure que vous choisissez. Pas une alarme. Juste une présence.
-          </p>
-          <div className="mt-5 flex items-center justify-between gap-4">
-            <span className="text-[12px] uppercase tracking-[0.18em] text-dusk/65">Activer</span>
+      <CorpsSection label="Un matin accompagné">
+        <div className="craft px-5 py-5">
+          <div className="flex items-center justify-between gap-4">
+            <p className="max-w-[26ch] text-[13.5px] leading-[1.6] text-dusk/70">
+              Un mot doux le matin, à l'heure que vous choisissez. Pas une alarme.
+            </p>
             <button
               type="button"
               role="switch"
               aria-checked={matin.on}
+              aria-label="Activer le mot du matin"
               onClick={() => setMatin((m) => ({ ...m, on: !m.on }))}
-              className={`relative h-7 w-12 rounded-full transition-colors ${matin.on ? "bg-dusk/55" : "bg-dusk/15"}`}
+              className="relative h-6 w-11 shrink-0 rounded-full transition-colors"
+              style={{ background: matin.on ? "var(--terracotta)" : "color-mix(in oklab, var(--dusk) 15%, transparent)" }}
             >
               <span
-                className="absolute top-1 size-5 rounded-full bg-white shadow transition-all"
-                style={{ left: matin.on ? "calc(100% - 1.25rem - 0.25rem)" : "0.25rem" }}
+                className="absolute top-1 size-4 rounded-full transition-all"
+                style={{ background: "var(--paper)", left: matin.on ? "calc(100% - 1.25rem)" : "0.25rem" }}
               />
             </button>
           </div>
           {matin.on && (
-            <div className="mt-5 animate-fade-in">
-              <label className="text-[11px] uppercase tracking-[0.18em] text-dusk/60">À quelle heure</label>
+            <div className="mt-4 border-t border-dashed pt-4" style={{ borderColor: "color-mix(in oklab, var(--dusk) 16%, transparent)" }}>
+              <label className="mono-label" htmlFor="heure-matin">À quelle heure</label>
               <input
+                id="heure-matin"
                 type="time"
                 value={matin.hour}
                 onChange={(e) => setMatin((m) => ({ ...m, hour: e.target.value }))}
-                className="mt-2 w-full ceramic-soft organic-radius px-4 py-3 font-serif text-[18px] text-dusk outline-none"
+                className="mt-2 w-full rounded-[12px] bg-paper px-4 py-3 font-serif text-[17px] outline-none"
               />
-              <p className="mt-3 text-[11px] leading-relaxed text-dusk/55">
-                Notification activée localement. Pour la recevoir même app fermée, votre navigateur peut vous demander l'autorisation.
-              </p>
             </div>
           )}
         </div>
-      </section>
+      </CorpsSection>
 
-      {bloom && <BloomFlower x={bloom.x} y={bloom.y} onDone={() => setBloom(null)} />}
-      {toast && <SoftToast text={toast} onDone={() => setToast(null)} />}
-    </HelpShell>
+      <CorpsFooterNote>
+        Rester en pyjama plusieurs jours n'a rien de grave. Si cela s'installe et vous pèse, en parler aide.
+        <Link to="/practical/pros" className="mono-label mt-3 block" style={{ color: "var(--terracotta)" }}>
+          Trouver un·e professionnel·le →
+        </Link>
+      </CorpsFooterNote>
+    </CorpsPage>
   );
 }
