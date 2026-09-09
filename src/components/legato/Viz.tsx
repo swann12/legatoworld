@@ -240,3 +240,108 @@ export function BarList({ rows }: { rows: { label: string; done: number; total: 
     </div>
   );
 }
+
+/** Ligne réglage — intitulé à gauche, valeur à droite. Lecture immédiate. */
+export function SettingRow({
+  label,
+  value,
+  onClick,
+  tone,
+}: {
+  label: string;
+  value: string;
+  onClick?: () => void;
+  tone?: string;
+}) {
+  const Tag = onClick ? "button" : "div";
+  return (
+    <Tag
+      {...(onClick ? { type: "button" as const, onClick } : {})}
+      className="flex w-full items-center justify-between rounded-full px-5 py-3 text-left"
+      style={{ background: tone ?? "color-mix(in oklab, var(--clay) 70%, var(--whisper))" }}
+    >
+      <span className="text-[13px] text-dusk/70">{label}</span>
+      <span className="text-[13px] tabular-nums text-dusk">{value}</span>
+    </Tag>
+  );
+}
+
+/** Interrupteur — un galet, pas de texte d'état. */
+export function Switch({
+  checked,
+  onChange,
+  label,
+}: {
+  checked: boolean;
+  onChange: (v: boolean) => void;
+  label: string;
+}) {
+  return (
+    <div
+      className="flex items-center justify-between rounded-full px-5 py-3"
+      style={{ background: "color-mix(in oklab, var(--clay) 70%, var(--whisper))" }}
+    >
+      <span className="text-[13px] text-dusk/70">{label}</span>
+      <button
+        type="button"
+        role="switch"
+        aria-checked={checked}
+        aria-label={label}
+        onClick={() => onChange(!checked)}
+        className="relative inline-flex shrink-0 items-center rounded-full transition-colors"
+        style={{
+          width: 46,
+          height: 26,
+          background: checked ? "var(--terracotta)" : "color-mix(in oklab, var(--dusk) 16%, transparent)",
+        }}
+      >
+        <span
+          className="absolute rounded-full transition-transform"
+          style={{
+            width: 20, height: 20, top: 3, left: 3,
+            background: "var(--paper)",
+            transform: checked ? "translateX(20px)" : "translateX(0)",
+          }}
+        />
+      </button>
+    </div>
+  );
+}
+
+/** Grand chiffre — une valeur, deux repères. */
+export function BigStat({
+  value,
+  unit,
+  caption,
+  meta,
+  tone,
+}: {
+  value: string | number;
+  unit?: string;
+  caption: string;
+  meta?: { label: string; value: string }[];
+  tone?: string;
+}) {
+  return (
+    <div
+      className="rounded-[22px] px-6 py-6"
+      style={{ background: tone ?? "color-mix(in oklab, var(--sage) 55%, var(--whisper))" }}
+    >
+      <p className="text-[13px] text-dusk/60">{caption}</p>
+      <p className="mt-4 font-serif leading-none tabular-nums" style={{ fontSize: 54 }}>
+        {value}
+        {unit && <span className="align-super text-[18px]">{unit}</span>}
+      </p>
+      {meta && meta.length > 0 && (
+        <div className="mt-5 flex gap-8">
+          {meta.map((m) => (
+            <div key={m.label}>
+              <p className="text-[11px] text-dusk/45">{m.label}</p>
+              <p className="mt-0.5 text-[13px] tabular-nums text-dusk/80">{m.value}</p>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
