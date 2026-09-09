@@ -1,45 +1,64 @@
-/* Une figure sensible qui nous représente : elle s'ouvre ou se replie
-   selon le soin qu'on s'est accordé. Jamais de score, jamais de reproche. */
+/* Ensō — un cercle tracé au pinceau qui se referme à mesure qu'on prend soin de soi.
+   Jamais un score, jamais un visage : une trace, calme et japonisante. */
 
-export function SelfFigure({ vitality: v, size = 168 }: { vitality: number; size?: number }) {
-  const t = Math.max(0, Math.min(1, v));
-  const open = 0.35 + t * 0.65;          // ouverture des branches
-  const halo = 0.06 + t * 0.16;          // densité du halo
-  const lift = (1 - t) * 10;             // repli vers le bas
-
-  const petal = (angle: number, i: number) => {
-    const spread = 46 * open;
-    const a = (angle - 90) * (Math.PI / 180);
-    const len = 34 + 26 * open + (i % 2 ? 4 : 0);
-    const x = 100 + Math.cos(a) * len;
-    const y = 108 + lift + Math.sin(a) * len;
-    return (
-      <path
-        key={angle}
-        d={`M100 ${108 + lift} Q ${100 + Math.cos(a) * len * 0.5 - spread * 0.2} ${108 + lift + Math.sin(a) * len * 0.5} ${x} ${y}`}
-        stroke="var(--terracotta)"
-        strokeOpacity={0.28 + t * 0.42}
-        strokeWidth={1.4}
-        fill="none"
-        strokeLinecap="round"
-      />
-    );
-  };
+export function SelfFigure({
+  vitality: v,
+  size = 168,
+  ink = "var(--paper)",
+  accent = "var(--terracotta)",
+}: {
+  vitality: number;
+  size?: number;
+  ink?: string;
+  accent?: string;
+}) {
+  const t = Math.max(0.08, Math.min(1, v));
+  const r = 66;
+  const c = 2 * Math.PI * r;
+  // Le cercle reste toujours ouvert : rien n'est jamais « complet ».
+  const drawn = c * (0.18 + t * 0.74);
 
   return (
-    <svg width={size} height={size} viewBox="0 0 200 200" aria-hidden role="presentation">
-      <circle cx="100" cy={104 + lift} r={66} fill="var(--terracotta)" opacity={halo} />
-      <circle cx="100" cy={104 + lift} r={44} fill="var(--blush)" opacity={0.35 + t * 0.25} />
-      {[0, 45, 90, 135, 180, 225, 270, 315].map((a, i) => petal(a, i))}
-      <circle cx="100" cy={108 + lift} r={9 + t * 5} fill="var(--bordeaux)" opacity={0.5 + t * 0.35} />
-      <path
-        d={`M100 ${117 + lift} C 100 ${140 + lift}, 100 ${150 + lift}, 100 ${168}`}
-        stroke="var(--bordeaux)"
-        strokeOpacity={0.3 + t * 0.3}
-        strokeWidth={1.6}
+    <svg width={size} height={size} viewBox="0 0 180 180" aria-hidden role="presentation">
+      {/* trace fantôme, pointillée : ce qui reste à venir */}
+      <circle
+        cx="90"
+        cy="90"
+        r={r}
         fill="none"
-        strokeLinecap="round"
+        stroke={ink}
+        strokeOpacity={0.22}
+        strokeWidth={1}
+        strokeDasharray="2 6"
       />
+      {/* la trace vivante */}
+      <circle
+        cx="90"
+        cy="90"
+        r={r}
+        fill="none"
+        stroke={accent}
+        strokeOpacity={0.55 + t * 0.4}
+        strokeWidth={5 + t * 5}
+        strokeLinecap="round"
+        strokeDasharray={`${drawn} ${c}`}
+        transform="rotate(-104 90 90)"
+        style={{ transition: "stroke-dasharray 900ms cubic-bezier(0.22,1,0.36,1)" }}
+      />
+      {/* trois traits d'appui — le souffle au centre */}
+      {[0, 1, 2].map((i) => (
+        <line
+          key={i}
+          x1={90 - (16 - i * 5)}
+          x2={90 + (16 - i * 5)}
+          y1={82 + i * 9}
+          y2={82 + i * 9}
+          stroke={ink}
+          strokeOpacity={0.15 + t * 0.35 - i * 0.04}
+          strokeWidth={1.4}
+          strokeLinecap="round"
+        />
+      ))}
     </svg>
   );
 }
