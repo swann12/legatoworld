@@ -190,23 +190,24 @@ function Corps() {
             <p className="mono-label">{answeredAt ? "Pour vous" : "Pour commencer"}</p>
             <div className="h-px flex-1 bg-dusk/12" />
           </div>
-          <div className="mt-4 flex flex-col gap-3">
-            {pistes.map((p, i) => (
-              <Link
+          <ul className="surf-cream mt-3 rounded-[18px] px-5">
+            {pistes.map((p) => (
+              <li
                 key={p.id}
-                to="/help/corps/soin/$id"
-                params={{ id: p.id }}
-                className="block rounded-[18px] px-5 py-4"
-                style={{ background: ACT_TINTS[i % ACT_TINTS.length] }}
+                className="border-b border-dashed last:border-0"
+                style={{ borderColor: "color-mix(in oklab, var(--dusk) 15%, transparent)" }}
               >
-                <div className="flex items-baseline justify-between gap-3">
-                  <p className="font-serif text-[19px] leading-[1.15]">{p.title}</p>
-                  <span className="mono-label text-dusk/50 shrink-0">{p.minutes} min</span>
-                </div>
-                <p className="mt-1.5 text-[12.5px] leading-[1.5] text-dusk/65">{p.intro}</p>
-              </Link>
+                <Link
+                  to="/help/corps/soin/$id"
+                  params={{ id: p.id }}
+                  className="flex items-baseline justify-between gap-4 py-4 transition-opacity active:opacity-70"
+                >
+                  <p className="font-serif text-[18px] leading-[1.15]">{p.title}</p>
+                  <span className="mono-label shrink-0 text-dusk/45">{p.minutes} min</span>
+                </Link>
+              </li>
             ))}
-          </div>
+          </ul>
         </section>
 
         <section className="px-5 pt-9 space-y-3">
