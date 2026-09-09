@@ -27,9 +27,10 @@ export function SpaceSwitch() {
       className="pointer-events-none fixed bottom-0 left-1/2 z-50 w-full max-w-[420px] -translate-x-1/2 px-6 pb-[max(env(safe-area-inset-bottom),0.75rem)]"
     >
       <div
-        className="pointer-events-auto relative flex items-stretch overflow-hidden rounded-full border border-paper/25"
+        className="pointer-events-auto relative flex items-stretch overflow-hidden rounded-full"
         style={{
-          boxShadow: "0 12px 30px -18px color-mix(in oklab, var(--bordeaux) 80%, transparent)",
+          border: "1px solid color-mix(in oklab, var(--bordeaux) 22%, transparent)",
+          boxShadow: "0 12px 30px -18px color-mix(in oklab, var(--bordeaux) 60%, transparent)",
         }}
       >
         {item(!practical, "/care", "Soutien")}
