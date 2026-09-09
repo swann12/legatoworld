@@ -168,7 +168,7 @@ function focusFromEmotions(emotions: Emotion[], stale: boolean): Focus {
 function CareTile({ module: m }: { module: CareModule }) {
   const cfg = CARE_LABELS[m];
   return (
-    <Link to={cfg.to as "/care/journal"} className="craft flex min-h-[104px] flex-col justify-between px-5 py-4">
+    <Link to={cfg.to as "/care/journal"} className="craft flex min-h-[104px] flex-col justify-end px-5 py-4">
       <p className="font-serif text-[19px] leading-[1.15] text-dusk">{cfg.label}</p>
     </Link>
   );
