@@ -53,7 +53,7 @@ function Agenda() {
   const byDay = new Map<string, AgendaEvent[]>();
   upcoming.forEach((e) => byDay.set(e.date, [...(byDay.get(e.date) ?? []), e]));
 
-  const rest = Math.max(0, upcoming.length - (byDay.get(upcoming[0]?.date ?? "")?.length ?? 0));
+  
 
   return (
     <Shell livingBg={false}>
@@ -136,7 +136,7 @@ function Agenda() {
             </details>
           </section>
         )}
-        {void rest}
+        
 
 
         <section className="px-5 pt-10">
