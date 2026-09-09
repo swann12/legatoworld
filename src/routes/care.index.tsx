@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Plate } from "@/components/legato/Plate";
+import presenceImg from "@/assets/ill-presence.png";
 import { Shell } from "@/components/legato/Shell";
 import { useLegato, type Emotion } from "@/lib/legato-state";
 import { useLovedName } from "@/lib/loved-name";
@@ -53,13 +53,33 @@ function Care() {
           </Link>
         </header>
 
-        <section className="px-6 pt-8">
-          <p className="mono-label">Soutien</p>
-          <h1 className="mt-4 ed-page-title">
-            Un espace pour <span className="italic" style={{ color: "var(--terracotta)" }}>traverser</span>.
-          </h1>
-          <Plate name="presence" className="mt-6" ratio="4 / 3" priority />
+        {/* Deux fonds superposés : la planche illustrée, puis la feuille crème qui remonte dessus. */}
+        <section className="pt-0">
+          <div className="relative">
+            <div className="overflow-hidden" style={{ aspectRatio: "4 / 5" }}>
+              <img
+                src={presenceImg}
+                alt="Planche peinte : un arbre sur un îlot d'herbes, nuages et oiseaux dans un ciel bleu"
+                className="h-full w-full object-cover"
+                loading="eager"
+              />
+            </div>
+            <div
+              className="relative -mt-28 mx-3 rounded-[26px] px-6 pt-7 pb-7"
+              style={{
+                background: "var(--paper)",
+                boxShadow: "0 -14px 40px -22px color-mix(in oklab, var(--bordeaux) 55%, transparent)",
+              }}
+            >
+
+              <p className="mono-label">Soutien</p>
+              <h1 className="mt-3 ed-page-title">
+                Un espace pour <span className="italic" style={{ color: "var(--terracotta)" }}>traverser</span>.
+              </h1>
+            </div>
+          </div>
         </section>
+
 
         <DateNudge />
         <NextActions />
