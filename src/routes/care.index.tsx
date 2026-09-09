@@ -175,8 +175,9 @@ function focusFromEmotions(emotions: Emotion[], stale: boolean): Focus {
 
 
 /** Une seule teinte par section — jamais d'alternance de couleurs. */
-const TINT_NOW = "color-mix(in oklab, var(--blush) 46%, var(--whisper))";
-const TINT_MEMORY = "color-mix(in oklab, var(--sun) 72%, var(--whisper))";
+const TINT_NOW = "color-mix(in oklab, var(--blush) 78%, var(--whisper))";
+const TINT_MEMORY = "color-mix(in oklab, var(--sun) 100%, var(--whisper))";
+
 
 
 function CareTile({ module: m }: { module: CareModule; i?: number }) {
