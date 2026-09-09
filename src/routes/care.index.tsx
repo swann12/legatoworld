@@ -54,9 +54,9 @@ function Care() {
         </header>
 
         {/* Deux fonds superposés : la planche illustrée, puis la feuille crème qui remonte dessus. */}
-        <section className="pt-6">
+        <section className="pt-0">
           <div className="relative">
-            <div className="overflow-hidden rounded-[26px] mx-5" style={{ aspectRatio: "3 / 4" }}>
+            <div className="overflow-hidden" style={{ aspectRatio: "4 / 5" }}>
               <img
                 src={presenceImg}
                 alt="Planche peinte : un arbre sur un îlot d'herbes, nuages et oiseaux dans un ciel bleu"
@@ -65,9 +65,13 @@ function Care() {
               />
             </div>
             <div
-              className="relative -mt-24 mx-0 rounded-t-[26px] px-6 pt-7 pb-6"
-              style={{ background: "var(--paper)" }}
+              className="relative -mt-28 mx-3 rounded-[26px] px-6 pt-7 pb-7"
+              style={{
+                background: "var(--paper)",
+                boxShadow: "0 -14px 40px -22px color-mix(in oklab, var(--bordeaux) 55%, transparent)",
+              }}
             >
+
               <p className="mono-label">Soutien</p>
               <h1 className="mt-3 ed-page-title">
                 Un espace pour <span className="italic" style={{ color: "var(--terracotta)" }}>traverser</span>.
