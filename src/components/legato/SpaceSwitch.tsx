@@ -35,10 +35,9 @@ export function SpaceSwitch() {
         {item(practical, "/practical", "Démarches")}
         <span
           aria-hidden
-          className="absolute bottom-1 h-px w-10 bg-paper transition-transform duration-500"
+          className="absolute bottom-1 h-px w-10 bg-paper transition-[left] duration-500"
           style={{
-            left: "calc(25% - 1.25rem)",
-            transform: practical ? "translateX(calc(50vw - 3rem))" : "translateX(0)",
+            left: practical ? "calc(75% - 1.25rem)" : "calc(25% - 1.25rem)",
             transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)",
           }}
         />

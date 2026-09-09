@@ -217,7 +217,7 @@ function Corps() {
                 >
                   <p className="mono-label">{s.label}</p>
                   <p className="mt-1.5 font-serif text-[16px] leading-[1.2]">
-                    {answers[s.key] ? ANSWER_WORDS[answers[s.key]!] ?? "—" : "—"}
+                    {answers[s.key] ? ANSWER_WORDS[answers[s.key] ?? ""] ?? "—" : "—"}
                   </p>
                 </div>
               ))}
