@@ -69,12 +69,6 @@ const STEPS: Step[] = [
   },
 ];
 
-const ACT_TINTS = [
-  "color-mix(in oklab, var(--sun) 65%, var(--paper))",
-  "color-mix(in oklab, var(--sky) 55%, var(--paper))",
-  "color-mix(in oklab, var(--sage) 45%, var(--paper))",
-  "color-mix(in oklab, var(--blush) 40%, var(--paper))",
-];
 
 
 
