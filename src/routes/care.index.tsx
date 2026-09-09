@@ -54,16 +54,11 @@ function Care() {
         </header>
 
         <section className="px-6 pt-8">
-          <p className="mono-label">Soutien psychologique</p>
-          <h1 className="mt-5 ed-page-title">
+          <p className="mono-label">Soutien</p>
+          <h1 className="mt-4 ed-page-title">
             Un espace pour <span className="italic" style={{ color: "var(--terracotta)" }}>traverser</span>.
           </h1>
-          {(stale || focus.intro) && (
-            <p className="mt-5 text-[13.5px] leading-[1.6] text-dusk/60 max-w-[35ch]">
-              {stale ? "Commencez par nommer ce qui est là." : focus.intro}
-            </p>
-          )}
-          <Plate name="presence" caption="Ce qui reste tient dans la main" className="mt-7" ratio="1 / 1" priority />
+          <Plate name="presence" className="mt-6" ratio="4 / 3" priority />
         </section>
 
         <DateNudge />
@@ -73,14 +68,14 @@ function Care() {
         <section className="px-5 pt-8">
           <Link
             to={(stale ? "/care/emotions" : plan.primary.to) as "/care/emotions"}
-            className={`${focus.bg} block rounded-[22px] border border-dusk/10 px-6 pt-7 pb-6`}
+            className="surf-sumi block rounded-[22px] px-6 pt-7 pb-6"
           >
-            <p className="mono-label">{stale ? "Check-in émotionnel" : focus.label}</p>
-            <h2 className="mt-5 font-serif font-normal text-[27px] leading-[1.12] max-w-[18ch]">
-              {stale ? "Comment vous sentez-vous maintenant ?" : plan.primary.hint ?? focus.title}
+            <p className="mono-label">{stale ? "Check-in" : focus.label}</p>
+            <h2 className="mt-4 font-serif font-normal text-[26px] leading-[1.12] max-w-[16ch]">
+              {stale ? "Comment vous sentez-vous ?" : focus.title}
             </h2>
             <span className="mt-6 inline-block mono-label">
-              {stale ? "Choisir une émotion" : plan.primary.label} →
+              {stale ? "Nommer" : plan.primary.label} →
             </span>
           </Link>
         </section>
@@ -88,7 +83,7 @@ function Care() {
 
         {!light && primaryCare.length > 0 && (
           <section className="px-5 pt-7">
-            <SectionKicker label="À privilégier maintenant" />
+            <SectionKicker label="Maintenant" />
             <div className="mt-4 grid grid-cols-2 gap-3">
               {primaryCare.map((m) => <CareTile key={m} module={m} />)}
             </div>
@@ -99,35 +94,18 @@ function Care() {
         <section className="px-5 pt-9">
           <SectionKicker label="Présence & mémoire" />
           <div className="mt-4 grid grid-cols-2 gap-3">
-            <Link to="/presence" className="surf-flame border border-dusk/12 rounded-[18px] px-5 py-5 min-h-[124px] flex flex-col justify-between">
-              <div className="flex items-start justify-end">
-                <IndexMark i={1} total={2} tone="currentColor" />
-              </div>
-
-              <div>
-                <p className="font-serif text-[20px] leading-[1.1]">Se confier</p>
-                <p className="mt-0.5 text-[12px] surf-sub">Une voix qui écoute.</p>
-              </div>
+            <Link to="/presence" className="craft flex min-h-[104px] flex-col justify-between px-5 py-4">
+              <IndexMark i={1} total={3} />
+              <p className="font-serif text-[20px] leading-[1.1]">Se confier</p>
             </Link>
-            <Link to="/care/garden" className="surf-cream border border-dusk/12 rounded-[18px] px-5 py-5 min-h-[124px] flex flex-col justify-between">
-              <div className="flex items-start justify-end">
-                <IndexMark i={2} total={2} />
-              </div>
-
-              <div>
-                <p className="font-serif text-[20px] leading-[1.1]">{lovedName}</p>
-                <p className="mt-0.5 text-[12px] surf-sub">Photos · voix · lettres</p>
-              </div>
+            <Link to="/care/garden" className="craft flex min-h-[104px] flex-col justify-between px-5 py-4">
+              <IndexMark i={2} total={3} />
+              <p className="font-serif text-[20px] leading-[1.1]">{lovedName}</p>
             </Link>
           </div>
-          <Link to="/care/rituels" className="surf-pearl border border-dusk/10 mt-3 block rounded-[18px] px-5 py-4">
-            <div className="flex items-center justify-between gap-3">
-              <div>
-                <p className="mono-label surf-sub">Rituels d'hommage</p>
-                <p className="mt-1 font-serif text-[17px] leading-[1.15]">Honorer, à votre manière.</p>
-              </div>
-              <span className="surf-sub text-[16px]">→</span>
-            </div>
+          <Link to="/care/rituels" className="craft mt-3 flex items-center justify-between gap-3 px-5 py-4">
+            <p className="font-serif text-[18px] leading-[1.15]">Rituels d'hommage</p>
+            <IndexMark i={3} total={3} />
           </Link>
 
         </section>
@@ -190,31 +168,22 @@ function focusFromEmotions(emotions: Emotion[], stale: boolean): Focus {
 function CareTile({ module: m }: { module: CareModule }) {
   const cfg = CARE_LABELS[m];
   return (
-    <Link to={cfg.to as "/care/journal"} className="rounded-[16px] border border-dusk/12 bg-paper px-4 py-4 min-h-[116px] flex flex-col justify-between">
-      <div>
-        <p className="font-serif text-[18px] leading-[1.15] text-dusk">{cfg.label}</p>
-        <p className="mt-2 text-[12px] leading-[1.35] text-dusk/55">{cfg.hint}</p>
-      </div>
-      <span className="self-end text-dusk/45">→</span>
+    <Link to={cfg.to as "/care/journal"} className="craft flex min-h-[104px] flex-col justify-end px-5 py-4">
+      <p className="font-serif text-[19px] leading-[1.15] text-dusk">{cfg.label}</p>
     </Link>
   );
 }
 
 function CareRow({ module: m }: { module: CareModule }) {
   const cfg = CARE_LABELS[m];
-  return <SimpleRow to={cfg.to} label={cfg.label} hint={cfg.hint} />;
+  return <SimpleRow to={cfg.to} label={cfg.label} />;
 }
 
-function SimpleRow({ to, label, hint }: { to: string; label: string; hint: string }) {
+function SimpleRow({ to, label }: { to: string; label: string }) {
   return (
-    <Link to={to as "/care/memory"} className="block rounded-[18px] border border-dusk/12 bg-[color:var(--whisper)] px-5 py-4">
-      <div className="flex items-center justify-between gap-4">
-        <div className="min-w-0">
-          <p className="font-serif text-[18px] leading-[1.2] text-dusk">{label}</p>
-          <p className="mt-1 text-[12.5px] text-dusk/55">{hint}</p>
-        </div>
-        <span className="text-dusk/40 text-[16px]">→</span>
-      </div>
+    <Link to={to as "/care/memory"} className="flex items-center justify-between gap-4 border-b border-dashed border-dusk/20 px-1 py-3.5">
+      <p className="font-serif text-[18px] leading-[1.2] text-dusk">{label}</p>
+      <span className="text-dusk/35 text-[15px]">→</span>
     </Link>
   );
 }

@@ -102,6 +102,7 @@
  --peach:      #F0C97C;  /* abricot */
  --blush:      #EDC5C3;
  --rose:       #EDC5C3;
+ --sumi:       #3A1F19;  /* bordeaux profond — encre sombre */
  /* Tokens hors palette remappés sur les teintes autorisées */
  --mist:       #EFE6DC;  /* → pearl */
  --sky:        #D6DCE8;  /* → bleu */
@@ -166,6 +167,7 @@
  --sky: oklch(0.50 0.050 225);
  --lavender: oklch(0.62 0.060 295);
  --bordeaux: oklch(0.32 0.075 25);
+ --sumi: oklch(0.28 0.055 25);
  --navy: oklch(0.30 0.060 255);
  --ember: oklch(0.68 0.155 30);
  --sun: oklch(0.80 0.130 88);
@@ -653,6 +655,18 @@
  .surf-butter .surf-sub,
  .surf-pearl .surf-sub,
  .surf-cream .surf-sub { color: color-mix(in oklab, var(--dusk) 65%, transparent); }
+
+ /* Encre profonde — l'ancre la plus sombre, à n'utiliser qu'une fois par écran. */
+ .surf-sumi { background: var(--sumi); color: var(--paper); }
+ .surf-sumi .mono-label { color: color-mix(in oklab, var(--paper) 62%, transparent); }
+ .surf-sumi .surf-sub   { color: color-mix(in oklab, var(--paper) 78%, transparent); }
+
+ /* Cadre craft — pointillé fin, respiration japonisante. */
+ .craft {
+ border: 1px dashed color-mix(in oklab, var(--dusk) 22%, transparent);
+ border-radius: 18px;
+ background: transparent;
+ }
 
 
  /* Buttons */

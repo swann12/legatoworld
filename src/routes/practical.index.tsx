@@ -4,13 +4,12 @@ import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { Shell } from "@/components/legato/Shell";
 import { LegatoMark } from "@/components/legato/LegatoMark";
 import { useLegato } from "@/lib/legato-state";
-import { useLovedName } from "@/lib/loved-name";
 import {
   journeyModules, PRACTICAL_LABELS, PRACTICAL_BUCKETS, BUCKET_LABELS,
   type PracticalCategory, type PracticalBucket,
 } from "@/lib/journey-config";
 import { TASK_STATUS_LABELS, isHiddenFromActive } from "@/lib/task-status";
-import { Dial, Progress, Ruler, IndexMark } from "@/components/legato/Viz";
+import { Dial, IndexMark } from "@/components/legato/Viz";
 import { NextActions } from "@/components/legato/NextActions";
 
 
@@ -40,7 +39,6 @@ const ORDER: PracticalBucket[] = ["now", "week", "month", "later"];
 
 function Practical() {
   const { situation, primaryNeed, stage, softDay, lightMode, lovedOneRelation, legallyInvolved, hydrated, taskStatus, name } = useLegato();
-  const lovedName = useLovedName();
   const { practical } = journeyModules(situation, primaryNeed, stage, { relation: lovedOneRelation, legallyInvolved });
   const [filter, setFilter] = useState<PracticalBucket | "all">("all");
   const [showArchived, setShowArchived] = useState(false);
@@ -90,54 +88,37 @@ function Practical() {
             Avancer sans se<br />
             <span className="italic" style={{ color: "var(--terracotta)" }}>brusquer</span>.
           </h1>
-          <p className="mt-5 text-[13px] leading-[1.6] text-dusk/60 max-w-[34ch]">
-            {softActive
-              ? "Mode doux : seules les démarches vraiment urgentes restent visibles."
-              : hydrated
-                ? `${done} sur ${total} étapes faites${lovedName ? ` pour ${lovedName}` : ""}. Le reste peut attendre.`
-                : `${total} étapes au total. Le reste peut attendre.`}
+          <p className="mt-4 text-[13px] text-dusk/55">
+            {softActive ? "Mode doux" : `${done} / ${total} étapes`}
           </p>
-          <Plate name="demarches" caption="Papiers, clés, choses à poser" className="mt-7" ratio="1 / 1" />
+          <Plate name="demarches" className="mt-6" ratio="4 / 3" />
         </section>
 
         <NextActions />
 
         <section className="px-5 pt-7">
-          <Link to="/agenda" className="block rounded-[20px] px-5 py-4" style={{ background: "var(--whisper)" }}>
-            <p className="mono-label text-dusk/55">Agenda</p>
-            <p className="mt-1 font-serif text-[18px]">Les rendez-vous et les jours qui viennent →</p>
+          <Link to="/agenda" className="craft flex items-center justify-between px-5 py-4">
+            <p className="font-serif text-[18px]">Agenda</p>
+            <span className="text-dusk/35">→</span>
           </Link>
         </section>
 
 
 
-        {/* Bloc "Aujourd'hui" — une priorité claire + relevé chiffré */}
+        {/* Aujourd'hui — une seule priorité, un seul chiffre */}
         {hydrated && total > 0 && (
           <section className="px-5 pt-7">
-            <div className="surf-cream rounded-[22px] border border-dusk/12 px-6 pt-6 pb-6">
+            <div className="craft px-6 pt-6 pb-6">
               <div className="flex items-center justify-between">
-                <p className="mono-label surf-sub">Aujourd'hui</p>
+                <p className="mono-label">Aujourd'hui</p>
                 <IndexMark i={done} total={total} />
               </div>
-              <div className="mt-4 flex items-start justify-between gap-5">
-                <div className="min-w-0">
-                  <h2 className="font-serif text-[23px] leading-[1.12] max-w-[16ch]">
-                    {grouped.now[0]
-                      ? PRACTICAL_LABELS[grouped.now[0]].label
-                      : "Rien d'urgent aujourd'hui."}
-                  </h2>
-                  {grouped.now[0] && (
-                    <p className="mt-2 text-[12.5px] surf-sub max-w-[26ch]">
-                      {PRACTICAL_LABELS[grouped.now[0]].hint}
-                    </p>
-                  )}
-                </div>
-                <Dial value={total ? done / total : 0} caption="fait" />
+              <div className="mt-4 flex items-center justify-between gap-5">
+                <h2 className="font-serif text-[23px] leading-[1.12] max-w-[16ch]">
+                  {grouped.now[0] ? PRACTICAL_LABELS[grouped.now[0]].label : "Rien d'urgent."}
+                </h2>
+                <Dial value={total ? done / total : 0} />
               </div>
-              <div className="mt-5 border-t border-dusk/10 pt-4">
-                <Progress label="Étapes avancées" done={done} total={total} />
-              </div>
-
               {grouped.now[0] && (
                 <Link
                   to="/practical/tasks/$id"
@@ -145,52 +126,25 @@ function Practical() {
                   className="mt-5 inline-block mono-label"
                   style={{ color: "var(--terracotta)" }}
                 >
-                  Avancer cette étape →
+                  Avancer →
                 </Link>
               )}
             </div>
           </section>
         )}
 
-        {/* Relevé par temporalité — axe gradué, proportions réelles */}
-        {!softActive && hydrated && total > 0 && (
-          <section className="px-5 pt-4">
-            <div className="rounded-[22px] border border-dusk/12 bg-paper px-6 py-6">
-              <p className="mono-label text-dusk/55">Répartition dans le temps</p>
-              <div className="mt-4">
-                <Ruler
-                  segments={ORDER.map((b) => ({
-                    label: BUCKET_LABELS[b].label,
-                    value: grouped[b].length,
-                    tone: BUCKET_LABELS[b].tone,
-                  }))}
-                />
-              </div>
-            </div>
-          </section>
-        )}
-
-        {/* Tuiles thématiques — même grille, index systématique, une seule ancre */}
+        {/* Tuiles thématiques — une seule ancre sombre */}
         {!softActive && (
         <section className="px-5 pt-7">
           <div className="grid grid-cols-2 gap-3">
-            <ThemeTile i={1} to="/practical/tasks" label="Tâches" hint="Avancer pas à pas" surface="surf-cream" />
-            <ThemeTile i={2} to="/practical/vault" label="Documents" hint="Tout au même endroit" surface="surf-cream" />
-            <ThemeTile i={3} to="/practical/pros" label="Pros" hint="Pompes funèbres, notaires" surface="surf-cream" />
-            <ThemeTile i={4} to="/practical/ceremony" label="Cérémonie" hint="Lieu, déroulé, hommage" surface="surf-cream" />
+            <ThemeTile i={1} to="/practical/tasks" label="Tâches" />
+            <ThemeTile i={2} to="/practical/vault" label="Documents" />
+            <ThemeTile i={3} to="/practical/pros" label="Pros" />
+            <ThemeTile i={4} to="/practical/ceremony" label="Cérémonie" />
           </div>
-          <Link
-            to="/practical/wishes"
-            className="surf-flame mt-3 block rounded-[18px] px-5 py-5"
-          >
-            <div className="flex items-center justify-between">
-              <p className="mono-label surf-sub">Ancrage</p>
-              <span className="text-[9.5px] tracking-[0.16em] surf-sub">05/05</span>
-            </div>
+          <Link to="/practical/wishes" className="surf-sumi mt-3 block rounded-[18px] px-5 py-5">
+            <p className="mono-label">Ancrage</p>
             <p className="mt-2 font-serif text-[20px] leading-[1.15]">Mes volontés</p>
-            <p className="mt-1 text-[12px] surf-sub">
-              Préparer en douceur, pour soi ou pour ses proches.
-            </p>
           </Link>
         </section>
         )}
@@ -274,21 +228,13 @@ function Practical() {
   );
 }
 
-function ThemeTile({
-  i, to, label, hint, surface,
-}: { i: number; to: string; label: string; hint: string; surface: string; glyph?: string }) {
+function ThemeTile({ i, to, label }: { i: number; to: string; label: string }) {
   return (
-    <Link
-      to={to as "/practical"}
-      className={`${surface} rounded-[18px] border border-dusk/12 px-5 py-5 min-h-[124px] flex flex-col justify-between`}
-    >
+    <Link to={to as "/practical"} className="craft flex min-h-[104px] flex-col justify-between px-5 py-4">
       <div className="flex items-start justify-end">
         <IndexMark i={i} total={4} />
       </div>
-      <div>
-        <p className="font-serif text-[19px] leading-[1.12]">{label}</p>
-        <p className="mt-0.5 text-[12px] surf-sub">{hint}</p>
-      </div>
+      <p className="font-serif text-[19px] leading-[1.12]">{label}</p>
     </Link>
   );
 }
