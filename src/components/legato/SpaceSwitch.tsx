@@ -9,11 +9,12 @@ export function SpaceSwitch() {
     <Link
       to={to}
       aria-current={on ? "page" : undefined}
-      className="relative z-10 flex-1 py-3 text-center text-[13px] transition-opacity duration-300"
+      className="relative z-10 flex-1 py-3 text-center text-[11.5px] uppercase tracking-[0.16em] transition-opacity duration-300"
       style={{
-        background: to === "/care" ? "var(--terracotta)" : "var(--bordeaux)",
-        color: "var(--paper)",
-        opacity: on ? 1 : 0.68,
+        fontFamily: "var(--font-mono)",
+        background: "var(--blush)",
+        color: "var(--bordeaux)",
+        opacity: on ? 1 : 0.55,
       }}
     >
       {label}
