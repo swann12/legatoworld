@@ -4,13 +4,12 @@ import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { Shell } from "@/components/legato/Shell";
 import { LegatoMark } from "@/components/legato/LegatoMark";
 import { useLegato } from "@/lib/legato-state";
-import { useLovedName } from "@/lib/loved-name";
 import {
   journeyModules, PRACTICAL_LABELS, PRACTICAL_BUCKETS, BUCKET_LABELS,
   type PracticalCategory, type PracticalBucket,
 } from "@/lib/journey-config";
 import { TASK_STATUS_LABELS, isHiddenFromActive } from "@/lib/task-status";
-import { Dial, Progress, Ruler, IndexMark } from "@/components/legato/Viz";
+import { Dial, IndexMark } from "@/components/legato/Viz";
 import { NextActions } from "@/components/legato/NextActions";
 
 
@@ -40,7 +39,6 @@ const ORDER: PracticalBucket[] = ["now", "week", "month", "later"];
 
 function Practical() {
   const { situation, primaryNeed, stage, softDay, lightMode, lovedOneRelation, legallyInvolved, hydrated, taskStatus, name } = useLegato();
-  const lovedName = useLovedName();
   const { practical } = journeyModules(situation, primaryNeed, stage, { relation: lovedOneRelation, legallyInvolved });
   const [filter, setFilter] = useState<PracticalBucket | "all">("all");
   const [showArchived, setShowArchived] = useState(false);
