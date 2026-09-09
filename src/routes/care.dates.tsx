@@ -36,7 +36,7 @@ function CareDates() {
         <PageHeader back="/profile" title="DATES IMPORTANTES" />
 
         <section className="px-6 pt-8">
-          <p className="mono-label">Dates importantes</p>
+          
           <h1 className="mt-5 font-serif font-normal text-[32px] leading-[1.06]">
             Anticiper les jours<br />
             <span className="italic" style={{ color: "var(--terracotta)" }}>qui pèsent</span>.
