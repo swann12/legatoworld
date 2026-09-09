@@ -7,7 +7,7 @@ import { journeyModules, PRACTICAL_LABELS } from "@/lib/journey-config";
 import { isHiddenFromActive } from "@/lib/task-status";
 
 /** Une ou deux propositions prioritaires. Reportables, ignorables, jamais culpabilisantes. */
-export function NextActions() {
+export function NextActions({ scope = "care" }: { scope?: "care" | "practical" } = {}) {
   const {
     currentEmotions, hydrated, lightMode, taskStatus,
     situation, primaryNeed, stage, lovedOneRelation, legallyInvolved,
@@ -26,9 +26,10 @@ export function NextActions() {
       events,
       pendingTask: pending ? { id: pending, label: PRACTICAL_LABELS[pending].label } : null,
       lightMode,
+      scope,
     }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hydrated, agendaReady, events.length, currentEmotions.join(","), pending, lightMode, tick]);
+  }, [hydrated, agendaReady, events.length, currentEmotions.join(","), pending, lightMode, scope, tick]);
 
   if (!actions.length) return null;
 

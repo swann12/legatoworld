@@ -4,6 +4,8 @@ import { useLegato } from "@/lib/legato-state";
 import { useSpaces, upcomingForSpaces, formatDaysAway } from "@/lib/spaces-store";
 import { usePortrait, portraitSentence } from "@/lib/portrait-store";
 import { useLovedName } from "@/lib/loved-name";
+import { StatTrio, IndexMark } from "@/components/legato/Viz";
+import { Plate } from "@/components/legato/Plate";
 
 export const Route = createFileRoute("/profile/")({
   head: () => ({
@@ -18,11 +20,12 @@ export const Route = createFileRoute("/profile/")({
 });
 
 function Profile() {
-  const { name, setName, softDay, toggleSoftDay, lightMode, setLightMode, primaryNeed, situation, hydrated } = useLegato();
+  const { name, setName, softDay, toggleSoftDay, lightMode, setLightMode, hydrated } = useLegato();
   const { spaces, hydrated: spacesReady } = useSpaces();
   const { portrait, filled } = usePortrait();
   const lovedName = useLovedName();
-  const dates = spacesReady ? upcomingForSpaces(spaces, 400).slice(0, 3) : [];
+  const upcoming = spacesReady ? upcomingForSpaces(spaces, 400) : [];
+  const dates = upcoming.slice(0, 2);
   const active = spaces.filter((s) => !s.archived);
 
   return (
@@ -32,163 +35,168 @@ function Profile() {
           <Link to="/home" aria-label="Retour" className="text-dusk/60 text-lg leading-none">←</Link>
         </header>
 
-        <section className="px-6 pt-10">
+        <section className="px-6 pt-8">
           <p className="mono-label">Profil</p>
-          <h1 className="mt-5 ed-page-title">
+          <h1 className="mt-4 ed-page-title">
             Votre <span className="italic" style={{ color: "var(--terracotta)" }}>espace</span>
           </h1>
+          <Plate name="memoire" className="mt-6" ratio="16 / 9" priority />
         </section>
 
-        {/* 1 — Mes espaces */}
+        {/* Trois chiffres */}
+        <section className="px-5 pt-8">
+          <StatTrio
+            items={[
+              { value: active.length, label: "espaces" },
+              { value: upcoming.length, label: "dates à venir" },
+              { value: `${filled}/6`, label: "portrait" },
+            ]}
+          />
+        </section>
+
+        {/* Espaces */}
         <section className="px-5 pt-9">
           <p className="mono-label px-1">Mes espaces</p>
-          <Link to="/profile/proches" className="mt-3 block rounded-[20px] px-5 py-5" style={{ background: "var(--blush)" }}>
-            <p className="font-serif text-[20px] leading-[1.15]">Un espace par être aimé</p>
-            <p className="mt-1.5 text-[12.5px] text-dusk/65">
-              {spacesReady && active.length
-                ? active.map((s) => s.name).join(" · ")
-                : "Créer, modifier, mettre de côté — le jardin et les dates suivent."}
-            </p>
+          <Link to="/profile/proches" className="craft mt-3 flex items-center justify-between gap-4 px-5 py-4">
+            <div className="min-w-0">
+              <p className="font-serif text-[19px] leading-[1.15]">Un espace par être aimé</p>
+              {spacesReady && active.length > 0 && (
+                <p className="mt-1 truncate text-[12px] text-dusk/50">{active.map((s) => s.name).join(" · ")}</p>
+              )}
+            </div>
+            <span className="text-dusk/35">→</span>
           </Link>
         </section>
 
-        {/* 2 — Dates importantes */}
+        {/* Dates */}
         <section className="px-5 pt-8">
-          <p className="mono-label px-1">Dates importantes</p>
-          <Link to="/care/dates" className="mt-3 block rounded-[20px] px-5 py-5" style={{ background: "var(--sun)" }}>
-            <p className="font-serif text-[20px] leading-[1.15]">Les jours qui pèsent</p>
+          <div className="flex items-baseline justify-between px-1">
+            <p className="mono-label">Dates importantes</p>
+            <IndexMark i={dates.length} total={upcoming.length || dates.length} />
+          </div>
+          <div className="craft mt-3 px-5 py-4">
             {dates.length ? (
-              <ul className="mt-3 space-y-1.5">
+              <ul className="space-y-3">
                 {dates.map((d) => (
-                  <li key={d.key} className="text-[12.5px] text-dusk/70">
-                    {formatDaysAway(d.daysAway)} — {d.label} · {d.spaceName}
+                  <li key={d.key} className="flex items-baseline justify-between gap-4">
+                    <span className="font-serif text-[17px] leading-[1.15]">{d.label}</span>
+                    <span className="shrink-0 text-[12px] tabular-nums text-dusk/50">{formatDaysAway(d.daysAway)}</span>
                   </li>
                 ))}
               </ul>
             ) : (
-              <p className="mt-1.5 text-[12.5px] text-dusk/65">Anniversaire, date du départ, et un geste prêt à l'avance.</p>
+              <p className="text-[13px] text-dusk/55">Aucune date enregistrée.</p>
             )}
-          </Link>
-        </section>
-
-        {/* 3 — Son portrait */}
-        <section className="px-5 pt-8">
-          <p className="mono-label px-1">Son portrait</p>
-          <Link to="/profile/portrait" className="mt-3 block rounded-[20px] border border-dusk/12 px-5 py-5 bg-paper">
-            <p className="font-serif text-[20px] leading-[1.15]">
-              {lovedName ? `Qui était ${lovedName}` : "Qui elle était"}
-            </p>
-            <p className="mt-1.5 text-[12.5px] text-dusk/65 max-w-[34ch]">
-              {filled ? portraitSentence(portrait, lovedName) || `${filled} choix enregistrés.` : "Quelques choix qui guident Présence, les rituels, la cérémonie et le jardin."}
-            </p>
-          </Link>
-        </section>
-
-        {/* 4 — Rituels */}
-        <section className="px-5 pt-8">
-          <p className="mono-label px-1">Rituels</p>
-          <div className="mt-3 grid grid-cols-2 gap-3">
-            <Link to="/care/rituels" className="rounded-[18px] px-5 py-5" style={{ background: "var(--whisper)" }}>
-              <p className="font-serif text-[17px]">Mes rituels</p>
-              <p className="mt-1 text-[12px] text-dusk/60">Gestes courts, à votre rythme.</p>
-            </Link>
-            <Link to="/care/garden" className="rounded-[18px] px-5 py-5" style={{ background: "var(--sage)" }}>
-              <p className="font-serif text-[17px]">Le jardin</p>
-              <p className="mt-1 text-[12px] text-dusk/60">Les souvenirs déposés.</p>
+            <Link to="/care/dates" className="mt-4 inline-block mono-label" style={{ color: "var(--terracotta)" }}>
+              Voir tout →
             </Link>
           </div>
         </section>
 
-        {/* 5 — Préférences */}
+        {/* Portrait — seule ancre sombre */}
+        <section className="px-5 pt-8">
+          <Link to="/profile/portrait" className="surf-sumi block rounded-[20px] px-6 py-6">
+            <p className="mono-label">Portrait</p>
+            <p className="mt-3 font-serif text-[22px] leading-[1.15]">
+              {lovedName ? `Qui était ${lovedName}` : "Qui elle était"}
+            </p>
+            <p className="mt-2 surf-sub text-[12.5px] max-w-[34ch]">
+              {filled ? portraitSentence(portrait, lovedName) || `${filled} choix enregistrés.` : "Six choix qui guident Legato."}
+            </p>
+          </Link>
+        </section>
+
+        {/* Rituels */}
+        <section className="px-5 pt-8">
+          <p className="mono-label px-1">Rituels</p>
+          <div className="mt-3 grid grid-cols-2 gap-3">
+            <Link to="/care/rituels" className="craft flex min-h-[92px] flex-col justify-between px-5 py-4">
+              <IndexMark i={1} total={2} />
+              <p className="font-serif text-[18px]">Mes rituels</p>
+            </Link>
+            <Link to="/care/garden" className="craft flex min-h-[92px] flex-col justify-between px-5 py-4">
+              <IndexMark i={2} total={2} />
+              <p className="font-serif text-[18px]">Le jardin</p>
+            </Link>
+          </div>
+        </section>
+
+        {/* Préférences */}
         <section className="px-6 pt-10">
           <p className="mono-label">Préférences</p>
 
-          <label className="mt-5 block text-[12.5px] text-dusk/60">Comment Legato vous appelle</label>
+          <label className="mt-4 block text-[12px] text-dusk/50">Votre prénom</label>
           <input
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="mt-2 w-full rounded-[14px] border border-dusk/15 bg-paper px-4 py-3 text-[15px] outline-none focus:border-dusk/35"
+            className="mt-2 w-full rounded-[14px] border border-dashed border-dusk/25 bg-transparent px-4 py-3 text-[15px] outline-none focus:border-dusk/45"
           />
 
-          <div className="mt-5 flex items-center justify-between rounded-[14px] border border-dusk/12 bg-[color:var(--whisper)] px-4 py-4">
-            <p className="text-[13px] text-dusk/70 max-w-[24ch]">
-              <span className="block font-medium text-dusk">Aujourd'hui c'est dur</span>
-              Masque les démarches non urgentes et simplifie le ton.
-            </p>
+          <div className="craft mt-4 flex items-center justify-between gap-4 px-5 py-4">
+            <p className="font-serif text-[17px]">Aujourd'hui c'est dur</p>
             <button
               onClick={toggleSoftDay}
-              className="shrink-0 rounded-full px-4 py-2 text-[12px] font-medium"
+              className="shrink-0 rounded-full px-4 py-1.5 text-[12px]"
               style={{
                 background: hydrated && softDay ? "var(--terracotta)" : "transparent",
                 color: hydrated && softDay ? "var(--paper)" : "var(--dusk)",
-                border: "1px solid color-mix(in oklab, var(--dusk) 12%, transparent)",
+                border: "1px dashed color-mix(in oklab, var(--dusk) 25%, transparent)",
               }}
             >
               {hydrated && softDay ? "Activé" : "Activer"}
             </button>
           </div>
 
-          <div className="mt-3 flex items-center justify-between rounded-[14px] border border-dusk/12 bg-paper px-4 py-4">
-            <p className="text-[13px] text-dusk/70 max-w-[24ch]">
-              <span className="block font-medium text-dusk">Mode allégé</span>
-              Moins de cartes, une action à la fois.
-            </p>
+          <div className="craft mt-3 flex items-center justify-between gap-4 px-5 py-4">
+            <p className="font-serif text-[17px]">Alléger</p>
             <button
               onClick={() => setLightMode(!lightMode)}
-              className="shrink-0 rounded-full px-4 py-2 text-[12px] font-medium"
+              className="shrink-0 rounded-full px-4 py-1.5 text-[12px]"
               style={{
-                background: hydrated && lightMode ? "var(--sun)" : "transparent",
-                color: "var(--dusk)",
-                border: "1px solid color-mix(in oklab, var(--dusk) 12%, transparent)",
+                background: hydrated && lightMode ? "var(--terracotta)" : "transparent",
+                color: hydrated && lightMode ? "var(--paper)" : "var(--dusk)",
+                border: "1px dashed color-mix(in oklab, var(--dusk) 25%, transparent)",
               }}
             >
               {hydrated && lightMode ? "Activé" : "Activer"}
             </button>
           </div>
 
-          {hydrated && (
-            <div className="mt-5 text-[13px] text-dusk/70 space-y-1.5">
-              {situation && <p>Situation : {situation}</p>}
-              {primaryNeed && <p>Besoin principal : {primaryNeed === "emotional" ? "soutien" : primaryNeed === "practical" ? "démarches" : "les deux"}</p>}
-              <Link to="/onboarding" className="mt-2 inline-block mono-label" style={{ color: "var(--terracotta)" }}>
-                Revoir mes réponses →
-              </Link>
-            </div>
-          )}
+          <Link to="/onboarding" className="mt-4 inline-block mono-label" style={{ color: "var(--terracotta)" }}>
+            Revoir mes réponses →
+          </Link>
         </section>
 
-        {/* 6 — Archives */}
+        {/* Archives & compte */}
         <section className="px-6 pt-10">
           <p className="mono-label">Archives</p>
-          <div className="mt-3 space-y-2">
-            <Link to="/practical" className="block text-[13.5px] text-dusk/70 underline underline-offset-4">
-              Démarches terminées ou hors sujet
-            </Link>
-            <Link to="/profile/proches" className="block text-[13.5px] text-dusk/70 underline underline-offset-4">
-              Espaces mis de côté
-            </Link>
-            <Link to="/care/journal" className="block text-[13.5px] text-dusk/70 underline underline-offset-4">
-              Mes écrits
-            </Link>
+          <div className="mt-3">
+            <Row to="/practical" label="Démarches terminées" />
+            <Row to="/profile/proches" label="Espaces mis de côté" />
+            <Row to="/care/journal" label="Mes écrits" />
           </div>
         </section>
 
-        {/* 7 — Compte */}
         <section className="px-6 pt-10">
           <p className="mono-label">Compte</p>
-          <p className="mt-3 text-[12.5px] text-dusk/60 leading-[1.6] max-w-[36ch]">
-            Vos écrits, vos souvenirs, vos émotions vous appartiennent. Rien n'est vendu, rien n'est utilisé pour de la publicité. L'IA ne remplace pas un·e thérapeute&nbsp;: en cas de détresse, un humain reste à un appel.
-          </p>
-          <div className="mt-4 space-y-2">
-            <Link to="/auth" className="block mono-label" style={{ color: "var(--terracotta)" }}>
-              Connexion et sécurité →
-            </Link>
-            <Link to="/crisis" className="block mono-label" style={{ color: "var(--terracotta)" }}>
-              Numéros d'écoute →
-            </Link>
+          <div className="mt-3">
+            <Row to="/auth" label="Connexion et sécurité" />
+            <Row to="/crisis" label="Numéros d'écoute" />
           </div>
         </section>
       </div>
     </Shell>
+  );
+}
+
+function Row({ to, label }: { to: string; label: string }) {
+  return (
+    <Link
+      to={to as "/practical"}
+      className="flex items-center justify-between gap-4 border-b border-dashed border-dusk/20 py-3.5"
+    >
+      <span className="font-serif text-[17px] leading-[1.15]">{label}</span>
+      <span className="text-dusk/35">→</span>
+    </Link>
   );
 }

@@ -178,3 +178,65 @@ export function IndexMark({ i, total, tone }: { i: number; total: number; tone?:
     </span>
   );
 }
+
+/** Trois chiffres alignés — lecture immédiate, cadres pointillés. */
+export function StatTrio({ items }: { items: { value: string | number; label: string }[] }) {
+  return (
+    <div className="grid grid-cols-3 gap-3">
+      {items.map((it) => (
+        <div key={it.label} className="craft px-3 py-4 text-center">
+          <p className="font-serif text-[26px] leading-none tabular-nums">{it.value}</p>
+          <p className="mt-2 text-[11px] leading-[1.25] text-dusk/50">{it.label}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/** Sept jours, sept points. Rien d'autre. */
+export function WeekDots({ done }: { done: boolean[] }) {
+  const days = ["L", "M", "M", "J", "V", "S", "D"];
+  return (
+    <div className="flex items-end justify-between">
+      {days.map((d, i) => (
+        <div key={i} className="flex flex-col items-center gap-2">
+          <span className="text-[10.5px] tracking-[0.08em] text-dusk/40">{d}</span>
+          <span
+            style={{
+              width: 13, height: 13, borderRadius: 999,
+              background: done[i] ? ACCENT : rule(10),
+            }}
+          />
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/** Courbe minimale — une ligne, un point final. */
+export function Trend({ values, height = 64 }: { values: number[]; height?: number }) {
+  if (values.length < 2) return null;
+  const w = 100, max = Math.max(...values, 1), min = Math.min(...values, 0);
+  const span = max - min || 1;
+  const pts = values.map((v, i) => [
+    (i / (values.length - 1)) * w,
+    height - ((v - min) / span) * (height - 10) - 5,
+  ]);
+  const d = pts.map((p, i) => `${i ? "L" : "M"}${p[0].toFixed(1)} ${p[1].toFixed(1)}`).join(" ");
+  const last = pts[pts.length - 1];
+  return (
+    <svg viewBox={`0 0 ${w} ${height}`} width="100%" height={height} preserveAspectRatio="none">
+      <path d={d} fill="none" stroke={ACCENT} strokeWidth={1.6} strokeLinecap="round" vectorEffect="non-scaling-stroke" />
+      <circle cx={last[0]} cy={last[1]} r={2.6} fill={ACCENT} />
+    </svg>
+  );
+}
+
+/** Liste de barres — intitulé, compte, proportion. */
+export function BarList({ rows }: { rows: { label: string; done: number; total: number }[] }) {
+  return (
+    <div className="space-y-5">
+      {rows.map((r) => <Progress key={r.label} label={r.label} done={r.done} total={r.total} />)}
+    </div>
+  );
+}
