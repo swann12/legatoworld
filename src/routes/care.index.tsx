@@ -168,31 +168,23 @@ function focusFromEmotions(emotions: Emotion[], stale: boolean): Focus {
 function CareTile({ module: m }: { module: CareModule }) {
   const cfg = CARE_LABELS[m];
   return (
-    <Link to={cfg.to as "/care/journal"} className="rounded-[16px] border border-dusk/12 bg-paper px-4 py-4 min-h-[116px] flex flex-col justify-between">
-      <div>
-        <p className="font-serif text-[18px] leading-[1.15] text-dusk">{cfg.label}</p>
-        <p className="mt-2 text-[12px] leading-[1.35] text-dusk/55">{cfg.hint}</p>
-      </div>
-      <span className="self-end text-dusk/45">→</span>
+    <Link to={cfg.to as "/care/journal"} className="craft flex min-h-[104px] flex-col justify-between px-5 py-4">
+      <span className="mono-label">·</span>
+      <p className="font-serif text-[19px] leading-[1.15] text-dusk">{cfg.label}</p>
     </Link>
   );
 }
 
 function CareRow({ module: m }: { module: CareModule }) {
   const cfg = CARE_LABELS[m];
-  return <SimpleRow to={cfg.to} label={cfg.label} hint={cfg.hint} />;
+  return <SimpleRow to={cfg.to} label={cfg.label} />;
 }
 
-function SimpleRow({ to, label, hint }: { to: string; label: string; hint: string }) {
+function SimpleRow({ to, label }: { to: string; label: string }) {
   return (
-    <Link to={to as "/care/memory"} className="block rounded-[18px] border border-dusk/12 bg-[color:var(--whisper)] px-5 py-4">
-      <div className="flex items-center justify-between gap-4">
-        <div className="min-w-0">
-          <p className="font-serif text-[18px] leading-[1.2] text-dusk">{label}</p>
-          <p className="mt-1 text-[12.5px] text-dusk/55">{hint}</p>
-        </div>
-        <span className="text-dusk/40 text-[16px]">→</span>
-      </div>
+    <Link to={to as "/care/memory"} className="flex items-center justify-between gap-4 border-b border-dashed border-dusk/20 px-1 py-3.5">
+      <p className="font-serif text-[18px] leading-[1.2] text-dusk">{label}</p>
+      <span className="text-dusk/35 text-[15px]">→</span>
     </Link>
   );
 }
