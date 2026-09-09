@@ -94,7 +94,7 @@ function Practical() {
           <Plate name="demarches" className="mt-6" ratio="4 / 3" />
         </section>
 
-        <NextActions />
+        <NextActions scope="practical" />
 
         <section className="px-5 pt-7">
           <Link to="/agenda" className="craft flex items-center justify-between px-5 py-4">

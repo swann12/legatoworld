@@ -6,6 +6,7 @@ import type { Emotion } from "./legato-state";
 
 export type NextAction = {
   id: string;
+  kind: "agenda" | "care" | "task";
   label: string;
   title: string;
   hint: string;
@@ -33,6 +34,8 @@ export function nextActions(input: {
   events: AgendaEvent[];
   pendingTask?: { id: string; label: string } | null;
   lightMode?: boolean;
+  /** "care" : soin et agenda. "practical" : démarches et agenda. */
+  scope?: "care" | "practical";
 }): NextAction[] {
   const out: NextAction[] = [];
   const self = loadSelfCare();
@@ -45,6 +48,7 @@ export function nextActions(input: {
     const first = today[0];
     out.push({
       id: "agenda-" + first.id,
+      kind: "agenda",
       label: "Aujourd'hui",
       title: first.title,
       hint: first.time ? `À ${first.time}` : "Dans la journée",
@@ -53,6 +57,7 @@ export function nextActions(input: {
   } else if (tomorrow.length) {
     out.push({
       id: "agenda-" + tomorrow[0].id,
+      kind: "agenda",
       label: "Demain",
       title: tomorrow[0].title,
       hint: "Rien d'autre à préparer ce soir.",
@@ -60,10 +65,11 @@ export function nextActions(input: {
     });
   }
 
-  if (heavy || !self.answeredAt) {
+  if (input.scope !== "practical" && (heavy || !self.answeredAt)) {
     const a = activitiesFor(self.answers)[0];
     out.push({
       id: "soin-" + (a?.id ?? "corps"),
+      kind: "care",
       label: "Pour vous",
       title: a ? a.title : "Prendre trois minutes",
       hint: a ? `${a.minutes} min · ${a.kind}` : "Un point rapide sur le corps.",
@@ -71,9 +77,10 @@ export function nextActions(input: {
     });
   }
 
-  if (out.length < 2 && input.pendingTask) {
+  if (input.scope !== "care" && out.length < 2 && input.pendingTask) {
     out.push({
       id: "task-" + input.pendingTask.id,
+      kind: "task",
       label: "Une démarche",
       title: input.pendingTask.label,
       hint: "Une seule, si c'est possible aujourd'hui.",
