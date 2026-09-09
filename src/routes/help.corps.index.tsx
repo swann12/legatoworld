@@ -173,7 +173,7 @@ function Corps() {
       <div className="wash-butter min-h-dvh text-dusk pb-36">
         <PageHeader title="LE CORPS" back="/care" />
 
-        {/* La figure — une seule surface forte, en sable chaud */}
+        {/* La figure — une seule surface forte, encre profonde */}
         <section className="px-5 pt-2">
           <div
             className="rounded-[24px] px-6 pt-7 pb-8 flex flex-col items-center text-center"
@@ -181,8 +181,8 @@ function Corps() {
           >
             <SelfFigure vitality={v} />
             <p className="mt-2 font-serif text-[21px] leading-[1.3] max-w-[22ch]">{vitalityWords(v)}</p>
-            <div className="mt-5 h-px w-16" style={{ background: "color-mix(in oklab, var(--dusk) 18%, transparent)" }} />
-            <p className="mt-4 text-[11.5px] tracking-[0.12em] text-dusk/45">
+            <div className="mt-5 h-px w-16" style={{ background: "color-mix(in oklab, var(--paper) 30%, transparent)" }} />
+            <p className="mt-4 text-[11.5px] tracking-[0.12em]" style={{ color: "color-mix(in oklab, var(--paper) 55%, transparent)" }}>
               {answeredAt ? "DERNIER POINT ENREGISTRÉ" : "AUCUN POINT ENCORE"}
             </p>
           </div>
