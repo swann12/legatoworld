@@ -689,6 +689,11 @@
   .wash-mauve,
   .wash-flame  { background: var(--paper); }
   .wash-sand   { background: color-mix(in oklab, var(--clay) 28%, var(--paper)); }
+  /* Rose poudré — fond de page ponctuel (Agenda). */
+  .wash-rose   { background: color-mix(in oklab, var(--blush) 40%, var(--whisper)); }
+  /* Beige — page légèrement plus foncée, cartes crème posées dessus (Mes espaces). */
+  .wash-beige  { background: color-mix(in oklab, var(--clay) 62%, var(--paper)); }
+
 
   /* Surfaces teintées — aplats francs, tirés de la palette. */
   .tint-blush  { background: color-mix(in oklab, var(--blush) 62%, var(--whisper)); color: var(--dusk); }
