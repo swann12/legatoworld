@@ -138,14 +138,18 @@ function CareRituels() {
 
         {!light && (
         <section className="px-5 pt-6">
-          <div className="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
+          <div className="flex gap-4 overflow-x-auto pb-1 no-scrollbar">
             {(["Tout", ...REGIONS] as const).map((r) => {
               const active = r === region;
               return (
                 <button
                   key={r}
                   onClick={() => setRegion(r as Region | "Tout")}
-                  className={`shrink-0 rounded-full px-4 py-1.5 text-[12px] transition-colors ${active ? "bg-dusk text-paper" : "border border-dusk/15 text-dusk/65 hover:border-dusk/30"}`}
+                  className="shrink-0 pb-1 text-[12.5px] tracking-[0.05em] transition-colors"
+                  style={{
+                    color: active ? "var(--bordeaux)" : "color-mix(in oklab, var(--dusk) 45%, transparent)",
+                    borderBottom: active ? "1px solid var(--terracotta)" : "1px solid transparent",
+                  }}
                 >
                   {r}
                 </button>
@@ -153,6 +157,7 @@ function CareRituels() {
             })}
           </div>
         </section>
+
         )}
 
         <section className="px-5 pt-6">
