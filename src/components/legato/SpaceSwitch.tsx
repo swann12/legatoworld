@@ -38,7 +38,7 @@ export function SpaceSwitch() {
           className="absolute inset-y-1 left-1 rounded-full transition-transform duration-500"
           style={{
             width: "calc(50% - 0.25rem)",
-            background: "var(--cream, var(--whisper))",
+            background: "var(--paper)",
             transform: practical ? "translateX(100%)" : "translateX(0)",
             transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)",
           }}
