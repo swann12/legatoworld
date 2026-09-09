@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Plate } from "@/components/legato/Plate";
+import practicalHero from "@/assets/hero-practical.png";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { Shell } from "@/components/legato/Shell";
 import { LegatoMark } from "@/components/legato/LegatoMark";
