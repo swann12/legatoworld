@@ -97,11 +97,12 @@ function Practical() {
         <NextActions scope="practical" />
 
         <section className="px-5 pt-7">
-          <Link to="/agenda" className="craft flex items-center justify-between px-5 py-4">
+          <Link to="/agenda" className="tint-sand flex items-center justify-between rounded-[18px] px-5 py-4">
             <p className="font-serif text-[18px]">Agenda</p>
-            <span className="text-dusk/35">→</span>
+            <span className="text-dusk/40">→</span>
           </Link>
         </section>
+
 
 
 
