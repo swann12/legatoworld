@@ -12,6 +12,7 @@ import {
   type PracticalCategory,
 } from "@/lib/journey-config";
 import { TASK_STATUS_LABELS, isHiddenFromActive, isArchived } from "@/lib/task-status";
+import { Ruler } from "@/components/legato/Viz";
 
 export const Route = createFileRoute("/practical/tasks/")({
   head: () => ({
