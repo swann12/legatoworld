@@ -3,20 +3,28 @@ import { useState } from "react";
 import { Shell } from "@/components/legato/Shell";
 import { LegatoMark } from "@/components/legato/LegatoMark";
 import { useLegato } from "@/lib/legato-state";
-import { journeyModules, PRACTICAL_LABELS, type PracticalCategory } from "@/lib/journey-config";
+import {
+  journeyModules,
+  PRACTICAL_LABELS,
+  PRACTICAL_BUCKETS,
+  BUCKET_LABELS,
+  type PracticalBucket,
+  type PracticalCategory,
+} from "@/lib/journey-config";
 import { TASK_STATUS_LABELS, isHiddenFromActive, isArchived } from "@/lib/task-status";
 
 export const Route = createFileRoute("/practical/tasks/")({
   head: () => ({
     meta: [
-      { title: "Tâches — Démarches" },
-      { name: "description", content: "Toutes vos démarches, filtrables par statut." },
+      { title: "Démarches — Legato" },
+      { name: "description", content: "Vos démarches, une étape à la fois, classées par urgence." },
     ],
   }),
   component: TasksList,
 });
 
-type View = "active" | "archived" | "all";
+type View = "active" | "archived";
+const ORDER: PracticalBucket[] = ["now", "week", "month", "later"];
 
 function TasksList() {
   const { situation, primaryNeed, stage, lovedOneRelation, legallyInvolved, hydrated, taskStatus, lightMode } = useLegato();
@@ -24,79 +32,108 @@ function TasksList() {
   const { practical } = journeyModules(situation, primaryNeed, stage, { relation: lovedOneRelation, legallyInvolved });
   const [view, setView] = useState<View>("active");
 
-  const all: PracticalCategory[] = practical.length ? practical : hydrated && situation ? [] : (Object.keys(PRACTICAL_LABELS) as PracticalCategory[]);
+  const all: PracticalCategory[] =
+    practical.length ? practical : hydrated && situation ? [] : (Object.keys(PRACTICAL_LABELS) as PracticalCategory[]);
+
   const filtered = all.filter((c) => {
     const st = hydrated ? taskStatus[c] : undefined;
-    if (view === "active") return !isHiddenFromActive(st);
-    if (view === "archived") return isArchived(st);
-    return true;
+    return view === "active" ? !isHiddenFromActive(st) : isArchived(st);
   });
-
   const shown = light ? filtered.slice(0, 3) : filtered;
+
+  const doneCount = all.filter((c) => taskStatus[c] === "done").length;
+
+  const groups = ORDER.map((b) => ({ bucket: b, items: shown.filter((c) => PRACTICAL_BUCKETS[c] === b) })).filter(
+    (g) => g.items.length > 0,
+  );
 
   return (
     <Shell livingBg={false}>
-      <div className="min-h-dvh bg-paper text-dusk pb-32">
+      <div className="min-h-dvh bg-paper text-dusk pb-36">
         <header className="px-6 pt-7 flex items-center justify-between">
-          <LegatoMark size={22} />
           <Link to="/practical" className="mono-label text-dusk/55">← Aujourd'hui</Link>
+          <LegatoMark size={22} />
         </header>
-        <section className="px-6 pt-6">
-          <p className="mono-label">Toutes les démarches</p>
-          <h1 className="mt-3 font-serif text-[28px] leading-[1.1]">
+
+        <section className="px-6 pt-8">
+          <p className="mono-label">Démarches</p>
+          <h1 className="mt-3 ed-page-title">
             <span className="italic" style={{ color: "var(--terracotta)" }}>Une étape</span> à la fois
           </h1>
-          {!light && (
-            <p className="mt-4 text-[13px] leading-[1.55] text-dusk/60 max-w-[34ch]">
-              Ici, ce sont les actions concrètes. La page Démarches sert à voir l'ensemble et choisir le bon moment.
-            </p>
+          {all.length > 0 && (
+            <div className="mt-6 flex items-center gap-3">
+              <div className="h-px flex-1" style={{ background: "color-mix(in oklab, var(--dusk) 14%, transparent)" }}>
+                <div className="h-px" style={{ width: `${(doneCount / all.length) * 100}%`, background: "var(--terracotta)" }} />
+              </div>
+              <span className="text-[11.5px] tabular-nums tracking-[0.1em] text-dusk/50">
+                {doneCount} / {all.length}
+              </span>
+            </div>
           )}
         </section>
 
         {!light && (
-        <section className="px-5 pt-5">
-          <div className="flex gap-2">
-            {(["active", "archived", "all"] as View[]).map((v) => (
-              <button
-                key={v}
-                onClick={() => setView(v)}
-                className={`rounded-full border px-3.5 py-1.5 text-[12px] transition-colors ${view === v ? "border-dusk/40 bg-[color:var(--whisper)] text-dusk" : "border-dusk/15 bg-paper text-dusk/60"}`}
-              >
-                {v === "active" ? "Actives" : v === "archived" ? "Archivées" : "Toutes"}
-              </button>
-            ))}
-          </div>
-        </section>
+          <section className="px-6 pt-6">
+            <div className="flex gap-5">
+              {(["active", "archived"] as View[]).map((v) => (
+                <button
+                  key={v}
+                  onClick={() => setView(v)}
+                  className="pb-1 text-[12.5px] tracking-[0.06em] transition-colors"
+                  style={{
+                    color: view === v ? "var(--bordeaux)" : "color-mix(in oklab, var(--dusk) 45%, transparent)",
+                    borderBottom: view === v ? "1px solid var(--terracotta)" : "1px solid transparent",
+                  }}
+                >
+                  {v === "active" ? "À faire" : "Terminées"}
+                </button>
+              ))}
+            </div>
+          </section>
         )}
 
-        <ul className="mx-5 mt-5 space-y-3">
-          {shown.length === 0 && (
-            <li className="rounded-[18px] border border-dusk/10 bg-paper px-5 py-6 text-center text-[13px] text-dusk/55 italic">Rien à montrer ici.</li>
-          )}
-          {shown.map((c, i) => {
-            const cfg = PRACTICAL_LABELS[c];
-            const st = hydrated ? taskStatus[c] : undefined;
-            void i;
-            return (
-              <li key={c}>
-                <Link
-                  to="/practical/tasks/$id"
-                  params={{ id: c }}
-                  className="surf-cream flex items-center justify-between gap-3 rounded-[18px] border border-dusk/10 px-5 py-4 transition-transform active:scale-[0.99]"
-                >
-                  <div className="min-w-0">
-                    <p className="font-serif text-[17px] leading-[1.15]">{cfg.label}</p>
-                    <p className="mt-1 text-[11.5px] uppercase tracking-[0.1em] surf-sub">{cfg.hint}</p>
-                  </div>
-                  <span className="shrink-0 rounded-full px-2.5 py-1 text-[10.5px] uppercase tracking-[0.08em] surf-sub" style={{ border: "1px solid currentColor" }}>
-                    {st ? TASK_STATUS_LABELS[st] : "À faire"}
-                  </span>
-                </Link>
-              </li>
-            );
-          })}
+        {groups.length === 0 && (
+          <p className="mx-6 mt-8 craft px-5 py-6 text-center text-[13px] italic text-dusk/55">Rien ici pour le moment.</p>
+        )}
 
-        </ul>
+        {groups.map((g) => (
+          <section key={g.bucket} className="px-5 pt-8">
+            <div className="flex items-baseline justify-between px-1">
+              <p className="mono-label" style={{ color: BUCKET_LABELS[g.bucket].tone }}>
+                {BUCKET_LABELS[g.bucket].label}
+              </p>
+              <span className="text-[11px] tabular-nums text-dusk/40">{g.items.length}</span>
+            </div>
+
+            <ul className="surf-cream mt-3 rounded-[18px] px-5">
+              {g.items.map((c) => {
+                const cfg = PRACTICAL_LABELS[c];
+                const st = hydrated ? taskStatus[c] : undefined;
+                return (
+                  <li
+                    key={c}
+                    className="border-b border-dashed last:border-0"
+                    style={{ borderColor: "color-mix(in oklab, var(--dusk) 15%, transparent)" }}
+                  >
+                    <Link
+                      to="/practical/tasks/$id"
+                      params={{ id: c }}
+                      className="flex items-center justify-between gap-4 py-4 transition-opacity active:opacity-70"
+                    >
+                      <div className="min-w-0">
+                        <p className="font-serif text-[17px] leading-[1.15]">{cfg.label}</p>
+                        <p className="mt-0.5 truncate text-[12.5px] surf-sub">
+                          {st && st !== "todo" ? TASK_STATUS_LABELS[st] : cfg.hint}
+                        </p>
+                      </div>
+                      <span className="text-dusk/30">→</span>
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </section>
+        ))}
       </div>
     </Shell>
   );
