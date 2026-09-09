@@ -2,8 +2,7 @@ import { Link, useLocation } from "@tanstack/react-router";
 
 /**
  * Switch bas : Soutien · Démarches.
- * Pastille flottante en papier — un galet terracotta glisse sous le mot actif.
- * Pas de bande pleine largeur, pas de contour dur.
+ * Barre sombre (sumi) — un galet clair glisse sous le mot actif.
  */
 export function SpaceSwitch() {
   const { pathname } = useLocation();
@@ -14,7 +13,9 @@ export function SpaceSwitch() {
       to={to}
       aria-current={on ? "page" : undefined}
       className="relative z-10 flex-1 rounded-full py-2.5 text-center text-[13px] tracking-[0.04em] transition-colors duration-300"
-      style={{ color: on ? "var(--paper)" : "color-mix(in oklab, var(--dusk) 55%, transparent)" }}
+      style={{
+        color: on ? "var(--sumi)" : "color-mix(in oklab, var(--paper) 72%, transparent)",
+      }}
     >
       {label}
     </Link>
@@ -28,10 +29,8 @@ export function SpaceSwitch() {
       <div
         className="pointer-events-auto relative flex items-stretch rounded-full p-1"
         style={{
-          background: "color-mix(in oklab, var(--whisper) 92%, transparent)",
-          backdropFilter: "blur(18px)",
-          WebkitBackdropFilter: "blur(18px)",
-          boxShadow: "0 6px 24px -14px color-mix(in oklab, var(--dusk) 55%, transparent)",
+          background: "var(--sumi)",
+          boxShadow: "0 10px 28px -16px color-mix(in oklab, var(--sumi) 80%, transparent)",
         }}
       >
         <span
@@ -39,7 +38,7 @@ export function SpaceSwitch() {
           className="absolute inset-y-1 left-1 rounded-full transition-transform duration-500"
           style={{
             width: "calc(50% - 0.25rem)",
-            background: practical ? "var(--bordeaux)" : "var(--terracotta)",
+            background: "var(--cream, var(--whisper))",
             transform: practical ? "translateX(100%)" : "translateX(0)",
             transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)",
           }}
@@ -50,3 +49,4 @@ export function SpaceSwitch() {
     </nav>
   );
 }
+
