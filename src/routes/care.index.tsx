@@ -85,7 +85,7 @@ function Care() {
           <section className="px-5 pt-7">
             <SectionKicker label="Maintenant" />
             <div className="mt-4 grid grid-cols-2 gap-3">
-              {primaryCare.map((m) => <CareTile key={m} module={m} />)}
+              {primaryCare.map((m, i) => <CareTile key={m} module={m} i={i} />)}
             </div>
           </section>
         )}
@@ -94,14 +94,23 @@ function Care() {
         <section className="px-5 pt-9">
           <SectionKicker label="Présence & mémoire" />
           <div className="mt-4 grid grid-cols-2 gap-3">
-            <Link to="/presence" className="craft flex min-h-[104px] flex-col justify-between px-5 py-4">
+            <Link
+              to="/presence"
+              className="flex min-h-[104px] flex-col justify-between rounded-[18px] px-5 py-4"
+              style={{ background: "color-mix(in oklab, var(--sky) 55%, var(--paper))" }}
+            >
               <IndexMark i={1} total={3} />
               <p className="font-serif text-[20px] leading-[1.1]">Se confier</p>
             </Link>
-            <Link to="/care/garden" className="craft flex min-h-[104px] flex-col justify-between px-5 py-4">
+            <Link
+              to="/care/garden"
+              className="flex min-h-[104px] flex-col justify-between rounded-[18px] px-5 py-4"
+              style={{ background: "color-mix(in oklab, var(--sun) 65%, var(--paper))" }}
+            >
               <IndexMark i={2} total={3} />
               <p className="font-serif text-[20px] leading-[1.1]">{lovedName}</p>
             </Link>
+
           </div>
           <Link to="/care/rituels" className="craft mt-3 flex items-center justify-between gap-3 px-5 py-4">
             <p className="font-serif text-[18px] leading-[1.15]">Rituels d'hommage</p>
@@ -165,14 +174,25 @@ function focusFromEmotions(emotions: Emotion[], stale: boolean): Focus {
 }
 
 
-function CareTile({ module: m }: { module: CareModule }) {
+const TILE_TINTS = [
+  "color-mix(in oklab, var(--blush) 40%, var(--paper))",
+  "color-mix(in oklab, var(--sage) 45%, var(--paper))",
+  "color-mix(in oklab, var(--sun) 60%, var(--paper))",
+];
+
+function CareTile({ module: m, i = 0 }: { module: CareModule; i?: number }) {
   const cfg = CARE_LABELS[m];
   return (
-    <Link to={cfg.to as "/care/journal"} className="craft flex min-h-[104px] flex-col justify-end px-5 py-4">
+    <Link
+      to={cfg.to as "/care/journal"}
+      className="flex min-h-[104px] flex-col justify-end rounded-[18px] px-5 py-4"
+      style={{ background: TILE_TINTS[i % TILE_TINTS.length] }}
+    >
       <p className="font-serif text-[19px] leading-[1.15] text-dusk">{cfg.label}</p>
     </Link>
   );
 }
+
 
 function CareRow({ module: m }: { module: CareModule }) {
   const cfg = CARE_LABELS[m];

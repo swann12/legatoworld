@@ -69,6 +69,15 @@ const STEPS: Step[] = [
   },
 ];
 
+const ACT_TINTS = [
+  "color-mix(in oklab, var(--sun) 65%, var(--paper))",
+  "color-mix(in oklab, var(--sky) 55%, var(--paper))",
+  "color-mix(in oklab, var(--sage) 45%, var(--paper))",
+  "color-mix(in oklab, var(--blush) 40%, var(--paper))",
+];
+
+
+
 function Corps() {
   const [index, setIndex] = useState(0);
   const [answers, setAnswers] = useState<BodyAnswers>({});
@@ -104,7 +113,8 @@ function Corps() {
     return (
       <Shell livingBg={false}>
         <div className="min-h-dvh bg-paper text-dusk pb-32">
-          <PageHeader title="LE CORPS" back="/help" />
+          <PageHeader title="LE CORPS" back="/care" />
+
           <div className="px-6 pt-2 flex gap-1.5">
             {STEPS.map((s, i) => (
               <span
@@ -153,26 +163,29 @@ function Corps() {
   return (
     <Shell livingBg={false}>
       <div className="min-h-dvh bg-paper text-dusk pb-32">
-        <PageHeader title="LE CORPS" back="/help" />
+        <PageHeader title="LE CORPS" back="/care" />
 
-        <section className="px-6 pt-2 flex flex-col items-center text-center">
-          <SelfFigure vitality={v} />
-          <p className="mt-2 font-serif text-[19px] leading-[1.35] max-w-[26ch]">{vitalityWords(v)}</p>
-          <p className="mt-3 text-[12.5px] leading-[1.6] text-dusk/55 max-w-[30ch]">
-            Cette figure vous représente ici. Elle s'ouvre quand vous prenez un moment pour vous,
-            elle se repose quand vous ne faites rien. Jamais de reproche.
-          </p>
+        <section className="px-5 pt-2">
+          <div
+            className="rounded-[24px] px-6 pt-6 pb-7 flex flex-col items-center text-center"
+            style={{ background: "color-mix(in oklab, var(--blush) 45%, var(--paper))" }}
+          >
+            <SelfFigure vitality={v} />
+            <p className="mt-1 font-serif text-[20px] leading-[1.3] max-w-[24ch]">{vitalityWords(v)}</p>
+          </div>
         </section>
 
-        <section className="px-5 pt-8">
+        <section className="px-5 pt-4">
           <button
             type="button"
             onClick={() => { setAsking(true); setIndex(0); }}
-            className="w-full rounded-[18px] px-5 py-5 text-left"
-            style={{ background: "var(--blush)" }}
+            className="w-full rounded-[20px] px-5 py-5 text-left"
+            style={{ background: "var(--terracotta)", color: "var(--paper)" }}
           >
-            <p className="mono-label text-dusk/60">{answeredAt ? "Refaire le point" : "Commencer"}</p>
-            <p className="mt-1.5 font-serif text-[19px] leading-[1.15]">
+            <p className="mono-label" style={{ color: "color-mix(in oklab, var(--paper) 75%, transparent)" }}>
+              {answeredAt ? "Refaire le point" : "Commencer"}
+            </p>
+            <p className="mt-1.5 font-serif text-[20px] leading-[1.15]">
               Comment va votre corps aujourd'hui&nbsp;?
             </p>
           </button>
@@ -180,38 +193,40 @@ function Corps() {
 
         <section className="px-5 pt-9">
           <div className="flex items-center justify-between gap-3 px-1">
-            <p className="mono-label">{answeredAt ? "D'après ce que vous avez dit" : "Pour commencer doucement"}</p>
+            <p className="mono-label">{answeredAt ? "Pour vous" : "Pour commencer"}</p>
             <div className="h-px flex-1 bg-dusk/12" />
           </div>
           <div className="mt-4 flex flex-col gap-3">
-            {pistes.map((p) => (
+            {pistes.map((p, i) => (
               <Link
                 key={p.id}
                 to="/help/corps/soin/$id"
                 params={{ id: p.id }}
-                className="block rounded-[18px] border border-dusk/12 bg-[color:var(--whisper)] px-5 py-4"
+                className="block rounded-[18px] px-5 py-4"
+                style={{ background: ACT_TINTS[i % ACT_TINTS.length] }}
               >
                 <div className="flex items-baseline justify-between gap-3">
-                  <p className="font-serif text-[18px] leading-[1.15]">{p.title}</p>
-                  <span className="mono-label text-dusk/45 shrink-0">{p.minutes} min</span>
+                  <p className="font-serif text-[19px] leading-[1.15]">{p.title}</p>
+                  <span className="mono-label text-dusk/50 shrink-0">{p.minutes} min</span>
                 </div>
-                <p className="mt-1.5 text-[12.5px] leading-[1.5] text-dusk/60">{p.intro}</p>
+                <p className="mt-1.5 text-[12.5px] leading-[1.5] text-dusk/65">{p.intro}</p>
               </Link>
             ))}
           </div>
         </section>
 
         <section className="px-5 pt-9 space-y-3">
-          <Link to="/help/corps/nuits" className="block rounded-[18px] border border-dusk/10 bg-paper px-5 py-4">
+          <Link to="/help/corps/nuits" className="craft block px-5 py-4">
             <p className="font-serif text-[17px]">Les nuits difficiles →</p>
           </Link>
-          <Link to="/help/corps/manger" className="block rounded-[18px] border border-dusk/10 bg-paper px-5 py-4">
+          <Link to="/help/corps/manger" className="craft block px-5 py-4">
             <p className="font-serif text-[17px]">Manger quand on n'y arrive pas →</p>
           </Link>
-          <Link to="/agenda" className="block rounded-[18px] border border-dusk/10 bg-paper px-5 py-4">
+          <Link to="/agenda" className="craft block px-5 py-4">
             <p className="font-serif text-[17px]">Ajuster mes journées →</p>
           </Link>
         </section>
+
       </div>
     </Shell>
   );
