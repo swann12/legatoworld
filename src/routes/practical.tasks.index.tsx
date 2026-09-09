@@ -1,7 +1,7 @@
-import { PageHeader } from "@/components/legato/EditorialUI";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Shell } from "@/components/legato/Shell";
+import { PageHeader, SectionHead, Tabs } from "@/components/legato/EditorialUI";
 import { useLegato } from "@/lib/legato-state";
 import {
   journeyModules,
@@ -18,6 +18,8 @@ export const Route = createFileRoute("/practical/tasks/")({
     meta: [
       { title: "Démarches — Legato" },
       { name: "description", content: "Vos démarches, une étape à la fois, classées par urgence." },
+      { property: "og:title", content: "Démarches — Legato" },
+      { property: "og:description", content: "Une étape à la fois, dans l'ordre qui compte." },
     ],
   }),
   component: TasksList,
@@ -42,6 +44,7 @@ function TasksList() {
   const shown = light ? filtered.slice(0, 3) : filtered;
 
   const doneCount = all.filter((c) => taskStatus[c] === "done").length;
+  const pct = all.length ? Math.round((doneCount / all.length) * 100) : 0;
 
   const groups = ORDER.map((b) => ({ bucket: b, items: shown.filter((c) => PRACTICAL_BUCKETS[c] === b) })).filter(
     (g) => g.items.length > 0,
@@ -52,59 +55,55 @@ function TasksList() {
       <div className="min-h-dvh bg-paper text-dusk pb-36">
         <PageHeader back="/practical" title="DÉMARCHES" />
 
-        <section className="px-6 pt-8">
-          <h1 className="mt-3 ed-page-title">
-            <span className="italic" style={{ color: "var(--terracotta)" }}>Une étape</span> à la fois
+        <section className="px-6 pt-2">
+          <h1 className="ed-page-title text-[30px]">
+            <span className="italic" style={{ color: "var(--terracotta)" }}>Une étape</span> à la fois.
           </h1>
-          {all.length > 0 && (
-            <div className="mt-6 flex items-center gap-3">
-              <div className="h-px flex-1" style={{ background: "color-mix(in oklab, var(--dusk) 14%, transparent)" }}>
-                <div className="h-px" style={{ width: `${(doneCount / all.length) * 100}%`, background: "var(--terracotta)" }} />
-              </div>
-              <span className="text-[11.5px] tabular-nums tracking-[0.1em] text-dusk/50">
-                {doneCount} / {all.length}
-              </span>
-            </div>
-          )}
         </section>
 
-        {!light && (
-          <section className="px-6 pt-6">
-            <div className="flex gap-5">
-              {(["active", "archived"] as View[]).map((v) => (
-                <button
-                  key={v}
-                  onClick={() => setView(v)}
-                  className="pb-1 text-[12.5px] tracking-[0.06em] transition-colors"
-                  style={{
-                    color: view === v ? "var(--bordeaux)" : "color-mix(in oklab, var(--dusk) 45%, transparent)",
-                    borderBottom: view === v ? "1px solid var(--terracotta)" : "1px solid transparent",
-                  }}
-                >
-                  {v === "active" ? "À faire" : "Terminées"}
-                </button>
-              ))}
+        {/* Avancement — un seul chiffre, une seule barre */}
+        {all.length > 0 && (
+          <section className="px-5 pt-7">
+            <div className="craft px-5 pt-5 pb-5">
+              <div className="flex items-baseline justify-between">
+                <p className="font-serif text-[42px] leading-none tabular-nums">{pct}%</p>
+                <p className="text-[12px] tabular-nums tracking-[0.08em] text-dusk/50">
+                  {doneCount} / {all.length} terminées
+                </p>
+              </div>
+              <div className="mt-4 h-[6px] w-full overflow-hidden rounded-full" style={{ background: "color-mix(in oklab, var(--dusk) 10%, transparent)" }}>
+                <div className="h-full rounded-full transition-all" style={{ width: `${pct}%`, background: "var(--terracotta)" }} />
+              </div>
             </div>
           </section>
         )}
 
+        {!light && (
+          <section className="px-6 pt-7">
+            <Tabs
+              value={view}
+              onChange={setView}
+              options={[
+                { id: "active" as View, label: "À faire" },
+                { id: "archived" as View, label: "Terminées" },
+              ]}
+            />
+          </section>
+        )}
+
         {groups.length === 0 && (
-          <p className="mx-6 mt-8 craft px-5 py-6 text-center text-[13px] italic text-dusk/55">Rien ici pour le moment.</p>
+          <p className="mx-5 mt-8 craft px-5 py-6 text-center text-[13px] italic text-dusk/55">Rien ici pour le moment.</p>
         )}
 
         {groups.map((g) => (
-          <section key={g.bucket} className="px-5 pt-8">
-            <div className="flex items-baseline justify-between px-1">
-              <p className="mono-label" style={{ color: BUCKET_LABELS[g.bucket].tone }}>
-                {BUCKET_LABELS[g.bucket].label}
-              </p>
-              <span className="text-[11px] tabular-nums text-dusk/40">{g.items.length}</span>
-            </div>
+          <section key={g.bucket} className="px-5 pt-9">
+            <SectionHead label={BUCKET_LABELS[g.bucket].label} meta={String(g.items.length).padStart(2, "0")} />
 
             <ul className="surf-cream mt-3 rounded-[18px] px-5">
-              {g.items.map((c) => {
+              {g.items.map((c, i) => {
                 const cfg = PRACTICAL_LABELS[c];
                 const st = hydrated ? taskStatus[c] : undefined;
+                const done = st === "done";
                 return (
                   <li
                     key={c}
@@ -114,15 +113,33 @@ function TasksList() {
                     <Link
                       to="/practical/tasks/$id"
                       params={{ id: c }}
-                      className="flex items-center justify-between gap-4 py-4 transition-opacity active:opacity-70"
+                      className="flex items-start gap-4 py-4 transition-opacity active:opacity-70"
                     >
-                      <div className="min-w-0">
-                        <p className="font-serif text-[17px] leading-[1.15]">{cfg.label}</p>
-                        <p className="mt-0.5 truncate text-[12.5px] surf-sub">
+                      {/* Puce d'état — vide, en cours, faite */}
+                      <span
+                        aria-hidden
+                        className="mt-[5px] grid size-[16px] shrink-0 place-items-center rounded-full"
+                        style={{
+                          border: done ? "none" : "1px solid color-mix(in oklab, var(--dusk) 28%, transparent)",
+                          background: done ? "var(--terracotta)" : "transparent",
+                        }}
+                      >
+                        {done && <span className="block text-[9px] leading-none" style={{ color: "var(--paper)" }}>✓</span>}
+                      </span>
+                      <span className="min-w-0 flex-1">
+                        <span
+                          className="block font-serif text-[17.5px] leading-[1.2]"
+                          style={{ opacity: done ? 0.5 : 1 }}
+                        >
+                          {cfg.label}
+                        </span>
+                        <span className="mt-1 block truncate text-[12.5px] surf-sub">
                           {st && st !== "todo" ? TASK_STATUS_LABELS[st] : cfg.hint}
-                        </p>
-                      </div>
-                      <span className="text-dusk/30">→</span>
+                        </span>
+                      </span>
+                      <span className="shrink-0 self-start pt-[5px] text-[10.5px] tabular-nums tracking-[0.12em] text-dusk/30">
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
                     </Link>
                   </li>
                 );

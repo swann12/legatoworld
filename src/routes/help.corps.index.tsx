@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Shell } from "@/components/legato/Shell";
-import { PageHeader } from "@/components/legato/EditorialUI";
+import { PageHeader, SectionHead } from "@/components/legato/EditorialUI";
 import { SelfFigure } from "@/components/legato/SelfFigure";
 import {
   activitiesFor, loadSelfCare, saveSelfCare, vitality, vitalityWords,
@@ -69,8 +69,12 @@ const STEPS: Step[] = [
   },
 ];
 
-
-
+const ANSWER_WORDS: Record<string, string> = {
+  vide: "À plat", lente: "Au ralenti", agitee: "Agitée", ok: "Ça va",
+  peu: "Courtes", coupe: "Coupées", endormir: "Longues à venir",
+  rien: "Difficile", oubli: "Oubliée", trop: "Décousue",
+  tendu: "Tendue", ailleurs: "Dispersée", lourd: "Lourde", calme: "Calme",
+};
 
 function Corps() {
   const [index, setIndex] = useState(0);
@@ -120,21 +124,31 @@ function Corps() {
           </div>
 
           <section className="px-6 pt-8 pb-2">
-            <p className="mono-label">{step.label}</p>
-            <h1 className="mt-4 ed-page-title text-[28px]">{step.question}</h1>
+            <p className="mono-label">
+              {String(index + 1).padStart(2, "0")} · {step.label}
+            </p>
+            <h1 className="mt-4 ed-page-title text-[27px]">{step.question}</h1>
           </section>
 
-          <section className="px-5 pt-6 flex flex-col gap-2.5">
-            {step.options.map((o) => (
-              <button
-                key={o.id}
-                type="button"
-                onClick={() => choose(step.key, o.id)}
-                className="text-left rounded-[18px] border border-dusk/12 bg-[color:var(--whisper)] px-5 py-4 font-serif text-[17px] leading-[1.2] transition-transform active:scale-[0.99]"
-              >
-                {o.label}
-              </button>
-            ))}
+          <section className="px-5 pt-7">
+            <ul className="surf-cream rounded-[18px] px-5">
+              {step.options.map((o) => (
+                <li
+                  key={o.id}
+                  className="border-b border-dashed last:border-0"
+                  style={{ borderColor: "color-mix(in oklab, var(--dusk) 15%, transparent)" }}
+                >
+                  <button
+                    type="button"
+                    onClick={() => choose(step.key, o.id)}
+                    className="flex w-full items-center justify-between gap-4 py-4 text-left font-serif text-[17px] leading-[1.2] transition-opacity active:opacity-70"
+                  >
+                    {o.label}
+                    <span aria-hidden className="shrink-0 text-dusk/25">→</span>
+                  </button>
+                </li>
+              ))}
+            </ul>
           </section>
 
           <div className="px-6 pt-6 flex items-center justify-between">
@@ -143,7 +157,7 @@ function Corps() {
               onClick={() => (index > 0 ? setIndex(index - 1) : setAsking(false))}
               className="mono-label text-dusk/50"
             >
-              ← {index > 0 ? "Question précédente" : "Revenir"}
+              ← {index > 0 ? "Précédent" : "Revenir"}
             </button>
             <button type="button" onClick={() => setAsking(false)} className="mono-label text-dusk/40">
               Passer
@@ -156,42 +170,68 @@ function Corps() {
 
   return (
     <Shell livingBg={false}>
-      <div className="min-h-dvh bg-paper text-dusk pb-32">
+      <div className="min-h-dvh bg-paper text-dusk pb-36">
         <PageHeader title="LE CORPS" back="/care" />
 
+        {/* La figure — une seule surface forte, en sable chaud */}
         <section className="px-5 pt-2">
           <div
-            className="rounded-[24px] px-6 pt-6 pb-7 flex flex-col items-center text-center"
-            style={{ background: "color-mix(in oklab, var(--blush) 26%, var(--paper))" }}
+            className="rounded-[24px] px-6 pt-7 pb-8 flex flex-col items-center text-center"
+            style={{ background: "color-mix(in oklab, var(--clay) 70%, var(--paper))" }}
           >
             <SelfFigure vitality={v} />
-            <p className="mt-1 font-serif text-[20px] leading-[1.3] max-w-[24ch]">{vitalityWords(v)}</p>
+            <p className="mt-2 font-serif text-[21px] leading-[1.3] max-w-[22ch]">{vitalityWords(v)}</p>
+            <div className="mt-5 h-px w-16" style={{ background: "color-mix(in oklab, var(--dusk) 18%, transparent)" }} />
+            <p className="mt-4 text-[11.5px] tracking-[0.12em] text-dusk/45">
+              {answeredAt ? "DERNIER POINT ENREGISTRÉ" : "AUCUN POINT ENCORE"}
+            </p>
           </div>
         </section>
 
-        <section className="px-5 pt-4">
+        {/* Le point du jour */}
+        <section className="px-5 pt-5">
           <button
             type="button"
             onClick={() => { setAsking(true); setIndex(0); }}
-            className="w-full rounded-[20px] px-5 py-5 text-left"
+            className="w-full rounded-[18px] px-5 py-4 text-left transition-opacity active:opacity-80"
             style={{ background: "var(--terracotta)", color: "var(--paper)" }}
           >
             <p className="mono-label" style={{ color: "color-mix(in oklab, var(--paper) 75%, transparent)" }}>
-              {answeredAt ? "Refaire le point" : "Commencer"}
+              {answeredAt ? "Refaire le point · 4 questions" : "Commencer · 4 questions"}
             </p>
-            <p className="mt-1.5 font-serif text-[20px] leading-[1.15]">
-              Comment va votre corps aujourd'hui&nbsp;?
-            </p>
+            <p className="mt-1.5 font-serif text-[20px] leading-[1.15]">Comment va votre corps aujourd'hui&nbsp;?</p>
           </button>
         </section>
 
+        {/* Lecture des réponses — quatre repères, une même grille */}
+        {answeredAt && (
+          <section className="px-5 pt-9">
+            <SectionHead label="Aujourd'hui" />
+            <div className="craft mt-3 grid grid-cols-2">
+              {STEPS.map((s, i) => (
+                <div
+                  key={s.key}
+                  className="px-5 py-4"
+                  style={{
+                    borderRight: i % 2 === 0 ? "1px dashed color-mix(in oklab, var(--dusk) 20%, transparent)" : undefined,
+                    borderBottom: i < 2 ? "1px dashed color-mix(in oklab, var(--dusk) 20%, transparent)" : undefined,
+                  }}
+                >
+                  <p className="mono-label">{s.label}</p>
+                  <p className="mt-1.5 font-serif text-[16px] leading-[1.2]">
+                    {answers[s.key] ? ANSWER_WORDS[answers[s.key]!] ?? "—" : "—"}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* Pistes de soin */}
         <section className="px-5 pt-9">
-          <div className="flex items-center justify-between gap-3 px-1">
-            <p className="mono-label">{answeredAt ? "Pour vous" : "Pour commencer"}</p>
-            <div className="h-px flex-1 bg-dusk/12" />
-          </div>
+          <SectionHead label={answeredAt ? "Pour vous, maintenant" : "Pour commencer"} meta={`${pistes.length} pistes`} />
           <ul className="surf-cream mt-3 rounded-[18px] px-5">
-            {pistes.map((p) => (
+            {pistes.map((p, i) => (
               <li
                 key={p.id}
                 className="border-b border-dashed last:border-0"
@@ -200,28 +240,47 @@ function Corps() {
                 <Link
                   to="/help/corps/soin/$id"
                   params={{ id: p.id }}
-                  className="flex items-baseline justify-between gap-4 py-4 transition-opacity active:opacity-70"
+                  className="flex items-start gap-4 py-4 transition-opacity active:opacity-70"
                 >
-                  <p className="font-serif text-[18px] leading-[1.15]">{p.title}</p>
-                  <span className="mono-label shrink-0 text-dusk/45">{p.minutes} min</span>
+                  <span className="mt-[5px] shrink-0 text-[10.5px] tabular-nums tracking-[0.12em] text-dusk/35">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block font-serif text-[17.5px] leading-[1.2]">{p.title}</span>
+                    <span className="mt-1 block text-[12.5px] surf-sub">{p.intro}</span>
+                  </span>
+                  <span className="shrink-0 pt-[3px] text-[11px] tabular-nums text-dusk/45">{p.minutes} min</span>
                 </Link>
               </li>
             ))}
           </ul>
         </section>
 
-        <section className="px-5 pt-9 space-y-3">
-          <Link to="/help/corps/nuits" className="craft block px-5 py-4">
-            <p className="font-serif text-[17px]">Les nuits difficiles →</p>
-          </Link>
-          <Link to="/help/corps/manger" className="craft block px-5 py-4">
-            <p className="font-serif text-[17px]">Manger quand on n'y arrive pas →</p>
-          </Link>
-          <Link to="/agenda" className="craft block px-5 py-4">
-            <p className="font-serif text-[17px]">Ajuster mes journées →</p>
-          </Link>
+        {/* Aller plus loin */}
+        <section className="px-5 pt-9">
+          <SectionHead label="Aller plus loin" />
+          <ul className="surf-cream mt-3 rounded-[18px] px-5">
+            {[
+              { to: "/help/corps/nuits", title: "Les nuits difficiles", note: "Quand le sommeil ne vient pas" },
+              { to: "/help/corps/manger", title: "Manger quand on n'y arrive pas", note: "Le plus simple d'abord" },
+              { to: "/agenda", title: "Ajuster mes journées", note: "Alléger ce qui peut l'être" },
+            ].map((l) => (
+              <li
+                key={l.to}
+                className="border-b border-dashed last:border-0"
+                style={{ borderColor: "color-mix(in oklab, var(--dusk) 15%, transparent)" }}
+              >
+                <Link to={l.to as "/agenda"} className="flex items-start gap-4 py-4">
+                  <span className="min-w-0 flex-1">
+                    <span className="block font-serif text-[17.5px] leading-[1.2]">{l.title}</span>
+                    <span className="mt-1 block text-[12.5px] surf-sub">{l.note}</span>
+                  </span>
+                  <span aria-hidden className="pt-[3px] text-dusk/30">→</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
         </section>
-
       </div>
     </Shell>
   );
