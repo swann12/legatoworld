@@ -162,7 +162,7 @@ function Corps() {
         <section className="px-5 pt-2">
           <div
             className="rounded-[24px] px-6 pt-6 pb-7 flex flex-col items-center text-center"
-            style={{ background: "color-mix(in oklab, var(--blush) 45%, var(--paper))" }}
+            style={{ background: "color-mix(in oklab, var(--blush) 26%, var(--paper))" }}
           >
             <SelfFigure vitality={v} />
             <p className="mt-1 font-serif text-[20px] leading-[1.3] max-w-[24ch]">{vitalityWords(v)}</p>
