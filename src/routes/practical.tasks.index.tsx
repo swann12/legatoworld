@@ -53,7 +53,6 @@ function TasksList() {
         <PageHeader back="/practical" title="DÉMARCHES" />
 
         <section className="px-6 pt-8">
-          <p className="mono-label">Démarches</p>
           <h1 className="mt-3 ed-page-title">
             <span className="italic" style={{ color: "var(--terracotta)" }}>Une étape</span> à la fois
           </h1>

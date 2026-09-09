@@ -122,7 +122,6 @@ function CareRituels() {
         <PageHeader back="/care" title="RITUELS" />
 
         <section className="px-6 pt-8">
-          <p className="mono-label">Rituels d'hommage</p>
           <h1 className="mt-4 ed-page-title">
             Honorer <span className="italic" style={{ color: "var(--terracotta)" }}>{lovedName}</span>.
           </h1>
