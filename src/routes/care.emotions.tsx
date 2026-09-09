@@ -1,7 +1,6 @@
 import { PageHeader } from "@/components/legato/EditorialUI";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Shell } from "@/components/legato/Shell";
-import { LegatoMark } from "@/components/legato/LegatoMark";
 import { EMOTIONS, useLegato, type Emotion } from "@/lib/legato-state";
 
 // Couleur sémantique par émotion — pastilles colorées sur fond clair,

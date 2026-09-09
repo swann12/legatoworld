@@ -3,7 +3,6 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Plate } from "@/components/legato/Plate";
 import { useEffect, useMemo, useState } from "react";
 import { Shell } from "@/components/legato/Shell";
-import { LegatoMark } from "@/components/legato/LegatoMark";
 
 export const Route = createFileRoute("/care/respirer")({
   head: () => ({ meta: [{ title: "Respirer — Legato" }] }),

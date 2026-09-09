@@ -1,7 +1,6 @@
 import { PageHeader } from "@/components/legato/EditorialUI";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { Shell } from "@/components/legato/Shell";
-import { LegatoMark } from "@/components/legato/LegatoMark";
 import { useLegato, type TaskStatus } from "@/lib/legato-state";
 import { PRACTICAL_LABELS, PRACTICAL_BUCKETS, BUCKET_LABELS, type PracticalCategory } from "@/lib/journey-config";
 import { TASK_STATUS_LABELS } from "@/lib/task-status";

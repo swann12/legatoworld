@@ -1,7 +1,6 @@
 import { PageHeader } from "@/components/legato/EditorialUI";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Shell } from "@/components/legato/Shell";
-import { LegatoMark } from "@/components/legato/LegatoMark";
 
 export const Route = createFileRoute("/care/community")({
   head: () => ({ meta: [{ title: "Communauté — Soutien Legato" }] }),

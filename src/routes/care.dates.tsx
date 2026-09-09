@@ -2,7 +2,6 @@ import { PageHeader } from "@/components/legato/EditorialUI";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Shell } from "@/components/legato/Shell";
-import { LegatoMark } from "@/components/legato/LegatoMark";
 import { useLegato } from "@/lib/legato-state";
 import { useSpaces, upcomingForSpaces, formatDaysAway, type UpcomingDate } from "@/lib/spaces-store";
 import { ritualsForDate, type DateRitual } from "@/lib/date-rituals";

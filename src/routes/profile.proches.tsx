@@ -2,7 +2,6 @@ import { PageHeader } from "@/components/legato/EditorialUI";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Shell } from "@/components/legato/Shell";
-import { LegatoMark } from "@/components/legato/LegatoMark";
 import { RELATIONS, type Relation } from "@/lib/legato-state";
 import { useActiveSpaceId, setActiveSpaceId } from "@/lib/active-space";
 import {
