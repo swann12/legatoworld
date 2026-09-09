@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import presenceImg from "@/assets/ill-presence.png";
+import presenceImg from "@/assets/hero-care.webp";
 import { Shell } from "@/components/legato/Shell";
 import { useLegato, type Emotion } from "@/lib/legato-state";
 import { useLovedName } from "@/lib/loved-name";
@@ -46,7 +46,7 @@ function Care() {
             <div className="overflow-hidden" style={{ aspectRatio: "4 / 5" }}>
               <img
                 src={presenceImg}
-                alt="Planche peinte : un arbre sur un îlot d'herbes, nuages et oiseaux dans un ciel bleu"
+                alt="Illustration peinte : une silhouette marche sur une dune sous un ciel bleu nuagé"
                 className="h-full w-full object-cover"
                 loading="eager"
               />
