@@ -34,7 +34,7 @@ function Espaces() {
 
   return (
     <Shell livingBg={false}>
-      <div className="min-h-dvh bg-paper text-dusk pb-32">
+      <div className="wash-mauve min-h-dvh text-dusk pb-32">
         <PageHeader back="/profile" title="MES ESPACES" />
 
         <section className="px-6 pt-8">

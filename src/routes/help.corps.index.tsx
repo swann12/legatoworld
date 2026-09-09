@@ -110,7 +110,7 @@ function Corps() {
   if (asking) {
     return (
       <Shell livingBg={false}>
-        <div className="min-h-dvh bg-paper text-dusk pb-32">
+        <div className="wash-butter min-h-dvh text-dusk pb-32">
           <PageHeader title="LE CORPS" back="/care" />
 
           <div className="px-6 pt-2 flex gap-1.5">
@@ -131,7 +131,7 @@ function Corps() {
           </section>
 
           <section className="px-5 pt-7">
-            <ul className="surf-cream rounded-[18px] px-5">
+            <ul className="tint-butter rounded-[18px] px-5">
               {step.options.map((o) => (
                 <li
                   key={o.id}
@@ -170,7 +170,7 @@ function Corps() {
 
   return (
     <Shell livingBg={false}>
-      <div className="min-h-dvh bg-paper text-dusk pb-36">
+      <div className="wash-butter min-h-dvh text-dusk pb-36">
         <PageHeader title="LE CORPS" back="/care" />
 
         {/* La figure — une seule surface forte, en sable chaud */}
@@ -230,7 +230,7 @@ function Corps() {
         {/* Pistes de soin */}
         <section className="px-5 pt-9">
           <SectionHead label={answeredAt ? "Pour vous, maintenant" : "Pour commencer"} meta={`${pistes.length} pistes`} />
-          <ul className="surf-cream mt-3 rounded-[18px] px-5">
+          <ul className="tint-butter mt-3 rounded-[18px] px-5">
             {pistes.map((p, i) => (
               <li
                 key={p.id}
@@ -259,7 +259,7 @@ function Corps() {
         {/* Aller plus loin */}
         <section className="px-5 pt-9">
           <SectionHead label="Aller plus loin" />
-          <ul className="surf-cream mt-3 rounded-[18px] px-5">
+          <ul className="tint-butter mt-3 rounded-[18px] px-5">
             {[
               { to: "/help/corps/nuits", title: "Les nuits difficiles", note: "Quand le sommeil ne vient pas" },
               { to: "/help/corps/manger", title: "Manger quand on n'y arrive pas", note: "Le plus simple d'abord" },

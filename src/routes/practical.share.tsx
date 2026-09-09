@@ -41,7 +41,7 @@ function Share() {
 
   return (
     <Shell hideNav>
-      <div className="min-h-dvh bg-paper text-dusk pb-12">
+      <div className="wash-sand min-h-dvh text-dusk pb-12">
         <PageHeader title="PARTAGE" back="/practical" />
 
         <section className="px-6 pt-4 pb-6">

@@ -36,12 +36,12 @@ function Vault() {
   const hidden = hydrated && (primaryNeed === "emotional" || lovedOneRelation === "animal");
   if (hidden) {
     return (
-      <Shell livingBg={false}><div className="min-h-dvh bg-paper text-dusk p-6"><Link to="/practical" className="mono-label">← Démarches</Link><h1 className="mt-10 ed-page-title">Coffre non nécessaire pour ce parcours.</h1><p className="mt-5 text-[13px] text-dusk/60">Il restera accessible si une tâche concrète en a besoin.</p></div></Shell>
+      <Shell livingBg={false}><div className="wash-butter min-h-dvh text-dusk p-6"><Link to="/practical" className="mono-label">← Démarches</Link><h1 className="mt-10 ed-page-title">Coffre non nécessaire pour ce parcours.</h1><p className="mt-5 text-[13px] text-dusk/60">Il restera accessible si une tâche concrète en a besoin.</p></div></Shell>
     );
   }
   return (
     <Shell livingBg={false}>
-      <div className="min-h-dvh bg-paper text-dusk pb-32">
+      <div className="wash-butter min-h-dvh text-dusk pb-32">
         <PageHeader back="/practical" title="LE COFFRE" />
         <section className="px-6 pt-10">
           <p className="mono-label">Coffre</p>

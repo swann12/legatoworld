@@ -33,7 +33,7 @@ function TaskDetail() {
   if (!cfg) {
     return (
       <Shell livingBg={false}>
-        <div className="min-h-dvh bg-paper text-dusk p-6">
+        <div className="wash-butter min-h-dvh text-dusk p-6">
           <p className="font-serif text-[20px]">Démarche introuvable.</p>
           <Link to="/practical/tasks" className="mono-label mt-4 inline-block">← Toutes les démarches</Link>
         </div>
@@ -49,7 +49,7 @@ function TaskDetail() {
 
   return (
     <Shell livingBg={false}>
-      <div className="min-h-dvh bg-paper text-dusk pb-36">
+      <div className="wash-butter min-h-dvh text-dusk pb-36">
         <PageHeader back="/practical/tasks" title="DÉMARCHE" />
 
         {/* Intention — un seul bloc de tête */}
@@ -84,7 +84,7 @@ function TaskDetail() {
         {/* Les étapes — cochables, l'œil suit une seule colonne */}
         <section className="px-5 pt-9">
           <SectionHead label="Ce qu'il y a à faire" meta={`${stepsDone} / ${guide.steps.length}`} />
-          <ul className="surf-cream mt-3 rounded-[18px] px-5">
+          <ul className="tint-butter mt-3 rounded-[18px] px-5">
             {guide.steps.map((s, i) => {
               const on = checked.includes(i);
               return (

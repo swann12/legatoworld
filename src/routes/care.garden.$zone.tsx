@@ -32,7 +32,7 @@ export const Route = createFileRoute("/care/garden/$zone")({
   head: () => ({ meta: [{ title: "Parcelle — Jardin Legato" }] }),
   notFoundComponent: () => (
     <Shell livingBg={false}>
-      <div className="min-h-dvh bg-paper text-dusk px-6 pt-9">
+      <div className="wash-sand min-h-dvh text-dusk px-6 pt-9">
         <BackLink to="/care/garden" label="Retour au Jardin" />
         <p className="mt-8 font-serif text-[22px]">Cette parcelle n'existe pas.</p>
       </div>
@@ -82,7 +82,7 @@ function GardenZone() {
 
   return (
     <Shell livingBg={false}>
-      <div className="min-h-dvh bg-paper text-dusk pb-32">
+      <div className="wash-sand min-h-dvh text-dusk pb-32">
         <header className="px-6 pt-7 flex items-center justify-between">
           <BackLink to="/care/garden" label="Jardin" />
           <span className="mono-label text-dusk/45">{cfg.label}</span>

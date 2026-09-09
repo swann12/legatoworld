@@ -32,7 +32,7 @@ function CareDates() {
 
   return (
     <Shell livingBg={false}>
-      <div className="min-h-dvh bg-paper text-dusk pb-32">
+      <div className="wash-sky min-h-dvh text-dusk pb-32">
         <PageHeader back="/profile" title="DATES IMPORTANTES" />
 
         <section className="px-6 pt-8">

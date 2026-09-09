@@ -34,7 +34,7 @@ function CategoryPage() {
   if (space && space !== cat.space) {
     return (
       <Shell livingBg={false}>
-        <div className="min-h-dvh bg-paper text-dusk px-6 pt-20">
+        <div className="wash-sky min-h-dvh text-dusk px-6 pt-20">
           <p className="mono-label">Ressource déplacée</p>
           <h1 className="mt-5 ed-page-title">Cette rubrique appartient à l'autre espace.</h1>
           <Link to="/resources" search={{ space: cat.space }} className="mt-8 inline-block rounded-full px-6 py-3 font-serif text-[18px]" style={{ background: "var(--terracotta)", color: "var(--paper)" }}>
@@ -57,7 +57,7 @@ function CategoryPage() {
 
   return (
     <Shell livingBg={false}>
-      <div className="min-h-dvh bg-paper text-dusk pb-32">
+      <div className="wash-sky min-h-dvh text-dusk pb-32">
         <PageHeader title="RESSOURCES" back="/resources" />
 
         <section className="px-6 pt-8 pb-6">

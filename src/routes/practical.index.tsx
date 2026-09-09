@@ -69,7 +69,7 @@ function Practical() {
 
   return (
     <Shell livingBg={false}>
-      <div className="min-h-dvh bg-paper text-dusk pb-32">
+      <div className="wash-flame min-h-dvh text-dusk pb-32">
         <header className="px-6 pt-7 flex items-center justify-between">
           <LegatoMark to="/practical" size={20} />
           <Link

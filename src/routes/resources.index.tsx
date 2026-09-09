@@ -35,7 +35,7 @@ function ResourcesIndex() {
     : "Professionnels, aides administratives et repères utiles pour avancer sans surcharge.";
   return (
     <Shell livingBg={false}>
-      <div className="min-h-dvh bg-paper text-dusk pb-32">
+      <div className="wash-sky min-h-dvh text-dusk pb-32">
         <PageHeader title="RESSOURCES" />
 
         <section className="px-6 pt-4 pb-8">
