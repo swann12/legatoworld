@@ -70,37 +70,25 @@ function CareResources() {
           <h1 className="ed-page-title text-[30px]">
             Pour vous <span className="italic" style={{ color: "var(--terracotta)" }}>accompagner</span>.
           </h1>
-          <p className="mt-4 text-[13px] leading-[1.6] text-dusk/60 max-w-[34ch]">
-            Peu de choses, choisies. Prenez-en une, laissez le reste.
-          </p>
         </section>
 
         {BLOCKS.map((b, bi) => (
-          <section key={b.label} className="px-5 pt-9">
-            <div className="flex items-baseline gap-3 px-1">
+          <section key={b.label} className="px-6 pt-8">
+            <div className="flex items-baseline gap-3">
               <span className="mono-label" style={{ color: "var(--terracotta)" }}>
                 {String(bi + 1).padStart(2, "0")}
               </span>
-              <div className="min-w-0">
-                <p className="mono-label">{b.label}</p>
-                <p className="mt-2 text-[12.5px] leading-[1.55] text-dusk/55 max-w-[32ch]">{b.intro}</p>
-              </div>
+              <p className="mono-label">{b.label}</p>
             </div>
-            <div className="mt-4 overflow-hidden rounded-[18px] border border-dusk/10">
-              {b.items.map((it, i) => (
+            <div className="mt-3">
+              {b.items.map((it) => (
                 <Link
                   key={it.title}
                   to={it.to as "/care"}
-                  className="flex items-center justify-between gap-4 px-5 py-4 transition-colors"
-                  style={{
-                    background: it.strong ? "var(--clay)" : "var(--whisper)",
-                    color: "var(--dusk)",
-                    borderTop: i === 0 ? "none" : "1px solid color-mix(in oklab, var(--dusk) 8%, transparent)",
-                  }}
+                  className="flex items-center justify-between gap-4 border-b border-dashed border-dusk/20 py-3.5"
                 >
-                  <span className="min-w-0">
-                    <span className="block font-serif text-[18px] leading-[1.15]">{it.title}</span>
-                    <span className="mt-1 block text-[12.5px] text-dusk/60">{it.hint}</span>
+                  <span className="font-serif text-[18px] leading-[1.15]" style={{ color: it.strong ? "var(--terracotta)" : undefined }}>
+                    {it.title}
                   </span>
                   <span aria-hidden className="shrink-0 text-dusk/35">→</span>
                 </Link>
