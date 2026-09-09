@@ -1,3 +1,4 @@
+import { PageHeader } from "@/components/legato/EditorialUI";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { Shell } from "@/components/legato/Shell";
 import { LegatoMark } from "@/components/legato/LegatoMark";
@@ -45,10 +46,7 @@ function TaskDetail() {
   return (
     <Shell livingBg={false}>
       <div className="min-h-dvh bg-paper text-dusk pb-36">
-        <header className="px-6 pt-7 flex items-center justify-between">
-          <Link to="/practical/tasks" className="mono-label text-dusk/55">← Démarches</Link>
-          <LegatoMark size={22} />
-        </header>
+        <PageHeader back="/practical/tasks" title="DÉMARCHE" />
 
         {/* Intention */}
         <section className="px-6 pt-8">

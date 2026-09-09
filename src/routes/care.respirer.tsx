@@ -1,3 +1,4 @@
+import { PageHeader } from "@/components/legato/EditorialUI";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Plate } from "@/components/legato/Plate";
 import { useEffect, useMemo, useState } from "react";
@@ -51,10 +52,7 @@ function CareRespirer() {
   return (
     <Shell livingBg={false}>
       <main className="min-h-dvh bg-paper text-dusk pb-32">
-        <header className="px-6 pt-7 flex items-center justify-between">
-          <Link to="/care" aria-label="Retour" className="mono-label text-dusk/55">← Soutien</Link>
-          <LegatoMark size={22} />
-        </header>
+        <PageHeader back="/care" title="RESPIRER" />
 
         <section className="px-6 pt-8">
           <p className="mono-label">Respirer</p>

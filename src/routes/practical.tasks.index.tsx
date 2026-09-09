@@ -1,3 +1,4 @@
+import { PageHeader } from "@/components/legato/EditorialUI";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Shell } from "@/components/legato/Shell";
@@ -50,10 +51,7 @@ function TasksList() {
   return (
     <Shell livingBg={false}>
       <div className="min-h-dvh bg-paper text-dusk pb-36">
-        <header className="px-6 pt-7 flex items-center justify-between">
-          <Link to="/practical" className="mono-label text-dusk/55">← Aujourd'hui</Link>
-          <LegatoMark size={22} />
-        </header>
+        <PageHeader back="/practical" title="DÉMARCHES" />
 
         <section className="px-6 pt-8">
           <p className="mono-label">Démarches</p>

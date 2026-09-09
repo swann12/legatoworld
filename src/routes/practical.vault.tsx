@@ -1,3 +1,4 @@
+import { PageHeader } from "@/components/legato/EditorialUI";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Shell } from "@/components/legato/Shell";
@@ -42,11 +43,7 @@ function Vault() {
   return (
     <Shell livingBg={false}>
       <div className="min-h-dvh bg-paper text-dusk pb-32">
-        <header className="px-6 pt-7 flex items-center justify-between">
-          <Link to="/practical" className="mono-label">← Démarches</Link>
-          <LegatoMark size={20} />
-          <span className="w-16" />
-        </header>
+        <PageHeader back="/practical" title="LE COFFRE" />
         <section className="px-6 pt-10">
           <p className="mono-label">Coffre</p>
           <h1 className="mt-5 ed-page-title">
