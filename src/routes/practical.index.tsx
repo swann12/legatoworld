@@ -2,7 +2,6 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import practicalHero from "@/assets/hero-practical.png";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { Shell } from "@/components/legato/Shell";
-import { LegatoMark } from "@/components/legato/LegatoMark";
 import { useLegato } from "@/lib/legato-state";
 import {
   journeyModules, PRACTICAL_LABELS, PRACTICAL_BUCKETS, BUCKET_LABELS,
@@ -38,7 +37,7 @@ function loadStatus(): Record<string, Status> {
 const ORDER: PracticalBucket[] = ["now", "week", "month", "later"];
 
 function Practical() {
-  const { situation, primaryNeed, stage, softDay, lightMode, lovedOneRelation, legallyInvolved, hydrated, taskStatus, name } = useLegato();
+  const { situation, primaryNeed, stage, softDay, lightMode, lovedOneRelation, legallyInvolved, hydrated, taskStatus } = useLegato();
   const { practical } = journeyModules(situation, primaryNeed, stage, { relation: lovedOneRelation, legallyInvolved });
   const [filter, setFilter] = useState<PracticalBucket | "all">("all");
   const [showArchived, setShowArchived] = useState(false);
