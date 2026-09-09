@@ -61,25 +61,28 @@ function TaskDetail() {
           <p className="mt-4 max-w-[32ch] text-[13.5px] leading-[1.6] text-dusk/65">{guide.why}</p>
         </section>
 
-        {/* En bref — à qui, quand, combien d'étapes */}
+        {/* En bref — chaque repère sur sa ligne, l'œil descend */}
         <section className="px-5 pt-7">
-          <div className="craft grid grid-cols-3">
+          <dl className="craft px-5 py-1">
             {[
-              { k: "À qui", v: guide.who },
-              { k: "Quand", v: guide.when },
-              { k: "Étapes", v: `${stepsDone} / ${guide.steps.length}` },
+              { k: "À qui s'adresser", v: guide.who },
+              { k: "Dans quel délai", v: guide.when },
+              { k: "Étapes", v: `${stepsDone} faite${stepsDone > 1 ? "s" : ""} sur ${guide.steps.length}` },
             ].map((c, i) => (
               <div
                 key={c.k}
-                className="px-4 py-4"
-                style={{ borderRight: i < 2 ? "1px dashed color-mix(in oklab, var(--dusk) 20%, transparent)" : undefined }}
+                className="flex flex-col gap-1 py-3.5"
+                style={{
+                  borderBottom: i < 2 ? "1px dashed color-mix(in oklab, var(--dusk) 18%, transparent)" : undefined,
+                }}
               >
-                <p className="mono-label">{c.k}</p>
-                <p className="mt-1.5 font-serif text-[15px] leading-[1.25]">{c.v}</p>
+                <dt className="mono-label">{c.k}</dt>
+                <dd className="text-[14px] leading-[1.5]">{c.v}</dd>
               </div>
             ))}
-          </div>
+          </dl>
         </section>
+
 
         {/* Les étapes — cochables, l'œil suit une seule colonne */}
         <section className="px-5 pt-9">
