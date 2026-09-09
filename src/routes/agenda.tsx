@@ -68,20 +68,20 @@ function Agenda() {
         {/* Un seul relevé chiffré, lisible d'un coup d'œil */}
         {hydrated && (
           <section className="px-5 pt-6">
-            <div className="grid grid-cols-2 gap-3">
-              <div className="rounded-[18px] border border-dashed border-dusk/25 px-5 py-5">
-                <p className="font-serif text-[30px] leading-none">{upcoming.length}</p>
-                <p className="mt-2 text-[12.5px] text-dusk/55">à venir</p>
-              </div>
-              <div className="rounded-[18px] border border-dashed border-dusk/25 px-5 py-5">
-                <p className="font-serif text-[30px] leading-none">
-                  {upcoming.filter((e) => e.kind === "repos" || e.kind === "pour_soi").length}
-                </p>
-                <p className="mt-2 text-[12.5px] text-dusk/55">pour vous</p>
-              </div>
-            </div>
+            <BigStat
+              caption="Les sept prochains jours"
+              value={upcoming.filter((e) => daysAway(e.date) <= 7).length}
+              meta={[
+                { label: "à venir", value: String(upcoming.length) },
+                {
+                  label: "pour vous",
+                  value: String(upcoming.filter((e) => e.kind === "repos" || e.kind === "pour_soi").length),
+                },
+              ]}
+            />
           </section>
         )}
+
 
         {hydrated && suggestions.length > 0 && (
           <section className="px-5 pt-6">
