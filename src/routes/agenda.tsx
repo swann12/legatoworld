@@ -84,8 +84,8 @@ function Agenda() {
 
         {hydrated && suggestions.length > 0 && (
           <section className="px-5 pt-6">
-            <p className="px-1 text-[12.5px] text-dusk/45">Suggestion</p>
-            <p className="mt-2 rounded-[16px] px-4 py-3.5 text-[13.5px] leading-[1.5] text-dusk/80" style={{ background: "var(--whisper)" }}>
+            <p className="mono-label px-1">Suggestion</p>
+            <p className="craft mt-3 px-5 py-4 text-[13.5px] leading-[1.5] text-dusk/80">
               {suggestions[0].text}
             </p>
           </section>
