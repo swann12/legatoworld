@@ -178,7 +178,7 @@ function SpaceCard({
           </p>
           <p className="mt-2 font-serif text-[26px] leading-[1.05]">{s.name}</p>
         </div>
-        <button type="button" onClick={onEdit} className="rounded-full bg-paper/70 px-3 py-1 text-[10.5px] mono-label text-dusk/70">
+        <button type="button" onClick={onEdit} className="rounded-full bg-[color-mix(in_oklab,var(--clay)_55%,var(--whisper))] px-3 py-1 text-[10.5px] mono-label text-dusk/70">
           Modifier
         </button>
       </div>
@@ -190,11 +190,11 @@ function SpaceCard({
       )}
 
       <div className="mt-5 grid grid-cols-2 gap-2">
-        <Link to="/care/garden" className="rounded-[14px] bg-paper/70 px-4 py-3">
+        <Link to="/care/garden" className="rounded-[14px] bg-[color-mix(in_oklab,var(--clay)_55%,var(--whisper))] px-4 py-3">
           <p className="mono-label text-dusk/55">Jardin</p>
           <p className="mt-1 text-[13px]">Photos, voix, lettres</p>
         </Link>
-        <Link to="/care/dates" className="rounded-[14px] bg-paper/70 px-4 py-3">
+        <Link to="/care/dates" className="rounded-[14px] bg-[color-mix(in_oklab,var(--clay)_55%,var(--whisper))] px-4 py-3">
           <p className="mono-label text-dusk/55">Dates</p>
           <p className="mt-1 text-[13px]">Anniversaire, départ</p>
         </Link>
