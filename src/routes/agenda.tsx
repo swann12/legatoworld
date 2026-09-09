@@ -207,21 +207,26 @@ function Chip({ active, onClick, children }: { active: boolean; onClick: () => v
 
 function EventRow({ e, onRemove }: { e: AgendaEvent; onRemove: () => void }) {
   const [open, setOpen] = useState(false);
+  const soft = e.kind === "repos" || e.kind === "pour_soi";
   return (
-    <div className="rounded-[18px] border border-dusk/12 px-5 py-4" style={{ background: e.kind === "repos" || e.kind === "pour_soi" ? "var(--whisper)" : "var(--paper)" }}>
-      <button type="button" onClick={() => setOpen(!open)} className="w-full text-left">
-        <div className="flex items-baseline justify-between gap-3">
-          <p className="font-serif text-[18px] leading-[1.15]">{e.title}</p>
-          <span className="mono-label text-dusk/45 shrink-0">{e.time || KIND_LABELS[e.kind]}</span>
-        </div>
-        <p className="mt-1 text-[12px] text-dusk/55">
-          {KIND_LABELS[e.kind]} · {IMPORTANCE_LABELS[e.importance]} · {e.movable ? "déplaçable" : "non déplaçable"}
-        </p>
+    <div className="py-3.5">
+      <button type="button" onClick={() => setOpen(!open)} className="flex w-full items-baseline gap-3 text-left">
+        <span
+          className="mt-[6px] shrink-0"
+          style={{ width: 8, height: 8, borderRadius: 999, background: soft ? "var(--sage)" : "var(--terracotta)" }}
+        />
+        <span className="min-w-0 flex-1">
+          <span className="block font-serif text-[17px] leading-[1.2]">{e.title}</span>
+        </span>
+        <span className="shrink-0 text-[12.5px] tabular-nums text-dusk/45">{e.time || KIND_LABELS[e.kind]}</span>
       </button>
       {open && (
-        <div className="mt-3">
-          {e.note && <p className="text-[12.5px] leading-[1.55] text-dusk/65">{e.note}</p>}
-          <button type="button" onClick={onRemove} className="mt-3 mono-label" style={{ color: "var(--bordeaux)" }}>
+        <div className="mt-2 pl-5">
+          <p className="text-[12.5px] text-dusk/55">
+            {KIND_LABELS[e.kind]} · {IMPORTANCE_LABELS[e.importance]} · {e.movable ? "déplaçable" : "non déplaçable"}
+          </p>
+          {e.note && <p className="mt-2 text-[12.5px] leading-[1.55] text-dusk/65">{e.note}</p>}
+          <button type="button" onClick={onRemove} className="mt-3 text-[12.5px]" style={{ color: "var(--bordeaux)" }}>
             Retirer
           </button>
         </div>
@@ -229,6 +234,7 @@ function EventRow({ e, onRemove }: { e: AgendaEvent; onRemove: () => void }) {
     </div>
   );
 }
+
 
 function AddForm({ onCancel, onSubmit }: { onCancel: () => void; onSubmit: (e: Omit<AgendaEvent, "id">) => void }) {
   const [title, setTitle] = useState("");
