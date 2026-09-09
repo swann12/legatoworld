@@ -54,16 +54,11 @@ function Care() {
         </header>
 
         <section className="px-6 pt-8">
-          <p className="mono-label">Soutien psychologique</p>
-          <h1 className="mt-5 ed-page-title">
+          <p className="mono-label">Soutien</p>
+          <h1 className="mt-4 ed-page-title">
             Un espace pour <span className="italic" style={{ color: "var(--terracotta)" }}>traverser</span>.
           </h1>
-          {(stale || focus.intro) && (
-            <p className="mt-5 text-[13.5px] leading-[1.6] text-dusk/60 max-w-[35ch]">
-              {stale ? "Commencez par nommer ce qui est là." : focus.intro}
-            </p>
-          )}
-          <Plate name="presence" caption="Ce qui reste tient dans la main" className="mt-7" ratio="1 / 1" priority />
+          <Plate name="presence" className="mt-6" ratio="4 / 3" priority />
         </section>
 
         <DateNudge />
