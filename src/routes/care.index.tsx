@@ -68,14 +68,14 @@ function Care() {
         <section className="px-5 pt-8">
           <Link
             to={(stale ? "/care/emotions" : plan.primary.to) as "/care/emotions"}
-            className={`${focus.bg} block rounded-[22px] border border-dusk/10 px-6 pt-7 pb-6`}
+            className="surf-sumi block rounded-[22px] px-6 pt-7 pb-6"
           >
-            <p className="mono-label">{stale ? "Check-in émotionnel" : focus.label}</p>
-            <h2 className="mt-5 font-serif font-normal text-[27px] leading-[1.12] max-w-[18ch]">
-              {stale ? "Comment vous sentez-vous maintenant ?" : plan.primary.hint ?? focus.title}
+            <p className="mono-label">{stale ? "Check-in" : focus.label}</p>
+            <h2 className="mt-4 font-serif font-normal text-[26px] leading-[1.12] max-w-[16ch]">
+              {stale ? "Comment vous sentez-vous ?" : focus.title}
             </h2>
             <span className="mt-6 inline-block mono-label">
-              {stale ? "Choisir une émotion" : plan.primary.label} →
+              {stale ? "Nommer" : plan.primary.label} →
             </span>
           </Link>
         </section>
