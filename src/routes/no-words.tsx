@@ -1006,27 +1006,20 @@ function SoufflesView() {
       <style>{ORB_STYLES}</style>
       <div className="scene-bg" />
       {/* Composition franche : aplats, vide et mouvement lent — jamais de halo flou. */}
-      <div key={seq.id} className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
+      <div key={seq.id} className="photo-layer pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
         <span
-          className="absolute left-[-12%] top-[18%] h-[34%] w-[76%] rounded-full opacity-80"
+          className="inner absolute left-[-12%] top-[18%] h-[34%] w-[76%] rounded-full opacity-80"
           style={{
             background: index % 3 === 0 ? "var(--blush)" : index % 3 === 1 ? "var(--clay)" : "var(--terracotta)",
-            transform: `translate(${touch.x * 7}px, ${touch.y * 5}px) rotate(-12deg)`,
-            transition: "transform 900ms cubic-bezier(0.22, 1, 0.36, 1)",
           }}
         />
         <span
-          className="absolute bottom-[19%] right-[-18%] h-[28%] w-[68%] rounded-full opacity-75"
+          className="inner absolute bottom-[19%] right-[-18%] h-[28%] w-[68%] rounded-full opacity-75"
           style={{
             background: index % 2 === 0 ? "var(--sage)" : "var(--bordeaux)",
-            transform: `translate(${touch.x * -5}px, ${touch.y * -7}px) rotate(18deg)`,
-            transition: "transform 900ms cubic-bezier(0.22, 1, 0.36, 1)",
           }}
         />
-        <span
-          className="absolute left-[43%] top-[29%] size-16 rounded-full border border-paper/60"
-          style={{ transform: `translate(${touch.x * 4}px, ${touch.y * -4}px)` }}
-        />
+        <span className="inner absolute left-[43%] top-[29%] size-16 rounded-full border border-paper/60" />
       </div>
 
       {/* Pause — top-right */}
