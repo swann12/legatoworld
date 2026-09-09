@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Shell } from "@/components/legato/Shell";
 import { PageHeader } from "@/components/legato/EditorialUI";
+import { Switch, SettingRow, BigStat } from "@/components/legato/Viz";
 import { useLegato } from "@/lib/legato-state";
 import { loadSelfCare } from "@/lib/self-care";
 import {
@@ -67,20 +68,20 @@ function Agenda() {
         {/* Un seul relevé chiffré, lisible d'un coup d'œil */}
         {hydrated && (
           <section className="px-5 pt-6">
-            <div className="grid grid-cols-2 gap-3">
-              <div className="rounded-[18px] border border-dashed border-dusk/25 px-5 py-5">
-                <p className="font-serif text-[30px] leading-none">{upcoming.length}</p>
-                <p className="mt-2 text-[12.5px] text-dusk/55">à venir</p>
-              </div>
-              <div className="rounded-[18px] border border-dashed border-dusk/25 px-5 py-5">
-                <p className="font-serif text-[30px] leading-none">
-                  {upcoming.filter((e) => e.kind === "repos" || e.kind === "pour_soi").length}
-                </p>
-                <p className="mt-2 text-[12.5px] text-dusk/55">pour vous</p>
-              </div>
-            </div>
+            <BigStat
+              caption="Les sept prochains jours"
+              value={upcoming.filter((e) => daysAway(e.date) <= 7).length}
+              meta={[
+                { label: "à venir", value: String(upcoming.length) },
+                {
+                  label: "pour vous",
+                  value: String(upcoming.filter((e) => e.kind === "repos" || e.kind === "pour_soi").length),
+                },
+              ]}
+            />
           </section>
         )}
+
 
         {hydrated && suggestions.length > 0 && (
           <section className="px-5 pt-6">
@@ -140,43 +141,38 @@ function Agenda() {
 
 
         <section className="px-5 pt-10">
-          <div className="rounded-[20px] border border-dusk/12 bg-paper px-5 py-5">
-            <p className="mono-label">Rappels doux</p>
-            <p className="mt-2 text-[12.5px] leading-[1.55] text-dusk/60">
-              Une invitation, jamais une alarme. Vous pouvez les couper à tout moment.
-            </p>
-            <button
-              type="button"
-              onClick={() => setR({ enabled: !reminders.enabled })}
-              className="mt-4 rounded-full border px-4 py-2 text-[12.5px]"
-              style={{
-                borderColor: reminders.enabled ? "var(--terracotta)" : "color-mix(in oklab, var(--dusk) 15%, transparent)",
-                background: reminders.enabled ? "color-mix(in oklab, var(--terracotta) 14%, var(--paper))" : "transparent",
-              }}
-            >
-              {reminders.enabled ? "Rappels activés" : "Rappels désactivés"}
-            </button>
-
+          <p className="mono-label px-1">Rappels doux</p>
+          <div className="mt-3 space-y-2">
+            <Switch
+              checked={reminders.enabled}
+              onChange={(v) => setR({ enabled: v })}
+              label="Recevoir des rappels"
+            />
             {reminders.enabled && (
               <>
-                <p className="mt-5 mono-label text-dusk/55">Quand</p>
-                <div className="mt-2 flex flex-wrap gap-2">
-                  {(["matin", "midi", "soir"] as const).map((m) => (
-                    <Chip key={m} active={reminders.moment === m} onClick={() => setR({ moment: m })}>{m}</Chip>
-                  ))}
-                </div>
-                <p className="mt-4 mono-label text-dusk/55">À quelle fréquence</p>
-                <div className="mt-2 flex flex-wrap gap-2">
-                  {(["quotidien", "hebdo"] as const).map((f) => (
-                    <Chip key={f} active={reminders.frequency === f} onClick={() => setR({ frequency: f })}>
-                      {f === "quotidien" ? "Chaque jour" : "Une fois par semaine"}
-                    </Chip>
-                  ))}
-                </div>
+                <SettingRow
+                  label="Moment"
+                  value={reminders.moment}
+                  onClick={() =>
+                    setR({
+                      moment:
+                        reminders.moment === "matin" ? "midi" : reminders.moment === "midi" ? "soir" : "matin",
+                    })
+                  }
+                />
+                <SettingRow
+                  label="Fréquence"
+                  value={reminders.frequency === "quotidien" ? "chaque jour" : "chaque semaine"}
+                  onClick={() =>
+                    setR({ frequency: reminders.frequency === "quotidien" ? "hebdo" : "quotidien" })
+                  }
+                />
               </>
             )}
           </div>
+          <p className="mt-3 px-1 text-[12px] text-dusk/50">Une invitation, jamais une alarme.</p>
         </section>
+
 
         <section className="px-7 pt-9">
           <Link to="/help/corps" className="block border-t border-dusk/12 pt-6 text-center">

@@ -12,6 +12,7 @@ import {
   type PracticalCategory,
 } from "@/lib/journey-config";
 import { TASK_STATUS_LABELS, isHiddenFromActive, isArchived } from "@/lib/task-status";
+import { Ruler } from "@/components/legato/Viz";
 
 export const Route = createFileRoute("/practical/tasks/")({
   head: () => ({
@@ -77,6 +78,24 @@ function TasksList() {
             </div>
           </section>
         )}
+
+        {/* Répartition dans le temps — quatre teintes contrastées */}
+        {!light && all.length > 0 && (
+          <section className="px-5 pt-4">
+            <div className="craft px-5 pt-5 pb-5">
+              <p className="mono-label">Répartition dans le temps</p>
+              <div className="mt-4">
+                <Ruler
+                  segments={ORDER.map((b) => ({
+                    label: BUCKET_LABELS[b].label,
+                    value: all.filter((c) => PRACTICAL_BUCKETS[c] === b).length,
+                  }))}
+                />
+              </div>
+            </div>
+          </section>
+        )}
+
 
         {!light && (
           <section className="px-6 pt-7">
