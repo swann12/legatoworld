@@ -1,7 +1,7 @@
+import { PageHeader } from "@/components/legato/EditorialUI";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Shell } from "@/components/legato/Shell";
-import { LegatoMark } from "@/components/legato/LegatoMark";
 import { RELATIONS, type Relation } from "@/lib/legato-state";
 import { useActiveSpaceId, setActiveSpaceId } from "@/lib/active-space";
 import {
@@ -35,11 +35,7 @@ function Espaces() {
   return (
     <Shell livingBg={false}>
       <div className="min-h-dvh bg-paper text-dusk pb-32">
-        <header className="px-6 pt-7 flex items-center justify-between">
-          <Link to="/profile" aria-label="Retour" className="text-dusk/55 text-lg">←</Link>
-          <LegatoMark size={22} />
-          <span className="w-5" />
-        </header>
+        <PageHeader back="/profile" title="MES ESPACES" />
 
         <section className="px-6 pt-8">
           <p className="mono-label">Mes espaces</p>

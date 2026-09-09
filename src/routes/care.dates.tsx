@@ -1,7 +1,7 @@
+import { PageHeader } from "@/components/legato/EditorialUI";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Shell } from "@/components/legato/Shell";
-import { LegatoMark } from "@/components/legato/LegatoMark";
 import { useLegato } from "@/lib/legato-state";
 import { useSpaces, upcomingForSpaces, formatDaysAway, type UpcomingDate } from "@/lib/spaces-store";
 import { ritualsForDate, type DateRitual } from "@/lib/date-rituals";
@@ -33,13 +33,10 @@ function CareDates() {
   return (
     <Shell livingBg={false}>
       <div className="min-h-dvh bg-paper text-dusk pb-32">
-        <header className="px-6 pt-7 flex items-center justify-between">
-          <Link to="/profile" aria-label="Retour" className="mono-label text-dusk/55">← Profil</Link>
-          <LegatoMark size={22} />
-        </header>
+        <PageHeader back="/profile" title="DATES IMPORTANTES" />
 
         <section className="px-6 pt-8">
-          <p className="mono-label">Dates importantes</p>
+          
           <h1 className="mt-5 font-serif font-normal text-[32px] leading-[1.06]">
             Anticiper les jours<br />
             <span className="italic" style={{ color: "var(--terracotta)" }}>qui pèsent</span>.

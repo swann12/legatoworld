@@ -1,7 +1,7 @@
+import { PageHeader } from "@/components/legato/EditorialUI";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Plate } from "@/components/legato/Plate";
 import { Shell } from "@/components/legato/Shell";
-import { LegatoMark } from "@/components/legato/LegatoMark";
 import { useLovedName } from "@/lib/loved-name";
 import { upcomingSensitiveDates } from "@/lib/sensitive-dates";
 import { useLegato } from "@/lib/legato-state";
@@ -44,10 +44,7 @@ function CareGarden() {
   return (
     <Shell livingBg={false}>
       <div className="min-h-dvh bg-paper text-dusk pb-32">
-        <header className="px-6 pt-7 flex items-center justify-between">
-          <Link to="/care" aria-label="Retour" className="mono-label text-dusk/55">← Soutien</Link>
-          <LegatoMark size={22} />
-        </header>
+        <PageHeader back="/care" title="LE JARDIN" />
 
         <section className="px-6 pt-8">
           <p className="mono-label">La parcelle de</p>

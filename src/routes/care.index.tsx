@@ -97,7 +97,7 @@ function Care() {
             <Link
               to="/presence"
               className="flex min-h-[104px] flex-col justify-between rounded-[18px] px-5 py-4"
-              style={{ background: "color-mix(in oklab, var(--sky) 55%, var(--paper))" }}
+              style={{ background: TINT_MEMORY }}
             >
               <IndexMark i={1} total={3} />
               <p className="font-serif text-[20px] leading-[1.1]">Se confier</p>
@@ -105,7 +105,7 @@ function Care() {
             <Link
               to="/care/garden"
               className="flex min-h-[104px] flex-col justify-between rounded-[18px] px-5 py-4"
-              style={{ background: "color-mix(in oklab, var(--sun) 65%, var(--paper))" }}
+              style={{ background: TINT_MEMORY }}
             >
               <IndexMark i={2} total={3} />
               <p className="font-serif text-[20px] leading-[1.1]">{lovedName}</p>
@@ -174,19 +174,17 @@ function focusFromEmotions(emotions: Emotion[], stale: boolean): Focus {
 }
 
 
-const TILE_TINTS = [
-  "color-mix(in oklab, var(--blush) 40%, var(--paper))",
-  "color-mix(in oklab, var(--sage) 45%, var(--paper))",
-  "color-mix(in oklab, var(--sun) 60%, var(--paper))",
-];
+/** Une seule teinte par section — jamais d'alternance de couleurs. */
+const TINT_NOW = "color-mix(in oklab, var(--blush) 34%, var(--paper))";
+const TINT_MEMORY = "color-mix(in oklab, var(--sky) 42%, var(--paper))";
 
-function CareTile({ module: m, i = 0 }: { module: CareModule; i?: number }) {
+function CareTile({ module: m }: { module: CareModule; i?: number }) {
   const cfg = CARE_LABELS[m];
   return (
     <Link
       to={cfg.to as "/care/journal"}
       className="flex min-h-[104px] flex-col justify-end rounded-[18px] px-5 py-4"
-      style={{ background: TILE_TINTS[i % TILE_TINTS.length] }}
+      style={{ background: TINT_NOW }}
     >
       <p className="font-serif text-[19px] leading-[1.15] text-dusk">{cfg.label}</p>
     </Link>

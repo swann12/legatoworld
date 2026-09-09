@@ -1,6 +1,6 @@
+import { PageHeader } from "@/components/legato/EditorialUI";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Shell } from "@/components/legato/Shell";
-import { LegatoMark } from "@/components/legato/LegatoMark";
 import { EMOTIONS, useLegato, type Emotion } from "@/lib/legato-state";
 
 // Couleur sémantique par émotion — pastilles colorées sur fond clair,
@@ -33,12 +33,8 @@ function CareEmotions() {
   return (
     <Shell livingBg={false}>
       <div className="min-h-dvh bg-paper text-dusk pb-32">
-        <header className="px-6 pt-7 flex items-center justify-between">
-          <Link to="/care" aria-label="Retour" className="mono-label text-dusk/55">← Soutien</Link>
-          <LegatoMark size={22} />
-        </header>
+        <PageHeader back="/care" title="CHECK-IN" />
         <section className="px-6 pt-8">
-          <p className="mono-label">Check-in émotionnel</p>
           <h1 className="mt-5 ed-page-title">Comment vous sentez-vous <span className="italic" style={{ color: "var(--terracotta)" }}>maintenant&nbsp;?</span></h1>
           <p className="mt-3 text-[12.5px] text-dusk/55">Plusieurs, si plusieurs sont là.</p>
         </section>

@@ -1,8 +1,8 @@
+import { PageHeader } from "@/components/legato/EditorialUI";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { Shell } from "@/components/legato/Shell";
-import { LegatoMark } from "@/components/legato/LegatoMark";
 import { useLovedName } from "@/lib/loved-name";
 import { useLegato } from "@/lib/legato-state";
 import { suggestRituals } from "@/lib/rituals.functions";
@@ -119,13 +119,9 @@ function CareRituels() {
   return (
     <Shell livingBg={false}>
       <div className="min-h-dvh bg-paper text-dusk pb-32">
-        <header className="px-6 pt-7 flex items-center justify-between">
-          <Link to="/care" aria-label="Retour" className="mono-label text-dusk/55">← Soutien</Link>
-          <LegatoMark size={22} />
-        </header>
+        <PageHeader back="/care" title="RITUELS" />
 
         <section className="px-6 pt-8">
-          <p className="mono-label">Rituels d'hommage</p>
           <h1 className="mt-4 ed-page-title">
             Honorer <span className="italic" style={{ color: "var(--terracotta)" }}>{lovedName}</span>.
           </h1>
