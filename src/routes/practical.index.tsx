@@ -10,7 +10,7 @@ import {
   type PracticalCategory, type PracticalBucket,
 } from "@/lib/journey-config";
 import { TASK_STATUS_LABELS, isHiddenFromActive } from "@/lib/task-status";
-import { Dial, DotMatrix, Ruler, IndexMark } from "@/components/legato/Viz";
+import { Dial, Progress, Ruler, IndexMark } from "@/components/legato/Viz";
 import { NextActions } from "@/components/legato/NextActions";
 
 
