@@ -1,8 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Plate } from "@/components/legato/Plate";
+import practicalHero from "@/assets/hero-practical.png";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { Shell } from "@/components/legato/Shell";
-import { LegatoMark } from "@/components/legato/LegatoMark";
 import { useLegato } from "@/lib/legato-state";
 import {
   journeyModules, PRACTICAL_LABELS, PRACTICAL_BUCKETS, BUCKET_LABELS,
@@ -38,7 +37,7 @@ function loadStatus(): Record<string, Status> {
 const ORDER: PracticalBucket[] = ["now", "week", "month", "later"];
 
 function Practical() {
-  const { situation, primaryNeed, stage, softDay, lightMode, lovedOneRelation, legallyInvolved, hydrated, taskStatus, name } = useLegato();
+  const { situation, primaryNeed, stage, softDay, lightMode, lovedOneRelation, legallyInvolved, hydrated, taskStatus } = useLegato();
   const { practical } = journeyModules(situation, primaryNeed, stage, { relation: lovedOneRelation, legallyInvolved });
   const [filter, setFilter] = useState<PracticalBucket | "all">("all");
   const [showArchived, setShowArchived] = useState(false);
@@ -70,28 +69,33 @@ function Practical() {
   return (
     <Shell livingBg={false}>
       <div className="wash-flame min-h-dvh text-dusk pb-32">
-        <header className="px-6 pt-7 flex items-center justify-between">
-          <LegatoMark to="/practical" size={20} />
-          <Link
-            to="/profile"
-            aria-label="Mon profil"
-            className="inline-flex items-center justify-center rounded-full text-[12px] font-medium"
-            style={{ width: 30, height: 30, background: "var(--blush)", color: "var(--dusk)" }}
-          >
-            {(name || "?").trim().charAt(0).toUpperCase() || "?"}
-          </Link>
-        </header>
-
-        <section className="px-6 pt-8 pb-2">
-          <p className="mono-label">Démarches</p>
-          <h1 className="mt-5 font-serif font-normal text-[34px] leading-[1.05] text-dusk">
-            Avancer sans se<br />
-            <span className="italic" style={{ color: "var(--terracotta)" }}>brusquer</span>.
-          </h1>
-          <p className="mt-4 text-[13px] text-dusk/55">
-            {softActive ? "Mode doux" : `${done} / ${total} étapes`}
-          </p>
-          <Plate name="demarches" className="mt-6" ratio="4 / 3" />
+        <section className="pt-0">
+          <div className="relative">
+            <div className="overflow-hidden" style={{ aspectRatio: "4 / 5" }}>
+              <img
+                src={practicalHero}
+                alt="Collage : fragments de ciel, portraits et végétaux posés sur un papier crème"
+                className="h-full w-full object-cover"
+                loading="eager"
+              />
+            </div>
+            <div
+              className="relative -mt-28 rounded-t-[26px] px-6 pt-7 pb-7"
+              style={{
+                background: "var(--paper)",
+                boxShadow: "0 -14px 40px -22px color-mix(in oklab, var(--bordeaux) 55%, transparent)",
+              }}
+            >
+              <p className="mono-label">Démarches</p>
+              <h1 className="mt-3 font-serif font-normal text-[34px] leading-[1.05] text-dusk">
+                Avancer sans se{" "}
+                <span className="italic" style={{ color: "var(--terracotta)" }}>brusquer</span>.
+              </h1>
+              <p className="mt-4 text-[13px] text-dusk/55">
+                {softActive ? "Mode doux" : `${done} / ${total} étapes`}
+              </p>
+            </div>
+          </div>
         </section>
 
         <NextActions scope="practical" />
