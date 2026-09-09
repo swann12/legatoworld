@@ -86,32 +86,32 @@
 :root {
  --radius: 1.5rem;
 
- /* Palette Legato officielle — 9 teintes (aucune autre couleur autorisée).
-  * terracotta, butter, bleu · cream, pearl, sable · blush, mauve, bordeaux. */
- --paper:      #F8F4F0;  /* cream */
- --whisper:    #FCFAF9;  /* cream + light */
+ /* Palette Legato — huit teintes, aucune autre.
+  * terracotta · crème · pearl · sable · brun rosé · bordeaux · bleu grisé · rose poudré */
+ --paper:      #FAF6F2;  /* crème */
+ --whisper:    #FCFAF8;  /* crème clair */
  --clay:       #EFE6DC;  /* pearl */
  --dusk:       #5D322A;  /* bordeaux — encre principale */
  --ink:        #000000;  /* noir du logo */
  --bordeaux:   #5D322A;
  --terracotta: #CE6A4E;
- --apricot:    #F0C97C;  /* abricot */
- --olive:      #A9857C;  /* mauve */
- --sage:       #D0C4B2;  /* sable */
- --sun:        #F5F0C8;  /* butter */
- --peach:      #F0C97C;  /* abricot */
- --blush:      #EDC5C3;
- --rose:       #EDC5C3;
- --sumi:       #3A1F19;  /* bordeaux profond — encre sombre */
- /* Tokens hors palette remappés sur les teintes autorisées */
- --mist:       #EFE6DC;  /* → pearl */
- --sky:        #D6DCE8;  /* → bleu */
- --lavender:   #EDC5C3;  /* → blush */
- --navy:       #D6DCE8;  /* → bleu */
- --azure:      #D6DCE8;  /* → bleu */
- --magenta:    #CE6A4E;  /* → terracotta */
- --ember:      #CE6A4E;  /* → terracotta */
- --bloom-fresh:#D0C3AF;
+ --olive:      #A98679;  /* brun rosé */
+ --sage:       #DAC9B9;  /* sable */
+ --blush:      #EDC9C5;  /* rose poudré */
+ --sky:        #D3DAE5;  /* bleu grisé */
+ --sumi:       #4A2620;  /* bordeaux profond */
+ /* Tokens hérités remappés sur les huit teintes */
+ --apricot:    #DAC9B9;  /* → sable */
+ --sun:        #DAC9B9;  /* → sable */
+ --peach:      #EDC9C5;  /* → rose poudré */
+ --rose:       #EDC9C5;
+ --mist:       #EFE6DC;
+ --lavender:   #EDC9C5;
+ --navy:       #D3DAE5;
+ --azure:      #D3DAE5;
+ --magenta:    #CE6A4E;
+ --ember:      #CE6A4E;
+ --bloom-fresh:#DAC9B9;
  --bloom-mist: #F4EAE1;
 
 
@@ -679,15 +679,70 @@
 
   /* Surfaces teintées — aplats francs, tirés de la palette. */
   .tint-blush  { background: color-mix(in oklab, var(--blush) 62%, var(--whisper)); color: var(--dusk); }
-  .tint-butter { background: color-mix(in oklab, var(--sun) 70%, var(--whisper));   color: var(--dusk); }
+  .tint-butter { background: color-mix(in oklab, var(--sage) 68%, var(--whisper));  color: var(--dusk); }
   .tint-sky    { background: color-mix(in oklab, var(--sky) 62%, var(--whisper));   color: var(--dusk); }
-  .tint-sand   { background: color-mix(in oklab, var(--clay) 78%, var(--whisper));  color: var(--dusk); }
-  .tint-mauve  { background: color-mix(in oklab, var(--sage) 60%, var(--whisper));  color: var(--dusk); }
+  .tint-sand   { background: color-mix(in oklab, var(--sage) 55%, var(--whisper));  color: var(--dusk); }
+  .tint-mauve  { background: color-mix(in oklab, var(--olive) 34%, var(--whisper)); color: var(--dusk); }
   .tint-flame  { background: color-mix(in oklab, var(--terracotta) 26%, var(--whisper)); color: var(--dusk); }
 
   .tint-blush .surf-sub, .tint-butter .surf-sub, .tint-sky .surf-sub,
   .tint-sand .surf-sub, .tint-mauve .surf-sub, .tint-flame .surf-sub {
   color: color-mix(in oklab, var(--dusk) 62%, transparent);
+  }
+
+  /* ── Dimension sensible : matière, souffle, apparition.
+   * Rien de décoratif — la page doit se sentir touchée, pas illustrée. */
+
+  /* Grain de papier — très fin, posé sur le cadre de l'app. */
+  .grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0.30;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/><feColorMatrix type='saturate' values='0'/></filter><rect width='140' height='140' filter='url(%23n)' opacity='0.5'/></svg>");
+  background-size: 140px 140px;
+  }
+
+  /* Voile chaud — une respiration de lumière en haut de page, sans dégradé de couleur. */
+  .veil::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 42vh;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(120% 100% at 50% 0%,
+    color-mix(in oklab, var(--clay) 60%, transparent) 0%,
+    transparent 70%);
+  }
+
+  /* Apparition — le contenu arrive comme une inspiration, jamais d'un coup. */
+  @keyframes legato-rise {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: none; }
+  }
+  .rise      { animation: legato-rise 720ms cubic-bezier(0.22, 0.61, 0.36, 1) both; }
+  .rise-1    { animation-delay: 60ms; }
+  .rise-2    { animation-delay: 140ms; }
+  .rise-3    { animation-delay: 230ms; }
+
+  /* Contact — les éléments touchables répondent au doigt, doucement. */
+  .touchable {
+  transition: transform 320ms cubic-bezier(0.22, 0.61, 0.36, 1), opacity 320ms ease;
+  }
+  .touchable:active { transform: scale(0.985); opacity: 0.86; }
+
+  /* Filet d'encre — séparation manuscrite, plus sensible qu'un trait plein. */
+  .ink-rule {
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent,
+    color-mix(in oklab, var(--dusk) 26%, transparent) 12%,
+    color-mix(in oklab, var(--dusk) 26%, transparent) 88%,
+    transparent);
   }
 
 
