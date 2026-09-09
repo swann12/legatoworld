@@ -1,4 +1,4 @@
-import { PageHeader } from "@/components/legato/EditorialUI";
+import { PageHeader, SectionHead } from "@/components/legato/EditorialUI";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Plate } from "@/components/legato/Plate";
 import { Shell } from "@/components/legato/Shell";
@@ -6,7 +6,7 @@ import { useLovedName } from "@/lib/loved-name";
 import { upcomingSensitiveDates } from "@/lib/sensitive-dates";
 import { useLegato } from "@/lib/legato-state";
 import { usePortrait, portraitSentence } from "@/lib/portrait-store";
-import { IndexMark } from "@/components/legato/Viz";
+
 
 export const Route = createFileRoute("/care/garden/")({
   head: () => ({
@@ -72,26 +72,26 @@ function CareGarden() {
         )}
 
         <section className="px-5 pt-8">
-          <div className="flex items-center justify-between gap-3 px-1">
-            <p className="mono-label text-dusk/55">Déposer</p>
-            <span className="text-[9.5px] tracking-[0.16em] text-dusk/40">06 formes</span>
-          </div>
-          <div className="mt-3 grid grid-cols-2 gap-3">
+          <SectionHead label="Déposer" meta={`${String(DEPOSITS.length).padStart(2, "0")} formes`} />
+          <div className="mt-3 grid grid-cols-2 gap-2.5">
             {DEPOSITS.map((d, i) => (
               <Link
                 key={d.kind}
                 to="/care/garden/$zone"
                 params={{ zone: d.kind }}
-                className={`${i === 0 ? "surf-flame" : "surf-cream"} rounded-[18px] border border-dusk/12 px-4 py-5 min-h-[124px] flex flex-col justify-between`}
+                className="craft flex min-h-[126px] flex-col justify-between px-4 py-4"
+                style={i === 0 ? { background: "color-mix(in oklab, var(--terracotta) 12%, var(--paper))" } : undefined}
               >
-                <div className="flex items-start justify-end">
-                  <IndexMark i={i + 1} total={DEPOSITS.length} tone="currentColor" />
-                </div>
-
-                <div>
-                  <p className="font-serif text-[20px] leading-[1.1]">{d.label}</p>
-                  <p className="mt-0.5 text-[12px] surf-sub">{d.hint}</p>
-                </div>
+                <span
+                  className="font-serif text-[26px] leading-none tabular-nums"
+                  style={{ color: i === 0 ? "var(--terracotta)" : "color-mix(in oklab, var(--dusk) 28%, transparent)" }}
+                >
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <span className="block">
+                  <span className="block font-serif text-[19px] leading-[1.1]">{d.label}</span>
+                  <span className="mt-1 block text-[12px] surf-sub">{d.hint}</span>
+                </span>
               </Link>
             ))}
           </div>

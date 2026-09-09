@@ -116,49 +116,40 @@ function CareRituels() {
     }
   };
 
+  const shown = light ? visible.slice(0, 3) : visible;
+
   return (
     <Shell livingBg={false}>
       <div className="min-h-dvh bg-paper text-dusk pb-32">
         <PageHeader back="/care" title="RITUELS" />
 
-        <section className="px-6 pt-8">
-          <h1 className="mt-4 ed-page-title">
+        <section className="px-6 pt-2">
+          <h1 className="ed-page-title text-[30px]">
             Honorer <span className="italic" style={{ color: "var(--terracotta)" }}>{lovedName}</span>.
           </h1>
           {!light && (
-            <p className="mt-5 text-[13.5px] leading-[1.6] text-dusk/60 max-w-[34ch]">
-              Des gestes qui viennent du monde entier. Cliquez pour comprendre d'où ils viennent.
+            <p className="mt-4 max-w-[30ch] text-[13px] leading-[1.6] text-dusk/60">
+              Des gestes venus du monde entier. Touchez-en un pour savoir d'où il vient.
             </p>
           )}
         </section>
 
         {!light && (
-        <section className="px-5 pt-6">
-          <div className="flex gap-4 overflow-x-auto pb-1 no-scrollbar">
-            {(["Tout", ...REGIONS] as const).map((r) => {
-              const active = r === region;
-              return (
-                <button
-                  key={r}
-                  onClick={() => setRegion(r as Region | "Tout")}
-                  className="shrink-0 pb-1 text-[12.5px] tracking-[0.05em] transition-colors"
-                  style={{
-                    color: active ? "var(--bordeaux)" : "color-mix(in oklab, var(--dusk) 45%, transparent)",
-                    borderBottom: active ? "1px solid var(--terracotta)" : "1px solid transparent",
-                  }}
-                >
-                  {r}
-                </button>
-              );
-            })}
-          </div>
-        </section>
-
+          <section className="px-6 pt-7">
+            <Tabs
+              scroll
+              value={region}
+              onChange={(r) => setRegion(r)}
+              options={(["Tout", ...REGIONS] as (Region | "Tout")[]).map((r) => ({ id: r, label: r }))}
+            />
+          </section>
         )}
 
         <section className="px-5 pt-6">
-          <ul className="surf-cream rounded-[18px] px-5">
-            {(light ? visible.slice(0, 3) : visible).map((r) => {
+          <SectionHead label="Gestes" meta={String(shown.length).padStart(2, "0")} />
+
+          <ul className="surf-cream mt-3 rounded-[18px] px-5">
+            {shown.map((r, i) => {
               const isOpen = open === r.id;
               return (
                 <li
@@ -168,22 +159,27 @@ function CareRituels() {
                 >
                   <button
                     onClick={() => setOpen(isOpen ? null : r.id)}
-                    className="w-full py-5 text-left"
+                    className="flex w-full items-start gap-4 py-4 text-left"
                     aria-expanded={isOpen}
                   >
-                    <div className="flex items-baseline justify-between gap-3">
-                      <p className="mono-label surf-sub">{r.origin}</p>
-                      <span className="text-[11px] tabular-nums surf-sub">{r.duration}</span>
-                    </div>
-                    <h2 className="mt-2 font-serif text-[20px] leading-[1.15]">{r.title}</h2>
-                    <p className="mt-1 text-[13px] surf-sub">{r.hint}</p>
-                    {isOpen && (
-                      <p className="mt-4 border-t border-dashed pt-3 text-[13.5px] leading-[1.55] italic"
-                         style={{ borderColor: "color-mix(in oklab, var(--dusk) 18%, transparent)" }}>
-                        {r.detail}
-                      </p>
-                    )}
+                    <span className="mt-[6px] shrink-0 text-[10.5px] tabular-nums tracking-[0.12em] text-dusk/35">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block font-serif text-[19px] leading-[1.12]">{r.title}</span>
+                      <span className="mt-1 block text-[12.5px] surf-sub">{r.origin}</span>
+                    </span>
+                    <span className="shrink-0 self-start pt-[5px] text-[11px] tabular-nums text-dusk/40">{r.duration}</span>
                   </button>
+
+                  {isOpen && (
+                    <div className="pb-5 pl-[calc(1rem+18px)]">
+                      <div className="craft px-4 py-3.5">
+                        <p className="text-[13.5px] leading-[1.55]">{r.detail}</p>
+                        <p className="mt-2.5 text-[12.5px] italic text-dusk/55">{r.hint}</p>
+                      </div>
+                    </div>
+                  )}
                 </li>
               );
             })}
@@ -192,7 +188,7 @@ function CareRituels() {
           <button
             onClick={inspireMore}
             disabled={loading}
-            className="craft mt-4 w-full px-5 py-5 text-left text-dusk/70 disabled:opacity-60"
+            className="craft mt-4 w-full px-5 py-4 text-left text-dusk/70 disabled:opacity-60"
           >
             <p className="mono-label" style={{ color: "var(--terracotta)" }}>Présence</p>
             <p className="mt-1 font-serif text-[18px] text-dusk">

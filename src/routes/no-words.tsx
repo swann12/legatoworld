@@ -701,6 +701,7 @@ const ORB_STYLES = `
 /* Lune — contrôles (flèches, pause, garder, retour) en clair */
 .scene-lune .lune-ctrl { color: rgba(248,244,235,0.92) !important; background: rgba(255,255,255,0.10) !important; }
 .scene-lune .lune-link { color: rgba(248,244,235,0.72) !important; }
+.scene-lune .lune-sheet { background: rgba(24,18,34,0.42) !important; }
 
 /* Couche A — photo principale, animation longue */
 .souffle-scene .layer-a {
@@ -1050,16 +1051,6 @@ function SoufflesView() {
         )}
       </button>
 
-      {/* Title */}
-      <div className="relative z-10 pt-16 text-center pointer-events-none">
-        <h2
-          className="souffle-title font-serif text-[22px] leading-none text-dusk/85"
-          style={{ textShadow: "0 1px 18px rgba(255,255,255,0.55)" }}
-        >
-          {noOrphan(seq.title)}
-        </h2>
-      </div>
-
       <div className="flex-1" />
 
       {bloom && (
@@ -1068,41 +1059,63 @@ function SoufflesView() {
         </div>
       )}
 
-      {/* Bottom — manual navigation only, no auto-advance */}
-      <div className="relative z-10 px-6 pb-6 flex flex-col gap-3">
-        <div className="flex items-center gap-3">
-          <button
-            onClick={prev}
-            className="lune-ctrl size-11 rounded-full flex items-center justify-center text-lg backdrop-blur-md text-dusk/70"
-            style={{ background: "color-mix(in oklab, white 30%, transparent)" }}
-            aria-label="Séquence précédente"
-          >←</button>
-          <button
-            onClick={onKeep}
-            disabled={isFav}
-            className="lune-ctrl flex-1 py-3 rounded-full text-[11px] uppercase tracking-[0.22em] backdrop-blur-md text-dusk/70"
-            style={{ background: "color-mix(in oklab, white 30%, transparent)" }}
-            aria-label={isFav ? "Séquence gardée" : "Garder cette séquence"}
-          >
-            {isFav ? "♥  gardée" : "♡  garder"}
-          </button>
-          <button
-            onClick={next}
-            className="lune-ctrl size-11 rounded-full flex items-center justify-center text-lg backdrop-blur-md text-dusk/70"
-            style={{ background: "color-mix(in oklab, white 30%, transparent)" }}
-            aria-label="Séquence suivante"
-          >→</button>
+      {/* Feuille basse — titre, repère de position, commandes claires */}
+      <div className="relative z-10 px-4 pb-5">
+        <div
+          className="lune-sheet rounded-[22px] px-5 pt-5 pb-4"
+          style={{
+            background: "color-mix(in oklab, white 62%, transparent)",
+            backdropFilter: "blur(18px)",
+            WebkitBackdropFilter: "blur(18px)",
+          }}
+        >
+          <div className="flex items-baseline justify-between gap-4">
+            <p className="souffle-title font-serif text-[22px] leading-[1.1] text-dusk">{noOrphan(seq.title)}</p>
+            <span className="lune-link shrink-0 text-[11px] tabular-nums tracking-[0.14em] text-dusk/50">
+              {String(index + 1).padStart(2, "0")} / {String(sequence.length).padStart(2, "0")}
+            </span>
+          </div>
+
+          <p className="lune-link mt-1.5 text-[12px] leading-[1.45] text-dusk/55">
+            Posez le doigt sur l'image : la matière respire sous le contact.
+          </p>
+
+          {/* Repère de position — une graduation par souffle */}
+          <div className="mt-4 flex items-center gap-[3px]">
+            {sequence.map((s, i) => (
+              <button
+                key={s.id}
+                onClick={() => changeIndex(i)}
+                aria-label={`Aller à ${s.title}`}
+                className="h-[3px] flex-1 rounded-full transition-opacity"
+                style={{
+                  background: i === index ? "var(--terracotta)" : "color-mix(in oklab, var(--dusk) 35%, transparent)",
+                  opacity: i === index ? 1 : 0.35,
+                }}
+              />
+            ))}
+          </div>
+
+          <div className="mt-4 flex items-center justify-between">
+            <button onClick={prev} className="lune-link py-2 pr-4 text-[12.5px] text-dusk/65" aria-label="Souffle précédent">
+              ← Précédent
+            </button>
+            <button
+              onClick={onKeep}
+              disabled={isFav}
+              className="lune-link rounded-full px-4 py-2 text-[12.5px] text-dusk/75 disabled:opacity-70"
+              style={{ border: "1px dashed color-mix(in oklab, var(--dusk) 28%, transparent)" }}
+              aria-label={isFav ? "Souffle gardé" : "Garder ce souffle"}
+            >
+              {isFav ? "♥ Gardé" : "♡ Garder"}
+            </button>
+            <button onClick={next} className="lune-link py-2 pl-4 text-[12.5px] text-dusk/65" aria-label="Souffle suivant">
+              Suivant →
+            </button>
+          </div>
         </div>
-        {favorites.length > 0 && (
-          <Link
-            to="/no-words"
-            search={{ tab: "lire" } as never}
-            className="lune-link text-center text-[10px] uppercase tracking-[0.22em] text-dusk/55 hover:text-dusk"
-          >
-            Pour prolonger ce souffle&nbsp;→
-          </Link>
-        )}
       </div>
+
 
     </div>
   );
