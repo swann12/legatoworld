@@ -9,11 +9,12 @@ export function SpaceSwitch() {
     <Link
       to={to}
       aria-current={on ? "page" : undefined}
-      className="relative z-10 flex-1 py-3 text-center text-[13px] transition-opacity duration-300"
+      className="relative z-10 flex-1 py-3 text-center text-[11.5px] uppercase tracking-[0.16em] transition-opacity duration-300"
       style={{
-        background: to === "/care" ? "var(--terracotta)" : "var(--bordeaux)",
-        color: "var(--paper)",
-        opacity: on ? 1 : 0.68,
+        fontFamily: "var(--font-mono)",
+        background: "var(--blush)",
+        color: "var(--bordeaux)",
+        opacity: on ? 1 : 0.55,
       }}
     >
       {label}
@@ -26,17 +27,19 @@ export function SpaceSwitch() {
       className="pointer-events-none fixed bottom-0 left-1/2 z-50 w-full max-w-[420px] -translate-x-1/2 px-6 pb-[max(env(safe-area-inset-bottom),0.75rem)]"
     >
       <div
-        className="pointer-events-auto relative flex items-stretch overflow-hidden rounded-full border border-paper/25"
+        className="pointer-events-auto relative flex items-stretch overflow-hidden rounded-full"
         style={{
-          boxShadow: "0 12px 30px -18px color-mix(in oklab, var(--bordeaux) 80%, transparent)",
+          border: "1px solid color-mix(in oklab, var(--bordeaux) 22%, transparent)",
+          boxShadow: "0 12px 30px -18px color-mix(in oklab, var(--bordeaux) 60%, transparent)",
         }}
       >
         {item(!practical, "/care", "Soutien")}
         {item(practical, "/practical", "Démarches")}
         <span
           aria-hidden
-          className="absolute bottom-1 h-px w-10 bg-paper transition-[left] duration-500"
+          className="absolute bottom-1.5 h-px w-10 transition-[left] duration-500"
           style={{
+            background: "var(--bordeaux)",
             left: practical ? "calc(75% - 1.25rem)" : "calc(25% - 1.25rem)",
             transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)",
           }}

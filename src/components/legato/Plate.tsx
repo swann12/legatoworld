@@ -6,7 +6,7 @@ import memoire from "@/assets/ill-memoire.png";
 import souffle from "@/assets/ill-souffle.png";
 
 export const PLATES = {
-  presence: { src: presence, alt: "Collage : galet couvert de mousse, aplat terracotta décalé, tige sèche" },
+  presence: { src: presence, alt: "Planche aquarellée : fragments de ciel, pierre, feuillages et carnet ouvert" },
   demarches: { src: demarches, alt: "Collage : papiers déchirés empilés, ligne graduée à l'encre, aplat olive" },
   corps: { src: corps, alt: "Collage : mousse, pierre grainée, fougère séchée et halo rose" },
   nuit: { src: nuit, alt: "Collage : pierre dressée sur un îlot d'herbes, fleurs sèches suspendues" },
