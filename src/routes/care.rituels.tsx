@@ -120,7 +120,7 @@ function CareRituels() {
 
   return (
     <Shell livingBg={false}>
-      <div className="min-h-dvh bg-paper text-dusk pb-32">
+      <div className="wash-mauve min-h-dvh text-dusk pb-32">
         <PageHeader back="/care" title="RITUELS" />
 
         <section className="px-6 pt-2">
@@ -148,7 +148,7 @@ function CareRituels() {
         <section className="px-5 pt-6">
           <SectionHead label="Gestes" meta={String(shown.length).padStart(2, "0")} />
 
-          <ul className="surf-cream mt-3 rounded-[18px] px-5">
+          <ul className="tint-mauve mt-3 rounded-[18px] px-5">
             {shown.map((r, i) => {
               const isOpen = open === r.id;
               return (

@@ -43,7 +43,7 @@ function CareGarden() {
 
   return (
     <Shell livingBg={false}>
-      <div className="min-h-dvh bg-paper text-dusk pb-32">
+      <div className="wash-sand min-h-dvh text-dusk pb-32">
         <PageHeader back="/care" title="LE JARDIN" />
 
         <section className="px-6 pt-8">
@@ -80,7 +80,13 @@ function CareGarden() {
                 to="/care/garden/$zone"
                 params={{ zone: d.kind }}
                 className="craft flex min-h-[126px] flex-col justify-between px-4 py-4"
-                style={i === 0 ? { background: "color-mix(in oklab, var(--terracotta) 12%, var(--paper))" } : undefined}
+                style={{
+                  background:
+                    i === 0
+                      ? "color-mix(in oklab, var(--terracotta) 22%, var(--whisper))"
+                      : "color-mix(in oklab, var(--sun) 55%, var(--whisper))",
+                }}
+
               >
                 <span
                   className="font-serif text-[26px] leading-none tabular-nums"

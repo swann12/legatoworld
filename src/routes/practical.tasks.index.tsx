@@ -52,7 +52,7 @@ function TasksList() {
 
   return (
     <Shell livingBg={false}>
-      <div className="min-h-dvh bg-paper text-dusk pb-36">
+      <div className="wash-butter min-h-dvh text-dusk pb-36">
         <PageHeader back="/practical" title="DÉMARCHES" />
 
         <section className="px-6 pt-2">
@@ -99,7 +99,7 @@ function TasksList() {
           <section key={g.bucket} className="px-5 pt-9">
             <SectionHead label={BUCKET_LABELS[g.bucket].label} meta={String(g.items.length).padStart(2, "0")} />
 
-            <ul className="surf-cream mt-3 rounded-[18px] px-5">
+            <ul className="tint-sand mt-3 rounded-[18px] px-5">
               {g.items.map((c, i) => {
                 const cfg = PRACTICAL_LABELS[c];
                 const st = hydrated ? taskStatus[c] : undefined;

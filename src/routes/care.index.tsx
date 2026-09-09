@@ -40,7 +40,7 @@ function Care() {
 
   return (
     <Shell livingBg={false}>
-      <main className="min-h-dvh bg-paper text-dusk pb-32">
+      <main className="wash-blush min-h-dvh text-dusk pb-32">
         <header className="px-6 pt-7 flex items-center justify-between">
           <LegatoMark to="/care" size={20} />
           <Link
@@ -175,8 +175,9 @@ function focusFromEmotions(emotions: Emotion[], stale: boolean): Focus {
 
 
 /** Une seule teinte par section — jamais d'alternance de couleurs. */
-const TINT_NOW = "color-mix(in oklab, var(--blush) 34%, var(--paper))";
-const TINT_MEMORY = "color-mix(in oklab, var(--sky) 42%, var(--paper))";
+const TINT_NOW = "color-mix(in oklab, var(--blush) 46%, var(--whisper))";
+const TINT_MEMORY = "color-mix(in oklab, var(--sun) 72%, var(--whisper))";
+
 
 function CareTile({ module: m }: { module: CareModule; i?: number }) {
   const cfg = CARE_LABELS[m];

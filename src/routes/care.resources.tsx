@@ -72,7 +72,7 @@ function CareResources() {
 
   return (
     <Shell livingBg={false}>
-      <div className="min-h-dvh bg-paper text-dusk pb-36">
+      <div className="wash-sky min-h-dvh text-dusk pb-36">
         <PageHeader title="RESSOURCES" back="/care" />
 
         <section className="px-6 pt-2">
@@ -98,7 +98,7 @@ function CareResources() {
             <SectionHead label={`${String(bi + 1).padStart(2, "0")} · ${b.label}`} meta={String(b.items.length).padStart(2, "0")} />
             <p className="mt-3 px-1 text-[12.5px] italic text-dusk/55">{b.intro}</p>
 
-            <ul className="surf-cream mt-3 rounded-[18px] px-5">
+            <ul className="tint-sky mt-3 rounded-[18px] px-5">
               {b.items.map((it) => (
                 <li
                   key={it.title}
