@@ -670,20 +670,21 @@
 
  /* ── Teintes de page : chaque écran a sa couleur d'ambiance, tirée de la palette.
   * Un lavis très doux en fond + des surfaces teintées assorties. */
- .wash-blush  { background: linear-gradient(180deg, color-mix(in oklab, var(--blush) 30%, var(--paper)) 0%, var(--paper) 62%); }
- .wash-butter { background: linear-gradient(180deg, color-mix(in oklab, var(--sun) 55%, var(--paper)) 0%, var(--paper) 62%); }
- .wash-sky    { background: linear-gradient(180deg, color-mix(in oklab, var(--sky) 38%, var(--paper)) 0%, var(--paper) 62%); }
- .wash-sand   { background: linear-gradient(180deg, color-mix(in oklab, var(--sage) 40%, var(--paper)) 0%, var(--paper) 62%); }
- .wash-mauve  { background: linear-gradient(180deg, color-mix(in oklab, var(--olive) 24%, var(--paper)) 0%, var(--paper) 62%); }
- .wash-flame  { background: linear-gradient(180deg, color-mix(in oklab, var(--terracotta) 20%, var(--paper)) 0%, var(--paper) 62%); }
+ .wash-blush  { background: linear-gradient(180deg, color-mix(in oklab, var(--blush) 62%, var(--paper)) 0%, color-mix(in oklab, var(--blush) 18%, var(--paper)) 46%, var(--paper) 100%); }
+ .wash-butter { background: linear-gradient(180deg, color-mix(in oklab, var(--sun) 95%, var(--paper)) 0%, color-mix(in oklab, var(--sun) 34%, var(--paper)) 46%, var(--paper) 100%); }
+ .wash-sky    { background: linear-gradient(180deg, color-mix(in oklab, var(--sky) 72%, var(--paper)) 0%, color-mix(in oklab, var(--sky) 22%, var(--paper)) 46%, var(--paper) 100%); }
+ .wash-sand   { background: linear-gradient(180deg, color-mix(in oklab, var(--sage) 75%, var(--paper)) 0%, color-mix(in oklab, var(--sage) 24%, var(--paper)) 46%, var(--paper) 100%); }
+ .wash-mauve  { background: linear-gradient(180deg, color-mix(in oklab, var(--olive) 48%, var(--paper)) 0%, color-mix(in oklab, var(--olive) 14%, var(--paper)) 46%, var(--paper) 100%); }
+ .wash-flame  { background: linear-gradient(180deg, color-mix(in oklab, var(--terracotta) 42%, var(--paper)) 0%, color-mix(in oklab, var(--terracotta) 12%, var(--paper)) 46%, var(--paper) 100%); }
 
- /* Surfaces teintées douces — pour les listes et les tuiles. */
- .tint-blush  { background: color-mix(in oklab, var(--blush) 42%, var(--whisper)); color: var(--dusk); }
- .tint-butter { background: color-mix(in oklab, var(--sun) 70%, var(--whisper));   color: var(--dusk); }
- .tint-sky    { background: color-mix(in oklab, var(--sky) 46%, var(--whisper));   color: var(--dusk); }
- .tint-sand   { background: color-mix(in oklab, var(--sage) 46%, var(--whisper));  color: var(--dusk); }
- .tint-mauve  { background: color-mix(in oklab, var(--olive) 28%, var(--whisper)); color: var(--dusk); }
- .tint-flame  { background: color-mix(in oklab, var(--terracotta) 22%, var(--whisper)); color: var(--dusk); }
+ /* Surfaces teintées — assumées, jamais délavées. */
+ .tint-blush  { background: color-mix(in oklab, var(--blush) 72%, var(--whisper)); color: var(--dusk); }
+ .tint-butter { background: color-mix(in oklab, var(--sun) 100%, var(--whisper));  color: var(--dusk); }
+ .tint-sky    { background: color-mix(in oklab, var(--sky) 78%, var(--whisper));   color: var(--dusk); }
+ .tint-sand   { background: color-mix(in oklab, var(--sage) 78%, var(--whisper));  color: var(--dusk); }
+ .tint-mauve  { background: color-mix(in oklab, var(--olive) 46%, var(--whisper)); color: var(--dusk); }
+ .tint-flame  { background: color-mix(in oklab, var(--terracotta) 38%, var(--whisper)); color: var(--dusk); }
+
  .tint-blush .surf-sub, .tint-butter .surf-sub, .tint-sky .surf-sub,
  .tint-sand .surf-sub, .tint-mauve .surf-sub, .tint-flame .surf-sub {
  color: color-mix(in oklab, var(--dusk) 62%, transparent);
