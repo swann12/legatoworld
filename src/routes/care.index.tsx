@@ -98,28 +98,26 @@ function Care() {
           </section>
         )}
 
-        {/* Se confier — l'entrée la plus importante de Soutien, traitée à part. */}
-        <section className="px-5 pt-9">
-          <Link to="/presence" className="relative block overflow-hidden rounded-[26px] px-7 pt-9 pb-8"
-            style={{ background: "var(--bordeaux)", color: "var(--paper)" }}>
-            <span
-              aria-hidden
-              className="pointer-events-none absolute rounded-full"
-              style={{
-                right: -70, top: -70, width: 240, height: 240,
-                background: "radial-gradient(circle, color-mix(in oklab, var(--blush) 42%, transparent) 0%, transparent 70%)",
-                animation: "legato-halo 11s ease-in-out infinite",
-              }}
-            />
-            <span className="relative block text-[10px] uppercase tracking-[0.18em] opacity-70" style={{ fontFamily: "var(--font-mono)" }}>
+        {/* Se confier — l'entrée la plus importante de Soutien : de l'air, un filet d'encre, rien d'autre. */}
+        <section className="px-5 pt-10">
+          <Link
+            to="/presence"
+            className="block px-2"
+            style={{
+              borderTop: "1px solid color-mix(in oklab, var(--bordeaux) 55%, transparent)",
+              borderBottom: "1px solid color-mix(in oklab, var(--bordeaux) 20%, transparent)",
+            }}
+          >
+            <span className="block pt-6 text-[10px] uppercase tracking-[0.2em] text-dusk/45" style={{ fontFamily: "var(--font-mono)" }}>
               À toute heure, sans rendez-vous
             </span>
-            <span className="relative mt-4 block font-serif text-[34px] leading-[1.05]">Se confier</span>
-            <span className="relative mt-3 block max-w-[26ch] text-[13.5px] leading-[1.5] opacity-80">
+            <span className="mt-3 block font-serif text-[40px] leading-[1.02]" style={{ color: "var(--bordeaux)" }}>
+              Se confier
+            </span>
+            <span className="mt-3 block max-w-[28ch] text-[13.5px] leading-[1.55] text-dusk/60">
               Dire ce que vous ne diriez à personne. Rien n'est jugé, rien n'est perdu.
             </span>
-            <span className="relative mt-6 inline-flex items-center gap-2 rounded-full px-4 py-2 text-[12px] tracking-[0.06em]"
-              style={{ background: "color-mix(in oklab, var(--paper) 16%, transparent)" }}>
+            <span className="mb-6 mt-5 flex items-center gap-2 text-[12.5px]" style={{ color: "var(--bordeaux)" }}>
               Commencer <span aria-hidden>→</span>
             </span>
           </Link>
@@ -174,7 +172,7 @@ function Care() {
               <SimpleRow to="/care/respirer" label="Respirer" />
               <SimpleRow to="/no-words" label="Sans mots" />
               <SimpleRow to="/care/community" label="Communauté" />
-              <SimpleRow to="/practical/pros" label="Aide humaine" />
+              <SimpleRow to="/care/aide" label="Aide humaine" />
               <SimpleRow to="/care/resources" label="Ressources" />
             </div>
           </section>

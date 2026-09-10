@@ -16,7 +16,7 @@ export const Route = createFileRoute("/practical/pros")({
   component: PracticalPros,
 });
 
-type Family = "soutien" | "obseques" | "papiers";
+type Family = "obseques" | "papiers";
 
 type Pro = {
   id: string;
@@ -30,26 +30,11 @@ type Pro = {
 
 const FAMILIES: { id: Family | "tout"; label: string }[] = [
   { id: "tout", label: "Tout" },
-  { id: "soutien", label: "Se faire aider" },
   { id: "obseques", label: "Obsèques" },
   { id: "papiers", label: "Papiers & droits" },
 ];
 
 const PROS: Pro[] = [
-  {
-    id: "psychologue", label: "Psychologue", family: "soutien",
-    role: "Un espace pour déposer ce qui pèse, avec quelqu'un de formé au deuil.",
-    when: "Quand la peine ne se dit à personne, ou dure sans relâche.",
-    ask: "S'il ou elle est formé·e au deuil, et ce que coûte une séance.",
-    category: "therapeutes",
-  },
-  {
-    id: "association", label: "Association", family: "soutien",
-    role: "Des groupes de parole et des bénévoles qui ont traversé la même chose.",
-    when: "Quand parler à des personnes qui comprennent fait plus de bien qu'un cabinet.",
-    ask: "S'il existe un groupe près de chez vous, et s'il est gratuit.",
-    category: "ecoute",
-  },
   {
     id: "funeraire", label: "Service funéraire", family: "obseques",
     role: "Organisation des obsèques : lieu, transport, cercueil, déroulé.",

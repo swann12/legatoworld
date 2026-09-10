@@ -52,7 +52,7 @@ const BLOCKS: Block[] = [
     items: [
       { title: "Rituels du monde", hint: "D'où viennent ces gestes", to: "/library/rituels", meta: "12" },
       { title: "Aider un proche", hint: "Quoi dire, quoi faire", to: "/care/community" },
-      { title: "Parler à un professionnel", hint: "Psychologues, écoute, associations", to: "/practical/pros" },
+      { title: "Parler à un professionnel", hint: "Thérapeutes, médecines douces, associations", to: "/care/aide" },
     ],
   },
   {

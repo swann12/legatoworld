@@ -91,7 +91,7 @@ function CareRespirer() {
   const breathing = running;
 
   return (
-    <Shell livingBg={false}>
+    <Shell livingBg={false} hideNav={breathing}>
       <main
         className="min-h-dvh text-dusk pb-36"
         style={{ background: rhythm.bg, transition: "background 900ms ease" }}

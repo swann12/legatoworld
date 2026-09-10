@@ -5,7 +5,7 @@ import { useSpaces, upcomingForSpaces, formatDaysAway } from "@/lib/spaces-store
 import { usePortrait, portraitSentence } from "@/lib/portrait-store";
 import { useLovedName } from "@/lib/loved-name";
 import { StatTrio, IndexMark } from "@/components/legato/Viz";
-import { Plate } from "@/components/legato/Plate";
+
 
 export const Route = createFileRoute("/profile/")({
   head: () => ({
@@ -40,7 +40,7 @@ function Profile() {
           <h1 className="mt-4 ed-page-title">
             Votre <span className="italic" style={{ color: "var(--terracotta)" }}>espace</span>
           </h1>
-          <Plate name="memoire" className="mt-6" ratio="16 / 9" priority />
+          
         </section>
 
         {/* Trois chiffres */}

@@ -34,43 +34,40 @@ function Espaces() {
 
   return (
     <Shell livingBg={false}>
-      <div className="wash-beige min-h-dvh text-dusk pb-32">
+      <div className="min-h-dvh bg-paper text-dusk pb-32">
         <PageHeader back="/profile" title="MES ESPACES" />
 
-        <section className="px-6 pt-8">
-          <p className="mono-label">Mes espaces</p>
-          <h1 className="mt-5 font-serif font-normal text-[32px] leading-[1.06]">
-            Un espace pour<br />
-            <span className="italic" style={{ color: "var(--terracotta)" }}>chacun d'eux</span>.
+        <section className="px-6 pt-4">
+          <h1 className="font-serif font-normal text-[30px] leading-[1.08]">
+            Un espace pour <span className="italic" style={{ color: "var(--terracotta)" }}>chacun d'eux</span>.
           </h1>
-          <p className="mt-4 text-[13px] leading-[1.6] text-dusk/60 max-w-[34ch]">
-            Le jardin, les dates qui comptent, ce que vous y déposez. Rien n'est partagé sans vous.
+          <p className="mt-3 max-w-[32ch] text-[13px] leading-[1.55] text-dusk/50">
+            Le jardin, les dates, ce que vous y déposez. Rien n'est partagé sans vous.
           </p>
         </section>
 
-        <section className="px-5 pt-8 space-y-3">
-          {!hydrated && <p className="px-1 text-[13px] text-dusk/50">Chargement…</p>}
+        <section className="px-6 pt-9">
+          {!hydrated && <p className="text-[13px] text-dusk/45">Chargement…</p>}
 
           {hydrated && actifs.length === 0 && !adding && (
-            <div className="rounded-[20px] border border-dashed border-dusk/20 bg-[color:var(--whisper)] px-5 py-7 text-center">
-              <p className="mono-label text-dusk/55">Aucun espace</p>
-              <p className="mt-2 text-[13px] text-dusk/65 max-w-[28ch] mx-auto">
-                Créez un premier espace pour la personne que vous portez.
-              </p>
-            </div>
+            <p className="max-w-[30ch] font-serif text-[17px] italic leading-[1.5] text-dusk/50">
+              Aucun espace pour l'instant. Créez le premier pour la personne que vous portez.
+            </p>
           )}
 
-          {actifs.map((s) =>
+          {actifs.map((s, i) =>
             editing === s.id ? (
-              <SpaceForm
-                key={s.id}
-                initial={s}
-                onCancel={() => setEditing(null)}
-                onSubmit={(v) => { updateSpace(s.id, v); setEditing(null); }}
-              />
+              <div key={s.id} className="py-4">
+                <SpaceForm
+                  initial={s}
+                  onCancel={() => setEditing(null)}
+                  onSubmit={(v) => { updateSpace(s.id, v); setEditing(null); }}
+                />
+              </div>
             ) : (
               <SpaceCard
                 key={s.id}
+                index={i}
                 space={s}
                 next={upcoming.find((u) => u.spaceId === s.id)}
                 active={activeId === s.id}
@@ -82,18 +79,20 @@ function Espaces() {
           )}
 
           {adding ? (
-            <SpaceForm
-              onCancel={() => setAdding(false)}
-              onSubmit={(v) => { const created = addSpace(v); setActiveSpaceId(created.id); setAdding(false); }}
-            />
+            <div className="pt-5">
+              <SpaceForm
+                onCancel={() => setAdding(false)}
+                onSubmit={(v) => { const created = addSpace(v); setActiveSpaceId(created.id); setAdding(false); }}
+              />
+            </div>
           ) : (
             <button
               type="button"
               onClick={() => setAdding(true)}
-              className="w-full rounded-[18px] border border-dusk/15 bg-paper px-5 py-4 text-left"
+              className="mt-6 text-[13px]"
+              style={{ color: "var(--bordeaux)" }}
             >
-              <p className="mono-label" style={{ color: "var(--terracotta)" }}>Ajouter</p>
-              <p className="mt-1 font-serif text-[18px]">Créer un nouvel espace →</p>
+              Créer un nouvel espace →
             </button>
           )}
         </section>
@@ -154,9 +153,10 @@ function Espaces() {
 }
 
 function SpaceCard({
-  space: s, next, active, onActivate, onEdit, onArchive,
+  space: s, index, next, active, onActivate, onEdit, onArchive,
 }: {
   space: Space;
+  index: number;
   next?: { label: string; daysAway: number };
   active: boolean;
   onActivate: () => void;
@@ -165,50 +165,34 @@ function SpaceCard({
 }) {
   return (
     <article
-      className="rounded-[22px] px-5 py-5"
-      style={{
-        background: "var(--whisper)",
-        boxShadow: "0 12px 26px -22px color-mix(in oklab, var(--dusk) 55%, transparent)",
-      }}
+      className="border-b border-dashed py-6 first:pt-0"
+      style={{ borderColor: "color-mix(in oklab, var(--dusk) 15%, transparent)" }}
     >
-      <div className="flex items-start justify-between gap-3">
-        <div className="min-w-0">
-          <p className="mono-label text-dusk/60">
-            {RELATION_LABEL[s.relation ?? "autre"]}{active ? " · Espace ouvert" : ""}
-          </p>
-          <p className="mt-2 font-serif text-[26px] leading-[1.05]">{s.name}</p>
-        </div>
-        <button type="button" onClick={onEdit} className="rounded-full bg-[color-mix(in_oklab,var(--clay)_55%,var(--whisper))] px-3 py-1 text-[10.5px] mono-label text-dusk/70">
-          Modifier
-        </button>
-      </div>
-
-      {next && (
-        <p className="mt-3 text-[12.5px] text-dusk/70">
-          {next.label} · {formatDaysAway(next.daysAway).toLowerCase()}
-        </p>
-      )}
-
-      <div className="mt-5 grid grid-cols-2 gap-2">
-        <Link to="/care/garden" className="rounded-[14px] bg-[color-mix(in_oklab,var(--clay)_55%,var(--whisper))] px-4 py-3">
-          <p className="mono-label text-dusk/55">Jardin</p>
-          <p className="mt-1 text-[13px]">Photos, voix, lettres</p>
-        </Link>
-        <Link to="/care/dates" className="rounded-[14px] bg-[color-mix(in_oklab,var(--clay)_55%,var(--whisper))] px-4 py-3">
-          <p className="mono-label text-dusk/55">Dates</p>
-          <p className="mt-1 text-[13px]">Anniversaire, départ</p>
-        </Link>
-      </div>
-
-      <div className="mt-4 flex items-center gap-5">
-        {!active && (
-          <button type="button" onClick={onActivate} className="mono-label" style={{ color: "var(--bordeaux)" }}>
-            Ouvrir cet espace
-          </button>
+      <div className="flex items-baseline gap-3">
+        <span className="text-[10.5px] tabular-nums text-dusk/35" style={{ fontFamily: "var(--font-mono)" }}>
+          {String(index + 1).padStart(2, "0")}
+        </span>
+        <h2 className="flex-1 font-serif text-[26px] leading-[1.05]">{s.name}</h2>
+        {active && (
+          <span className="text-[10.5px] tracking-[0.14em]" style={{ fontFamily: "var(--font-mono)", color: "var(--bordeaux)" }}>
+            OUVERT
+          </span>
         )}
-        <button type="button" onClick={onArchive} className="mono-label text-dusk/55">
-          Mettre de côté
-        </button>
+      </div>
+
+      <p className="mt-1.5 pl-[calc(0.75rem+18px)] text-[12.5px] text-dusk/50">
+        {RELATION_LABEL[s.relation ?? "autre"]}
+        {next ? ` · ${next.label.toLowerCase()}, ${formatDaysAway(next.daysAway).toLowerCase()}` : ""}
+      </p>
+
+      <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 pl-[calc(0.75rem+18px)] text-[12.5px]">
+        <Link to="/care/garden" className="text-dusk/70 underline decoration-dotted underline-offset-4">Jardin</Link>
+        <Link to="/care/dates" className="text-dusk/70 underline decoration-dotted underline-offset-4">Dates</Link>
+        {!active && (
+          <button type="button" onClick={onActivate} style={{ color: "var(--bordeaux)" }}>Ouvrir</button>
+        )}
+        <button type="button" onClick={onEdit} className="text-dusk/50">Modifier</button>
+        <button type="button" onClick={onArchive} className="text-dusk/40">Mettre de côté</button>
       </div>
     </article>
   );
