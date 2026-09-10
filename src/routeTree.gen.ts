@@ -91,6 +91,7 @@ import { Route as HelpCorpsHabillerRouteImport } from './routes/help.corps.habil
 import { Route as HelpCorpsEauRouteImport } from './routes/help.corps.eau'
 import { Route as CareGardenDepotRouteImport } from './routes/care.garden.depot'
 import { Route as CareGardenZoneRouteImport } from './routes/care.garden.$zone'
+import { Route as CareCommunityReglesRouteImport } from './routes/care.community.regles'
 import { Route as CareCommunityGroupIndexRouteImport } from './routes/care.community.$group.index'
 import { Route as HelpCorpsSoinIdRouteImport } from './routes/help.corps.soin.$id'
 import { Route as CareCommunityGroupThreadRouteImport } from './routes/care.community.$group.$thread'
@@ -507,6 +508,11 @@ const CareGardenZoneRoute = CareGardenZoneRouteImport.update({
   path: '/$zone',
   getParentRoute: () => CareGardenRoute,
 } as any)
+const CareCommunityReglesRoute = CareCommunityReglesRouteImport.update({
+  id: '/regles',
+  path: '/regles',
+  getParentRoute: () => CareCommunityRoute,
+} as any)
 const CareCommunityGroupIndexRoute = CareCommunityGroupIndexRouteImport.update({
   id: '/$group/',
   path: '/$group/',
@@ -598,6 +604,7 @@ export interface FileRoutesByFullPath {
   '/practical/': typeof PracticalIndexRoute
   '/profile/': typeof ProfileIndexRoute
   '/resources/': typeof ResourcesIndexRoute
+  '/care/community/regles': typeof CareCommunityReglesRoute
   '/care/garden/$zone': typeof CareGardenZoneRoute
   '/care/garden/depot': typeof CareGardenDepotRoute
   '/help/corps/eau': typeof HelpCorpsEauRoute
@@ -676,6 +683,7 @@ export interface FileRoutesByTo {
   '/practical': typeof PracticalIndexRoute
   '/profile': typeof ProfileIndexRoute
   '/resources': typeof ResourcesIndexRoute
+  '/care/community/regles': typeof CareCommunityReglesRoute
   '/care/garden/$zone': typeof CareGardenZoneRoute
   '/care/garden/depot': typeof CareGardenDepotRoute
   '/help/corps/eau': typeof HelpCorpsEauRoute
@@ -765,6 +773,7 @@ export interface FileRoutesById {
   '/practical/': typeof PracticalIndexRoute
   '/profile/': typeof ProfileIndexRoute
   '/resources/': typeof ResourcesIndexRoute
+  '/care/community/regles': typeof CareCommunityReglesRoute
   '/care/garden/$zone': typeof CareGardenZoneRoute
   '/care/garden/depot': typeof CareGardenDepotRoute
   '/help/corps/eau': typeof HelpCorpsEauRoute
@@ -854,6 +863,7 @@ export interface FileRouteTypes {
     | '/practical/'
     | '/profile/'
     | '/resources/'
+    | '/care/community/regles'
     | '/care/garden/$zone'
     | '/care/garden/depot'
     | '/help/corps/eau'
@@ -932,6 +942,7 @@ export interface FileRouteTypes {
     | '/practical'
     | '/profile'
     | '/resources'
+    | '/care/community/regles'
     | '/care/garden/$zone'
     | '/care/garden/depot'
     | '/help/corps/eau'
@@ -1020,6 +1031,7 @@ export interface FileRouteTypes {
     | '/practical/'
     | '/profile/'
     | '/resources/'
+    | '/care/community/regles'
     | '/care/garden/$zone'
     | '/care/garden/depot'
     | '/help/corps/eau'
@@ -1654,6 +1666,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CareGardenZoneRouteImport
       parentRoute: typeof CareGardenRoute
     }
+    '/care/community/regles': {
+      id: '/care/community/regles'
+      path: '/regles'
+      fullPath: '/care/community/regles'
+      preLoaderRoute: typeof CareCommunityReglesRouteImport
+      parentRoute: typeof CareCommunityRoute
+    }
     '/care/community/$group/': {
       id: '/care/community/$group/'
       path: '/$group'
@@ -1697,12 +1716,14 @@ const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
 interface CareCommunityRouteChildren {
+  CareCommunityReglesRoute: typeof CareCommunityReglesRoute
   CareCommunityIndexRoute: typeof CareCommunityIndexRoute
   CareCommunityGroupThreadRoute: typeof CareCommunityGroupThreadRoute
   CareCommunityGroupIndexRoute: typeof CareCommunityGroupIndexRoute
 }
 
 const CareCommunityRouteChildren: CareCommunityRouteChildren = {
+  CareCommunityReglesRoute: CareCommunityReglesRoute,
   CareCommunityIndexRoute: CareCommunityIndexRoute,
   CareCommunityGroupThreadRoute: CareCommunityGroupThreadRoute,
   CareCommunityGroupIndexRoute: CareCommunityGroupIndexRoute,

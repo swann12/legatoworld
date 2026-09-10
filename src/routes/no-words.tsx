@@ -1328,35 +1328,39 @@ function LireView() {
   }, [affinity]);
 
   return (
-    <div className="flex-1 overflow-y-auto" style={{ background: "#F5EFE6" }}>
-      <div className="px-7 pt-4 pb-6">
-        <h2 className="font-serif text-[24px] leading-[1.2] text-dusk" style={{ textWrap: "balance" }}>
-          Des mots qui accompagnent.
-        </h2>
-        <p className="mt-2 text-[13px] font-light" style={{ color: "#6B6560", textWrap: "pretty" }}>
-          Pas pour tout expliquer. Pour être moins seul·e.
-        </p>
-      </div>
-      <ul className="px-5 pb-12 space-y-3">
-        {sorted.map((b) => (
-          <li key={b.title} className="rounded-2xl bg-paper/85 backdrop-blur px-5 py-4 border border-dusk/8">
-            <h3 className="font-serif text-[18px] text-dusk leading-snug" style={{ textWrap: "balance" }}>{noOrphan(b.title)}</h3>
-            <p className="text-[13px] font-light mt-0.5" style={{ color: "#6B6560" }}>{noOrphan(b.author)}</p>
-            <p className="mt-2 text-[13px] leading-relaxed text-dusk/85 italic" style={{ textWrap: "pretty" }}>
-              {noOrphan(b.why)}
-            </p>
-            <div className="mt-3 flex flex-wrap items-center gap-1.5">
-              {b.tags.map((t) => (
-                <span key={t} className="text-[10px] uppercase tracking-[0.16em] px-2 py-0.5 rounded-full"
-                      style={{ background: "#EDE3D2", color: "#7A6F5E" }}>
-                  {t}
-                </span>
-              ))}
+    <div className="flex-1 overflow-y-auto" style={{ background: "var(--whisper)" }}>
+      <ul className="px-5 pt-4 pb-14">
+        {sorted.map((b, i) => (
+          <li
+            key={b.title}
+            className="flex gap-4 border-b border-dashed py-5 last:border-0"
+            style={{ borderColor: "color-mix(in oklab, var(--dusk) 14%, transparent)" }}
+          >
+            <a
+              href={b.url}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={`${b.title}, ${b.author}`}
+              className="block h-[84px] w-[58px] shrink-0 rounded-[3px]"
+              style={{
+                background: [
+                  "var(--clay)", "var(--sky)", "var(--sage)", "var(--butter)", "var(--blush)",
+                ][i % 5],
+                boxShadow: "inset -6px 0 0 -3px color-mix(in oklab, var(--dusk) 20%, transparent)",
+              }}
+            />
+            <div className="min-w-0 pt-1">
+              <h3 className="font-serif text-[18px] leading-[1.2] text-dusk">{noOrphan(b.title)}</h3>
+              <p className="mt-1 text-[12px] text-dusk/50">{noOrphan(b.author)}</p>
+              <a
+                href={b.url}
+                target="_blank"
+                rel="noreferrer"
+                className="mt-2 inline-block text-[11.5px] text-dusk/45 underline decoration-dotted underline-offset-4"
+              >
+                Trouver ce livre
+              </a>
             </div>
-            <a href={b.url} target="_blank" rel="noreferrer"
-               className="inline-block mt-3 text-[12px] uppercase tracking-[0.2em] text-dusk/75">
-              Trouver ce livre →
-            </a>
           </li>
         ))}
       </ul>
