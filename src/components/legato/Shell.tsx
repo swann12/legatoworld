@@ -35,7 +35,7 @@ function ConfideAccess() {
     <Link
       to="/presence"
       aria-label="Se confier à la Présence"
-      className="fixed bottom-[max(env(safe-area-inset-bottom),0.9rem)] right-4 z-50 flex items-center gap-2 rounded-full py-2.5 pl-3.5 pr-4"
+      className="fixed right-4 z-50 flex items-center gap-2 rounded-full py-2.5 pl-3.5 pr-4"
       style={{
         background: "var(--bordeaux)",
         color: "var(--paper)",
