@@ -212,10 +212,8 @@ function CareTile({ module: m }: { module: CareModule; i?: number }) {
 }
 
 
-function CareRow({ module: m }: { module: CareModule }) {
-  const cfg = CARE_LABELS[m];
-  return <SimpleRow to={cfg.to} label={cfg.label} />;
-}
+
+
 
 function SimpleRow({ to, label }: { to: string; label: string }) {
   return (
