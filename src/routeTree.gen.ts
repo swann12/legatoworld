@@ -89,6 +89,7 @@ import { Route as HelpCorpsNuitsRouteImport } from './routes/help.corps.nuits'
 import { Route as HelpCorpsMangerRouteImport } from './routes/help.corps.manger'
 import { Route as HelpCorpsHabillerRouteImport } from './routes/help.corps.habiller'
 import { Route as HelpCorpsEauRouteImport } from './routes/help.corps.eau'
+import { Route as CareGardenDepotRouteImport } from './routes/care.garden.depot'
 import { Route as CareGardenZoneRouteImport } from './routes/care.garden.$zone'
 import { Route as CareCommunityGroupIndexRouteImport } from './routes/care.community.$group.index'
 import { Route as HelpCorpsSoinIdRouteImport } from './routes/help.corps.soin.$id'
@@ -496,6 +497,11 @@ const HelpCorpsEauRoute = HelpCorpsEauRouteImport.update({
   path: '/eau',
   getParentRoute: () => HelpCorpsRoute,
 } as any)
+const CareGardenDepotRoute = CareGardenDepotRouteImport.update({
+  id: '/depot',
+  path: '/depot',
+  getParentRoute: () => CareGardenRoute,
+} as any)
 const CareGardenZoneRoute = CareGardenZoneRouteImport.update({
   id: '/$zone',
   path: '/$zone',
@@ -593,6 +599,7 @@ export interface FileRoutesByFullPath {
   '/profile/': typeof ProfileIndexRoute
   '/resources/': typeof ResourcesIndexRoute
   '/care/garden/$zone': typeof CareGardenZoneRoute
+  '/care/garden/depot': typeof CareGardenDepotRoute
   '/help/corps/eau': typeof HelpCorpsEauRoute
   '/help/corps/habiller': typeof HelpCorpsHabillerRoute
   '/help/corps/manger': typeof HelpCorpsMangerRoute
@@ -670,6 +677,7 @@ export interface FileRoutesByTo {
   '/profile': typeof ProfileIndexRoute
   '/resources': typeof ResourcesIndexRoute
   '/care/garden/$zone': typeof CareGardenZoneRoute
+  '/care/garden/depot': typeof CareGardenDepotRoute
   '/help/corps/eau': typeof HelpCorpsEauRoute
   '/help/corps/habiller': typeof HelpCorpsHabillerRoute
   '/help/corps/manger': typeof HelpCorpsMangerRoute
@@ -758,6 +766,7 @@ export interface FileRoutesById {
   '/profile/': typeof ProfileIndexRoute
   '/resources/': typeof ResourcesIndexRoute
   '/care/garden/$zone': typeof CareGardenZoneRoute
+  '/care/garden/depot': typeof CareGardenDepotRoute
   '/help/corps/eau': typeof HelpCorpsEauRoute
   '/help/corps/habiller': typeof HelpCorpsHabillerRoute
   '/help/corps/manger': typeof HelpCorpsMangerRoute
@@ -846,6 +855,7 @@ export interface FileRouteTypes {
     | '/profile/'
     | '/resources/'
     | '/care/garden/$zone'
+    | '/care/garden/depot'
     | '/help/corps/eau'
     | '/help/corps/habiller'
     | '/help/corps/manger'
@@ -923,6 +933,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/resources'
     | '/care/garden/$zone'
+    | '/care/garden/depot'
     | '/help/corps/eau'
     | '/help/corps/habiller'
     | '/help/corps/manger'
@@ -1010,6 +1021,7 @@ export interface FileRouteTypes {
     | '/profile/'
     | '/resources/'
     | '/care/garden/$zone'
+    | '/care/garden/depot'
     | '/help/corps/eau'
     | '/help/corps/habiller'
     | '/help/corps/manger'
@@ -1628,6 +1640,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HelpCorpsEauRouteImport
       parentRoute: typeof HelpCorpsRoute
     }
+    '/care/garden/depot': {
+      id: '/care/garden/depot'
+      path: '/depot'
+      fullPath: '/care/garden/depot'
+      preLoaderRoute: typeof CareGardenDepotRouteImport
+      parentRoute: typeof CareGardenRoute
+    }
     '/care/garden/$zone': {
       id: '/care/garden/$zone'
       path: '/$zone'
@@ -1695,11 +1714,13 @@ const CareCommunityRouteWithChildren = CareCommunityRoute._addFileChildren(
 
 interface CareGardenRouteChildren {
   CareGardenZoneRoute: typeof CareGardenZoneRoute
+  CareGardenDepotRoute: typeof CareGardenDepotRoute
   CareGardenIndexRoute: typeof CareGardenIndexRoute
 }
 
 const CareGardenRouteChildren: CareGardenRouteChildren = {
   CareGardenZoneRoute: CareGardenZoneRoute,
+  CareGardenDepotRoute: CareGardenDepotRoute,
   CareGardenIndexRoute: CareGardenIndexRoute,
 }
 
