@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import type { Reply } from "./community-data";
 
-/** Échanges locaux : réponses écrites, discussions ouvertes, soutiens envoyés. */
+/** Échanges locaux : réponses, discussions ouvertes, soutiens, pseudonyme et signalements. */
 type State = {
   replies: Record<string, Reply[]>;
   care: Record<string, boolean>;
@@ -12,10 +12,14 @@ type State = {
     body: string;
     when: string;
   }[];
+  /** Nom affiché dans la communauté. Jamais le vrai nom par défaut. */
+  pseudo: string;
+  /** Signalements envoyés à la modération : id du message → motif. */
+  reports: Record<string, string>;
 };
 
-const KEY = "legato.community.v2";
-const EMPTY: State = { replies: {}, care: {}, own: [] };
+const KEY = "legato.community.v3";
+const EMPTY: State = { replies: {}, care: {}, own: [], pseudo: "Anonyme", reports: {} };
 
 function read(): State {
   if (typeof window === "undefined") return EMPTY;
@@ -50,7 +54,7 @@ export function useCommunity() {
       const next = read();
       const reply: Reply = {
         id: `own-${Date.now()}`,
-        author: "Vous",
+        author: next.pseudo || "Anonyme",
         when: "à l'instant",
         body,
         care: 0,
@@ -81,5 +85,23 @@ export function useCommunity() {
     [save],
   );
 
-  return { ...state, hydrated, addReply, toggleCare, openThread };
+  const setPseudo = useCallback(
+    (pseudo: string) => {
+      const next = read();
+      next.pseudo = pseudo.trim() || "Anonyme";
+      save(next);
+    },
+    [save],
+  );
+
+  const report = useCallback(
+    (id: string, reason: string) => {
+      const next = read();
+      next.reports = { ...next.reports, [id]: reason };
+      save(next);
+    },
+    [save],
+  );
+
+  return { ...state, hydrated, addReply, toggleCare, openThread, setPseudo, report };
 }

@@ -1,4 +1,4 @@
-import { createFileRoute, useParams } from "@tanstack/react-router";
+import { createFileRoute, Link, useParams } from "@tanstack/react-router";
 import { useState } from "react";
 import { Shell } from "@/components/legato/Shell";
 import { PageHeader, SectionHead } from "@/components/legato/EditorialUI";
@@ -23,7 +23,7 @@ function ThreadPage() {
   const { group, thread } = useParams({ from: "/care/community/$group/$thread" });
   const t = threadById(thread);
   const g = groupById(group);
-  const { replies, care, hydrated, addReply, toggleCare } = useCommunity();
+  const { replies, care, reports, pseudo, hydrated, addReply, toggleCare, report } = useCommunity();
   const [draft, setDraft] = useState("");
 
   if (!t) {
@@ -93,6 +93,7 @@ function ThreadPage() {
           <ul className="mt-3">
             {all.map((r) => {
               const moderator = r.author.startsWith("Modération");
+              const reported = hydrated && !!reports[r.id];
               return (
                 <li
                   key={r.id}
@@ -114,6 +115,21 @@ function ThreadPage() {
                     <span className="ml-auto">{r.when}</span>
                   </p>
                   <p className="mt-2.5 pl-[30px] text-[14px] leading-[1.65] text-dusk/80">{r.body}</p>
+                  {!moderator && (
+                    <div className="mt-2 pl-[30px]">
+                      {reported ? (
+                        <span className="text-[11.5px] text-dusk/45">Signalé — un modérateur va relire ce message.</span>
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={() => report(r.id, "message signalé")}
+                          className="text-[11.5px] text-dusk/40 underline decoration-dotted underline-offset-4"
+                        >
+                          Signaler
+                        </button>
+                      )}
+                    </div>
+                  )}
                 </li>
               );
             })}
@@ -140,8 +156,16 @@ function ThreadPage() {
               >
                 Envoyer
               </button>
-              <span className="text-[11px] text-dusk/40">Publié sous pseudonyme, modéré avant diffusion.</span>
+              <span className="text-[11px] text-dusk/40">
+                Publié sous « {hydrated ? pseudo : "Anonyme"} », modéré avant diffusion.
+              </span>
             </div>
+            <Link
+              to="/care/community/regles"
+              className="mt-3 block text-[11.5px] text-dusk/45 underline decoration-dotted underline-offset-4"
+            >
+              Changer de pseudonyme · lire la charte
+            </Link>
           </div>
         </section>
       </div>

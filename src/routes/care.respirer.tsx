@@ -88,16 +88,23 @@ function CareRespirer() {
   const night = rhythm.id === "nuit";
   const onDisc = night ? "var(--paper)" : "var(--paper)";
 
+  const breathing = running;
+
   return (
     <Shell livingBg={false}>
       <main
         className="min-h-dvh text-dusk pb-36"
-        style={{ background: rhythm.bg, transition: "background 700ms ease" }}
+        style={{ background: rhythm.bg, transition: "background 900ms ease" }}
       >
-        <PageHeader back="/care" title="RESPIRER" />
+        <div style={{ opacity: breathing ? 0 : 1, transition: "opacity 500ms ease", pointerEvents: breathing ? "none" : undefined }}>
+          <PageHeader back="/care" title="RESPIRER" />
+        </div>
 
-        {/* 1 · Choisir un rythme — trois segments, rien d'autre */}
-        <section className="px-5 pt-2">
+        {/* 1 · Choisir un rythme — s'efface pendant l'expérience */}
+        <section
+          className="px-5 pt-2"
+          style={{ opacity: breathing ? 0 : 1, transition: "opacity 500ms ease", pointerEvents: breathing ? "none" : undefined }}
+        >
           <div
             className="flex rounded-full p-1"
             style={{ background: "color-mix(in oklab, var(--paper) 62%, transparent)" }}
@@ -123,20 +130,35 @@ function CareRespirer() {
           </div>
         </section>
 
-        {/* 2 · Le cercle — un seul objet, au centre */}
-        <section className="px-6 pt-9">
-          <div className="relative mx-auto flex aspect-square w-full max-w-[280px] items-center justify-center">
+        {/* 2 · Matière vivante : halos lents, lueur pulsée, un seul objet au centre */}
+        <section className={breathing ? "px-6 pt-16" : "px-6 pt-9"} style={{ transition: "padding 700ms ease" }}>
+          <div className="relative mx-auto flex aspect-square w-full max-w-[300px] items-center justify-center">
+            {[0, 1, 2].map((i) => (
+              <span
+                key={i}
+                aria-hidden
+                className="absolute rounded-full"
+                style={{
+                  inset: -18 - i * 24,
+                  background: `radial-gradient(circle, color-mix(in oklab, ${rhythm.disc} ${18 - i * 5}%, transparent) 0%, transparent 70%)`,
+                  animation: `legato-halo ${9 + i * 3}s ease-in-out ${i * 1.2}s infinite`,
+                  opacity: breathing ? 1 : 0.5,
+                  transition: "opacity 800ms ease",
+                }}
+              />
+            ))}
             <div
               className="absolute inset-0 rounded-full"
-              style={{ border: "1px dashed color-mix(in oklab, var(--dusk) 20%, transparent)" }}
+              style={{ border: "1px dashed color-mix(in oklab, var(--dusk) 18%, transparent)" }}
             />
             <div
               className="absolute size-[236px] rounded-full ease-in-out"
               style={{
                 background: rhythm.disc,
+                boxShadow: `0 0 70px 12px color-mix(in oklab, ${rhythm.disc} ${breathing ? 45 : 20}%, transparent)`,
                 transform: `scale(${running ? phase.scale : 0.7})`,
-                transitionProperty: "transform",
-                transitionDuration: `${phase.seconds || 1}s`,
+                transitionProperty: "transform, box-shadow",
+                transitionDuration: `${phase.seconds || 1}s, 1200ms`,
               }}
             />
             <div className="relative text-center" style={{ color: onDisc }}>
@@ -159,17 +181,23 @@ function CareRespirer() {
           <button
             type="button"
             onClick={() => (running ? setRunning(false) : (started.current = true, setRunning(true)))}
-            className="mx-auto block w-full max-w-[280px] rounded-full py-4 text-[13.5px] tracking-[0.06em] transition-opacity active:opacity-80"
-            style={{ background: "var(--bordeaux)", color: "var(--paper)" }}
+            className="mx-auto block w-full max-w-[280px] rounded-full py-4 text-[13.5px] tracking-[0.06em] transition-all active:opacity-80"
+            style={{
+              background: breathing ? "transparent" : "var(--bordeaux)",
+              color: breathing ? "color-mix(in oklab, var(--dusk) 55%, transparent)" : "var(--paper)",
+              border: breathing ? "1px dashed color-mix(in oklab, var(--dusk) 25%, transparent)" : "1px solid transparent",
+            }}
           >
             {running ? "Mettre en pause" : started.current ? "Reprendre" : "Commencer"}
           </button>
 
-          <p className="mt-4 text-center text-[11px] tracking-[0.14em] tabular-nums text-dusk/50">
-            {rhythm.formula.replace(/ /g, "")} · {cycles > 0 ? `${cycles} RESPIRATION${cycles > 1 ? "S" : ""}` : `CYCLE DE ${total} S`}
-          </p>
+          {!breathing && (
+            <p className="mt-4 text-center text-[11px] tracking-[0.14em] tabular-nums text-dusk/50">
+              {rhythm.formula.replace(/ /g, "")} · {cycles > 0 ? `${cycles} RESPIRATION${cycles > 1 ? "S" : ""}` : `CYCLE DE ${total} S`}
+            </p>
+          )}
 
-          {started.current && (
+          {started.current && !breathing && (
             <button
               type="button"
               onClick={() => {
@@ -186,28 +214,30 @@ function CareRespirer() {
           )}
         </section>
 
-        {/* 4 · Après */}
-        <section className="px-5 pt-12">
-          <p className="mono-label px-1">Après</p>
-          <ul className="craft mt-3 px-5">
-            {[
-              { to: "/care/journal", title: "Déposer quelques mots" },
-              { to: "/help/corps", title: "Prendre soin du corps" },
-              { to: "/presence", title: "Se confier" },
-            ].map((l) => (
-              <li
-                key={l.to}
-                className="border-b border-dashed last:border-0"
-                style={{ borderColor: "color-mix(in oklab, var(--dusk) 16%, transparent)" }}
-              >
-                <Link to={l.to as "/care"} className="flex items-center justify-between gap-4 py-4">
-                  <span className="font-serif text-[17.5px] leading-[1.2]">{l.title}</span>
-                  <span aria-hidden className="text-dusk/30">→</span>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </section>
+        {/* 4 · Après — jamais pendant l'expérience */}
+        {!breathing && (
+          <section className="px-5 pt-12">
+            <p className="mono-label px-1">Après</p>
+            <ul className="craft mt-3 px-5">
+              {[
+                { to: "/care/journal", title: "Déposer quelques mots" },
+                { to: "/help/corps", title: "Prendre soin du corps" },
+                { to: "/presence", title: "Se confier" },
+              ].map((l) => (
+                <li
+                  key={l.to}
+                  className="border-b border-dashed last:border-0"
+                  style={{ borderColor: "color-mix(in oklab, var(--dusk) 16%, transparent)" }}
+                >
+                  <Link to={l.to as "/care"} className="flex items-center justify-between gap-4 py-4">
+                    <span className="font-serif text-[17.5px] leading-[1.2]">{l.title}</span>
+                    <span aria-hidden className="text-dusk/30">→</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
       </main>
     </Shell>
   );
