@@ -1,0 +1,9 @@
+# Reprise UX/UI Legato
+
+- [ ] Conserver la barre Soutien / Démarches actuelle, désormais validée.
+- [ ] Reprendre le Jardin coloré : parcelles par proche, évolution selon les souvenirs, dépôt séparé et wording réduit.
+- [ ] Refaire Journal avec une vraie dimension carnet intime contemporaine et craft.
+- [ ] Reprendre Respirer comme expérience immersive, méditative, instinctive et très peu textuelle.
+- [ ] Reprendre Sans mots autour de matière, mouvement, texture, couleur, rythme, son et interactions simples.
+- [ ] Appliquer les autres points 8 à 18 du brief : Émotions, Agenda, Communauté, Practical, Pros, aides humaines, Rituels.
+- [ ] Vérifier les fonctions prioritaires de Soutien et l’ensemble des parcours concernés.
