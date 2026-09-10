@@ -36,7 +36,7 @@ function Care() {
   const visibleCare = care.filter((m) => !focus.hidden.includes(m));
  // La carte principale mène déjà au check-in : on ne le répète pas en tuile.
  const primaryCare = focus.modules.filter((m) => visibleCare.includes(m) && m !== "checkin");
-  const restCare = visibleCare.filter((m) => !primaryCare.includes(m) && m !== "checkin").slice(0, plan.contentLength === "court" ? 2 : 3);
+  
 
   return (
     <Shell livingBg={false}>
