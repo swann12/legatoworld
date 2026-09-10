@@ -36,7 +36,7 @@ function Care() {
   const visibleCare = care.filter((m) => !focus.hidden.includes(m));
  // La carte principale mène déjà au check-in : on ne le répète pas en tuile.
  const primaryCare = focus.modules.filter((m) => visibleCare.includes(m) && m !== "checkin");
-  const restCare = visibleCare.filter((m) => !primaryCare.includes(m) && m !== "checkin").slice(0, plan.contentLength === "court" ? 2 : 3);
+  
 
   return (
     <Shell livingBg={false}>
@@ -131,14 +131,21 @@ function Care() {
         </section>
         )}
 
-        {!light && restCare.length > 0 && (
+        {!light && (
           <section className="px-5 pt-9">
-            <SectionKicker label="Autres appuis" />
-            <div className="mt-4 flex flex-col gap-3">
-              {restCare.map((m) => <CareRow key={m} module={m} />)}
+            <SectionKicker label="Appuis" />
+            <div className="mt-4 flex flex-col">
+              <SimpleRow to="/care/respirer" label="Respirer" />
+              <SimpleRow to="/care/journal" label="Journal" />
+              <SimpleRow to="/care/community" label="Communauté" />
+              <SimpleRow to="/practical/pros" label="Aide humaine" />
+              <SimpleRow to="/care/resources" label="Ressources" />
+              <SimpleRow to="/agenda" label="Agenda" />
+              <SimpleRow to="/care/dates" label="Dates importantes" />
             </div>
           </section>
         )}
+
 
         <div className="pt-10" />
       </main>
@@ -205,10 +212,8 @@ function CareTile({ module: m }: { module: CareModule; i?: number }) {
 }
 
 
-function CareRow({ module: m }: { module: CareModule }) {
-  const cfg = CARE_LABELS[m];
-  return <SimpleRow to={cfg.to} label={cfg.label} />;
-}
+
+
 
 function SimpleRow({ to, label }: { to: string; label: string }) {
   return (
