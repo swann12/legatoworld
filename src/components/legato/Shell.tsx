@@ -42,16 +42,15 @@ export function Shell({
 }) {
   const { mode } = useLegato();
   const { pathname } = useLocation();
-  const inCare = pathname.startsWith("/care") || pathname === "/presence" || pathname.startsWith("/agenda");
-  const showConfide = !hideNav && inCare && !pathname.startsWith("/presence");
+  // Le profil n'accompagne que les deux espaces principaux.
+  const isRoot = ["/care", "/care/", "/practical", "/practical/"].includes(pathname);
   return (
     <div className="min-h-dvh bg-paper text-dusk">
       <div className={`mobile-frame grain veil relative ${hideNav ? "pb-0" : "pb-32"}`}>
         {livingBg && <ModeBackground mode={mode} />}
         <div className="relative rise" style={{ zIndex: 1 }}>{children}</div>
       </div>
-      {!hideNav && <ProfileDot />}
-      {showConfide && <ConfideAccess />}
+      {!hideNav && isRoot && <ProfileDot />}
       {!hideNav && <SpaceSwitch />}
     </div>
   );
