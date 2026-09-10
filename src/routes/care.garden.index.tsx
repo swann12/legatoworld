@@ -105,7 +105,7 @@ function CareGarden() {
                 onFocus={() => setTouched(s.id)}
                 onBlur={() => setTouched((t) => (t === s.id ? null : t))}
                 aria-label={`Parcelle de ${s.name} — ${n} souvenir${n > 1 ? "s" : ""}`}
-                className="absolute grid place-items-end justify-items-center pb-1 transition-transform duration-500 active:scale-95"
+                className="absolute grid place-items-center transition-transform duration-500 active:scale-95"
                 style={{
                   left: `${slot.cx - slot.r}%`,
                   top: `${slot.cy - slot.r}%`,
@@ -115,25 +115,56 @@ function CareGarden() {
                   opacity: touched && touched !== s.id ? 0.55 : 1,
                 }}
               >
+                {/* Un simple repère chiffré : le nom se lit dans la légende, jamais sur la peinture. */}
                 <span
-                  className="rounded-full px-3 py-1 text-[11px] backdrop-blur-[2px]"
+                  className="grid size-6 place-items-center rounded-full text-[10px] tabular-nums transition-colors"
                   style={{
                     fontFamily: "var(--font-mono)",
-                    background: s.id === activeId ? "var(--bordeaux)" : "color-mix(in oklab, var(--paper) 86%, transparent)",
-                    color: s.id === activeId ? "var(--paper)" : "var(--bordeaux)",
+                    background:
+                      touched === s.id || s.id === activeId
+                        ? "var(--bordeaux)"
+                        : "color-mix(in oklab, var(--paper) 78%, transparent)",
+                    color: touched === s.id || s.id === activeId ? "var(--paper)" : "var(--bordeaux)",
                   }}
                 >
-                  {s.name}
-                  <span className="ml-2 tabular-nums opacity-60">{String(n).padStart(2, "0")}</span>
+                  {i + 1}
                 </span>
               </button>
             );
           })}
         </div>
 
-        <p className="mt-4 px-6 text-[12px] italic text-dusk/45">
-          {named ? `La parcelle de ${named.name}` : total === 0 ? "Le jardin attend son premier souvenir." : "Touchez une parcelle."}
-        </p>
+        {/* Légende : les noms se lisent ici, au calme */}
+        <section className="mt-5 px-6">
+          <ul>
+            {living.map((s, i) => {
+              const n = counts[s.id] ?? 0;
+              return (
+                <li key={s.id}>
+                  <button
+                    type="button"
+                    onClick={() => open(s.id)}
+                    onMouseEnter={() => setTouched(s.id)}
+                    onMouseLeave={() => setTouched((t) => (t === s.id ? null : t))}
+                    className="flex w-full items-baseline gap-3 border-b border-dashed py-3 text-left last:border-0"
+                    style={{ borderColor: "color-mix(in oklab, var(--dusk) 14%, transparent)" }}
+                  >
+                    <span className="text-[10.5px] tabular-nums text-dusk/35" style={{ fontFamily: "var(--font-mono)" }}>
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <span className="flex-1 font-serif text-[18px] leading-[1.15]">{s.name}</span>
+                    <span className="text-[11.5px] tabular-nums text-dusk/45">
+                      {n === 0 ? "—" : `${n} souvenir${n > 1 ? "s" : ""}`}
+                    </span>
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+          <p className="mt-3 text-[12px] italic text-dusk/45">
+            {named ? `La parcelle de ${named.name}` : total === 0 ? "Le jardin attend son premier souvenir." : ""}
+          </p>
+        </section>
 
         <section className="px-6 pt-8">
           <Link
