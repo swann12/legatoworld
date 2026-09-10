@@ -101,37 +101,32 @@ function Care() {
         {!light && (
         <section className="px-5 pt-9">
           <SectionKicker label="Présence & mémoire" />
-          <div className="mt-4 grid grid-cols-2 gap-3">
-            <Link
-              to="/presence"
-              className="craft flex min-h-[104px] flex-col justify-between px-5 py-4"
-            >
-              <IndexMark i={1} total={3} />
-              <span>
-                <span className="block font-serif text-[20px] leading-[1.1]">Se confier</span>
-                <span className="mt-1 block text-[12px] text-dusk/55">Parler, à toute heure</span>
+          {/* La Présence passe devant, en pleine largeur. */}
+          <Link
+            to="/presence"
+            className="mt-4 flex items-center justify-between gap-4 rounded-[20px] px-6 py-6"
+            style={{ background: "var(--bordeaux)", color: "var(--paper)" }}
+          >
+            <span>
+              <span className="block text-[10px] uppercase tracking-[0.16em] opacity-70" style={{ fontFamily: "var(--font-mono)" }}>
+                À toute heure
               </span>
-            </Link>
-            <Link
-              to="/care/garden"
-              className="craft flex min-h-[104px] flex-col justify-between px-5 py-4"
-            >
-              <IndexMark i={2} total={3} />
-              <span>
-                <span className="block font-serif text-[20px] leading-[1.1]">Jardin de {lovedName}</span>
-                <span className="mt-1 block text-[12px] text-dusk/55">Déposer et retrouver ses souvenirs</span>
-              </span>
-            </Link>
+              <span className="mt-2 block font-serif text-[24px] leading-[1.1]">Se confier</span>
+            </span>
+            <span aria-hidden className="text-[18px] opacity-70">→</span>
+          </Link>
 
+          <div className="mt-3 grid grid-cols-2 gap-3">
+            <Link to="/care/garden" className="craft flex min-h-[96px] flex-col justify-between px-5 py-4">
+              <IndexMark i={1} total={2} />
+              <span className="block font-serif text-[19px] leading-[1.1]">Le Jardin</span>
+            </Link>
+            <Link to="/care/rituels" className="craft flex min-h-[96px] flex-col justify-between px-5 py-4">
+              <IndexMark i={2} total={2} />
+              <span className="block font-serif text-[19px] leading-[1.1]">Rituels</span>
+            </Link>
           </div>
 
-          <Link to="/care/rituels" className="craft mt-3 flex items-center justify-between gap-3 px-5 py-4">
-            <span>
-              <span className="block font-serif text-[18px] leading-[1.15]">Rituels d'hommage</span>
-              <span className="mt-1 block text-[12px] text-dusk/55">Des gestes pour honorer</span>
-            </span>
-            <IndexMark i={3} total={3} />
-          </Link>
 
         </section>
         )}
