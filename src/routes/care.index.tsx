@@ -172,7 +172,7 @@ function Care() {
               <SimpleRow to="/care/respirer" label="Respirer" />
               <SimpleRow to="/no-words" label="Sans mots" />
               <SimpleRow to="/care/community" label="Communauté" />
-              <SimpleRow to="/practical/pros" label="Aide humaine" />
+              <SimpleRow to="/care/aide" label="Aide humaine" />
               <SimpleRow to="/care/resources" label="Ressources" />
             </div>
           </section>
