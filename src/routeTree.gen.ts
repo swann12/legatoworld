@@ -77,6 +77,7 @@ import { Route as CareGardenRouteImport } from './routes/care.garden'
 import { Route as CareEmotionsRouteImport } from './routes/care.emotions'
 import { Route as CareDatesRouteImport } from './routes/care.dates'
 import { Route as CareCommunityRouteImport } from './routes/care.community'
+import { Route as CareAideRouteImport } from './routes/care.aide'
 import { Route as AuthenticatedCircleRouteImport } from './routes/_authenticated/circle'
 import { Route as PracticalTasksIndexRouteImport } from './routes/practical.tasks.index'
 import { Route as HelpCorpsIndexRouteImport } from './routes/help.corps.index'
@@ -436,6 +437,11 @@ const CareCommunityRoute = CareCommunityRouteImport.update({
   path: '/community',
   getParentRoute: () => CareRoute,
 } as any)
+const CareAideRoute = CareAideRouteImport.update({
+  id: '/aide',
+  path: '/aide',
+  getParentRoute: () => CareRoute,
+} as any)
 const AuthenticatedCircleRoute = AuthenticatedCircleRouteImport.update({
   id: '/circle',
   path: '/circle',
@@ -563,6 +569,7 @@ export interface FileRoutesByFullPath {
   '/vitrine': typeof VitrineRoute
   '/wishes': typeof WishesRoute
   '/circle': typeof AuthenticatedCircleRoute
+  '/care/aide': typeof CareAideRoute
   '/care/community': typeof CareCommunityRouteWithChildren
   '/care/dates': typeof CareDatesRoute
   '/care/emotions': typeof CareEmotionsRoute
@@ -646,6 +653,7 @@ export interface FileRoutesByTo {
   '/vitrine': typeof VitrineRoute
   '/wishes': typeof WishesRoute
   '/circle': typeof AuthenticatedCircleRoute
+  '/care/aide': typeof CareAideRoute
   '/care/dates': typeof CareDatesRoute
   '/care/emotions': typeof CareEmotionsRoute
   '/care/help': typeof CareHelpRoute
@@ -732,6 +740,7 @@ export interface FileRoutesById {
   '/vitrine': typeof VitrineRoute
   '/wishes': typeof WishesRoute
   '/_authenticated/circle': typeof AuthenticatedCircleRoute
+  '/care/aide': typeof CareAideRoute
   '/care/community': typeof CareCommunityRouteWithChildren
   '/care/dates': typeof CareDatesRoute
   '/care/emotions': typeof CareEmotionsRoute
@@ -822,6 +831,7 @@ export interface FileRouteTypes {
     | '/vitrine'
     | '/wishes'
     | '/circle'
+    | '/care/aide'
     | '/care/community'
     | '/care/dates'
     | '/care/emotions'
@@ -905,6 +915,7 @@ export interface FileRouteTypes {
     | '/vitrine'
     | '/wishes'
     | '/circle'
+    | '/care/aide'
     | '/care/dates'
     | '/care/emotions'
     | '/care/help'
@@ -990,6 +1001,7 @@ export interface FileRouteTypes {
     | '/vitrine'
     | '/wishes'
     | '/_authenticated/circle'
+    | '/care/aide'
     | '/care/community'
     | '/care/dates'
     | '/care/emotions'
@@ -1568,6 +1580,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CareCommunityRouteImport
       parentRoute: typeof CareRoute
     }
+    '/care/aide': {
+      id: '/care/aide'
+      path: '/aide'
+      fullPath: '/care/aide'
+      preLoaderRoute: typeof CareAideRouteImport
+      parentRoute: typeof CareRoute
+    }
     '/_authenticated/circle': {
       id: '/_authenticated/circle'
       path: '/circle'
@@ -1750,6 +1769,7 @@ const CareGardenRouteWithChildren = CareGardenRoute._addFileChildren(
 )
 
 interface CareRouteChildren {
+  CareAideRoute: typeof CareAideRoute
   CareCommunityRoute: typeof CareCommunityRouteWithChildren
   CareDatesRoute: typeof CareDatesRoute
   CareEmotionsRoute: typeof CareEmotionsRoute
@@ -1764,6 +1784,7 @@ interface CareRouteChildren {
 }
 
 const CareRouteChildren: CareRouteChildren = {
+  CareAideRoute: CareAideRoute,
   CareCommunityRoute: CareCommunityRouteWithChildren,
   CareDatesRoute: CareDatesRoute,
   CareEmotionsRoute: CareEmotionsRoute,
