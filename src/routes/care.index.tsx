@@ -106,20 +106,29 @@ function Care() {
               className="craft flex min-h-[104px] flex-col justify-between px-5 py-4"
             >
               <IndexMark i={1} total={3} />
-              <p className="font-serif text-[20px] leading-[1.1]">Se confier</p>
+              <span>
+                <span className="block font-serif text-[20px] leading-[1.1]">Se confier</span>
+                <span className="mt-1 block text-[12px] text-dusk/55">Parler, à toute heure</span>
+              </span>
             </Link>
             <Link
               to="/care/garden"
               className="craft flex min-h-[104px] flex-col justify-between px-5 py-4"
             >
               <IndexMark i={2} total={3} />
-              <p className="font-serif text-[20px] leading-[1.1]">{lovedName}</p>
+              <span>
+                <span className="block font-serif text-[20px] leading-[1.1]">Jardin de {lovedName}</span>
+                <span className="mt-1 block text-[12px] text-dusk/55">Déposer et retrouver ses souvenirs</span>
+              </span>
             </Link>
 
           </div>
 
           <Link to="/care/rituels" className="craft mt-3 flex items-center justify-between gap-3 px-5 py-4">
-            <p className="font-serif text-[18px] leading-[1.15]">Rituels d'hommage</p>
+            <span>
+              <span className="block font-serif text-[18px] leading-[1.15]">Rituels d'hommage</span>
+              <span className="mt-1 block text-[12px] text-dusk/55">Des gestes pour honorer</span>
+            </span>
             <IndexMark i={3} total={3} />
           </Link>
 

@@ -1,7 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useRef, useState } from "react";
 import { Shell } from "@/components/legato/Shell";
-import { BackLink } from "@/components/legato/BackLink";
+import { PageHeader } from "@/components/legato/EditorialUI";
 import { useLovedName } from "@/lib/loved-name";
 import { addMemory, useMemories, type Memory, type MemoryType } from "@/lib/memories-store";
 
@@ -11,18 +11,17 @@ const ZONES: Record<ZoneKind, {
   label: string;
   title: string;
   intro: string;
-  bg: string;
   type: MemoryType;
   input: "image" | "audio" | "text";
   placeholder: string;
   cta: string;
 }> = {
-  photo:    { label: "Photos",   title: "Photos",   intro: "Un visage, un jour, une lumière.",   bg: "var(--whisper)", type: "photo",    input: "image", placeholder: "Un mot sur cette photo (facultatif)", cta: "Choisir une photo" },
-  objet:    { label: "Objets",   title: "Objets",   intro: "Une trace qu'on peut tenir.",         bg: "var(--whisper)", type: "photo",    input: "image", placeholder: "Ce que représente cet objet (facultatif)", cta: "Photographier l'objet" },
-  lettre:   { label: "Lettres",  title: "Lettres",  intro: "Ce que vous auriez voulu dire.",      bg: "var(--sun)",     type: "text",     input: "text",  placeholder: "Écrivez ici…", cta: "Déposer la lettre" },
-  citation: { label: "Citations", title: "Citations", intro: "Une phrase qui reste.",             bg: "color-mix(in oklab, var(--bordeaux) 18%, var(--whisper))", type: "sentence", input: "text", placeholder: "La phrase…", cta: "Déposer la phrase" },
-  voix:     { label: "Voix",     title: "Voix",     intro: "Un message, un rire, un souffle.",    bg: "var(--blush)",   type: "voice",    input: "audio", placeholder: "De quoi s'agit-il ? (facultatif)", cta: "Choisir un enregistrement" },
-  musique:  { label: "Musiques", title: "Musiques", intro: "Les chansons qui vous relient.",      bg: "color-mix(in oklab, var(--olive) 22%, var(--whisper))", type: "sound", input: "audio", placeholder: "Titre de la chanson", cta: "Ajouter la musique" },
+  photo:    { label: "Photos",    title: "Photos",    intro: "Un visage, un jour, une lumière.", type: "photo",    input: "image", placeholder: "Un mot sur cette photo (facultatif)", cta: "Choisir une photo" },
+  objet:    { label: "Objets",    title: "Objets",    intro: "Une trace qu'on peut tenir.",       type: "photo",    input: "image", placeholder: "Ce que représente cet objet (facultatif)", cta: "Photographier l'objet" },
+  lettre:   { label: "Lettres",   title: "Lettres",   intro: "Ce que vous auriez voulu dire.",    type: "text",     input: "text",  placeholder: "Écrivez ici…", cta: "Déposer la lettre" },
+  citation: { label: "Citations", title: "Citations", intro: "Une phrase qui reste.",             type: "sentence", input: "text",  placeholder: "La phrase…", cta: "Déposer la phrase" },
+  voix:     { label: "Voix",      title: "Voix",      intro: "Un message, un rire, un souffle.",  type: "voice",    input: "audio", placeholder: "De quoi s'agit-il ? (facultatif)", cta: "Choisir un enregistrement" },
+  musique:  { label: "Musiques",  title: "Musiques",  intro: "Les chansons qui vous relient.",    type: "sound",    input: "audio", placeholder: "Titre de la chanson", cta: "Ajouter la musique" },
 };
 
 export const Route = createFileRoute("/care/garden/$zone")({
@@ -32,14 +31,16 @@ export const Route = createFileRoute("/care/garden/$zone")({
   head: () => ({ meta: [{ title: "Parcelle — Jardin Legato" }] }),
   notFoundComponent: () => (
     <Shell livingBg={false}>
-      <div className="wash-sand min-h-dvh text-dusk px-6 pt-9">
-        <BackLink to="/care/garden" label="Retour au Jardin" />
-        <p className="mt-8 font-serif text-[22px]">Cette parcelle n'existe pas.</p>
+      <div className="min-h-dvh bg-paper text-dusk">
+        <PageHeader back="/care/garden" title="JARDIN" />
+        <p className="px-6 pt-8 font-serif text-[22px]">Cette parcelle n'existe pas.</p>
       </div>
     </Shell>
   ),
   component: GardenZone,
 });
+
+const DASH = "color-mix(in oklab, var(--dusk) 16%, transparent)";
 
 function GardenZone() {
   const { zone } = Route.useParams();
@@ -82,46 +83,35 @@ function GardenZone() {
 
   return (
     <Shell livingBg={false}>
-      <div className="wash-sand min-h-dvh text-dusk pb-32">
-        <header className="px-6 pt-7 flex items-center justify-between">
-          <BackLink to="/care/garden" label="Jardin" />
-          <span className="mono-label text-dusk/45">{cfg.label}</span>
-        </header>
+      <div className="min-h-dvh bg-paper text-dusk pb-32">
+        <PageHeader back="/care/garden" title={cfg.label.toUpperCase()} />
 
-        <section className="px-6 pt-8">
+        <section className="px-6">
           <p className="mono-label">Jardin de {lovedName}</p>
           <h1 className="mt-3 ed-page-title">{cfg.title}</h1>
-          <p className="mt-4 text-[13.5px] leading-[1.65] text-dusk/60 max-w-[34ch]">{cfg.intro}</p>
+          <p className="mt-4 max-w-[32ch] text-[13.5px] leading-[1.6] text-dusk/60">{cfg.intro}</p>
         </section>
 
-        <section className="px-5 pt-7">
-          <div className="rounded-[20px] px-5 py-5" style={{ background: cfg.bg }}>
-            <p className="mono-label text-dusk/60">Déposer</p>
+        {/* Dépôt — une feuille, pas un encart */}
+        <section className="px-6 pt-8">
+          <div className="border-t border-dashed pt-5" style={{ borderColor: DASH }}>
+            <p className="mono-label">Déposer</p>
             {cfg.input === "text" ? (
-              <>
-                <textarea
-                  value={text}
-                  onChange={(e) => setText(e.target.value)}
-                  placeholder={cfg.placeholder}
-                  rows={4}
-                  className="mt-3 w-full resize-none rounded-[12px] border border-dusk/12 bg-paper px-4 py-3 text-[13.5px] leading-[1.6] text-dusk outline-none"
-                />
-                <button
-                  onClick={submitText}
-                  disabled={!text.trim()}
-                  className="mt-3 h-11 w-full rounded-full text-[12px] tracking-[0.06em] disabled:opacity-40"
-                  style={{ background: "var(--dusk)", color: "var(--paper)" }}
-                >
-                  {cfg.cta}
-                </button>
-              </>
+              <textarea
+                value={text}
+                onChange={(e) => setText(e.target.value)}
+                placeholder={cfg.placeholder}
+                rows={5}
+                className="mt-3 w-full resize-none bg-transparent font-serif text-[16.5px] leading-[28px] text-dusk outline-none placeholder:text-dusk/30"
+              />
             ) : (
               <>
                 <input
                   value={text}
                   onChange={(e) => setText(e.target.value)}
                   placeholder={cfg.placeholder}
-                  className="mt-3 h-11 w-full rounded-[12px] border border-dusk/12 bg-paper px-4 text-[13px] text-dusk outline-none"
+                  className="mt-3 w-full bg-transparent pb-2 font-serif text-[16.5px] text-dusk outline-none placeholder:text-dusk/30"
+                  style={{ borderBottom: `1px dashed ${DASH}` }}
                 />
                 <input
                   ref={fileRef}
@@ -130,37 +120,47 @@ function GardenZone() {
                   className="hidden"
                   onChange={(e) => onFile(e.target.files?.[0])}
                 />
-                <button
-                  onClick={() => fileRef.current?.click()}
-                  className="mt-3 h-11 w-full rounded-full text-[12px] tracking-[0.06em]"
-                  style={{ background: "var(--dusk)", color: "var(--paper)" }}
-                >
-                  {cfg.cta}
-                </button>
               </>
             )}
-            {saved && <p className="mt-3 text-[12px] text-dusk/70">Déposé dans le Jardin.</p>}
+
+            <div className="mt-4 flex items-center justify-between gap-3 border-t border-dashed pt-3" style={{ borderColor: DASH }}>
+              <span className="text-[11px] tabular-nums tracking-[0.1em] text-dusk/35">
+                {saved ? "Déposé dans le Jardin" : cfg.input === "text" ? `${text.trim().length} signes` : "\u00A0"}
+              </span>
+              <button
+                type="button"
+                onClick={cfg.input === "text" ? submitText : () => fileRef.current?.click()}
+                disabled={cfg.input === "text" && !text.trim()}
+                className="rounded-full px-5 py-2 text-[12.5px] disabled:opacity-35"
+                style={{ background: "var(--terracotta)", color: "var(--paper)" }}
+              >
+                {cfg.cta} →
+              </button>
+            </div>
           </div>
         </section>
 
-        <section className="px-5 pt-8">
-          <p className="mono-label px-1 text-dusk/55">
-            {memories.length > 0 ? `${memories.length} déposé${memories.length > 1 ? "s" : ""}` : "Rien encore"}
-          </p>
+        {/* Ce qui pousse ici */}
+        <section className="px-6 pt-10">
+          <div className="flex items-baseline justify-between">
+            <p className="mono-label">Ce qui pousse ici</p>
+            <span className="text-[11px] tabular-nums text-dusk/35">{String(memories.length).padStart(2, "0")}</span>
+          </div>
           {memories.length === 0 ? (
-            <p className="mt-3 px-1 text-[13px] leading-[1.6] text-dusk/55 max-w-[32ch]">
-              Ce que vous déposerez ici restera, sans limite de temps.
+            <p className="mt-4 max-w-[30ch] text-[13px] leading-[1.6] text-dusk/50">
+              Rien encore. Ce que vous déposerez ici restera, sans limite de temps.
             </p>
           ) : (
-            <div className="mt-3 flex flex-col gap-3">
+            <ul className="mt-2">
               {[...memories].reverse().map((m) => <MemoryRow key={m.id} memory={m} />)}
-            </div>
+            </ul>
           )}
         </section>
 
-        <section className="px-5 pt-9">
-          <Link to="/care/garden" className="block rounded-[18px] border border-dusk/12 px-5 py-4 text-center">
-            <span className="mono-label text-dusk/60">Revenir au Jardin</span>
+        <section className="px-6 pt-10">
+          <Link to="/care/garden" className="flex items-center justify-between border-t border-dashed pt-4" style={{ borderColor: DASH }}>
+            <span className="mono-label">Revenir au Jardin</span>
+            <span aria-hidden className="text-dusk/30">→</span>
           </Link>
         </section>
       </div>
@@ -171,13 +171,18 @@ function GardenZone() {
 function MemoryRow({ memory }: { memory: Memory }) {
   const date = new Date(memory.createdAt).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" });
   return (
-    <div className="rounded-[18px] border border-dusk/12 bg-[color:var(--whisper)] px-5 py-4">
+    <li className="border-b border-dashed py-4 last:border-0" style={{ borderColor: DASH }}>
       {memory.imageDataUrl && (
-        <img src={memory.imageDataUrl} alt={memory.title ?? "Souvenir"} className="mb-3 w-full rounded-[12px] object-cover" style={{ maxHeight: 220 }} />
+        <img
+          src={memory.imageDataUrl}
+          alt={memory.title ?? "Souvenir"}
+          className="mb-3 w-full rounded-[6px] object-cover"
+          style={{ maxHeight: 240 }}
+        />
       )}
       {memory.title && <p className="font-serif text-[17px] leading-[1.2]">{memory.title}</p>}
-      {memory.body && <p className="mt-1 text-[13.5px] leading-[1.6] text-dusk/75 whitespace-pre-wrap">{memory.body}</p>}
-      <p className="mt-2 mono-label text-dusk/40">{date}</p>
-    </div>
+      {memory.body && <p className="mt-1 whitespace-pre-wrap font-serif text-[15.5px] leading-[26px] text-dusk/80">{memory.body}</p>}
+      <p className="mt-2 text-[10.5px] uppercase tracking-[0.14em] text-dusk/35" style={{ fontFamily: "var(--font-mono)" }}>{date}</p>
+    </li>
   );
 }
