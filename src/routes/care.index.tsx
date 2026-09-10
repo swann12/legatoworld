@@ -131,14 +131,21 @@ function Care() {
         </section>
         )}
 
-        {!light && restCare.length > 0 && (
+        {!light && (
           <section className="px-5 pt-9">
-            <SectionKicker label="Autres appuis" />
-            <div className="mt-4 flex flex-col gap-3">
-              {restCare.map((m) => <CareRow key={m} module={m} />)}
+            <SectionKicker label="Appuis" />
+            <div className="mt-4 flex flex-col">
+              <SimpleRow to="/care/respirer" label="Respirer" />
+              <SimpleRow to="/care/journal" label="Journal" />
+              <SimpleRow to="/care/community" label="Communauté" />
+              <SimpleRow to="/practical/pros" label="Aide humaine" />
+              <SimpleRow to="/care/resources" label="Ressources" />
+              <SimpleRow to="/agenda" label="Agenda" />
+              <SimpleRow to="/care/dates" label="Dates importantes" />
             </div>
           </section>
         )}
+
 
         <div className="pt-10" />
       </main>
