@@ -153,9 +153,10 @@ function Espaces() {
 }
 
 function SpaceCard({
-  space: s, next, active, onActivate, onEdit, onArchive,
+  space: s, index, next, active, onActivate, onEdit, onArchive,
 }: {
   space: Space;
+  index: number;
   next?: { label: string; daysAway: number };
   active: boolean;
   onActivate: () => void;
@@ -164,50 +165,34 @@ function SpaceCard({
 }) {
   return (
     <article
-      className="rounded-[22px] px-5 py-5"
-      style={{
-        background: "var(--whisper)",
-        boxShadow: "0 12px 26px -22px color-mix(in oklab, var(--dusk) 55%, transparent)",
-      }}
+      className="border-b border-dashed py-6 first:pt-0"
+      style={{ borderColor: "color-mix(in oklab, var(--dusk) 15%, transparent)" }}
     >
-      <div className="flex items-start justify-between gap-3">
-        <div className="min-w-0">
-          <p className="mono-label text-dusk/60">
-            {RELATION_LABEL[s.relation ?? "autre"]}{active ? " · Espace ouvert" : ""}
-          </p>
-          <p className="mt-2 font-serif text-[26px] leading-[1.05]">{s.name}</p>
-        </div>
-        <button type="button" onClick={onEdit} className="rounded-full bg-[color-mix(in_oklab,var(--clay)_55%,var(--whisper))] px-3 py-1 text-[10.5px] mono-label text-dusk/70">
-          Modifier
-        </button>
-      </div>
-
-      {next && (
-        <p className="mt-3 text-[12.5px] text-dusk/70">
-          {next.label} · {formatDaysAway(next.daysAway).toLowerCase()}
-        </p>
-      )}
-
-      <div className="mt-5 grid grid-cols-2 gap-2">
-        <Link to="/care/garden" className="rounded-[14px] bg-[color-mix(in_oklab,var(--clay)_55%,var(--whisper))] px-4 py-3">
-          <p className="mono-label text-dusk/55">Jardin</p>
-          <p className="mt-1 text-[13px]">Photos, voix, lettres</p>
-        </Link>
-        <Link to="/care/dates" className="rounded-[14px] bg-[color-mix(in_oklab,var(--clay)_55%,var(--whisper))] px-4 py-3">
-          <p className="mono-label text-dusk/55">Dates</p>
-          <p className="mt-1 text-[13px]">Anniversaire, départ</p>
-        </Link>
-      </div>
-
-      <div className="mt-4 flex items-center gap-5">
-        {!active && (
-          <button type="button" onClick={onActivate} className="mono-label" style={{ color: "var(--bordeaux)" }}>
-            Ouvrir cet espace
-          </button>
+      <div className="flex items-baseline gap-3">
+        <span className="text-[10.5px] tabular-nums text-dusk/35" style={{ fontFamily: "var(--font-mono)" }}>
+          {String(index + 1).padStart(2, "0")}
+        </span>
+        <h2 className="flex-1 font-serif text-[26px] leading-[1.05]">{s.name}</h2>
+        {active && (
+          <span className="text-[10.5px] tracking-[0.14em]" style={{ fontFamily: "var(--font-mono)", color: "var(--bordeaux)" }}>
+            OUVERT
+          </span>
         )}
-        <button type="button" onClick={onArchive} className="mono-label text-dusk/55">
-          Mettre de côté
-        </button>
+      </div>
+
+      <p className="mt-1.5 pl-[calc(0.75rem+18px)] text-[12.5px] text-dusk/50">
+        {RELATION_LABEL[s.relation ?? "autre"]}
+        {next ? ` · ${next.label.toLowerCase()}, ${formatDaysAway(next.daysAway).toLowerCase()}` : ""}
+      </p>
+
+      <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 pl-[calc(0.75rem+18px)] text-[12.5px]">
+        <Link to="/care/garden" className="text-dusk/70 underline decoration-dotted underline-offset-4">Jardin</Link>
+        <Link to="/care/dates" className="text-dusk/70 underline decoration-dotted underline-offset-4">Dates</Link>
+        {!active && (
+          <button type="button" onClick={onActivate} style={{ color: "var(--bordeaux)" }}>Ouvrir</button>
+        )}
+        <button type="button" onClick={onEdit} className="text-dusk/50">Modifier</button>
+        <button type="button" onClick={onArchive} className="text-dusk/40">Mettre de côté</button>
       </div>
     </article>
   );
