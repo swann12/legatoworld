@@ -3,7 +3,8 @@
 ## Objectif
 Reprendre les deux messages de référence comme une seule liste de contrôle, sans ajouter de fonctions hors demande. Chaque point sera vérifié sur l’écran réel, corrigé puis testé.
 
-## Navigation et hiérarchie
+## Navigation, hiérarchie et mise en avant de « Se confier »
+Dans Soutien, « Se confier » doit être l’élément le plus visible et le plus désirable de la page, avec une représentation propre — traitement, matière et échelle différents des autres entrées — sans redevenir un bouton flottant.
 - Conserver exactement la barre « Soutien / Démarches » actuelle : sa taille, sa forme, son contour et ses couleurs sont désormais validés.
 - Afficher le profil uniquement sur les pages d’accueil Soutien et Démarches, en haut et discret.
 - Ne conserver aucun bouton flottant « Se confier ».
