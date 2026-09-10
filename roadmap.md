@@ -8,3 +8,4 @@
 - [ ] Appliquer les autres points 8 à 18 du brief : Émotions, Agenda, Communauté, Practical, Pros, aides humaines, Rituels.
 - [ ] Vérifier les fonctions prioritaires de Soutien et l’ensemble des parcours concernés.
 - [ ] Étendre la dimension carnet intime à toute l’application, pas seulement au Journal.
+- [ ] Ajouter une esthétique sensorielle animée à Respirer : halo, lumière et matière vivantes.
