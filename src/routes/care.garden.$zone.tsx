@@ -84,12 +84,11 @@ function GardenZone() {
   return (
     <Shell livingBg={false}>
       <div className="min-h-dvh bg-paper text-dusk pb-32">
-        <PageHeader back="/care/garden" title={cfg.label.toUpperCase()} />
+        <PageHeader back="/care/garden/depot" title={cfg.label.toUpperCase()} />
 
         <section className="px-6">
-          <p className="mono-label">Jardin de {lovedName}</p>
+          <p className="mono-label">{lovedName}</p>
           <h1 className="mt-3 ed-page-title">{cfg.title}</h1>
-          <p className="mt-4 max-w-[32ch] text-[13.5px] leading-[1.6] text-dusk/60">{cfg.intro}</p>
         </section>
 
         {/* Dépôt — une feuille, pas un encart */}

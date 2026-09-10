@@ -29,28 +29,6 @@ function ProfileDot() {
   );
 }
 
-/** Accès permanent à la Présence depuis tout l'espace Soutien. */
-function ConfideAccess() {
-  return (
-    <Link
-      to="/presence"
-      aria-label="Se confier à la Présence"
-      className="fixed right-4 z-50 flex items-center gap-2 rounded-full py-2.5 pl-3.5 pr-4"
-      style={{
-        bottom: "calc(max(env(safe-area-inset-bottom), 0.9rem) + 4.25rem)",
-        background: "var(--bordeaux)",
-        color: "var(--paper)",
-        boxShadow: "0 18px 38px -20px color-mix(in oklab, var(--bordeaux) 85%, transparent)",
-      }}
-    >
-      <span aria-hidden className="block h-1.5 w-1.5 rounded-full" style={{ background: "var(--blush)" }} />
-      <span className="text-[10px] uppercase tracking-[0.14em]" style={{ fontFamily: "var(--font-mono)" }}>
-        Se confier
-      </span>
-    </Link>
-  );
-}
-
 export function Shell({
   children,
   hideNav = false,
@@ -64,16 +42,15 @@ export function Shell({
 }) {
   const { mode } = useLegato();
   const { pathname } = useLocation();
-  const inCare = pathname.startsWith("/care") || pathname === "/presence" || pathname.startsWith("/agenda");
-  const showConfide = !hideNav && inCare && !pathname.startsWith("/presence");
+  // Le profil n'accompagne que les deux espaces principaux.
+  const isRoot = ["/care", "/care/", "/practical", "/practical/"].includes(pathname);
   return (
     <div className="min-h-dvh bg-paper text-dusk">
       <div className={`mobile-frame grain veil relative ${hideNav ? "pb-0" : "pb-32"}`}>
         {livingBg && <ModeBackground mode={mode} />}
         <div className="relative rise" style={{ zIndex: 1 }}>{children}</div>
       </div>
-      {!hideNav && <ProfileDot />}
-      {showConfide && <ConfideAccess />}
+      {!hideNav && isRoot && <ProfileDot />}
       {!hideNav && <SpaceSwitch />}
     </div>
   );
