@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Shell } from "@/components/legato/Shell";
 import { useLegato } from "@/lib/legato-state";
 import { useLovedName } from "@/lib/loved-name";
@@ -7,10 +7,10 @@ import { useLovedName } from "@/lib/loved-name";
 export const Route = createFileRoute("/care/journal")({
   head: () => ({
     meta: [
-      { title: "Journal — Legato" },
-      { name: "description", content: "Écrire ce qui vient, sans relire. Un carnet privé, gardé pour vous." },
-      { property: "og:title", content: "Journal — Legato" },
-      { property: "og:description", content: "Écrire ce qui vient, sans relire." },
+      { title: "Journal intime — Legato" },
+      { name: "description", content: "Un carnet privé : écrire ce qui vient, sans relire, et garder chaque page." },
+      { property: "og:title", content: "Journal intime — Legato" },
+      { property: "og:description", content: "Écrire ce qui vient, sans relire. Vos pages restent avec vous." },
     ],
   }),
   component: CareJournal,
@@ -29,27 +29,43 @@ const DEST: { id: "them" | "self" | "free"; label: string }[] = [
   { id: "free", label: "Libre" },
 ];
 
-function jour(iso: string) {
+function jourLong(iso: string) {
   try {
-    return new Date(iso).toLocaleDateString("fr-FR", { day: "2-digit", month: "long" });
+    return new Date(iso).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" });
   } catch {
     return "";
   }
 }
+
+/** Papier réglé : interlignes fins, comme un carnet tenu à la main. */
+const RULED: React.CSSProperties = {
+  background: "var(--whisper)",
+  backgroundImage:
+    "repeating-linear-gradient(to bottom, transparent 0px, transparent 30px, color-mix(in oklab, var(--dusk) 9%, transparent) 30px, color-mix(in oklab, var(--dusk) 9%, transparent) 31px)",
+  backgroundPosition: "0 14px",
+};
 
 function CareJournal() {
   const { journal, addJournalEntry } = useLegato();
   const lovedName = useLovedName();
   const [body, setBody] = useState("");
   const [to, setTo] = useState<"them" | "self" | "free">("them");
+  const [showPrompts, setShowPrompts] = useState(false);
+  const [justSaved, setJustSaved] = useState(false);
+
+  const today = useMemo(() => jourLong(new Date().toISOString()), []);
 
   const save = () => {
     if (!body.trim()) return;
     addJournalEntry({ body: body.trim(), to });
     setBody("");
+    setShowPrompts(false);
+    setJustSaved(true);
+    window.setTimeout(() => setJustSaved(false), 2600);
   };
 
   const dest = DEST.map((d) => ({ ...d, label: d.id === "them" ? lovedName : d.label }));
+  const destName = to === "them" ? lovedName : to === "self" ? "moi" : null;
 
   return (
     <Shell livingBg={false}>
@@ -58,19 +74,80 @@ function CareJournal() {
           <Link to="/care" aria-label="Retour" className="text-[15px] leading-none text-dusk/50">←</Link>
         </header>
 
-        <section className="px-6 pt-7">
-          <p className="mono-label">Journal</p>
+        <section className="px-6 pt-6">
+          <p className="mono-label">Journal intime</p>
           <h1 className="mt-4 font-serif text-[32px] leading-[1.06]">
-            Écrire ce qui <span className="italic" style={{ color: "var(--terracotta)" }}>vient</span>.
+            Votre <span className="italic" style={{ color: "var(--terracotta)" }}>carnet</span>, rien qu'à vous.
           </h1>
-          <p className="mt-3 max-w-[30ch] text-[13px] leading-[1.55] text-dusk/55">
+          <p className="mt-3 max-w-[32ch] text-[13px] leading-[1.55] text-dusk/55">
             Personne ne lit. Pas besoin de phrases justes.
           </p>
         </section>
 
-        {/* Destinataire */}
-        <section className="px-6 pt-7">
-          <div className="flex gap-2">
+        {/* La feuille : date écrite en haut, lignes, marge, numéro de page */}
+        <section className="px-5 pt-7">
+          <div
+            className="relative overflow-hidden rounded-[6px] px-6 pt-6 pb-5"
+            style={{
+              ...RULED,
+              border: "1px solid color-mix(in oklab, var(--dusk) 14%, transparent)",
+              boxShadow: "0 18px 40px -34px color-mix(in oklab, var(--dusk) 70%, transparent)",
+            }}
+          >
+            {/* marge de carnet */}
+            <span
+              aria-hidden
+              className="pointer-events-none absolute inset-y-0"
+              style={{ left: 22, width: 1, background: "color-mix(in oklab, var(--terracotta) 32%, transparent)" }}
+            />
+            <p className="font-serif text-[15px] italic text-dusk/55">
+              {today}
+              {destName ? <> — pour {destName}</> : null}
+            </p>
+
+            <textarea
+              value={body}
+              onChange={(e) => setBody(e.target.value)}
+              rows={12}
+              placeholder="Laissez les mots venir, sans relire…"
+              className="mt-3 w-full resize-none bg-transparent font-serif text-[17px] leading-[31px] text-dusk outline-none placeholder:text-dusk/28"
+            />
+
+            <div className="mt-1 flex items-center justify-between">
+              <span className="text-[11px] tabular-nums tracking-[0.1em] text-dusk/35">
+                page {String(journal.length + 1).padStart(2, "0")}
+              </span>
+              <button
+                type="button"
+                onClick={() => setShowPrompts((v) => !v)}
+                className="text-[12px] text-dusk/45 underline decoration-dotted underline-offset-4"
+              >
+                {showPrompts ? "Masquer" : "Si les mots ne viennent pas"}
+              </button>
+            </div>
+
+            {showPrompts && (
+              <div className="mt-3 flex flex-col gap-2 border-t border-dashed pt-3"
+                style={{ borderColor: "color-mix(in oklab, var(--dusk) 16%, transparent)" }}>
+                {AMORCES.map((a) => (
+                  <button
+                    key={a}
+                    type="button"
+                    onClick={() => { setBody((b) => (b ? b : a + " ")); setShowPrompts(false); }}
+                    className="text-left font-serif text-[16px] italic leading-[1.35] text-dusk/65"
+                  >
+                    {a}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        </section>
+
+        {/* À qui j'écris — discret, sous la feuille */}
+        <section className="px-6 pt-5">
+          <p className="text-[11.5px] text-dusk/45">J'écris…</p>
+          <div className="mt-2.5 flex gap-2">
             {dest.map((d) => {
               const on = to === d.id;
               return (
@@ -93,70 +170,56 @@ function CareJournal() {
           </div>
         </section>
 
-        {/* Feuille */}
-        <section className="px-5 pt-5">
-          <div className="craft px-5 py-5">
-            <textarea
-              value={body}
-              onChange={(e) => setBody(e.target.value)}
-              rows={9}
-              placeholder="Laissez les mots venir, sans relire…"
-              className="w-full resize-none bg-transparent font-serif text-[17px] leading-[29px] text-dusk outline-none placeholder:text-dusk/30"
-            />
-            <div className="mt-2 flex items-center justify-between border-t border-dashed pt-3" style={{ borderColor: "color-mix(in oklab, var(--dusk) 16%, transparent)" }}>
-              <span className="text-[11px] tabular-nums tracking-[0.1em] text-dusk/35">
-                {body.trim().length} signes
-              </span>
-              <button
-                onClick={save}
-                disabled={!body.trim()}
-                className="rounded-full px-5 py-2 text-[12.5px] tracking-[0.04em] disabled:opacity-35"
-                style={{ background: "var(--terracotta)", color: "var(--paper)" }}
-              >
-                Garder →
-              </button>
-            </div>
-          </div>
+        <section className="px-6 pt-6">
+          <button
+            onClick={save}
+            disabled={!body.trim()}
+            className="w-full rounded-full py-3.5 text-[13px] tracking-[0.05em] disabled:opacity-30"
+            style={{ background: "var(--bordeaux)", color: "var(--paper)" }}
+          >
+            Garder cette page
+          </button>
+          {justSaved && (
+            <p className="mt-3 text-center font-serif text-[15px] italic text-dusk/55">
+              Votre page est rangée dans le carnet.
+            </p>
+          )}
         </section>
 
-        {/* Amorces — bandeau ponctuel */}
-        <section className="band band-blush mt-9 px-6 pt-7 pb-8">
-          <p className="mono-label">Si les mots ne viennent pas</p>
-          <div className="mt-4 flex flex-col gap-2.5">
-            {AMORCES.map((a) => (
-              <button
-                key={a}
-                type="button"
-                onClick={() => setBody((b) => (b ? b : a + " "))}
-                className="text-left font-serif text-[17px] leading-[1.3] text-dusk/80"
-              >
-                {a}
-              </button>
-            ))}
-          </div>
-        </section>
-
-        {/* Ce que j'ai gardé */}
+        {/* Les pages gardées */}
         {journal.length > 0 && (
-          <section className="px-6 pt-9">
-            <div className="flex items-baseline justify-between">
-              <p className="mono-label">Ce que j'ai gardé</p>
+          <section className="px-5 pt-11">
+            <div className="flex items-baseline justify-between px-1">
+              <p className="mono-label">Pages gardées</p>
               <span className="text-[11px] tabular-nums text-dusk/35">
                 {String(journal.length).padStart(2, "0")}
               </span>
             </div>
-            <ul className="mt-4">
-              {journal.slice(0, 8).map((e) => (
-                <li
+            <div className="mt-4 flex flex-col gap-3">
+              {journal.slice(0, 8).map((e, i) => (
+                <article
                   key={e.id}
-                  className="border-b border-dashed py-4 last:border-0"
-                  style={{ borderColor: "color-mix(in oklab, var(--dusk) 15%, transparent)" }}
+                  className="relative overflow-hidden rounded-[4px] px-5 py-4"
+                  style={{
+                    ...RULED,
+                    border: "1px solid color-mix(in oklab, var(--dusk) 12%, transparent)",
+                    transform: `rotate(${i % 2 === 0 ? -0.35 : 0.3}deg)`,
+                  }}
                 >
-                  <p className="mono-label text-dusk/45">{jour(e.date)}</p>
-                  <p className="mt-1.5 line-clamp-3 text-[13.5px] leading-[1.55] text-dusk/75">{e.body}</p>
-                </li>
+                  <span
+                    aria-hidden
+                    className="pointer-events-none absolute right-0 top-0"
+                    style={{
+                      width: 18, height: 18,
+                      background: "color-mix(in oklab, var(--clay) 80%, var(--paper))",
+                      clipPath: "polygon(100% 0, 0 0, 100% 100%)",
+                    }}
+                  />
+                  <p className="font-serif text-[13.5px] italic text-dusk/50">{jourLong(e.date)}</p>
+                  <p className="mt-1.5 line-clamp-4 font-serif text-[15px] leading-[26px] text-dusk/80">{e.body}</p>
+                </article>
               ))}
-            </ul>
+            </div>
           </section>
         )}
       </div>

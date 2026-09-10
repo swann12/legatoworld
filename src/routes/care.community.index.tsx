@@ -91,9 +91,24 @@ function CommunityIndex() {
           </ul>
         </section>
 
-        <p className="mx-5 mt-9 text-[12px] leading-[1.6] text-dusk/50">
-          Chaque groupe est modéré par des humains. Vous pouvez écrire sous pseudonyme, ou seulement lire.
-        </p>
+        <section className="px-5 pt-9">
+          <Link
+            to="/care/community/regles"
+            className="flex items-center justify-between gap-4 rounded-[18px] px-5 py-4"
+            style={{ background: "color-mix(in oklab, var(--sky) 46%, var(--whisper))" }}
+          >
+            <span>
+              <span className="mono-label block">Règles et sécurité</span>
+              <span className="mt-1.5 block font-serif text-[17px] leading-[1.2]">
+                Charte, pseudonyme, signalement
+              </span>
+            </span>
+            <span aria-hidden className="text-dusk/40">→</span>
+          </Link>
+          <p className="mt-3 px-1 text-[12px] leading-[1.6] text-dusk/50">
+            Chaque groupe est modéré par des humains. Vous pouvez écrire sous pseudonyme, ou seulement lire.
+          </p>
+        </section>
       </div>
     </Shell>
   );

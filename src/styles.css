@@ -962,3 +962,9 @@
  line-height: 1.08;
  letter-spacing: 0;
 }
+
+/* Halo respiratoire : lueur lente et continue, jamais clignotante. */
+@keyframes legato-halo {
+  0%, 100% { transform: scale(0.94); opacity: 0.55; }
+  50%      { transform: scale(1.08); opacity: 1; }
+}

@@ -121,6 +121,8 @@ export type Provider = {
   firstName: string;
   lastName: string;
   city: string;
+  /** Code postal principal, pour la recherche géographique. */
+  zip?: string;
   modes: ("cabinet" | "visio" | "domicile")[];
   speciality: string;
   approach: string[]; // 3-4 phrases first person
@@ -138,6 +140,7 @@ export const PROVIDERS: Provider[] = [
     firstName: "Claire",
     lastName: "Marchand",
     city: "Paris",
+    zip: "75009",
     modes: ["cabinet", "visio"],
     speciality: "Deuil de conjoint",
     approach: [
@@ -161,6 +164,7 @@ export const PROVIDERS: Provider[] = [
     firstName: "Yann",
     lastName: "Delcourt",
     city: "Lyon",
+    zip: "69003",
     modes: ["visio"],
     speciality: "Deuil périnatal",
     approach: [
@@ -184,6 +188,7 @@ export const PROVIDERS: Provider[] = [
     firstName: "Sophie",
     lastName: "Reyer",
     city: "Bordeaux",
+    zip: "33000",
     modes: ["cabinet", "domicile"],
     speciality: "Accompagnement enfant",
     approach: [
@@ -206,6 +211,7 @@ export const PROVIDERS: Provider[] = [
     firstName: "Mathieu",
     lastName: "Lambert",
     city: "Paris · déplacements France",
+    zip: "75011",
     modes: ["cabinet"],
     speciality: "Cérémonies discrètes",
     approach: [
@@ -228,6 +234,7 @@ export const PROVIDERS: Provider[] = [
     firstName: "Anouk",
     lastName: "Vidal",
     city: "Atelier · Nantes",
+    zip: "44000",
     modes: ["cabinet", "visio"],
     speciality: "Bijoux de cendres",
     approach: [
@@ -250,6 +257,7 @@ export const PROVIDERS: Provider[] = [
     firstName: "Hélène",
     lastName: "Aubépine",
     city: "Paris 11e",
+    zip: "75011",
     modes: ["cabinet"],
     speciality: "Compositions à son image",
     approach: [
@@ -272,6 +280,7 @@ export const PROVIDERS: Provider[] = [
     firstName: "Maison",
     lastName: "Douceur",
     city: "Île-de-France",
+    zip: "93100",
     modes: ["cabinet", "domicile"],
     speciality: "Cérémonies sur mesure, sans pression",
     approach: [

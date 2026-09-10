@@ -98,25 +98,41 @@ function Care() {
           </section>
         )}
 
+        {/* Se confier — l'entrée la plus importante de Soutien, traitée à part. */}
+        <section className="px-5 pt-9">
+          <Link to="/presence" className="relative block overflow-hidden rounded-[26px] px-7 pt-9 pb-8"
+            style={{ background: "var(--bordeaux)", color: "var(--paper)" }}>
+            <span
+              aria-hidden
+              className="pointer-events-none absolute rounded-full"
+              style={{
+                right: -70, top: -70, width: 240, height: 240,
+                background: "radial-gradient(circle, color-mix(in oklab, var(--blush) 42%, transparent) 0%, transparent 70%)",
+                animation: "legato-halo 11s ease-in-out infinite",
+              }}
+            />
+            <span className="relative block text-[10px] uppercase tracking-[0.18em] opacity-70" style={{ fontFamily: "var(--font-mono)" }}>
+              À toute heure, sans rendez-vous
+            </span>
+            <span className="relative mt-4 block font-serif text-[34px] leading-[1.05]">Se confier</span>
+            <span className="relative mt-3 block max-w-[26ch] text-[13.5px] leading-[1.5] opacity-80">
+              Dire ce que vous ne diriez à personne. Rien n'est jugé, rien n'est perdu.
+            </span>
+            <span className="relative mt-6 inline-flex items-center gap-2 rounded-full px-4 py-2 text-[12px] tracking-[0.06em]"
+              style={{ background: "color-mix(in oklab, var(--paper) 16%, transparent)" }}>
+              Commencer <span aria-hidden>→</span>
+            </span>
+          </Link>
+        </section>
+
         {!light && (
         <section className="px-5 pt-9">
           <SectionKicker label="Présence & mémoire" />
-          {/* La Présence passe devant, en pleine largeur. */}
-          <Link
-            to="/presence"
-            className="mt-4 flex items-center justify-between gap-4 rounded-[20px] px-6 py-6"
-            style={{ background: "var(--bordeaux)", color: "var(--paper)" }}
-          >
-            <span>
-              <span className="block text-[10px] uppercase tracking-[0.16em] opacity-70" style={{ fontFamily: "var(--font-mono)" }}>
-                À toute heure
-              </span>
-              <span className="mt-2 block font-serif text-[24px] leading-[1.1]">Se confier</span>
-            </span>
-            <span aria-hidden className="text-[18px] opacity-70">→</span>
-          </Link>
+          <p className="mt-3 px-1 text-[13px] leading-[1.55] text-dusk/60 max-w-[38ch]">
+            Retrouver {lovedName ? lovedName : "la personne"}, déposer un souvenir, nourrir le Jardin.
+          </p>
 
-          <div className="mt-3 grid grid-cols-2 gap-3">
+          <div className="mt-4 grid grid-cols-2 gap-3">
             <Link to="/care/garden" className="craft flex min-h-[96px] flex-col justify-between px-5 py-4">
               <IndexMark i={1} total={2} />
               <span className="block font-serif text-[19px] leading-[1.1]">Le Jardin</span>
@@ -126,9 +142,29 @@ function Care() {
               <span className="block font-serif text-[19px] leading-[1.1]">Rituels</span>
             </Link>
           </div>
-
-
         </section>
+        )}
+
+        {!light && (
+          <section className="px-5 pt-9">
+            <SectionKicker label="Vos jours" />
+            <Link
+              to="/agenda"
+              className="mt-4 flex items-center justify-between gap-4 rounded-[20px] px-6 py-6"
+              style={{ background: "color-mix(in oklab, var(--blush) 62%, var(--whisper))" }}
+            >
+              <span>
+                <span className="mono-label block">Agenda</span>
+                <span className="mt-2 block font-serif text-[22px] leading-[1.1]">Vos rendez-vous et vos démarches</span>
+                <span className="mt-1 block text-[12.5px] text-dusk/60">Une seule vue, personnelle et pratique.</span>
+              </span>
+              <span aria-hidden className="text-dusk/40">→</span>
+            </Link>
+            <div className="mt-3 grid grid-cols-2 gap-3">
+              <Link to="/care/dates" className="craft px-5 py-4 font-serif text-[17px] leading-[1.15]">Dates importantes</Link>
+              <Link to="/care/journal" className="craft px-5 py-4 font-serif text-[17px] leading-[1.15]">Journal intime</Link>
+            </div>
+          </section>
         )}
 
         {!light && (
@@ -136,12 +172,10 @@ function Care() {
             <SectionKicker label="Appuis" />
             <div className="mt-4 flex flex-col">
               <SimpleRow to="/care/respirer" label="Respirer" />
-              <SimpleRow to="/care/journal" label="Journal" />
+              <SimpleRow to="/no-words" label="Sans mots" />
               <SimpleRow to="/care/community" label="Communauté" />
               <SimpleRow to="/practical/pros" label="Aide humaine" />
               <SimpleRow to="/care/resources" label="Ressources" />
-              <SimpleRow to="/agenda" label="Agenda" />
-              <SimpleRow to="/care/dates" label="Dates importantes" />
             </div>
           </section>
         )}

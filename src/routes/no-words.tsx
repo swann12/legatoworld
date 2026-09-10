@@ -1328,35 +1328,39 @@ function LireView() {
   }, [affinity]);
 
   return (
-    <div className="flex-1 overflow-y-auto" style={{ background: "#F5EFE6" }}>
-      <div className="px-7 pt-4 pb-6">
-        <h2 className="font-serif text-[24px] leading-[1.2] text-dusk" style={{ textWrap: "balance" }}>
-          Des mots qui accompagnent.
-        </h2>
-        <p className="mt-2 text-[13px] font-light" style={{ color: "#6B6560", textWrap: "pretty" }}>
-          Pas pour tout expliquer. Pour être moins seul·e.
-        </p>
-      </div>
-      <ul className="px-5 pb-12 space-y-3">
-        {sorted.map((b) => (
-          <li key={b.title} className="rounded-2xl bg-paper/85 backdrop-blur px-5 py-4 border border-dusk/8">
-            <h3 className="font-serif text-[18px] text-dusk leading-snug" style={{ textWrap: "balance" }}>{noOrphan(b.title)}</h3>
-            <p className="text-[13px] font-light mt-0.5" style={{ color: "#6B6560" }}>{noOrphan(b.author)}</p>
-            <p className="mt-2 text-[13px] leading-relaxed text-dusk/85 italic" style={{ textWrap: "pretty" }}>
-              {noOrphan(b.why)}
-            </p>
-            <div className="mt-3 flex flex-wrap items-center gap-1.5">
-              {b.tags.map((t) => (
-                <span key={t} className="text-[10px] uppercase tracking-[0.16em] px-2 py-0.5 rounded-full"
-                      style={{ background: "#EDE3D2", color: "#7A6F5E" }}>
-                  {t}
-                </span>
-              ))}
+    <div className="flex-1 overflow-y-auto" style={{ background: "var(--whisper)" }}>
+      <ul className="px-5 pt-4 pb-14">
+        {sorted.map((b, i) => (
+          <li
+            key={b.title}
+            className="flex gap-4 border-b border-dashed py-5 last:border-0"
+            style={{ borderColor: "color-mix(in oklab, var(--dusk) 14%, transparent)" }}
+          >
+            <a
+              href={b.url}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={`${b.title}, ${b.author}`}
+              className="block h-[84px] w-[58px] shrink-0 rounded-[3px]"
+              style={{
+                background: [
+                  "var(--clay)", "var(--sky)", "var(--sage)", "var(--butter)", "var(--blush)",
+                ][i % 5],
+                boxShadow: "inset -6px 0 0 -3px color-mix(in oklab, var(--dusk) 20%, transparent)",
+              }}
+            />
+            <div className="min-w-0 pt-1">
+              <h3 className="font-serif text-[18px] leading-[1.2] text-dusk">{noOrphan(b.title)}</h3>
+              <p className="mt-1 text-[12px] text-dusk/50">{noOrphan(b.author)}</p>
+              <a
+                href={b.url}
+                target="_blank"
+                rel="noreferrer"
+                className="mt-2 inline-block text-[11.5px] text-dusk/45 underline decoration-dotted underline-offset-4"
+              >
+                Trouver ce livre
+              </a>
             </div>
-            <a href={b.url} target="_blank" rel="noreferrer"
-               className="inline-block mt-3 text-[12px] uppercase tracking-[0.2em] text-dusk/75">
-              Trouver ce livre →
-            </a>
           </li>
         ))}
       </ul>
@@ -1434,57 +1438,36 @@ const WORKS: Work[] = [
     url: "https://www.google.com/search?q=Grief+is+the+Thing+with+Feathers+Max+Porter" },
 ];
 
+const WORK_TONES = ["var(--sky)", "var(--clay)", "var(--sage)", "var(--blush)", "var(--butter)"];
+
 function RegarderView() {
   return (
-    <div className="flex-1 overflow-y-auto" style={{ background: "#FAF7F4" }}>
-      <div className="px-7 pt-4 pb-6">
-        <h2 className="font-serif text-[24px] leading-[1.2] text-dusk" style={{ textWrap: "balance" }}>
-          Ce que les autres ont fait de leur chagrin.
-        </h2>
-        <p className="mt-2 text-[13px] font-light" style={{ color: "#6B6560", textWrap: "pretty" }}>
-          Des œuvres qui accompagnent. Pour ne pas être seul·e.
-        </p>
-      </div>
-      <ul className="px-5 pb-12 space-y-3">
-        {WORKS.map((w) => {
-          const dark = w.textOnDark;
-          const title = dark ? "text-paper" : "text-dusk";
-          const sub = dark ? "text-paper/70" : "";
+    <div className="flex-1 overflow-y-auto" style={{ background: "var(--paper)" }}>
+      <ul className="grid grid-cols-2 gap-3 px-5 pt-4 pb-14">
+        {WORKS.map((w, i) => {
+          const dark = i % 5 === 1;
           return (
-            <li key={w.title}
-                className="rounded-2xl px-5 py-5 border overflow-hidden"
-                style={{
-                  background: w.bg,
-                  borderColor: dark ? "rgba(255,255,255,0.10)" : "rgba(0,0,0,0.05)",
-                }}>
-              <p className={`text-[10px] uppercase tracking-[0.22em] ${dark ? "text-paper/60" : "text-dusk/50"}`}>
-                {w.format.replace(/ /g, "\u00A0")}
-              </p>
-              <h3 className={`mt-1.5 font-serif text-[19px] leading-snug ${title}`} style={{ textWrap: "balance" }}>
-                {noOrphan(w.title)}
-              </h3>
-              <p className={`text-[12.5px] font-light mt-0.5 ${sub}`} style={dark ? undefined : { color: "#6B6560" }}>
-                {noOrphan(w.author)}
-              </p>
-              <p className={`mt-3 text-[13.5px] leading-relaxed italic ${dark ? "text-paper/85" : "text-dusk/85"}`}
-                 style={{ textWrap: "pretty" }}>
-                {noOrphan(w.context)}
-              </p>
-              <div className="mt-3 flex flex-wrap items-center gap-1.5">
-                {w.tags.map((t) => (
-                  <span key={t}
-                        className="text-[10px] uppercase tracking-[0.16em] px-2 py-0.5 rounded-full"
-                        style={{
-                          background: dark ? "rgba(255,255,255,0.12)" : "rgba(255,255,255,0.55)",
-                          color: dark ? "rgba(255,255,255,0.85)" : "#7A6F5E",
-                        }}>
-                    {t}
+            <li key={w.title}>
+              <a
+                href={w.url}
+                target="_blank"
+                rel="noreferrer"
+                className="block overflow-hidden rounded-[16px]"
+              >
+                <span
+                  aria-hidden
+                  className="block w-full"
+                  style={{
+                    aspectRatio: "1 / 1",
+                    background: dark ? "var(--bordeaux)" : WORK_TONES[i % WORK_TONES.length],
+                  }}
+                />
+                <span className="mt-2 block px-1">
+                  <span className="block font-serif text-[16px] leading-[1.15] text-dusk">
+                    {noOrphan(w.title)}
                   </span>
-                ))}
-              </div>
-              <a href={w.url} target="_blank" rel="noreferrer"
-                 className={`inline-block mt-4 text-[12px] uppercase tracking-[0.2em] ${dark ? "text-paper/90" : "text-dusk/80"}`}>
-                Voir cette œuvre →
+                  <span className="mt-1 block text-[11.5px] text-dusk/50">{noOrphan(w.author)}</span>
+                </span>
               </a>
             </li>
           );

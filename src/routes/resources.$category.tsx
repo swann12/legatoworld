@@ -51,7 +51,8 @@ function CategoryPage() {
     if (filter === "visio" && !p.modes.includes("visio")) return false;
     if (filter === "presentiel" && !p.modes.some((m) => m === "cabinet" || m === "domicile"))
       return false;
-    if (city.trim() && !p.city.toLowerCase().includes(city.trim().toLowerCase())) return false;
+    const q = city.trim().toLowerCase();
+    if (q && !p.city.toLowerCase().includes(q) && !(p.zip ?? "").startsWith(q)) return false;
     return true;
   });
 
@@ -91,7 +92,8 @@ function CategoryPage() {
           <input
             value={city}
             onChange={(e) => setCity(e.target.value)}
-            placeholder="Une ville ?"
+            placeholder="Une ville ou un code postal"
+            inputMode="text"
             className="mt-3 w-full rounded-full border border-dusk/15 bg-paper px-4 py-3 text-[13.5px] text-dusk placeholder:text-dusk/40 focus:border-dusk/35 focus:outline-none"
           />
         </div>

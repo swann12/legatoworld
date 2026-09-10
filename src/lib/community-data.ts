@@ -38,6 +38,12 @@ export const GROUPS: Group[] = [
   { id: "soudaine", label: "Mort soudaine", hint: "Accident, arrêt cardiaque, suicide : le choc.", members: 730 },
   { id: "demarches", label: "Démarches et papiers", hint: "S'entraider sur le concret, sans jargon.", members: 1590 },
   { id: "premiers-mois", label: "Les premiers mois", hint: "Dormir, manger, tenir. Jour après jour.", members: 2640 },
+  { id: "solitude", label: "Solitude", hint: "Les soirs vides, les week-ends, le silence.", members: 1870 },
+  { id: "travail", label: "Travail et reprise", hint: "Revenir, expliquer, tenir la journée.", members: 940 },
+  { id: "dates", label: "Dates difficiles", hint: "Anniversaires, fêtes, date du décès.", members: 1120 },
+  { id: "sommeil", label: "Sommeil", hint: "S'endormir, se réveiller la nuit, les rêves.", members: 1330 },
+  { id: "famille", label: "Relations familiales", hint: "Désaccords, silences, héritage, place de chacun.", members: 860 },
+  { id: "ceremonies", label: "Cérémonies et hommages", hint: "Préparer, dire, se souvenir ensemble.", members: 620 },
 ];
 
 export const THREADS: Thread[] = [
