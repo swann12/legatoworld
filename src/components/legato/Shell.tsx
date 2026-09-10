@@ -37,6 +37,7 @@ function ConfideAccess() {
       aria-label="Se confier à la Présence"
       className="fixed right-4 z-50 flex items-center gap-2 rounded-full py-2.5 pl-3.5 pr-4"
       style={{
+        bottom: "calc(max(env(safe-area-inset-bottom), 0.9rem) + 4.25rem)",
         background: "var(--bordeaux)",
         color: "var(--paper)",
         boxShadow: "0 18px 38px -20px color-mix(in oklab, var(--bordeaux) 85%, transparent)",
