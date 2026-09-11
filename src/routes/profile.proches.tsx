@@ -50,9 +50,17 @@ function Espaces() {
           {!hydrated && <p className="text-[13px] text-dusk/45">Chargement…</p>}
 
           {hydrated && actifs.length === 0 && !adding && (
-            <p className="max-w-[30ch] font-serif text-[17px] italic leading-[1.5] text-dusk/50">
-              Aucun espace pour l'instant. Créez le premier pour la personne que vous portez.
-            </p>
+            <div
+              className="rounded-[20px] px-6 py-7"
+              style={{ border: "1px dashed color-mix(in oklab, var(--dusk) 20%, transparent)" }}
+            >
+              <p className="font-serif text-[19px] leading-[1.3] max-w-[24ch]">
+                Personne n'a encore de page ici.
+              </p>
+              <p className="mt-2 max-w-[30ch] text-[13px] leading-[1.55] text-dusk/55">
+                Ajoutez la personne que vous portez : son prénom suffit pour commencer.
+              </p>
+            </div>
           )}
 
           {actifs.map((s, i) =>
@@ -92,7 +100,7 @@ function Espaces() {
               className="mt-6 text-[13px]"
               style={{ color: "var(--bordeaux)" }}
             >
-              Créer un nouvel espace →
+              Ajouter une personne →
             </button>
           )}
         </section>
@@ -104,7 +112,7 @@ function Espaces() {
               onClick={() => setShowArchived((v) => !v)}
               className="mono-label text-dusk/55 px-1"
             >
-              {showArchived ? "Masquer les espaces mis de côté" : `Espaces mis de côté (${archives.length})`}
+              {showArchived ? "Masquer les pages mises de côté" : `Pages mises de côté (${archives.length})`}
             </button>
             {showArchived && (
               <div className="mt-4 space-y-3">
