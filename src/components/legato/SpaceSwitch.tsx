@@ -28,7 +28,7 @@ export function SpaceSwitch() {
         className="pointer-events-auto relative flex w-[218px] items-stretch rounded-full p-[4px]"
         style={{
           background: "var(--blush)",
-          border: "1px solid color-mix(in oklab, var(--bordeaux) 30%, transparent)",
+          border: "1px dashed color-mix(in oklab, var(--bordeaux) 18%, transparent)",
           boxShadow: "0 16px 34px -22px color-mix(in oklab, var(--bordeaux) 70%, transparent)",
         }}
       >

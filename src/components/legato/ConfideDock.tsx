@@ -81,7 +81,7 @@ export function ConfideDock({ step }: { step?: string }) {
           aria-label="Parler ou écrire à Lovely"
           className="dock-halo fixed bottom-24 right-5 z-40 w-14 h-14 rounded-full ceramic flex items-center justify-center"
         >
-          <span className="font-serif text-dusk text-[20px] leading-none">L</span>
+          <span aria-hidden className="block size-2 rounded-full" style={{ background: "var(--bordeaux)" }} />
         </button>
       </SheetTrigger>
       <SheetContent side="bottom" className="bg-paper border-t border-dusk/10 p-0 max-h-[85dvh] overflow-y-auto">
