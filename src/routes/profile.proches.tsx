@@ -227,7 +227,7 @@ function SpaceForm({
         onSubmit({ name: name.trim(), relation, birthday: birthday || null, deathDate: deathDate || null });
       }}
     >
-      <p className="mono-label text-dusk/60">{initial ? "Modifier l'espace" : "Nouvel espace"}</p>
+      <p className="mono-label text-dusk/60">{initial ? "Modifier cette page" : "Nouvelle personne"}</p>
 
       <label className="mt-4 block mono-label text-dusk/55">Comment l'appelez-vous ?</label>
       <input
@@ -284,7 +284,7 @@ function SpaceForm({
           className="rounded-full px-5 py-2.5 text-[13px] disabled:opacity-40"
           style={{ background: "var(--bordeaux)", color: "var(--paper)" }}
         >
-          {initial ? "Enregistrer" : "Créer l'espace"}
+          {initial ? "Enregistrer" : "Ajouter"}
         </button>
         <button type="button" onClick={onCancel} className="mono-label text-dusk/55">
           Annuler
