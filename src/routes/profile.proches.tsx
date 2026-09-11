@@ -11,10 +11,10 @@ import {
 export const Route = createFileRoute("/profile/proches")({
   head: () => ({
     meta: [
-      { title: "Mes espaces — Legato" },
-      { name: "description", content: "Un espace par être aimé : son jardin, ses dates, ce qui a été déposé." },
-      { property: "og:title", content: "Mes espaces — Legato" },
-      { property: "og:description", content: "Un espace par être aimé : son jardin, ses dates, ce qui a été déposé." },
+      { title: "Les personnes que je porte — Legato" },
+      { name: "description", content: "Une page par personne aimée : son jardin, ses dates, ce qui a été déposé." },
+      { property: "og:title", content: "Les personnes que je porte — Legato" },
+      { property: "og:description", content: "Une page par personne aimée : son jardin, ses dates, ce qui a été déposé." },
     ],
   }),
   component: Espaces,
@@ -35,14 +35,14 @@ function Espaces() {
   return (
     <Shell livingBg={false}>
       <div className="min-h-dvh bg-paper text-dusk pb-32">
-        <PageHeader back="/profile" title="MES ESPACES" />
+        <PageHeader back="/profile" title="LES PERSONNES QUE JE PORTE" />
 
         <section className="px-6 pt-4">
           <h1 className="font-serif font-normal text-[30px] leading-[1.08]">
-            Un espace pour <span className="italic" style={{ color: "var(--terracotta)" }}>chacun d'eux</span>.
+            Une page pour <span className="italic" style={{ color: "var(--terracotta)" }}>chaque personne</span>.
           </h1>
           <p className="mt-3 max-w-[32ch] text-[13px] leading-[1.55] text-dusk/50">
-            Le jardin, les dates, ce que vous y déposez. Rien n'est partagé sans vous.
+            Son jardin, ses dates, ce que vous y déposez. Rien n'est partagé sans vous.
           </p>
         </section>
 
@@ -50,9 +50,17 @@ function Espaces() {
           {!hydrated && <p className="text-[13px] text-dusk/45">Chargement…</p>}
 
           {hydrated && actifs.length === 0 && !adding && (
-            <p className="max-w-[30ch] font-serif text-[17px] italic leading-[1.5] text-dusk/50">
-              Aucun espace pour l'instant. Créez le premier pour la personne que vous portez.
-            </p>
+            <div
+              className="rounded-[20px] px-6 py-7"
+              style={{ border: "1px dashed color-mix(in oklab, var(--dusk) 20%, transparent)" }}
+            >
+              <p className="font-serif text-[19px] leading-[1.3] max-w-[24ch]">
+                Personne n'a encore de page ici.
+              </p>
+              <p className="mt-2 max-w-[30ch] text-[13px] leading-[1.55] text-dusk/55">
+                Ajoutez la personne que vous portez : son prénom suffit pour commencer.
+              </p>
+            </div>
           )}
 
           {actifs.map((s, i) =>
@@ -92,7 +100,7 @@ function Espaces() {
               className="mt-6 text-[13px]"
               style={{ color: "var(--bordeaux)" }}
             >
-              Créer un nouvel espace →
+              Ajouter une personne →
             </button>
           )}
         </section>
@@ -104,7 +112,7 @@ function Espaces() {
               onClick={() => setShowArchived((v) => !v)}
               className="mono-label text-dusk/55 px-1"
             >
-              {showArchived ? "Masquer les espaces mis de côté" : `Espaces mis de côté (${archives.length})`}
+              {showArchived ? "Masquer les pages mises de côté" : `Pages mises de côté (${archives.length})`}
             </button>
             {showArchived && (
               <div className="mt-4 space-y-3">
@@ -219,7 +227,7 @@ function SpaceForm({
         onSubmit({ name: name.trim(), relation, birthday: birthday || null, deathDate: deathDate || null });
       }}
     >
-      <p className="mono-label text-dusk/60">{initial ? "Modifier l'espace" : "Nouvel espace"}</p>
+      <p className="mono-label text-dusk/60">{initial ? "Modifier cette page" : "Nouvelle personne"}</p>
 
       <label className="mt-4 block mono-label text-dusk/55">Comment l'appelez-vous ?</label>
       <input
@@ -276,7 +284,7 @@ function SpaceForm({
           className="rounded-full px-5 py-2.5 text-[13px] disabled:opacity-40"
           style={{ background: "var(--bordeaux)", color: "var(--paper)" }}
         >
-          {initial ? "Enregistrer" : "Créer l'espace"}
+          {initial ? "Enregistrer" : "Ajouter"}
         </button>
         <button type="button" onClick={onCancel} className="mono-label text-dusk/55">
           Annuler

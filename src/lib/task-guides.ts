@@ -24,7 +24,7 @@ const FALLBACK: TaskGuide = {
   when: "Quand vous vous en sentez capable",
   docs: ["Acte de décès", "Votre pièce d'identité"],
   steps: [
-    "Rassembler les documents ci-dessus.",
+    "Réunir l'acte de décès et votre pièce d'identité.",
     "Contacter l'organisme par téléphone ou en ligne.",
     "Noter la date de la demande et la réponse reçue.",
   ],
@@ -107,7 +107,7 @@ export const TASK_GUIDES: Partial<Record<PracticalCategory, TaskGuide>> = {
     docs: ["Acte de décès", "Livret de famille", "Titres de propriété", "Relevés bancaires"],
     steps: [
       "Prendre rendez-vous chez un notaire (obligatoire s'il y a un bien immobilier).",
-      "Apporter les documents ci-dessus au premier rendez-vous.",
+      "Apporter au premier rendez-vous : acte de décès, livret de famille, titres de propriété, relevés bancaires.",
       "Demander une estimation écrite des frais avant d'engager quoi que ce soit.",
     ],
   },

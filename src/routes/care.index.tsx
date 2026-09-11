@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import presenceImg from "@/assets/hero-care.webp";
+import heroCare from "@/assets/hero-care-chemin.png.asset.json";
 import { Shell } from "@/components/legato/Shell";
 import { useLegato, type Emotion } from "@/lib/legato-state";
 import { useLovedName } from "@/lib/loved-name";
@@ -46,8 +46,8 @@ function Care() {
           <div className="relative">
             <div className="overflow-hidden" style={{ aspectRatio: "4 / 5" }}>
               <img
-                src={presenceImg}
-                alt="Illustration peinte : une silhouette marche sur une dune sous un ciel bleu nuagé"
+                src={heroCare.url}
+                alt="Illustration peinte : un chemin clair traverse des herbes pâles sous un ciel bleu, quelques silhouettes marchent au loin"
                 className="h-full w-full object-cover"
                 loading="eager"
               />
@@ -98,28 +98,34 @@ function Care() {
           </section>
         )}
 
-        {/* Se confier — l'entrée la plus importante de Soutien : de l'air, un filet d'encre, rien d'autre. */}
+        {/* Se confier — l'entrée la plus importante : une carte scellée, une matière à part. */}
         <section className="px-5 pt-10">
           <Link
             to="/presence"
-            className="block px-2"
-            style={{
-              borderTop: "1px solid color-mix(in oklab, var(--bordeaux) 55%, transparent)",
-              borderBottom: "1px solid color-mix(in oklab, var(--bordeaux) 20%, transparent)",
-            }}
+            className="block rounded-[24px] p-[6px]"
+            style={{ border: "1px dashed color-mix(in oklab, var(--bordeaux) 34%, transparent)" }}
           >
-            <span className="block pt-6 text-[10px] uppercase tracking-[0.2em] text-dusk/45" style={{ fontFamily: "var(--font-mono)" }}>
-              À toute heure, sans rendez-vous
-            </span>
-            <span className="mt-3 block font-serif text-[40px] leading-[1.02]" style={{ color: "var(--bordeaux)" }}>
-              Se confier
-            </span>
-            <span className="mt-3 block max-w-[28ch] text-[13.5px] leading-[1.55] text-dusk/60">
-              Dire ce que vous ne diriez à personne. Rien n'est jugé, rien n'est perdu.
-            </span>
-            <span className="mb-6 mt-5 flex items-center gap-2 text-[12.5px]" style={{ color: "var(--bordeaux)" }}>
-              Commencer <span aria-hidden>→</span>
-            </span>
+            <div
+              className="flex items-start justify-between gap-4 rounded-[18px] px-6 py-6"
+              style={{ background: "color-mix(in oklab, var(--blush) 58%, var(--paper))" }}
+            >
+              <span className="block">
+                <span className="mono-label block" style={{ color: "var(--bordeaux)" }}>
+                  À toute heure, sans rendez-vous
+                </span>
+                <span className="mt-3 block font-serif text-[27px] leading-[1.08]">Se confier</span>
+                <span className="mt-2 block max-w-[26ch] text-[13px] leading-[1.55] text-dusk/60">
+                  Dire ce que vous ne diriez à personne. Rien n'est jugé, rien n'est perdu.
+                </span>
+              </span>
+              <span
+                aria-hidden
+                className="mt-1 grid size-11 shrink-0 place-items-center rounded-full text-[15px]"
+                style={{ background: "var(--bordeaux)", color: "var(--paper)" }}
+              >
+                →
+              </span>
+            </div>
           </Link>
         </section>
 
@@ -160,7 +166,7 @@ function Care() {
             </Link>
             <div className="mt-3 grid grid-cols-2 gap-3">
               <Link to="/care/dates" className="craft px-5 py-4 font-serif text-[17px] leading-[1.15]">Dates importantes</Link>
-              <Link to="/care/journal" className="craft px-5 py-4 font-serif text-[17px] leading-[1.15]">Journal intime</Link>
+              <Link to="/care/journal" className="craft px-5 py-4 font-serif text-[17px] leading-[1.15]">Mon journal intime</Link>
             </div>
           </section>
         )}

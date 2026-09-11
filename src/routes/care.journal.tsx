@@ -7,9 +7,9 @@ import { useLovedName } from "@/lib/loved-name";
 export const Route = createFileRoute("/care/journal")({
   head: () => ({
     meta: [
-      { title: "Journal intime — Legato" },
+      { title: "Mon journal intime — Legato" },
       { name: "description", content: "Un carnet privé : écrire ce qui vient, sans relire, et garder chaque page." },
-      { property: "og:title", content: "Journal intime — Legato" },
+      { property: "og:title", content: "Mon journal intime — Legato" },
       { property: "og:description", content: "Écrire ce qui vient, sans relire. Vos pages restent avec vous." },
     ],
   }),
@@ -64,7 +64,7 @@ function CareJournal() {
         </header>
 
         <section className="px-6 pt-8">
-          <p className="mono-label">Journal intime</p>
+          <p className="mono-label">Mon journal intime</p>
           <h1 className="mt-4 font-serif text-[30px] leading-[1.08]">
             Écrire, <span className="italic" style={{ color: "var(--terracotta)" }}>sans relire</span>.
           </h1>
