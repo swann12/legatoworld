@@ -11,10 +11,10 @@ import {
 export const Route = createFileRoute("/profile/proches")({
   head: () => ({
     meta: [
-      { title: "Mes espaces — Legato" },
-      { name: "description", content: "Un espace par être aimé : son jardin, ses dates, ce qui a été déposé." },
-      { property: "og:title", content: "Mes espaces — Legato" },
-      { property: "og:description", content: "Un espace par être aimé : son jardin, ses dates, ce qui a été déposé." },
+      { title: "Les personnes que je porte — Legato" },
+      { name: "description", content: "Une page par personne aimée : son jardin, ses dates, ce qui a été déposé." },
+      { property: "og:title", content: "Les personnes que je porte — Legato" },
+      { property: "og:description", content: "Une page par personne aimée : son jardin, ses dates, ce qui a été déposé." },
     ],
   }),
   component: Espaces,
@@ -35,14 +35,14 @@ function Espaces() {
   return (
     <Shell livingBg={false}>
       <div className="min-h-dvh bg-paper text-dusk pb-32">
-        <PageHeader back="/profile" title="MES ESPACES" />
+        <PageHeader back="/profile" title="LES PERSONNES QUE JE PORTE" />
 
         <section className="px-6 pt-4">
           <h1 className="font-serif font-normal text-[30px] leading-[1.08]">
-            Un espace pour <span className="italic" style={{ color: "var(--terracotta)" }}>chacun d'eux</span>.
+            Une page pour <span className="italic" style={{ color: "var(--terracotta)" }}>chaque personne</span>.
           </h1>
           <p className="mt-3 max-w-[32ch] text-[13px] leading-[1.55] text-dusk/50">
-            Le jardin, les dates, ce que vous y déposez. Rien n'est partagé sans vous.
+            Son jardin, ses dates, ce que vous y déposez. Rien n'est partagé sans vous.
           </p>
         </section>
 
