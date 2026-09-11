@@ -141,12 +141,12 @@ function Practical() {
         {/* Tuiles thématiques — une seule ancre sombre */}
         {!softActive && (
         <section className="band band-clay mt-8 px-5 pt-7 pb-8">
-          <p className="mono-label">Les espaces</p>
+          <p className="mono-label">Où aller</p>
           <div className="mt-4 grid grid-cols-2 gap-3">
-            <ThemeTile i={1} to="/practical/tasks" label="Tâches" />
-            <ThemeTile i={2} to="/practical/vault" label="Documents" />
-            <ThemeTile i={3} to="/practical/pros" label="Pros" />
-            <ThemeTile i={4} to="/practical/ceremony" label="Cérémonie" />
+            <ThemeTile i={1} to="/practical/tasks" label="Mes démarches" />
+            <ThemeTile i={2} to="/practical/vault" label="Mes documents" />
+            <ThemeTile i={3} to="/practical/pros" label="Professionnels" />
+            <ThemeTile i={4} to="/practical/ceremony" label="La cérémonie" />
           </div>
           <Link to="/practical/wishes" className="surf-sumi mt-3 block rounded-[18px] px-5 py-5">
             <p className="mono-label">Ancrage</p>
