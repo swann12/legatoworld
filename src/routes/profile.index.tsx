@@ -56,10 +56,10 @@ function Profile() {
 
         {/* Espaces */}
         <section className="px-5 pt-9">
-          <p className="mono-label px-1">Mes espaces</p>
+          <p className="mono-label px-1">Les personnes que je porte</p>
           <Link to="/profile/proches" className="craft mt-3 flex items-center justify-between gap-4 px-5 py-4">
             <div className="min-w-0">
-              <p className="font-serif text-[19px] leading-[1.15]">Un espace par être aimé</p>
+              <p className="font-serif text-[19px] leading-[1.15]">Une page par personne aimée</p>
               {spacesReady && active.length > 0 && (
                 <p className="mt-1 truncate text-[12px] text-dusk/50">{active.map((s) => s.name).join(" · ")}</p>
               )}
