@@ -199,7 +199,7 @@ export const BUCKET_LABELS: Record<PracticalBucket, { label: string; tone: strin
 
 export const CARE_LABELS: Record<CareModule, { label: string; hint: string; to: string }> = {
   checkin:      { label: "Check-in émotionnel",  hint: "Comment vous sentez-vous ?",       to: "/care/emotions" },
-  journal:      { label: "Journal",               hint: "Déposer une pensée",                to: "/care/journal" },
+  journal:      { label: "Mon journal intime",    hint: "Déposer une pensée",                to: "/care/journal" },
   breathe:      { label: "Respirer",              hint: "1, 3 ou 5 minutes",                 to: "/care/respirer" },
   sleep:        { label: "Nuits difficiles",      hint: "Sons calmes pour s'endormir",       to: "/no-words?tab=souffles" },
   meditations:  { label: "Méditations guidées",  hint: "Séances courtes à écouter",         to: "/care/respirer" },
