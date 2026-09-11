@@ -47,7 +47,7 @@ function Profile() {
         <section className="px-5 pt-8">
           <StatTrio
             items={[
-              { value: active.length, label: "espaces" },
+              { value: active.length, label: "personnes" },
               { value: upcoming.length, label: "dates à venir" },
               { value: `${filled}/6`, label: "portrait" },
             ]}
