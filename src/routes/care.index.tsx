@@ -46,8 +46,8 @@ function Care() {
           <div className="relative">
             <div className="overflow-hidden" style={{ aspectRatio: "4 / 5" }}>
               <img
-                src={presenceImg}
-                alt="Illustration peinte : une silhouette marche sur une dune sous un ciel bleu nuagé"
+                src={heroCare.url}
+                alt="Illustration peinte : un chemin clair traverse des herbes pâles sous un ciel bleu, quelques silhouettes marchent au loin"
                 className="h-full w-full object-cover"
                 loading="eager"
               />
