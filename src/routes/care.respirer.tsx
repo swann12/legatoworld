@@ -105,10 +105,7 @@ function CareRespirer() {
           className="px-5 pt-2"
           style={{ opacity: breathing ? 0 : 1, transition: "opacity 500ms ease", pointerEvents: breathing ? "none" : undefined }}
         >
-          <div
-            className="flex rounded-full p-1"
-            style={{ background: "color-mix(in oklab, var(--paper) 62%, transparent)" }}
-          >
+          <div className="flex items-stretch justify-center gap-8">
             {RHYTHMS.map((r) => {
               const on = r.id === rhythm.id;
               return (
@@ -117,10 +114,13 @@ function CareRespirer() {
                   type="button"
                   onClick={() => { setRhythm(r); setCycles(0); setRunning(false); }}
                   aria-pressed={on}
-                  className="flex-1 rounded-full py-2.5 text-[12.5px] tracking-[0.04em] transition-colors"
+                  className="pb-2 text-[10.5px] uppercase tracking-[0.18em] transition-colors"
                   style={{
-                    background: on ? "var(--bordeaux)" : "transparent",
-                    color: on ? "var(--paper)" : "color-mix(in oklab, var(--dusk) 62%, transparent)",
+                    fontFamily: "var(--font-mono)",
+                    color: on ? "var(--bordeaux)" : "color-mix(in oklab, var(--dusk) 45%, transparent)",
+                    borderBottom: on
+                      ? "1px solid var(--bordeaux)"
+                      : "1px solid transparent",
                   }}
                 >
                   {r.label}
