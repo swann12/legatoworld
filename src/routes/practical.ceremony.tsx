@@ -151,6 +151,7 @@ function Ceremony() {
           </Link>
           <Link
             to="/profile/portrait"
+            search={{ from: "/practical/ceremony" }}
             className="mt-3 block rounded-[14px] px-5 py-4"
             style={{ background: "var(--whisper)" }}
           >

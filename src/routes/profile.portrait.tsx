@@ -127,11 +127,11 @@ function PortraitPage() {
             </button>
           ) : (
             <Link
-              to="/profile"
+              to={backTo}
               className="flex-1 rounded-full py-3.5 text-center text-[14px] font-medium"
               style={{ background: "var(--bordeaux)", color: "var(--paper)" }}
             >
-              Enregistrer le portrait
+              {from ? "Enregistrer et revenir" : "Enregistrer le portrait"}
             </Link>
           )}
         </section>
