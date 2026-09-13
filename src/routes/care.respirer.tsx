@@ -214,28 +214,21 @@ function CareRespirer() {
           )}
         </section>
 
-        {/* 4 · Après — jamais pendant l'expérience */}
+        {/* 4 · Après — deux liens discrets, jamais pendant l'expérience */}
         {!breathing && (
-          <section className="px-5 pt-12">
-            <p className="mono-label px-1">Après</p>
-            <ul className="craft mt-3 px-5">
-              {[
-                { to: "/care/journal", title: "Déposer quelques mots" },
-                { to: "/help/corps", title: "Prendre soin du corps" },
-                { to: "/presence", title: "Se confier" },
-              ].map((l) => (
-                <li
-                  key={l.to}
-                  className="border-b border-dashed last:border-0"
-                  style={{ borderColor: "color-mix(in oklab, var(--dusk) 16%, transparent)" }}
-                >
-                  <Link to={l.to as "/care"} className="flex items-center justify-between gap-4 py-4">
-                    <span className="font-serif text-[17.5px] leading-[1.2]">{l.title}</span>
-                    <span aria-hidden className="text-dusk/30">→</span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
+          <section className="px-6 pt-14 flex flex-wrap justify-center gap-x-7 gap-y-3">
+            {[
+              { to: "/care/journal", title: "Déposer quelques mots" },
+              { to: "/presence", title: "Se confier" },
+            ].map((l) => (
+              <Link
+                key={l.to}
+                to={l.to as "/care"}
+                className="text-[12.5px] underline underline-offset-4 text-dusk/50"
+              >
+                {l.title}
+              </Link>
+            ))}
           </section>
         )}
       </main>
