@@ -6,6 +6,9 @@ import { PORTRAIT_OPTIONS, usePortrait, portraitSentence } from "@/lib/portrait-
 import { useLovedName } from "@/lib/loved-name";
 
 export const Route = createFileRoute("/profile/portrait")({
+  validateSearch: (s: Record<string, unknown>) => ({
+    from: typeof s.from === "string" ? s.from : undefined,
+  }),
   head: () => ({
     meta: [
       { title: "Son portrait — Legato" },
