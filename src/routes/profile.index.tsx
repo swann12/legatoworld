@@ -95,7 +95,7 @@ function Profile() {
 
         {/* Portrait — seule ancre sombre */}
         <section className="px-5 pt-8">
-          <Link to="/profile/portrait" className="surf-sumi block rounded-[20px] px-6 py-6">
+          <Link to="/profile/portrait" search={{}} className="surf-sumi block rounded-[20px] px-6 py-6">
             <p className="mono-label">Portrait</p>
             <p className="mt-3 font-serif text-[22px] leading-[1.15]">
               {lovedName ? `Qui était ${lovedName}` : "Qui elle était"}

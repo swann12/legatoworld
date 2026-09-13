@@ -151,6 +151,7 @@ function Ceremony() {
           </Link>
           <Link
             to="/profile/portrait"
+            search={{ from: "/practical/ceremony" }}
             className="mt-3 block rounded-[14px] px-5 py-4"
             style={{ background: "var(--whisper)" }}
           >
@@ -170,6 +171,43 @@ function Ceremony() {
       <ConfideDock step="cérémonie" />
     </Shell>
   );
+}
+
+const SEND_LABEL: Record<"fleurs" | "musique" | "textes", string> = {
+  fleurs: "Envoyer au fleuriste ou à un proche →",
+  musique: "Envoyer à l'officiant ou à un proche →",
+  textes: "Envoyer à la personne qui lira →",
+};
+
+const SEND_SUBJECT: Record<"fleurs" | "musique" | "textes", string> = {
+  fleurs: "les fleurs",
+  musique: "la musique",
+  textes: "les textes",
+};
+
+/** Un mail pré-écrit pour transmettre un choix précis, sans quitter la page. */
+function sendHref(
+  section: "fleurs" | "musique" | "textes",
+  title: string,
+  body: string,
+  lovedName: string | null,
+) {
+  const subject = encodeURIComponent(
+    `Cérémonie${lovedName ? ` de ${lovedName}` : ""} — ${SEND_SUBJECT[section]}`,
+  );
+  const text = encodeURIComponent(
+    [
+      "Bonjour,",
+      "",
+      `Voici ce que nous aimerions pour ${SEND_SUBJECT[section]} :`,
+      "",
+      `• ${title}`,
+      body,
+      "",
+      "Merci beaucoup,",
+    ].join("\n"),
+  );
+  return `mailto:?subject=${subject}&body=${text}`;
 }
 
 function GuidedBlock({
@@ -253,6 +291,13 @@ function GuidedBlock({
               <div key={p.title} className="rounded-[16px] px-4 py-4" style={{ background: "var(--whisper)" }}>
                 <p className="mono-label text-dusk/55">{p.title}</p>
                 <p className="mt-1.5 text-[13.5px] leading-[1.55] text-dusk/80">{p.body}</p>
+                <a
+                  href={sendHref(section, p.title, p.body, lovedName)}
+                  className="mt-3 inline-block text-[12px] underline underline-offset-4"
+                  style={{ color: "var(--bordeaux)" }}
+                >
+                  {SEND_LABEL[section]}
+                </a>
               </div>
             ))}
             {footer && <div className="pt-2">{footer}</div>}

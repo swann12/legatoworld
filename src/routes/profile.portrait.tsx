@@ -6,6 +6,8 @@ import { PORTRAIT_OPTIONS, usePortrait, portraitSentence } from "@/lib/portrait-
 import { useLovedName } from "@/lib/loved-name";
 
 export const Route = createFileRoute("/profile/portrait")({
+  validateSearch: (s: Record<string, unknown>): { from?: string } =>
+    typeof s.from === "string" ? { from: s.from } : {},
   head: () => ({
     meta: [
       { title: "Son portrait — Legato" },
@@ -31,6 +33,8 @@ const QUESTIONS: Record<Exclude<Step, "free">, { label: string; question: string
 function PortraitPage() {
   const { portrait, update, hydrated } = usePortrait();
   const lovedName = useLovedName();
+  const { from } = Route.useSearch();
+  const backTo = (from ?? "/profile") as "/profile";
   const [i, setI] = useState(0);
   const step: Step = STEPS[i];
   const last = i === STEPS.length - 1;
@@ -41,7 +45,7 @@ function PortraitPage() {
     <Shell livingBg={false}>
       <div className="wash-mauve min-h-dvh text-dusk pb-32">
         <header className="px-6 pt-7 flex items-center justify-between">
-          <Link to="/profile" aria-label="Retour" className="text-dusk/60 text-lg leading-none">←</Link>
+          <Link to={backTo} aria-label="Retour" className="text-dusk/60 text-lg leading-none">←</Link>
           <div className="flex gap-1.5">
             {STEPS.map((s, k) => (
               <span
@@ -123,11 +127,11 @@ function PortraitPage() {
             </button>
           ) : (
             <Link
-              to="/profile"
+              to={backTo}
               className="flex-1 rounded-full py-3.5 text-center text-[14px] font-medium"
               style={{ background: "var(--bordeaux)", color: "var(--paper)" }}
             >
-              Enregistrer le portrait
+              {from ? "Enregistrer et revenir" : "Enregistrer le portrait"}
             </Link>
           )}
         </section>
