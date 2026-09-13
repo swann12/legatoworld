@@ -92,7 +92,7 @@ function Care() {
         {!light && primaryCare.length > 0 && (
           <section className="px-5 pt-7">
             <SectionKicker label="Maintenant" />
-            <div className="mt-4 grid grid-cols-2 gap-3">
+            <div className={`mt-4 grid gap-3 ${primaryCare.length > 1 ? "grid-cols-2" : "grid-cols-1"}`}>
               {primaryCare.map((m, i) => <CareTile key={m} module={m} i={i} />)}
             </div>
           </section>
