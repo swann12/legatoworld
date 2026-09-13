@@ -254,6 +254,13 @@ function GuidedBlock({
               <div key={p.title} className="rounded-[16px] px-4 py-4" style={{ background: "var(--whisper)" }}>
                 <p className="mono-label text-dusk/55">{p.title}</p>
                 <p className="mt-1.5 text-[13.5px] leading-[1.55] text-dusk/80">{p.body}</p>
+                <a
+                  href={sendHref(section, p.title, p.body, lovedName)}
+                  className="mt-3 inline-block text-[12px] underline underline-offset-4"
+                  style={{ color: "var(--bordeaux)" }}
+                >
+                  {SEND_LABEL[section]}
+                </a>
               </div>
             ))}
             {footer && <div className="pt-2">{footer}</div>}
