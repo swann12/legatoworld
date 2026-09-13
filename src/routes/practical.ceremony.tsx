@@ -173,6 +173,43 @@ function Ceremony() {
   );
 }
 
+const SEND_LABEL: Record<"fleurs" | "musique" | "textes", string> = {
+  fleurs: "Envoyer au fleuriste ou à un proche →",
+  musique: "Envoyer à l'officiant ou à un proche →",
+  textes: "Envoyer à la personne qui lira →",
+};
+
+const SEND_SUBJECT: Record<"fleurs" | "musique" | "textes", string> = {
+  fleurs: "les fleurs",
+  musique: "la musique",
+  textes: "les textes",
+};
+
+/** Un mail pré-écrit pour transmettre un choix précis, sans quitter la page. */
+function sendHref(
+  section: "fleurs" | "musique" | "textes",
+  title: string,
+  body: string,
+  lovedName: string | null,
+) {
+  const subject = encodeURIComponent(
+    `Cérémonie${lovedName ? ` de ${lovedName}` : ""} — ${SEND_SUBJECT[section]}`,
+  );
+  const text = encodeURIComponent(
+    [
+      "Bonjour,",
+      "",
+      `Voici ce que nous aimerions pour ${SEND_SUBJECT[section]} :`,
+      "",
+      `• ${title}`,
+      body,
+      "",
+      "Merci beaucoup,",
+    ].join("\n"),
+  );
+  return `mailto:?subject=${subject}&body=${text}`;
+}
+
 function GuidedBlock({
   label, title, steps, answers, setAnswers, proposals, footer, section,
 }: {
