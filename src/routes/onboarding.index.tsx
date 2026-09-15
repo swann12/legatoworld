@@ -167,14 +167,12 @@ function Onboarding() {
   if (step === 1) {
     return (
       <Frame onBack={() => navigate({ to: "/start" })} progress={posOf(1)} total={total}>
-        <h1 className="onboarding-title">
-          <span className="whitespace-nowrap">Comment souhaitez-vous</span><br />que Legato vous appelle&nbsp;?
-        </h1>
+        <h1 className="onboarding-title">Comment t’appelles-tu&nbsp;?</h1>
         <div className="mt-[63px]">
           <input
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="Votre prénom"
+            placeholder="Ton prénom"
             className="onboarding-field h-[45px] w-full rounded-[7px] border border-dusk/15 bg-transparent px-[26px] font-sans text-[12px] text-dusk outline-none transition-colors"
           />
         </div>
@@ -189,7 +187,7 @@ function Onboarding() {
     return (
       <Frame onBack={() => setStep(1)} progress={posOf(2)} total={total}>
         <h1 className="onboarding-title">
-          Pourquoi venez-vous<br />sur <span className="italic">Legato</span> aujourd'hui&nbsp;?
+          Pourquoi viens-tu<br />sur <span className="italic">Legato</span> aujourd'hui&nbsp;?
         </h1>
         <div className="mt-[62px] flex flex-col gap-[7px]">
           {SITUATIONS.map((s) => {
@@ -213,7 +211,7 @@ function Onboarding() {
   }
 
   if (step === 3) {
-    const title = situation === "perdu" ? <>Qui avez-vous<br />perdu&nbsp;?</> : situation === "peur" ? <>De qui avez-vous peur<br />de perdre la présence&nbsp;?</> : <>Qui accompagnez-vous&nbsp;?</>;
+    const title = situation === "perdu" ? <>Qui as-tu perdu&nbsp;?</> : situation === "peur" ? <>De qui as-tu peur<br />de perdre la présence&nbsp;?</> : <>Qui accompagnes-tu&nbsp;?</>;
     return (
       <Frame onBack={() => setStep(2)} progress={posOf(3)} total={total}>
         <h1 className="onboarding-title">{title}</h1>
@@ -224,7 +222,7 @@ function Onboarding() {
             </OptionPill>
           ))}
           {lovedOneRelation === "autre" && (
-            <input value={lovedOther} onChange={(e) => setLovedOther(e.target.value)} placeholder="Précisez" className="onboarding-field h-[45px] w-full shrink-0 rounded-[7px] border border-dusk/15 bg-transparent px-[26px] font-sans text-[12px] text-dusk outline-none" />
+            <input value={lovedOther} onChange={(e) => setLovedOther(e.target.value)} placeholder="Précise" className="onboarding-field h-[45px] w-full shrink-0 rounded-[7px] border border-dusk/15 bg-transparent px-[26px] font-sans text-[12px] text-dusk outline-none" />
           )}
         </div>
 
@@ -241,7 +239,7 @@ function Onboarding() {
     return (
       <Frame onBack={() => (needsPerson ? setStep(3) : setStep(2))} progress={posOf(4)} total={total}>
         <h1 className="onboarding-title">
-          <span className="whitespace-nowrap">Comment aimeriez-vous</span><br />l'appeler dans <span className="italic">Legato</span>&nbsp;?
+          Comment aimerais-tu l’appeler&nbsp;?
         </h1>
         <div className="mt-[46px] flex flex-col gap-[7px]">
           {suggestions.map((s) => (
@@ -291,7 +289,7 @@ function Onboarding() {
   if (step === 6) {
     return (
       <Frame onBack={() => setStep(5)} progress={posOf(6)} total={total}>
-        <h1 className="onboarding-title">De quoi avez-vous besoin<br />en priorité maintenant&nbsp;?</h1>
+        <h1 className="onboarding-title">De quoi as-tu besoin<br />en priorité maintenant&nbsp;?</h1>
         <div className="mt-[28px] flex flex-col gap-[9px]">
           {([
             { id: "emotional", label: "Être soutenu·e émotionnellement" },
@@ -313,7 +311,7 @@ function Onboarding() {
   if (step === 8) {
     return (
       <Frame onBack={() => setStep(6)} progress={posOf(8)} total={total}>
-        <h1 className="onboarding-title">Quel rôle avez-vous<br />dans les démarches&nbsp;?</h1>
+        <h1 className="onboarding-title">Quel rôle as-tu<br />dans les démarches&nbsp;?</h1>
         <div className="mt-[28px] flex flex-col gap-[9px]">
           <OptionPill active={roleChoice === "lead"} onClick={() => { setRoleChoice("lead"); setLegallyInvolved(true); }}>
             Je m'occupe principalement des démarches
@@ -326,7 +324,7 @@ function Onboarding() {
           </OptionPill>
         </div>
         <p className="mt-5 text-[11.5px] leading-[1.5] text-dusk/50">
-          Cela nous sert seulement à adapter les étapes proposées. Rien n'est figé.
+          Cela sert seulement à adapter les étapes proposées. Rien n'est figé.
         </p>
         <div className="mt-auto" />
         <BlushBtn disabled={!roleChoice} onClick={afterLegal}>Continuer</BlushBtn>
@@ -340,7 +338,7 @@ function Onboarding() {
   return (
     <Frame onBack={backFromEmotion} progress={posOf(7)} total={total}>
       <h1 className="onboarding-title">
-        Comment<br />vous sentez-vous<br />aujourd’hui&nbsp;?
+        Comment te sens-tu<br />aujourd’hui&nbsp;?
       </h1>
       <div className="mt-[47px] grid w-full grid-cols-3 gap-[8px]">
         {EMOTIONS.filter((emotion) => ["colere", "soulagement", "nostalgie", "tristesse", "solitude", "culpabilite", "fatigue", "peur"].includes(emotion.id)).concat([{ id: "besoin_aide", label: "Autre" }]).map((e) => {
@@ -368,10 +366,10 @@ function Onboarding() {
             autoFocus
             value={otherEmotion}
             onChange={(ev) => setOtherEmotion(ev.target.value)}
-            placeholder="Nommez-le avec vos mots"
+            placeholder="Nomme-le avec tes mots"
             className="onboarding-field h-[45px] w-full rounded-[7px] border border-dusk/15 bg-transparent px-[20px] font-sans text-[12px] text-dusk outline-none"
           />
-          <p className="mt-2 text-[11px] text-dusk/45">Un seul mot suffit. Vous pourrez le changer plus tard.</p>
+          <p className="mt-2 text-[11px] text-dusk/45">Un seul mot suffit. Tu pourras le changer plus tard.</p>
         </div>
       )}
       <div className="mt-auto" />
@@ -531,10 +529,10 @@ function nameSuggestions(relation: Relation | null): string[] {
 function stageQuestion(situation: Situation | null) {
   switch (situation) {
     case "peur": return "Où en est la situation ?";
-    case "accompagner": return "Quel est votre rôle aujourd'hui ?";
-    case "soutenir": return "Quel type d'aide voulez-vous apporter ?";
-    case "questionnement": return "Qu'est-ce qui vous amène ici ?";
-    case "volontes": return "Que souhaitez-vous préparer en premier ?";
-    default: return "Où en êtes-vous aujourd'hui ?";
+    case "accompagner": return "Quel est ton rôle aujourd'hui ?";
+    case "soutenir": return "Quel type d'aide veux-tu apporter ?";
+    case "questionnement": return "Qu'est-ce qui t'amène ici ?";
+    case "volontes": return "Que souhaites-tu préparer en premier ?";
+    default: return "Où en es-tu aujourd'hui ?";
   }
 }

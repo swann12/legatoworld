@@ -188,7 +188,7 @@ function Intro() {
         className="absolute inset-0 h-full w-full object-cover cursor-pointer"
       />
 
-      {/* Tap prompt — appears only if the browser blocked autoplay (e.g. iOS Low Power Mode) */}
+      {/* Si l'autoplay est bloqué, un simple toucher relance la vidéo — sans aucun libellé. */}
       {needsTap && !logoVisible && (
         <button
           type="button"
@@ -200,13 +200,9 @@ function Intro() {
             setIsMuted(false);
             v.play().then(() => setNeedsTap(false)).catch(() => undefined);
           }}
-          className="absolute inset-0 flex items-end justify-center pb-[14vh] bg-transparent"
-          aria-label="Toucher pour commencer"
-        >
-          <span className="rounded-full border border-paper/60 bg-dusk/30 backdrop-blur-sm px-6 py-3 text-[10.5px] font-medium uppercase tracking-[0.3em] text-paper">
-            Toucher pour commencer
-          </span>
-        </button>
+          className="absolute inset-0 bg-transparent"
+          aria-label="Commencer"
+        />
       )}
 
       {/* Sound toggle — visible while video plays muted so the visitor can restore audio */}
