@@ -167,9 +167,7 @@ function Onboarding() {
   if (step === 1) {
     return (
       <Frame onBack={() => navigate({ to: "/start" })} progress={posOf(1)} total={total}>
-        <h1 className="onboarding-title">
-          <span className="whitespace-nowrap">Comment souhaitez-vous</span><br />que Legato vous appelle&nbsp;?
-        </h1>
+        <h1 className="onboarding-title">Comment t’appelles-tu&nbsp;?</h1>
         <div className="mt-[63px]">
           <input
             value={name}

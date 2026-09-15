@@ -165,9 +165,9 @@ function Start() {
   if (stage === "choice") {
     return (
       <main className="min-h-dvh" style={{ background: "var(--paper)", color: "var(--dusk)" }}>
-        <div className="mobile-frame relative flex min-h-dvh flex-col items-center animate-fade-in" style={{ background: "var(--paper)", padding: "56px 51px 34px" }}>
+        <div className="mobile-frame relative flex min-h-dvh flex-col items-center animate-fade-in" style={{ background: "var(--paper)", padding: "clamp(40px, 7vh, 56px) clamp(32px, 11vw, 51px) clamp(28px, 5vh, 34px)" }}>
           <LegatoMark to="/start" variant="ink" size={50} stacked />
-          <h1 className="font-serif text-center" style={{ marginTop: 150, fontSize: 46, lineHeight: 1.11, color: "var(--dusk)", fontWeight: 400, letterSpacing: 0 }}>
+          <h1 className="font-serif text-center" style={{ marginTop: "clamp(64px, 17vh, 150px)", fontSize: "clamp(34px, 11.5vw, 46px)", lineHeight: 1.16, color: "var(--dusk)", fontWeight: 400, letterSpacing: 0 }}>
             Préparer<br />un <span className="italic">adieu</span>,<br />garder une<br /><span className="italic">présence</span>.
           </h1>
           <div className="mt-auto flex w-full flex-col items-stretch gap-[10px]">
