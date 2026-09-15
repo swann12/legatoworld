@@ -155,7 +155,7 @@ function Care() {
             <Link
               to="/agenda"
               className="mt-4 flex items-center justify-between gap-4 rounded-[20px] px-6 py-6"
-              style={{ background: "color-mix(in oklab, var(--blush) 62%, var(--whisper))" }}
+              style={{ background: "color-mix(in oklab, var(--blush) 22%, var(--whisper))" }}
             >
               <span>
                 <span className="mono-label block">Agenda</span>
@@ -231,7 +231,7 @@ function focusFromEmotions(emotions: Emotion[], stale: boolean): Focus {
 
 
 /** Une seule teinte par section — jamais d'alternance de couleurs. */
-const TINT_NOW = "color-mix(in oklab, var(--blush) 78%, var(--whisper))";
+const TINT_NOW = "color-mix(in oklab, var(--blush) 34%, var(--whisper))";
 
 
 
