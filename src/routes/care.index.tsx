@@ -40,7 +40,7 @@ function Care() {
 
   return (
     <Shell livingBg={false}>
-      <main className="wash-blush min-h-dvh text-dusk pb-32">
+      <main className="min-h-dvh text-dusk pb-32" style={{ background: "var(--paper)" }}>
         {/* Deux fonds superposés : la planche illustrée, puis la feuille crème qui remonte dessus. */}
         <section className="pt-0">
           <div className="relative">

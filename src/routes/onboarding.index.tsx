@@ -529,10 +529,10 @@ function nameSuggestions(relation: Relation | null): string[] {
 function stageQuestion(situation: Situation | null) {
   switch (situation) {
     case "peur": return "Où en est la situation ?";
-    case "accompagner": return "Quel est votre rôle aujourd'hui ?";
-    case "soutenir": return "Quel type d'aide voulez-vous apporter ?";
-    case "questionnement": return "Qu'est-ce qui vous amène ici ?";
-    case "volontes": return "Que souhaitez-vous préparer en premier ?";
-    default: return "Où en êtes-vous aujourd'hui ?";
+    case "accompagner": return "Quel est ton rôle aujourd'hui ?";
+    case "soutenir": return "Quel type d'aide veux-tu apporter ?";
+    case "questionnement": return "Qu'est-ce qui t'amène ici ?";
+    case "volontes": return "Que souhaites-tu préparer en premier ?";
+    default: return "Où en es-tu aujourd'hui ?";
   }
 }
