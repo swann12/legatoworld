@@ -134,13 +134,26 @@ function Start() {
       <main className="min-h-dvh" style={{ background: "var(--bordeaux)", color: "var(--blush)" }}>
         <div
           className="mobile-frame relative flex min-h-dvh flex-col items-center text-center animate-fade-in"
-          style={{ background: "var(--bordeaux)", padding: "110px 40px 79px" }}
+          style={{
+            background: "var(--bordeaux)",
+            padding: "clamp(64px, 13vh, 110px) clamp(28px, 9vw, 40px) clamp(48px, 9vh, 79px)",
+          }}
           onClick={enterApp}
         >
-          <p className="font-serif" style={{ fontSize: 46, lineHeight: 1.11, whiteSpace: "nowrap", color: "var(--clay)", fontWeight: 400, letterSpacing: "-0.005em" }}>
-            Rien ne peut<br />ramener<br />l’heure passée,<br />mais nous<br />pouvons<br />trouver de<br />la force dans<br />ce qui<br />demeure.
+          <p
+            className="font-serif"
+            style={{
+              fontSize: "clamp(32px, 11.5vw, 46px)",
+              lineHeight: 1.16,
+              color: "var(--clay)",
+              fontWeight: 400,
+              letterSpacing: "-0.005em",
+              textWrap: "balance",
+            }}
+          >
+            Rien ne peut ramener l’heure passée, mais nous pouvons trouver de la force dans ce qui demeure.
           </p>
-          <p className="mt-auto font-mono uppercase" style={{ color: "var(--clay)", fontSize: 10.5, letterSpacing: "0.18em", lineHeight: 1.35 }}>
+          <p className="mt-auto pt-10 font-mono uppercase" style={{ color: "var(--clay)", fontSize: 10.5, letterSpacing: "0.18em", lineHeight: 1.35 }}>
             William Wordsworth,<br />Ode: Intimations of Immortality
           </p>
 
