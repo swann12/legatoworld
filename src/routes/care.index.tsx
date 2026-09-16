@@ -98,7 +98,7 @@ function Care() {
           </section>
         )}
 
-        {/* Se confier — l'entrée la plus importante : une carte scellée, une matière à part. */}
+        {/* Se confier — une matière sable distincte, sans ajouter de rose à la page. */}
         <section className="px-5 pt-10">
           <Link
             to="/presence"
@@ -107,7 +107,7 @@ function Care() {
           >
             <div
               className="flex items-start justify-between gap-4 rounded-[18px] px-6 py-6"
-              style={{ background: "color-mix(in oklab, var(--blush) 58%, var(--paper))" }}
+               style={{ background: "color-mix(in oklab, var(--sage) 62%, var(--paper))" }}
             >
               <span className="block">
                 <span className="mono-label block" style={{ color: "var(--bordeaux)" }}>
@@ -155,7 +155,7 @@ function Care() {
             <Link
               to="/agenda"
               className="mt-4 flex items-center justify-between gap-4 rounded-[20px] px-6 py-6"
-              style={{ background: "color-mix(in oklab, var(--blush) 22%, var(--whisper))" }}
+               style={{ background: "color-mix(in oklab, var(--sage) 42%, var(--whisper))" }}
             >
               <span>
                 <span className="mono-label block">Agenda</span>
@@ -231,7 +231,7 @@ function focusFromEmotions(emotions: Emotion[], stale: boolean): Focus {
 
 
 /** Une seule teinte par section — jamais d'alternance de couleurs. */
-const TINT_NOW = "color-mix(in oklab, var(--blush) 34%, var(--whisper))";
+const TINT_NOW = "color-mix(in oklab, var(--sage) 48%, var(--whisper))";
 
 
 

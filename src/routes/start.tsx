@@ -136,19 +136,18 @@ function Start() {
           className="mobile-frame relative flex min-h-dvh flex-col items-center text-center animate-fade-in"
           style={{
             background: "var(--bordeaux)",
-            padding: "clamp(64px, 13vh, 110px) clamp(28px, 9vw, 40px) clamp(48px, 9vh, 79px)",
+            padding: "118px 34px 60px",
           }}
           onClick={enterApp}
         >
           <p
             className="font-serif"
             style={{
-              fontSize: "clamp(32px, 11.5vw, 46px)",
-              lineHeight: 1.16,
+              fontSize: 48,
+              lineHeight: 0.94,
               color: "var(--clay)",
               fontWeight: 400,
-              letterSpacing: "-0.005em",
-              textWrap: "balance",
+              letterSpacing: 0,
             }}
           >
             Rien ne peut ramener l’heure passée, mais nous pouvons trouver de la force dans ce qui demeure.
