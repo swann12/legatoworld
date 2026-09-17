@@ -101,7 +101,7 @@ function Practical() {
         <NextActions scope="practical" />
 
         <section className="px-5 pt-7">
-          <Link to="/agenda" className="tint-blush flex items-center justify-between rounded-[18px] px-5 py-4">
+          <Link to="/agenda" search={{ from: "practical" }} className="tint-blush flex items-center justify-between rounded-[18px] px-5 py-4">
             <p className="font-serif text-[18px]">Agenda</p>
             <span className="text-dusk/40">→</span>
           </Link>
@@ -240,7 +240,7 @@ function ThemeTile({ i, to, label }: { i: number; to: string; label: string }) {
     <Link
       to={to as "/practical"}
       className="flex min-h-[104px] flex-col justify-between rounded-[18px] px-5 py-4"
-      style={{ background: "color-mix(in oklab, var(--whisper) 88%, transparent)" }}
+      style={{ background: "var(--olive)" }}
     >
       <div className="flex items-start justify-end">
         <IndexMark i={i} total={4} />

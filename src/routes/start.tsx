@@ -136,23 +136,14 @@ function Start() {
           className="mobile-frame relative flex min-h-dvh flex-col items-center text-center animate-fade-in"
           style={{
             background: "var(--bordeaux)",
-            padding: "118px 34px 60px",
+            padding: "110px 40px 79px",
           }}
           onClick={enterApp}
         >
-          <p
-            className="font-serif"
-            style={{
-              fontSize: 48,
-              lineHeight: 0.94,
-              color: "var(--clay)",
-              fontWeight: 400,
-              letterSpacing: 0,
-            }}
-          >
-            Rien ne peut ramener l’heure passée, mais nous pouvons trouver de la force dans ce qui demeure.
+          <p className="font-serif" style={{ fontSize: 46, lineHeight: 1.11, whiteSpace: "nowrap", color: "var(--clay)", fontWeight: 400, letterSpacing: "-0.005em" }}>
+            Rien ne peut<br />ramener<br />l’heure passée,<br />mais nous<br />pouvons<br />trouver de<br />la force dans<br />ce qui<br />demeure.
           </p>
-          <p className="mt-auto pt-10 font-mono uppercase" style={{ color: "var(--clay)", fontSize: 10.5, letterSpacing: "0.18em", lineHeight: 1.35 }}>
+          <p className="mt-auto font-mono uppercase" style={{ color: "var(--clay)", fontSize: 10.5, letterSpacing: "0.18em", lineHeight: 1.35 }}>
             William Wordsworth,<br />Ode: Intimations of Immortality
           </p>
 
@@ -166,10 +157,12 @@ function Start() {
       <main className="min-h-dvh" style={{ background: "var(--paper)", color: "var(--dusk)" }}>
         <div className="mobile-frame relative flex min-h-dvh flex-col items-center animate-fade-in" style={{ background: "var(--paper)", padding: "clamp(40px, 7vh, 56px) clamp(32px, 11vw, 51px) clamp(28px, 5vh, 34px)" }}>
           <LegatoMark to="/start" variant="ink" size={50} stacked />
-          <h1 className="font-serif text-center" style={{ marginTop: "clamp(64px, 17vh, 150px)", fontSize: "clamp(34px, 11.5vw, 46px)", lineHeight: 1.16, color: "var(--dusk)", fontWeight: 400, letterSpacing: 0 }}>
+          <div className="min-h-8 flex-1" aria-hidden />
+          <h1 className="font-serif text-center" style={{ fontSize: "clamp(34px, 11.5vw, 46px)", lineHeight: 1.16, color: "var(--dusk)", fontWeight: 400, letterSpacing: 0 }}>
             Préparer<br />un <span className="italic">adieu</span>,<br />garder une<br /><span className="italic">présence</span>.
           </h1>
-          <div className="mt-auto flex w-full flex-col items-stretch gap-[10px]">
+          <div className="min-h-8 flex-1" aria-hidden />
+          <div className="flex w-full flex-col items-stretch gap-[10px]">
             <Button
               type="button"
               onClick={() => { setStage("signup"); setError(null); setInfo(null); }}
@@ -203,8 +196,7 @@ function Start() {
         className="mobile-frame relative flex min-h-dvh flex-col"
         style={{ background: "var(--paper)", padding: "42px 46px 58px" }}
       >
-        <header className="flex items-center justify-between">
-          <LegatoMark to="/start" variant="ink" size={30} />
+        <header className="flex items-center justify-end">
           <button
             type="button"
             onClick={() => { setStage("choice"); setError(null); setInfo(null); }}

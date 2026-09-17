@@ -54,8 +54,8 @@ function Vault() {
         </section>
 
         <section className="px-5 pt-8 grid grid-cols-2 gap-3">
-          {CATEGORIES.map((c, i) => (
-            <button key={c.id} type="button" onClick={() => setOpen(open === c.id ? null : c.id)} className={`${i % 3 === 1 ? "surf-pearl" : "surf-cream"} rounded-[18px] border border-dusk/10 px-4 py-4 min-h-[124px] flex flex-col justify-between text-left transition-transform active:scale-[0.99]`}>
+          {CATEGORIES.map((c) => (
+            <button key={c.id} type="button" onClick={() => setOpen(open === c.id ? null : c.id)} className="rounded-[18px] border border-dusk/10 px-4 py-4 min-h-[124px] flex flex-col justify-between text-left transition-transform active:scale-[0.99]" style={{ background: "var(--blush)" }}>
               <div>
                 <p className="font-serif text-[16px] leading-[1.15]">{c.label}</p>
                 <p className="mt-1 text-[11.5px] surf-sub">{c.hint}</p>
@@ -69,7 +69,7 @@ function Vault() {
         <section className="px-5 pt-8">
           <button
             className="block w-full rounded-[999px] px-6 py-5 text-center transition-transform active:scale-[0.99]"
-            style={{ background: "var(--terracotta)", color: "var(--paper)" }}
+            style={{ background: "var(--bordeaux)", color: "var(--paper)" }}
           >
             <span className="font-serif text-[20px]">Ajouter un document →</span>
           </button>

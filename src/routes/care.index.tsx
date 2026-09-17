@@ -98,7 +98,7 @@ function Care() {
           </section>
         )}
 
-        {/* Se confier — une matière sable distincte, sans ajouter de rose à la page. */}
+        {/* Se confier reste l'accent rose singulier de l'espace Soutien. */}
         <section className="px-5 pt-10">
           <Link
             to="/presence"
@@ -107,7 +107,7 @@ function Care() {
           >
             <div
               className="flex items-start justify-between gap-4 rounded-[18px] px-6 py-6"
-               style={{ background: "color-mix(in oklab, var(--sage) 62%, var(--paper))" }}
+               style={{ background: "var(--blush)" }}
             >
               <span className="block">
                 <span className="mono-label block" style={{ color: "var(--bordeaux)" }}>

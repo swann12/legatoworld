@@ -1,9 +1,9 @@
 import { Link, useLocation } from "@tanstack/react-router";
 
 /** Navigation basse : une capsule rose, généreuse, avec un galet actif qui glisse. */
-export function SpaceSwitch() {
+export function SpaceSwitch({ activeSpace }: { activeSpace?: "care" | "practical" }) {
   const { pathname } = useLocation();
-  const practical = pathname.startsWith("/practical");
+  const practical = activeSpace ? activeSpace === "practical" : pathname.startsWith("/practical");
 
   const item = (on: boolean, to: "/care" | "/practical", label: string) => (
     <Link
