@@ -33,9 +33,11 @@ export function Shell({
   children,
   hideNav = false,
   livingBg = true,
+  navSpace,
 }: {
   children: ReactNode;
   hideNav?: boolean;
+  navSpace?: "care" | "practical";
   /** Render the mode-aware living background. Pages that paint their own
    *  full-screen ambiance (no-words sequences, onboarding) should pass false. */
   livingBg?: boolean;
@@ -51,7 +53,7 @@ export function Shell({
         <div className="relative rise" style={{ zIndex: 1 }}>{children}</div>
       </div>
       {!hideNav && isRoot && <ProfileDot />}
-      {!hideNav && <SpaceSwitch />}
+      {!hideNav && <SpaceSwitch activeSpace={navSpace} />}
     </div>
   );
 }

@@ -10,3 +10,4 @@
 - [ ] Étendre la dimension carnet intime à toute l’application, pas seulement au Journal.
 - [ ] Ajouter une esthétique sensorielle animée à Respirer : halo, lumière et matière vivantes.
 - [ ] Valoriser « Se confier » dans Soutien avec une représentation distincte des autres entrées.
+- [ ] Vérifier les corrections demandées le 17 septembre : Start/citation sur iPhone, Agenda depuis Démarches, teintes des accès et du coffre.

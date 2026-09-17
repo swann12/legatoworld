@@ -13,6 +13,9 @@ import {
 } from "@/lib/agenda-store";
 
 export const Route = createFileRoute("/agenda")({
+  validateSearch: (search: Record<string, unknown>) => ({
+    from: search.from === "practical" ? "practical" as const : "care" as const,
+  }),
   head: () => ({
     meta: [
       { title: "Agenda — Legato" },
@@ -25,6 +28,7 @@ export const Route = createFileRoute("/agenda")({
 });
 
 function Agenda() {
+  const { from } = Route.useSearch();
   const { events, hydrated, add, remove } = useAgenda();
   const { currentEmotions, hydrated: lgReady } = useLegato();
   const [adding, setAdding] = useState(false);
@@ -57,9 +61,9 @@ function Agenda() {
   
 
   return (
-    <Shell livingBg={false}>
+    <Shell livingBg={false} navSpace={from}>
       <div className="min-h-dvh bg-paper text-dusk pb-32">
-        <PageHeader title="AGENDA" back="/practical" />
+        <PageHeader title="AGENDA" back={from === "practical" ? "/practical" : "/care"} />
 
         <section className="px-6 pt-4">
           <h1 className="ed-page-title text-[32px]">Les jours qui viennent</h1>

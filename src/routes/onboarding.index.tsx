@@ -239,7 +239,7 @@ function Onboarding() {
     return (
       <Frame onBack={() => (needsPerson ? setStep(3) : setStep(2))} progress={posOf(4)} total={total}>
         <h1 className="onboarding-title">
-          Comment aimerais-tu l’appeler&nbsp;?
+          Comment<br />aimerais-tu<br />l’appeler&nbsp;?
         </h1>
         <div className="mt-[46px] flex flex-col gap-[7px]">
           {suggestions.map((s) => (
