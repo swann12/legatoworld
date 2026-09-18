@@ -138,9 +138,9 @@ function Practical() {
           </section>
         )}
 
-        {/* Tuiles thématiques — une seule ancre sombre */}
+        {/* Tuiles thématiques — fond beige pâle, icônes blanches, typo marron foncé */}
         {!softActive && (
-        <section className="band band-clay mt-8 px-5 pt-7 pb-8">
+        <section className="mt-8 px-5 pt-7 pb-8">
           <p className="mono-label">Où aller</p>
           <div className="mt-4 grid grid-cols-2 gap-3">
             <ThemeTile i={1} to="/practical/tasks" label="Mes démarches" />
@@ -148,8 +148,12 @@ function Practical() {
             <ThemeTile i={3} to="/practical/pros" label="Professionnels" />
             <ThemeTile i={4} to="/practical/ceremony" label="La cérémonie" />
           </div>
-          <Link to="/practical/wishes" className="surf-sumi mt-3 block rounded-[18px] px-5 py-5">
-            <p className="mono-label">Ancrage</p>
+          <Link
+            to="/practical/wishes"
+            className="mt-3 block rounded-[18px] px-5 py-5"
+            style={{ background: "var(--olive)", color: "var(--paper)" }}
+          >
+            <p className="mono-label" style={{ color: "color-mix(in oklab, var(--paper) 62%, transparent)" }}>Ancrage</p>
             <p className="mt-2 font-serif text-[20px] leading-[1.15]">Mes volontés</p>
           </Link>
         </section>
@@ -240,12 +244,12 @@ function ThemeTile({ i, to, label }: { i: number; to: string; label: string }) {
     <Link
       to={to as "/practical"}
       className="flex min-h-[104px] flex-col justify-between rounded-[18px] px-5 py-4"
-      style={{ background: "var(--olive)" }}
+      style={{ background: "var(--sage)" }}
     >
       <div className="flex items-start justify-end">
-        <IndexMark i={i} total={4} />
+        <IndexMark i={i} total={4} tone="#FFFFFF" />
       </div>
-      <p className="font-serif text-[19px] leading-[1.12]">{label}</p>
+      <p className="font-serif text-[19px] leading-[1.12] text-dusk">{label}</p>
     </Link>
   );
 }

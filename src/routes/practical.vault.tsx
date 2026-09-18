@@ -36,12 +36,12 @@ function Vault() {
   const hidden = hydrated && (primaryNeed === "emotional" || lovedOneRelation === "animal");
   if (hidden) {
     return (
-      <Shell livingBg={false}><div className="wash-butter min-h-dvh text-dusk p-6"><Link to="/practical" className="mono-label">← Démarches</Link><h1 className="mt-10 ed-page-title">Coffre non nécessaire pour ce parcours.</h1><p className="mt-5 text-[13px] text-dusk/60">Il restera accessible si une tâche concrète en a besoin.</p></div></Shell>
+      <Shell livingBg={false}><div className="wash-rose min-h-dvh text-dusk p-6"><Link to="/practical" className="mono-label">← Démarches</Link><h1 className="mt-10 ed-page-title">Coffre non nécessaire pour ce parcours.</h1><p className="mt-5 text-[13px] text-dusk/60">Il restera accessible si une tâche concrète en a besoin.</p></div></Shell>
     );
   }
   return (
     <Shell livingBg={false}>
-      <div className="wash-butter min-h-dvh text-dusk pb-32">
+      <div className="wash-rose min-h-dvh text-dusk pb-32">
         <PageHeader back="/practical" title="LE COFFRE" />
         <section className="px-6 pt-10">
           <p className="mono-label">Coffre</p>
@@ -57,10 +57,10 @@ function Vault() {
           {CATEGORIES.map((c) => (
             <button key={c.id} type="button" onClick={() => setOpen(open === c.id ? null : c.id)} className="rounded-[18px] border border-dusk/10 px-4 py-4 min-h-[124px] flex flex-col justify-between text-left transition-transform active:scale-[0.99]" style={{ background: "var(--blush)" }}>
               <div>
-                <p className="font-serif text-[16px] leading-[1.15]">{c.label}</p>
-                <p className="mt-1 text-[11.5px] surf-sub">{c.hint}</p>
+                <p className="font-serif text-[16px] leading-[1.15] text-dusk">{c.label}</p>
+                <p className="mt-1 text-[11.5px] text-dusk/60">{c.hint}</p>
               </div>
-              <p className="mt-3 mono-label opacity-70">{open === c.id ? "Ajouter bientôt" : "0 fichier"}</p>
+              <p className="mt-3 mono-label text-dusk/55">{open === c.id ? "Ajouter bientôt" : "0 fichier"}</p>
             </button>
           ))}
         </section>
