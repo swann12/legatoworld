@@ -57,10 +57,10 @@ function Vault() {
           {CATEGORIES.map((c) => (
             <button key={c.id} type="button" onClick={() => setOpen(open === c.id ? null : c.id)} className="rounded-[18px] border border-dusk/10 px-4 py-4 min-h-[124px] flex flex-col justify-between text-left transition-transform active:scale-[0.99]" style={{ background: "var(--blush)" }}>
               <div>
-                <p className="font-serif text-[16px] leading-[1.15]">{c.label}</p>
-                <p className="mt-1 text-[11.5px] surf-sub">{c.hint}</p>
+                <p className="font-serif text-[16px] leading-[1.15] text-dusk">{c.label}</p>
+                <p className="mt-1 text-[11.5px] text-dusk/60">{c.hint}</p>
               </div>
-              <p className="mt-3 mono-label opacity-70">{open === c.id ? "Ajouter bientôt" : "0 fichier"}</p>
+              <p className="mt-3 mono-label text-dusk/55">{open === c.id ? "Ajouter bientôt" : "0 fichier"}</p>
             </button>
           ))}
         </section>
