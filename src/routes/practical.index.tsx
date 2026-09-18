@@ -151,10 +151,10 @@ function Practical() {
           <Link
             to="/practical/wishes"
             className="mt-3 block rounded-[18px] px-5 py-5"
-            style={{ background: "var(--olive)", color: "var(--paper)" }}
+            style={{ background: "var(--whisper)" }}
           >
-            <p className="mono-label" style={{ color: "color-mix(in oklab, var(--paper) 62%, transparent)" }}>Ancrage</p>
-            <p className="mt-2 font-serif text-[20px] leading-[1.15]">Mes volontés</p>
+            <p className="mono-label text-dusk/55">Ancrage</p>
+            <p className="mt-2 font-serif text-[20px] leading-[1.15] text-dusk">Mes volontés</p>
           </Link>
         </section>
 
@@ -244,10 +244,10 @@ function ThemeTile({ i, to, label }: { i: number; to: string; label: string }) {
     <Link
       to={to as "/practical"}
       className="flex min-h-[104px] flex-col justify-between rounded-[18px] px-5 py-4"
-      style={{ background: "var(--sage)" }}
+      style={{ background: "var(--whisper)" }}
     >
       <div className="flex items-start justify-end">
-        <IndexMark i={i} total={4} tone="#FFFFFF" />
+        <IndexMark i={i} total={4} tone="var(--terracotta)" />
       </div>
       <p className="font-serif text-[19px] leading-[1.12] text-dusk">{label}</p>
     </Link>
