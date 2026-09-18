@@ -164,9 +164,9 @@ function Care() {
               </span>
               <span aria-hidden className="text-dusk/40">→</span>
             </Link>
-            <div className="mt-3 grid grid-cols-2 gap-3">
-              <Link to="/care/dates" className="craft px-5 py-4 font-serif text-[17px] leading-[1.15]">Dates importantes</Link>
-              <Link to="/care/journal" className="craft px-5 py-4 font-serif text-[17px] leading-[1.15]">Mon journal intime</Link>
+            <div className="mt-3">
+              <SimpleRow to="/care/dates" label="Dates importantes" />
+              <SimpleRow to="/care/journal" label="Mon journal intime" />
             </div>
           </section>
         )}
