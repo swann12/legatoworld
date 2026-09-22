@@ -11,3 +11,6 @@
 - [ ] Ajouter une esthétique sensorielle animée à Respirer : halo, lumière et matière vivantes.
 - [ ] Valoriser « Se confier » dans Soutien avec une représentation distincte des autres entrées.
 - [x] Vérifier les corrections demandées le 17 septembre : Start/citation sur iPhone, Agenda depuis Démarches, teintes des accès et du coffre.
+
+## 22 septembre 2026
+- [x] Captures mobile complètes de l'application (toutes les pages + scénarios onboarding) dans Files pour partage
