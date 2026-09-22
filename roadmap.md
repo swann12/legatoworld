@@ -13,4 +13,4 @@
 - [x] Vérifier les corrections demandées le 17 septembre : Start/citation sur iPhone, Agenda depuis Démarches, teintes des accès et du coffre.
 
 ## 22 septembre 2026
-- [ ] Captures mobile complètes de l'application (toutes les pages + scénarios onboarding) dans Files pour partage
+- [x] Captures mobile complètes de l'application (toutes les pages + scénarios onboarding) dans Files pour partage
