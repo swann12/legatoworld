@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { supabase } from "@/integrations/supabase/client";
 import { recordEmotion } from "@/lib/emotional.functions";
@@ -90,11 +90,11 @@ function Emotions() {
         {CHOICES.map((c, i) => {
           const on = picked.includes(c.id);
           return (
-            <span key={c.id} className="whitespace-nowrap">
+            <Fragment key={c.id}><span className="whitespace-nowrap">
               <button type="button" onClick={() => toggle(c.id)} aria-pressed={on}
                 className={on ? "underline underline-offset-4" : ""} style={{ color: on ? "var(--sp-ink)" : "var(--sp-sub)", textDecorationThickness: 1 }}>{c.label}</button>
               {i < CHOICES.length - 1 && <span style={{ color: "var(--sp-sub)" }}>,</span>}
-            </span>{" "}
+            </span>{" "}</Fragment>
           );
         })}
       </p>

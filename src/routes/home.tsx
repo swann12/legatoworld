@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useLegato, type Emotion } from "@/lib/legato-state";
 import { useSpaces, upcomingForSpaces, formatDaysAway } from "@/lib/spaces-store";
@@ -98,10 +98,10 @@ function Today() {
         {MOODS.map((m, i) => {
           const on = m.id !== "autre" && currentEmotions.includes(m.id);
           return (
-            <span key={m.id} className="whitespace-nowrap">
+            <Fragment key={m.id}><span className="whitespace-nowrap">
               <Link to="/care/emotions" className={on ? "underline underline-offset-4" : ""} style={{ color: on ? "var(--sp-ink)" : "var(--sp-sub)", textDecorationThickness: 1 }}>{m.label}</Link>
               {i < MOODS.length - 1 && <span style={{ color: "var(--sp-sub)" }}>,</span>}
-            </span>{" "}
+            </span>{" "}</Fragment>
           );
         })}
       </p>
