@@ -100,10 +100,12 @@ import { Route as CareCommunityIndexRouteImport } from './routes/care.community.
 import { Route as ResourcesConfirmProviderIdRouteImport } from './routes/resources.confirm.$providerId'
 import { Route as ResourcesCategoryProviderIdRouteImport } from './routes/resources.$category.$providerId'
 import { Route as PracticalTasksIdRouteImport } from './routes/practical.tasks.$id'
+import { Route as LibraryKindIdRouteImport } from './routes/library.$kind.$id'
 import { Route as HelpCorpsNuitsRouteImport } from './routes/help.corps.nuits'
 import { Route as HelpCorpsMangerRouteImport } from './routes/help.corps.manger'
 import { Route as HelpCorpsHabillerRouteImport } from './routes/help.corps.habiller'
 import { Route as HelpCorpsEauRouteImport } from './routes/help.corps.eau'
+import { Route as CareJournalLaterRouteImport } from './routes/care.journal.later'
 import { Route as CareGardenDepotRouteImport } from './routes/care.garden.depot'
 import { Route as CareGardenZoneRouteImport } from './routes/care.garden.$zone'
 import { Route as CareCommunityReglesRouteImport } from './routes/care.community.regles'
@@ -568,6 +570,11 @@ const PracticalTasksIdRoute = PracticalTasksIdRouteImport.update({
   path: '/$id',
   getParentRoute: () => PracticalTasksRoute,
 } as any)
+const LibraryKindIdRoute = LibraryKindIdRouteImport.update({
+  id: '/library/$kind/$id',
+  path: '/library/$kind/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const HelpCorpsNuitsRoute = HelpCorpsNuitsRouteImport.update({
   id: '/nuits',
   path: '/nuits',
@@ -587,6 +594,11 @@ const HelpCorpsEauRoute = HelpCorpsEauRouteImport.update({
   id: '/eau',
   path: '/eau',
   getParentRoute: () => HelpCorpsRoute,
+} as any)
+const CareJournalLaterRoute = CareJournalLaterRouteImport.update({
+  id: '/journal/later',
+  path: '/journal/later',
+  getParentRoute: () => CareRoute,
 } as any)
 const CareGardenDepotRoute = CareGardenDepotRouteImport.update({
   id: '/depot',
@@ -710,10 +722,12 @@ export interface FileRoutesByFullPath {
   '/care/community/regles': typeof CareCommunityReglesRoute
   '/care/garden/$zone': typeof CareGardenZoneRoute
   '/care/garden/depot': typeof CareGardenDepotRoute
+  '/care/journal/later': typeof CareJournalLaterRoute
   '/help/corps/eau': typeof HelpCorpsEauRoute
   '/help/corps/habiller': typeof HelpCorpsHabillerRoute
   '/help/corps/manger': typeof HelpCorpsMangerRoute
   '/help/corps/nuits': typeof HelpCorpsNuitsRoute
+  '/library/$kind/$id': typeof LibraryKindIdRoute
   '/practical/tasks/$id': typeof PracticalTasksIdRoute
   '/resources/$category/$providerId': typeof ResourcesCategoryProviderIdRoute
   '/resources/confirm/$providerId': typeof ResourcesConfirmProviderIdRoute
@@ -804,10 +818,12 @@ export interface FileRoutesByTo {
   '/care/community/regles': typeof CareCommunityReglesRoute
   '/care/garden/$zone': typeof CareGardenZoneRoute
   '/care/garden/depot': typeof CareGardenDepotRoute
+  '/care/journal/later': typeof CareJournalLaterRoute
   '/help/corps/eau': typeof HelpCorpsEauRoute
   '/help/corps/habiller': typeof HelpCorpsHabillerRoute
   '/help/corps/manger': typeof HelpCorpsMangerRoute
   '/help/corps/nuits': typeof HelpCorpsNuitsRoute
+  '/library/$kind/$id': typeof LibraryKindIdRoute
   '/practical/tasks/$id': typeof PracticalTasksIdRoute
   '/resources/$category/$providerId': typeof ResourcesCategoryProviderIdRoute
   '/resources/confirm/$providerId': typeof ResourcesConfirmProviderIdRoute
@@ -909,10 +925,12 @@ export interface FileRoutesById {
   '/care/community/regles': typeof CareCommunityReglesRoute
   '/care/garden/$zone': typeof CareGardenZoneRoute
   '/care/garden/depot': typeof CareGardenDepotRoute
+  '/care/journal/later': typeof CareJournalLaterRoute
   '/help/corps/eau': typeof HelpCorpsEauRoute
   '/help/corps/habiller': typeof HelpCorpsHabillerRoute
   '/help/corps/manger': typeof HelpCorpsMangerRoute
   '/help/corps/nuits': typeof HelpCorpsNuitsRoute
+  '/library/$kind/$id': typeof LibraryKindIdRoute
   '/practical/tasks/$id': typeof PracticalTasksIdRoute
   '/resources/$category/$providerId': typeof ResourcesCategoryProviderIdRoute
   '/resources/confirm/$providerId': typeof ResourcesConfirmProviderIdRoute
@@ -1014,10 +1032,12 @@ export interface FileRouteTypes {
     | '/care/community/regles'
     | '/care/garden/$zone'
     | '/care/garden/depot'
+    | '/care/journal/later'
     | '/help/corps/eau'
     | '/help/corps/habiller'
     | '/help/corps/manger'
     | '/help/corps/nuits'
+    | '/library/$kind/$id'
     | '/practical/tasks/$id'
     | '/resources/$category/$providerId'
     | '/resources/confirm/$providerId'
@@ -1108,10 +1128,12 @@ export interface FileRouteTypes {
     | '/care/community/regles'
     | '/care/garden/$zone'
     | '/care/garden/depot'
+    | '/care/journal/later'
     | '/help/corps/eau'
     | '/help/corps/habiller'
     | '/help/corps/manger'
     | '/help/corps/nuits'
+    | '/library/$kind/$id'
     | '/practical/tasks/$id'
     | '/resources/$category/$providerId'
     | '/resources/confirm/$providerId'
@@ -1212,10 +1234,12 @@ export interface FileRouteTypes {
     | '/care/community/regles'
     | '/care/garden/$zone'
     | '/care/garden/depot'
+    | '/care/journal/later'
     | '/help/corps/eau'
     | '/help/corps/habiller'
     | '/help/corps/manger'
     | '/help/corps/nuits'
+    | '/library/$kind/$id'
     | '/practical/tasks/$id'
     | '/resources/$category/$providerId'
     | '/resources/confirm/$providerId'
@@ -1274,6 +1298,7 @@ export interface RootRouteChildren {
   PresenceIndexRoute: typeof PresenceIndexRoute
   ResourcesIndexRoute: typeof ResourcesIndexRoute
   SpaceIndexRoute: typeof SpaceIndexRoute
+  LibraryKindIdRoute: typeof LibraryKindIdRoute
   ResourcesConfirmProviderIdRoute: typeof ResourcesConfirmProviderIdRoute
   LibraryKindIndexRoute: typeof LibraryKindIndexRoute
   ApiPublicSouffleSoundIdRoute: typeof ApiPublicSouffleSoundIdRoute
@@ -1918,6 +1943,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PracticalTasksIdRouteImport
       parentRoute: typeof PracticalTasksRoute
     }
+    '/library/$kind/$id': {
+      id: '/library/$kind/$id'
+      path: '/library/$kind/$id'
+      fullPath: '/library/$kind/$id'
+      preLoaderRoute: typeof LibraryKindIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/help/corps/nuits': {
       id: '/help/corps/nuits'
       path: '/nuits'
@@ -1945,6 +1977,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/help/corps/eau'
       preLoaderRoute: typeof HelpCorpsEauRouteImport
       parentRoute: typeof HelpCorpsRoute
+    }
+    '/care/journal/later': {
+      id: '/care/journal/later'
+      path: '/journal/later'
+      fullPath: '/care/journal/later'
+      preLoaderRoute: typeof CareJournalLaterRouteImport
+      parentRoute: typeof CareRoute
     }
     '/care/garden/depot': {
       id: '/care/garden/depot'
@@ -2056,6 +2095,7 @@ interface CareRouteChildren {
   CareRituelsRoute: typeof CareRituelsRoute
   CareSonsRoute: typeof CareSonsRoute
   CareIndexRoute: typeof CareIndexRoute
+  CareJournalLaterRoute: typeof CareJournalLaterRoute
   CareJournalIndexRoute: typeof CareJournalIndexRoute
 }
 
@@ -2072,6 +2112,7 @@ const CareRouteChildren: CareRouteChildren = {
   CareRituelsRoute: CareRituelsRoute,
   CareSonsRoute: CareSonsRoute,
   CareIndexRoute: CareIndexRoute,
+  CareJournalLaterRoute: CareJournalLaterRoute,
   CareJournalIndexRoute: CareJournalIndexRoute,
 }
 
@@ -2268,6 +2309,7 @@ const rootRouteChildren: RootRouteChildren = {
   PresenceIndexRoute: PresenceIndexRoute,
   ResourcesIndexRoute: ResourcesIndexRoute,
   SpaceIndexRoute: SpaceIndexRoute,
+  LibraryKindIdRoute: LibraryKindIdRoute,
   ResourcesConfirmProviderIdRoute: ResourcesConfirmProviderIdRoute,
   LibraryKindIndexRoute: LibraryKindIndexRoute,
   ApiPublicSouffleSoundIdRoute: ApiPublicSouffleSoundIdRoute,
