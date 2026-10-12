@@ -58,7 +58,6 @@ import { Route as PracticalVaultRouteImport } from './routes/practical.vault'
 import { Route as PracticalTextsRouteImport } from './routes/practical.texts'
 import { Route as PracticalTasksRouteImport } from './routes/practical.tasks'
 import { Route as PracticalStepsRouteImport } from './routes/practical.steps'
-import { Route as PracticalShareRouteImport } from './routes/practical.share'
 import { Route as PracticalResourcesRouteImport } from './routes/practical.resources'
 import { Route as PracticalProsRouteImport } from './routes/practical.pros'
 import { Route as PracticalProgressRouteImport } from './routes/practical.progress'
@@ -97,6 +96,7 @@ import { Route as AgendaNewRouteImport } from './routes/agenda.new'
 import { Route as AuthenticatedCircleRouteImport } from './routes/_authenticated/circle'
 import { Route as ResourcesCategoryIndexRouteImport } from './routes/resources.$category.index'
 import { Route as PracticalTasksIndexRouteImport } from './routes/practical.tasks.index'
+import { Route as PracticalShareIndexRouteImport } from './routes/practical.share.index'
 import { Route as LibraryKindIndexRouteImport } from './routes/library.$kind.index'
 import { Route as HelpCorpsIndexRouteImport } from './routes/help.corps.index'
 import { Route as CareJournalIndexRouteImport } from './routes/care.journal.index'
@@ -369,11 +369,6 @@ const PracticalStepsRoute = PracticalStepsRouteImport.update({
   path: '/steps',
   getParentRoute: () => PracticalRoute,
 } as any)
-const PracticalShareRoute = PracticalShareRouteImport.update({
-  id: '/share',
-  path: '/share',
-  getParentRoute: () => PracticalRoute,
-} as any)
 const PracticalResourcesRoute = PracticalResourcesRouteImport.update({
   id: '/resources',
   path: '/resources',
@@ -564,6 +559,11 @@ const PracticalTasksIndexRoute = PracticalTasksIndexRouteImport.update({
   path: '/',
   getParentRoute: () => PracticalTasksRoute,
 } as any)
+const PracticalShareIndexRoute = PracticalShareIndexRouteImport.update({
+  id: '/share/',
+  path: '/share/',
+  getParentRoute: () => PracticalRoute,
+} as any)
 const LibraryKindIndexRoute = LibraryKindIndexRouteImport.update({
   id: '/library/$kind/',
   path: '/library/$kind/',
@@ -607,9 +607,9 @@ const PracticalTasksIdRoute = PracticalTasksIdRouteImport.update({
   getParentRoute: () => PracticalTasksRoute,
 } as any)
 const PracticalShareTaskIdRoute = PracticalShareTaskIdRouteImport.update({
-  id: '/$taskId',
-  path: '/$taskId',
-  getParentRoute: () => PracticalShareRoute,
+  id: '/share/$taskId',
+  path: '/share/$taskId',
+  getParentRoute: () => PracticalRoute,
 } as any)
 const LibraryKindIdRoute = LibraryKindIdRouteImport.update({
   id: '/library/$kind/$id',
@@ -762,7 +762,6 @@ export interface FileRoutesByFullPath {
   '/practical/progress': typeof PracticalProgressRoute
   '/practical/pros': typeof PracticalProsRoute
   '/practical/resources': typeof PracticalResourcesRoute
-  '/practical/share': typeof PracticalShareRouteWithChildren
   '/practical/steps': typeof PracticalStepsRoute
   '/practical/tasks': typeof PracticalTasksRouteWithChildren
   '/practical/texts': typeof PracticalTextsRoute
@@ -809,6 +808,7 @@ export interface FileRoutesByFullPath {
   '/care/journal/': typeof CareJournalIndexRoute
   '/help/corps/': typeof HelpCorpsIndexRoute
   '/library/$kind/': typeof LibraryKindIndexRoute
+  '/practical/share/': typeof PracticalShareIndexRoute
   '/practical/tasks/': typeof PracticalTasksIndexRoute
   '/resources/$category/': typeof ResourcesCategoryIndexRoute
   '/api/public/souffle-sound/$id': typeof ApiPublicSouffleSoundIdRoute
@@ -870,7 +870,6 @@ export interface FileRoutesByTo {
   '/practical/progress': typeof PracticalProgressRoute
   '/practical/pros': typeof PracticalProsRoute
   '/practical/resources': typeof PracticalResourcesRoute
-  '/practical/share': typeof PracticalShareRouteWithChildren
   '/practical/steps': typeof PracticalStepsRoute
   '/practical/texts': typeof PracticalTextsRoute
   '/practical/vault': typeof PracticalVaultRoute
@@ -913,6 +912,7 @@ export interface FileRoutesByTo {
   '/care/journal': typeof CareJournalIndexRoute
   '/help/corps': typeof HelpCorpsIndexRoute
   '/library/$kind': typeof LibraryKindIndexRoute
+  '/practical/share': typeof PracticalShareIndexRoute
   '/practical/tasks': typeof PracticalTasksIndexRoute
   '/resources/$category': typeof ResourcesCategoryIndexRoute
   '/api/public/souffle-sound/$id': typeof ApiPublicSouffleSoundIdRoute
@@ -984,7 +984,6 @@ export interface FileRoutesById {
   '/practical/progress': typeof PracticalProgressRoute
   '/practical/pros': typeof PracticalProsRoute
   '/practical/resources': typeof PracticalResourcesRoute
-  '/practical/share': typeof PracticalShareRouteWithChildren
   '/practical/steps': typeof PracticalStepsRoute
   '/practical/tasks': typeof PracticalTasksRouteWithChildren
   '/practical/texts': typeof PracticalTextsRoute
@@ -1031,6 +1030,7 @@ export interface FileRoutesById {
   '/care/journal/': typeof CareJournalIndexRoute
   '/help/corps/': typeof HelpCorpsIndexRoute
   '/library/$kind/': typeof LibraryKindIndexRoute
+  '/practical/share/': typeof PracticalShareIndexRoute
   '/practical/tasks/': typeof PracticalTasksIndexRoute
   '/resources/$category/': typeof ResourcesCategoryIndexRoute
   '/api/public/souffle-sound/$id': typeof ApiPublicSouffleSoundIdRoute
@@ -1102,7 +1102,6 @@ export interface FileRouteTypes {
     | '/practical/progress'
     | '/practical/pros'
     | '/practical/resources'
-    | '/practical/share'
     | '/practical/steps'
     | '/practical/tasks'
     | '/practical/texts'
@@ -1149,6 +1148,7 @@ export interface FileRouteTypes {
     | '/care/journal/'
     | '/help/corps/'
     | '/library/$kind/'
+    | '/practical/share/'
     | '/practical/tasks/'
     | '/resources/$category/'
     | '/api/public/souffle-sound/$id'
@@ -1210,7 +1210,6 @@ export interface FileRouteTypes {
     | '/practical/progress'
     | '/practical/pros'
     | '/practical/resources'
-    | '/practical/share'
     | '/practical/steps'
     | '/practical/texts'
     | '/practical/vault'
@@ -1253,6 +1252,7 @@ export interface FileRouteTypes {
     | '/care/journal'
     | '/help/corps'
     | '/library/$kind'
+    | '/practical/share'
     | '/practical/tasks'
     | '/resources/$category'
     | '/api/public/souffle-sound/$id'
@@ -1323,7 +1323,6 @@ export interface FileRouteTypes {
     | '/practical/progress'
     | '/practical/pros'
     | '/practical/resources'
-    | '/practical/share'
     | '/practical/steps'
     | '/practical/tasks'
     | '/practical/texts'
@@ -1370,6 +1369,7 @@ export interface FileRouteTypes {
     | '/care/journal/'
     | '/help/corps/'
     | '/library/$kind/'
+    | '/practical/share/'
     | '/practical/tasks/'
     | '/resources/$category/'
     | '/api/public/souffle-sound/$id'
@@ -1778,13 +1778,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PracticalStepsRouteImport
       parentRoute: typeof PracticalRoute
     }
-    '/practical/share': {
-      id: '/practical/share'
-      path: '/share'
-      fullPath: '/practical/share'
-      preLoaderRoute: typeof PracticalShareRouteImport
-      parentRoute: typeof PracticalRoute
-    }
     '/practical/resources': {
       id: '/practical/resources'
       path: '/resources'
@@ -2051,6 +2044,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PracticalTasksIndexRouteImport
       parentRoute: typeof PracticalTasksRoute
     }
+    '/practical/share/': {
+      id: '/practical/share/'
+      path: '/share'
+      fullPath: '/practical/share/'
+      preLoaderRoute: typeof PracticalShareIndexRouteImport
+      parentRoute: typeof PracticalRoute
+    }
     '/library/$kind/': {
       id: '/library/$kind/'
       path: '/library/$kind'
@@ -2109,10 +2109,10 @@ declare module '@tanstack/react-router' {
     }
     '/practical/share/$taskId': {
       id: '/practical/share/$taskId'
-      path: '/$taskId'
+      path: '/share/$taskId'
       fullPath: '/practical/share/$taskId'
       preLoaderRoute: typeof PracticalShareTaskIdRouteImport
-      parentRoute: typeof PracticalShareRoute
+      parentRoute: typeof PracticalRoute
     }
     '/library/$kind/$id': {
       id: '/library/$kind/$id'
@@ -2402,18 +2402,6 @@ const ParcoursRouteWithChildren = ParcoursRoute._addFileChildren(
   ParcoursRouteChildren,
 )
 
-interface PracticalShareRouteChildren {
-  PracticalShareTaskIdRoute: typeof PracticalShareTaskIdRoute
-}
-
-const PracticalShareRouteChildren: PracticalShareRouteChildren = {
-  PracticalShareTaskIdRoute: PracticalShareTaskIdRoute,
-}
-
-const PracticalShareRouteWithChildren = PracticalShareRoute._addFileChildren(
-  PracticalShareRouteChildren,
-)
-
 interface PracticalTasksIdRouteChildren {
   PracticalTasksIdTemplateRoute: typeof PracticalTasksIdTemplateRoute
   PracticalTasksIdIndexRoute: typeof PracticalTasksIdIndexRoute
@@ -2451,13 +2439,14 @@ interface PracticalRouteChildren {
   PracticalProgressRoute: typeof PracticalProgressRoute
   PracticalProsRoute: typeof PracticalProsRoute
   PracticalResourcesRoute: typeof PracticalResourcesRoute
-  PracticalShareRoute: typeof PracticalShareRouteWithChildren
   PracticalStepsRoute: typeof PracticalStepsRoute
   PracticalTasksRoute: typeof PracticalTasksRouteWithChildren
   PracticalTextsRoute: typeof PracticalTextsRoute
   PracticalVaultRoute: typeof PracticalVaultRoute
   PracticalWishesRoute: typeof PracticalWishesRoute
   PracticalIndexRoute: typeof PracticalIndexRoute
+  PracticalShareTaskIdRoute: typeof PracticalShareTaskIdRoute
+  PracticalShareIndexRoute: typeof PracticalShareIndexRoute
 }
 
 const PracticalRouteChildren: PracticalRouteChildren = {
@@ -2470,13 +2459,14 @@ const PracticalRouteChildren: PracticalRouteChildren = {
   PracticalProgressRoute: PracticalProgressRoute,
   PracticalProsRoute: PracticalProsRoute,
   PracticalResourcesRoute: PracticalResourcesRoute,
-  PracticalShareRoute: PracticalShareRouteWithChildren,
   PracticalStepsRoute: PracticalStepsRoute,
   PracticalTasksRoute: PracticalTasksRouteWithChildren,
   PracticalTextsRoute: PracticalTextsRoute,
   PracticalVaultRoute: PracticalVaultRoute,
   PracticalWishesRoute: PracticalWishesRoute,
   PracticalIndexRoute: PracticalIndexRoute,
+  PracticalShareTaskIdRoute: PracticalShareTaskIdRoute,
+  PracticalShareIndexRoute: PracticalShareIndexRoute,
 }
 
 const PracticalRouteWithChildren = PracticalRoute._addFileChildren(
