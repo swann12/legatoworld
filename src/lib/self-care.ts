@@ -11,6 +11,10 @@ export type Activity = {
   intro: string;
   steps: { text: string; seconds: number }[];
   closing: string;
+  /** Écran 054 : retour vers la page d'origine. */
+  from?: { to: string; label: string };
+  /** Écran 054 : chaque étape en deux lignes (droite / italique) + phrase douce. */
+  lines?: { a: string; b: string; sub?: string }[];
 };
 
 export const ACTIVITIES: Activity[] = [
@@ -131,6 +135,62 @@ export const ACTIVITIES: Activity[] = [
     closing: "La nuit fera ce qu'elle peut. Vous avez fait votre part.",
   },
 ];
+
+const G = (id: string, title: string, minutes: number, from: { to: string; label: string }, lines: { a: string; b: string; sub?: string }[], closing: string): Activity => ({
+  id, title, kind: "geste", minutes, intro: "", from, lines, closing,
+  steps: lines.map((l) => ({ text: `${l.a} ${l.b}`, seconds: 60 })),
+});
+const NUITS = { to: "/help/corps/nuits", label: "Dormir" };
+const MANGER = { to: "/help/corps/manger", label: "Manger" };
+const EAU = { to: "/help/corps/eau", label: "Se laver" };
+const HABILLER = { to: "/help/corps/habiller", label: "S'habiller" };
+const SOIN = { to: "/help/corps/soin", label: "Un moment de soin" };
+const WAIT = "Prenez le temps qu'il faut.";
+
+ACTIVITIES.push(
+  G("nuits", "Préparer la nuit", 8, NUITS, [
+    { a: "Posez le téléphone", b: "loin du lit.", sub: WAIT },
+    { a: "Éteignez les écrans,", b: "baissez la lumière.", sub: WAIT },
+    { a: "Allongez-vous,", b: "laissez le corps peser.", sub: WAIT },
+    { a: "Expirez plus longtemps", b: "que vous n'inspirez.", sub: "Le sommeil viendra, ou pas. Ce n'est pas un échec." },
+  ], "La nuit fera ce qu'elle peut."),
+  G("manger", "Manger un peu", 5, MANGER, [
+    { a: "Choisissez une chose", b: "qui ne demande rien.", sub: "Une soupe, un yaourt, une banane." },
+    { a: "Asseyez-vous,", b: "même deux minutes.", sub: WAIT },
+    { a: "Mangez lentement,", b: "quelques bouchées.", sub: WAIT },
+    { a: "Si vous vous arrêtez là,", b: "c'est très bien.", sub: "Le corps a reçu quelque chose." },
+  ], "Le corps a reçu quelque chose."),
+  G("eau", "Un geste d'eau", 3, EAU, [
+    { a: "Faites couler", b: "de l'eau tiède.", sub: WAIT },
+    { a: "Passez-la sur le visage", b: "et sur les mains.", sub: WAIT },
+    { a: "Séchez-vous", b: "avec une serviette douce.", sub: WAIT },
+    { a: "C'est déjà", b: "prendre soin de vous.", sub: "Une douche pourra venir plus tard." },
+  ], "C'est déjà prendre soin de vous."),
+  G("habiller", "S'habiller simplement", 5, HABILLER, [
+    { a: "Prenez le vêtement", b: "le plus confortable.", sub: WAIT },
+    { a: "Enfilez-le", b: "sans vous presser.", sub: WAIT },
+    { a: "Mettez un manteau,", b: "même sur le pyjama.", sub: WAIT },
+    { a: "Sortez cinq minutes,", b: "juste devant la porte.", sub: "Rentrez quand vous voulez." },
+  ], "Vous êtes sorti·e un moment."),
+  G("mains", "Les mains", 3, SOIN, [
+    { a: "Prenez un peu", b: "de crème dans la paume.", sub: WAIT },
+    { a: "Frottez doucement", b: "le dos des mains.", sub: WAIT },
+    { a: "Massez chaque doigt,", b: "lentement.", sub: WAIT },
+    { a: "Posez les mains", b: "sur vos genoux.", sub: "Sentez la chaleur qui reste." },
+  ], "Vos mains ont reçu un peu de soin."),
+  G("visage", "Le visage", 3, SOIN, [
+    { a: "Faites couler", b: "de l'eau tiède.", sub: WAIT },
+    { a: "Mouillez une serviette,", b: "essorez-la.", sub: WAIT },
+    { a: "Posez-la sur le visage,", b: "les yeux fermés.", sub: "Respirez sous la chaleur." },
+    { a: "Retirez-la", b: "doucement.", sub: WAIT },
+  ], "Le visage est un peu plus doux."),
+  G("epaules", "Les épaules", 4, SOIN, [
+    { a: "Montez les épaules", b: "vers les oreilles.", sub: "Gardez trois secondes." },
+    { a: "Laissez-les", b: "retomber d'un coup.", sub: WAIT },
+    { a: "Faites rouler les épaules", b: "vers l'arrière.", sub: "Cinq fois, lentement." },
+    { a: "Laissez les bras", b: "peser le long du corps.", sub: WAIT },
+  ], "Quelque chose s'est desserré."),
+);
 
 export function activityById(id: string): Activity | undefined {
   return ACTIVITIES.find((a) => a.id === id);

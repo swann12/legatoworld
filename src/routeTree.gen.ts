@@ -104,6 +104,7 @@ import { Route as ResourcesConfirmProviderIdRouteImport } from './routes/resourc
 import { Route as ResourcesCategoryProviderIdRouteImport } from './routes/resources.$category.$providerId'
 import { Route as PracticalTasksIdRouteImport } from './routes/practical.tasks.$id'
 import { Route as LibraryKindIdRouteImport } from './routes/library.$kind.$id'
+import { Route as HelpCorpsSoinRouteImport } from './routes/help.corps.soin'
 import { Route as HelpCorpsNuitsRouteImport } from './routes/help.corps.nuits'
 import { Route as HelpCorpsMangerRouteImport } from './routes/help.corps.manger'
 import { Route as HelpCorpsHabillerRouteImport } from './routes/help.corps.habiller'
@@ -112,8 +113,10 @@ import { Route as CareJournalLaterRouteImport } from './routes/care.journal.late
 import { Route as CareGardenDepotRouteImport } from './routes/care.garden.depot'
 import { Route as CareGardenZoneRouteImport } from './routes/care.garden.$zone'
 import { Route as CareCommunityReglesRouteImport } from './routes/care.community.regles'
+import { Route as HelpCorpsSoinIndexRouteImport } from './routes/help.corps.soin.index'
 import { Route as CareCommunityGroupIndexRouteImport } from './routes/care.community.$group.index'
 import { Route as HelpCorpsSoinIdRouteImport } from './routes/help.corps.soin.$id'
+import { Route as HelpCorpsSujetContenusRouteImport } from './routes/help.corps.$sujet.contenus'
 import { Route as CareCommunityGroupThreadRouteImport } from './routes/care.community.$group.$thread'
 import { Route as ApiPublicSouffleSoundIdRouteImport } from './routes/api/public/souffle-sound.$id'
 
@@ -593,6 +596,11 @@ const LibraryKindIdRoute = LibraryKindIdRouteImport.update({
   path: '/library/$kind/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const HelpCorpsSoinRoute = HelpCorpsSoinRouteImport.update({
+  id: '/soin',
+  path: '/soin',
+  getParentRoute: () => HelpCorpsRoute,
+} as any)
 const HelpCorpsNuitsRoute = HelpCorpsNuitsRouteImport.update({
   id: '/nuits',
   path: '/nuits',
@@ -633,14 +641,24 @@ const CareCommunityReglesRoute = CareCommunityReglesRouteImport.update({
   path: '/regles',
   getParentRoute: () => CareCommunityRoute,
 } as any)
+const HelpCorpsSoinIndexRoute = HelpCorpsSoinIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => HelpCorpsSoinRoute,
+} as any)
 const CareCommunityGroupIndexRoute = CareCommunityGroupIndexRouteImport.update({
   id: '/$group/',
   path: '/$group/',
   getParentRoute: () => CareCommunityRoute,
 } as any)
 const HelpCorpsSoinIdRoute = HelpCorpsSoinIdRouteImport.update({
-  id: '/soin/$id',
-  path: '/soin/$id',
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => HelpCorpsSoinRoute,
+} as any)
+const HelpCorpsSujetContenusRoute = HelpCorpsSujetContenusRouteImport.update({
+  id: '/$sujet/contenus',
+  path: '/$sujet/contenus',
   getParentRoute: () => HelpCorpsRoute,
 } as any)
 const CareCommunityGroupThreadRoute =
@@ -747,6 +765,7 @@ export interface FileRoutesByFullPath {
   '/help/corps/habiller': typeof HelpCorpsHabillerRoute
   '/help/corps/manger': typeof HelpCorpsMangerRoute
   '/help/corps/nuits': typeof HelpCorpsNuitsRoute
+  '/help/corps/soin': typeof HelpCorpsSoinRouteWithChildren
   '/library/$kind/$id': typeof LibraryKindIdRoute
   '/practical/tasks/$id': typeof PracticalTasksIdRoute
   '/resources/$category/$providerId': typeof ResourcesCategoryProviderIdRoute
@@ -760,8 +779,10 @@ export interface FileRoutesByFullPath {
   '/resources/$category/': typeof ResourcesCategoryIndexRoute
   '/api/public/souffle-sound/$id': typeof ApiPublicSouffleSoundIdRoute
   '/care/community/$group/$thread': typeof CareCommunityGroupThreadRoute
+  '/help/corps/$sujet/contenus': typeof HelpCorpsSujetContenusRoute
   '/help/corps/soin/$id': typeof HelpCorpsSoinIdRoute
   '/care/community/$group/': typeof CareCommunityGroupIndexRoute
+  '/help/corps/soin/': typeof HelpCorpsSoinIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -858,8 +879,10 @@ export interface FileRoutesByTo {
   '/resources/$category': typeof ResourcesCategoryIndexRoute
   '/api/public/souffle-sound/$id': typeof ApiPublicSouffleSoundIdRoute
   '/care/community/$group/$thread': typeof CareCommunityGroupThreadRoute
+  '/help/corps/$sujet/contenus': typeof HelpCorpsSujetContenusRoute
   '/help/corps/soin/$id': typeof HelpCorpsSoinIdRoute
   '/care/community/$group': typeof CareCommunityGroupIndexRoute
+  '/help/corps/soin': typeof HelpCorpsSoinIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -955,6 +978,7 @@ export interface FileRoutesById {
   '/help/corps/habiller': typeof HelpCorpsHabillerRoute
   '/help/corps/manger': typeof HelpCorpsMangerRoute
   '/help/corps/nuits': typeof HelpCorpsNuitsRoute
+  '/help/corps/soin': typeof HelpCorpsSoinRouteWithChildren
   '/library/$kind/$id': typeof LibraryKindIdRoute
   '/practical/tasks/$id': typeof PracticalTasksIdRoute
   '/resources/$category/$providerId': typeof ResourcesCategoryProviderIdRoute
@@ -968,8 +992,10 @@ export interface FileRoutesById {
   '/resources/$category/': typeof ResourcesCategoryIndexRoute
   '/api/public/souffle-sound/$id': typeof ApiPublicSouffleSoundIdRoute
   '/care/community/$group/$thread': typeof CareCommunityGroupThreadRoute
+  '/help/corps/$sujet/contenus': typeof HelpCorpsSujetContenusRoute
   '/help/corps/soin/$id': typeof HelpCorpsSoinIdRoute
   '/care/community/$group/': typeof CareCommunityGroupIndexRoute
+  '/help/corps/soin/': typeof HelpCorpsSoinIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -1065,6 +1091,7 @@ export interface FileRouteTypes {
     | '/help/corps/habiller'
     | '/help/corps/manger'
     | '/help/corps/nuits'
+    | '/help/corps/soin'
     | '/library/$kind/$id'
     | '/practical/tasks/$id'
     | '/resources/$category/$providerId'
@@ -1078,8 +1105,10 @@ export interface FileRouteTypes {
     | '/resources/$category/'
     | '/api/public/souffle-sound/$id'
     | '/care/community/$group/$thread'
+    | '/help/corps/$sujet/contenus'
     | '/help/corps/soin/$id'
     | '/care/community/$group/'
+    | '/help/corps/soin/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -1176,8 +1205,10 @@ export interface FileRouteTypes {
     | '/resources/$category'
     | '/api/public/souffle-sound/$id'
     | '/care/community/$group/$thread'
+    | '/help/corps/$sujet/contenus'
     | '/help/corps/soin/$id'
     | '/care/community/$group'
+    | '/help/corps/soin'
   id:
     | '__root__'
     | '/'
@@ -1272,6 +1303,7 @@ export interface FileRouteTypes {
     | '/help/corps/habiller'
     | '/help/corps/manger'
     | '/help/corps/nuits'
+    | '/help/corps/soin'
     | '/library/$kind/$id'
     | '/practical/tasks/$id'
     | '/resources/$category/$providerId'
@@ -1285,8 +1317,10 @@ export interface FileRouteTypes {
     | '/resources/$category/'
     | '/api/public/souffle-sound/$id'
     | '/care/community/$group/$thread'
+    | '/help/corps/$sujet/contenus'
     | '/help/corps/soin/$id'
     | '/care/community/$group/'
+    | '/help/corps/soin/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -2007,6 +2041,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LibraryKindIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/help/corps/soin': {
+      id: '/help/corps/soin'
+      path: '/soin'
+      fullPath: '/help/corps/soin'
+      preLoaderRoute: typeof HelpCorpsSoinRouteImport
+      parentRoute: typeof HelpCorpsRoute
+    }
     '/help/corps/nuits': {
       id: '/help/corps/nuits'
       path: '/nuits'
@@ -2063,6 +2104,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CareCommunityReglesRouteImport
       parentRoute: typeof CareCommunityRoute
     }
+    '/help/corps/soin/': {
+      id: '/help/corps/soin/'
+      path: '/'
+      fullPath: '/help/corps/soin/'
+      preLoaderRoute: typeof HelpCorpsSoinIndexRouteImport
+      parentRoute: typeof HelpCorpsSoinRoute
+    }
     '/care/community/$group/': {
       id: '/care/community/$group/'
       path: '/$group'
@@ -2072,9 +2120,16 @@ declare module '@tanstack/react-router' {
     }
     '/help/corps/soin/$id': {
       id: '/help/corps/soin/$id'
-      path: '/soin/$id'
+      path: '/$id'
       fullPath: '/help/corps/soin/$id'
       preLoaderRoute: typeof HelpCorpsSoinIdRouteImport
+      parentRoute: typeof HelpCorpsSoinRoute
+    }
+    '/help/corps/$sujet/contenus': {
+      id: '/help/corps/$sujet/contenus'
+      path: '/$sujet/contenus'
+      fullPath: '/help/corps/$sujet/contenus'
+      preLoaderRoute: typeof HelpCorpsSujetContenusRouteImport
       parentRoute: typeof HelpCorpsRoute
     }
     '/care/community/$group/$thread': {
@@ -2175,13 +2230,28 @@ const CareRouteChildren: CareRouteChildren = {
 
 const CareRouteWithChildren = CareRoute._addFileChildren(CareRouteChildren)
 
+interface HelpCorpsSoinRouteChildren {
+  HelpCorpsSoinIdRoute: typeof HelpCorpsSoinIdRoute
+  HelpCorpsSoinIndexRoute: typeof HelpCorpsSoinIndexRoute
+}
+
+const HelpCorpsSoinRouteChildren: HelpCorpsSoinRouteChildren = {
+  HelpCorpsSoinIdRoute: HelpCorpsSoinIdRoute,
+  HelpCorpsSoinIndexRoute: HelpCorpsSoinIndexRoute,
+}
+
+const HelpCorpsSoinRouteWithChildren = HelpCorpsSoinRoute._addFileChildren(
+  HelpCorpsSoinRouteChildren,
+)
+
 interface HelpCorpsRouteChildren {
   HelpCorpsEauRoute: typeof HelpCorpsEauRoute
   HelpCorpsHabillerRoute: typeof HelpCorpsHabillerRoute
   HelpCorpsMangerRoute: typeof HelpCorpsMangerRoute
   HelpCorpsNuitsRoute: typeof HelpCorpsNuitsRoute
+  HelpCorpsSoinRoute: typeof HelpCorpsSoinRouteWithChildren
   HelpCorpsIndexRoute: typeof HelpCorpsIndexRoute
-  HelpCorpsSoinIdRoute: typeof HelpCorpsSoinIdRoute
+  HelpCorpsSujetContenusRoute: typeof HelpCorpsSujetContenusRoute
 }
 
 const HelpCorpsRouteChildren: HelpCorpsRouteChildren = {
@@ -2189,8 +2259,9 @@ const HelpCorpsRouteChildren: HelpCorpsRouteChildren = {
   HelpCorpsHabillerRoute: HelpCorpsHabillerRoute,
   HelpCorpsMangerRoute: HelpCorpsMangerRoute,
   HelpCorpsNuitsRoute: HelpCorpsNuitsRoute,
+  HelpCorpsSoinRoute: HelpCorpsSoinRouteWithChildren,
   HelpCorpsIndexRoute: HelpCorpsIndexRoute,
-  HelpCorpsSoinIdRoute: HelpCorpsSoinIdRoute,
+  HelpCorpsSujetContenusRoute: HelpCorpsSujetContenusRoute,
 }
 
 const HelpCorpsRouteWithChildren = HelpCorpsRoute._addFileChildren(

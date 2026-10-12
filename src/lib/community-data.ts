@@ -41,6 +41,7 @@ export const GROUPS: Group[] = [
   { id: "solitude", label: "Solitude", hint: "Les soirs vides, les week-ends, le silence.", members: 1870 },
   { id: "travail", label: "Travail et reprise", hint: "Revenir, expliquer, tenir la journée.", members: 940 },
   { id: "dates", label: "Dates difficiles", hint: "Anniversaires, fêtes, date du décès.", members: 1120 },
+  { id: "nuits", label: "Les nuits difficiles", hint: "Pour celles et ceux qui ne dorment plus.", members: 120 },
   { id: "sommeil", label: "Sommeil", hint: "S'endormir, se réveiller la nuit, les rêves.", members: 1330 },
   { id: "famille", label: "Relations familiales", hint: "Désaccords, silences, héritage, place de chacun.", members: 860 },
   { id: "ceremonies", label: "Cérémonies et hommages", hint: "Préparer, dire, se souvenir ensemble.", members: 620 },

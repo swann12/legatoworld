@@ -11,6 +11,15 @@ export type LibItem = {
 const q = (s: string) => `https://www.google.com/search?q=${encodeURIComponent(s)}`;
 
 export const LIBRARY: LibItem[] = [
+  { id: "chagrin-sommeil", kind: "lire", type: "Article", length: "5 minutes", title: "Pourquoi le chagrin", titleEnd: "empêche de dormir.", author: "Rédaction Legato",
+    summary: "Le deuil agit sur le corps comme un stress continu. Comprendre pourquoi les nuits se dérèglent aide à moins s'en vouloir.",
+    forWho: "Toute perte d'un proche", when: "Les premières semaines", how: "D'une traite", where: q("deuil sommeil insomnie pourquoi") },
+  { id: "chagrin-appetit", kind: "lire", type: "Article", length: "4 minutes", title: "Quand le chagrin", titleEnd: "coupe l'appétit.", author: "Rédaction Legato",
+    summary: "Ne plus avoir faim est fréquent. Quelques repères pour nourrir le corps sans se forcer.",
+    forWho: "Toute perte d'un proche", when: "Les premières semaines", how: "D'une traite", where: q("deuil perte d'appétit conseils") },
+  { id: "petits-gestes", kind: "lire", type: "Article", length: "4 minutes", title: "Les petits gestes", titleEnd: "qui comptent.", author: "Rédaction Legato",
+    summary: "Se laver, s'habiller, sortir : quand tout coûte, commencer plus petit que d'habitude.",
+    forWho: "Toute perte d'un proche", when: "Les jours sans énergie", how: "D'une traite", where: q("deuil prendre soin de soi petits gestes") },
   { id: "pensee-magique", kind: "lire", type: "Livre", length: "280 pages", year: "2007", title: "L'année de la", titleEnd: "pensée magique.", author: "Joan Didion",
     summary: "Le récit de l'année qui a suivi la mort de son mari. Pour ceux qui ne se reconnaissent plus dans leurs propres pensées.",
     forWho: "La perte d'un conjoint", when: "Les premiers mois", how: "Par petits morceaux", where: q("L'année de la pensée magique Joan Didion livre") },
