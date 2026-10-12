@@ -21,3 +21,9 @@
 - [x] Vérifier les retours, les neuf états et une proposition IA réelle.
 - [ ] Éléments hors maquette : suppression définitive en attente de l’accord utilisateur.
 - [ ] Activer appels et demandes de devis : coordonnées réelles des prestataires attendues.
+
+## Étape 10 — textes, objets, livret et volontés
+- [x] Présenter les quatre listes des écrans 074–079 avant le code.
+- [ ] Reproduire les six écrans et conserver les fonctions hors maquette accessibles.
+- [ ] Vérifier les propositions IA, les choix, le livret et le questionnaire.
+- [ ] Suppression des éléments hors maquette : en attente d’accord utilisateur.
