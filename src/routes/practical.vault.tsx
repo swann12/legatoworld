@@ -1,83 +1,79 @@
-import { PageHeader } from "@/components/legato/EditorialUI";
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
-import { Shell } from "@/components/legato/Shell";
-import { useLegato } from "@/lib/legato-state";
+import { createFileRoute } from "@tanstack/react-router";
+import { useRef, useState } from "react";
+import { ChevronRight, X } from "lucide-react";
+import { StandardLayout, PageTitle, Block, PrimaryButton } from "@/components/legato/ds";
+import { useVault, VAULT_CATS, type VaultCat } from "@/lib/vault-store";
 
 export const Route = createFileRoute("/practical/vault")({
   head: () => ({
     meta: [
-      { title: "Coffre de documents — Legato" },
-      { name: "description", content: "Tous vos documents au même endroit : acte de décès, identité, succession, contrats…" },
+      { title: "Mes documents — Legato" },
+      { name: "description", content: "Vos papiers au même endroit : identité, banque, logement, assurances, volontés." },
+      { property: "og:title", content: "Mes documents — Legato" },
+      { property: "og:description", content: "Vos papiers, au même endroit." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: Vault,
 });
 
-const CATEGORIES: { id: string; label: string; hint: string }[] = [
-  { id: "id",         label: "Identité",          hint: "Pièces d'identité, livret de famille" },
-  { id: "death",      label: "Acte de décès",     hint: "Original et copies" },
-  { id: "finance",    label: "Finances",          hint: "Banques, relevés, avoirs" },
-  { id: "insurance",  label: "Assurances",        hint: "Vie, habitation, mutuelle" },
-  { id: "health",     label: "Santé",             hint: "Dossiers, CPAM, retraite" },
-  { id: "housing",    label: "Logement",          hint: "Bail, propriété, charges" },
-  { id: "succession", label: "Succession",        hint: "Notaire, héritiers" },
-  { id: "wishes",     label: "Volontés",          hint: "Directives, testaments" },
-  { id: "contracts",  label: "Contrats",          hint: "Abonnements, fournisseurs" },
-  { id: "other",      label: "Autres",            hint: "Documents libres" },
-];
-
-/* Couleurs calmes : tout reste dans les crèmes, aucune rupture de teinte. */
-
-
 function Vault() {
-  const { primaryNeed, lovedOneRelation, hydrated } = useLegato();
-  const [open, setOpen] = useState<string | null>(null);
-  const hidden = hydrated && (primaryNeed === "emotional" || lovedOneRelation === "animal");
-  if (hidden) {
-    return (
-      <Shell livingBg={false}><div className="wash-rose min-h-dvh text-dusk p-6"><Link to="/practical" className="mono-label">← Démarches</Link><h1 className="mt-10 ed-page-title">Coffre non nécessaire pour ce parcours.</h1><p className="mt-5 text-[13px] text-dusk/60">Il restera accessible si une tâche concrète en a besoin.</p></div></Shell>
-    );
-  }
+  const { docs, add, remove, missing, count } = useVault();
+  const [open, setOpen] = useState<VaultCat | null>(null);
+  const input = useRef<HTMLInputElement>(null);
+  const target = useRef<{ cat: VaultCat; name?: string } | null>(null);
+
+  const pick = (cat: VaultCat, name?: string) => { target.current = { cat, name }; input.current?.click(); };
+  const onFile = (f?: File) => {
+    if (!f || !target.current) return;
+    add(target.current.cat, target.current.name ?? f.name.replace(/\.[^.]+$/, ""));
+    target.current = null;
+    if (input.current) input.current.value = "";
+  };
+
   return (
-    <Shell livingBg={false}>
-      <div className="wash-rose min-h-dvh text-dusk pb-32">
-        <PageHeader back="/practical" title="LE COFFRE" />
-        <section className="px-6 pt-10">
-          <p className="mono-label">Coffre</p>
-          <h1 className="mt-5 ed-page-title">
-            Tout au <span className="italic" style={{ color: "var(--terracotta)" }}>même endroit</span>
-          </h1>
-          <p className="mt-5 text-[13.5px] leading-[1.6] text-dusk/60 max-w-[34ch]">
-            Glissez vos documents par catégorie. Ils restent privés, accessibles à tout moment.
-          </p>
-        </section>
+    <StandardLayout space="practical" back="/practical" backLabel="Démarches" activeTab="/practical">
+      <PageTitle space="practical" className="pt-8">Vos papiers,<br /><em>au même endroit.</em></PageTitle>
+      <input ref={input} type="file" accept="image/*,application/pdf" className="hidden" onChange={(e) => onFile(e.target.files?.[0])} />
 
-        <section className="px-5 pt-8 grid grid-cols-2 gap-3">
-          {CATEGORIES.map((c) => (
-            <button key={c.id} type="button" onClick={() => setOpen(open === c.id ? null : c.id)} className="rounded-[18px] border border-dusk/10 px-4 py-4 min-h-[124px] flex flex-col justify-between text-left transition-transform active:scale-[0.99]" style={{ background: "var(--blush)" }}>
-              <div>
-                <p className="font-serif text-[16px] leading-[1.15] text-dusk">{c.label}</p>
-                <p className="mt-1 text-[11.5px] text-dusk/60">{c.hint}</p>
-              </div>
-              <p className="mt-3 mono-label text-dusk/55">{open === c.id ? "Ajouter bientôt" : "0 fichier"}</p>
-            </button>
-          ))}
-        </section>
+      {missing && (
+        <Block space="today" className="mt-8" label="Il manque" title={missing.title}>
+          <p className="-mt-3 mb-5 text-[14px]" style={{ color: "var(--lg-sub-ink, var(--lg-deep))", opacity: 0.8 }}>{missing.why}</p>
+          <PrimaryButton space="today" onClick={() => pick(missing.cat, missing.name)}>Ajouter ce document</PrimaryButton>
+        </Block>
+      )}
 
-
-        <section className="px-5 pt-8">
-          <button
-            className="block w-full rounded-[999px] px-6 py-5 text-center transition-transform active:scale-[0.99]"
-            style={{ background: "var(--bordeaux)", color: "var(--paper)" }}
-          >
-            <span className="font-serif text-[20px]">Ajouter un document →</span>
-          </button>
-          <p className="mt-4 text-center text-[11.5px] italic text-dusk/45">
-            Le stockage chiffré sera activé bientôt. Vos données restent vôtres.
-          </p>
-        </section>
-      </div>
-    </Shell>
+      <ul className="mt-6">
+        {VAULT_CATS.map((c, i) => {
+          const on = open === c.id;
+          const list = docs.filter((d) => d.cat === c.id);
+          return (
+            <li key={c.id} style={{ borderBottom: i < VAULT_CATS.length - 1 ? "1px solid var(--sp-line)" : "none" }}>
+              <button type="button" onClick={() => setOpen(on ? null : c.id)} aria-expanded={on}
+                className="flex w-full items-center gap-4 py-5 text-left">
+                <span className="lg-row-title flex-1" style={{ fontSize: 21 }}>{c.label}</span>
+                <span className="lg-mono" style={{ color: "var(--sp-ink)" }}>{count(c.id)}</span>
+                <ChevronRight className="size-4 transition-transform" strokeWidth={1.3} style={{ transform: on ? "rotate(90deg)" : undefined }} />
+              </button>
+              {on && (
+                <div className="pb-5">
+                  {list.map((d) => (
+                    <div key={d.id} className="flex items-center justify-between py-2 text-[14.5px]">
+                      <span>{d.name}</span>
+                      <button type="button" aria-label={`Retirer ${d.name}`} onClick={() => remove(d.id)} className="grid size-9 place-items-center" style={{ color: "var(--sp-sub)" }}>
+                        <X className="size-4" strokeWidth={1.3} />
+                      </button>
+                    </div>
+                  ))}
+                  <button type="button" onClick={() => pick(c.id)} className="mt-2 text-[13.5px] underline underline-offset-4">Ajouter un document</button>
+                </div>
+              )}
+            </li>
+          );
+        })}
+      </ul>
+      <p className="mt-6 text-[12.5px]" style={{ color: "var(--sp-sub)" }}>Les documents restent sur ce téléphone.</p>
+    </StandardLayout>
   );
 }
