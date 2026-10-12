@@ -33,7 +33,6 @@ import { Route as CheckinRouteImport } from './routes/checkin'
 import { Route as CareRouteImport } from './routes/care'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AppointmentsRouteImport } from './routes/appointments'
-import { Route as AgendaRouteImport } from './routes/agenda'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ResourcesIndexRouteImport } from './routes/resources.index'
@@ -43,6 +42,7 @@ import { Route as OnboardingIndexRouteImport } from './routes/onboarding.index'
 import { Route as HelpIndexRouteImport } from './routes/help.index'
 import { Route as GardenIndexRouteImport } from './routes/garden.index'
 import { Route as CareIndexRouteImport } from './routes/care.index'
+import { Route as AgendaIndexRouteImport } from './routes/agenda.index'
 import { Route as ResourcesCategoryRouteImport } from './routes/resources.$category'
 import { Route as ProfileProchesRouteImport } from './routes/profile.proches'
 import { Route as ProfilePortraitRouteImport } from './routes/profile.portrait'
@@ -79,6 +79,7 @@ import { Route as CareEmotionsRouteImport } from './routes/care.emotions'
 import { Route as CareDatesRouteImport } from './routes/care.dates'
 import { Route as CareCommunityRouteImport } from './routes/care.community'
 import { Route as CareAideRouteImport } from './routes/care.aide'
+import { Route as AgendaNewRouteImport } from './routes/agenda.new'
 import { Route as AuthenticatedCircleRouteImport } from './routes/_authenticated/circle'
 import { Route as PracticalTasksIndexRouteImport } from './routes/practical.tasks.index'
 import { Route as HelpCorpsIndexRouteImport } from './routes/help.corps.index'
@@ -219,11 +220,6 @@ const AppointmentsRoute = AppointmentsRouteImport.update({
   path: '/appointments',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AgendaRoute = AgendaRouteImport.update({
-  id: '/agenda',
-  path: '/agenda',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
   id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
@@ -267,6 +263,11 @@ const CareIndexRoute = CareIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => CareRoute,
+} as any)
+const AgendaIndexRoute = AgendaIndexRouteImport.update({
+  id: '/agenda/',
+  path: '/agenda/',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const ResourcesCategoryRoute = ResourcesCategoryRouteImport.update({
   id: '/resources/$category',
@@ -448,6 +449,11 @@ const CareAideRoute = CareAideRouteImport.update({
   path: '/aide',
   getParentRoute: () => CareRoute,
 } as any)
+const AgendaNewRoute = AgendaNewRouteImport.update({
+  id: '/agenda/new',
+  path: '/agenda/new',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedCircleRoute = AuthenticatedCircleRouteImport.update({
   id: '/circle',
   path: '/circle',
@@ -549,7 +555,6 @@ const ApiPublicSouffleSoundIdRoute = ApiPublicSouffleSoundIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/agenda': typeof AgendaRoute
   '/appointments': typeof AppointmentsRoute
   '/auth': typeof AuthRoute
   '/care': typeof CareRouteWithChildren
@@ -575,6 +580,7 @@ export interface FileRoutesByFullPath {
   '/vitrine': typeof VitrineRoute
   '/wishes': typeof WishesRoute
   '/circle': typeof AuthenticatedCircleRoute
+  '/agenda/new': typeof AgendaNewRoute
   '/care/aide': typeof CareAideRoute
   '/care/community': typeof CareCommunityRouteWithChildren
   '/care/dates': typeof CareDatesRoute
@@ -611,6 +617,7 @@ export interface FileRoutesByFullPath {
   '/profile/portrait': typeof ProfilePortraitRoute
   '/profile/proches': typeof ProfileProchesRoute
   '/resources/$category': typeof ResourcesCategoryRouteWithChildren
+  '/agenda/': typeof AgendaIndexRoute
   '/care/': typeof CareIndexRoute
   '/garden/': typeof GardenIndexRoute
   '/help/': typeof HelpIndexRoute
@@ -639,7 +646,6 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/agenda': typeof AgendaRoute
   '/appointments': typeof AppointmentsRoute
   '/auth': typeof AuthRoute
   '/checkin': typeof CheckinRoute
@@ -660,6 +666,7 @@ export interface FileRoutesByTo {
   '/vitrine': typeof VitrineRoute
   '/wishes': typeof WishesRoute
   '/circle': typeof AuthenticatedCircleRoute
+  '/agenda/new': typeof AgendaNewRoute
   '/care/aide': typeof CareAideRoute
   '/care/dates': typeof CareDatesRoute
   '/care/emotions': typeof CareEmotionsRoute
@@ -692,6 +699,7 @@ export interface FileRoutesByTo {
   '/profile/portrait': typeof ProfilePortraitRoute
   '/profile/proches': typeof ProfileProchesRoute
   '/resources/$category': typeof ResourcesCategoryRouteWithChildren
+  '/agenda': typeof AgendaIndexRoute
   '/care': typeof CareIndexRoute
   '/garden': typeof GardenIndexRoute
   '/help': typeof HelpIndexRoute
@@ -722,7 +730,6 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
-  '/agenda': typeof AgendaRoute
   '/appointments': typeof AppointmentsRoute
   '/auth': typeof AuthRoute
   '/care': typeof CareRouteWithChildren
@@ -748,6 +755,7 @@ export interface FileRoutesById {
   '/vitrine': typeof VitrineRoute
   '/wishes': typeof WishesRoute
   '/_authenticated/circle': typeof AuthenticatedCircleRoute
+  '/agenda/new': typeof AgendaNewRoute
   '/care/aide': typeof CareAideRoute
   '/care/community': typeof CareCommunityRouteWithChildren
   '/care/dates': typeof CareDatesRoute
@@ -784,6 +792,7 @@ export interface FileRoutesById {
   '/profile/portrait': typeof ProfilePortraitRoute
   '/profile/proches': typeof ProfileProchesRoute
   '/resources/$category': typeof ResourcesCategoryRouteWithChildren
+  '/agenda/': typeof AgendaIndexRoute
   '/care/': typeof CareIndexRoute
   '/garden/': typeof GardenIndexRoute
   '/help/': typeof HelpIndexRoute
@@ -814,7 +823,6 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/agenda'
     | '/appointments'
     | '/auth'
     | '/care'
@@ -840,6 +848,7 @@ export interface FileRouteTypes {
     | '/vitrine'
     | '/wishes'
     | '/circle'
+    | '/agenda/new'
     | '/care/aide'
     | '/care/community'
     | '/care/dates'
@@ -876,6 +885,7 @@ export interface FileRouteTypes {
     | '/profile/portrait'
     | '/profile/proches'
     | '/resources/$category'
+    | '/agenda/'
     | '/care/'
     | '/garden/'
     | '/help/'
@@ -904,7 +914,6 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/agenda'
     | '/appointments'
     | '/auth'
     | '/checkin'
@@ -925,6 +934,7 @@ export interface FileRouteTypes {
     | '/vitrine'
     | '/wishes'
     | '/circle'
+    | '/agenda/new'
     | '/care/aide'
     | '/care/dates'
     | '/care/emotions'
@@ -957,6 +967,7 @@ export interface FileRouteTypes {
     | '/profile/portrait'
     | '/profile/proches'
     | '/resources/$category'
+    | '/agenda'
     | '/care'
     | '/garden'
     | '/help'
@@ -986,7 +997,6 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/_authenticated'
-    | '/agenda'
     | '/appointments'
     | '/auth'
     | '/care'
@@ -1012,6 +1022,7 @@ export interface FileRouteTypes {
     | '/vitrine'
     | '/wishes'
     | '/_authenticated/circle'
+    | '/agenda/new'
     | '/care/aide'
     | '/care/community'
     | '/care/dates'
@@ -1048,6 +1059,7 @@ export interface FileRouteTypes {
     | '/profile/portrait'
     | '/profile/proches'
     | '/resources/$category'
+    | '/agenda/'
     | '/care/'
     | '/garden/'
     | '/help/'
@@ -1078,7 +1090,6 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
-  AgendaRoute: typeof AgendaRoute
   AppointmentsRoute: typeof AppointmentsRoute
   AuthRoute: typeof AuthRoute
   CareRoute: typeof CareRouteWithChildren
@@ -1103,12 +1114,14 @@ export interface RootRouteChildren {
   StartRoute: typeof StartRoute
   VitrineRoute: typeof VitrineRoute
   WishesRoute: typeof WishesRoute
+  AgendaNewRoute: typeof AgendaNewRoute
   ComposeZoneRoute: typeof ComposeZoneRoute
   DevDesignRoute: typeof DevDesignRoute
   GardenZoneRoute: typeof GardenZoneRoute
   InviteTokenRoute: typeof InviteTokenRoute
   LibraryKindRoute: typeof LibraryKindRoute
   ResourcesCategoryRoute: typeof ResourcesCategoryRouteWithChildren
+  AgendaIndexRoute: typeof AgendaIndexRoute
   GardenIndexRoute: typeof GardenIndexRoute
   ResourcesIndexRoute: typeof ResourcesIndexRoute
   ResourcesConfirmProviderIdRoute: typeof ResourcesConfirmProviderIdRoute
@@ -1285,13 +1298,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppointmentsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/agenda': {
-      id: '/agenda'
-      path: '/agenda'
-      fullPath: '/agenda'
-      preLoaderRoute: typeof AgendaRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/_authenticated': {
       id: '/_authenticated'
       path: ''
@@ -1354,6 +1360,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/care/'
       preLoaderRoute: typeof CareIndexRouteImport
       parentRoute: typeof CareRoute
+    }
+    '/agenda/': {
+      id: '/agenda/'
+      path: '/agenda'
+      fullPath: '/agenda/'
+      preLoaderRoute: typeof AgendaIndexRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/resources/$category': {
       id: '/resources/$category'
@@ -1606,6 +1619,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/care/aide'
       preLoaderRoute: typeof CareAideRouteImport
       parentRoute: typeof CareRoute
+    }
+    '/agenda/new': {
+      id: '/agenda/new'
+      path: '/agenda/new'
+      fullPath: '/agenda/new'
+      preLoaderRoute: typeof AgendaNewRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/_authenticated/circle': {
       id: '/_authenticated/circle'
@@ -1963,7 +1983,6 @@ const ResourcesCategoryRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
-  AgendaRoute: AgendaRoute,
   AppointmentsRoute: AppointmentsRoute,
   AuthRoute: AuthRoute,
   CareRoute: CareRouteWithChildren,
@@ -1988,12 +2007,14 @@ const rootRouteChildren: RootRouteChildren = {
   StartRoute: StartRoute,
   VitrineRoute: VitrineRoute,
   WishesRoute: WishesRoute,
+  AgendaNewRoute: AgendaNewRoute,
   ComposeZoneRoute: ComposeZoneRoute,
   DevDesignRoute: DevDesignRoute,
   GardenZoneRoute: GardenZoneRoute,
   InviteTokenRoute: InviteTokenRoute,
   LibraryKindRoute: LibraryKindRoute,
   ResourcesCategoryRoute: ResourcesCategoryRouteWithChildren,
+  AgendaIndexRoute: AgendaIndexRoute,
   GardenIndexRoute: GardenIndexRoute,
   ResourcesIndexRoute: ResourcesIndexRoute,
   ResourcesConfirmProviderIdRoute: ResourcesConfirmProviderIdRoute,

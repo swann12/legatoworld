@@ -6,8 +6,8 @@ import { PageHeader, StepBar } from "./components";
 import { BottomNav } from "./BottomNav";
 
 /** Écran standard (§4.1) : en-tête 64 px + barre flottante. */
-export function StandardLayout({ space = "today", title, back, backLabel, headerLeft, children, nav = true }: {
-  space?: Space; title?: string; back?: string; backLabel?: string; headerLeft?: ReactNode; children: ReactNode; nav?: boolean;
+export function StandardLayout({ space = "today", title, back, backLabel, headerLeft, children, nav = true, activeTab }: {
+  space?: Space; title?: string; back?: string; backLabel?: string; headerLeft?: ReactNode; children: ReactNode; nav?: boolean; activeTab?: string;
 }) {
   return (
     <div className={`${spaceClass(space)} min-h-dvh`} style={{ background: "var(--sp-bg)", color: "var(--sp-ink)", fontFamily: "var(--lg-sans)" }}>
@@ -15,7 +15,7 @@ export function StandardLayout({ space = "today", title, back, backLabel, header
         <PageHeader space={space} title={title} back={back} backLabel={backLabel} left={headerLeft} />
         {children}
       </div>
-      {nav && <BottomNav night={space === "night"} />}
+      {nav && <BottomNav night={space === "night"} active={activeTab} />}
     </div>
   );
 }

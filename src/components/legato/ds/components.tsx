@@ -245,7 +245,7 @@ export function MoodBar({ space, className = "", value, onChange }: S & { value:
     <div className={`${spaceClass(space)} ${className}`} style={ink}>
       <input type="range" min={0} max={100} value={value} onChange={(e) => onChange(Number(e.target.value))}
         aria-label="Comment vous sentez-vous" className="lg-moodbar w-full" />
-      <div className="mt-2 flex justify-between text-[13px]" style={{ ...sans, ...sub }}>
+      <div className="lg-mono mt-2 flex justify-between" style={sub}>
         <span>Très dur</span><span>Plutôt bien</span>
       </div>
     </div>
