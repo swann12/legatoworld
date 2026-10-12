@@ -47,7 +47,11 @@ import { Route as SpaceSettingsRouteImport } from './routes/space.settings'
 import { Route as SpaceNewRouteImport } from './routes/space.new'
 import { Route as ResourcesCategoryRouteImport } from './routes/resources.$category'
 import { Route as ProfileProchesRouteImport } from './routes/profile.proches'
+import { Route as ProfilePrivacyRouteImport } from './routes/profile.privacy'
 import { Route as ProfilePortraitRouteImport } from './routes/profile.portrait'
+import { Route as ProfileNotificationsRouteImport } from './routes/profile.notifications'
+import { Route as ProfileHelpRouteImport } from './routes/profile.help'
+import { Route as ProfileDataRouteImport } from './routes/profile.data'
 import { Route as PracticalWishesRouteImport } from './routes/practical.wishes'
 import { Route as PracticalVaultRouteImport } from './routes/practical.vault'
 import { Route as PracticalTextsRouteImport } from './routes/practical.texts'
@@ -295,9 +299,29 @@ const ProfileProchesRoute = ProfileProchesRouteImport.update({
   path: '/proches',
   getParentRoute: () => ProfileRoute,
 } as any)
+const ProfilePrivacyRoute = ProfilePrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => ProfileRoute,
+} as any)
 const ProfilePortraitRoute = ProfilePortraitRouteImport.update({
   id: '/portrait',
   path: '/portrait',
+  getParentRoute: () => ProfileRoute,
+} as any)
+const ProfileNotificationsRoute = ProfileNotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
+  getParentRoute: () => ProfileRoute,
+} as any)
+const ProfileHelpRoute = ProfileHelpRouteImport.update({
+  id: '/help',
+  path: '/help',
+  getParentRoute: () => ProfileRoute,
+} as any)
+const ProfileDataRoute = ProfileDataRouteImport.update({
+  id: '/data',
+  path: '/data',
   getParentRoute: () => ProfileRoute,
 } as any)
 const PracticalWishesRoute = PracticalWishesRouteImport.update({
@@ -652,7 +676,11 @@ export interface FileRoutesByFullPath {
   '/practical/texts': typeof PracticalTextsRoute
   '/practical/vault': typeof PracticalVaultRoute
   '/practical/wishes': typeof PracticalWishesRoute
+  '/profile/data': typeof ProfileDataRoute
+  '/profile/help': typeof ProfileHelpRoute
+  '/profile/notifications': typeof ProfileNotificationsRoute
   '/profile/portrait': typeof ProfilePortraitRoute
+  '/profile/privacy': typeof ProfilePrivacyRoute
   '/profile/proches': typeof ProfileProchesRoute
   '/resources/$category': typeof ResourcesCategoryRouteWithChildren
   '/space/new': typeof SpaceNewRoute
@@ -740,7 +768,11 @@ export interface FileRoutesByTo {
   '/practical/texts': typeof PracticalTextsRoute
   '/practical/vault': typeof PracticalVaultRoute
   '/practical/wishes': typeof PracticalWishesRoute
+  '/profile/data': typeof ProfileDataRoute
+  '/profile/help': typeof ProfileHelpRoute
+  '/profile/notifications': typeof ProfileNotificationsRoute
   '/profile/portrait': typeof ProfilePortraitRoute
+  '/profile/privacy': typeof ProfilePrivacyRoute
   '/profile/proches': typeof ProfileProchesRoute
   '/resources/$category': typeof ResourcesCategoryRouteWithChildren
   '/space/new': typeof SpaceNewRoute
@@ -839,7 +871,11 @@ export interface FileRoutesById {
   '/practical/texts': typeof PracticalTextsRoute
   '/practical/vault': typeof PracticalVaultRoute
   '/practical/wishes': typeof PracticalWishesRoute
+  '/profile/data': typeof ProfileDataRoute
+  '/profile/help': typeof ProfileHelpRoute
+  '/profile/notifications': typeof ProfileNotificationsRoute
   '/profile/portrait': typeof ProfilePortraitRoute
+  '/profile/privacy': typeof ProfilePrivacyRoute
   '/profile/proches': typeof ProfileProchesRoute
   '/resources/$category': typeof ResourcesCategoryRouteWithChildren
   '/space/new': typeof SpaceNewRoute
@@ -938,7 +974,11 @@ export interface FileRouteTypes {
     | '/practical/texts'
     | '/practical/vault'
     | '/practical/wishes'
+    | '/profile/data'
+    | '/profile/help'
+    | '/profile/notifications'
     | '/profile/portrait'
+    | '/profile/privacy'
     | '/profile/proches'
     | '/resources/$category'
     | '/space/new'
@@ -1026,7 +1066,11 @@ export interface FileRouteTypes {
     | '/practical/texts'
     | '/practical/vault'
     | '/practical/wishes'
+    | '/profile/data'
+    | '/profile/help'
+    | '/profile/notifications'
     | '/profile/portrait'
+    | '/profile/privacy'
     | '/profile/proches'
     | '/resources/$category'
     | '/space/new'
@@ -1124,7 +1168,11 @@ export interface FileRouteTypes {
     | '/practical/texts'
     | '/practical/vault'
     | '/practical/wishes'
+    | '/profile/data'
+    | '/profile/help'
+    | '/profile/notifications'
     | '/profile/portrait'
+    | '/profile/privacy'
     | '/profile/proches'
     | '/resources/$category'
     | '/space/new'
@@ -1474,11 +1522,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProfileProchesRouteImport
       parentRoute: typeof ProfileRoute
     }
+    '/profile/privacy': {
+      id: '/profile/privacy'
+      path: '/privacy'
+      fullPath: '/profile/privacy'
+      preLoaderRoute: typeof ProfilePrivacyRouteImport
+      parentRoute: typeof ProfileRoute
+    }
     '/profile/portrait': {
       id: '/profile/portrait'
       path: '/portrait'
       fullPath: '/profile/portrait'
       preLoaderRoute: typeof ProfilePortraitRouteImport
+      parentRoute: typeof ProfileRoute
+    }
+    '/profile/notifications': {
+      id: '/profile/notifications'
+      path: '/notifications'
+      fullPath: '/profile/notifications'
+      preLoaderRoute: typeof ProfileNotificationsRouteImport
+      parentRoute: typeof ProfileRoute
+    }
+    '/profile/help': {
+      id: '/profile/help'
+      path: '/help'
+      fullPath: '/profile/help'
+      preLoaderRoute: typeof ProfileHelpRouteImport
+      parentRoute: typeof ProfileRoute
+    }
+    '/profile/data': {
+      id: '/profile/data'
+      path: '/data'
+      fullPath: '/profile/data'
+      preLoaderRoute: typeof ProfileDataRouteImport
       parentRoute: typeof ProfileRoute
     }
     '/practical/wishes': {
@@ -2075,13 +2151,21 @@ const PracticalRouteWithChildren = PracticalRoute._addFileChildren(
 )
 
 interface ProfileRouteChildren {
+  ProfileDataRoute: typeof ProfileDataRoute
+  ProfileHelpRoute: typeof ProfileHelpRoute
+  ProfileNotificationsRoute: typeof ProfileNotificationsRoute
   ProfilePortraitRoute: typeof ProfilePortraitRoute
+  ProfilePrivacyRoute: typeof ProfilePrivacyRoute
   ProfileProchesRoute: typeof ProfileProchesRoute
   ProfileIndexRoute: typeof ProfileIndexRoute
 }
 
 const ProfileRouteChildren: ProfileRouteChildren = {
+  ProfileDataRoute: ProfileDataRoute,
+  ProfileHelpRoute: ProfileHelpRoute,
+  ProfileNotificationsRoute: ProfileNotificationsRoute,
   ProfilePortraitRoute: ProfilePortraitRoute,
+  ProfilePrivacyRoute: ProfilePrivacyRoute,
   ProfileProchesRoute: ProfileProchesRoute,
   ProfileIndexRoute: ProfileIndexRoute,
 }
