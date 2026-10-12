@@ -410,7 +410,11 @@ export function LegatoProvider({ children }: { children: ReactNode }) {
     },
   ]);
   const [wishes, setWishesState] = useState<Wishes>(EMPTY_WISHES);
-  const setWishes = (w: Partial<Wishes>) => setWishesState((prev) => ({ ...prev, ...w }));
+  const setWishes = (w: Partial<Wishes>) => setWishesState((prev) => {
+    const next = { ...prev, ...w };
+    if (typeof window !== "undefined") localStorage.setItem("lg.wishes", JSON.stringify(next));
+    return next;
+  });
 
   const [feelings, setFeelings] = useState<Feeling[]>([]);
   const [practicalContext, setPracticalContextState] = useState<PracticalContext>({
@@ -500,6 +504,7 @@ export function LegatoProvider({ children }: { children: ReactNode }) {
   const setLegallyInvolved = (v: boolean | null) => { setLegallyInvolvedState(v); lsSet("lg.legallyInvolved", v); };
 
   useEffect(() => {
+    setWishesState({ ...EMPTY_WISHES, ...lsGet<Partial<Wishes>>("lg.wishes", {}) });
     setThemeState(lsGet("legato-theme", "auto" as ThemeMode));
     setSystemDark(window.matchMedia?.("(prefers-color-scheme: dark)").matches ?? false);
     setSituationState(lsGet("lg.situation", null));
