@@ -52,6 +52,7 @@ import { Route as ProfilePortraitRouteImport } from './routes/profile.portrait'
 import { Route as ProfileNotificationsRouteImport } from './routes/profile.notifications'
 import { Route as ProfileHelpRouteImport } from './routes/profile.help'
 import { Route as ProfileDataRouteImport } from './routes/profile.data'
+import { Route as PresenceAboutRouteImport } from './routes/presence.about'
 import { Route as PracticalWishesRouteImport } from './routes/practical.wishes'
 import { Route as PracticalVaultRouteImport } from './routes/practical.vault'
 import { Route as PracticalTextsRouteImport } from './routes/practical.texts'
@@ -323,6 +324,11 @@ const ProfileDataRoute = ProfileDataRouteImport.update({
   id: '/data',
   path: '/data',
   getParentRoute: () => ProfileRoute,
+} as any)
+const PresenceAboutRoute = PresenceAboutRouteImport.update({
+  id: '/presence/about',
+  path: '/presence/about',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const PracticalWishesRoute = PracticalWishesRouteImport.update({
   id: '/wishes',
@@ -675,6 +681,7 @@ export interface FileRoutesByFullPath {
   '/practical/texts': typeof PracticalTextsRoute
   '/practical/vault': typeof PracticalVaultRoute
   '/practical/wishes': typeof PracticalWishesRoute
+  '/presence/about': typeof PresenceAboutRoute
   '/profile/data': typeof ProfileDataRoute
   '/profile/help': typeof ProfileHelpRoute
   '/profile/notifications': typeof ProfileNotificationsRoute
@@ -767,6 +774,7 @@ export interface FileRoutesByTo {
   '/practical/texts': typeof PracticalTextsRoute
   '/practical/vault': typeof PracticalVaultRoute
   '/practical/wishes': typeof PracticalWishesRoute
+  '/presence/about': typeof PresenceAboutRoute
   '/profile/data': typeof ProfileDataRoute
   '/profile/help': typeof ProfileHelpRoute
   '/profile/notifications': typeof ProfileNotificationsRoute
@@ -870,6 +878,7 @@ export interface FileRoutesById {
   '/practical/texts': typeof PracticalTextsRoute
   '/practical/vault': typeof PracticalVaultRoute
   '/practical/wishes': typeof PracticalWishesRoute
+  '/presence/about': typeof PresenceAboutRoute
   '/profile/data': typeof ProfileDataRoute
   '/profile/help': typeof ProfileHelpRoute
   '/profile/notifications': typeof ProfileNotificationsRoute
@@ -973,6 +982,7 @@ export interface FileRouteTypes {
     | '/practical/texts'
     | '/practical/vault'
     | '/practical/wishes'
+    | '/presence/about'
     | '/profile/data'
     | '/profile/help'
     | '/profile/notifications'
@@ -1065,6 +1075,7 @@ export interface FileRouteTypes {
     | '/practical/texts'
     | '/practical/vault'
     | '/practical/wishes'
+    | '/presence/about'
     | '/profile/data'
     | '/profile/help'
     | '/profile/notifications'
@@ -1167,6 +1178,7 @@ export interface FileRouteTypes {
     | '/practical/texts'
     | '/practical/vault'
     | '/practical/wishes'
+    | '/presence/about'
     | '/profile/data'
     | '/profile/help'
     | '/profile/notifications'
@@ -1241,6 +1253,7 @@ export interface RootRouteChildren {
   HomeSesAffairesRoute: typeof HomeSesAffairesRoute
   InviteTokenRoute: typeof InviteTokenRoute
   LibraryKindRoute: typeof LibraryKindRoute
+  PresenceAboutRoute: typeof PresenceAboutRoute
   ResourcesCategoryRoute: typeof ResourcesCategoryRouteWithChildren
   SpaceNewRoute: typeof SpaceNewRoute
   SpaceSettingsRoute: typeof SpaceSettingsRoute
@@ -1556,6 +1569,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/profile/data'
       preLoaderRoute: typeof ProfileDataRouteImport
       parentRoute: typeof ProfileRoute
+    }
+    '/presence/about': {
+      id: '/presence/about'
+      path: '/presence/about'
+      fullPath: '/presence/about'
+      preLoaderRoute: typeof PresenceAboutRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/practical/wishes': {
       id: '/practical/wishes'
@@ -2218,6 +2238,7 @@ const rootRouteChildren: RootRouteChildren = {
   HomeSesAffairesRoute: HomeSesAffairesRoute,
   InviteTokenRoute: InviteTokenRoute,
   LibraryKindRoute: LibraryKindRoute,
+  PresenceAboutRoute: PresenceAboutRoute,
   ResourcesCategoryRoute: ResourcesCategoryRouteWithChildren,
   SpaceNewRoute: SpaceNewRoute,
   SpaceSettingsRoute: SpaceSettingsRoute,
