@@ -1,3 +1,4 @@
 - New screens use `src/components/legato/ds/` (components + StandardLayout/QuestionLayout/ExperienceLayout) with a `space` prop mapped to `.lg-space-*` CSS vars in styles.css; never hardcode colors in pages. Why: one color pair per space, themable in one place.
 - Global nav is `ds/BottomNav` (5 tabs), rendered by Shell. Why: single navigation per the design system.
 - The opening flow (/onboarding, /onboarding/practical, /onboarding/care) shares its answers through `src/lib/onboarding-flow.ts` and maps them onto legato-state at the final screen. Why: three routes, one source of truth.
+- Concrete Démarches (screens 055–062) live in `src/lib/demarches.ts` (status via legato-state taskStatus, steps via task-steps); old category ids still resolve there. Why: one list feeds Démarches, Mon avancement, detail and Confier.
