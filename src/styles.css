@@ -1078,3 +1078,8 @@
 .lg-moodbar::-webkit-slider-thumb { -webkit-appearance: none; width: 26px; height: 26px; border-radius: 50%; background: var(--lg-cream); border: 1.5px solid var(--lg-deep); }
 .lg-moodbar::-moz-range-thumb { width: 26px; height: 26px; border-radius: 50%; background: var(--lg-cream); border: 1.5px solid var(--lg-deep); }
 @media (prefers-reduced-motion: reduce) { .lg-experience * { animation: none !important; transition: none !important; } }
+
+/* Se poser : couleurs qui glissent très lentement */
+@keyframes lg-drift { 0%,100% { transform: translateY(0); } 50% { transform: translateY(25%); } }
+.lg-drift { animation: lg-drift 40s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .lg-drift { animation: none; } }
