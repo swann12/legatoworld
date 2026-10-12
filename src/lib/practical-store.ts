@@ -1,4 +1,5 @@
 import { scopedKey } from "./active-space";
+import type { CeremonyPlan } from "./ceremony-flow";
 // Lightweight localStorage helpers for the "Aides concrètes" flow.
 // No server persistence — everything stays on-device for now.
 
@@ -25,6 +26,7 @@ export type PracticalState = {
   };
   steps: Record<string, boolean>; // checked steps
   lastConfide: string;
+  ceremonyPlan?: CeremonyPlan;
 };
 
 const KEY_BASE = "legato.practical.v1";

@@ -1,59 +1,23 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { Shell } from "@/components/legato/Shell";
-import { ConfideDock } from "@/components/legato/ConfideDock";
-import { PersonalSuggestions } from "@/components/legato/PersonalSuggestions";
-import { PageHeader, IvoryCard } from "@/components/legato/EditorialUI";
+import { createFileRoute } from "@tanstack/react-router";
+import { StandardLayout, PageTitle, Lead, Row, PrimaryButton } from "@/components/legato/ds";
+import { useCeremonyPlan } from "@/lib/ceremony-flow";
+import { legatoHead } from "@/lib/legato-head";
 
 export const Route = createFileRoute("/practical/atmosphere")({
-  head: () => ({ meta: [{ title: "Atmosphère — Legato" }] }),
+  head: () => legatoHead("Les détails de la cérémonie", "Des fleurs, des textes, de la musique et un livret qui lui ressemblent."),
   component: Atmosphere,
 });
-
-const TILES = [
-  { to: "/practical/flowers", eyebrow: "Fleurs",   title: "Composer un bouquet, une couronne, une ambiance" },
-  { to: "/practical/texts",   eyebrow: "Textes",   title: "Poèmes, lectures, paroles" },
-  { to: "/practical/objects", eyebrow: "Objets",   title: "Cercueil, urne, plaque, livret, rituels" },
-];
-
 function Atmosphere() {
-  return (
-    <Shell hideNav>
-      <div className="wash-sand min-h-dvh text-dusk pb-12">
-        <PageHeader title="ATMOSPHÈRE" back="/practical" />
-
-        <section className="px-6 pt-4 pb-6">
-          <p className="mono-label">Composer une ambiance</p>
-          <h1 className="mt-4 ed-page-title">
-            Une atmosphère <span className="italic">qui lui ressemble.</span>
-          </h1>
-          <p className="mt-5 body-meta max-w-[34ch]">
-            Décrivez la personne ou l'atmosphère souhaitée. Nous vous proposerons une première sélection que vous pourrez modifier.
-          </p>
-        </section>
-
-        <section className="px-5 space-y-2.5">
-          {TILES.map((t) => (
-            <Link
-              key={t.to}
-              to={t.to}
-              className="block rounded-[18px] border border-dusk/10 bg-paper p-5 flex items-baseline justify-between hover:bg-dusk/[0.02] transition-colors"
-            >
-              <div>
-                <p className="mono-label">{t.eyebrow}</p>
-                <p className="mt-2 font-serif text-[17px] text-dusk">{t.title}</p>
-              </div>
-              <span className="text-dusk/45">→</span>
-            </Link>
-          ))}
-        </section>
-
-        <PersonalSuggestions
-          topic="ceremony"
-          eyebrow="Me laisser guider"
-          cta="Composer une première version"
-        />
-      </div>
-      <ConfideDock step="atmosphère" />
-    </Shell>
-  );
+  const { plan } = useCeremonyPlan();
+  return <StandardLayout space="practical" back="/practical/ceremony" backLabel="La cérémonie" activeTab="/practical">
+    <PageTitle space="practical" className="mt-[30px]">Les détails<br /><em>de la cérémonie.</em></PageTitle>
+    <Lead space="practical" className="mt-3">Présence peut vous faire des propositions à partir de ce que vous lui dites d'elle.</Lead>
+    <div className="mt-[14px]">
+      <Row space="practical" n={1} title={<span className="flex flex-wrap items-center gap-3">Les fleurs {plan.flowersChosen && <span className="lg-mono text-lg-coral-text">Choisies</span>}</span>} subtitle="Décrire, ou répondre à trois questions" to="/practical/flowers" />
+      <Row space="practical" n={2} title="Textes et musique" subtitle="Des propositions qui lui ressemblent" to="/practical/texts" />
+      <Row space="practical" n={3} title="Cercueil, urne, plaque" subtitle="Les options et leur prix moyen" to="/practical/objects" />
+      <Row space="practical" n={4} title="Le livret" subtitle="Sa photo et le déroulé, à imprimer" to="/practical/booklet" last />
+    </div>
+    <PrimaryButton space="practical" to="/practical/share" className="mt-[22px]">Envoyer mes choix</PrimaryButton>
+  </StandardLayout>;
 }

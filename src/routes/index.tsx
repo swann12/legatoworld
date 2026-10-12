@@ -7,6 +7,10 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "Legato — Un jardin qui éclôt" },
+      { property: "og:title", content: "Legato — Un jardin qui éclôt" },
+      { property: "og:description", content: "Une ouverture douce sur Legato. Un jardin qui fleurit lentement, comme une respiration." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
       {
         name: "description",
         content:

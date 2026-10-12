@@ -5,10 +5,13 @@ import { PageHeader } from "@/components/legato/EditorialUI";
 import { MapPin, Video, Home as HomeIcon, Sparkles } from "lucide-react";
 import { getCategory, providersByCategory, type CategoryId } from "@/lib/resources-data";
 import { z } from "zod";
+import { FuneralProviders } from "@/components/legato/FuneralProviders";
+import { legatoHead } from "@/lib/legato-head";
 
 export const Route = createFileRoute("/resources/$category/")({
   validateSearch: (s) =>
     z.object({ space: z.enum(["care", "practical"]).optional() }).parse(s),
+  head: ({ params }) => legatoHead(getCategory(params.category)?.label ?? "Annuaire", "Des professionnels pour vous accompagner, à votre rythme."),
   component: CategoryPage,
   notFoundComponent: () => (
     <Shell>
@@ -44,6 +47,8 @@ function CategoryPage() {
       </Shell>
     );
   }
+
+  if (category === "pompes") return <FuneralProviders />;
 
   const all = providersByCategory(category as CategoryId);
 

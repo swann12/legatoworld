@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { StandardLayout, PageTitle, Lead, Spec, SectionLabel, PrimaryButton } from "@/components/legato/ds";
 import { getCategory, getProvider } from "@/lib/resources-data";
 import { addAppointment } from "@/lib/appointments-store";
+import { FuneralProvider } from "@/components/legato/FuneralProviders";
 
 export const Route = createFileRoute("/resources/$category/$providerId")({
   head: () => ({
@@ -30,9 +31,9 @@ function buildSlots(): Slot[][] {
 }
 
 function Fiche() {
-  const { providerId } = Route.useParams();
+  const { providerId, category } = Route.useParams();
   const found = getProvider(providerId);
-  if (!found) throw notFound();
+  if (!found || found.category !== category) throw notFound();
   const p = found;
   const navigate = useNavigate();
   const practical = getCategory(p.category)?.space === "practical";
@@ -48,6 +49,7 @@ function Fiche() {
     });
     navigate({ to: "/resources/confirm/$providerId", params: { providerId: p.id }, search: { id } });
   };
+  if (p.category === "pompes") return <FuneralProvider provider={p} />;
   const space = practical ? "practical" : "support";
 
   return (
