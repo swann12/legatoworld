@@ -1,342 +1,118 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useMemo, useState } from "react";
-import { Shell } from "@/components/legato/Shell";
-import { PageHeader, SectionHead } from "@/components/legato/EditorialUI";
-import { EMOTIONS, useLegato, type Emotion } from "@/lib/legato-state";
-import { EMOTION_CONTENT, intensityWords, CRISIS_THRESHOLD, type EmotionPath } from "@/lib/emotion-content";
-import { loadIntensity, saveIntensity } from "@/lib/emotion-intensity";
-import {
-  MECHANISM, DURATIONS, DURATION_NOTE, MOMENTS, MOMENT_NOTE, MOMENT_PATH,
-  BODY_SIGNALS, BODY_PATH, PATH_DETAIL,
-  type Duration, type Moment, type BodySignal,
-} from "@/lib/emotion-depth";
+import { useEffect, useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
+import { supabase } from "@/integrations/supabase/client";
+import { recordEmotion } from "@/lib/emotional.functions";
+import { useLegato, type Emotion } from "@/lib/legato-state";
 import { loadCheckin, saveCheckin } from "@/lib/checkin-store";
+import { saveIntensity } from "@/lib/emotion-intensity";
+import { StandardLayout, PageTitle, Lead, MoodBar, Block, PrimaryButton, Row } from "@/components/legato/ds";
 
 export const Route = createFileRoute("/care/emotions")({
   head: () => ({
     meta: [
-      { title: "Check-in — Legato" },
-      { name: "description", content: "Nommer ce qui est là, en jauger la force, et trouver ce qui peut aider maintenant." },
-      { property: "og:title", content: "Check-in — Legato" },
-      { property: "og:description", content: "Nommer ce qui est là, et trouver ce qui peut aider maintenant." },
+      { title: "Comment allez-vous ? — Legato" },
+      { name: "description", content: "Dire comment vous allez, pour recevoir ce qui peut aider aujourd'hui." },
+      { property: "og:title", content: "Comment allez-vous ? — Legato" },
+      { property: "og:description", content: "Il n'y a pas de bonne réponse. Cela sert seulement à vous proposer ce qui peut aider." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
-  component: CareEmotions,
+  component: Emotions,
 });
 
-/* Ordre de priorité pour choisir l'émotion qui guide les propositions. */
-const PRIORITY: Emotion[] = [
-  "besoin_aide", "peur", "anxiete", "culpabilite", "sideration", "colere",
-  "solitude", "tristesse", "fatigue", "vide", "confusion", "nostalgie",
-  "soulagement", "besoin_calme",
+type Choice = Emotion | "autre";
+const CHOICES: { id: Choice; label: string }[] = [
+  { id: "tristesse", label: "Tristesse" },
+  { id: "fatigue", label: "Fatigue" },
+  { id: "colere", label: "Colère" },
+  { id: "culpabilite", label: "Culpabilité" },
+  { id: "nostalgie", label: "Nostalgie" },
+  { id: "vide", label: "Vide" },
+  { id: "autre", label: "Autre chose" },
 ];
+const label = (id: Choice) => CHOICES.find((c) => c.id === id)?.label ?? "";
 
-/* Mêmes tuiles que l'onboarding : grille de trois, aplat terracotta quand c'est choisi. */
-function Tile({ label, on, onClick }: { label: string; on: boolean; onClick: () => void }) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      aria-pressed={on}
-      className="flex min-h-[68px] w-full items-center justify-center rounded-[10px] border p-2 text-center text-[12.5px] leading-[1.2] transition-colors"
-      style={{
-        background: on ? "var(--terracotta)" : "transparent",
-        borderColor: on ? "var(--terracotta)" : "color-mix(in oklab, var(--dusk) 12%, transparent)",
-        color: on ? "var(--paper)" : "var(--dusk)",
-      }}
-    >
-      {label}
-    </button>
-  );
-}
+function Emotions() {
+  const { currentEmotions, setCurrentEmotions, hydrated } = useLegato();
+  const record = useServerFn(recordEmotion);
+  const [picked, setPicked] = useState<Choice[]>([]);
+  const [mood, setMood] = useState(30);
+  const [note, setNote] = useState("");
+  const [saved, setSaved] = useState(false);
 
-function Chip({ label, on, onClick }: { label: string; on: boolean; onClick: () => void }) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      aria-pressed={on}
-      className="rounded-full border px-4 py-2 text-[12.5px] transition-colors"
-      style={{
-        background: on ? "var(--bordeaux)" : "transparent",
-        borderColor: on ? "var(--bordeaux)" : "color-mix(in oklab, var(--dusk) 14%, transparent)",
-        color: on ? "var(--paper)" : "color-mix(in oklab, var(--dusk) 75%, transparent)",
-      }}
-    >
-      {label}
-    </button>
-  );
-}
+  useEffect(() => { if (hydrated) setPicked(currentEmotions.filter((e) => CHOICES.some((c) => c.id === e))); }, [hydrated]);
 
-type Proposal = { label: string; detail: string; to: string; minutes?: number; source: string };
+  const toggle = (id: Choice) => setPicked((p) => (p.includes(id) ? p.filter((x) => x !== id) : [...p, id]));
 
-function CareEmotions() {
-  const { currentEmotions, setCurrentEmotions } = useLegato();
-  const [intensity, setIntensity] = useState(5);
-  const [duration, setDuration] = useState<Duration | null>(null);
-  const [moment, setMoment] = useState<Moment | null>(null);
-  const [body, setBody] = useState<BodySignal[]>([]);
-  const [own, setOwn] = useState("");
-
-  useEffect(() => {
-    const v = loadIntensity();
-    if (v) setIntensity(v);
-    const c = loadCheckin();
-    setDuration(c.duration);
-    setMoment(c.moment);
-    setBody(c.body);
-    try {
-      const raw = window.localStorage.getItem("lg.otherEmotion");
-      if (raw) setOwn(JSON.parse(raw));
-    } catch { /* stockage indisponible */ }
-  }, []);
-
-  const persist = (next: Partial<{ duration: Duration | null; moment: Moment | null; body: BodySignal[] }>) => {
-    const merged = { duration, moment, body, ...next };
-    setDuration(merged.duration);
-    setMoment(merged.moment);
-    setBody(merged.body);
-    saveCheckin(merged);
-  };
-
-  const toggle = (id: Emotion) =>
-    setCurrentEmotions(
-      currentEmotions.includes(id) ? currentEmotions.filter((e) => e !== id) : [...currentEmotions, id],
-    );
-
-  const setLevel = (v: number) => { setIntensity(v); saveIntensity(v); };
-
-  const saveOwn = (v: string) => {
-    setOwn(v);
-    try {
-      if (v.trim()) window.localStorage.setItem("lg.otherEmotion", JSON.stringify(v.trim()));
-      else window.localStorage.removeItem("lg.otherEmotion");
-    } catch { /* stockage indisponible */ }
-  };
-
-  const lead = useMemo<Emotion | null>(() => {
-    for (const p of PRIORITY) if (currentEmotions.includes(p)) return p;
-    return currentEmotions[0] ?? null;
-  }, [currentEmotions]);
-
-  /* Les propositions viennent de trois sources : l'émotion, le corps, le moment.
-     Elles sont dédoublonnées et limitées à cinq pour ne jamais saturer. */
-  const proposals = useMemo<Proposal[]>(() => {
-    const seen = new Set<string>();
-    const out: Proposal[] = [];
-    const push = (p: { label: string; detail?: string; to: string; minutes?: number }, source: string) => {
-      if (seen.has(p.to)) return;
-      seen.add(p.to);
-      out.push({
-        label: p.label,
-        detail: p.detail ?? PATH_DETAIL[p.to] ?? "",
-        to: p.to,
-        minutes: p.minutes,
-        source,
-      });
-    };
-
-    for (const s of body) push(BODY_PATH[s], "Pour le corps");
-    if (moment) push(MOMENT_PATH[moment], MOMENTS.find((m) => m.id === moment)!.label);
-    if (lead) {
-      const emotionPaths: EmotionPath[] = [
-        ...EMOTION_CONTENT[lead].paths,
-        ...currentEmotions.filter((e) => e !== lead).flatMap((e) => EMOTION_CONTENT[e].paths),
-      ];
-      for (const p of emotionPaths) push({ label: p.label, detail: PATH_DETAIL[p.to] ?? p.hint, to: p.to, minutes: p.minutes }, "Pour ce que vous ressentez");
+  const save = async () => {
+    const emotions = picked.filter((p): p is Emotion => p !== "autre");
+    setCurrentEmotions(emotions);
+    const intensity = Math.round((100 - mood) / 10); // 10 = très dur
+    saveIntensity(intensity);
+    saveCheckin(loadCheckin());
+    const { data } = await supabase.auth.getSession();
+    if (data.session) {
+      record({ data: { source: "checkin", mood: emotions[0], intensity, tags: picked.map(String), note: note.trim() || undefined } }).catch(() => {});
     }
-    return out.slice(0, 5);
-  }, [lead, currentEmotions, body, moment]);
+    setSaved(true);
+    window.scrollTo(0, 0);
+  };
 
-  const heavy = intensity >= CRISIS_THRESHOLD || currentEmotions.includes("besoin_aide");
-  const precision = [currentEmotions.length > 0, true, duration !== null, moment !== null, body.length > 0].filter(Boolean).length;
+  if (saved) {
+    const names = picked.map(label).map((l, i) => (i ? l.toLowerCase() : l));
+    const said = names.length > 1 ? `${names.slice(0, -1).join(", ")} et ${names[names.length - 1]}` : names[0];
+    const day = mood < 50 ? "une journée dure" : "une journée plus douce";
+    const reason = picked.includes("fatigue") ? "Parce que la fatigue pèse sur tout le reste" : "Pour relâcher un peu ce qui pèse";
+    return (
+      <StandardLayout back="/home" backLabel="Aujourd'hui">
+        <PageTitle className="pt-8">C'est noté.<br /><em>Merci de l'avoir dit.</em></PageTitle>
+        <Lead className="mt-3">{said ? `${said} : ${day}.` : `Merci. ${day.charAt(0).toUpperCase() + day.slice(1)}.`} Voici ce qui peut aider, sans obligation.</Lead>
+        <Block className="mt-8" label="Maintenant" title="Une respiration de trois minutes" meta={reason}>
+          <PrimaryButton to="/care/respirer">Respirer</PrimaryButton>
+        </Block>
+        <div className="mt-2">
+          <Row title="Parler à quelqu'un, tout de suite" subtitle="Présence, ou une ligne d'écoute" to="/care/aide" />
+          <Row title="Revenir à Aujourd'hui" to="/home" last />
+        </div>
+      </StandardLayout>
+    );
+  }
 
   return (
-    <Shell livingBg={false}>
-      <div className="min-h-dvh bg-paper text-dusk pb-36">
-        <PageHeader back="/care" title="CHECK-IN" />
+    <StandardLayout back="/home" backLabel="Aujourd'hui">
+      <PageTitle className="pt-8">Comment allez-vous,<br /><em>vraiment ?</em></PageTitle>
+      <Lead className="mt-3">Il n'y a pas de bonne réponse. Cela sert seulement à vous proposer ce qui peut aider.</Lead>
 
-        <section className="px-6 pt-2">
-          <h1 className="ed-page-title text-[30px]">
-            Comment vous sentez-vous{" "}
-            <span className="italic" style={{ color: "var(--terracotta)" }}>aujourd'hui</span>&nbsp;?
-          </h1>
-          <p className="mt-4 max-w-[32ch] text-[13px] leading-[1.6] text-dusk/60">
-            Plus vous précisez, plus ce que Legato propose ensuite vous ressemble. Rien n'est obligatoire.
-          </p>
-        </section>
+      <p className="lg-mono mt-9" style={{ color: "var(--sp-ink)" }}>1 · Ce que vous ressentez</p>
+      <p className="mt-3" style={{ fontFamily: "var(--lg-serif)", fontSize: 21, lineHeight: 1.35 }}>
+        {CHOICES.map((c, i) => {
+          const on = picked.includes(c.id);
+          return (
+            <span key={c.id}>
+              <button type="button" onClick={() => toggle(c.id)} aria-pressed={on}
+                className={on ? "underline underline-offset-4" : ""} style={{ color: on ? "var(--sp-ink)" : "var(--sp-sub)", textDecorationThickness: 1 }}>{c.label}</button>
+              {i < CHOICES.length - 1 && <span style={{ color: "var(--sp-sub)" }}>, </span>}
+            </span>
+          );
+        })}
+      </p>
 
-        {/* 01 — Nommer */}
-        <section className="px-5 pt-9">
-          <SectionHead
-            label="01 · Ce que vous ressentez"
-            meta={currentEmotions.length ? `${currentEmotions.length} choisi${currentEmotions.length > 1 ? "s" : ""}` : "plusieurs possibles"}
-          />
-          <div className="mt-4 grid grid-cols-3 gap-2">
-            {EMOTIONS.map((e) => (
-              <Tile key={e.id} label={e.label} on={currentEmotions.includes(e.id)} onClick={() => toggle(e.id)} />
-            ))}
-          </div>
-          <input
-            value={own}
-            onChange={(ev) => saveOwn(ev.target.value)}
-            placeholder="Ou nommez-le avec vos mots"
-            className="mt-2.5 h-[46px] w-full rounded-[10px] border bg-transparent px-4 text-[13px] outline-none"
-            style={{ borderColor: "color-mix(in oklab, var(--dusk) 12%, transparent)" }}
-          />
-        </section>
+      <p className="lg-mono mt-9 mb-4" style={{ color: "var(--sp-ink)" }}>2 · Aujourd'hui, c'est plutôt</p>
+      <MoodBar value={mood} onChange={setMood} />
 
-        {/* 02 — Jauger */}
-        {currentEmotions.length > 0 && (
-          <section className="px-5 pt-10">
-            <SectionHead label="02 · À quel point" meta={`${intensity} / 10`} />
-            <div className="craft mt-4 px-5 pt-6 pb-5">
-              <div className="flex items-baseline justify-between">
-                <p className="font-serif text-[46px] leading-none tabular-nums">{intensity}</p>
-                <p className="font-serif text-[17px] italic text-dusk/70">{intensityWords(intensity)}</p>
-              </div>
-              <div className="mt-6 flex items-end gap-[3px]">
-                {Array.from({ length: 10 }, (_, i) => i + 1).map((n) => {
-                  const on = n <= intensity;
-                  return (
-                    <button
-                      key={n}
-                      type="button"
-                      onClick={() => setLevel(n)}
-                      aria-label={`Intensité ${n} sur 10`}
-                      className="flex-1 rounded-t-[2px] transition-all"
-                      style={{
-                        height: 16 + n * 3,
-                        background: on ? "var(--terracotta)" : "color-mix(in oklab, var(--dusk) 12%, transparent)",
-                        opacity: on ? 0.4 + (n / 10) * 0.6 : 1,
-                      }}
-                    />
-                  );
-                })}
-              </div>
-              <div className="mt-2 flex justify-between text-[10.5px] tracking-[0.12em] text-dusk/40">
-                <span>À PEINE</span>
-                <span>ÇA DÉBORDE</span>
-              </div>
-            </div>
-          </section>
-        )}
+      <label className="mt-9 block">
+        <span className="lg-mono" style={{ color: "var(--sp-ink)" }}>3 · Un mot de plus, si vous voulez</span>
+        <input value={note} onChange={(e) => setNote(e.target.value)} placeholder="Ce matin…" maxLength={500}
+          className="mt-3 w-full bg-transparent pb-3 italic outline-none placeholder:opacity-50"
+          style={{ fontFamily: "var(--lg-serif)", fontSize: 21, color: "var(--sp-ink)", borderBottom: "1px solid var(--sp-line-2)" }} />
+      </label>
 
-        {/* 03 — Depuis quand */}
-        {currentEmotions.length > 0 && (
-          <section className="px-5 pt-10">
-            <SectionHead label="03 · Depuis quand" />
-            <div className="mt-4 flex flex-wrap gap-2">
-              {DURATIONS.map((d) => (
-                <Chip key={d.id} label={d.label} on={duration === d.id} onClick={() => persist({ duration: duration === d.id ? null : d.id })} />
-              ))}
-            </div>
-            {duration && (
-              <p className="mt-4 px-1 text-[13px] leading-[1.6] text-dusk/65">{DURATION_NOTE[duration]}</p>
-            )}
-          </section>
-        )}
-
-        {/* 04 — Quand c'est le plus fort */}
-        {currentEmotions.length > 0 && (
-          <section className="px-5 pt-10">
-            <SectionHead label="04 · Quand c'est le plus fort" />
-            <div className="mt-4 flex flex-wrap gap-2">
-              {MOMENTS.map((m) => (
-                <Chip key={m.id} label={m.label} on={moment === m.id} onClick={() => persist({ moment: moment === m.id ? null : m.id })} />
-              ))}
-            </div>
-            {moment && (
-              <p className="mt-4 px-1 text-[13px] leading-[1.6] text-dusk/65">{MOMENT_NOTE[moment]}</p>
-            )}
-          </section>
-        )}
-
-        {/* 05 — Le corps */}
-        {currentEmotions.length > 0 && (
-          <section className="px-5 pt-10">
-            <SectionHead label="05 · Ce que ça fait au corps" meta={body.length ? `${body.length}` : "facultatif"} />
-            <div className="mt-4 grid grid-cols-2 gap-2">
-              {BODY_SIGNALS.map((s) => (
-                <Tile
-                  key={s.id}
-                  label={s.label}
-                  on={body.includes(s.id)}
-                  onClick={() => persist({ body: body.includes(s.id) ? body.filter((b) => b !== s.id) : [...body, s.id] })}
-                />
-              ))}
-            </div>
-          </section>
-        )}
-
-        {/* Ce qui se passe */}
-        {lead && (
-          <section className="px-5 pt-12">
-            <SectionHead label="Ce qui se passe" meta={EMOTIONS.find((e) => e.id === lead)?.label} />
-            <div className="tint-sand mt-4 rounded-[18px] px-6 py-6">
-              <p className="font-serif text-[19px] leading-[1.35]">{EMOTION_CONTENT[lead].note}</p>
-              <p className="mt-4 text-[13.5px] leading-[1.65] text-dusk/75">{MECHANISM[lead]}</p>
-            </div>
-          </section>
-        )}
-
-        {/* Ce qui peut aider */}
-        {lead && (
-          <section className="px-5 pt-10">
-            <SectionHead
-              label="Ce qui peut aider maintenant"
-              meta={precision >= 4 ? "adapté à vos réponses" : "précisez pour affiner"}
-            />
-            <ul className="mt-4">
-              {proposals.map((p, i) => (
-                <li
-                  key={p.to}
-                  className="border-b border-dashed last:border-0"
-                  style={{ borderColor: "color-mix(in oklab, var(--dusk) 16%, transparent)" }}
-                >
-                  <Link to={p.to as "/care"} className="block py-5 transition-opacity active:opacity-70">
-                    <div className="flex items-baseline justify-between gap-4">
-                      <p className="mono-label">{p.source}</p>
-                      <span className="text-[10.5px] tabular-nums tracking-[0.12em] text-dusk/30">
-                        {String(i + 1).padStart(2, "0")}
-                      </span>
-                    </div>
-                    <p className="mt-2 font-serif text-[19px] leading-[1.2]">{p.label}</p>
-                    <p className="mt-1.5 max-w-[38ch] text-[13px] leading-[1.6] text-dusk/65">{p.detail}</p>
-                    {p.minutes && (
-                      <p className="mt-2 text-[11.5px] tracking-[0.1em] text-dusk/40">{p.minutes} MIN</p>
-                    )}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-
-            {heavy && (
-              <Link
-                to="/crisis"
-                className="mt-6 block rounded-[18px] px-5 py-4"
-                style={{ background: "var(--terracotta)", color: "var(--paper)" }}
-              >
-                <p className="mono-label" style={{ color: "color-mix(in oklab, var(--paper) 75%, transparent)" }}>
-                  Si c'est trop
-                </p>
-                <p className="mt-1 font-serif text-[19px] leading-[1.15]">Parler à quelqu'un, tout de suite →</p>
-              </Link>
-            )}
-          </section>
-        )}
-
-        {/* Sortie */}
-        <section className="px-5 pt-12">
-          <Link to="/care" className="craft flex items-center justify-between px-5 py-4">
-            <span className="font-serif text-[17px]">C'est noté, revenir au Soutien</span>
-            <span aria-hidden className="text-dusk/35">→</span>
-          </Link>
-          <p className="mt-4 px-1 text-center text-[12px] italic text-dusk/45">
-            Rien n'est comparé, rien n'est partagé. C'est pour vous.
-          </p>
-        </section>
+      <div className="mt-8">
+        <PrimaryButton onClick={save} disabled={picked.length === 0}>Enregistrer</PrimaryButton>
       </div>
-    </Shell>
+      <p className="sr-only"><Link to="/crisis">Besoin d'aide</Link></p>
+    </StandardLayout>
   );
 }
