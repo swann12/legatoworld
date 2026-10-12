@@ -7,7 +7,7 @@ import { talkToPresence } from "@/lib/presence.functions";
 import { usePortrait, portraitSentence } from "@/lib/portrait-store";
 import { PageHeader, LinearProgress } from "@/components/legato/EditorialUI";
 
-export const Route = createFileRoute("/presence")({
+export const Route = createFileRoute("/presence/")({
   head: () => ({ meta: [{ title: "Présence — Legato" }] }),
   component: Presence,
 });

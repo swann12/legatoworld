@@ -14,7 +14,6 @@ import { Route as VitrineRouteImport } from './routes/vitrine'
 import { Route as StartRouteImport } from './routes/start'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as PresentationRouteImport } from './routes/presentation'
-import { Route as PresenceRouteImport } from './routes/presence'
 import { Route as PracticalRouteImport } from './routes/practical'
 import { Route as ParcoursRouteImport } from './routes/parcours'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
@@ -36,6 +35,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as SpaceIndexRouteImport } from './routes/space.index'
 import { Route as ResourcesIndexRouteImport } from './routes/resources.index'
 import { Route as ProfileIndexRouteImport } from './routes/profile.index'
+import { Route as PresenceIndexRouteImport } from './routes/presence.index'
 import { Route as PracticalIndexRouteImport } from './routes/practical.index'
 import { Route as OnboardingIndexRouteImport } from './routes/onboarding.index'
 import { Route as HomeIndexRouteImport } from './routes/home.index'
@@ -133,11 +133,6 @@ const ProfileRoute = ProfileRouteImport.update({
 const PresentationRoute = PresentationRouteImport.update({
   id: '/presentation',
   path: '/presentation',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PresenceRoute = PresenceRouteImport.update({
-  id: '/presence',
-  path: '/presence',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PracticalRoute = PracticalRouteImport.update({
@@ -243,6 +238,11 @@ const ProfileIndexRoute = ProfileIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => ProfileRoute,
+} as any)
+const PresenceIndexRoute = PresenceIndexRouteImport.update({
+  id: '/presence/',
+  path: '/presence/',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const PracticalIndexRoute = PracticalIndexRouteImport.update({
   id: '/',
@@ -631,7 +631,6 @@ export interface FileRoutesByFullPath {
   '/onboarding': typeof OnboardingRouteWithChildren
   '/parcours': typeof ParcoursRouteWithChildren
   '/practical': typeof PracticalRouteWithChildren
-  '/presence': typeof PresenceRoute
   '/presentation': typeof PresentationRoute
   '/profile': typeof ProfileRouteWithChildren
   '/start': typeof StartRoute
@@ -692,6 +691,7 @@ export interface FileRoutesByFullPath {
   '/home/': typeof HomeIndexRoute
   '/onboarding/': typeof OnboardingIndexRoute
   '/practical/': typeof PracticalIndexRoute
+  '/presence/': typeof PresenceIndexRoute
   '/profile/': typeof ProfileIndexRoute
   '/resources/': typeof ResourcesIndexRoute
   '/space/': typeof SpaceIndexRoute
@@ -728,7 +728,6 @@ export interface FileRoutesByTo {
   '/memory': typeof MemoryRoute
   '/no-words': typeof NoWordsRoute
   '/parcours': typeof ParcoursRouteWithChildren
-  '/presence': typeof PresenceRoute
   '/presentation': typeof PresentationRoute
   '/start': typeof StartRoute
   '/vitrine': typeof VitrineRoute
@@ -784,6 +783,7 @@ export interface FileRoutesByTo {
   '/home': typeof HomeIndexRoute
   '/onboarding': typeof OnboardingIndexRoute
   '/practical': typeof PracticalIndexRoute
+  '/presence': typeof PresenceIndexRoute
   '/profile': typeof ProfileIndexRoute
   '/resources': typeof ResourcesIndexRoute
   '/space': typeof SpaceIndexRoute
@@ -826,7 +826,6 @@ export interface FileRoutesById {
   '/onboarding': typeof OnboardingRouteWithChildren
   '/parcours': typeof ParcoursRouteWithChildren
   '/practical': typeof PracticalRouteWithChildren
-  '/presence': typeof PresenceRoute
   '/presentation': typeof PresentationRoute
   '/profile': typeof ProfileRouteWithChildren
   '/start': typeof StartRoute
@@ -887,6 +886,7 @@ export interface FileRoutesById {
   '/home/': typeof HomeIndexRoute
   '/onboarding/': typeof OnboardingIndexRoute
   '/practical/': typeof PracticalIndexRoute
+  '/presence/': typeof PresenceIndexRoute
   '/profile/': typeof ProfileIndexRoute
   '/resources/': typeof ResourcesIndexRoute
   '/space/': typeof SpaceIndexRoute
@@ -929,7 +929,6 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/parcours'
     | '/practical'
-    | '/presence'
     | '/presentation'
     | '/profile'
     | '/start'
@@ -990,6 +989,7 @@ export interface FileRouteTypes {
     | '/home/'
     | '/onboarding/'
     | '/practical/'
+    | '/presence/'
     | '/profile/'
     | '/resources/'
     | '/space/'
@@ -1026,7 +1026,6 @@ export interface FileRouteTypes {
     | '/memory'
     | '/no-words'
     | '/parcours'
-    | '/presence'
     | '/presentation'
     | '/start'
     | '/vitrine'
@@ -1082,6 +1081,7 @@ export interface FileRouteTypes {
     | '/home'
     | '/onboarding'
     | '/practical'
+    | '/presence'
     | '/profile'
     | '/resources'
     | '/space'
@@ -1123,7 +1123,6 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/parcours'
     | '/practical'
-    | '/presence'
     | '/presentation'
     | '/profile'
     | '/start'
@@ -1184,6 +1183,7 @@ export interface FileRouteTypes {
     | '/home/'
     | '/onboarding/'
     | '/practical/'
+    | '/presence/'
     | '/profile/'
     | '/resources/'
     | '/space/'
@@ -1226,7 +1226,6 @@ export interface RootRouteChildren {
   OnboardingRoute: typeof OnboardingRouteWithChildren
   ParcoursRoute: typeof ParcoursRouteWithChildren
   PracticalRoute: typeof PracticalRouteWithChildren
-  PresenceRoute: typeof PresenceRoute
   PresentationRoute: typeof PresentationRoute
   ProfileRoute: typeof ProfileRouteWithChildren
   StartRoute: typeof StartRoute
@@ -1248,6 +1247,7 @@ export interface RootRouteChildren {
   AgendaIndexRoute: typeof AgendaIndexRoute
   GardenIndexRoute: typeof GardenIndexRoute
   HomeIndexRoute: typeof HomeIndexRoute
+  PresenceIndexRoute: typeof PresenceIndexRoute
   ResourcesIndexRoute: typeof ResourcesIndexRoute
   SpaceIndexRoute: typeof SpaceIndexRoute
   ResourcesConfirmProviderIdRoute: typeof ResourcesConfirmProviderIdRoute
@@ -1289,13 +1289,6 @@ declare module '@tanstack/react-router' {
       path: '/presentation'
       fullPath: '/presentation'
       preLoaderRoute: typeof PresentationRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/presence': {
-      id: '/presence'
-      path: '/presence'
-      fullPath: '/presence'
-      preLoaderRoute: typeof PresenceRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/practical': {
@@ -1444,6 +1437,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/profile/'
       preLoaderRoute: typeof ProfileIndexRouteImport
       parentRoute: typeof ProfileRoute
+    }
+    '/presence/': {
+      id: '/presence/'
+      path: '/presence'
+      fullPath: '/presence/'
+      preLoaderRoute: typeof PresenceIndexRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/practical/': {
       id: '/practical/'
@@ -2203,7 +2203,6 @@ const rootRouteChildren: RootRouteChildren = {
   OnboardingRoute: OnboardingRouteWithChildren,
   ParcoursRoute: ParcoursRouteWithChildren,
   PracticalRoute: PracticalRouteWithChildren,
-  PresenceRoute: PresenceRoute,
   PresentationRoute: PresentationRoute,
   ProfileRoute: ProfileRouteWithChildren,
   StartRoute: StartRoute,
@@ -2225,6 +2224,7 @@ const rootRouteChildren: RootRouteChildren = {
   AgendaIndexRoute: AgendaIndexRoute,
   GardenIndexRoute: GardenIndexRoute,
   HomeIndexRoute: HomeIndexRoute,
+  PresenceIndexRoute: PresenceIndexRoute,
   ResourcesIndexRoute: ResourcesIndexRoute,
   SpaceIndexRoute: SpaceIndexRoute,
   ResourcesConfirmProviderIdRoute: ResourcesConfirmProviderIdRoute,
