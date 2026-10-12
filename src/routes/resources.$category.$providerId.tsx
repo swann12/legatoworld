@@ -1,8 +1,7 @@
 import { createFileRoute, notFound, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { StandardLayout, PageTitle, Lead, Spec, SectionLabel, PrimaryButton } from "@/components/legato/ds";
-import { getCategory, getProvider, PROVIDERS } from "@/lib/resources-data";
-const PROVIDERS_LEN = PROVIDERS.length;
+import { getCategory, getProvider } from "@/lib/resources-data";
 import { addAppointment } from "@/lib/appointments-store";
 
 export const Route = createFileRoute("/resources/$category/$providerId")({
@@ -33,7 +32,7 @@ function buildSlots(): Slot[][] {
 function Fiche() {
   const { providerId } = Route.useParams();
   const found = getProvider(providerId);
-  if (!found) return <p className="p-10">DEBUG {providerId} {String(PROVIDERS_LEN)}</p>;
+  if (!found) throw notFound();
   const p = found;
   const navigate = useNavigate();
   const practical = getCategory(p.category)?.space === "practical";
