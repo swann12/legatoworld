@@ -1,9 +1,10 @@
-import { createFileRoute, Outlet, useMatchRoute } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
+import { ChevronRight } from "lucide-react";
 import { useEffect, useState } from "react";
-import { StandardLayout, PageTitle, Lead, Row } from "@/components/legato/ds";
+import { StandardLayout, PageTitle, Lead } from "@/components/legato/ds";
 import { loadPractical } from "@/lib/practical-store";
 
-export const Route = createFileRoute("/practical/share")({
+export const Route = createFileRoute("/practical/share/")({
   head: () => ({
     meta: [
       { title: "Envoyer vos choix — Legato" },
@@ -14,7 +15,7 @@ export const Route = createFileRoute("/practical/share")({
       { name: "twitter:card", content: "summary" },
     ],
   }),
-  component: ShareLayout,
+  component: Share,
 });
 
 const KEY = "legato.share.sent.v1";
@@ -36,14 +37,8 @@ function buildMail(who: string, intro: string) {
     s.selectedMusic.length > 0 && `• Musique : ${s.selectedMusic.join(", ")}`,
     s.budget && `• Budget indicatif : ${s.budget}`,
     "", "Merci,",
-  ].filter((l) => l !== false && l !== "" || l === "").join("\n");
+  ].filter((l): l is string => typeof l === "string").join("\n");
   return `mailto:?subject=${encodeURIComponent(`Cérémonie — ${who}`)}&body=${encodeURIComponent(lines)}`;
-}
-
-function ShareLayout() {
-  const match = useMatchRoute();
-  if (match({ to: "/practical/share/$taskId" })) return <Outlet />;
-  return <Share />;
 }
 
 function Share() {
@@ -61,17 +56,13 @@ function Share() {
         {RELAY.map((r, i) => {
           const done = sent.includes(r.id);
           const last = i === RELAY.length - 1;
-          return done ? (
-            <a key={r.id} href={buildMail(r.who, r.intro)} className="flex items-center gap-4 py-[18px]" style={{ borderBottom: last ? "none" : "1px solid var(--sp-line)" }}>
+          return (
+            <a key={r.id} href={buildMail(r.who, r.intro)} onClick={() => mark(r.id)} className="flex items-center gap-4 py-[18px]" style={{ borderBottom: last ? "none" : "1px solid var(--sp-line)" }}>
               <span className="flex-1">
                 <span className="lg-row-title block">{r.who}</span>
                 <span className="lg-row-sub mt-1 block" style={{ color: "var(--sp-sub)" }}>{r.sub}</span>
               </span>
-              <span className="lg-mono" style={{ color: "var(--sp-accent)" }}>Envoyé</span>
-            </a>
-          ) : (
-            <a key={r.id} href={buildMail(r.who, r.intro)} onClick={() => mark(r.id)} className="block">
-              <Row space="practical" title={r.who} subtitle={r.sub} last={last} onClick={() => undefined} />
+              {done ? <span className="lg-mono" style={{ color: "var(--sp-accent)" }}>Envoyé</span> : <ChevronRight className="size-4" strokeWidth={1.3} />}
             </a>
           );
         })}
