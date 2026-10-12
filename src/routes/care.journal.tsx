@@ -1,185 +1,122 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
-import { Shell } from "@/components/legato/Shell";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import { useLegato } from "@/lib/legato-state";
-import { useLovedName } from "@/lib/loved-name";
+import { useDictation } from "@/lib/use-dictation";
+import { StandardLayout, PageTitle, Lead, Row, PrimaryButton, TextLink } from "@/components/legato/ds";
+
+type Mode = "journal" | "lettre" | "plus-tard";
+type Search = { ecrire?: Mode; amorce?: string };
 
 export const Route = createFileRoute("/care/journal")({
+  validateSearch: (s: Record<string, unknown>): Search => ({
+    ecrire: s.ecrire === "journal" || s.ecrire === "lettre" || s.ecrire === "plus-tard" ? s.ecrire : undefined,
+    amorce: typeof s.amorce === "string" ? s.amorce.slice(0, 80) : undefined,
+  }),
   head: () => ({
     meta: [
-      { title: "Mon journal intime — Legato" },
-      { name: "description", content: "Un carnet privé : écrire ce qui vient, sans relire, et garder chaque page." },
-      { property: "og:title", content: "Mon journal intime — Legato" },
-      { property: "og:description", content: "Écrire ce qui vient, sans relire. Vos pages restent avec vous." },
+      { title: "Écrire — Mon journal intime · Legato" },
+      { name: "description", content: "Écrire, sans relire : un journal et des lettres que personne ne lit." },
+      { property: "og:title", content: "Écrire — Legato" },
+      { property: "og:description", content: "Personne ne lit ce que vous écrivez ici." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
-  component: CareJournal,
+  component: Journal,
 });
 
-const AMORCES = [
-  "Aujourd'hui, ce qui pèse c'est…",
-  "Je voudrais te dire que…",
-  "Ce dont je me souviens…",
-  "Ce qui m'a aidé·e…",
-];
-
-function jourLong(iso: string) {
-  try {
-    return new Date(iso).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" });
-  } catch {
-    return "";
-  }
+function lastLabel(iso?: string) {
+  if (!iso) return "aucune page encore";
+  const d = new Date(iso);
+  const days = Math.floor((new Date().setHours(0, 0, 0, 0) - new Date(d).setHours(0, 0, 0, 0)) / 86400000);
+  const soir = d.getHours() >= 18 ? " soir" : "";
+  if (days <= 0) return `la dernière ${soir ? "ce soir" : "aujourd'hui"}`;
+  if (days === 1) return `la dernière hier${soir}`;
+  return `la dernière il y a ${days} jours`;
 }
 
-function CareJournal() {
-  const { journal, addJournalEntry } = useLegato();
-  const lovedName = useLovedName();
-  const [body, setBody] = useState("");
-  const [to, setTo] = useState<"them" | "self" | "free">("free");
-  const [showPrompts, setShowPrompts] = useState(false);
-  const [justSaved, setJustSaved] = useState(false);
+function Journal() {
+  const { ecrire, amorce } = Route.useSearch();
+  const { journal, lovedOneName, lovedOneRelation } = useLegato();
+  if (ecrire) return <Page key={ecrire + (amorce ?? "")} mode={ecrire} amorce={amorce} />;
 
-  const today = useMemo(() => jourLong(new Date().toISOString()), []);
+  const pages = journal.length;
+  const them = lovedOneName?.trim() || (lovedOneRelation === "conjoint" ? "mon amour" : "mon proche");
+
+  return (
+    <StandardLayout space="support" back="/care" backLabel="Soutien" activeTab="/care">
+      <PageTitle space="support" className="mt-12">Écrire,<br /><em>sans relire.</em></PageTitle>
+      <Lead space="support" className="mt-4">Personne ne lit ce que vous écrivez ici. Aucune phrase n'a besoin d'être juste.</Lead>
+      <div className="mt-6">
+        <Row space="support" title="Mon journal" subtitle={`${pages} page${pages > 1 ? "s" : ""} · ${lastLabel(journal[0]?.date)}`} to="/care/journal?ecrire=journal" />
+        <Row space="support" title={`Une lettre à ${them}`} subtitle="Dire ce qui n'a pas été dit" to="/care/journal?ecrire=lettre" />
+        <Row space="support" title="Une lettre pour plus tard" subtitle="Elle s'ouvrira à la date choisie" to="/care/journal?ecrire=plus-tard" last />
+      </div>
+      <section className="mt-10 px-6 pb-2 pt-6" style={{ background: "var(--sp-block)" }}>
+        <p className="lg-section">Si les mots ne viennent pas —</p>
+        {["Ce matin, je…", "Ce qui me manque le plus…"].map((a, i) => (
+          <a key={a} href={`/care/journal?ecrire=journal&amorce=${encodeURIComponent(a)}`}
+            onClick={(e) => { e.preventDefault(); window.history.pushState(null, "", `/care/journal?ecrire=journal&amorce=${encodeURIComponent(a)}`); window.dispatchEvent(new PopStateEvent("popstate")); }}
+            className="block py-4 italic" style={{ fontFamily: "var(--lg-serif)", fontSize: 22, borderBottom: i === 0 ? "1px solid var(--sp-line)" : "none" }}>
+            {a}
+          </a>
+        ))}
+      </section>
+    </StandardLayout>
+  );
+}
+
+function Page({ mode, amorce }: { mode: Mode; amorce?: string }) {
+  const navigate = useNavigate();
+  const { journal, addJournalEntry } = useLegato();
+  const [body, setBody] = useState(amorce ? amorce.replace(/…$/, " ") : "");
+  const [openOn, setOpenOn] = useState("");
+  const [stamp, setStamp] = useState("");
+  const [saved, setSaved] = useState(false);
+  const [base, setBase] = useState(body);
+  const { listening, toggle } = useDictation((t) => setBody((base ? base.trimEnd() + " " : "") + t));
+
+  useEffect(() => {
+    const d = new Date();
+    const day = d.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" });
+    setStamp(`${day} · ${d.getHours()} h`);
+  }, []);
 
   const save = () => {
     if (!body.trim()) return;
-    addJournalEntry({ body: body.trim(), to });
-    setBody("");
-    setShowPrompts(false);
-    setJustSaved(true);
-    window.setTimeout(() => setJustSaved(false), 2600);
+    addJournalEntry({
+      body: body.trim(),
+      to: mode === "journal" ? "self" : "them",
+      title: mode === "plus-tard" && openOn ? `À ouvrir le ${new Date(openOn).toLocaleDateString("fr-FR")}` : mode === "lettre" ? "Lettre" : undefined,
+    });
+    setSaved(true);
+    setTimeout(() => navigate({ to: "/care/journal", search: {} }), 900);
   };
 
-  const dest: { id: "free" | "them" | "self"; label: string }[] = [
-    { id: "free", label: "Pour moi seul·e" },
-    { id: "them", label: lovedName ? `À ${lovedName}` : "À iel" },
-    { id: "self", label: "À moi, plus tard" },
-  ];
+  const dictate = () => { if (!listening) setBase(body); toggle(); };
 
   return (
-    <Shell livingBg={false}>
-      <div className="min-h-dvh bg-paper text-dusk pb-36">
-        <header className="px-6 pt-7">
-          <Link to="/care" aria-label="Retour" className="text-[15px] leading-none text-dusk/45">←</Link>
-        </header>
-
-        <section className="px-6 pt-8">
-          <p className="mono-label">Mon journal intime</p>
-          <h1 className="mt-4 font-serif text-[30px] leading-[1.08]">
-            Écrire, <span className="italic" style={{ color: "var(--terracotta)" }}>sans relire</span>.
-          </h1>
-          <p className="mt-3 max-w-[30ch] text-[13px] leading-[1.55] text-dusk/50">
-            Personne ne lit. Pas besoin de phrases justes.
-          </p>
-        </section>
-
-        {/* La page du jour — sobre, sans cadre lourd */}
-        <section className="px-6 pt-9">
-          <div
-            className="flex items-baseline justify-between border-b border-dashed pb-2"
-            style={{ borderColor: "color-mix(in oklab, var(--dusk) 16%, transparent)" }}
-          >
-            <p className="font-serif text-[14px] italic text-dusk/50">{today}</p>
-            <span className="text-[10.5px] tabular-nums tracking-[0.14em] text-dusk/35">
-              PAGE {String(journal.length + 1).padStart(2, "0")}
-            </span>
-          </div>
-
-          <textarea
-            value={body}
-            onChange={(e) => setBody(e.target.value)}
-            rows={11}
-            placeholder="Laissez les mots venir…"
-            className="mt-4 w-full resize-none bg-transparent font-serif text-[18px] leading-[1.75] text-dusk outline-none placeholder:text-dusk/25"
-          />
-
-          <button
-            type="button"
-            onClick={() => setShowPrompts((v) => !v)}
-            className="text-[12px] text-dusk/45 underline decoration-dotted underline-offset-4"
-          >
-            {showPrompts ? "Masquer" : "Si les mots ne viennent pas"}
-          </button>
-
-          {showPrompts && (
-            <div className="mt-3 flex flex-col gap-2.5">
-              {AMORCES.map((a) => (
-                <button
-                  key={a}
-                  type="button"
-                  onClick={() => { setBody((b) => (b ? b : a + " ")); setShowPrompts(false); }}
-                  className="text-left font-serif text-[16px] italic leading-[1.35] text-dusk/60"
-                >
-                  {a}
-                </button>
-              ))}
-            </div>
-          )}
-        </section>
-
-        {/* Destinataire — discret */}
-        <section className="px-6 pt-8">
-          <div className="flex flex-wrap gap-x-5 gap-y-2">
-            {dest.map((d) => {
-              const on = to === d.id;
-              return (
-                <button
-                  key={d.id}
-                  type="button"
-                  onClick={() => setTo(d.id)}
-                  className="pb-1 text-[12.5px] transition-colors"
-                  style={{
-                    color: on ? "var(--bordeaux)" : "color-mix(in oklab, var(--dusk) 45%, transparent)",
-                    borderBottom: on ? "1px solid var(--bordeaux)" : "1px solid transparent",
-                  }}
-                >
-                  {d.label}
-                </button>
-              );
-            })}
-          </div>
-        </section>
-
-        <section className="px-6 pt-7">
-          <button
-            onClick={save}
-            disabled={!body.trim()}
-            className="w-full rounded-full py-3.5 text-[13px] tracking-[0.05em] disabled:opacity-25"
-            style={{ background: "var(--bordeaux)", color: "var(--paper)" }}
-          >
-            Garder cette page
-          </button>
-          {justSaved && (
-            <p className="mt-3 text-center font-serif text-[15px] italic text-dusk/50">
-              Votre page est rangée.
-            </p>
-          )}
-        </section>
-
-        {/* Les pages gardées — une liste calme */}
-        {journal.length > 0 && (
-          <section className="px-6 pt-12">
-            <div className="flex items-baseline justify-between">
-              <p className="mono-label">Pages gardées</p>
-              <span className="text-[11px] tabular-nums text-dusk/35">
-                {String(journal.length).padStart(2, "0")}
-              </span>
-            </div>
-            <div className="mt-3">
-              {journal.slice(0, 8).map((e) => (
-                <article
-                  key={e.id}
-                  className="border-b border-dashed py-4 last:border-0"
-                  style={{ borderColor: "color-mix(in oklab, var(--dusk) 14%, transparent)" }}
-                >
-                  <p className="font-serif text-[13px] italic text-dusk/45">{jourLong(e.date)}</p>
-                  <p className="mt-1.5 line-clamp-3 font-serif text-[16px] leading-[1.6] text-dusk/80">{e.body}</p>
-                </article>
-              ))}
-            </div>
-          </section>
-        )}
+    <StandardLayout space="support" back="/care/journal" backLabel="Écrire" activeTab="/care">
+      <div className="mt-10 flex items-center justify-between">
+        <span className="lg-mono">{stamp}</span>
+        <span className="lg-mono" style={{ color: "var(--sp-ink)" }}>Page {journal.length + 1}</span>
       </div>
-    </Shell>
+      {mode === "plus-tard" && (
+        <label className="mt-6 flex items-center justify-between gap-3 pb-2 text-[14px]" style={{ borderBottom: "1px solid var(--sp-line-2)" }}>
+          <span style={{ color: "var(--sp-sub)" }}>À ouvrir le</span>
+          <input type="date" value={openOn} onChange={(e) => setOpenOn(e.target.value)} className="bg-transparent text-[16px] outline-none" />
+        </label>
+      )}
+      <textarea value={body} onChange={(e) => setBody(e.target.value)} autoFocus
+        placeholder={mode === "lettre" ? "Ce que je voulais te dire…" : "Laissez venir les mots…"}
+        className="lg-ruled mt-6 block min-h-[468px] w-full resize-none bg-transparent outline-none"
+        style={{ fontFamily: "var(--lg-serif)", fontSize: 22, lineHeight: "78px", color: "var(--sp-ink)" }} />
+      <div className="mt-8 flex items-center gap-8">
+        <PrimaryButton space="support" onClick={save} disabled={!body.trim() || saved || (mode === "plus-tard" && !openOn)}>
+          {saved ? "Page gardée" : mode === "journal" ? "Garder cette page" : "Garder cette lettre"}
+        </PrimaryButton>
+        <TextLink space="support" onClick={dictate}>{listening ? "Arrêter la dictée" : "Dicter plutôt"}</TextLink>
+      </div>
+    </StandardLayout>
   );
 }
