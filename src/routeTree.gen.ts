@@ -43,6 +43,8 @@ import { Route as HelpIndexRouteImport } from './routes/help.index'
 import { Route as GardenIndexRouteImport } from './routes/garden.index'
 import { Route as CareIndexRouteImport } from './routes/care.index'
 import { Route as AgendaIndexRouteImport } from './routes/agenda.index'
+import { Route as SpaceSettingsRouteImport } from './routes/space.settings'
+import { Route as SpaceNewRouteImport } from './routes/space.new'
 import { Route as ResourcesCategoryRouteImport } from './routes/resources.$category'
 import { Route as ProfileProchesRouteImport } from './routes/profile.proches'
 import { Route as ProfilePortraitRouteImport } from './routes/profile.portrait'
@@ -64,6 +66,10 @@ import { Route as OnboardingPracticalRouteImport } from './routes/onboarding.pra
 import { Route as OnboardingCareRouteImport } from './routes/onboarding.care'
 import { Route as LibraryKindRouteImport } from './routes/library.$kind'
 import { Route as InviteTokenRouteImport } from './routes/invite.$token'
+import { Route as HomeSesAffairesRouteImport } from './routes/home.ses-affaires'
+import { Route as HomeQuestionsMedecinRouteImport } from './routes/home.questions-medecin'
+import { Route as HomeParlerEnfantRouteImport } from './routes/home.parler-enfant'
+import { Route as HomeEnParlerRouteImport } from './routes/home.en-parler'
 import { Route as HelpCorpsRouteImport } from './routes/help.corps'
 import { Route as GardenZoneRouteImport } from './routes/garden.$zone'
 import { Route as DevDesignRouteImport } from './routes/dev.design'
@@ -269,6 +275,16 @@ const AgendaIndexRoute = AgendaIndexRouteImport.update({
   path: '/agenda/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SpaceSettingsRoute = SpaceSettingsRouteImport.update({
+  id: '/space/settings',
+  path: '/space/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SpaceNewRoute = SpaceNewRouteImport.update({
+  id: '/space/new',
+  path: '/space/new',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ResourcesCategoryRoute = ResourcesCategoryRouteImport.update({
   id: '/resources/$category',
   path: '/resources/$category',
@@ -372,6 +388,26 @@ const LibraryKindRoute = LibraryKindRouteImport.update({
 const InviteTokenRoute = InviteTokenRouteImport.update({
   id: '/invite/$token',
   path: '/invite/$token',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HomeSesAffairesRoute = HomeSesAffairesRouteImport.update({
+  id: '/home/ses-affaires',
+  path: '/home/ses-affaires',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HomeQuestionsMedecinRoute = HomeQuestionsMedecinRouteImport.update({
+  id: '/home/questions-medecin',
+  path: '/home/questions-medecin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HomeParlerEnfantRoute = HomeParlerEnfantRouteImport.update({
+  id: '/home/parler-enfant',
+  path: '/home/parler-enfant',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HomeEnParlerRoute = HomeEnParlerRouteImport.update({
+  id: '/home/en-parler',
+  path: '/home/en-parler',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HelpCorpsRoute = HelpCorpsRouteImport.update({
@@ -594,6 +630,10 @@ export interface FileRoutesByFullPath {
   '/dev/design': typeof DevDesignRoute
   '/garden/$zone': typeof GardenZoneRoute
   '/help/corps': typeof HelpCorpsRouteWithChildren
+  '/home/en-parler': typeof HomeEnParlerRoute
+  '/home/parler-enfant': typeof HomeParlerEnfantRoute
+  '/home/questions-medecin': typeof HomeQuestionsMedecinRoute
+  '/home/ses-affaires': typeof HomeSesAffairesRoute
   '/invite/$token': typeof InviteTokenRoute
   '/library/$kind': typeof LibraryKindRoute
   '/onboarding/care': typeof OnboardingCareRoute
@@ -615,6 +655,8 @@ export interface FileRoutesByFullPath {
   '/profile/portrait': typeof ProfilePortraitRoute
   '/profile/proches': typeof ProfileProchesRoute
   '/resources/$category': typeof ResourcesCategoryRouteWithChildren
+  '/space/new': typeof SpaceNewRoute
+  '/space/settings': typeof SpaceSettingsRoute
   '/agenda/': typeof AgendaIndexRoute
   '/care/': typeof CareIndexRoute
   '/garden/': typeof GardenIndexRoute
@@ -677,6 +719,10 @@ export interface FileRoutesByTo {
   '/compose/$zone': typeof ComposeZoneRoute
   '/dev/design': typeof DevDesignRoute
   '/garden/$zone': typeof GardenZoneRoute
+  '/home/en-parler': typeof HomeEnParlerRoute
+  '/home/parler-enfant': typeof HomeParlerEnfantRoute
+  '/home/questions-medecin': typeof HomeQuestionsMedecinRoute
+  '/home/ses-affaires': typeof HomeSesAffairesRoute
   '/invite/$token': typeof InviteTokenRoute
   '/library/$kind': typeof LibraryKindRoute
   '/onboarding/care': typeof OnboardingCareRoute
@@ -697,6 +743,8 @@ export interface FileRoutesByTo {
   '/profile/portrait': typeof ProfilePortraitRoute
   '/profile/proches': typeof ProfileProchesRoute
   '/resources/$category': typeof ResourcesCategoryRouteWithChildren
+  '/space/new': typeof SpaceNewRoute
+  '/space/settings': typeof SpaceSettingsRoute
   '/agenda': typeof AgendaIndexRoute
   '/care': typeof CareIndexRoute
   '/garden': typeof GardenIndexRoute
@@ -769,6 +817,10 @@ export interface FileRoutesById {
   '/dev/design': typeof DevDesignRoute
   '/garden/$zone': typeof GardenZoneRoute
   '/help/corps': typeof HelpCorpsRouteWithChildren
+  '/home/en-parler': typeof HomeEnParlerRoute
+  '/home/parler-enfant': typeof HomeParlerEnfantRoute
+  '/home/questions-medecin': typeof HomeQuestionsMedecinRoute
+  '/home/ses-affaires': typeof HomeSesAffairesRoute
   '/invite/$token': typeof InviteTokenRoute
   '/library/$kind': typeof LibraryKindRoute
   '/onboarding/care': typeof OnboardingCareRoute
@@ -790,6 +842,8 @@ export interface FileRoutesById {
   '/profile/portrait': typeof ProfilePortraitRoute
   '/profile/proches': typeof ProfileProchesRoute
   '/resources/$category': typeof ResourcesCategoryRouteWithChildren
+  '/space/new': typeof SpaceNewRoute
+  '/space/settings': typeof SpaceSettingsRoute
   '/agenda/': typeof AgendaIndexRoute
   '/care/': typeof CareIndexRoute
   '/garden/': typeof GardenIndexRoute
@@ -862,6 +916,10 @@ export interface FileRouteTypes {
     | '/dev/design'
     | '/garden/$zone'
     | '/help/corps'
+    | '/home/en-parler'
+    | '/home/parler-enfant'
+    | '/home/questions-medecin'
+    | '/home/ses-affaires'
     | '/invite/$token'
     | '/library/$kind'
     | '/onboarding/care'
@@ -883,6 +941,8 @@ export interface FileRouteTypes {
     | '/profile/portrait'
     | '/profile/proches'
     | '/resources/$category'
+    | '/space/new'
+    | '/space/settings'
     | '/agenda/'
     | '/care/'
     | '/garden/'
@@ -945,6 +1005,10 @@ export interface FileRouteTypes {
     | '/compose/$zone'
     | '/dev/design'
     | '/garden/$zone'
+    | '/home/en-parler'
+    | '/home/parler-enfant'
+    | '/home/questions-medecin'
+    | '/home/ses-affaires'
     | '/invite/$token'
     | '/library/$kind'
     | '/onboarding/care'
@@ -965,6 +1029,8 @@ export interface FileRouteTypes {
     | '/profile/portrait'
     | '/profile/proches'
     | '/resources/$category'
+    | '/space/new'
+    | '/space/settings'
     | '/agenda'
     | '/care'
     | '/garden'
@@ -1036,6 +1102,10 @@ export interface FileRouteTypes {
     | '/dev/design'
     | '/garden/$zone'
     | '/help/corps'
+    | '/home/en-parler'
+    | '/home/parler-enfant'
+    | '/home/questions-medecin'
+    | '/home/ses-affaires'
     | '/invite/$token'
     | '/library/$kind'
     | '/onboarding/care'
@@ -1057,6 +1127,8 @@ export interface FileRouteTypes {
     | '/profile/portrait'
     | '/profile/proches'
     | '/resources/$category'
+    | '/space/new'
+    | '/space/settings'
     | '/agenda/'
     | '/care/'
     | '/garden/'
@@ -1116,9 +1188,15 @@ export interface RootRouteChildren {
   ComposeZoneRoute: typeof ComposeZoneRoute
   DevDesignRoute: typeof DevDesignRoute
   GardenZoneRoute: typeof GardenZoneRoute
+  HomeEnParlerRoute: typeof HomeEnParlerRoute
+  HomeParlerEnfantRoute: typeof HomeParlerEnfantRoute
+  HomeQuestionsMedecinRoute: typeof HomeQuestionsMedecinRoute
+  HomeSesAffairesRoute: typeof HomeSesAffairesRoute
   InviteTokenRoute: typeof InviteTokenRoute
   LibraryKindRoute: typeof LibraryKindRoute
   ResourcesCategoryRoute: typeof ResourcesCategoryRouteWithChildren
+  SpaceNewRoute: typeof SpaceNewRoute
+  SpaceSettingsRoute: typeof SpaceSettingsRoute
   AgendaIndexRoute: typeof AgendaIndexRoute
   GardenIndexRoute: typeof GardenIndexRoute
   HomeIndexRoute: typeof HomeIndexRoute
@@ -1368,6 +1446,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AgendaIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/space/settings': {
+      id: '/space/settings'
+      path: '/space/settings'
+      fullPath: '/space/settings'
+      preLoaderRoute: typeof SpaceSettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/space/new': {
+      id: '/space/new'
+      path: '/space/new'
+      fullPath: '/space/new'
+      preLoaderRoute: typeof SpaceNewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/resources/$category': {
       id: '/resources/$category'
       path: '/resources/$category'
@@ -1513,6 +1605,34 @@ declare module '@tanstack/react-router' {
       path: '/invite/$token'
       fullPath: '/invite/$token'
       preLoaderRoute: typeof InviteTokenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/home/ses-affaires': {
+      id: '/home/ses-affaires'
+      path: '/home/ses-affaires'
+      fullPath: '/home/ses-affaires'
+      preLoaderRoute: typeof HomeSesAffairesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/home/questions-medecin': {
+      id: '/home/questions-medecin'
+      path: '/home/questions-medecin'
+      fullPath: '/home/questions-medecin'
+      preLoaderRoute: typeof HomeQuestionsMedecinRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/home/parler-enfant': {
+      id: '/home/parler-enfant'
+      path: '/home/parler-enfant'
+      fullPath: '/home/parler-enfant'
+      preLoaderRoute: typeof HomeParlerEnfantRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/home/en-parler': {
+      id: '/home/en-parler'
+      path: '/home/en-parler'
+      fullPath: '/home/en-parler'
+      preLoaderRoute: typeof HomeEnParlerRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/help/corps': {
@@ -2009,9 +2129,15 @@ const rootRouteChildren: RootRouteChildren = {
   ComposeZoneRoute: ComposeZoneRoute,
   DevDesignRoute: DevDesignRoute,
   GardenZoneRoute: GardenZoneRoute,
+  HomeEnParlerRoute: HomeEnParlerRoute,
+  HomeParlerEnfantRoute: HomeParlerEnfantRoute,
+  HomeQuestionsMedecinRoute: HomeQuestionsMedecinRoute,
+  HomeSesAffairesRoute: HomeSesAffairesRoute,
   InviteTokenRoute: InviteTokenRoute,
   LibraryKindRoute: LibraryKindRoute,
   ResourcesCategoryRoute: ResourcesCategoryRouteWithChildren,
+  SpaceNewRoute: SpaceNewRoute,
+  SpaceSettingsRoute: SpaceSettingsRoute,
   AgendaIndexRoute: AgendaIndexRoute,
   GardenIndexRoute: GardenIndexRoute,
   HomeIndexRoute: HomeIndexRoute,

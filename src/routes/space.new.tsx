@@ -47,7 +47,7 @@ function NewSpace() {
   };
 
   const top = (
-    <div className="-mt-[30px] mb-6 flex h-16 items-center justify-between text-[14px]" style={{ borderBottom: "1px solid var(--sp-line-2)" }}>
+    <div className="mb-6 flex h-16 items-center justify-between text-[14px]" style={{ borderBottom: "1px solid var(--sp-line-2)" }}>
       {step === 1
         ? <Link to="/space" className="flex min-h-11 items-center gap-2"><ArrowLeft className="size-4" strokeWidth={1.4} /> Vos espaces</Link>
         : <button type="button" onClick={() => setStep(step - 1)} className="flex min-h-11 items-center gap-2"><ArrowLeft className="size-4" strokeWidth={1.4} /> Retour</button>}
