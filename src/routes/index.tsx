@@ -1,5 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
+import logoSymbole from "@/assets/logo-symbole.png";
+import logoLegato from "@/assets/logo-legato.png";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -236,24 +238,38 @@ function Intro() {
         }}
       />
 
-      {/* Paper background + black logo — fade in together near the end of the video */}
+      {/* 001 · État final : fond bleu, symbole en haut, LEGATO au centre — apparaît au même minutage */}
       <div
-        className="absolute inset-0 flex items-center justify-center pointer-events-none px-10 bg-paper"
+        className="absolute inset-0 pointer-events-none"
         style={{
+          background: "var(--lg-blue)",
           opacity: logoVisible ? 1 : 0,
           transition: "opacity 600ms ease",
         }}
       >
-        <img src="/legato-logo-noir.png" alt="Legato" className="w-[140%] max-w-[760px] h-auto" />
+        <div className="flex justify-center pt-[44px]">
+          <img src={logoSymbole} alt="" className="block h-auto w-[58px]" />
+        </div>
+        <img
+          src={logoLegato}
+          alt="Legato"
+          className="absolute left-1/2 top-1/2 block h-auto w-[262px]"
+          style={{ transform: "translate(-50%, -60%)" }}
+        />
       </div>
 
-      {/* Enter button — appears at end of video */}
+      {/* Bouton « Entrer » — pleine largeur dans les marges de 28 px */}
       {showEnter && (
-        <div className="absolute inset-x-0 bottom-0 flex justify-center pb-[8vh] px-8">
+        <div className="absolute inset-x-0 bottom-0 px-[28px] pb-[66px]">
           <button
             onClick={enter}
-            className="rounded-full bg-transparent border border-dusk/30 px-8 py-3 text-[10.5px] font-medium uppercase tracking-[0.3em] text-dusk hover:bg-dusk/5 transition-colors"
-            style={{ animation: "intro-enter-in 900ms ease-out forwards" }}
+            className="flex h-[52px] w-full items-center justify-center rounded-full bg-transparent text-[15px]"
+            style={{
+              border: "1px solid var(--lg-deep)",
+              color: "var(--lg-deep)",
+              fontFamily: "var(--lg-sans)",
+              animation: "intro-enter-in 900ms ease-out forwards",
+            }}
           >
             Entrer
           </button>
