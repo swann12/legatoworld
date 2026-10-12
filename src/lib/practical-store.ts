@@ -16,6 +16,8 @@ export type PracticalState = {
   selectedTexts: string[];
   selectedMusic: string[];
   selectedObjects: string[];
+  textsBrief?: string;
+  textsProposal?: { readings: { title: string; body: string; duration?: string }[]; music: { title: string; body: string; duration?: string }[] };
   bookletDraft: {
     photoUrl: string;
     name: string;

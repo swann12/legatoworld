@@ -10,7 +10,7 @@ const InputSchema = z.object({
   outputMode: z.literal("flower-proposal").optional(),
 });
 
-export type CeremonyIdea = { title: string; body: string };
+export type CeremonyIdea = { title: string; body: string; duration?: string };
 const FlowerProposalSchema = z.object({
   title: z.string().min(1), accent: z.string().min(1), body: z.string().min(1),
   flowers: z.string().min(1), shape: z.string().min(1), price: z.string().min(1),
@@ -53,8 +53,9 @@ const TOOL = {
             properties: {
               title: { type: "string", description: "Nom court de la proposition." },
               body: { type: "string", description: "Deux phrases maximum, concrètes." },
+              duration: { type: "string", description: "Durée approximative de lecture ou d'écoute, par exemple 1 min ou 4 min." },
             },
-            required: ["title", "body"],
+            required: ["title", "body", "duration"],
             additionalProperties: false,
           },
         },
@@ -80,6 +81,7 @@ export const refineCeremony = createServerFn({ method: "POST" })
       "",
       "Ce que la personne écrit avec ses mots :",
       data.brief,
+      !flowerMode ? "Pour les textes ou la musique : deux propositions seulement, titre concret (œuvre et auteur/artiste connus si possible), body = auteur/artiste et lien à la personne, 16 mots maximum ; duration = durée indicative en minutes. Ne cite pas d'extraits protégés et n'invente pas d'œuvre ni d'auteur." : "",
       flowerMode ? "Propose une seule composition florale, concrète et de saison, à montrer au fleuriste. Respecte les choix et le souvenir. Format très bref, obligatoire : title = nom littéral de la composition, 7 mots maximum (exemple : Un bouquet blanc et vert,) ; accent = 4 mots maximum (exemple : simple et posé.) ; body = deux phrases concrètes, 45 mots maximum, aucun discours sur la sérénité, la pureté ou l'amour ; flowers = seulement trois noms de fleurs ou feuillages, séparés par des virgules ; shape = forme et dimension, 7 mots maximum (exemple : Bouquet bas, 60 cm) ; price = seulement une fourchette indicative en euros (exemple : 120 à 180 €), jamais un devis confirmé. Aucune métaphore ni titre poétique abstrait." : "",
     ].filter(Boolean).join("\n");
 

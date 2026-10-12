@@ -33,6 +33,11 @@ export type Wishes = {
   iDontWant: string;
   toLovedOnes: string;
   sharedWith: string[];   // noms ou e-mails autorisés
+  funeralChoice?: string;
+  funeralExtra?: string;
+  donation?: string;
+  notify?: string;
+  trustedPerson?: string;
 };
 
 export type Feeling =

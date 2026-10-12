@@ -63,9 +63,10 @@ function RowShell({ to, onClick, children, last }: { to?: string; onClick?: () =
   return <button type="button" onClick={onClick} className={cls} style={style}>{children}</button>;
 }
 
-export function Row({ space, className = "", title, subtitle, n, to, onClick, last, icon = "chevron" }: S & {
+export function Row({ space, className = "", title, subtitle, n, to, onClick, last, status, icon = "chevron" }: S & {
   title: ReactNode; subtitle?: ReactNode; n?: number; to?: string; onClick?: () => void; last?: boolean;
   icon?: "chevron" | "arrow";
+  status?: ReactNode;
 }) {
   const Icon = icon === "arrow" ? ArrowUpRight : ChevronRight;
   return (
@@ -76,7 +77,7 @@ export function Row({ space, className = "", title, subtitle, n, to, onClick, la
           <span className="lg-row-title block">{title}</span>
           {subtitle && <span className="lg-row-sub mt-1 block" style={sub}>{subtitle}</span>}
         </span>
-        <Icon className="size-4 shrink-0" strokeWidth={1.3} />
+        {status ? <span className="lg-row-status shrink-0">{status}</span> : <Icon className="size-4 shrink-0" strokeWidth={1.3} />}
       </RowShell>
     </div>
   );
