@@ -32,7 +32,10 @@ function buildMail(who: string, intro: string) {
     "Bonjour,", "", intro, "",
     s.ceremonyKind && `• Type : ${s.ceremonyKind}`,
     s.ceremonyVenue && `• Lieu : ${s.ceremonyVenue}`,
-    s.flowerStyle && `• Fleurs : ${s.flowerStyle}`,
+    s.ceremonyPlan?.date && `• Date : ${s.ceremonyPlan.date}`,
+    s.ceremonyPlan?.flowerProposal
+      ? `• Fleurs : ${s.ceremonyPlan.flowerProposal.title} ${s.ceremonyPlan.flowerProposal.accent}\n${s.ceremonyPlan.flowerProposal.body}\nVariétés : ${s.ceremonyPlan.flowerProposal.flowers}\nForme : ${s.ceremonyPlan.flowerProposal.shape}\nPrix estimé : ${s.ceremonyPlan.flowerProposal.price}`
+      : s.flowerStyle && `• Fleurs : ${s.flowerStyle}`,
     s.selectedTexts.length > 0 && `• Textes : ${s.selectedTexts.join(", ")}`,
     s.selectedMusic.length > 0 && `• Musique : ${s.selectedMusic.join(", ")}`,
     s.budget && `• Budget indicatif : ${s.budget}`,

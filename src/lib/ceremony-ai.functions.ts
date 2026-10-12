@@ -80,7 +80,7 @@ export const refineCeremony = createServerFn({ method: "POST" })
       "",
       "Ce que la personne écrit avec ses mots :",
       data.brief,
-      flowerMode ? "Propose une seule composition florale, concrète et de saison, à montrer au fleuriste. Respecte les choix et le souvenir. Donne une fourchette de prix indicative, jamais un devis confirmé." : "",
+      flowerMode ? "Propose une seule composition florale, concrète et de saison, à montrer au fleuriste. Respecte les choix et le souvenir. Format très bref, obligatoire : title = nom littéral de la composition, 7 mots maximum (exemple : Un bouquet blanc et vert,) ; accent = 4 mots maximum (exemple : simple et posé.) ; body = deux phrases concrètes, 45 mots maximum, aucun discours sur la sérénité, la pureté ou l'amour ; flowers = seulement trois noms de fleurs ou feuillages, séparés par des virgules ; shape = forme et dimension, 7 mots maximum (exemple : Bouquet bas, 60 cm) ; price = seulement une fourchette indicative en euros (exemple : 120 à 180 €), jamais un devis confirmé. Aucune métaphore ni titre poétique abstrait." : "",
     ].filter(Boolean).join("\n");
 
     try {
