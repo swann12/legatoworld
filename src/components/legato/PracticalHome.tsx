@@ -13,7 +13,7 @@ export function Practical() {
   return (
     <StandardLayout space="practical" title="Démarches" activeTab="/practical">
       <SplitHeader space="practical" title={<>Ce qu'il reste<br /><em>à faire.</em></>} value={done} total={total}>
-        <PrimaryButton space="practical" to="/practical/progress" className="!h-10 !px-6">Mon avancement</PrimaryButton>
+        <PrimaryButton space="practical" to="/practical/progress" className="!h-10 !px-5 whitespace-nowrap !text-[14px]">Mon avancement</PrimaryButton>
       </SplitHeader>
 
       {week.length > 0 && <>
