@@ -66,6 +66,7 @@ import { Route as LibraryKindRouteImport } from './routes/library.$kind'
 import { Route as InviteTokenRouteImport } from './routes/invite.$token'
 import { Route as HelpCorpsRouteImport } from './routes/help.corps'
 import { Route as GardenZoneRouteImport } from './routes/garden.$zone'
+import { Route as DevDesignRouteImport } from './routes/dev.design'
 import { Route as ComposeZoneRouteImport } from './routes/compose.$zone'
 import { Route as CareRituelsRouteImport } from './routes/care.rituels'
 import { Route as CareRespirerRouteImport } from './routes/care.respirer'
@@ -382,6 +383,11 @@ const GardenZoneRoute = GardenZoneRouteImport.update({
   path: '/garden/$zone',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DevDesignRoute = DevDesignRouteImport.update({
+  id: '/dev/design',
+  path: '/dev/design',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ComposeZoneRoute = ComposeZoneRouteImport.update({
   id: '/compose/$zone',
   path: '/compose/$zone',
@@ -581,6 +587,7 @@ export interface FileRoutesByFullPath {
   '/care/respirer': typeof CareRespirerRoute
   '/care/rituels': typeof CareRituelsRoute
   '/compose/$zone': typeof ComposeZoneRoute
+  '/dev/design': typeof DevDesignRoute
   '/garden/$zone': typeof GardenZoneRoute
   '/help/corps': typeof HelpCorpsRouteWithChildren
   '/invite/$token': typeof InviteTokenRoute
@@ -663,6 +670,7 @@ export interface FileRoutesByTo {
   '/care/respirer': typeof CareRespirerRoute
   '/care/rituels': typeof CareRituelsRoute
   '/compose/$zone': typeof ComposeZoneRoute
+  '/dev/design': typeof DevDesignRoute
   '/garden/$zone': typeof GardenZoneRoute
   '/invite/$token': typeof InviteTokenRoute
   '/library/$kind': typeof LibraryKindRoute
@@ -752,6 +760,7 @@ export interface FileRoutesById {
   '/care/respirer': typeof CareRespirerRoute
   '/care/rituels': typeof CareRituelsRoute
   '/compose/$zone': typeof ComposeZoneRoute
+  '/dev/design': typeof DevDesignRoute
   '/garden/$zone': typeof GardenZoneRoute
   '/help/corps': typeof HelpCorpsRouteWithChildren
   '/invite/$token': typeof InviteTokenRoute
@@ -843,6 +852,7 @@ export interface FileRouteTypes {
     | '/care/respirer'
     | '/care/rituels'
     | '/compose/$zone'
+    | '/dev/design'
     | '/garden/$zone'
     | '/help/corps'
     | '/invite/$token'
@@ -925,6 +935,7 @@ export interface FileRouteTypes {
     | '/care/respirer'
     | '/care/rituels'
     | '/compose/$zone'
+    | '/dev/design'
     | '/garden/$zone'
     | '/invite/$token'
     | '/library/$kind'
@@ -1013,6 +1024,7 @@ export interface FileRouteTypes {
     | '/care/respirer'
     | '/care/rituels'
     | '/compose/$zone'
+    | '/dev/design'
     | '/garden/$zone'
     | '/help/corps'
     | '/invite/$token'
@@ -1092,6 +1104,7 @@ export interface RootRouteChildren {
   VitrineRoute: typeof VitrineRoute
   WishesRoute: typeof WishesRoute
   ComposeZoneRoute: typeof ComposeZoneRoute
+  DevDesignRoute: typeof DevDesignRoute
   GardenZoneRoute: typeof GardenZoneRoute
   InviteTokenRoute: typeof InviteTokenRoute
   LibraryKindRoute: typeof LibraryKindRoute
@@ -1501,6 +1514,13 @@ declare module '@tanstack/react-router' {
       path: '/garden/$zone'
       fullPath: '/garden/$zone'
       preLoaderRoute: typeof GardenZoneRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dev/design': {
+      id: '/dev/design'
+      path: '/dev/design'
+      fullPath: '/dev/design'
+      preLoaderRoute: typeof DevDesignRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/compose/$zone': {
@@ -1969,6 +1989,7 @@ const rootRouteChildren: RootRouteChildren = {
   VitrineRoute: VitrineRoute,
   WishesRoute: WishesRoute,
   ComposeZoneRoute: ComposeZoneRoute,
+  DevDesignRoute: DevDesignRoute,
   GardenZoneRoute: GardenZoneRoute,
   InviteTokenRoute: InviteTokenRoute,
   LibraryKindRoute: LibraryKindRoute,
