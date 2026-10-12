@@ -7,7 +7,7 @@ import { StandardLayout, PageTitle, Lead, Row, PrimaryButton, TextLink } from "@
 type Mode = "journal" | "lettre" | "plus-tard";
 type Search = { ecrire?: Mode; amorce?: string };
 
-export const Route = createFileRoute("/care/journal")({
+export const Route = createFileRoute("/care/journal/")({
   validateSearch: (s: Record<string, unknown>): Search => ({
     ecrire: s.ecrire === "journal" || s.ecrire === "lettre" || s.ecrire === "plus-tard" ? s.ecrire : undefined,
     amorce: typeof s.amorce === "string" ? s.amorce.slice(0, 80) : undefined,
@@ -52,7 +52,7 @@ function Journal() {
       <div className="mt-6">
         <Row space="support" title="Mon journal" subtitle={`${pages} page${pages > 1 ? "s" : ""} · ${lastLabel(journal[0]?.date)}`} onClick={() => go("journal")} />
         <Row space="support" title={`Une lettre à ${them}`} subtitle="Dire ce qui n'a pas été dit" onClick={() => go("lettre")} />
-        <Row space="support" title="Une lettre pour plus tard" subtitle="Elle s'ouvrira à la date choisie" onClick={() => go("plus-tard")} last />
+        <Row space="support" title="Une lettre pour plus tard" subtitle="Elle s'ouvrira à la date choisie" to="/care/journal/later" last />
       </div>
       <section className="mt-10 px-6 pb-2 pt-6" style={{ background: "var(--sp-block)" }}>
         <p className="lg-section">Si les mots ne viennent pas —</p>

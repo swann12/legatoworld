@@ -131,9 +131,30 @@ export type Provider = {
   testimonials: Testimonial[];
   // For pompes funèbres: legally required transparent estimate
   estimate?: { lines: { label: string; price: string }[]; total: string };
+  /** Fiche détaillée (écran 043) — facultatif. */
+  address?: string; price?: string; session?: string; distance?: string; bio?: string;
 };
 
 export const PROVIDERS: Provider[] = [
+  {
+    id: "claire-rolland",
+    category: "therapeutes",
+    firstName: "Claire",
+    lastName: "Rolland",
+    city: "Marseille",
+    zip: "13006",
+    modes: ["cabinet", "visio"],
+    speciality: "Psychologue, spécialisée dans le deuil",
+    bio: "Psychologue, spécialisée dans le deuil depuis quinze ans.",
+    address: "12 rue Paradis, Marseille 6e",
+    price: "60 € · en partie remboursé",
+    session: "50 minutes, cabinet ou visio",
+    distance: "1,2 km",
+    approach: ["J'accompagne les personnes en deuil depuis quinze ans."],
+    nextSlot: "mardi 30 septembre, 10 h",
+    offers: [{ title: "Séance", detail: "50 min · cabinet ou visio", price: "60 €" }],
+    testimonials: [],
+  },
   {
     id: "claire-m",
     category: "therapeutes",

@@ -29,7 +29,6 @@ import { Route as CommunityRouteImport } from './routes/community'
 import { Route as CheckinRouteImport } from './routes/checkin'
 import { Route as CareRouteImport } from './routes/care'
 import { Route as AuthRouteImport } from './routes/auth'
-import { Route as AppointmentsRouteImport } from './routes/appointments'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SpaceIndexRouteImport } from './routes/space.index'
@@ -42,6 +41,7 @@ import { Route as HomeIndexRouteImport } from './routes/home.index'
 import { Route as HelpIndexRouteImport } from './routes/help.index'
 import { Route as GardenIndexRouteImport } from './routes/garden.index'
 import { Route as CareIndexRouteImport } from './routes/care.index'
+import { Route as AppointmentsIndexRouteImport } from './routes/appointments.index'
 import { Route as AgendaIndexRouteImport } from './routes/agenda.index'
 import { Route as SpaceSettingsRouteImport } from './routes/space.settings'
 import { Route as SpaceNewRouteImport } from './routes/space.new'
@@ -69,7 +69,6 @@ import { Route as PracticalAtmosphereRouteImport } from './routes/practical.atmo
 import { Route as ParcoursTaskIdRouteImport } from './routes/parcours.$taskId'
 import { Route as OnboardingPracticalRouteImport } from './routes/onboarding.practical'
 import { Route as OnboardingCareRouteImport } from './routes/onboarding.care'
-import { Route as LibraryKindRouteImport } from './routes/library.$kind'
 import { Route as InviteTokenRouteImport } from './routes/invite.$token'
 import { Route as HomeSesAffairesRouteImport } from './routes/home.ses-affaires'
 import { Route as HomeQuestionsMedecinRouteImport } from './routes/home.questions-medecin'
@@ -84,26 +83,32 @@ import { Route as CareRituelsRouteImport } from './routes/care.rituels'
 import { Route as CareRespirerRouteImport } from './routes/care.respirer'
 import { Route as CareResourcesRouteImport } from './routes/care.resources'
 import { Route as CareMemoryRouteImport } from './routes/care.memory'
-import { Route as CareJournalRouteImport } from './routes/care.journal'
 import { Route as CareHelpRouteImport } from './routes/care.help'
 import { Route as CareGardenRouteImport } from './routes/care.garden'
 import { Route as CareEmotionsRouteImport } from './routes/care.emotions'
 import { Route as CareDatesRouteImport } from './routes/care.dates'
 import { Route as CareCommunityRouteImport } from './routes/care.community'
 import { Route as CareAideRouteImport } from './routes/care.aide'
+import { Route as AppointmentsNewRouteImport } from './routes/appointments.new'
+import { Route as AppointmentsIdRouteImport } from './routes/appointments.$id'
 import { Route as AgendaNewRouteImport } from './routes/agenda.new'
 import { Route as AuthenticatedCircleRouteImport } from './routes/_authenticated/circle'
+import { Route as ResourcesCategoryIndexRouteImport } from './routes/resources.$category.index'
 import { Route as PracticalTasksIndexRouteImport } from './routes/practical.tasks.index'
+import { Route as LibraryKindIndexRouteImport } from './routes/library.$kind.index'
 import { Route as HelpCorpsIndexRouteImport } from './routes/help.corps.index'
+import { Route as CareJournalIndexRouteImport } from './routes/care.journal.index'
 import { Route as CareGardenIndexRouteImport } from './routes/care.garden.index'
 import { Route as CareCommunityIndexRouteImport } from './routes/care.community.index'
 import { Route as ResourcesConfirmProviderIdRouteImport } from './routes/resources.confirm.$providerId'
 import { Route as ResourcesCategoryProviderIdRouteImport } from './routes/resources.$category.$providerId'
 import { Route as PracticalTasksIdRouteImport } from './routes/practical.tasks.$id'
+import { Route as LibraryKindIdRouteImport } from './routes/library.$kind.$id'
 import { Route as HelpCorpsNuitsRouteImport } from './routes/help.corps.nuits'
 import { Route as HelpCorpsMangerRouteImport } from './routes/help.corps.manger'
 import { Route as HelpCorpsHabillerRouteImport } from './routes/help.corps.habiller'
 import { Route as HelpCorpsEauRouteImport } from './routes/help.corps.eau'
+import { Route as CareJournalLaterRouteImport } from './routes/care.journal.later'
 import { Route as CareGardenDepotRouteImport } from './routes/care.garden.depot'
 import { Route as CareGardenZoneRouteImport } from './routes/care.garden.$zone'
 import { Route as CareCommunityReglesRouteImport } from './routes/care.community.regles'
@@ -212,11 +217,6 @@ const AuthRoute = AuthRouteImport.update({
   path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AppointmentsRoute = AppointmentsRouteImport.update({
-  id: '/appointments',
-  path: '/appointments',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
   id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
@@ -275,6 +275,11 @@ const CareIndexRoute = CareIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => CareRoute,
+} as any)
+const AppointmentsIndexRoute = AppointmentsIndexRouteImport.update({
+  id: '/appointments/',
+  path: '/appointments/',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AgendaIndexRoute = AgendaIndexRouteImport.update({
   id: '/agenda/',
@@ -411,11 +416,6 @@ const OnboardingCareRoute = OnboardingCareRouteImport.update({
   path: '/care',
   getParentRoute: () => OnboardingRoute,
 } as any)
-const LibraryKindRoute = LibraryKindRouteImport.update({
-  id: '/library/$kind',
-  path: '/library/$kind',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const InviteTokenRoute = InviteTokenRouteImport.update({
   id: '/invite/$token',
   path: '/invite/$token',
@@ -486,11 +486,6 @@ const CareMemoryRoute = CareMemoryRouteImport.update({
   path: '/memory',
   getParentRoute: () => CareRoute,
 } as any)
-const CareJournalRoute = CareJournalRouteImport.update({
-  id: '/journal',
-  path: '/journal',
-  getParentRoute: () => CareRoute,
-} as any)
 const CareHelpRoute = CareHelpRouteImport.update({
   id: '/help',
   path: '/help',
@@ -521,6 +516,16 @@ const CareAideRoute = CareAideRouteImport.update({
   path: '/aide',
   getParentRoute: () => CareRoute,
 } as any)
+const AppointmentsNewRoute = AppointmentsNewRouteImport.update({
+  id: '/appointments/new',
+  path: '/appointments/new',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppointmentsIdRoute = AppointmentsIdRouteImport.update({
+  id: '/appointments/$id',
+  path: '/appointments/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AgendaNewRoute = AgendaNewRouteImport.update({
   id: '/agenda/new',
   path: '/agenda/new',
@@ -531,15 +536,30 @@ const AuthenticatedCircleRoute = AuthenticatedCircleRouteImport.update({
   path: '/circle',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const ResourcesCategoryIndexRoute = ResourcesCategoryIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ResourcesCategoryRoute,
+} as any)
 const PracticalTasksIndexRoute = PracticalTasksIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => PracticalTasksRoute,
 } as any)
+const LibraryKindIndexRoute = LibraryKindIndexRouteImport.update({
+  id: '/library/$kind/',
+  path: '/library/$kind/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const HelpCorpsIndexRoute = HelpCorpsIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => HelpCorpsRoute,
+} as any)
+const CareJournalIndexRoute = CareJournalIndexRouteImport.update({
+  id: '/journal/',
+  path: '/journal/',
+  getParentRoute: () => CareRoute,
 } as any)
 const CareGardenIndexRoute = CareGardenIndexRouteImport.update({
   id: '/',
@@ -568,6 +588,11 @@ const PracticalTasksIdRoute = PracticalTasksIdRouteImport.update({
   path: '/$id',
   getParentRoute: () => PracticalTasksRoute,
 } as any)
+const LibraryKindIdRoute = LibraryKindIdRouteImport.update({
+  id: '/library/$kind/$id',
+  path: '/library/$kind/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const HelpCorpsNuitsRoute = HelpCorpsNuitsRouteImport.update({
   id: '/nuits',
   path: '/nuits',
@@ -587,6 +612,11 @@ const HelpCorpsEauRoute = HelpCorpsEauRouteImport.update({
   id: '/eau',
   path: '/eau',
   getParentRoute: () => HelpCorpsRoute,
+} as any)
+const CareJournalLaterRoute = CareJournalLaterRouteImport.update({
+  id: '/journal/later',
+  path: '/journal/later',
+  getParentRoute: () => CareRoute,
 } as any)
 const CareGardenDepotRoute = CareGardenDepotRouteImport.update({
   id: '/depot',
@@ -627,7 +657,6 @@ const ApiPublicSouffleSoundIdRoute = ApiPublicSouffleSoundIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/appointments': typeof AppointmentsRoute
   '/auth': typeof AuthRoute
   '/care': typeof CareRouteWithChildren
   '/checkin': typeof CheckinRoute
@@ -650,13 +679,14 @@ export interface FileRoutesByFullPath {
   '/wishes': typeof WishesRoute
   '/circle': typeof AuthenticatedCircleRoute
   '/agenda/new': typeof AgendaNewRoute
+  '/appointments/$id': typeof AppointmentsIdRoute
+  '/appointments/new': typeof AppointmentsNewRoute
   '/care/aide': typeof CareAideRoute
   '/care/community': typeof CareCommunityRouteWithChildren
   '/care/dates': typeof CareDatesRoute
   '/care/emotions': typeof CareEmotionsRoute
   '/care/garden': typeof CareGardenRouteWithChildren
   '/care/help': typeof CareHelpRoute
-  '/care/journal': typeof CareJournalRoute
   '/care/memory': typeof CareMemoryRoute
   '/care/resources': typeof CareResourcesRoute
   '/care/respirer': typeof CareRespirerRoute
@@ -671,7 +701,6 @@ export interface FileRoutesByFullPath {
   '/home/questions-medecin': typeof HomeQuestionsMedecinRoute
   '/home/ses-affaires': typeof HomeSesAffairesRoute
   '/invite/$token': typeof InviteTokenRoute
-  '/library/$kind': typeof LibraryKindRoute
   '/onboarding/care': typeof OnboardingCareRoute
   '/onboarding/practical': typeof OnboardingPracticalRoute
   '/parcours/$taskId': typeof ParcoursTaskIdRoute
@@ -699,6 +728,7 @@ export interface FileRoutesByFullPath {
   '/space/new': typeof SpaceNewRoute
   '/space/settings': typeof SpaceSettingsRoute
   '/agenda/': typeof AgendaIndexRoute
+  '/appointments/': typeof AppointmentsIndexRoute
   '/care/': typeof CareIndexRoute
   '/garden/': typeof GardenIndexRoute
   '/help/': typeof HelpIndexRoute
@@ -712,17 +742,22 @@ export interface FileRoutesByFullPath {
   '/care/community/regles': typeof CareCommunityReglesRoute
   '/care/garden/$zone': typeof CareGardenZoneRoute
   '/care/garden/depot': typeof CareGardenDepotRoute
+  '/care/journal/later': typeof CareJournalLaterRoute
   '/help/corps/eau': typeof HelpCorpsEauRoute
   '/help/corps/habiller': typeof HelpCorpsHabillerRoute
   '/help/corps/manger': typeof HelpCorpsMangerRoute
   '/help/corps/nuits': typeof HelpCorpsNuitsRoute
+  '/library/$kind/$id': typeof LibraryKindIdRoute
   '/practical/tasks/$id': typeof PracticalTasksIdRoute
   '/resources/$category/$providerId': typeof ResourcesCategoryProviderIdRoute
   '/resources/confirm/$providerId': typeof ResourcesConfirmProviderIdRoute
   '/care/community/': typeof CareCommunityIndexRoute
   '/care/garden/': typeof CareGardenIndexRoute
+  '/care/journal/': typeof CareJournalIndexRoute
   '/help/corps/': typeof HelpCorpsIndexRoute
+  '/library/$kind/': typeof LibraryKindIndexRoute
   '/practical/tasks/': typeof PracticalTasksIndexRoute
+  '/resources/$category/': typeof ResourcesCategoryIndexRoute
   '/api/public/souffle-sound/$id': typeof ApiPublicSouffleSoundIdRoute
   '/care/community/$group/$thread': typeof CareCommunityGroupThreadRoute
   '/help/corps/soin/$id': typeof HelpCorpsSoinIdRoute
@@ -730,7 +765,6 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/appointments': typeof AppointmentsRoute
   '/auth': typeof AuthRoute
   '/checkin': typeof CheckinRoute
   '/community': typeof CommunityRoute
@@ -748,11 +782,12 @@ export interface FileRoutesByTo {
   '/wishes': typeof WishesRoute
   '/circle': typeof AuthenticatedCircleRoute
   '/agenda/new': typeof AgendaNewRoute
+  '/appointments/$id': typeof AppointmentsIdRoute
+  '/appointments/new': typeof AppointmentsNewRoute
   '/care/aide': typeof CareAideRoute
   '/care/dates': typeof CareDatesRoute
   '/care/emotions': typeof CareEmotionsRoute
   '/care/help': typeof CareHelpRoute
-  '/care/journal': typeof CareJournalRoute
   '/care/memory': typeof CareMemoryRoute
   '/care/resources': typeof CareResourcesRoute
   '/care/respirer': typeof CareRespirerRoute
@@ -766,7 +801,6 @@ export interface FileRoutesByTo {
   '/home/questions-medecin': typeof HomeQuestionsMedecinRoute
   '/home/ses-affaires': typeof HomeSesAffairesRoute
   '/invite/$token': typeof InviteTokenRoute
-  '/library/$kind': typeof LibraryKindRoute
   '/onboarding/care': typeof OnboardingCareRoute
   '/onboarding/practical': typeof OnboardingPracticalRoute
   '/parcours/$taskId': typeof ParcoursTaskIdRoute
@@ -789,10 +823,10 @@ export interface FileRoutesByTo {
   '/profile/portrait': typeof ProfilePortraitRoute
   '/profile/privacy': typeof ProfilePrivacyRoute
   '/profile/proches': typeof ProfileProchesRoute
-  '/resources/$category': typeof ResourcesCategoryRouteWithChildren
   '/space/new': typeof SpaceNewRoute
   '/space/settings': typeof SpaceSettingsRoute
   '/agenda': typeof AgendaIndexRoute
+  '/appointments': typeof AppointmentsIndexRoute
   '/care': typeof CareIndexRoute
   '/garden': typeof GardenIndexRoute
   '/help': typeof HelpIndexRoute
@@ -806,17 +840,22 @@ export interface FileRoutesByTo {
   '/care/community/regles': typeof CareCommunityReglesRoute
   '/care/garden/$zone': typeof CareGardenZoneRoute
   '/care/garden/depot': typeof CareGardenDepotRoute
+  '/care/journal/later': typeof CareJournalLaterRoute
   '/help/corps/eau': typeof HelpCorpsEauRoute
   '/help/corps/habiller': typeof HelpCorpsHabillerRoute
   '/help/corps/manger': typeof HelpCorpsMangerRoute
   '/help/corps/nuits': typeof HelpCorpsNuitsRoute
+  '/library/$kind/$id': typeof LibraryKindIdRoute
   '/practical/tasks/$id': typeof PracticalTasksIdRoute
   '/resources/$category/$providerId': typeof ResourcesCategoryProviderIdRoute
   '/resources/confirm/$providerId': typeof ResourcesConfirmProviderIdRoute
   '/care/community': typeof CareCommunityIndexRoute
   '/care/garden': typeof CareGardenIndexRoute
+  '/care/journal': typeof CareJournalIndexRoute
   '/help/corps': typeof HelpCorpsIndexRoute
+  '/library/$kind': typeof LibraryKindIndexRoute
   '/practical/tasks': typeof PracticalTasksIndexRoute
+  '/resources/$category': typeof ResourcesCategoryIndexRoute
   '/api/public/souffle-sound/$id': typeof ApiPublicSouffleSoundIdRoute
   '/care/community/$group/$thread': typeof CareCommunityGroupThreadRoute
   '/help/corps/soin/$id': typeof HelpCorpsSoinIdRoute
@@ -826,7 +865,6 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
-  '/appointments': typeof AppointmentsRoute
   '/auth': typeof AuthRoute
   '/care': typeof CareRouteWithChildren
   '/checkin': typeof CheckinRoute
@@ -849,13 +887,14 @@ export interface FileRoutesById {
   '/wishes': typeof WishesRoute
   '/_authenticated/circle': typeof AuthenticatedCircleRoute
   '/agenda/new': typeof AgendaNewRoute
+  '/appointments/$id': typeof AppointmentsIdRoute
+  '/appointments/new': typeof AppointmentsNewRoute
   '/care/aide': typeof CareAideRoute
   '/care/community': typeof CareCommunityRouteWithChildren
   '/care/dates': typeof CareDatesRoute
   '/care/emotions': typeof CareEmotionsRoute
   '/care/garden': typeof CareGardenRouteWithChildren
   '/care/help': typeof CareHelpRoute
-  '/care/journal': typeof CareJournalRoute
   '/care/memory': typeof CareMemoryRoute
   '/care/resources': typeof CareResourcesRoute
   '/care/respirer': typeof CareRespirerRoute
@@ -870,7 +909,6 @@ export interface FileRoutesById {
   '/home/questions-medecin': typeof HomeQuestionsMedecinRoute
   '/home/ses-affaires': typeof HomeSesAffairesRoute
   '/invite/$token': typeof InviteTokenRoute
-  '/library/$kind': typeof LibraryKindRoute
   '/onboarding/care': typeof OnboardingCareRoute
   '/onboarding/practical': typeof OnboardingPracticalRoute
   '/parcours/$taskId': typeof ParcoursTaskIdRoute
@@ -898,6 +936,7 @@ export interface FileRoutesById {
   '/space/new': typeof SpaceNewRoute
   '/space/settings': typeof SpaceSettingsRoute
   '/agenda/': typeof AgendaIndexRoute
+  '/appointments/': typeof AppointmentsIndexRoute
   '/care/': typeof CareIndexRoute
   '/garden/': typeof GardenIndexRoute
   '/help/': typeof HelpIndexRoute
@@ -911,17 +950,22 @@ export interface FileRoutesById {
   '/care/community/regles': typeof CareCommunityReglesRoute
   '/care/garden/$zone': typeof CareGardenZoneRoute
   '/care/garden/depot': typeof CareGardenDepotRoute
+  '/care/journal/later': typeof CareJournalLaterRoute
   '/help/corps/eau': typeof HelpCorpsEauRoute
   '/help/corps/habiller': typeof HelpCorpsHabillerRoute
   '/help/corps/manger': typeof HelpCorpsMangerRoute
   '/help/corps/nuits': typeof HelpCorpsNuitsRoute
+  '/library/$kind/$id': typeof LibraryKindIdRoute
   '/practical/tasks/$id': typeof PracticalTasksIdRoute
   '/resources/$category/$providerId': typeof ResourcesCategoryProviderIdRoute
   '/resources/confirm/$providerId': typeof ResourcesConfirmProviderIdRoute
   '/care/community/': typeof CareCommunityIndexRoute
   '/care/garden/': typeof CareGardenIndexRoute
+  '/care/journal/': typeof CareJournalIndexRoute
   '/help/corps/': typeof HelpCorpsIndexRoute
+  '/library/$kind/': typeof LibraryKindIndexRoute
   '/practical/tasks/': typeof PracticalTasksIndexRoute
+  '/resources/$category/': typeof ResourcesCategoryIndexRoute
   '/api/public/souffle-sound/$id': typeof ApiPublicSouffleSoundIdRoute
   '/care/community/$group/$thread': typeof CareCommunityGroupThreadRoute
   '/help/corps/soin/$id': typeof HelpCorpsSoinIdRoute
@@ -931,7 +975,6 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/appointments'
     | '/auth'
     | '/care'
     | '/checkin'
@@ -954,13 +997,14 @@ export interface FileRouteTypes {
     | '/wishes'
     | '/circle'
     | '/agenda/new'
+    | '/appointments/$id'
+    | '/appointments/new'
     | '/care/aide'
     | '/care/community'
     | '/care/dates'
     | '/care/emotions'
     | '/care/garden'
     | '/care/help'
-    | '/care/journal'
     | '/care/memory'
     | '/care/resources'
     | '/care/respirer'
@@ -975,7 +1019,6 @@ export interface FileRouteTypes {
     | '/home/questions-medecin'
     | '/home/ses-affaires'
     | '/invite/$token'
-    | '/library/$kind'
     | '/onboarding/care'
     | '/onboarding/practical'
     | '/parcours/$taskId'
@@ -1003,6 +1046,7 @@ export interface FileRouteTypes {
     | '/space/new'
     | '/space/settings'
     | '/agenda/'
+    | '/appointments/'
     | '/care/'
     | '/garden/'
     | '/help/'
@@ -1016,17 +1060,22 @@ export interface FileRouteTypes {
     | '/care/community/regles'
     | '/care/garden/$zone'
     | '/care/garden/depot'
+    | '/care/journal/later'
     | '/help/corps/eau'
     | '/help/corps/habiller'
     | '/help/corps/manger'
     | '/help/corps/nuits'
+    | '/library/$kind/$id'
     | '/practical/tasks/$id'
     | '/resources/$category/$providerId'
     | '/resources/confirm/$providerId'
     | '/care/community/'
     | '/care/garden/'
+    | '/care/journal/'
     | '/help/corps/'
+    | '/library/$kind/'
     | '/practical/tasks/'
+    | '/resources/$category/'
     | '/api/public/souffle-sound/$id'
     | '/care/community/$group/$thread'
     | '/help/corps/soin/$id'
@@ -1034,7 +1083,6 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/appointments'
     | '/auth'
     | '/checkin'
     | '/community'
@@ -1052,11 +1100,12 @@ export interface FileRouteTypes {
     | '/wishes'
     | '/circle'
     | '/agenda/new'
+    | '/appointments/$id'
+    | '/appointments/new'
     | '/care/aide'
     | '/care/dates'
     | '/care/emotions'
     | '/care/help'
-    | '/care/journal'
     | '/care/memory'
     | '/care/resources'
     | '/care/respirer'
@@ -1070,7 +1119,6 @@ export interface FileRouteTypes {
     | '/home/questions-medecin'
     | '/home/ses-affaires'
     | '/invite/$token'
-    | '/library/$kind'
     | '/onboarding/care'
     | '/onboarding/practical'
     | '/parcours/$taskId'
@@ -1093,10 +1141,10 @@ export interface FileRouteTypes {
     | '/profile/portrait'
     | '/profile/privacy'
     | '/profile/proches'
-    | '/resources/$category'
     | '/space/new'
     | '/space/settings'
     | '/agenda'
+    | '/appointments'
     | '/care'
     | '/garden'
     | '/help'
@@ -1110,17 +1158,22 @@ export interface FileRouteTypes {
     | '/care/community/regles'
     | '/care/garden/$zone'
     | '/care/garden/depot'
+    | '/care/journal/later'
     | '/help/corps/eau'
     | '/help/corps/habiller'
     | '/help/corps/manger'
     | '/help/corps/nuits'
+    | '/library/$kind/$id'
     | '/practical/tasks/$id'
     | '/resources/$category/$providerId'
     | '/resources/confirm/$providerId'
     | '/care/community'
     | '/care/garden'
+    | '/care/journal'
     | '/help/corps'
+    | '/library/$kind'
     | '/practical/tasks'
+    | '/resources/$category'
     | '/api/public/souffle-sound/$id'
     | '/care/community/$group/$thread'
     | '/help/corps/soin/$id'
@@ -1129,7 +1182,6 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/_authenticated'
-    | '/appointments'
     | '/auth'
     | '/care'
     | '/checkin'
@@ -1152,13 +1204,14 @@ export interface FileRouteTypes {
     | '/wishes'
     | '/_authenticated/circle'
     | '/agenda/new'
+    | '/appointments/$id'
+    | '/appointments/new'
     | '/care/aide'
     | '/care/community'
     | '/care/dates'
     | '/care/emotions'
     | '/care/garden'
     | '/care/help'
-    | '/care/journal'
     | '/care/memory'
     | '/care/resources'
     | '/care/respirer'
@@ -1173,7 +1226,6 @@ export interface FileRouteTypes {
     | '/home/questions-medecin'
     | '/home/ses-affaires'
     | '/invite/$token'
-    | '/library/$kind'
     | '/onboarding/care'
     | '/onboarding/practical'
     | '/parcours/$taskId'
@@ -1201,6 +1253,7 @@ export interface FileRouteTypes {
     | '/space/new'
     | '/space/settings'
     | '/agenda/'
+    | '/appointments/'
     | '/care/'
     | '/garden/'
     | '/help/'
@@ -1214,17 +1267,22 @@ export interface FileRouteTypes {
     | '/care/community/regles'
     | '/care/garden/$zone'
     | '/care/garden/depot'
+    | '/care/journal/later'
     | '/help/corps/eau'
     | '/help/corps/habiller'
     | '/help/corps/manger'
     | '/help/corps/nuits'
+    | '/library/$kind/$id'
     | '/practical/tasks/$id'
     | '/resources/$category/$providerId'
     | '/resources/confirm/$providerId'
     | '/care/community/'
     | '/care/garden/'
+    | '/care/journal/'
     | '/help/corps/'
+    | '/library/$kind/'
     | '/practical/tasks/'
+    | '/resources/$category/'
     | '/api/public/souffle-sound/$id'
     | '/care/community/$group/$thread'
     | '/help/corps/soin/$id'
@@ -1234,7 +1292,6 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
-  AppointmentsRoute: typeof AppointmentsRoute
   AuthRoute: typeof AuthRoute
   CareRoute: typeof CareRouteWithChildren
   CheckinRoute: typeof CheckinRoute
@@ -1256,6 +1313,8 @@ export interface RootRouteChildren {
   VitrineRoute: typeof VitrineRoute
   WishesRoute: typeof WishesRoute
   AgendaNewRoute: typeof AgendaNewRoute
+  AppointmentsIdRoute: typeof AppointmentsIdRoute
+  AppointmentsNewRoute: typeof AppointmentsNewRoute
   ComposeZoneRoute: typeof ComposeZoneRoute
   DevDesignRoute: typeof DevDesignRoute
   GardenZoneRoute: typeof GardenZoneRoute
@@ -1264,18 +1323,20 @@ export interface RootRouteChildren {
   HomeQuestionsMedecinRoute: typeof HomeQuestionsMedecinRoute
   HomeSesAffairesRoute: typeof HomeSesAffairesRoute
   InviteTokenRoute: typeof InviteTokenRoute
-  LibraryKindRoute: typeof LibraryKindRoute
   PresenceAboutRoute: typeof PresenceAboutRoute
   ResourcesCategoryRoute: typeof ResourcesCategoryRouteWithChildren
   SpaceNewRoute: typeof SpaceNewRoute
   SpaceSettingsRoute: typeof SpaceSettingsRoute
   AgendaIndexRoute: typeof AgendaIndexRoute
+  AppointmentsIndexRoute: typeof AppointmentsIndexRoute
   GardenIndexRoute: typeof GardenIndexRoute
   HomeIndexRoute: typeof HomeIndexRoute
   PresenceIndexRoute: typeof PresenceIndexRoute
   ResourcesIndexRoute: typeof ResourcesIndexRoute
   SpaceIndexRoute: typeof SpaceIndexRoute
+  LibraryKindIdRoute: typeof LibraryKindIdRoute
   ResourcesConfirmProviderIdRoute: typeof ResourcesConfirmProviderIdRoute
+  LibraryKindIndexRoute: typeof LibraryKindIndexRoute
   ApiPublicSouffleSoundIdRoute: typeof ApiPublicSouffleSoundIdRoute
 }
 
@@ -1421,13 +1482,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/appointments': {
-      id: '/appointments'
-      path: '/appointments'
-      fullPath: '/appointments'
-      preLoaderRoute: typeof AppointmentsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/_authenticated': {
       id: '/_authenticated'
       path: ''
@@ -1511,6 +1565,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/care/'
       preLoaderRoute: typeof CareIndexRouteImport
       parentRoute: typeof CareRoute
+    }
+    '/appointments/': {
+      id: '/appointments/'
+      path: '/appointments'
+      fullPath: '/appointments/'
+      preLoaderRoute: typeof AppointmentsIndexRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/agenda/': {
       id: '/agenda/'
@@ -1701,13 +1762,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OnboardingCareRouteImport
       parentRoute: typeof OnboardingRoute
     }
-    '/library/$kind': {
-      id: '/library/$kind'
-      path: '/library/$kind'
-      fullPath: '/library/$kind'
-      preLoaderRoute: typeof LibraryKindRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/invite/$token': {
       id: '/invite/$token'
       path: '/invite/$token'
@@ -1806,13 +1860,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CareMemoryRouteImport
       parentRoute: typeof CareRoute
     }
-    '/care/journal': {
-      id: '/care/journal'
-      path: '/journal'
-      fullPath: '/care/journal'
-      preLoaderRoute: typeof CareJournalRouteImport
-      parentRoute: typeof CareRoute
-    }
     '/care/help': {
       id: '/care/help'
       path: '/help'
@@ -1855,6 +1902,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CareAideRouteImport
       parentRoute: typeof CareRoute
     }
+    '/appointments/new': {
+      id: '/appointments/new'
+      path: '/appointments/new'
+      fullPath: '/appointments/new'
+      preLoaderRoute: typeof AppointmentsNewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/appointments/$id': {
+      id: '/appointments/$id'
+      path: '/appointments/$id'
+      fullPath: '/appointments/$id'
+      preLoaderRoute: typeof AppointmentsIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/agenda/new': {
       id: '/agenda/new'
       path: '/agenda/new'
@@ -1869,6 +1930,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedCircleRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/resources/$category/': {
+      id: '/resources/$category/'
+      path: '/'
+      fullPath: '/resources/$category/'
+      preLoaderRoute: typeof ResourcesCategoryIndexRouteImport
+      parentRoute: typeof ResourcesCategoryRoute
+    }
     '/practical/tasks/': {
       id: '/practical/tasks/'
       path: '/'
@@ -1876,12 +1944,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PracticalTasksIndexRouteImport
       parentRoute: typeof PracticalTasksRoute
     }
+    '/library/$kind/': {
+      id: '/library/$kind/'
+      path: '/library/$kind'
+      fullPath: '/library/$kind/'
+      preLoaderRoute: typeof LibraryKindIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/help/corps/': {
       id: '/help/corps/'
       path: '/'
       fullPath: '/help/corps/'
       preLoaderRoute: typeof HelpCorpsIndexRouteImport
       parentRoute: typeof HelpCorpsRoute
+    }
+    '/care/journal/': {
+      id: '/care/journal/'
+      path: '/journal'
+      fullPath: '/care/journal/'
+      preLoaderRoute: typeof CareJournalIndexRouteImport
+      parentRoute: typeof CareRoute
     }
     '/care/garden/': {
       id: '/care/garden/'
@@ -1918,6 +2000,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PracticalTasksIdRouteImport
       parentRoute: typeof PracticalTasksRoute
     }
+    '/library/$kind/$id': {
+      id: '/library/$kind/$id'
+      path: '/library/$kind/$id'
+      fullPath: '/library/$kind/$id'
+      preLoaderRoute: typeof LibraryKindIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/help/corps/nuits': {
       id: '/help/corps/nuits'
       path: '/nuits'
@@ -1945,6 +2034,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/help/corps/eau'
       preLoaderRoute: typeof HelpCorpsEauRouteImport
       parentRoute: typeof HelpCorpsRoute
+    }
+    '/care/journal/later': {
+      id: '/care/journal/later'
+      path: '/journal/later'
+      fullPath: '/care/journal/later'
+      preLoaderRoute: typeof CareJournalLaterRouteImport
+      parentRoute: typeof CareRoute
     }
     '/care/garden/depot': {
       id: '/care/garden/depot'
@@ -2050,13 +2146,14 @@ interface CareRouteChildren {
   CareEmotionsRoute: typeof CareEmotionsRoute
   CareGardenRoute: typeof CareGardenRouteWithChildren
   CareHelpRoute: typeof CareHelpRoute
-  CareJournalRoute: typeof CareJournalRoute
   CareMemoryRoute: typeof CareMemoryRoute
   CareResourcesRoute: typeof CareResourcesRoute
   CareRespirerRoute: typeof CareRespirerRoute
   CareRituelsRoute: typeof CareRituelsRoute
   CareSonsRoute: typeof CareSonsRoute
   CareIndexRoute: typeof CareIndexRoute
+  CareJournalLaterRoute: typeof CareJournalLaterRoute
+  CareJournalIndexRoute: typeof CareJournalIndexRoute
 }
 
 const CareRouteChildren: CareRouteChildren = {
@@ -2066,13 +2163,14 @@ const CareRouteChildren: CareRouteChildren = {
   CareEmotionsRoute: CareEmotionsRoute,
   CareGardenRoute: CareGardenRouteWithChildren,
   CareHelpRoute: CareHelpRoute,
-  CareJournalRoute: CareJournalRoute,
   CareMemoryRoute: CareMemoryRoute,
   CareResourcesRoute: CareResourcesRoute,
   CareRespirerRoute: CareRespirerRoute,
   CareRituelsRoute: CareRituelsRoute,
   CareSonsRoute: CareSonsRoute,
   CareIndexRoute: CareIndexRoute,
+  CareJournalLaterRoute: CareJournalLaterRoute,
+  CareJournalIndexRoute: CareJournalIndexRoute,
 }
 
 const CareRouteWithChildren = CareRoute._addFileChildren(CareRouteChildren)
@@ -2216,10 +2314,12 @@ const ProfileRouteWithChildren =
 
 interface ResourcesCategoryRouteChildren {
   ResourcesCategoryProviderIdRoute: typeof ResourcesCategoryProviderIdRoute
+  ResourcesCategoryIndexRoute: typeof ResourcesCategoryIndexRoute
 }
 
 const ResourcesCategoryRouteChildren: ResourcesCategoryRouteChildren = {
   ResourcesCategoryProviderIdRoute: ResourcesCategoryProviderIdRoute,
+  ResourcesCategoryIndexRoute: ResourcesCategoryIndexRoute,
 }
 
 const ResourcesCategoryRouteWithChildren =
@@ -2228,7 +2328,6 @@ const ResourcesCategoryRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
-  AppointmentsRoute: AppointmentsRoute,
   AuthRoute: AuthRoute,
   CareRoute: CareRouteWithChildren,
   CheckinRoute: CheckinRoute,
@@ -2250,6 +2349,8 @@ const rootRouteChildren: RootRouteChildren = {
   VitrineRoute: VitrineRoute,
   WishesRoute: WishesRoute,
   AgendaNewRoute: AgendaNewRoute,
+  AppointmentsIdRoute: AppointmentsIdRoute,
+  AppointmentsNewRoute: AppointmentsNewRoute,
   ComposeZoneRoute: ComposeZoneRoute,
   DevDesignRoute: DevDesignRoute,
   GardenZoneRoute: GardenZoneRoute,
@@ -2258,18 +2359,20 @@ const rootRouteChildren: RootRouteChildren = {
   HomeQuestionsMedecinRoute: HomeQuestionsMedecinRoute,
   HomeSesAffairesRoute: HomeSesAffairesRoute,
   InviteTokenRoute: InviteTokenRoute,
-  LibraryKindRoute: LibraryKindRoute,
   PresenceAboutRoute: PresenceAboutRoute,
   ResourcesCategoryRoute: ResourcesCategoryRouteWithChildren,
   SpaceNewRoute: SpaceNewRoute,
   SpaceSettingsRoute: SpaceSettingsRoute,
   AgendaIndexRoute: AgendaIndexRoute,
+  AppointmentsIndexRoute: AppointmentsIndexRoute,
   GardenIndexRoute: GardenIndexRoute,
   HomeIndexRoute: HomeIndexRoute,
   PresenceIndexRoute: PresenceIndexRoute,
   ResourcesIndexRoute: ResourcesIndexRoute,
   SpaceIndexRoute: SpaceIndexRoute,
+  LibraryKindIdRoute: LibraryKindIdRoute,
   ResourcesConfirmProviderIdRoute: ResourcesConfirmProviderIdRoute,
+  LibraryKindIndexRoute: LibraryKindIndexRoute,
   ApiPublicSouffleSoundIdRoute: ApiPublicSouffleSoundIdRoute,
 }
 export const routeTree = rootRouteImport

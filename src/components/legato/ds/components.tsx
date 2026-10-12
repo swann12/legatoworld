@@ -267,11 +267,10 @@ export function ChatBubble({ space, className = "", from, children }: S & { from
   const p = from === "presence";
   return (
     <div className={`${spaceClass(space)} flex ${p ? "justify-start" : "justify-end"} ${className}`}>
-      <div className="max-w-[82%] px-4 py-3"
+      <div className={p ? "max-w-[87%] px-5 py-4" : "max-w-[85%] px-5 py-4"}
         style={p
-          ? { background: "var(--lg-mint-pale)", color: "var(--lg-deep)", ...serif, fontSize: 18, lineHeight: 1.3 }
+          ? { background: "var(--lg-linen)", color: "var(--lg-deep)", ...serif, fontSize: 20, lineHeight: 1.3 }
           : { background: "var(--lg-blue)", color: "var(--lg-deep)", ...sans, fontSize: 14.5, lineHeight: 1.5 }}>
-        {p && <p className="lg-mono mb-1" style={{ color: "var(--lg-sub)" }}>Présence · intelligence artificielle</p>}
         {children}
       </div>
     </div>
