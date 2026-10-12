@@ -11,9 +11,15 @@ export type SpaceDate = {
   date: string; // ISO YYYY-MM-DD
 };
 
+export type SpaceKind = "deuil" | "malade" | "animal" | "questions";
+export const SPACE_KIND_LABEL: Record<SpaceKind, string> = { deuil: "Deuil", malade: "Proche malade", animal: "Animal", questions: "Questions sur la mort" };
+/** Type d'un espace — déduit du lien pour les anciens espaces. */
+export const spaceKind = (s: { kind?: SpaceKind; relation: Relation | null }): SpaceKind => s.kind ?? (s.relation === "animal" ? "animal" : "deuil");
+
 export type Space = {
   id: string;
   name: string;
+  kind?: SpaceKind;
   relation: Relation | null;
   birthday?: string | null;  // ISO YYYY-MM-DD
   deathDate?: string | null; // ISO YYYY-MM-DD
@@ -106,6 +112,7 @@ export function useSpaces() {
       id: uid(),
       name: input.name.trim() || "Proche",
       relation: input.relation ?? null,
+      kind: input.kind,
       birthday: input.birthday ?? null,
       deathDate: input.deathDate ?? null,
       note: input.note ?? "",
