@@ -45,7 +45,7 @@ function NewDate() {
   };
 
   return (
-    <StandardLayout back="/agenda" backLabel="Les jours qui viennent">
+    <StandardLayout activeTab="/home" back="/agenda" backLabel="Les jours qui viennent">
       <PageTitle className="pt-8">Ajouter<br /><em>une date.</em></PageTitle>
       <Field className="mt-8" label="Quelle date" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Son anniversaire" />
       <Field className="mt-6" label="Le · chaque année" type="date" value={date} onChange={(e) => setDate(e.target.value)} />

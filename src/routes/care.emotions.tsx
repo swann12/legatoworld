@@ -66,7 +66,7 @@ function Emotions() {
     const day = mood < 50 ? "une journée dure" : "une journée plus douce";
     const reason = picked.includes("fatigue") ? "Parce que la fatigue pèse sur tout le reste" : "Pour relâcher un peu ce qui pèse";
     return (
-      <StandardLayout back="/home" backLabel="Aujourd'hui">
+      <StandardLayout activeTab="/home" back="/home" backLabel="Aujourd'hui">
         <PageTitle className="pt-8">C'est noté.<br /><em>Merci de l'avoir dit.</em></PageTitle>
         <Lead className="mt-3">{said ? `${said} : ${day}.` : `Merci. ${day.charAt(0).toUpperCase() + day.slice(1)}.`} Voici ce qui peut aider, sans obligation.</Lead>
         <Block className="mt-8" label="Maintenant" title="Une respiration de trois minutes" meta={reason}>
@@ -81,7 +81,7 @@ function Emotions() {
   }
 
   return (
-    <StandardLayout back="/home" backLabel="Aujourd'hui">
+    <StandardLayout activeTab="/home" back="/home" backLabel="Aujourd'hui">
       <PageTitle className="pt-8">Comment allez-vous,<br /><em>vraiment ?</em></PageTitle>
       <Lead className="mt-3">Il n'y a pas de bonne réponse. Cela sert seulement à vous proposer ce qui peut aider.</Lead>
 
@@ -90,7 +90,7 @@ function Emotions() {
         {CHOICES.map((c, i) => {
           const on = picked.includes(c.id);
           return (
-            <span key={c.id}>
+            <span key={c.id} className="whitespace-nowrap">
               <button type="button" onClick={() => toggle(c.id)} aria-pressed={on}
                 className={on ? "underline underline-offset-4" : ""} style={{ color: on ? "var(--sp-ink)" : "var(--sp-sub)", textDecorationThickness: 1 }}>{c.label}</button>
               {i < CHOICES.length - 1 && <span style={{ color: "var(--sp-sub)" }}>, </span>}

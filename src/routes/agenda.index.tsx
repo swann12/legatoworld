@@ -52,7 +52,7 @@ function Agenda() {
   const backLabel = from === "practical" ? "Démarches" : from === "care" ? "Soutien" : "Aujourd'hui";
 
   return (
-    <StandardLayout back={back} backLabel={backLabel}>
+    <StandardLayout activeTab="/home" back={back} backLabel={backLabel}>
       <PageTitle className="pt-8">Les jours<br /><em>qui viennent.</em></PageTitle>
       <Lead className="mt-3">Les dates importantes de cet espace, au même endroit.</Lead>
       <ul className="mt-7">

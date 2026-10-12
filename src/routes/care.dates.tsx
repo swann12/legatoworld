@@ -36,7 +36,7 @@ function HardDate() {
 
   if (!d) {
     return (
-      <StandardLayout back="/agenda" backLabel="Les jours qui viennent">
+      <StandardLayout activeTab="/home" back="/agenda" backLabel="Les jours qui viennent">
         <PageTitle className="pt-8">Aucune date<br /><em>à préparer.</em></PageTitle>
         <Lead className="mt-3">Ajoutez une date importante : Legato vous aidera à ne pas la passer seul.</Lead>
         <div className="mt-8"><PrimaryButton plus to="/agenda/new">Ajouter une date</PrimaryButton></div>
@@ -57,7 +57,7 @@ function HardDate() {
   };
 
   return (
-    <StandardLayout back="/agenda" backLabel="Les jours qui viennent">
+    <StandardLayout activeTab="/home" back="/agenda" backLabel="Les jours qui viennent">
       <p className="lg-mono pt-8" style={{ color: "var(--sp-ink)" }}>{when} · {away}</p>
       <PageTitle className="mt-3">{d.label}.<br /><em>Mieux vaut ne pas être seul.</em></PageTitle>
       <Lead className="mt-3">Ces dates sont souvent plus dures qu'on ne l'imagine. Vous pouvez les préparer un peu.</Lead>
