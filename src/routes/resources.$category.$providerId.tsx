@@ -5,22 +5,15 @@ import { getCategory, getProvider } from "@/lib/resources-data";
 import { addAppointment } from "@/lib/appointments-store";
 
 export const Route = createFileRoute("/resources/$category/$providerId")({
-  loader: ({ params }) => {
-    const p = getProvider(params.providerId);
-    if (!p) throw notFound();
-    return { p };
-  },
-  head: ({ loaderData }) => ({
-    meta: loaderData
-      ? [
-          { title: `${loaderData.p.firstName} ${loaderData.p.lastName} — Legato` },
-          { name: "description", content: `${loaderData.p.speciality} · ${loaderData.p.city}` },
-          { property: "og:title", content: `${loaderData.p.firstName} ${loaderData.p.lastName} — Legato` },
-          { property: "og:description", content: loaderData.p.speciality },
-          { property: "og:type", content: "profile" },
-          { name: "twitter:card", content: "summary" },
-        ]
-      : [{ title: "Professionnel indisponible — Legato" }, { name: "robots", content: "noindex" }],
+  head: () => ({
+    meta: [
+      { title: "Fiche professionnel — Legato" },
+      { name: "description", content: "Adresse, tarif, séance et créneaux disponibles." },
+      { property: "og:title", content: "Fiche professionnel — Legato" },
+      { property: "og:description", content: "Choisir un créneau et réserver." },
+      { property: "og:type", content: "profile" },
+      { name: "twitter:card", content: "summary" },
+    ],
   }),
   notFoundComponent: () => <StandardLayout space="support" back="/care/help" backLabel="Résultats"><p className="mt-12">Cette personne n'est plus disponible.</p></StandardLayout>,
   component: Fiche,
@@ -37,7 +30,10 @@ function buildSlots(): Slot[][] {
 }
 
 function Fiche() {
-  const { p } = Route.useLoaderData();
+  const { providerId } = Route.useParams();
+  const found = getProvider(providerId);
+  if (!found) throw notFound();
+  const p = found;
   const navigate = useNavigate();
   const practical = getCategory(p.category)?.space === "practical";
   const [days, setDays] = useState<Slot[][]>([]);
