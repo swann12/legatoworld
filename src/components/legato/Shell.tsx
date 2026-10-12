@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { Link, useLocation } from "@tanstack/react-router";
-import { SpaceSwitch } from "./SpaceSwitch";
+import { BottomNav } from "./ds/BottomNav";
 import { ModeBackground } from "./ModeBackground";
 import { useLegato } from "@/lib/legato-state";
 
@@ -53,7 +53,7 @@ export function Shell({
         <div className="relative rise" style={{ zIndex: 1 }}>{children}</div>
       </div>
       {!hideNav && isRoot && <ProfileDot />}
-      {!hideNav && <SpaceSwitch activeSpace={navSpace} />}
+      {!hideNav && <BottomNav />}
     </div>
   );
 }

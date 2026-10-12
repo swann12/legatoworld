@@ -1,0 +1,2 @@
+- New screens use `src/components/legato/ds/` (components + StandardLayout/QuestionLayout/ExperienceLayout) with a `space` prop mapped to `.lg-space-*` CSS vars in styles.css; never hardcode colors in pages. Why: one color pair per space, themable in one place.
+- Global nav is `ds/BottomNav` (5 tabs), rendered by Shell. Why: single navigation per the design system.
