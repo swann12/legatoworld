@@ -1104,3 +1104,46 @@
 .lg-provider-spec > div { padding:14px 0; }
 .lg-provider-spec dt { width:98px; }
 .lg-provider-spec dd { font-size:20px; }
+
+/* Étape 10 : compositions sur papier, fonctions supplémentaires repliées. */
+.lg-row-status { color:var(--sp-accent); font-family:var(--lg-mono); font-size:10.5px; text-transform:uppercase; }
+.lg-texts-input::placeholder { font-family:var(--lg-serif); font-style:italic; font-size:18px; }
+.lg-step10-note { background:var(--sp-block); color:var(--sp-block-ink); padding:18px 20px; font-size:14px; line-height:1.55; }
+.lg-note-link { font-size:14px; line-height:1.55; text-decoration:none; }
+.lg-text-proposal { display:flex; justify-content:space-between; gap:12px; align-items:center; padding:16px 0; border-bottom:1px solid var(--sp-line); }
+.lg-text-proposal:last-child { border-bottom:0; }
+.lg-step10-extras { margin-top:140px; font-size:13px; color:var(--sp-sub); }
+.lg-step10-extras > summary { cursor:pointer; min-height:44px; display:flex; align-items:center; border-top:1px solid var(--sp-line); }
+.lg-step10-extras .mobile-frame { min-height:0; max-width:100%; }
+.lg-booklet-preview { height:220px; background:var(--sp-block); display:flex; align-items:center; justify-content:center; gap:4px; }
+.lg-booklet-sheet { width:110px; height:160px; background:var(--sp-bg); padding:14px; display:flex; flex-direction:column; }
+.lg-booklet-cover { justify-content:flex-end; font-family:var(--lg-serif); font-size:15px; font-style:italic; line-height:1.1; overflow:hidden; }
+.lg-booklet-cover small { margin-top:5px; color:var(--sp-accent); font-family:var(--lg-mono); font-size:10px; font-style:normal; }
+.lg-booklet-cover img { width:100%; height:80px; object-fit:cover; margin-bottom:auto; }
+.lg-booklet-lines { gap:7px; }
+.lg-booklet-lines span { height:3px; background:var(--sp-line-2); width:80%; }
+.lg-booklet-lines span:nth-child(2) { width:60%; }
+.lg-booklet-lines span:nth-child(3) { width:90%; }
+.lg-booklet-lines span:nth-child(4) { width:70%; }
+.lg-booklet-lines span:nth-child(5) { width:50%; }
+.lg-booklet-lines span:nth-child(6) { width:85%; }
+.lg-booklet-print { display:none; }
+.lg-step10-dialog { background:var(--sp-bg); color:var(--sp-ink); font-family:var(--lg-sans); width:calc(100% - 32px); max-width:430px; max-height:90dvh; overflow-y:auto; border-color:var(--sp-line-2); }
+.lg-step10-dialog h2 { font-family:var(--lg-serif); font-size:28px; font-weight:400; }
+.lg-step10-dialog p { color:var(--sp-sub); }
+.lg-wishes-question [role=progressbar] { padding-top:30px; }
+.lg-wishes-question [role=progressbar] span { background:var(--sp-line-2) !important; }
+.lg-wishes-question [role=progressbar][aria-valuenow="1"] span:first-child,
+.lg-wishes-question [role=progressbar][aria-valuenow="2"] span:nth-child(-n+2),
+.lg-wishes-question [role=progressbar][aria-valuenow="3"] span:nth-child(-n+3),
+.lg-wishes-question [role=progressbar][aria-valuenow="4"] span { background:var(--sp-accent) !important; }
+@media print {
+  body:has(.lg-booklet-print) nav,
+  body:has(.lg-booklet-print) header,
+  body:has(.lg-booklet-print) .lg-booklet-screen { display:none !important; }
+  .lg-booklet-print { display:block; font-family:var(--lg-serif); color:var(--lg-deep); }
+  .lg-booklet-print h1 { font-size:30pt; }
+  .lg-booklet-print h2 { font-size:20pt; }
+  .lg-booklet-print p { white-space:pre-line; margin:16pt 0; }
+  .lg-booklet-print img { max-width:60mm; max-height:60mm; object-fit:cover; }
+}
