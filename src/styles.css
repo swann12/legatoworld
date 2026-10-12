@@ -1072,3 +1072,8 @@
   --sp-btn-bg: var(--lg-mint); --sp-btn-fg: var(--lg-deep);
   --sp-accent: var(--lg-mint); --sp-fill: var(--lg-mint); --sp-stroke: var(--lg-mint);
 }
+.lg-ds-title em { font-style: italic; color: var(--sp-accent); }
+.lg-moodbar { -webkit-appearance: none; appearance: none; height: 14px; border-radius: 7px; background: linear-gradient(90deg, var(--lg-deep), var(--lg-blue)); }
+.lg-moodbar::-webkit-slider-thumb { -webkit-appearance: none; width: 26px; height: 26px; border-radius: 50%; background: var(--lg-cream); border: 1.5px solid var(--lg-deep); }
+.lg-moodbar::-moz-range-thumb { width: 26px; height: 26px; border-radius: 50%; background: var(--lg-cream); border: 1.5px solid var(--lg-deep); }
+@media (prefers-reduced-motion: reduce) { .lg-experience * { animation: none !important; transition: none !important; } }
