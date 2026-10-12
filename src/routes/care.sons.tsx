@@ -74,7 +74,7 @@ function Sons() {
               <button type="button" onClick={() => choose(i)} className="flex w-full items-center justify-between py-4 text-left"
                 style={{ borderBottom: "1px solid color-mix(in oklab, var(--lg-deep) 25%, transparent)" }}>
                 <span className={i === sel ? "italic" : ""} style={{ fontFamily: "var(--lg-serif)", fontSize: 20 }}>{s.label}</span>
-                <span className="lg-mono">{s.min} min</span>
+                <span className="lg-mono" style={{ color: "var(--lg-deep)" }}>{s.min} min</span>
               </button>
             </li>
           ))}

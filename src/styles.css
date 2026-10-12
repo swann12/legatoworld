@@ -1012,6 +1012,7 @@
   --lg-grad-soutien: linear-gradient(180deg, #CFDBE8 0%, #A9D6C4 45%, #2C4B40 100%);
   --lg-grad-nuit:    linear-gradient(180deg, #2C4B40 0%, #5E8F7F 52%, #CFDBE8 100%);
   --lg-grad-memoire: linear-gradient(180deg, #7A2E2C 0%, #A5534F 42%, #EBC7C4 100%);
+  --lg-grad-foret:   linear-gradient(180deg, #BFE3D2 0%, #8FBFAA 55%, #5E8F7F 100%);
 
   /* Typographies */
   --lg-serif: 'Instrument Serif', Georgia, serif;
