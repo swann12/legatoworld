@@ -90,7 +90,7 @@ function Title({ t }: { t: [string, string] }) {
 export function CorpsTopic({ sujet }: { sujet: CorpsSujet }) {
   const t = CORPS[sujet];
   return (
-    <StandardLayout space="support" back="/help/corps" backLabel="Le corps" activeTab="support">
+    <StandardLayout space="support" back="/help/corps" backLabel="Le corps" activeTab="/care">
       <Title t={t.title} />
       <Lead space="support" className="mt-4">{t.lead}</Lead>
       <SectionLabel space="support" className="mt-10">Ce qui aide</SectionLabel>
@@ -108,7 +108,7 @@ export function CorpsTopic({ sujet }: { sujet: CorpsSujet }) {
 export function CorpsContenus({ sujet }: { sujet: CorpsSujet }) {
   const t = CORPS[sujet];
   return (
-    <StandardLayout space="support" back={`/help/corps/${sujet}`} backLabel={t.label} activeTab="support">
+    <StandardLayout space="support" back={`/help/corps/${sujet}`} backLabel={t.label} activeTab="/care">
       <Title t={[`${t.label} :`, "écouter, lire, en parler."]} />
       <Lead space="support" className="mt-4">{t.contenus.lead}</Lead>
       <div className="mt-8">

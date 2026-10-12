@@ -25,7 +25,7 @@ const ITEMS = [
 
 function Corps() {
   return (
-    <StandardLayout space="support" back="/care" backLabel="Soutien" activeTab="support">
+    <StandardLayout space="support" back="/care" backLabel="Soutien" activeTab="/care">
       <PageTitle space="support" className="pt-8">Prendre soin<br /><em>de votre corps.</em></PageTitle>
       <Lead space="support" className="mt-4">En deuil, on oublie souvent de dormir, de manger, de se laver. Choisissez un seul sujet.</Lead>
       <div className="mt-8">

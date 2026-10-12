@@ -23,7 +23,7 @@ const ITEMS = [
 
 function Soin() {
   return (
-    <StandardLayout space="support" back="/help/corps" backLabel="Le corps" activeTab="support">
+    <StandardLayout space="support" back="/help/corps" backLabel="Le corps" activeTab="/care">
       <PageTitle space="support" className="pt-8">Un moment<br /><em>pour vous.</em></PageTitle>
       <Lead space="support" className="mt-4">Dix minutes de soin, guidées pas à pas. Choisissez par où commencer.</Lead>
       <div className="mt-8">
