@@ -89,6 +89,8 @@ import { Route as CareEmotionsRouteImport } from './routes/care.emotions'
 import { Route as CareDatesRouteImport } from './routes/care.dates'
 import { Route as CareCommunityRouteImport } from './routes/care.community'
 import { Route as CareAideRouteImport } from './routes/care.aide'
+import { Route as AppointmentsNewRouteImport } from './routes/appointments.new'
+import { Route as AppointmentsIdRouteImport } from './routes/appointments.$id'
 import { Route as AgendaNewRouteImport } from './routes/agenda.new'
 import { Route as AuthenticatedCircleRouteImport } from './routes/_authenticated/circle'
 import { Route as PracticalTasksIndexRouteImport } from './routes/practical.tasks.index'
@@ -513,6 +515,16 @@ const CareAideRoute = CareAideRouteImport.update({
   path: '/aide',
   getParentRoute: () => CareRoute,
 } as any)
+const AppointmentsNewRoute = AppointmentsNewRouteImport.update({
+  id: '/appointments/new',
+  path: '/appointments/new',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppointmentsIdRoute = AppointmentsIdRouteImport.update({
+  id: '/appointments/$id',
+  path: '/appointments/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AgendaNewRoute = AgendaNewRouteImport.update({
   id: '/agenda/new',
   path: '/agenda/new',
@@ -661,6 +673,8 @@ export interface FileRoutesByFullPath {
   '/wishes': typeof WishesRoute
   '/circle': typeof AuthenticatedCircleRoute
   '/agenda/new': typeof AgendaNewRoute
+  '/appointments/$id': typeof AppointmentsIdRoute
+  '/appointments/new': typeof AppointmentsNewRoute
   '/care/aide': typeof CareAideRoute
   '/care/community': typeof CareCommunityRouteWithChildren
   '/care/dates': typeof CareDatesRoute
@@ -761,6 +775,8 @@ export interface FileRoutesByTo {
   '/wishes': typeof WishesRoute
   '/circle': typeof AuthenticatedCircleRoute
   '/agenda/new': typeof AgendaNewRoute
+  '/appointments/$id': typeof AppointmentsIdRoute
+  '/appointments/new': typeof AppointmentsNewRoute
   '/care/aide': typeof CareAideRoute
   '/care/dates': typeof CareDatesRoute
   '/care/emotions': typeof CareEmotionsRoute
@@ -864,6 +880,8 @@ export interface FileRoutesById {
   '/wishes': typeof WishesRoute
   '/_authenticated/circle': typeof AuthenticatedCircleRoute
   '/agenda/new': typeof AgendaNewRoute
+  '/appointments/$id': typeof AppointmentsIdRoute
+  '/appointments/new': typeof AppointmentsNewRoute
   '/care/aide': typeof CareAideRoute
   '/care/community': typeof CareCommunityRouteWithChildren
   '/care/dates': typeof CareDatesRoute
@@ -971,6 +989,8 @@ export interface FileRouteTypes {
     | '/wishes'
     | '/circle'
     | '/agenda/new'
+    | '/appointments/$id'
+    | '/appointments/new'
     | '/care/aide'
     | '/care/community'
     | '/care/dates'
@@ -1071,6 +1091,8 @@ export interface FileRouteTypes {
     | '/wishes'
     | '/circle'
     | '/agenda/new'
+    | '/appointments/$id'
+    | '/appointments/new'
     | '/care/aide'
     | '/care/dates'
     | '/care/emotions'
@@ -1173,6 +1195,8 @@ export interface FileRouteTypes {
     | '/wishes'
     | '/_authenticated/circle'
     | '/agenda/new'
+    | '/appointments/$id'
+    | '/appointments/new'
     | '/care/aide'
     | '/care/community'
     | '/care/dates'
@@ -1279,6 +1303,8 @@ export interface RootRouteChildren {
   VitrineRoute: typeof VitrineRoute
   WishesRoute: typeof WishesRoute
   AgendaNewRoute: typeof AgendaNewRoute
+  AppointmentsIdRoute: typeof AppointmentsIdRoute
+  AppointmentsNewRoute: typeof AppointmentsNewRoute
   ComposeZoneRoute: typeof ComposeZoneRoute
   DevDesignRoute: typeof DevDesignRoute
   GardenZoneRoute: typeof GardenZoneRoute
@@ -1866,6 +1892,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CareAideRouteImport
       parentRoute: typeof CareRoute
     }
+    '/appointments/new': {
+      id: '/appointments/new'
+      path: '/appointments/new'
+      fullPath: '/appointments/new'
+      preLoaderRoute: typeof AppointmentsNewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/appointments/$id': {
+      id: '/appointments/$id'
+      path: '/appointments/$id'
+      fullPath: '/appointments/$id'
+      preLoaderRoute: typeof AppointmentsIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/agenda/new': {
       id: '/agenda/new'
       path: '/agenda/new'
@@ -2290,6 +2330,8 @@ const rootRouteChildren: RootRouteChildren = {
   VitrineRoute: VitrineRoute,
   WishesRoute: WishesRoute,
   AgendaNewRoute: AgendaNewRoute,
+  AppointmentsIdRoute: AppointmentsIdRoute,
+  AppointmentsNewRoute: AppointmentsNewRoute,
   ComposeZoneRoute: ComposeZoneRoute,
   DevDesignRoute: DevDesignRoute,
   GardenZoneRoute: GardenZoneRoute,
