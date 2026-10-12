@@ -1,26 +1,35 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { ArrowLeft } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable";
 import { toast } from "sonner";
+import { Field, PrimaryButton, TextLink } from "@/components/legato/ds";
 
 export const Route = createFileRoute("/auth")({
-  head: () => ({ meta: [{ title: "Se connecter — Legato" }] }),
+  head: () => ({
+    meta: [
+      { title: "Se connecter — Legato" },
+      { name: "description", content: "Retrouvez votre espace Legato, tel que vous l'avez laissé." },
+      { property: "og:title", content: "Se connecter — Legato" },
+      { property: "og:description", content: "Votre espace vous attend, tel que vous l'avez laissé." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
+    ],
+  }),
   component: AuthPage,
 });
 
+/** 004 · Se connecter */
 function AuthPage() {
   const navigate = useNavigate();
   const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
   const [busy, setBusy] = useState(false);
 
   useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => {
-      if (data.user) navigate({ to: "/home" });
-    });
+    supabase.auth.getUser().then(({ data }) => { if (data.user) navigate({ to: "/home" }); });
   }, [navigate]);
 
   const onSubmit = async (e: React.FormEvent) => {
@@ -29,16 +38,9 @@ function AuthPage() {
     setBusy(true);
     try {
       if (mode === "signup") {
-        const { error } = await supabase.auth.signUp({
-          email, password,
-          options: {
-            emailRedirectTo: window.location.origin + "/home",
-            data: { display_name: name || email },
-          },
-        });
+        const { error } = await supabase.auth.signUp({ email, password, options: { emailRedirectTo: window.location.origin + "/home" } });
         if (error) throw error;
-        toast.success("Compte créé. Bienvenue.");
-        navigate({ to: "/home" });
+        toast.success("Compte créé. Vérifiez votre boîte mail.");
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
@@ -51,67 +53,43 @@ function AuthPage() {
     }
   };
 
+  const onForgot = async () => {
+    if (!email.trim()) { toast("Indiquez d'abord votre adresse e-mail."); return; }
+    const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), { redirectTo: window.location.origin + "/auth" });
+    if (error) toast.error("Envoi impossible pour le moment.");
+    else toast.success("Un lien vous a été envoyé par e-mail.");
+  };
+
   const onGoogle = async () => {
     if (busy) return;
     setBusy(true);
     const res = await lovable.auth.signInWithOAuth("google", { redirect_uri: window.location.origin + "/home" });
-    if (res.error) {
-      toast.error("Connexion Google impossible.");
-      setBusy(false);
-    }
+    if (res.error) { toast.error("Connexion Google impossible."); setBusy(false); }
   };
 
   return (
-    <main className="min-h-dvh bg-paper text-dusk flex items-center justify-center px-6 py-10">
-      <div className="w-full max-w-[400px]">
-        <Link to="/" className="mono-label inline-block mb-8">← Legato</Link>
-        <h1 className="ed-page-title">{mode === "signin" ? "Bon retour." : "Bienvenue."}</h1>
-        <p className="mt-4 body-meta max-w-[34ch]">
-          {mode === "signin"
-            ? "Reprenez là où vous en étiez, retrouvez votre cercle."
-            : "Créez votre espace, invitez vos proches quand vous voulez."}
-        </p>
-
-        <form onSubmit={onSubmit} className="mt-8 space-y-3">
-          {mode === "signup" && (
-            <input
-              type="text" value={name} onChange={(e) => setName(e.target.value)}
-              placeholder="Votre prénom" autoComplete="name"
-              className="w-full px-4 py-3 rounded-[14px] border border-dusk/10 bg-paper text-dusk placeholder:text-dusk/40 outline-none focus-visible:ring-1 focus-visible:ring-dusk/40"
-            />
-          )}
-          <input
-            type="email" required value={email} onChange={(e) => setEmail(e.target.value)}
-            placeholder="vous@email.fr" autoComplete="email"
-            className="w-full px-4 py-3 rounded-[14px] border border-dusk/10 bg-paper text-dusk placeholder:text-dusk/40 outline-none focus-visible:ring-1 focus-visible:ring-dusk/40"
-          />
-          <input
-            type="password" required minLength={6} value={password} onChange={(e) => setPassword(e.target.value)}
-            placeholder="Mot de passe" autoComplete={mode === "signin" ? "current-password" : "new-password"}
-            className="w-full px-4 py-3 rounded-[14px] border border-dusk/10 bg-paper text-dusk placeholder:text-dusk/40 outline-none focus-visible:ring-1 focus-visible:ring-dusk/40"
-          />
-          <button type="submit" disabled={busy} className="btn-dark w-full py-3 mt-2 disabled:opacity-50">
-            {busy ? "Un instant…" : mode === "signin" ? "Se connecter" : "Créer mon espace"}
-          </button>
-        </form>
-
-        <div className="my-6 flex items-center gap-3">
-          <div className="flex-1 h-px bg-dusk/12" />
-          <span className="mono-label">ou</span>
-          <div className="flex-1 h-px bg-dusk/12" />
+    <main className="lg-space-today min-h-dvh" style={{ background: "var(--lg-cream)", color: "var(--lg-deep)", fontFamily: "var(--lg-sans)" }}>
+      <form onSubmit={onSubmit} className="mx-auto flex min-h-dvh max-w-[430px] flex-col px-[28px]">
+        <header className="flex h-16 shrink-0 items-center">
+          <Link to="/start" className="flex min-h-11 items-center gap-[9px] text-[14px]"><ArrowLeft className="size-4" strokeWidth={1.4} /> Retour</Link>
+        </header>
+        <h1 className="lg-title pt-6" style={{ fontSize: 36 }}>{mode === "signin" ? <>Bon <em>retour.</em></> : <>Créer <em>un compte.</em></>}</h1>
+        <p className="lg-lead mt-3">Votre espace vous attend, tel que vous l'avez laissé.</p>
+        <Field className="mt-[34px]" label="Adresse e-mail" type="email" required autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="victor@exemple.fr" />
+        <Field className="mt-5" label="Mot de passe" type="password" required minLength={6} autoComplete={mode === "signin" ? "current-password" : "new-password"} value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••••" />
+        <div className="min-h-8 flex-1" />
+        <div className="flex flex-col items-center gap-4 pb-[34px]">
+          <PrimaryButton space="support" full type="submit" disabled={busy}>{busy ? "Un instant…" : mode === "signin" ? "Se connecter" : "Créer mon compte"}</PrimaryButton>
+          {mode === "signin" && <TextLink onClick={onForgot}>Mot de passe oublié</TextLink>}
+          {/* Hors maquette — conservés en attendant ta décision */}
+          <div className="flex gap-4 pt-2 text-[12px]" style={{ color: "var(--lg-sub)" }}>
+            <button type="button" onClick={onGoogle} className="underline underline-offset-4">Continuer avec Google</button>
+            <button type="button" onClick={() => setMode(mode === "signin" ? "signup" : "signin")} className="underline underline-offset-4">
+              {mode === "signin" ? "Créer un compte" : "Se connecter"}
+            </button>
+          </div>
         </div>
-
-        <button onClick={onGoogle} disabled={busy} className="w-full py-3 rounded-[14px] border border-dusk/10 text-[14px] text-dusk hover:bg-dusk/[0.03] disabled:opacity-50">
-          Continuer avec Google
-        </button>
-
-        <p className="mt-8 text-[13px] text-dusk/70 text-center">
-          {mode === "signin" ? "Pas encore de compte ?" : "Déjà inscrit·e ?"}{" "}
-          <button type="button" className="underline font-serif" onClick={() => setMode(mode === "signin" ? "signup" : "signin")}>
-            {mode === "signin" ? "Créer un espace" : "Se connecter"}
-          </button>
-        </p>
-      </div>
+      </form>
     </main>
   );
 }
