@@ -573,9 +573,9 @@ const ResourcesConfirmProviderIdRoute =
   } as any)
 const ResourcesCategoryProviderIdRoute =
   ResourcesCategoryProviderIdRouteImport.update({
-    id: '/$providerId',
-    path: '/$providerId',
-    getParentRoute: () => ResourcesCategoryRoute,
+    id: '/resources/$category/$providerId',
+    path: '/resources/$category/$providerId',
+    getParentRoute: () => rootRouteImport,
   } as any)
 const PracticalTasksIdRoute = PracticalTasksIdRouteImport.update({
   id: '/$id',
@@ -1324,6 +1324,7 @@ export interface RootRouteChildren {
   ResourcesIndexRoute: typeof ResourcesIndexRoute
   SpaceIndexRoute: typeof SpaceIndexRoute
   LibraryKindIdRoute: typeof LibraryKindIdRoute
+  ResourcesCategoryProviderIdRoute: typeof ResourcesCategoryProviderIdRoute
   ResourcesConfirmProviderIdRoute: typeof ResourcesConfirmProviderIdRoute
   LibraryKindIndexRoute: typeof LibraryKindIndexRoute
   ResourcesCategoryIndexRoute: typeof ResourcesCategoryIndexRoute
@@ -1971,10 +1972,10 @@ declare module '@tanstack/react-router' {
     }
     '/resources/$category/$providerId': {
       id: '/resources/$category/$providerId'
-      path: '/$providerId'
+      path: '/resources/$category/$providerId'
       fullPath: '/resources/$category/$providerId'
       preLoaderRoute: typeof ResourcesCategoryProviderIdRouteImport
-      parentRoute: typeof ResourcesCategoryRoute
+      parentRoute: typeof rootRouteImport
     }
     '/practical/tasks/$id': {
       id: '/practical/tasks/$id'
@@ -2340,6 +2341,7 @@ const rootRouteChildren: RootRouteChildren = {
   ResourcesIndexRoute: ResourcesIndexRoute,
   SpaceIndexRoute: SpaceIndexRoute,
   LibraryKindIdRoute: LibraryKindIdRoute,
+  ResourcesCategoryProviderIdRoute: ResourcesCategoryProviderIdRoute,
   ResourcesConfirmProviderIdRoute: ResourcesConfirmProviderIdRoute,
   LibraryKindIndexRoute: LibraryKindIndexRoute,
   ResourcesCategoryIndexRoute: ResourcesCategoryIndexRoute,
