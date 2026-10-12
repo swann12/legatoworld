@@ -12,7 +12,7 @@ import {
   type AgendaEvent, type EventKind, type Importance, type ReminderPrefs,
 } from "@/lib/agenda-store";
 
-export const Route = createFileRoute("/agenda")({
+export const Route = createFileRoute("/agenda/")({
   validateSearch: (search: Record<string, unknown>): { from?: "care" | "practical" } => ({
     from: search.from === "practical" ? "practical" : search.from === "care" ? "care" : undefined,
   }),
