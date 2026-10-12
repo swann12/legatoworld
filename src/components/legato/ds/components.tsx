@@ -180,19 +180,20 @@ export function Boxed({ space, className = "", children }: S & { children: React
   return <div className={`${spaceClass(space)} p-5 ${className}`} style={{ ...ink, border: "1px solid var(--sp-stroke)" }}>{children}</div>;
 }
 
+/** Carte de réponse — même apparence en choix unique et choix multiple. */
 export function OptionCard({ space, className = "", label, hint, selected, onClick }: S & {
   label: ReactNode; hint?: ReactNode; selected?: boolean; onClick?: () => void;
 }) {
   return (
     <button type="button" onClick={onClick} aria-pressed={!!selected}
-      className={`${spaceClass(space)} flex w-full items-center gap-4 px-4 py-[15px] text-left ${className}`}
+      className={`${spaceClass(space)} flex w-full items-center gap-[14px] px-4 py-[15px] text-left ${className}`}
       style={{ ...ink, background: selected ? "var(--sp-select)" : "transparent", border: selected ? "1.5px solid var(--sp-accent)" : "1px solid var(--sp-line-2)" }}>
-      <span className="grid size-5 shrink-0 place-items-center rounded-full" style={{ border: `1px solid ${selected ? "var(--sp-accent)" : "var(--sp-line-2)"}` }}>
+      <span className="grid size-5 shrink-0 place-items-center rounded-full" style={{ border: "1.5px solid var(--sp-accent)" }}>
         {selected && <span className="size-2.5 rounded-full" style={{ background: "var(--sp-accent)" }} />}
       </span>
-      <span className="min-w-0">
-        <span className="block text-[15px]" style={sans}>{label}</span>
-        {hint && <span className="lg-row-sub mt-0.5 block" style={sub}>{hint}</span>}
+      <span className="flex min-w-0 flex-col gap-[3px]">
+        <span className="block" style={{ ...serif, fontSize: 20, lineHeight: 1.15 }}>{label}</span>
+        {hint && <span className="block text-[13px]" style={{ ...sans, ...sub }}>{hint}</span>}
       </span>
     </button>
   );
