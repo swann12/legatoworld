@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useLegato } from "@/lib/legato-state";
 import { useDictation } from "@/lib/use-dictation";
@@ -40,6 +40,8 @@ function Journal() {
   const { journal, lovedOneName, lovedOneRelation } = useLegato();
   if (ecrire) return <Page key={ecrire + (amorce ?? "")} mode={ecrire} amorce={amorce} />;
 
+  const navigate = useNavigate();
+  const go = (m: Mode) => navigate({ to: "/care/journal", search: { ecrire: m } });
   const pages = journal.length;
   const them = lovedOneName?.trim() || (lovedOneRelation === "conjoint" ? "mon amour" : "mon proche");
 
@@ -48,18 +50,17 @@ function Journal() {
       <PageTitle space="support" className="mt-12">Écrire,<br /><em>sans relire.</em></PageTitle>
       <Lead space="support" className="mt-4">Personne ne lit ce que vous écrivez ici. Aucune phrase n'a besoin d'être juste.</Lead>
       <div className="mt-6">
-        <Row space="support" title="Mon journal" subtitle={`${pages} page${pages > 1 ? "s" : ""} · ${lastLabel(journal[0]?.date)}`} to="/care/journal?ecrire=journal" />
-        <Row space="support" title={`Une lettre à ${them}`} subtitle="Dire ce qui n'a pas été dit" to="/care/journal?ecrire=lettre" />
-        <Row space="support" title="Une lettre pour plus tard" subtitle="Elle s'ouvrira à la date choisie" to="/care/journal?ecrire=plus-tard" last />
+        <Row space="support" title="Mon journal" subtitle={`${pages} page${pages > 1 ? "s" : ""} · ${lastLabel(journal[0]?.date)}`} onClick={() => go("journal")} />
+        <Row space="support" title={`Une lettre à ${them}`} subtitle="Dire ce qui n'a pas été dit" onClick={() => go("lettre")} />
+        <Row space="support" title="Une lettre pour plus tard" subtitle="Elle s'ouvrira à la date choisie" onClick={() => go("plus-tard")} last />
       </div>
       <section className="mt-10 px-6 pb-2 pt-6" style={{ background: "var(--sp-block)" }}>
         <p className="lg-section">Si les mots ne viennent pas —</p>
         {["Ce matin, je…", "Ce qui me manque le plus…"].map((a, i) => (
-          <a key={a} href={`/care/journal?ecrire=journal&amorce=${encodeURIComponent(a)}`}
-            onClick={(e) => { e.preventDefault(); window.history.pushState(null, "", `/care/journal?ecrire=journal&amorce=${encodeURIComponent(a)}`); window.dispatchEvent(new PopStateEvent("popstate")); }}
+          <Link key={a} to="/care/journal" search={{ ecrire: "journal", amorce: a }}
             className="block py-4 italic" style={{ fontFamily: "var(--lg-serif)", fontSize: 22, borderBottom: i === 0 ? "1px solid var(--sp-line)" : "none" }}>
             {a}
-          </a>
+          </Link>
         ))}
       </section>
     </StandardLayout>

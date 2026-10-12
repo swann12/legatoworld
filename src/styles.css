@@ -1083,3 +1083,6 @@
 @keyframes lg-drift { 0%,100% { transform: translateY(0); } 50% { transform: translateY(25%); } }
 .lg-drift { animation: lg-drift 40s ease-in-out infinite; }
 @media (prefers-reduced-motion: reduce) { .lg-drift { animation: none; } }
+
+/* Page de journal lignée */
+.lg-ruled { background-image: repeating-linear-gradient(to bottom, transparent 0 77px, var(--lg-line-1) 77px 78px); background-attachment: local; }
