@@ -21,12 +21,13 @@ export function StandardLayout({ space = "today", title, back, backLabel, header
 }
 
 /** Questionnaire (§4.2) : barre d'étapes, titre, cartes, pied fixe. Sans barre de navigation. */
-export function QuestionLayout({ space = "today", step, total, children, footer }: {
-  space?: Space; step: number; total: number; children: ReactNode; footer: ReactNode;
+export function QuestionLayout({ space = "today", step, total, children, footer, header }: {
+  space?: Space; step: number; total: number; children: ReactNode; footer: ReactNode; header?: ReactNode;
 }) {
   return (
     <div className={`${spaceClass(space)} min-h-dvh`} style={{ background: "var(--sp-bg)", color: "var(--sp-ink)", fontFamily: "var(--lg-sans)" }}>
-      <div className="mx-auto flex min-h-dvh max-w-[430px] flex-col pt-[30px] pb-[34px]" style={{ paddingInline: "var(--lg-margin)" }}>
+      <div className={`mx-auto flex min-h-dvh max-w-[430px] flex-col pb-[34px] ${header ? "" : "pt-[30px]"}`} style={{ paddingInline: "var(--lg-margin)" }}>
+        {header}
         <StepBar space={space} step={step} total={total} />
         <div className="flex-1 pt-[30px]">{children}</div>
         <div className="pt-8">{footer}</div>

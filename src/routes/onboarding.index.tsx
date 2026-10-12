@@ -137,15 +137,16 @@ function Ready() {
     legato.setPracticalOnboarded(true);
 
     // Création de l'espace de la personne, qui devient l'espace actif
-    if (forWhom !== "moi") {
-      const spaceName = legato.lovedOneName.trim() || "Mon proche";
+    const kind = forWhom === "malade" ? "malade" : forWhom === "animal" ? "animal" : forWhom === "moi" ? "questions" : "deuil";
+    {
+      const spaceName = forWhom === "moi" ? "Questions sur la mort" : legato.lovedOneName.trim() || "Mon proche";
       // L'espace a pu être amorcé automatiquement à partir du prénom : on le complète plutôt que de le doubler.
       const existing = spaces.find((s) => !s.archived && s.name === spaceName);
       if (existing) {
-        updateSpace(existing.id, { relation: legato.lovedOneRelation, deathDate: getDeathDate() });
+        updateSpace(existing.id, { kind, relation: legato.lovedOneRelation, deathDate: getDeathDate() });
         setActiveSpaceId(existing.id);
       } else {
-        const space = addSpace({ name: spaceName, relation: legato.lovedOneRelation, deathDate: getDeathDate() });
+        const space = addSpace({ name: spaceName, kind, relation: legato.lovedOneRelation, deathDate: getDeathDate() });
         setActiveSpaceId(space.id);
       }
     }
