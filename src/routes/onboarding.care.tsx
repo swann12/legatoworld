@@ -30,7 +30,7 @@ function CareStep() {
   const navigate = useNavigate();
   const { hydrated } = useLegato();
   const [needs, setLocal] = useState<Need[]>([]);
-  useEffect(() => { if (hydrated) setLocal(getNeeds()); }, [hydrated]);
+  useEffect(() => { if (hydrated) { const v = getNeeds(); if (v.length) setLocal(v); } }, [hydrated]);
   const toggle = (id: Need) => setLocal((n) => (n.includes(id) ? n.filter((x) => x !== id) : [...n, id]));
   const goOn = () => navigate({ to: "/onboarding", search: { etape: "pret" } });
 

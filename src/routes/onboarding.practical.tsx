@@ -30,7 +30,7 @@ function PracticalStep() {
   const navigate = useNavigate();
   const { hydrated } = useLegato();
   const [choice, setChoice] = useState<PapersState | null>(null);
-  useEffect(() => { if (hydrated) setChoice(getPapers()); }, [hydrated]);
+  useEffect(() => { if (hydrated) { const v = getPapers(); if (v) setChoice(v); } }, [hydrated]);
   const goOn = () => navigate({ to: "/onboarding/care" });
 
   return (

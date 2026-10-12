@@ -50,7 +50,7 @@ function ForWhomStep() {
   const navigate = useNavigate();
   const { hydrated, setSituation, setLovedOneRelation, setStage } = useLegato();
   const [choice, setChoice] = useState<ForWhom | null>(null);
-  useEffect(() => { if (hydrated) setChoice(getForWhom()); }, [hydrated]);
+  useEffect(() => { if (hydrated) { const v = getForWhom(); if (v) setChoice(v); } }, [hydrated]);
 
   const next = () => {
     if (!choice) return;
