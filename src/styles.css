@@ -1070,7 +1070,7 @@
   --sp-line: var(--lg-night-line); --sp-line-2: var(--lg-night-line); --sp-select: var(--lg-night-2);
   --sp-block: var(--lg-night-2); --sp-block-ink: var(--lg-night-text);
   --sp-btn-bg: var(--lg-mint); --sp-btn-fg: var(--lg-deep);
-  --sp-accent: var(--lg-mint); --sp-fill: var(--lg-mint); --sp-stroke: var(--lg-mint);
+  --sp-accent: var(--lg-mint); --sp-fill: var(--lg-mint); --sp-stroke: var(--lg-mint); --sp-fill-ink: var(--lg-deep);
 }
 .lg-ds-title em { font-style: italic; color: var(--sp-accent); }
 .lg-moodbar { -webkit-appearance: none; appearance: none; height: 14px; border-radius: 7px; background: linear-gradient(90deg, var(--lg-deep), var(--lg-blue)); }

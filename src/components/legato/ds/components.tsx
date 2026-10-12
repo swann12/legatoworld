@@ -256,7 +256,7 @@ export function ProgressBar({ space, className = "", value, total }: S & { value
   return (
     <div className={`${spaceClass(space)} h-14 w-full overflow-hidden rounded-full ${className}`} style={{ background: "var(--sp-select)" }}>
       <div className="flex h-full items-center rounded-full px-5" style={{ width: `${pct}%`, background: "var(--sp-fill)" }}>
-        <span style={{ ...serif, fontSize: 22, color: "var(--lg-cream)" }}>{value} / {total}</span>
+        <span style={{ ...serif, fontSize: 22, color: "var(--sp-fill-ink, var(--lg-cream))" }}>{value} / {total}</span>
       </div>
     </div>
   );
