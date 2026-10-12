@@ -45,6 +45,7 @@ import { Route as AppointmentsIndexRouteImport } from './routes/appointments.ind
 import { Route as AgendaIndexRouteImport } from './routes/agenda.index'
 import { Route as SpaceSettingsRouteImport } from './routes/space.settings'
 import { Route as SpaceNewRouteImport } from './routes/space.new'
+import { Route as ResourcesCategoryRouteImport } from './routes/resources.$category'
 import { Route as ProfileProchesRouteImport } from './routes/profile.proches'
 import { Route as ProfilePrivacyRouteImport } from './routes/profile.privacy'
 import { Route as ProfilePortraitRouteImport } from './routes/profile.portrait'
@@ -295,6 +296,11 @@ const SpaceNewRoute = SpaceNewRouteImport.update({
   path: '/space/new',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ResourcesCategoryRoute = ResourcesCategoryRouteImport.update({
+  id: '/resources/$category',
+  path: '/resources/$category',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProfileProchesRoute = ProfileProchesRouteImport.update({
   id: '/proches',
   path: '/proches',
@@ -531,9 +537,9 @@ const AuthenticatedCircleRoute = AuthenticatedCircleRouteImport.update({
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const ResourcesCategoryIndexRoute = ResourcesCategoryIndexRouteImport.update({
-  id: '/resources/$category/',
-  path: '/resources/$category/',
-  getParentRoute: () => rootRouteImport,
+  id: '/',
+  path: '/',
+  getParentRoute: () => ResourcesCategoryRoute,
 } as any)
 const PracticalTasksIndexRoute = PracticalTasksIndexRouteImport.update({
   id: '/',
@@ -573,9 +579,9 @@ const ResourcesConfirmProviderIdRoute =
   } as any)
 const ResourcesCategoryProviderIdRoute =
   ResourcesCategoryProviderIdRouteImport.update({
-    id: '/resources/$category/$providerId',
-    path: '/resources/$category/$providerId',
-    getParentRoute: () => rootRouteImport,
+    id: '/$providerId',
+    path: '/$providerId',
+    getParentRoute: () => ResourcesCategoryRoute,
   } as any)
 const PracticalTasksIdRoute = PracticalTasksIdRouteImport.update({
   id: '/$id',
@@ -718,6 +724,7 @@ export interface FileRoutesByFullPath {
   '/profile/portrait': typeof ProfilePortraitRoute
   '/profile/privacy': typeof ProfilePrivacyRoute
   '/profile/proches': typeof ProfileProchesRoute
+  '/resources/$category': typeof ResourcesCategoryRouteWithChildren
   '/space/new': typeof SpaceNewRoute
   '/space/settings': typeof SpaceSettingsRoute
   '/agenda/': typeof AgendaIndexRoute
@@ -925,6 +932,7 @@ export interface FileRoutesById {
   '/profile/portrait': typeof ProfilePortraitRoute
   '/profile/privacy': typeof ProfilePrivacyRoute
   '/profile/proches': typeof ProfileProchesRoute
+  '/resources/$category': typeof ResourcesCategoryRouteWithChildren
   '/space/new': typeof SpaceNewRoute
   '/space/settings': typeof SpaceSettingsRoute
   '/agenda/': typeof AgendaIndexRoute
@@ -1034,6 +1042,7 @@ export interface FileRouteTypes {
     | '/profile/portrait'
     | '/profile/privacy'
     | '/profile/proches'
+    | '/resources/$category'
     | '/space/new'
     | '/space/settings'
     | '/agenda/'
@@ -1240,6 +1249,7 @@ export interface FileRouteTypes {
     | '/profile/portrait'
     | '/profile/privacy'
     | '/profile/proches'
+    | '/resources/$category'
     | '/space/new'
     | '/space/settings'
     | '/agenda/'
@@ -1314,6 +1324,7 @@ export interface RootRouteChildren {
   HomeSesAffairesRoute: typeof HomeSesAffairesRoute
   InviteTokenRoute: typeof InviteTokenRoute
   PresenceAboutRoute: typeof PresenceAboutRoute
+  ResourcesCategoryRoute: typeof ResourcesCategoryRouteWithChildren
   SpaceNewRoute: typeof SpaceNewRoute
   SpaceSettingsRoute: typeof SpaceSettingsRoute
   AgendaIndexRoute: typeof AgendaIndexRoute
@@ -1324,10 +1335,8 @@ export interface RootRouteChildren {
   ResourcesIndexRoute: typeof ResourcesIndexRoute
   SpaceIndexRoute: typeof SpaceIndexRoute
   LibraryKindIdRoute: typeof LibraryKindIdRoute
-  ResourcesCategoryProviderIdRoute: typeof ResourcesCategoryProviderIdRoute
   ResourcesConfirmProviderIdRoute: typeof ResourcesConfirmProviderIdRoute
   LibraryKindIndexRoute: typeof LibraryKindIndexRoute
-  ResourcesCategoryIndexRoute: typeof ResourcesCategoryIndexRoute
   ApiPublicSouffleSoundIdRoute: typeof ApiPublicSouffleSoundIdRoute
 }
 
@@ -1583,6 +1592,13 @@ declare module '@tanstack/react-router' {
       path: '/space/new'
       fullPath: '/space/new'
       preLoaderRoute: typeof SpaceNewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/resources/$category': {
+      id: '/resources/$category'
+      path: '/resources/$category'
+      fullPath: '/resources/$category'
+      preLoaderRoute: typeof ResourcesCategoryRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/profile/proches': {
@@ -1916,10 +1932,10 @@ declare module '@tanstack/react-router' {
     }
     '/resources/$category/': {
       id: '/resources/$category/'
-      path: '/resources/$category'
+      path: '/'
       fullPath: '/resources/$category/'
       preLoaderRoute: typeof ResourcesCategoryIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof ResourcesCategoryRoute
     }
     '/practical/tasks/': {
       id: '/practical/tasks/'
@@ -1972,10 +1988,10 @@ declare module '@tanstack/react-router' {
     }
     '/resources/$category/$providerId': {
       id: '/resources/$category/$providerId'
-      path: '/resources/$category/$providerId'
+      path: '/$providerId'
       fullPath: '/resources/$category/$providerId'
       preLoaderRoute: typeof ResourcesCategoryProviderIdRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof ResourcesCategoryRoute
     }
     '/practical/tasks/$id': {
       id: '/practical/tasks/$id'
@@ -2296,6 +2312,19 @@ const ProfileRouteChildren: ProfileRouteChildren = {
 const ProfileRouteWithChildren =
   ProfileRoute._addFileChildren(ProfileRouteChildren)
 
+interface ResourcesCategoryRouteChildren {
+  ResourcesCategoryProviderIdRoute: typeof ResourcesCategoryProviderIdRoute
+  ResourcesCategoryIndexRoute: typeof ResourcesCategoryIndexRoute
+}
+
+const ResourcesCategoryRouteChildren: ResourcesCategoryRouteChildren = {
+  ResourcesCategoryProviderIdRoute: ResourcesCategoryProviderIdRoute,
+  ResourcesCategoryIndexRoute: ResourcesCategoryIndexRoute,
+}
+
+const ResourcesCategoryRouteWithChildren =
+  ResourcesCategoryRoute._addFileChildren(ResourcesCategoryRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
@@ -2331,6 +2360,7 @@ const rootRouteChildren: RootRouteChildren = {
   HomeSesAffairesRoute: HomeSesAffairesRoute,
   InviteTokenRoute: InviteTokenRoute,
   PresenceAboutRoute: PresenceAboutRoute,
+  ResourcesCategoryRoute: ResourcesCategoryRouteWithChildren,
   SpaceNewRoute: SpaceNewRoute,
   SpaceSettingsRoute: SpaceSettingsRoute,
   AgendaIndexRoute: AgendaIndexRoute,
@@ -2341,10 +2371,8 @@ const rootRouteChildren: RootRouteChildren = {
   ResourcesIndexRoute: ResourcesIndexRoute,
   SpaceIndexRoute: SpaceIndexRoute,
   LibraryKindIdRoute: LibraryKindIdRoute,
-  ResourcesCategoryProviderIdRoute: ResourcesCategoryProviderIdRoute,
   ResourcesConfirmProviderIdRoute: ResourcesConfirmProviderIdRoute,
   LibraryKindIndexRoute: LibraryKindIndexRoute,
-  ResourcesCategoryIndexRoute: ResourcesCategoryIndexRoute,
   ApiPublicSouffleSoundIdRoute: ApiPublicSouffleSoundIdRoute,
 }
 export const routeTree = rootRouteImport
