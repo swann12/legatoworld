@@ -79,6 +79,7 @@ import { Route as CareEmotionsRouteImport } from './routes/care.emotions'
 import { Route as CareDatesRouteImport } from './routes/care.dates'
 import { Route as CareCommunityRouteImport } from './routes/care.community'
 import { Route as CareAideRouteImport } from './routes/care.aide'
+import { Route as AgendaNewRouteImport } from './routes/agenda.new'
 import { Route as AuthenticatedCircleRouteImport } from './routes/_authenticated/circle'
 import { Route as PracticalTasksIndexRouteImport } from './routes/practical.tasks.index'
 import { Route as HelpCorpsIndexRouteImport } from './routes/help.corps.index'
@@ -448,6 +449,11 @@ const CareAideRoute = CareAideRouteImport.update({
   path: '/aide',
   getParentRoute: () => CareRoute,
 } as any)
+const AgendaNewRoute = AgendaNewRouteImport.update({
+  id: '/agenda/new',
+  path: '/agenda/new',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedCircleRoute = AuthenticatedCircleRouteImport.update({
   id: '/circle',
   path: '/circle',
@@ -574,6 +580,7 @@ export interface FileRoutesByFullPath {
   '/vitrine': typeof VitrineRoute
   '/wishes': typeof WishesRoute
   '/circle': typeof AuthenticatedCircleRoute
+  '/agenda/new': typeof AgendaNewRoute
   '/care/aide': typeof CareAideRoute
   '/care/community': typeof CareCommunityRouteWithChildren
   '/care/dates': typeof CareDatesRoute
@@ -659,6 +666,7 @@ export interface FileRoutesByTo {
   '/vitrine': typeof VitrineRoute
   '/wishes': typeof WishesRoute
   '/circle': typeof AuthenticatedCircleRoute
+  '/agenda/new': typeof AgendaNewRoute
   '/care/aide': typeof CareAideRoute
   '/care/dates': typeof CareDatesRoute
   '/care/emotions': typeof CareEmotionsRoute
@@ -747,6 +755,7 @@ export interface FileRoutesById {
   '/vitrine': typeof VitrineRoute
   '/wishes': typeof WishesRoute
   '/_authenticated/circle': typeof AuthenticatedCircleRoute
+  '/agenda/new': typeof AgendaNewRoute
   '/care/aide': typeof CareAideRoute
   '/care/community': typeof CareCommunityRouteWithChildren
   '/care/dates': typeof CareDatesRoute
@@ -839,6 +848,7 @@ export interface FileRouteTypes {
     | '/vitrine'
     | '/wishes'
     | '/circle'
+    | '/agenda/new'
     | '/care/aide'
     | '/care/community'
     | '/care/dates'
@@ -924,6 +934,7 @@ export interface FileRouteTypes {
     | '/vitrine'
     | '/wishes'
     | '/circle'
+    | '/agenda/new'
     | '/care/aide'
     | '/care/dates'
     | '/care/emotions'
@@ -1011,6 +1022,7 @@ export interface FileRouteTypes {
     | '/vitrine'
     | '/wishes'
     | '/_authenticated/circle'
+    | '/agenda/new'
     | '/care/aide'
     | '/care/community'
     | '/care/dates'
@@ -1102,6 +1114,7 @@ export interface RootRouteChildren {
   StartRoute: typeof StartRoute
   VitrineRoute: typeof VitrineRoute
   WishesRoute: typeof WishesRoute
+  AgendaNewRoute: typeof AgendaNewRoute
   ComposeZoneRoute: typeof ComposeZoneRoute
   DevDesignRoute: typeof DevDesignRoute
   GardenZoneRoute: typeof GardenZoneRoute
@@ -1607,6 +1620,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CareAideRouteImport
       parentRoute: typeof CareRoute
     }
+    '/agenda/new': {
+      id: '/agenda/new'
+      path: '/agenda/new'
+      fullPath: '/agenda/new'
+      preLoaderRoute: typeof AgendaNewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/circle': {
       id: '/_authenticated/circle'
       path: '/circle'
@@ -1987,6 +2007,7 @@ const rootRouteChildren: RootRouteChildren = {
   StartRoute: StartRoute,
   VitrineRoute: VitrineRoute,
   WishesRoute: WishesRoute,
+  AgendaNewRoute: AgendaNewRoute,
   ComposeZoneRoute: ComposeZoneRoute,
   DevDesignRoute: DevDesignRoute,
   GardenZoneRoute: GardenZoneRoute,
