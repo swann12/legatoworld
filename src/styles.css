@@ -977,3 +977,98 @@
   0%, 100% { transform: scale(0.94); opacity: 0.55; }
   50%      { transform: scale(1.08); opacity: 1; }
 }
+
+/* ==== Legato v2 — polices locales ==== */
+@font-face { font-family: 'Instrument Serif'; src: url('/fonts/InstrumentSerif-Regular.ttf') format('truetype'); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Instrument Serif'; src: url('/fonts/InstrumentSerif-Italic.ttf') format('truetype'); font-style: italic; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Instrument Sans'; src: url('/fonts/InstrumentSans.ttf') format('truetype'); font-style: normal; font-weight: 100 900; font-display: swap; }
+@font-face { font-family: 'Space Mono'; src: url('/fonts/SpaceMono-Regular.ttf') format('truetype'); font-style: normal; font-weight: 400; font-display: swap; }
+
+:root {
+  /* Fonds et texte */
+  --lg-cream:  #F7F4EF;   /* fond de toutes les pages */
+  --lg-linen:  #F3EBE1;   /* bloc Soutien et Démarches, sélection */
+  --lg-deep:   #2C4B40;   /* texte principal, barre de navigation, bouton Aujourd'hui */
+  --lg-sub:    #6F7F76;   /* texte secondaire */
+  --lg-line-1: rgba(44, 75, 64, 0.12);  /* filet entre lignes */
+  --lg-line-2: rgba(44, 75, 64, 0.28);  /* filet de structure, contours */
+
+  /* Couleurs d'espace */
+  --lg-blue:   #CFDBE8;   /* bloc Aujourd'hui, bouton Soutien et Démarches */
+  --lg-mint:   #BFE3D2;   /* texte du bouton Aujourd'hui, accent du mode nuit */
+  --lg-mint-pale: #E4EDE7;/* bulles de Présence uniquement */
+  --lg-coral:  #F4805A;   /* Démarches : remplissages (coches, barre d'avancement) */
+  --lg-coral-text: #D9653F;/* Démarches : italique des titres, chiffres */
+  --lg-bordeaux: #7A2E2C; /* Mémoire, Communauté, Besoin d'aide */
+  --lg-blush:  #EBC7C4;   /* Mémoire, Communauté, Besoin d'aide */
+
+  /* Mode nuit (Aujourd'hui après 21 h) */
+  --lg-night:   #243E35;
+  --lg-night-2: #1D342C;  /* blocs et barre de navigation en mode nuit */
+  --lg-night-text: rgba(247, 244, 239, 0.9);
+  --lg-night-line: rgba(207, 219, 232, 0.2);
+
+  /* Dégradés des pages d'expérience (plein écran, sans barre) */
+  --lg-grad-soutien: linear-gradient(180deg, #CFDBE8 0%, #A9D6C4 45%, #2C4B40 100%);
+  --lg-grad-nuit:    linear-gradient(180deg, #2C4B40 0%, #5E8F7F 52%, #CFDBE8 100%);
+  --lg-grad-memoire: linear-gradient(180deg, #7A2E2C 0%, #A5534F 42%, #EBC7C4 100%);
+
+  /* Typographies */
+  --lg-serif: 'Instrument Serif', Georgia, serif;
+  --lg-sans:  'Instrument Sans', system-ui, sans-serif;
+  --lg-mono:  'Space Mono', ui-monospace, monospace;
+
+  /* Mise en page mobile */
+  --lg-margin: 28px;
+  --lg-header-h: 64px;
+}
+
+@theme inline {
+  --color-lg-cream: var(--lg-cream);
+  --color-lg-linen: var(--lg-linen);
+  --color-lg-deep: var(--lg-deep);
+  --color-lg-sub: var(--lg-sub);
+  --color-lg-blue: var(--lg-blue);
+  --color-lg-mint: var(--lg-mint);
+  --color-lg-mint-pale: var(--lg-mint-pale);
+  --color-lg-coral: var(--lg-coral);
+  --color-lg-coral-text: var(--lg-coral-text);
+  --color-lg-bordeaux: var(--lg-bordeaux);
+  --color-lg-blush: var(--lg-blush);
+  --color-lg-night: var(--lg-night);
+  --color-lg-night-2: var(--lg-night-2);
+  --font-lg-serif: var(--lg-serif);
+  --font-lg-sans: var(--lg-sans);
+  --font-lg-mono: var(--lg-mono);
+}
+
+/* Classes typographiques de base */
+.lg-title  { font-family: var(--lg-serif); font-weight: 400; font-size: 34px; line-height: 1.1; text-wrap: balance; }
+.lg-title em { font-style: italic; }               /* couleur = accent de l'espace */
+.lg-lead   { font-family: var(--lg-sans); font-size: 14px; line-height: 1.55; color: var(--lg-sub); max-width: 310px; text-wrap: pretty; }
+.lg-mono   { font-family: var(--lg-mono); font-size: 10.5px; letter-spacing: .09em; text-transform: uppercase; color: var(--lg-sub); }
+.lg-section{ font-family: var(--lg-serif); font-style: italic; font-size: 17px; }   /* suivi de « — » */
+.lg-row-title { font-family: var(--lg-serif); font-size: 21px; line-height: 1.15; text-wrap: balance; }
+.lg-row-sub   { font-family: var(--lg-sans); font-size: 13px; line-height: 1.45; color: var(--lg-sub); }
+
+/* ==== Couples de couleurs par espace (§3) ==== */
+.lg-space-today, .lg-space-support, .lg-space-practical, .lg-space-memory, .lg-space-community {
+  --sp-bg: var(--lg-cream); --sp-ink: var(--lg-deep); --sp-sub: var(--lg-sub);
+  --sp-line: var(--lg-line-1); --sp-line-2: var(--lg-line-2); --sp-select: var(--lg-linen);
+  --sp-stroke: var(--lg-deep); --sp-accent: var(--lg-deep); --sp-fill: var(--lg-deep);
+  --sp-block-ink: var(--lg-deep);
+}
+.lg-space-today    { --sp-block: var(--lg-blue);  --sp-btn-bg: var(--lg-deep); --sp-btn-fg: var(--lg-mint); }
+.lg-space-support  { --sp-block: var(--lg-linen); --sp-btn-bg: var(--lg-blue); --sp-btn-fg: var(--lg-deep); }
+.lg-space-practical{ --sp-block: var(--lg-linen); --sp-btn-bg: var(--lg-blue); --sp-btn-fg: var(--lg-deep); --sp-accent: var(--lg-coral-text); --sp-fill: var(--lg-coral); }
+.lg-space-memory, .lg-space-community {
+  --sp-block: var(--lg-blush); --sp-btn-bg: var(--lg-bordeaux); --sp-btn-fg: var(--lg-blush);
+  --sp-accent: var(--lg-bordeaux); --sp-fill: var(--lg-bordeaux); --sp-stroke: var(--lg-bordeaux); --sp-block-ink: var(--lg-bordeaux);
+}
+.lg-space-night {
+  --sp-bg: var(--lg-night); --sp-ink: var(--lg-night-text); --sp-sub: var(--lg-blue);
+  --sp-line: var(--lg-night-line); --sp-line-2: var(--lg-night-line); --sp-select: var(--lg-night-2);
+  --sp-block: var(--lg-night-2); --sp-block-ink: var(--lg-night-text);
+  --sp-btn-bg: var(--lg-mint); --sp-btn-fg: var(--lg-deep);
+  --sp-accent: var(--lg-mint); --sp-fill: var(--lg-mint); --sp-stroke: var(--lg-mint);
+}
