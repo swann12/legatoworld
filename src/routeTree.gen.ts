@@ -97,6 +97,7 @@ import { Route as AuthenticatedCircleRouteImport } from './routes/_authenticated
 import { Route as ResourcesCategoryIndexRouteImport } from './routes/resources.$category.index'
 import { Route as PracticalTasksIndexRouteImport } from './routes/practical.tasks.index'
 import { Route as PracticalShareIndexRouteImport } from './routes/practical.share.index'
+import { Route as PracticalProsIndexRouteImport } from './routes/practical.pros.index'
 import { Route as LibraryKindIndexRouteImport } from './routes/library.$kind.index'
 import { Route as HelpCorpsIndexRouteImport } from './routes/help.corps.index'
 import { Route as CareJournalIndexRouteImport } from './routes/care.journal.index'
@@ -106,6 +107,7 @@ import { Route as ResourcesConfirmProviderIdRouteImport } from './routes/resourc
 import { Route as ResourcesCategoryProviderIdRouteImport } from './routes/resources.$category.$providerId'
 import { Route as PracticalTasksIdRouteImport } from './routes/practical.tasks.$id'
 import { Route as PracticalShareTaskIdRouteImport } from './routes/practical.share.$taskId'
+import { Route as PracticalProsKindRouteImport } from './routes/practical.pros.$kind'
 import { Route as LibraryKindIdRouteImport } from './routes/library.$kind.$id'
 import { Route as HelpCorpsSoinRouteImport } from './routes/help.corps.soin'
 import { Route as HelpCorpsNuitsRouteImport } from './routes/help.corps.nuits'
@@ -564,6 +566,11 @@ const PracticalShareIndexRoute = PracticalShareIndexRouteImport.update({
   path: '/share/',
   getParentRoute: () => PracticalRoute,
 } as any)
+const PracticalProsIndexRoute = PracticalProsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PracticalProsRoute,
+} as any)
 const LibraryKindIndexRoute = LibraryKindIndexRouteImport.update({
   id: '/library/$kind/',
   path: '/library/$kind/',
@@ -610,6 +617,11 @@ const PracticalShareTaskIdRoute = PracticalShareTaskIdRouteImport.update({
   id: '/share/$taskId',
   path: '/share/$taskId',
   getParentRoute: () => PracticalRoute,
+} as any)
+const PracticalProsKindRoute = PracticalProsKindRouteImport.update({
+  id: '/$kind',
+  path: '/$kind',
+  getParentRoute: () => PracticalProsRoute,
 } as any)
 const LibraryKindIdRoute = LibraryKindIdRouteImport.update({
   id: '/library/$kind/$id',
@@ -760,7 +772,7 @@ export interface FileRoutesByFullPath {
   '/practical/letter': typeof PracticalLetterRoute
   '/practical/objects': typeof PracticalObjectsRoute
   '/practical/progress': typeof PracticalProgressRoute
-  '/practical/pros': typeof PracticalProsRoute
+  '/practical/pros': typeof PracticalProsRouteWithChildren
   '/practical/resources': typeof PracticalResourcesRoute
   '/practical/steps': typeof PracticalStepsRoute
   '/practical/tasks': typeof PracticalTasksRouteWithChildren
@@ -799,6 +811,7 @@ export interface FileRoutesByFullPath {
   '/help/corps/nuits': typeof HelpCorpsNuitsRoute
   '/help/corps/soin': typeof HelpCorpsSoinRouteWithChildren
   '/library/$kind/$id': typeof LibraryKindIdRoute
+  '/practical/pros/$kind': typeof PracticalProsKindRoute
   '/practical/share/$taskId': typeof PracticalShareTaskIdRoute
   '/practical/tasks/$id': typeof PracticalTasksIdRouteWithChildren
   '/resources/$category/$providerId': typeof ResourcesCategoryProviderIdRoute
@@ -808,6 +821,7 @@ export interface FileRoutesByFullPath {
   '/care/journal/': typeof CareJournalIndexRoute
   '/help/corps/': typeof HelpCorpsIndexRoute
   '/library/$kind/': typeof LibraryKindIndexRoute
+  '/practical/pros/': typeof PracticalProsIndexRoute
   '/practical/share/': typeof PracticalShareIndexRoute
   '/practical/tasks/': typeof PracticalTasksIndexRoute
   '/resources/$category/': typeof ResourcesCategoryIndexRoute
@@ -868,7 +882,6 @@ export interface FileRoutesByTo {
   '/practical/letter': typeof PracticalLetterRoute
   '/practical/objects': typeof PracticalObjectsRoute
   '/practical/progress': typeof PracticalProgressRoute
-  '/practical/pros': typeof PracticalProsRoute
   '/practical/resources': typeof PracticalResourcesRoute
   '/practical/steps': typeof PracticalStepsRoute
   '/practical/texts': typeof PracticalTextsRoute
@@ -904,6 +917,7 @@ export interface FileRoutesByTo {
   '/help/corps/manger': typeof HelpCorpsMangerRoute
   '/help/corps/nuits': typeof HelpCorpsNuitsRoute
   '/library/$kind/$id': typeof LibraryKindIdRoute
+  '/practical/pros/$kind': typeof PracticalProsKindRoute
   '/practical/share/$taskId': typeof PracticalShareTaskIdRoute
   '/resources/$category/$providerId': typeof ResourcesCategoryProviderIdRoute
   '/resources/confirm/$providerId': typeof ResourcesConfirmProviderIdRoute
@@ -912,6 +926,7 @@ export interface FileRoutesByTo {
   '/care/journal': typeof CareJournalIndexRoute
   '/help/corps': typeof HelpCorpsIndexRoute
   '/library/$kind': typeof LibraryKindIndexRoute
+  '/practical/pros': typeof PracticalProsIndexRoute
   '/practical/share': typeof PracticalShareIndexRoute
   '/practical/tasks': typeof PracticalTasksIndexRoute
   '/resources/$category': typeof ResourcesCategoryIndexRoute
@@ -982,7 +997,7 @@ export interface FileRoutesById {
   '/practical/letter': typeof PracticalLetterRoute
   '/practical/objects': typeof PracticalObjectsRoute
   '/practical/progress': typeof PracticalProgressRoute
-  '/practical/pros': typeof PracticalProsRoute
+  '/practical/pros': typeof PracticalProsRouteWithChildren
   '/practical/resources': typeof PracticalResourcesRoute
   '/practical/steps': typeof PracticalStepsRoute
   '/practical/tasks': typeof PracticalTasksRouteWithChildren
@@ -1021,6 +1036,7 @@ export interface FileRoutesById {
   '/help/corps/nuits': typeof HelpCorpsNuitsRoute
   '/help/corps/soin': typeof HelpCorpsSoinRouteWithChildren
   '/library/$kind/$id': typeof LibraryKindIdRoute
+  '/practical/pros/$kind': typeof PracticalProsKindRoute
   '/practical/share/$taskId': typeof PracticalShareTaskIdRoute
   '/practical/tasks/$id': typeof PracticalTasksIdRouteWithChildren
   '/resources/$category/$providerId': typeof ResourcesCategoryProviderIdRoute
@@ -1030,6 +1046,7 @@ export interface FileRoutesById {
   '/care/journal/': typeof CareJournalIndexRoute
   '/help/corps/': typeof HelpCorpsIndexRoute
   '/library/$kind/': typeof LibraryKindIndexRoute
+  '/practical/pros/': typeof PracticalProsIndexRoute
   '/practical/share/': typeof PracticalShareIndexRoute
   '/practical/tasks/': typeof PracticalTasksIndexRoute
   '/resources/$category/': typeof ResourcesCategoryIndexRoute
@@ -1139,6 +1156,7 @@ export interface FileRouteTypes {
     | '/help/corps/nuits'
     | '/help/corps/soin'
     | '/library/$kind/$id'
+    | '/practical/pros/$kind'
     | '/practical/share/$taskId'
     | '/practical/tasks/$id'
     | '/resources/$category/$providerId'
@@ -1148,6 +1166,7 @@ export interface FileRouteTypes {
     | '/care/journal/'
     | '/help/corps/'
     | '/library/$kind/'
+    | '/practical/pros/'
     | '/practical/share/'
     | '/practical/tasks/'
     | '/resources/$category/'
@@ -1208,7 +1227,6 @@ export interface FileRouteTypes {
     | '/practical/letter'
     | '/practical/objects'
     | '/practical/progress'
-    | '/practical/pros'
     | '/practical/resources'
     | '/practical/steps'
     | '/practical/texts'
@@ -1244,6 +1262,7 @@ export interface FileRouteTypes {
     | '/help/corps/manger'
     | '/help/corps/nuits'
     | '/library/$kind/$id'
+    | '/practical/pros/$kind'
     | '/practical/share/$taskId'
     | '/resources/$category/$providerId'
     | '/resources/confirm/$providerId'
@@ -1252,6 +1271,7 @@ export interface FileRouteTypes {
     | '/care/journal'
     | '/help/corps'
     | '/library/$kind'
+    | '/practical/pros'
     | '/practical/share'
     | '/practical/tasks'
     | '/resources/$category'
@@ -1360,6 +1380,7 @@ export interface FileRouteTypes {
     | '/help/corps/nuits'
     | '/help/corps/soin'
     | '/library/$kind/$id'
+    | '/practical/pros/$kind'
     | '/practical/share/$taskId'
     | '/practical/tasks/$id'
     | '/resources/$category/$providerId'
@@ -1369,6 +1390,7 @@ export interface FileRouteTypes {
     | '/care/journal/'
     | '/help/corps/'
     | '/library/$kind/'
+    | '/practical/pros/'
     | '/practical/share/'
     | '/practical/tasks/'
     | '/resources/$category/'
@@ -2051,6 +2073,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PracticalShareIndexRouteImport
       parentRoute: typeof PracticalRoute
     }
+    '/practical/pros/': {
+      id: '/practical/pros/'
+      path: '/'
+      fullPath: '/practical/pros/'
+      preLoaderRoute: typeof PracticalProsIndexRouteImport
+      parentRoute: typeof PracticalProsRoute
+    }
     '/library/$kind/': {
       id: '/library/$kind/'
       path: '/library/$kind'
@@ -2113,6 +2142,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/practical/share/$taskId'
       preLoaderRoute: typeof PracticalShareTaskIdRouteImport
       parentRoute: typeof PracticalRoute
+    }
+    '/practical/pros/$kind': {
+      id: '/practical/pros/$kind'
+      path: '/$kind'
+      fullPath: '/practical/pros/$kind'
+      preLoaderRoute: typeof PracticalProsKindRouteImport
+      parentRoute: typeof PracticalProsRoute
     }
     '/library/$kind/$id': {
       id: '/library/$kind/$id'
@@ -2402,6 +2438,20 @@ const ParcoursRouteWithChildren = ParcoursRoute._addFileChildren(
   ParcoursRouteChildren,
 )
 
+interface PracticalProsRouteChildren {
+  PracticalProsKindRoute: typeof PracticalProsKindRoute
+  PracticalProsIndexRoute: typeof PracticalProsIndexRoute
+}
+
+const PracticalProsRouteChildren: PracticalProsRouteChildren = {
+  PracticalProsKindRoute: PracticalProsKindRoute,
+  PracticalProsIndexRoute: PracticalProsIndexRoute,
+}
+
+const PracticalProsRouteWithChildren = PracticalProsRoute._addFileChildren(
+  PracticalProsRouteChildren,
+)
+
 interface PracticalTasksIdRouteChildren {
   PracticalTasksIdTemplateRoute: typeof PracticalTasksIdTemplateRoute
   PracticalTasksIdIndexRoute: typeof PracticalTasksIdIndexRoute
@@ -2437,7 +2487,7 @@ interface PracticalRouteChildren {
   PracticalLetterRoute: typeof PracticalLetterRoute
   PracticalObjectsRoute: typeof PracticalObjectsRoute
   PracticalProgressRoute: typeof PracticalProgressRoute
-  PracticalProsRoute: typeof PracticalProsRoute
+  PracticalProsRoute: typeof PracticalProsRouteWithChildren
   PracticalResourcesRoute: typeof PracticalResourcesRoute
   PracticalStepsRoute: typeof PracticalStepsRoute
   PracticalTasksRoute: typeof PracticalTasksRouteWithChildren
@@ -2457,7 +2507,7 @@ const PracticalRouteChildren: PracticalRouteChildren = {
   PracticalLetterRoute: PracticalLetterRoute,
   PracticalObjectsRoute: PracticalObjectsRoute,
   PracticalProgressRoute: PracticalProgressRoute,
-  PracticalProsRoute: PracticalProsRoute,
+  PracticalProsRoute: PracticalProsRouteWithChildren,
   PracticalResourcesRoute: PracticalResourcesRoute,
   PracticalStepsRoute: PracticalStepsRoute,
   PracticalTasksRoute: PracticalTasksRouteWithChildren,

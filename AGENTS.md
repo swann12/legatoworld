@@ -2,3 +2,5 @@
 - Global nav is `ds/BottomNav` (5 tabs), rendered by Shell. Why: single navigation per the design system.
 - The opening flow (/onboarding, /onboarding/practical, /onboarding/care) shares its answers through `src/lib/onboarding-flow.ts` and maps them onto legato-state at the final screen. Why: three routes, one source of truth.
 - Concrete Démarches (screens 055–062) live in `src/lib/demarches.ts` (status via legato-state taskStatus, steps via task-steps); old category ids still resolve there. Why: one list feeds Démarches, Mon avancement, detail and Confier.
+- Ceremony decisions and flower proposals use the space-scoped practical-store through ceremony-flow; flower views use validated search state on /practical/flowers. Why: one source of truth survives navigation and keeps existing URLs.
+- Funeral-specific resource views are isolated from the support directory and mark mockup providers as examples without invented contact details. Why: reproducing the mockups must not imply verified prices or real booking capabilities.

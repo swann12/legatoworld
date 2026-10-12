@@ -1086,3 +1086,21 @@
 
 /* Page de journal lignée */
 .lg-ruled { background-image: repeating-linear-gradient(to bottom, transparent 0 77px, var(--lg-line-1) 77px 78px); background-attachment: local; }
+
+/* Démarches : décisions et composition de fleurs. */
+.lg-decision { display:flex; width:100%; gap:16px; align-items:center; text-align:left; padding:16px 0; text-decoration:none; font-size:15px; border-bottom:1px solid var(--sp-line); }
+.lg-decision-last { border-bottom:0; }
+.lg-decision-check { display:grid; place-items:center; width:26px; height:26px; flex-shrink:0; border:1px solid var(--sp-ink); border-radius:50%; }
+.lg-decision-check.is-done { background:var(--sp-fill); color:var(--sp-bg); border-color:var(--sp-fill); }
+.lg-flower-input { width:100%; height:130px; padding:14px 16px; resize:none; border:1px solid var(--sp-line-2); background:transparent; color:var(--sp-ink); font-size:15px; line-height:1.55; outline:none; }
+.lg-flower-input:focus { border-color:var(--sp-accent); }
+.lg-flower-input::placeholder { color:var(--sp-sub); }
+.lg-question-progress { display:flex; gap:6px; padding-top:30px; }
+.lg-question-progress span { height:3px; flex:1; background:var(--sp-line-2); }
+.lg-question-progress span.is-current { background:var(--sp-accent); }
+.lg-provider-list { display:flex; gap:15px; align-items:flex-start; padding:20px 0; border-bottom:1px solid var(--sp-line); }
+.lg-provider-list:last-child { border-bottom:0; }
+.lg-provider-price { color:var(--sp-accent); font-family:var(--lg-serif); font-size:22px; white-space:nowrap; }
+.lg-provider-spec > div { padding:14px 0; }
+.lg-provider-spec dt { width:98px; }
+.lg-provider-spec dd { font-size:20px; }

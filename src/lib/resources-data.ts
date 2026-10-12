@@ -133,9 +133,20 @@ export type Provider = {
   estimate?: { lines: { label: string; price: string }[]; total: string };
   /** Fiche détaillée (écran 043) — facultatif. */
   address?: string; price?: string; session?: string; distance?: string; bio?: string;
+  example?: boolean; hours?: string; travel?: string; estimateDescription?: string; phone?: string; email?: string;
 };
 
 export const PROVIDERS: Provider[] = [
+  ...[
+    { id: "pf-prado", firstName: "Pompes funèbres", lastName: "du Prado", distance: "1,4 km", price: "2 950 €", speciality: "ouvert 7 jours sur 7", address: "82 avenue du Prado", hours: "7 jours sur 7, 8 h – 19 h" },
+    { id: "pf-rinaldi", firstName: "Maison", lastName: "Rinaldi", distance: "2,6 km", price: "3 180 €", speciality: "entreprise familiale" },
+    { id: "pf-roc-eclerc", firstName: "Roc-Eclerc", lastName: "Castellane", distance: "3,1 km", price: "3 400 €", speciality: "" },
+  ].map((p): Provider => ({
+    ...p, category: "pompes", city: "Marseille", zip: "13008", modes: ["cabinet", "domicile"],
+    example: true, nextSlot: "Sur demande", approach: [], offers: [], testimonials: [],
+    travel: "À domicile, à l'hôpital", estimate: { lines: [], total: p.price },
+    estimateDescription: "Crémation simple, cercueil en bois clair, urne en céramique, sans cérémonie religieuse.",
+  })),
   {
     id: "claire-rolland",
     category: "therapeutes",

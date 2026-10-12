@@ -14,3 +14,10 @@
 
 ## 22 septembre 2026
 - [x] Captures mobile complètes de l'application (toutes les pages + scénarios onboarding) dans Files pour partage
+
+## Étape 9 — professionnels et cérémonie
+- [x] Reproduire les écrans 065–073 au plus près des captures et conserver les anciens écrans à part.
+- [x] Relier le parcours professionnel, la progression de cérémonie et les fleurs libres/guidées à la logique existante.
+- [x] Vérifier les retours, les neuf états et une proposition IA réelle.
+- [ ] Éléments hors maquette : suppression définitive en attente de l’accord utilisateur.
+- [ ] Activer appels et demandes de devis : coordonnées réelles des prestataires attendues.
