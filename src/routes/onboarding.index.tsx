@@ -114,7 +114,7 @@ function NameStep() {
 function Ready() {
   const navigate = useNavigate();
   const legato = useLegato();
-  const { addSpace } = useSpaces();
+  const { spaces, addSpace, updateSpace } = useSpaces();
   const record = useServerFn(recordEmotion);
   const forWhom = getForWhom();
   const name = forWhom === "moi" ? "vous" : legato.lovedOneName.trim() || "votre proche";
@@ -138,8 +138,16 @@ function Ready() {
 
     // Création de l'espace de la personne, qui devient l'espace actif
     if (forWhom !== "moi") {
-      const space = addSpace({ name: legato.lovedOneName.trim() || "Mon proche", relation: legato.lovedOneRelation, deathDate: getDeathDate() });
-      setActiveSpaceId(space.id);
+      const spaceName = legato.lovedOneName.trim() || "Mon proche";
+      // L'espace a pu être amorcé automatiquement à partir du prénom : on le complète plutôt que de le doubler.
+      const existing = spaces.find((s) => !s.archived && s.name === spaceName);
+      if (existing) {
+        updateSpace(existing.id, { relation: legato.lovedOneRelation, deathDate: getDeathDate() });
+        setActiveSpaceId(existing.id);
+      } else {
+        const space = addSpace({ name: spaceName, relation: legato.lovedOneRelation, deathDate: getDeathDate() });
+        setActiveSpaceId(space.id);
+      }
     }
 
     const { data } = await supabase.auth.getSession();
