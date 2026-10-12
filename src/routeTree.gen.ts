@@ -113,6 +113,7 @@ import { Route as CareJournalLaterRouteImport } from './routes/care.journal.late
 import { Route as CareGardenDepotRouteImport } from './routes/care.garden.depot'
 import { Route as CareGardenZoneRouteImport } from './routes/care.garden.$zone'
 import { Route as CareCommunityReglesRouteImport } from './routes/care.community.regles'
+import { Route as PracticalTasksIdIndexRouteImport } from './routes/practical.tasks.$id.index'
 import { Route as HelpCorpsSoinIndexRouteImport } from './routes/help.corps.soin.index'
 import { Route as CareCommunityGroupIndexRouteImport } from './routes/care.community.$group.index'
 import { Route as HelpCorpsSoinIdRouteImport } from './routes/help.corps.soin.$id'
@@ -641,6 +642,11 @@ const CareCommunityReglesRoute = CareCommunityReglesRouteImport.update({
   path: '/regles',
   getParentRoute: () => CareCommunityRoute,
 } as any)
+const PracticalTasksIdIndexRoute = PracticalTasksIdIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PracticalTasksIdRoute,
+} as any)
 const HelpCorpsSoinIndexRoute = HelpCorpsSoinIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -767,7 +773,7 @@ export interface FileRoutesByFullPath {
   '/help/corps/nuits': typeof HelpCorpsNuitsRoute
   '/help/corps/soin': typeof HelpCorpsSoinRouteWithChildren
   '/library/$kind/$id': typeof LibraryKindIdRoute
-  '/practical/tasks/$id': typeof PracticalTasksIdRoute
+  '/practical/tasks/$id': typeof PracticalTasksIdRouteWithChildren
   '/resources/$category/$providerId': typeof ResourcesCategoryProviderIdRoute
   '/resources/confirm/$providerId': typeof ResourcesConfirmProviderIdRoute
   '/care/community/': typeof CareCommunityIndexRoute
@@ -783,6 +789,7 @@ export interface FileRoutesByFullPath {
   '/help/corps/soin/$id': typeof HelpCorpsSoinIdRoute
   '/care/community/$group/': typeof CareCommunityGroupIndexRoute
   '/help/corps/soin/': typeof HelpCorpsSoinIndexRoute
+  '/practical/tasks/$id/': typeof PracticalTasksIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -867,7 +874,6 @@ export interface FileRoutesByTo {
   '/help/corps/manger': typeof HelpCorpsMangerRoute
   '/help/corps/nuits': typeof HelpCorpsNuitsRoute
   '/library/$kind/$id': typeof LibraryKindIdRoute
-  '/practical/tasks/$id': typeof PracticalTasksIdRoute
   '/resources/$category/$providerId': typeof ResourcesCategoryProviderIdRoute
   '/resources/confirm/$providerId': typeof ResourcesConfirmProviderIdRoute
   '/care/community': typeof CareCommunityIndexRoute
@@ -883,6 +889,7 @@ export interface FileRoutesByTo {
   '/help/corps/soin/$id': typeof HelpCorpsSoinIdRoute
   '/care/community/$group': typeof CareCommunityGroupIndexRoute
   '/help/corps/soin': typeof HelpCorpsSoinIndexRoute
+  '/practical/tasks/$id': typeof PracticalTasksIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -980,7 +987,7 @@ export interface FileRoutesById {
   '/help/corps/nuits': typeof HelpCorpsNuitsRoute
   '/help/corps/soin': typeof HelpCorpsSoinRouteWithChildren
   '/library/$kind/$id': typeof LibraryKindIdRoute
-  '/practical/tasks/$id': typeof PracticalTasksIdRoute
+  '/practical/tasks/$id': typeof PracticalTasksIdRouteWithChildren
   '/resources/$category/$providerId': typeof ResourcesCategoryProviderIdRoute
   '/resources/confirm/$providerId': typeof ResourcesConfirmProviderIdRoute
   '/care/community/': typeof CareCommunityIndexRoute
@@ -996,6 +1003,7 @@ export interface FileRoutesById {
   '/help/corps/soin/$id': typeof HelpCorpsSoinIdRoute
   '/care/community/$group/': typeof CareCommunityGroupIndexRoute
   '/help/corps/soin/': typeof HelpCorpsSoinIndexRoute
+  '/practical/tasks/$id/': typeof PracticalTasksIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -1109,6 +1117,7 @@ export interface FileRouteTypes {
     | '/help/corps/soin/$id'
     | '/care/community/$group/'
     | '/help/corps/soin/'
+    | '/practical/tasks/$id/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -1193,7 +1202,6 @@ export interface FileRouteTypes {
     | '/help/corps/manger'
     | '/help/corps/nuits'
     | '/library/$kind/$id'
-    | '/practical/tasks/$id'
     | '/resources/$category/$providerId'
     | '/resources/confirm/$providerId'
     | '/care/community'
@@ -1209,6 +1217,7 @@ export interface FileRouteTypes {
     | '/help/corps/soin/$id'
     | '/care/community/$group'
     | '/help/corps/soin'
+    | '/practical/tasks/$id'
   id:
     | '__root__'
     | '/'
@@ -1321,6 +1330,7 @@ export interface FileRouteTypes {
     | '/help/corps/soin/$id'
     | '/care/community/$group/'
     | '/help/corps/soin/'
+    | '/practical/tasks/$id/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -2104,6 +2114,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CareCommunityReglesRouteImport
       parentRoute: typeof CareCommunityRoute
     }
+    '/practical/tasks/$id/': {
+      id: '/practical/tasks/$id/'
+      path: '/'
+      fullPath: '/practical/tasks/$id/'
+      preLoaderRoute: typeof PracticalTasksIdIndexRouteImport
+      parentRoute: typeof PracticalTasksIdRoute
+    }
     '/help/corps/soin/': {
       id: '/help/corps/soin/'
       path: '/'
@@ -2308,13 +2325,24 @@ const ParcoursRouteWithChildren = ParcoursRoute._addFileChildren(
   ParcoursRouteChildren,
 )
 
+interface PracticalTasksIdRouteChildren {
+  PracticalTasksIdIndexRoute: typeof PracticalTasksIdIndexRoute
+}
+
+const PracticalTasksIdRouteChildren: PracticalTasksIdRouteChildren = {
+  PracticalTasksIdIndexRoute: PracticalTasksIdIndexRoute,
+}
+
+const PracticalTasksIdRouteWithChildren =
+  PracticalTasksIdRoute._addFileChildren(PracticalTasksIdRouteChildren)
+
 interface PracticalTasksRouteChildren {
-  PracticalTasksIdRoute: typeof PracticalTasksIdRoute
+  PracticalTasksIdRoute: typeof PracticalTasksIdRouteWithChildren
   PracticalTasksIndexRoute: typeof PracticalTasksIndexRoute
 }
 
 const PracticalTasksRouteChildren: PracticalTasksRouteChildren = {
-  PracticalTasksIdRoute: PracticalTasksIdRoute,
+  PracticalTasksIdRoute: PracticalTasksIdRouteWithChildren,
   PracticalTasksIndexRoute: PracticalTasksIndexRoute,
 }
 

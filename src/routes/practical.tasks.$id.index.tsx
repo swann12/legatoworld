@@ -8,7 +8,7 @@ import { TASK_STATUS_LABELS } from "@/lib/task-status";
 import { taskGuide } from "@/lib/task-guides";
 import { loadTaskSteps, toggleTaskStep } from "@/lib/task-steps";
 
-export const Route = createFileRoute("/practical/tasks/$id")({
+export const Route = createFileRoute("/practical/tasks/$id/")({
   component: TaskDetail,
 });
 

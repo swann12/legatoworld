@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Practical } from "./practical.index";
+import { Practical } from "@/components/legato/PracticalHome";
 
 /** /practical/tasks montre le même écran que /practical (055). */
 export const Route = createFileRoute("/practical/tasks/")({
