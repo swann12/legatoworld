@@ -100,8 +100,8 @@ function Today() {
           return (
             <span key={m.id} className="whitespace-nowrap">
               <Link to="/care/emotions" className={on ? "underline underline-offset-4" : ""} style={{ color: on ? "var(--sp-ink)" : "var(--sp-sub)", textDecorationThickness: 1 }}>{m.label}</Link>
-              {i < MOODS.length - 1 && <span style={{ color: "var(--sp-sub)" }}>, </span>}
-            </span>
+              {i < MOODS.length - 1 && <span style={{ color: "var(--sp-sub)" }}>,</span>}
+            </span>{" "}
           );
         })}
       </p>

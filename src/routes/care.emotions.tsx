@@ -93,8 +93,8 @@ function Emotions() {
             <span key={c.id} className="whitespace-nowrap">
               <button type="button" onClick={() => toggle(c.id)} aria-pressed={on}
                 className={on ? "underline underline-offset-4" : ""} style={{ color: on ? "var(--sp-ink)" : "var(--sp-sub)", textDecorationThickness: 1 }}>{c.label}</button>
-              {i < CHOICES.length - 1 && <span style={{ color: "var(--sp-sub)" }}>, </span>}
-            </span>
+              {i < CHOICES.length - 1 && <span style={{ color: "var(--sp-sub)" }}>,</span>}
+            </span>{" "}
           );
         })}
       </p>
