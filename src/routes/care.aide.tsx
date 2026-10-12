@@ -1,84 +1,57 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { Shell } from "@/components/legato/Shell";
-import { PageHeader } from "@/components/legato/EditorialUI";
-import type { CategoryId } from "@/lib/resources-data";
+import { createFileRoute } from "@tanstack/react-router";
+import type { ReactNode } from "react";
+import { StandardLayout, PageTitle, SectionLabel, PrimaryButton, OutlineButton } from "@/components/legato/ds";
 
 export const Route = createFileRoute("/care/aide")({
   head: () => ({
     meta: [
-      { title: "Aide humaine — Legato" },
-      { name: "description", content: "Thérapeutes du deuil, médecines douces, associations et lignes d'écoute." },
-      { property: "og:title", content: "Aide humaine — Legato" },
-      { property: "og:description", content: "Des personnes à qui parler : thérapeutes, médecines douces, associations, écoute." },
+      { title: "Se confier — Legato" },
+      { name: "description", content: "Parler à Présence, à un bénévole, à un groupe ou à un professionnel." },
+      { property: "og:title", content: "Se confier — Legato" },
+      { property: "og:description", content: "À qui voulez-vous parler ?" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
-  component: CareAide,
+  component: SeConfier,
 });
 
-type Appui = { id: CategoryId; label: string; role: string; when: string };
+// Ligne d'écoute du deuil (Empreintes) — numéro et horaires à confirmer.
+const LIGNE_DEUIL = "0142380808";
 
-const APPUIS: Appui[] = [
-  {
-    id: "therapeutes",
-    label: "Thérapeutes du deuil",
-    role: "Un espace pour déposer ce qui pèse, avec quelqu'un de formé au deuil.",
-    when: "Quand la peine ne se dit à personne, ou dure sans relâche.",
-  },
-  {
-    id: "medecines-douces",
-    label: "Médecines douces",
-    role: "Sophrologie, ostéopathie, acupuncture, massage : passer par le corps.",
-    when: "Quand le sommeil, le souffle ou les tensions prennent toute la place.",
-  },
-  {
-    id: "ecoute",
-    label: "Associations & lignes d'écoute",
-    role: "Groupes de parole et bénévoles qui ont traversé la même chose.",
-    when: "Quand parler à des personnes qui comprennent fait plus de bien qu'un cabinet.",
-  },
-];
-
-function CareAide() {
+function Human({ title, subtitle, action, last }: { title: string; subtitle: string; action: ReactNode; last?: boolean }) {
   return (
-    <Shell livingBg={false}>
-      <div className="min-h-dvh bg-paper text-dusk pb-36">
-        <PageHeader title="AIDE HUMAINE" back="/care" />
-
-        <section className="px-6 pt-2">
-          <h1 className="ed-page-title text-[30px]">
-            Des personnes à qui <span className="italic" style={{ color: "var(--terracotta)" }}>parler</span>.
-          </h1>
-          <p className="mt-4 max-w-[30ch] text-[13px] leading-[1.6] text-dusk/55">
-            Ici, seulement du soutien. Les obsèques, les papiers et le notaire restent dans Démarches.
-          </p>
-        </section>
-
-        <section className="px-6 pt-9">
-          {APPUIS.map((a, i) => (
-            <Link
-              key={a.id}
-              to="/resources/$category"
-              params={{ category: a.id }}
-              search={{ space: "care" as const }}
-              className="block border-b border-dashed py-5 last:border-0"
-              style={{ borderColor: "color-mix(in oklab, var(--dusk) 15%, transparent)" }}
-            >
-              <span className="text-[10.5px] tabular-nums tracking-[0.14em] text-dusk/35" style={{ fontFamily: "var(--font-mono)" }}>
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              <span className="mt-1.5 block font-serif text-[21px] leading-[1.15]">{a.label}</span>
-              <span className="mt-1.5 block max-w-[36ch] text-[13px] leading-[1.5] text-dusk/60">{a.role}</span>
-              <span className="mt-2 block max-w-[36ch] text-[12.5px] italic leading-[1.5] text-dusk/45">{a.when}</span>
-            </Link>
-          ))}
-        </section>
-
-        <section className="px-6 pt-9">
-          <Link to="/crisis" className="mono-label" style={{ color: "var(--bordeaux)" }}>
-            Besoin d'aide tout de suite →
-          </Link>
-        </section>
+    <div className="flex items-center gap-4 py-[18px]" style={{ borderBottom: last ? "none" : "1px solid var(--sp-line)" }}>
+      <div className="min-w-0 flex-1">
+        <p className="lg-row-title">{title}</p>
+        <p className="lg-row-sub mt-1" style={{ color: "var(--sp-sub)" }}>{subtitle}</p>
       </div>
-    </Shell>
+      {action}
+    </div>
+  );
+}
+
+function SeConfier() {
+  return (
+    <StandardLayout space="support" back="/care" backLabel="Soutien" activeTab="/care">
+      <PageTitle space="support" className="mt-12">À qui voulez-vous<br /><em>parler ?</em></PageTitle>
+
+      <section className="mt-10 p-6" style={{ background: "var(--sp-block)", color: "var(--sp-block-ink)" }}>
+        <p className="lg-section">Tout de suite —</p>
+        <h2 className="lg-ds-title mt-3" style={{ fontFamily: "var(--lg-serif)", fontSize: 25 }}>Présence</h2>
+        <p className="mt-3 text-[14.5px] leading-[1.55]" style={{ color: "var(--sp-sub)" }}>
+          Une écoute à toute heure. Intelligence artificielle : elle ne remplace ni vos proches ni un professionnel.
+        </p>
+        <PrimaryButton space="support" to="/presence" className="mt-6">Écrire à Présence</PrimaryButton>
+      </section>
+
+      <SectionLabel space="support" className="mt-10">Ou un humain</SectionLabel>
+      <div className="mt-2">
+        <Human title="Un bénévole" subtitle="Ligne d'écoute du deuil · 9 h – 21 h"
+          action={<a href={`tel:${LIGNE_DEUIL}`} className="inline-flex h-9 items-center rounded-full px-5 text-[13.5px]" style={{ border: "1px solid var(--sp-stroke)", color: "var(--sp-stroke)" }}>Appeler</a>} />
+        <Human title="Un groupe" subtitle="Des personnes qui vivent la même chose" action={<OutlineButton space="support" to="/care/community">Voir</OutlineButton>} />
+        <Human title="Un professionnel" subtitle="Psychologue, sur rendez-vous" action={<OutlineButton space="support" to="/care/help">Chercher</OutlineButton>} last />
+      </div>
+    </StandardLayout>
   );
 }
