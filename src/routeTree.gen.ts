@@ -14,7 +14,6 @@ import { Route as VitrineRouteImport } from './routes/vitrine'
 import { Route as StartRouteImport } from './routes/start'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as PresentationRouteImport } from './routes/presentation'
-import { Route as PresenceRouteImport } from './routes/presence'
 import { Route as PracticalRouteImport } from './routes/practical'
 import { Route as ParcoursRouteImport } from './routes/parcours'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
@@ -36,6 +35,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as SpaceIndexRouteImport } from './routes/space.index'
 import { Route as ResourcesIndexRouteImport } from './routes/resources.index'
 import { Route as ProfileIndexRouteImport } from './routes/profile.index'
+import { Route as PresenceIndexRouteImport } from './routes/presence.index'
 import { Route as PracticalIndexRouteImport } from './routes/practical.index'
 import { Route as OnboardingIndexRouteImport } from './routes/onboarding.index'
 import { Route as HomeIndexRouteImport } from './routes/home.index'
@@ -52,6 +52,7 @@ import { Route as ProfilePortraitRouteImport } from './routes/profile.portrait'
 import { Route as ProfileNotificationsRouteImport } from './routes/profile.notifications'
 import { Route as ProfileHelpRouteImport } from './routes/profile.help'
 import { Route as ProfileDataRouteImport } from './routes/profile.data'
+import { Route as PresenceAboutRouteImport } from './routes/presence.about'
 import { Route as PracticalWishesRouteImport } from './routes/practical.wishes'
 import { Route as PracticalVaultRouteImport } from './routes/practical.vault'
 import { Route as PracticalTextsRouteImport } from './routes/practical.texts'
@@ -78,6 +79,7 @@ import { Route as HelpCorpsRouteImport } from './routes/help.corps'
 import { Route as GardenZoneRouteImport } from './routes/garden.$zone'
 import { Route as DevDesignRouteImport } from './routes/dev.design'
 import { Route as ComposeZoneRouteImport } from './routes/compose.$zone'
+import { Route as CareSonsRouteImport } from './routes/care.sons'
 import { Route as CareRituelsRouteImport } from './routes/care.rituels'
 import { Route as CareRespirerRouteImport } from './routes/care.respirer'
 import { Route as CareResourcesRouteImport } from './routes/care.resources'
@@ -133,11 +135,6 @@ const ProfileRoute = ProfileRouteImport.update({
 const PresentationRoute = PresentationRouteImport.update({
   id: '/presentation',
   path: '/presentation',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PresenceRoute = PresenceRouteImport.update({
-  id: '/presence',
-  path: '/presence',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PracticalRoute = PracticalRouteImport.update({
@@ -244,6 +241,11 @@ const ProfileIndexRoute = ProfileIndexRouteImport.update({
   path: '/',
   getParentRoute: () => ProfileRoute,
 } as any)
+const PresenceIndexRoute = PresenceIndexRouteImport.update({
+  id: '/presence/',
+  path: '/presence/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PracticalIndexRoute = PracticalIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -323,6 +325,11 @@ const ProfileDataRoute = ProfileDataRouteImport.update({
   id: '/data',
   path: '/data',
   getParentRoute: () => ProfileRoute,
+} as any)
+const PresenceAboutRoute = PresenceAboutRouteImport.update({
+  id: '/presence/about',
+  path: '/presence/about',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const PracticalWishesRoute = PracticalWishesRouteImport.update({
   id: '/wishes',
@@ -453,6 +460,11 @@ const ComposeZoneRoute = ComposeZoneRouteImport.update({
   id: '/compose/$zone',
   path: '/compose/$zone',
   getParentRoute: () => rootRouteImport,
+} as any)
+const CareSonsRoute = CareSonsRouteImport.update({
+  id: '/sons',
+  path: '/sons',
+  getParentRoute: () => CareRoute,
 } as any)
 const CareRituelsRoute = CareRituelsRouteImport.update({
   id: '/rituels',
@@ -631,7 +643,6 @@ export interface FileRoutesByFullPath {
   '/onboarding': typeof OnboardingRouteWithChildren
   '/parcours': typeof ParcoursRouteWithChildren
   '/practical': typeof PracticalRouteWithChildren
-  '/presence': typeof PresenceRoute
   '/presentation': typeof PresentationRoute
   '/profile': typeof ProfileRouteWithChildren
   '/start': typeof StartRoute
@@ -650,6 +661,7 @@ export interface FileRoutesByFullPath {
   '/care/resources': typeof CareResourcesRoute
   '/care/respirer': typeof CareRespirerRoute
   '/care/rituels': typeof CareRituelsRoute
+  '/care/sons': typeof CareSonsRoute
   '/compose/$zone': typeof ComposeZoneRoute
   '/dev/design': typeof DevDesignRoute
   '/garden/$zone': typeof GardenZoneRoute
@@ -676,6 +688,7 @@ export interface FileRoutesByFullPath {
   '/practical/texts': typeof PracticalTextsRoute
   '/practical/vault': typeof PracticalVaultRoute
   '/practical/wishes': typeof PracticalWishesRoute
+  '/presence/about': typeof PresenceAboutRoute
   '/profile/data': typeof ProfileDataRoute
   '/profile/help': typeof ProfileHelpRoute
   '/profile/notifications': typeof ProfileNotificationsRoute
@@ -692,6 +705,7 @@ export interface FileRoutesByFullPath {
   '/home/': typeof HomeIndexRoute
   '/onboarding/': typeof OnboardingIndexRoute
   '/practical/': typeof PracticalIndexRoute
+  '/presence/': typeof PresenceIndexRoute
   '/profile/': typeof ProfileIndexRoute
   '/resources/': typeof ResourcesIndexRoute
   '/space/': typeof SpaceIndexRoute
@@ -728,7 +742,6 @@ export interface FileRoutesByTo {
   '/memory': typeof MemoryRoute
   '/no-words': typeof NoWordsRoute
   '/parcours': typeof ParcoursRouteWithChildren
-  '/presence': typeof PresenceRoute
   '/presentation': typeof PresentationRoute
   '/start': typeof StartRoute
   '/vitrine': typeof VitrineRoute
@@ -744,6 +757,7 @@ export interface FileRoutesByTo {
   '/care/resources': typeof CareResourcesRoute
   '/care/respirer': typeof CareRespirerRoute
   '/care/rituels': typeof CareRituelsRoute
+  '/care/sons': typeof CareSonsRoute
   '/compose/$zone': typeof ComposeZoneRoute
   '/dev/design': typeof DevDesignRoute
   '/garden/$zone': typeof GardenZoneRoute
@@ -768,6 +782,7 @@ export interface FileRoutesByTo {
   '/practical/texts': typeof PracticalTextsRoute
   '/practical/vault': typeof PracticalVaultRoute
   '/practical/wishes': typeof PracticalWishesRoute
+  '/presence/about': typeof PresenceAboutRoute
   '/profile/data': typeof ProfileDataRoute
   '/profile/help': typeof ProfileHelpRoute
   '/profile/notifications': typeof ProfileNotificationsRoute
@@ -784,6 +799,7 @@ export interface FileRoutesByTo {
   '/home': typeof HomeIndexRoute
   '/onboarding': typeof OnboardingIndexRoute
   '/practical': typeof PracticalIndexRoute
+  '/presence': typeof PresenceIndexRoute
   '/profile': typeof ProfileIndexRoute
   '/resources': typeof ResourcesIndexRoute
   '/space': typeof SpaceIndexRoute
@@ -826,7 +842,6 @@ export interface FileRoutesById {
   '/onboarding': typeof OnboardingRouteWithChildren
   '/parcours': typeof ParcoursRouteWithChildren
   '/practical': typeof PracticalRouteWithChildren
-  '/presence': typeof PresenceRoute
   '/presentation': typeof PresentationRoute
   '/profile': typeof ProfileRouteWithChildren
   '/start': typeof StartRoute
@@ -845,6 +860,7 @@ export interface FileRoutesById {
   '/care/resources': typeof CareResourcesRoute
   '/care/respirer': typeof CareRespirerRoute
   '/care/rituels': typeof CareRituelsRoute
+  '/care/sons': typeof CareSonsRoute
   '/compose/$zone': typeof ComposeZoneRoute
   '/dev/design': typeof DevDesignRoute
   '/garden/$zone': typeof GardenZoneRoute
@@ -871,6 +887,7 @@ export interface FileRoutesById {
   '/practical/texts': typeof PracticalTextsRoute
   '/practical/vault': typeof PracticalVaultRoute
   '/practical/wishes': typeof PracticalWishesRoute
+  '/presence/about': typeof PresenceAboutRoute
   '/profile/data': typeof ProfileDataRoute
   '/profile/help': typeof ProfileHelpRoute
   '/profile/notifications': typeof ProfileNotificationsRoute
@@ -887,6 +904,7 @@ export interface FileRoutesById {
   '/home/': typeof HomeIndexRoute
   '/onboarding/': typeof OnboardingIndexRoute
   '/practical/': typeof PracticalIndexRoute
+  '/presence/': typeof PresenceIndexRoute
   '/profile/': typeof ProfileIndexRoute
   '/resources/': typeof ResourcesIndexRoute
   '/space/': typeof SpaceIndexRoute
@@ -929,7 +947,6 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/parcours'
     | '/practical'
-    | '/presence'
     | '/presentation'
     | '/profile'
     | '/start'
@@ -948,6 +965,7 @@ export interface FileRouteTypes {
     | '/care/resources'
     | '/care/respirer'
     | '/care/rituels'
+    | '/care/sons'
     | '/compose/$zone'
     | '/dev/design'
     | '/garden/$zone'
@@ -974,6 +992,7 @@ export interface FileRouteTypes {
     | '/practical/texts'
     | '/practical/vault'
     | '/practical/wishes'
+    | '/presence/about'
     | '/profile/data'
     | '/profile/help'
     | '/profile/notifications'
@@ -990,6 +1009,7 @@ export interface FileRouteTypes {
     | '/home/'
     | '/onboarding/'
     | '/practical/'
+    | '/presence/'
     | '/profile/'
     | '/resources/'
     | '/space/'
@@ -1026,7 +1046,6 @@ export interface FileRouteTypes {
     | '/memory'
     | '/no-words'
     | '/parcours'
-    | '/presence'
     | '/presentation'
     | '/start'
     | '/vitrine'
@@ -1042,6 +1061,7 @@ export interface FileRouteTypes {
     | '/care/resources'
     | '/care/respirer'
     | '/care/rituels'
+    | '/care/sons'
     | '/compose/$zone'
     | '/dev/design'
     | '/garden/$zone'
@@ -1066,6 +1086,7 @@ export interface FileRouteTypes {
     | '/practical/texts'
     | '/practical/vault'
     | '/practical/wishes'
+    | '/presence/about'
     | '/profile/data'
     | '/profile/help'
     | '/profile/notifications'
@@ -1082,6 +1103,7 @@ export interface FileRouteTypes {
     | '/home'
     | '/onboarding'
     | '/practical'
+    | '/presence'
     | '/profile'
     | '/resources'
     | '/space'
@@ -1123,7 +1145,6 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/parcours'
     | '/practical'
-    | '/presence'
     | '/presentation'
     | '/profile'
     | '/start'
@@ -1142,6 +1163,7 @@ export interface FileRouteTypes {
     | '/care/resources'
     | '/care/respirer'
     | '/care/rituels'
+    | '/care/sons'
     | '/compose/$zone'
     | '/dev/design'
     | '/garden/$zone'
@@ -1168,6 +1190,7 @@ export interface FileRouteTypes {
     | '/practical/texts'
     | '/practical/vault'
     | '/practical/wishes'
+    | '/presence/about'
     | '/profile/data'
     | '/profile/help'
     | '/profile/notifications'
@@ -1184,6 +1207,7 @@ export interface FileRouteTypes {
     | '/home/'
     | '/onboarding/'
     | '/practical/'
+    | '/presence/'
     | '/profile/'
     | '/resources/'
     | '/space/'
@@ -1226,7 +1250,6 @@ export interface RootRouteChildren {
   OnboardingRoute: typeof OnboardingRouteWithChildren
   ParcoursRoute: typeof ParcoursRouteWithChildren
   PracticalRoute: typeof PracticalRouteWithChildren
-  PresenceRoute: typeof PresenceRoute
   PresentationRoute: typeof PresentationRoute
   ProfileRoute: typeof ProfileRouteWithChildren
   StartRoute: typeof StartRoute
@@ -1242,12 +1265,14 @@ export interface RootRouteChildren {
   HomeSesAffairesRoute: typeof HomeSesAffairesRoute
   InviteTokenRoute: typeof InviteTokenRoute
   LibraryKindRoute: typeof LibraryKindRoute
+  PresenceAboutRoute: typeof PresenceAboutRoute
   ResourcesCategoryRoute: typeof ResourcesCategoryRouteWithChildren
   SpaceNewRoute: typeof SpaceNewRoute
   SpaceSettingsRoute: typeof SpaceSettingsRoute
   AgendaIndexRoute: typeof AgendaIndexRoute
   GardenIndexRoute: typeof GardenIndexRoute
   HomeIndexRoute: typeof HomeIndexRoute
+  PresenceIndexRoute: typeof PresenceIndexRoute
   ResourcesIndexRoute: typeof ResourcesIndexRoute
   SpaceIndexRoute: typeof SpaceIndexRoute
   ResourcesConfirmProviderIdRoute: typeof ResourcesConfirmProviderIdRoute
@@ -1289,13 +1314,6 @@ declare module '@tanstack/react-router' {
       path: '/presentation'
       fullPath: '/presentation'
       preLoaderRoute: typeof PresentationRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/presence': {
-      id: '/presence'
-      path: '/presence'
-      fullPath: '/presence'
-      preLoaderRoute: typeof PresenceRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/practical': {
@@ -1445,6 +1463,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProfileIndexRouteImport
       parentRoute: typeof ProfileRoute
     }
+    '/presence/': {
+      id: '/presence/'
+      path: '/presence'
+      fullPath: '/presence/'
+      preLoaderRoute: typeof PresenceIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/practical/': {
       id: '/practical/'
       path: '/'
@@ -1556,6 +1581,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/profile/data'
       preLoaderRoute: typeof ProfileDataRouteImport
       parentRoute: typeof ProfileRoute
+    }
+    '/presence/about': {
+      id: '/presence/about'
+      path: '/presence/about'
+      fullPath: '/presence/about'
+      preLoaderRoute: typeof PresenceAboutRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/practical/wishes': {
       id: '/practical/wishes'
@@ -1738,6 +1770,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/compose/$zone'
       preLoaderRoute: typeof ComposeZoneRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/care/sons': {
+      id: '/care/sons'
+      path: '/sons'
+      fullPath: '/care/sons'
+      preLoaderRoute: typeof CareSonsRouteImport
+      parentRoute: typeof CareRoute
     }
     '/care/rituels': {
       id: '/care/rituels'
@@ -2016,6 +2055,7 @@ interface CareRouteChildren {
   CareResourcesRoute: typeof CareResourcesRoute
   CareRespirerRoute: typeof CareRespirerRoute
   CareRituelsRoute: typeof CareRituelsRoute
+  CareSonsRoute: typeof CareSonsRoute
   CareIndexRoute: typeof CareIndexRoute
 }
 
@@ -2031,6 +2071,7 @@ const CareRouteChildren: CareRouteChildren = {
   CareResourcesRoute: CareResourcesRoute,
   CareRespirerRoute: CareRespirerRoute,
   CareRituelsRoute: CareRituelsRoute,
+  CareSonsRoute: CareSonsRoute,
   CareIndexRoute: CareIndexRoute,
 }
 
@@ -2203,7 +2244,6 @@ const rootRouteChildren: RootRouteChildren = {
   OnboardingRoute: OnboardingRouteWithChildren,
   ParcoursRoute: ParcoursRouteWithChildren,
   PracticalRoute: PracticalRouteWithChildren,
-  PresenceRoute: PresenceRoute,
   PresentationRoute: PresentationRoute,
   ProfileRoute: ProfileRouteWithChildren,
   StartRoute: StartRoute,
@@ -2219,12 +2259,14 @@ const rootRouteChildren: RootRouteChildren = {
   HomeSesAffairesRoute: HomeSesAffairesRoute,
   InviteTokenRoute: InviteTokenRoute,
   LibraryKindRoute: LibraryKindRoute,
+  PresenceAboutRoute: PresenceAboutRoute,
   ResourcesCategoryRoute: ResourcesCategoryRouteWithChildren,
   SpaceNewRoute: SpaceNewRoute,
   SpaceSettingsRoute: SpaceSettingsRoute,
   AgendaIndexRoute: AgendaIndexRoute,
   GardenIndexRoute: GardenIndexRoute,
   HomeIndexRoute: HomeIndexRoute,
+  PresenceIndexRoute: PresenceIndexRoute,
   ResourcesIndexRoute: ResourcesIndexRoute,
   SpaceIndexRoute: SpaceIndexRoute,
   ResourcesConfirmProviderIdRoute: ResourcesConfirmProviderIdRoute,

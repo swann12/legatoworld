@@ -38,17 +38,25 @@ export function QuestionLayout({ space = "today", step, total, children, footer,
 
 const GRAD = { support: "var(--lg-grad-soutien)", night: "var(--lg-grad-nuit)", memory: "var(--lg-grad-memoire)" } as const;
 
-/** Page d'expérience (§4.3) : plein écran en dégradé, Retour / Fermer, contenu centré, un bouton en bas. */
-export function ExperienceLayout({ variant = "support", back = "/care", close, children, action }: {
-  variant?: keyof typeof GRAD; back?: string; close?: string; children: ReactNode; action?: ReactNode;
+/** Page d'expérience (§4.3) : plein écran en dégradé, Retour / Fermer, titre en haut (top), contenu centré, un bouton en bas. */
+export function ExperienceLayout({ variant = "support", back = "/care", backLabel = "Retour", close, onBack, onClose, top, children, action }: {
+  variant?: keyof typeof GRAD; back?: string; backLabel?: string; close?: string; onBack?: () => void; onClose?: () => void;
+  top?: ReactNode; children: ReactNode; action?: ReactNode;
 }) {
+  const headInk = variant === "support" ? "var(--lg-deep)" : "var(--lg-cream)";
+  const cls = "flex min-h-11 items-center gap-2";
   return (
     <div className="lg-experience min-h-dvh" style={{ background: GRAD[variant], color: "var(--lg-cream)", fontFamily: "var(--lg-sans)" }}>
       <div className="mx-auto flex min-h-dvh max-w-[430px] flex-col pb-10" style={{ paddingInline: "var(--lg-margin)" }}>
-        <div className="flex items-center justify-between text-[14px]" style={{ height: "var(--lg-header-h)", color: variant === "memory" ? "var(--lg-cream)" : "var(--lg-deep)" }}>
-          <Link to={back} className="flex min-h-11 items-center gap-2"><ArrowLeft className="size-4" strokeWidth={1.4} /> Retour</Link>
-          <Link to={close ?? back} className="flex min-h-11 items-center gap-2">Fermer <X className="size-4" strokeWidth={1.4} /></Link>
+        <div className="flex items-center justify-between text-[14px]" style={{ height: "var(--lg-header-h)", color: headInk }}>
+          {onBack
+            ? <button type="button" onClick={onBack} className={cls}><ArrowLeft className="size-4" strokeWidth={1.4} /> {backLabel}</button>
+            : <Link to={back} className={cls}><ArrowLeft className="size-4" strokeWidth={1.4} /> {backLabel}</Link>}
+          {onClose
+            ? <button type="button" onClick={onClose} className={cls}>Fermer <X className="size-4" strokeWidth={1.4} /></button>
+            : <Link to={close ?? back} className={cls}>Fermer <X className="size-4" strokeWidth={1.4} /></Link>}
         </div>
+        {top && <div className="pt-6" style={{ color: headInk }}>{top}</div>}
         <div className="flex flex-1 flex-col items-center justify-center text-center">{children}</div>
         {action && <div className="flex justify-center">{action}</div>}
       </div>

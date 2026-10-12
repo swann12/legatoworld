@@ -83,7 +83,7 @@ function Today() {
           <PrimaryButton space="night" to="/care/respirer">Commencer</PrimaryButton>
         </Block>
         <div className="mt-4">
-          <Row space="night" title="Des sons pour s'endormir" subtitle="Pluie, mer, forêt" to="/care/respirer" />
+          <Row space="night" title="Des sons pour s'endormir" subtitle="Pluie, mer, forêt" to="/care/sons" />
           <Row space="night" title="Écrire à Présence" subtitle="Elle répond à toute heure" to="/presence" last />
         </div>
       </StandardLayout>
