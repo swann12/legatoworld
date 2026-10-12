@@ -289,3 +289,38 @@ export function ChatInput({ space, className = "", value, onChange, onMic }: S &
     </div>
   );
 }
+
+/** Interrupteur (§ réglages) : rond menthe à droite = activé. */
+export function Toggle({ space, className = "", checked, onChange, label }: S & { checked: boolean; onChange: (v: boolean) => void; label: string }) {
+  return (
+    <button type="button" role="switch" aria-checked={checked} aria-label={label} onClick={() => onChange(!checked)}
+      className={`${spaceClass(space)} relative h-[30px] w-[48px] shrink-0 rounded-full transition-colors ${className}`}
+      style={{ background: checked ? "var(--lg-deep)" : "var(--sp-line)", border: checked ? "none" : "1px solid var(--sp-line-2)" }}>
+      <span className="absolute top-1/2 size-[22px] -translate-y-1/2 rounded-full transition-all"
+        style={{ left: checked ? 22 : 3, background: checked ? "var(--lg-mint)" : "var(--lg-cream)" }} />
+    </button>
+  );
+}
+
+/** Ligne titre + sous-titre + interrupteur. */
+export function ToggleRow({ space, title, subtitle, checked, onChange, last }: S & { title: string; subtitle?: string; checked: boolean; onChange: (v: boolean) => void; last?: boolean }) {
+  return (
+    <div className={`${spaceClass(space)} flex items-center gap-4 py-[16px]`} style={{ ...ink, borderBottom: last ? "none" : "1px solid var(--sp-line)" }}>
+      <span className="min-w-0 flex-1">
+        <span className="lg-row-title block">{title}</span>
+        {subtitle && <span className="lg-row-sub mt-1 block" style={sub}>{subtitle}</span>}
+      </span>
+      <Toggle space={space} checked={checked} onChange={onChange} label={title} />
+    </div>
+  );
+}
+
+/** Ligne libellé à gauche, étiquette mono à droite. */
+export function TagRow({ space, title, tag, last }: S & { title: ReactNode; tag: string; last?: boolean }) {
+  return (
+    <div className={`${spaceClass(space)} flex items-center justify-between gap-4 py-[16px]`} style={{ ...ink, borderBottom: last ? "none" : "1px solid var(--sp-line)" }}>
+      <span style={{ ...serif, fontSize: 20 }}>{title}</span>
+      <span className="lg-mono text-right" style={ink}>{tag}</span>
+    </div>
+  );
+}

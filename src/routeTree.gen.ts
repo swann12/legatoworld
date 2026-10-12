@@ -12,7 +12,6 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as WishesRouteImport } from './routes/wishes'
 import { Route as VitrineRouteImport } from './routes/vitrine'
 import { Route as StartRouteImport } from './routes/start'
-import { Route as SpaceRouteImport } from './routes/space'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as PresentationRouteImport } from './routes/presentation'
 import { Route as PresenceRouteImport } from './routes/presence'
@@ -24,7 +23,6 @@ import { Route as MemoryRouteImport } from './routes/memory'
 import { Route as MemoriesRouteImport } from './routes/memories'
 import { Route as JournalRouteImport } from './routes/journal'
 import { Route as InspirationRouteImport } from './routes/inspiration'
-import { Route as HomeRouteImport } from './routes/home'
 import { Route as HelpRouteImport } from './routes/help'
 import { Route as DatesRouteImport } from './routes/dates'
 import { Route as CrisisRouteImport } from './routes/crisis'
@@ -35,10 +33,12 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AppointmentsRouteImport } from './routes/appointments'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as SpaceIndexRouteImport } from './routes/space.index'
 import { Route as ResourcesIndexRouteImport } from './routes/resources.index'
 import { Route as ProfileIndexRouteImport } from './routes/profile.index'
 import { Route as PracticalIndexRouteImport } from './routes/practical.index'
 import { Route as OnboardingIndexRouteImport } from './routes/onboarding.index'
+import { Route as HomeIndexRouteImport } from './routes/home.index'
 import { Route as HelpIndexRouteImport } from './routes/help.index'
 import { Route as GardenIndexRouteImport } from './routes/garden.index'
 import { Route as CareIndexRouteImport } from './routes/care.index'
@@ -115,11 +115,6 @@ const StartRoute = StartRouteImport.update({
   path: '/start',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SpaceRoute = SpaceRouteImport.update({
-  id: '/space',
-  path: '/space',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ProfileRoute = ProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
@@ -175,11 +170,6 @@ const InspirationRoute = InspirationRouteImport.update({
   path: '/inspiration',
   getParentRoute: () => rootRouteImport,
 } as any)
-const HomeRoute = HomeRouteImport.update({
-  id: '/home',
-  path: '/home',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const HelpRoute = HelpRouteImport.update({
   id: '/help',
   path: '/help',
@@ -229,6 +219,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SpaceIndexRoute = SpaceIndexRouteImport.update({
+  id: '/space/',
+  path: '/space/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ResourcesIndexRoute = ResourcesIndexRouteImport.update({
   id: '/resources/',
   path: '/resources/',
@@ -248,6 +243,11 @@ const OnboardingIndexRoute = OnboardingIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => OnboardingRoute,
+} as any)
+const HomeIndexRoute = HomeIndexRouteImport.update({
+  id: '/home/',
+  path: '/home/',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const HelpIndexRoute = HelpIndexRouteImport.update({
   id: '/',
@@ -563,7 +563,6 @@ export interface FileRoutesByFullPath {
   '/crisis': typeof CrisisRoute
   '/dates': typeof DatesRoute
   '/help': typeof HelpRouteWithChildren
-  '/home': typeof HomeRoute
   '/inspiration': typeof InspirationRoute
   '/journal': typeof JournalRoute
   '/memories': typeof MemoriesRoute
@@ -575,7 +574,6 @@ export interface FileRoutesByFullPath {
   '/presence': typeof PresenceRoute
   '/presentation': typeof PresentationRoute
   '/profile': typeof ProfileRouteWithChildren
-  '/space': typeof SpaceRoute
   '/start': typeof StartRoute
   '/vitrine': typeof VitrineRoute
   '/wishes': typeof WishesRoute
@@ -621,10 +619,12 @@ export interface FileRoutesByFullPath {
   '/care/': typeof CareIndexRoute
   '/garden/': typeof GardenIndexRoute
   '/help/': typeof HelpIndexRoute
+  '/home/': typeof HomeIndexRoute
   '/onboarding/': typeof OnboardingIndexRoute
   '/practical/': typeof PracticalIndexRoute
   '/profile/': typeof ProfileIndexRoute
   '/resources/': typeof ResourcesIndexRoute
+  '/space/': typeof SpaceIndexRoute
   '/care/community/regles': typeof CareCommunityReglesRoute
   '/care/garden/$zone': typeof CareGardenZoneRoute
   '/care/garden/depot': typeof CareGardenDepotRoute
@@ -652,7 +652,6 @@ export interface FileRoutesByTo {
   '/community': typeof CommunityRoute
   '/crisis': typeof CrisisRoute
   '/dates': typeof DatesRoute
-  '/home': typeof HomeRoute
   '/inspiration': typeof InspirationRoute
   '/journal': typeof JournalRoute
   '/memories': typeof MemoriesRoute
@@ -661,7 +660,6 @@ export interface FileRoutesByTo {
   '/parcours': typeof ParcoursRouteWithChildren
   '/presence': typeof PresenceRoute
   '/presentation': typeof PresentationRoute
-  '/space': typeof SpaceRoute
   '/start': typeof StartRoute
   '/vitrine': typeof VitrineRoute
   '/wishes': typeof WishesRoute
@@ -703,10 +701,12 @@ export interface FileRoutesByTo {
   '/care': typeof CareIndexRoute
   '/garden': typeof GardenIndexRoute
   '/help': typeof HelpIndexRoute
+  '/home': typeof HomeIndexRoute
   '/onboarding': typeof OnboardingIndexRoute
   '/practical': typeof PracticalIndexRoute
   '/profile': typeof ProfileIndexRoute
   '/resources': typeof ResourcesIndexRoute
+  '/space': typeof SpaceIndexRoute
   '/care/community/regles': typeof CareCommunityReglesRoute
   '/care/garden/$zone': typeof CareGardenZoneRoute
   '/care/garden/depot': typeof CareGardenDepotRoute
@@ -738,7 +738,6 @@ export interface FileRoutesById {
   '/crisis': typeof CrisisRoute
   '/dates': typeof DatesRoute
   '/help': typeof HelpRouteWithChildren
-  '/home': typeof HomeRoute
   '/inspiration': typeof InspirationRoute
   '/journal': typeof JournalRoute
   '/memories': typeof MemoriesRoute
@@ -750,7 +749,6 @@ export interface FileRoutesById {
   '/presence': typeof PresenceRoute
   '/presentation': typeof PresentationRoute
   '/profile': typeof ProfileRouteWithChildren
-  '/space': typeof SpaceRoute
   '/start': typeof StartRoute
   '/vitrine': typeof VitrineRoute
   '/wishes': typeof WishesRoute
@@ -796,10 +794,12 @@ export interface FileRoutesById {
   '/care/': typeof CareIndexRoute
   '/garden/': typeof GardenIndexRoute
   '/help/': typeof HelpIndexRoute
+  '/home/': typeof HomeIndexRoute
   '/onboarding/': typeof OnboardingIndexRoute
   '/practical/': typeof PracticalIndexRoute
   '/profile/': typeof ProfileIndexRoute
   '/resources/': typeof ResourcesIndexRoute
+  '/space/': typeof SpaceIndexRoute
   '/care/community/regles': typeof CareCommunityReglesRoute
   '/care/garden/$zone': typeof CareGardenZoneRoute
   '/care/garden/depot': typeof CareGardenDepotRoute
@@ -831,7 +831,6 @@ export interface FileRouteTypes {
     | '/crisis'
     | '/dates'
     | '/help'
-    | '/home'
     | '/inspiration'
     | '/journal'
     | '/memories'
@@ -843,7 +842,6 @@ export interface FileRouteTypes {
     | '/presence'
     | '/presentation'
     | '/profile'
-    | '/space'
     | '/start'
     | '/vitrine'
     | '/wishes'
@@ -889,10 +887,12 @@ export interface FileRouteTypes {
     | '/care/'
     | '/garden/'
     | '/help/'
+    | '/home/'
     | '/onboarding/'
     | '/practical/'
     | '/profile/'
     | '/resources/'
+    | '/space/'
     | '/care/community/regles'
     | '/care/garden/$zone'
     | '/care/garden/depot'
@@ -920,7 +920,6 @@ export interface FileRouteTypes {
     | '/community'
     | '/crisis'
     | '/dates'
-    | '/home'
     | '/inspiration'
     | '/journal'
     | '/memories'
@@ -929,7 +928,6 @@ export interface FileRouteTypes {
     | '/parcours'
     | '/presence'
     | '/presentation'
-    | '/space'
     | '/start'
     | '/vitrine'
     | '/wishes'
@@ -971,10 +969,12 @@ export interface FileRouteTypes {
     | '/care'
     | '/garden'
     | '/help'
+    | '/home'
     | '/onboarding'
     | '/practical'
     | '/profile'
     | '/resources'
+    | '/space'
     | '/care/community/regles'
     | '/care/garden/$zone'
     | '/care/garden/depot'
@@ -1005,7 +1005,6 @@ export interface FileRouteTypes {
     | '/crisis'
     | '/dates'
     | '/help'
-    | '/home'
     | '/inspiration'
     | '/journal'
     | '/memories'
@@ -1017,7 +1016,6 @@ export interface FileRouteTypes {
     | '/presence'
     | '/presentation'
     | '/profile'
-    | '/space'
     | '/start'
     | '/vitrine'
     | '/wishes'
@@ -1063,10 +1061,12 @@ export interface FileRouteTypes {
     | '/care/'
     | '/garden/'
     | '/help/'
+    | '/home/'
     | '/onboarding/'
     | '/practical/'
     | '/profile/'
     | '/resources/'
+    | '/space/'
     | '/care/community/regles'
     | '/care/garden/$zone'
     | '/care/garden/depot'
@@ -1098,7 +1098,6 @@ export interface RootRouteChildren {
   CrisisRoute: typeof CrisisRoute
   DatesRoute: typeof DatesRoute
   HelpRoute: typeof HelpRouteWithChildren
-  HomeRoute: typeof HomeRoute
   InspirationRoute: typeof InspirationRoute
   JournalRoute: typeof JournalRoute
   MemoriesRoute: typeof MemoriesRoute
@@ -1110,7 +1109,6 @@ export interface RootRouteChildren {
   PresenceRoute: typeof PresenceRoute
   PresentationRoute: typeof PresentationRoute
   ProfileRoute: typeof ProfileRouteWithChildren
-  SpaceRoute: typeof SpaceRoute
   StartRoute: typeof StartRoute
   VitrineRoute: typeof VitrineRoute
   WishesRoute: typeof WishesRoute
@@ -1123,7 +1121,9 @@ export interface RootRouteChildren {
   ResourcesCategoryRoute: typeof ResourcesCategoryRouteWithChildren
   AgendaIndexRoute: typeof AgendaIndexRoute
   GardenIndexRoute: typeof GardenIndexRoute
+  HomeIndexRoute: typeof HomeIndexRoute
   ResourcesIndexRoute: typeof ResourcesIndexRoute
+  SpaceIndexRoute: typeof SpaceIndexRoute
   ResourcesConfirmProviderIdRoute: typeof ResourcesConfirmProviderIdRoute
   ApiPublicSouffleSoundIdRoute: typeof ApiPublicSouffleSoundIdRoute
 }
@@ -1149,13 +1149,6 @@ declare module '@tanstack/react-router' {
       path: '/start'
       fullPath: '/start'
       preLoaderRoute: typeof StartRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/space': {
-      id: '/space'
-      path: '/space'
-      fullPath: '/space'
-      preLoaderRoute: typeof SpaceRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/profile': {
@@ -1235,13 +1228,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof InspirationRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/home': {
-      id: '/home'
-      path: '/home'
-      fullPath: '/home'
-      preLoaderRoute: typeof HomeRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/help': {
       id: '/help'
       path: '/help'
@@ -1312,6 +1298,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/space/': {
+      id: '/space/'
+      path: '/space'
+      fullPath: '/space/'
+      preLoaderRoute: typeof SpaceIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/resources/': {
       id: '/resources/'
       path: '/resources'
@@ -1339,6 +1332,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/onboarding/'
       preLoaderRoute: typeof OnboardingIndexRouteImport
       parentRoute: typeof OnboardingRoute
+    }
+    '/home/': {
+      id: '/home/'
+      path: '/home'
+      fullPath: '/home/'
+      preLoaderRoute: typeof HomeIndexRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/help/': {
       id: '/help/'
@@ -1991,7 +1991,6 @@ const rootRouteChildren: RootRouteChildren = {
   CrisisRoute: CrisisRoute,
   DatesRoute: DatesRoute,
   HelpRoute: HelpRouteWithChildren,
-  HomeRoute: HomeRoute,
   InspirationRoute: InspirationRoute,
   JournalRoute: JournalRoute,
   MemoriesRoute: MemoriesRoute,
@@ -2003,7 +2002,6 @@ const rootRouteChildren: RootRouteChildren = {
   PresenceRoute: PresenceRoute,
   PresentationRoute: PresentationRoute,
   ProfileRoute: ProfileRouteWithChildren,
-  SpaceRoute: SpaceRoute,
   StartRoute: StartRoute,
   VitrineRoute: VitrineRoute,
   WishesRoute: WishesRoute,
@@ -2016,7 +2014,9 @@ const rootRouteChildren: RootRouteChildren = {
   ResourcesCategoryRoute: ResourcesCategoryRouteWithChildren,
   AgendaIndexRoute: AgendaIndexRoute,
   GardenIndexRoute: GardenIndexRoute,
+  HomeIndexRoute: HomeIndexRoute,
   ResourcesIndexRoute: ResourcesIndexRoute,
+  SpaceIndexRoute: SpaceIndexRoute,
   ResourcesConfirmProviderIdRoute: ResourcesConfirmProviderIdRoute,
   ApiPublicSouffleSoundIdRoute: ApiPublicSouffleSoundIdRoute,
 }
