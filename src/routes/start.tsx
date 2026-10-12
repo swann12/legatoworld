@@ -5,6 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
 import { LegatoMark } from "@/components/legato/LegatoMark";
 import { Button } from "@/components/ui/button";
+import { PrimaryButton, TextLink } from "@/components/legato/ds";
 
 export const Route = createFileRoute("/start")({
   head: () => ({
@@ -153,36 +154,22 @@ function Start() {
   }
 
   if (stage === "choice") {
+    // 002 · Bienvenue — maquette legato-design
     return (
-      <main className="min-h-dvh" style={{ background: "var(--paper)", color: "var(--dusk)" }}>
-        <div className="mobile-frame relative flex min-h-dvh flex-col items-center animate-fade-in" style={{ background: "var(--paper)", padding: "clamp(40px, 7vh, 56px) clamp(32px, 11vw, 51px) clamp(28px, 5vh, 34px)" }}>
-          <LegatoMark to="/start" variant="ink" size={50} stacked />
-          <div className="min-h-8 flex-1" aria-hidden />
-          <h1 className="font-serif text-center" style={{ fontSize: "clamp(34px, 11.5vw, 46px)", lineHeight: 1.16, color: "var(--dusk)", fontWeight: 400, letterSpacing: 0 }}>
-            Préparer<br />un <span className="italic">adieu</span>,<br />garder une<br /><span className="italic">présence</span>.
+      <main className="lg-space-today min-h-dvh" style={{ background: "var(--lg-cream)", color: "var(--lg-deep)", fontFamily: "var(--lg-sans)" }}>
+        <div className="mx-auto flex min-h-dvh max-w-[430px] flex-col animate-fade-in">
+          <header className="mx-[28px] flex h-16 shrink-0 items-center justify-between" style={{ borderBottom: "1px solid var(--lg-line-2)" }}>
+            <span style={{ fontFamily: "var(--lg-serif)", fontSize: 25 }}>LEGATO</span>
+            <span className="lg-mono" style={{ color: "var(--lg-deep)" }}>Bienvenue</span>
+          </header>
+          <h1 className="px-[28px] pt-10" style={{ fontFamily: "var(--lg-serif)", fontWeight: 400, fontSize: "clamp(56px, 20vw, 78px)", lineHeight: 1.1 }}>
+            Préparer <br />un adieu,<br /><em className="italic">garder une présence.</em>
           </h1>
+          <p className="lg-lead mx-[28px] mt-10 max-w-[252px]">Une application pour traverser le deuil, au jour le jour, à votre rythme.</p>
           <div className="min-h-8 flex-1" aria-hidden />
-          <div className="flex w-full flex-col items-stretch gap-[10px]">
-            <Button
-              type="button"
-              onClick={() => { setStage("signup"); setError(null); setInfo(null); }}
-              className="h-[44px] w-full rounded-full p-0 text-center font-normal shadow-none transition-transform active:scale-[0.99]"
-              style={{ background: "var(--clay)", color: "var(--dusk)", height: 46, borderRadius: 999 }}
-            >
-               <span className="mono-label" style={{ color: "var(--dusk)", letterSpacing: "0.18em", fontSize: 10.5 }}>Créer son espace</span>
-            </Button>
-            <Button
-              type="button"
-              onClick={() => { setStage("signin"); setError(null); setInfo(null); }}
-              variant="outline"
-              className="h-[44px] w-full rounded-full border-dusk/15 bg-paper p-0 text-center font-normal text-dusk shadow-none transition-colors hover:bg-paper hover:text-dusk"
-              style={{ borderColor: "color-mix(in oklab, var(--dusk) 22%, transparent)", color: "var(--dusk)", height: 46, borderRadius: 999 }}
-            >
-               <span className="mono-label" style={{ color: "var(--dusk)", letterSpacing: "0.18em", fontSize: 10.5 }}>Se reconnecter</span>
-            </Button>
-            <Button type="button" variant="link" onClick={goNext} className="h-auto pt-2 text-center font-normal text-dusk hover:text-dusk">
-               <span className="mono-label block underline underline-offset-4" style={{ color: "var(--dusk)", letterSpacing: "0.16em", fontSize: 9.5 }}>Continuer en tant qu’invité</span>
-            </Button>
+          <div className="flex flex-col items-center gap-4 px-[28px] pb-[34px]">
+            <PrimaryButton space="support" full onClick={goNext}>Créer mon espace</PrimaryButton>
+            <TextLink space="today" to="/auth">J'ai déjà un compte</TextLink>
           </div>
         </div>
       </main>

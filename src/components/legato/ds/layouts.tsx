@@ -26,9 +26,9 @@ export function QuestionLayout({ space = "today", step, total, children, footer 
 }) {
   return (
     <div className={`${spaceClass(space)} min-h-dvh`} style={{ background: "var(--sp-bg)", color: "var(--sp-ink)", fontFamily: "var(--lg-sans)" }}>
-      <div className="mx-auto flex min-h-dvh max-w-[430px] flex-col pt-6 pb-8" style={{ paddingInline: "var(--lg-margin)" }}>
+      <div className="mx-auto flex min-h-dvh max-w-[430px] flex-col pt-[30px] pb-[34px]" style={{ paddingInline: "var(--lg-margin)" }}>
         <StepBar space={space} step={step} total={total} />
-        <div className="flex-1 pt-10">{children}</div>
+        <div className="flex-1 pt-[30px]">{children}</div>
         <div className="pt-8">{footer}</div>
       </div>
     </div>

@@ -1,2 +1,3 @@
 - New screens use `src/components/legato/ds/` (components + StandardLayout/QuestionLayout/ExperienceLayout) with a `space` prop mapped to `.lg-space-*` CSS vars in styles.css; never hardcode colors in pages. Why: one color pair per space, themable in one place.
 - Global nav is `ds/BottomNav` (5 tabs), rendered by Shell. Why: single navigation per the design system.
+- The opening flow (/onboarding, /onboarding/practical, /onboarding/care) shares its answers through `src/lib/onboarding-flow.ts` and maps them onto legato-state at the final screen. Why: three routes, one source of truth.
