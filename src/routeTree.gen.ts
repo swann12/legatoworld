@@ -122,6 +122,7 @@ import { Route as CareGardenBookRouteImport } from './routes/care.garden.book'
 import { Route as CareGardenAllRouteImport } from './routes/care.garden.all'
 import { Route as CareGardenZoneRouteImport } from './routes/care.garden.$zone'
 import { Route as CareCommunityReglesRouteImport } from './routes/care.community.regles'
+import { Route as CareCommunityGroupsRouteImport } from './routes/care.community.groups'
 import { Route as PracticalTasksIdIndexRouteImport } from './routes/practical.tasks.$id.index'
 import { Route as HelpCorpsSoinIndexRouteImport } from './routes/help.corps.soin.index'
 import { Route as CareGardenZoneIndexRouteImport } from './routes/care.garden.$zone.index'
@@ -130,9 +131,12 @@ import { Route as PracticalTasksIdTemplateRouteImport } from './routes/practical
 import { Route as HelpCorpsSoinIdRouteImport } from './routes/help.corps.soin.$id'
 import { Route as HelpCorpsSujetContenusRouteImport } from './routes/help.corps.$sujet.contenus'
 import { Route as CareGardenZoneIdRouteImport } from './routes/care.garden.$zone.$id'
+import { Route as CareCommunityVigilIdRouteImport } from './routes/care.community.vigil.$id'
 import { Route as CareCommunityGroupNewRouteImport } from './routes/care.community.$group.new'
 import { Route as CareCommunityGroupThreadRouteImport } from './routes/care.community.$group.$thread'
 import { Route as ApiPublicSouffleSoundIdRouteImport } from './routes/api/public/souffle-sound.$id'
+import { Route as CareCommunityVigilIdIndexRouteImport } from './routes/care.community.vigil.$id.index'
+import { Route as CareCommunityVigilIdOkRouteImport } from './routes/care.community.vigil.$id.ok'
 
 const WishesRoute = WishesRouteImport.update({
   id: '/wishes',
@@ -700,6 +704,11 @@ const CareCommunityReglesRoute = CareCommunityReglesRouteImport.update({
   path: '/regles',
   getParentRoute: () => CareCommunityRoute,
 } as any)
+const CareCommunityGroupsRoute = CareCommunityGroupsRouteImport.update({
+  id: '/groups',
+  path: '/groups',
+  getParentRoute: () => CareCommunityRoute,
+} as any)
 const PracticalTasksIdIndexRoute = PracticalTasksIdIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -741,6 +750,11 @@ const CareGardenZoneIdRoute = CareGardenZoneIdRouteImport.update({
   path: '/$id',
   getParentRoute: () => CareGardenZoneRoute,
 } as any)
+const CareCommunityVigilIdRoute = CareCommunityVigilIdRouteImport.update({
+  id: '/vigil/$id',
+  path: '/vigil/$id',
+  getParentRoute: () => CareCommunityRoute,
+} as any)
 const CareCommunityGroupNewRoute = CareCommunityGroupNewRouteImport.update({
   id: '/$group/new',
   path: '/$group/new',
@@ -756,6 +770,17 @@ const ApiPublicSouffleSoundIdRoute = ApiPublicSouffleSoundIdRouteImport.update({
   id: '/api/public/souffle-sound/$id',
   path: '/api/public/souffle-sound/$id',
   getParentRoute: () => rootRouteImport,
+} as any)
+const CareCommunityVigilIdIndexRoute =
+  CareCommunityVigilIdIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => CareCommunityVigilIdRoute,
+  } as any)
+const CareCommunityVigilIdOkRoute = CareCommunityVigilIdOkRouteImport.update({
+  id: '/ok',
+  path: '/ok',
+  getParentRoute: () => CareCommunityVigilIdRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -843,6 +868,7 @@ export interface FileRoutesByFullPath {
   '/profile/': typeof ProfileIndexRoute
   '/resources/': typeof ResourcesIndexRoute
   '/space/': typeof SpaceIndexRoute
+  '/care/community/groups': typeof CareCommunityGroupsRoute
   '/care/community/regles': typeof CareCommunityReglesRoute
   '/care/garden/$zone': typeof CareGardenZoneRouteWithChildren
   '/care/garden/all': typeof CareGardenAllRoute
@@ -874,6 +900,7 @@ export interface FileRoutesByFullPath {
   '/api/public/souffle-sound/$id': typeof ApiPublicSouffleSoundIdRoute
   '/care/community/$group/$thread': typeof CareCommunityGroupThreadRoute
   '/care/community/$group/new': typeof CareCommunityGroupNewRoute
+  '/care/community/vigil/$id': typeof CareCommunityVigilIdRouteWithChildren
   '/care/garden/$zone/$id': typeof CareGardenZoneIdRoute
   '/help/corps/$sujet/contenus': typeof HelpCorpsSujetContenusRoute
   '/help/corps/soin/$id': typeof HelpCorpsSoinIdRoute
@@ -882,6 +909,8 @@ export interface FileRoutesByFullPath {
   '/care/garden/$zone/': typeof CareGardenZoneIndexRoute
   '/help/corps/soin/': typeof HelpCorpsSoinIndexRoute
   '/practical/tasks/$id/': typeof PracticalTasksIdIndexRoute
+  '/care/community/vigil/$id/ok': typeof CareCommunityVigilIdOkRoute
+  '/care/community/vigil/$id/': typeof CareCommunityVigilIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -957,6 +986,7 @@ export interface FileRoutesByTo {
   '/profile': typeof ProfileIndexRoute
   '/resources': typeof ResourcesIndexRoute
   '/space': typeof SpaceIndexRoute
+  '/care/community/groups': typeof CareCommunityGroupsRoute
   '/care/community/regles': typeof CareCommunityReglesRoute
   '/care/garden/all': typeof CareGardenAllRoute
   '/care/garden/book': typeof CareGardenBookRoute
@@ -993,6 +1023,8 @@ export interface FileRoutesByTo {
   '/care/garden/$zone': typeof CareGardenZoneIndexRoute
   '/help/corps/soin': typeof HelpCorpsSoinIndexRoute
   '/practical/tasks/$id': typeof PracticalTasksIdIndexRoute
+  '/care/community/vigil/$id/ok': typeof CareCommunityVigilIdOkRoute
+  '/care/community/vigil/$id': typeof CareCommunityVigilIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -1081,6 +1113,7 @@ export interface FileRoutesById {
   '/profile/': typeof ProfileIndexRoute
   '/resources/': typeof ResourcesIndexRoute
   '/space/': typeof SpaceIndexRoute
+  '/care/community/groups': typeof CareCommunityGroupsRoute
   '/care/community/regles': typeof CareCommunityReglesRoute
   '/care/garden/$zone': typeof CareGardenZoneRouteWithChildren
   '/care/garden/all': typeof CareGardenAllRoute
@@ -1112,6 +1145,7 @@ export interface FileRoutesById {
   '/api/public/souffle-sound/$id': typeof ApiPublicSouffleSoundIdRoute
   '/care/community/$group/$thread': typeof CareCommunityGroupThreadRoute
   '/care/community/$group/new': typeof CareCommunityGroupNewRoute
+  '/care/community/vigil/$id': typeof CareCommunityVigilIdRouteWithChildren
   '/care/garden/$zone/$id': typeof CareGardenZoneIdRoute
   '/help/corps/$sujet/contenus': typeof HelpCorpsSujetContenusRoute
   '/help/corps/soin/$id': typeof HelpCorpsSoinIdRoute
@@ -1120,6 +1154,8 @@ export interface FileRoutesById {
   '/care/garden/$zone/': typeof CareGardenZoneIndexRoute
   '/help/corps/soin/': typeof HelpCorpsSoinIndexRoute
   '/practical/tasks/$id/': typeof PracticalTasksIdIndexRoute
+  '/care/community/vigil/$id/ok': typeof CareCommunityVigilIdOkRoute
+  '/care/community/vigil/$id/': typeof CareCommunityVigilIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -1208,6 +1244,7 @@ export interface FileRouteTypes {
     | '/profile/'
     | '/resources/'
     | '/space/'
+    | '/care/community/groups'
     | '/care/community/regles'
     | '/care/garden/$zone'
     | '/care/garden/all'
@@ -1239,6 +1276,7 @@ export interface FileRouteTypes {
     | '/api/public/souffle-sound/$id'
     | '/care/community/$group/$thread'
     | '/care/community/$group/new'
+    | '/care/community/vigil/$id'
     | '/care/garden/$zone/$id'
     | '/help/corps/$sujet/contenus'
     | '/help/corps/soin/$id'
@@ -1247,6 +1285,8 @@ export interface FileRouteTypes {
     | '/care/garden/$zone/'
     | '/help/corps/soin/'
     | '/practical/tasks/$id/'
+    | '/care/community/vigil/$id/ok'
+    | '/care/community/vigil/$id/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -1322,6 +1362,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/resources'
     | '/space'
+    | '/care/community/groups'
     | '/care/community/regles'
     | '/care/garden/all'
     | '/care/garden/book'
@@ -1358,6 +1399,8 @@ export interface FileRouteTypes {
     | '/care/garden/$zone'
     | '/help/corps/soin'
     | '/practical/tasks/$id'
+    | '/care/community/vigil/$id/ok'
+    | '/care/community/vigil/$id'
   id:
     | '__root__'
     | '/'
@@ -1445,6 +1488,7 @@ export interface FileRouteTypes {
     | '/profile/'
     | '/resources/'
     | '/space/'
+    | '/care/community/groups'
     | '/care/community/regles'
     | '/care/garden/$zone'
     | '/care/garden/all'
@@ -1476,6 +1520,7 @@ export interface FileRouteTypes {
     | '/api/public/souffle-sound/$id'
     | '/care/community/$group/$thread'
     | '/care/community/$group/new'
+    | '/care/community/vigil/$id'
     | '/care/garden/$zone/$id'
     | '/help/corps/$sujet/contenus'
     | '/help/corps/soin/$id'
@@ -1484,6 +1529,8 @@ export interface FileRouteTypes {
     | '/care/garden/$zone/'
     | '/help/corps/soin/'
     | '/practical/tasks/$id/'
+    | '/care/community/vigil/$id/ok'
+    | '/care/community/vigil/$id/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -2330,6 +2377,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CareCommunityReglesRouteImport
       parentRoute: typeof CareCommunityRoute
     }
+    '/care/community/groups': {
+      id: '/care/community/groups'
+      path: '/groups'
+      fullPath: '/care/community/groups'
+      preLoaderRoute: typeof CareCommunityGroupsRouteImport
+      parentRoute: typeof CareCommunityRoute
+    }
     '/practical/tasks/$id/': {
       id: '/practical/tasks/$id/'
       path: '/'
@@ -2386,6 +2440,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CareGardenZoneIdRouteImport
       parentRoute: typeof CareGardenZoneRoute
     }
+    '/care/community/vigil/$id': {
+      id: '/care/community/vigil/$id'
+      path: '/vigil/$id'
+      fullPath: '/care/community/vigil/$id'
+      preLoaderRoute: typeof CareCommunityVigilIdRouteImport
+      parentRoute: typeof CareCommunityRoute
+    }
     '/care/community/$group/new': {
       id: '/care/community/$group/new'
       path: '/$group/new'
@@ -2407,6 +2468,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicSouffleSoundIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/care/community/vigil/$id/': {
+      id: '/care/community/vigil/$id/'
+      path: '/'
+      fullPath: '/care/community/vigil/$id/'
+      preLoaderRoute: typeof CareCommunityVigilIdIndexRouteImport
+      parentRoute: typeof CareCommunityVigilIdRoute
+    }
+    '/care/community/vigil/$id/ok': {
+      id: '/care/community/vigil/$id/ok'
+      path: '/ok'
+      fullPath: '/care/community/vigil/$id/ok'
+      preLoaderRoute: typeof CareCommunityVigilIdOkRouteImport
+      parentRoute: typeof CareCommunityVigilIdRoute
+    }
   }
 }
 
@@ -2421,19 +2496,36 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
+interface CareCommunityVigilIdRouteChildren {
+  CareCommunityVigilIdOkRoute: typeof CareCommunityVigilIdOkRoute
+  CareCommunityVigilIdIndexRoute: typeof CareCommunityVigilIdIndexRoute
+}
+
+const CareCommunityVigilIdRouteChildren: CareCommunityVigilIdRouteChildren = {
+  CareCommunityVigilIdOkRoute: CareCommunityVigilIdOkRoute,
+  CareCommunityVigilIdIndexRoute: CareCommunityVigilIdIndexRoute,
+}
+
+const CareCommunityVigilIdRouteWithChildren =
+  CareCommunityVigilIdRoute._addFileChildren(CareCommunityVigilIdRouteChildren)
+
 interface CareCommunityRouteChildren {
+  CareCommunityGroupsRoute: typeof CareCommunityGroupsRoute
   CareCommunityReglesRoute: typeof CareCommunityReglesRoute
   CareCommunityIndexRoute: typeof CareCommunityIndexRoute
   CareCommunityGroupThreadRoute: typeof CareCommunityGroupThreadRoute
   CareCommunityGroupNewRoute: typeof CareCommunityGroupNewRoute
+  CareCommunityVigilIdRoute: typeof CareCommunityVigilIdRouteWithChildren
   CareCommunityGroupIndexRoute: typeof CareCommunityGroupIndexRoute
 }
 
 const CareCommunityRouteChildren: CareCommunityRouteChildren = {
+  CareCommunityGroupsRoute: CareCommunityGroupsRoute,
   CareCommunityReglesRoute: CareCommunityReglesRoute,
   CareCommunityIndexRoute: CareCommunityIndexRoute,
   CareCommunityGroupThreadRoute: CareCommunityGroupThreadRoute,
   CareCommunityGroupNewRoute: CareCommunityGroupNewRoute,
+  CareCommunityVigilIdRoute: CareCommunityVigilIdRouteWithChildren,
   CareCommunityGroupIndexRoute: CareCommunityGroupIndexRoute,
 }
 
