@@ -34,3 +34,7 @@ export const showsPapers = (w: ForWhom | null) => w === "personne" || w === "ani
 export const showsName = (w: ForWhom | null) => w !== "moi";
 
 export const TOTAL_STEPS = 4;
+
+/** Prénom de la personne qui s'occupe des démarches (réponse « Quelqu'un s'en occupe »). */
+export const getPapersHelper = () => read<string>("lg.onb.papersHelper", "");
+export const setPapersHelper = (v: string) => write("lg.onb.papersHelper", v.trim() || null);
