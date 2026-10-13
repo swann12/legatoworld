@@ -1,9 +1,9 @@
 # Reprise UX/UI Legato
 
 ## Étape 13 — Communauté
-- [ ] Présenter les quatre listes avant le code pour 095–100, 111 et 112.
-- [ ] Reproduire les huit écrans et garder community-store et community-data.
-- [ ] Vérifier conversation, écriture, recherche et inscription à la veillée.
+- [x] Présenter les quatre listes avant le code pour 095–100, 111 et 112.
+- [x] Reproduire les huit écrans et garder community-store et community-data.
+- [x] Vérifier conversation, écriture, recherche et inscription locale à la veillée.
 - [ ] Suppression hors maquette : en attente d’accord utilisateur.
 
 - [ ] Conserver la barre Soutien / Démarches actuelle, désormais validée.

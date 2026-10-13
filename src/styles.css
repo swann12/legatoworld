@@ -1206,4 +1206,6 @@
 .lg-community-extras { border-top:1px solid var(--sp-line); padding-top:14px; }
 .lg-community-extras summary { color:var(--sp-sub); font-size:13px; cursor:pointer; }
 .lg-community-vigil { background:var(--lg-bordeaux); color:var(--lg-blush); }
-.lg-community-vigil .lg-mono, .lg-community-vigil .lg-section { color:inherit; }
+.lg-community-vigil .lg-mono, .lg-community-vigil .lg-section { color:inherit !important; }
+.lg-community-vigil .lg-title { font-size:25px; }
+.lg-community-message .lg-title { font-size:21px; line-height:1.3; }
