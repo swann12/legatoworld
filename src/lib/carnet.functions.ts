@@ -32,7 +32,7 @@ export const loadCarnet = createServerFn({ method: "POST" })
     return {
       circleId, userId,
       items: (items ?? []).filter((i) => i.payload && typeof i.payload === "object" && "carnet" in (i.payload as object)),
-      members: (members ?? []).filter((m) => m.user_id !== userId).map((m) => ({ id: m.user_id, name: m.display_name || m.email || "Un proche" })),
+      members: (members ?? []).filter((m) => m.user_id !== userId).map((m) => ({ id: m.user_id ?? m.email ?? "invite", name: m.display_name || m.email || "Un proche" })),
     };
   });
 
