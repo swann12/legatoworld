@@ -130,6 +130,7 @@ import { Route as PracticalTasksIdTemplateRouteImport } from './routes/practical
 import { Route as HelpCorpsSoinIdRouteImport } from './routes/help.corps.soin.$id'
 import { Route as HelpCorpsSujetContenusRouteImport } from './routes/help.corps.$sujet.contenus'
 import { Route as CareGardenZoneIdRouteImport } from './routes/care.garden.$zone.$id'
+import { Route as CareCommunityGroupNewRouteImport } from './routes/care.community.$group.new'
 import { Route as CareCommunityGroupThreadRouteImport } from './routes/care.community.$group.$thread'
 import { Route as ApiPublicSouffleSoundIdRouteImport } from './routes/api/public/souffle-sound.$id'
 
@@ -740,6 +741,11 @@ const CareGardenZoneIdRoute = CareGardenZoneIdRouteImport.update({
   path: '/$id',
   getParentRoute: () => CareGardenZoneRoute,
 } as any)
+const CareCommunityGroupNewRoute = CareCommunityGroupNewRouteImport.update({
+  id: '/$group/new',
+  path: '/$group/new',
+  getParentRoute: () => CareCommunityRoute,
+} as any)
 const CareCommunityGroupThreadRoute =
   CareCommunityGroupThreadRouteImport.update({
     id: '/$group/$thread',
@@ -867,6 +873,7 @@ export interface FileRoutesByFullPath {
   '/resources/$category/': typeof ResourcesCategoryIndexRoute
   '/api/public/souffle-sound/$id': typeof ApiPublicSouffleSoundIdRoute
   '/care/community/$group/$thread': typeof CareCommunityGroupThreadRoute
+  '/care/community/$group/new': typeof CareCommunityGroupNewRoute
   '/care/garden/$zone/$id': typeof CareGardenZoneIdRoute
   '/help/corps/$sujet/contenus': typeof HelpCorpsSujetContenusRoute
   '/help/corps/soin/$id': typeof HelpCorpsSoinIdRoute
@@ -977,6 +984,7 @@ export interface FileRoutesByTo {
   '/resources/$category': typeof ResourcesCategoryIndexRoute
   '/api/public/souffle-sound/$id': typeof ApiPublicSouffleSoundIdRoute
   '/care/community/$group/$thread': typeof CareCommunityGroupThreadRoute
+  '/care/community/$group/new': typeof CareCommunityGroupNewRoute
   '/care/garden/$zone/$id': typeof CareGardenZoneIdRoute
   '/help/corps/$sujet/contenus': typeof HelpCorpsSujetContenusRoute
   '/help/corps/soin/$id': typeof HelpCorpsSoinIdRoute
@@ -1103,6 +1111,7 @@ export interface FileRoutesById {
   '/resources/$category/': typeof ResourcesCategoryIndexRoute
   '/api/public/souffle-sound/$id': typeof ApiPublicSouffleSoundIdRoute
   '/care/community/$group/$thread': typeof CareCommunityGroupThreadRoute
+  '/care/community/$group/new': typeof CareCommunityGroupNewRoute
   '/care/garden/$zone/$id': typeof CareGardenZoneIdRoute
   '/help/corps/$sujet/contenus': typeof HelpCorpsSujetContenusRoute
   '/help/corps/soin/$id': typeof HelpCorpsSoinIdRoute
@@ -1229,6 +1238,7 @@ export interface FileRouteTypes {
     | '/resources/$category/'
     | '/api/public/souffle-sound/$id'
     | '/care/community/$group/$thread'
+    | '/care/community/$group/new'
     | '/care/garden/$zone/$id'
     | '/help/corps/$sujet/contenus'
     | '/help/corps/soin/$id'
@@ -1339,6 +1349,7 @@ export interface FileRouteTypes {
     | '/resources/$category'
     | '/api/public/souffle-sound/$id'
     | '/care/community/$group/$thread'
+    | '/care/community/$group/new'
     | '/care/garden/$zone/$id'
     | '/help/corps/$sujet/contenus'
     | '/help/corps/soin/$id'
@@ -1464,6 +1475,7 @@ export interface FileRouteTypes {
     | '/resources/$category/'
     | '/api/public/souffle-sound/$id'
     | '/care/community/$group/$thread'
+    | '/care/community/$group/new'
     | '/care/garden/$zone/$id'
     | '/help/corps/$sujet/contenus'
     | '/help/corps/soin/$id'
@@ -2374,6 +2386,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CareGardenZoneIdRouteImport
       parentRoute: typeof CareGardenZoneRoute
     }
+    '/care/community/$group/new': {
+      id: '/care/community/$group/new'
+      path: '/$group/new'
+      fullPath: '/care/community/$group/new'
+      preLoaderRoute: typeof CareCommunityGroupNewRouteImport
+      parentRoute: typeof CareCommunityRoute
+    }
     '/care/community/$group/$thread': {
       id: '/care/community/$group/$thread'
       path: '/$group/$thread'
@@ -2406,6 +2425,7 @@ interface CareCommunityRouteChildren {
   CareCommunityReglesRoute: typeof CareCommunityReglesRoute
   CareCommunityIndexRoute: typeof CareCommunityIndexRoute
   CareCommunityGroupThreadRoute: typeof CareCommunityGroupThreadRoute
+  CareCommunityGroupNewRoute: typeof CareCommunityGroupNewRoute
   CareCommunityGroupIndexRoute: typeof CareCommunityGroupIndexRoute
 }
 
@@ -2413,6 +2433,7 @@ const CareCommunityRouteChildren: CareCommunityRouteChildren = {
   CareCommunityReglesRoute: CareCommunityReglesRoute,
   CareCommunityIndexRoute: CareCommunityIndexRoute,
   CareCommunityGroupThreadRoute: CareCommunityGroupThreadRoute,
+  CareCommunityGroupNewRoute: CareCommunityGroupNewRoute,
   CareCommunityGroupIndexRoute: CareCommunityGroupIndexRoute,
 }
 

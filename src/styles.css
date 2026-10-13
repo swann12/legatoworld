@@ -1196,3 +1196,14 @@
 .lg-memory-book-page { padding:24px 0; border-bottom:1px solid var(--sp-line); }
 .lg-memory-invite-row { display:flex; align-items:center; gap:16px; border-bottom:1px solid var(--sp-line); padding:18px 0; }
 .lg-memory-invite-row .lg-row-status { max-width:84px; text-align:right; overflow-wrap:anywhere; }
+
+/* Communauté : échanges éditoriaux, et une seule ancre pour la veillée. */
+.lg-community-row { display:flex; align-items:center; gap:14px; padding:18px 0; border-bottom:1px solid var(--sp-line); text-decoration:none; }
+.lg-community-message { border-bottom:1px solid var(--sp-line); }
+.lg-community-link { color:var(--sp-accent); font-size:13.5px; text-decoration:underline; text-underline-offset:4px; }
+.lg-community-outline { display:inline-flex; align-items:center; justify-content:center; min-height:36px; padding:0 20px; border:1px solid var(--sp-stroke); border-radius:24px; color:var(--sp-stroke); font-size:13.5px; }
+.lg-community-pill { background:var(--sp-btn-bg); color:var(--sp-btn-fg); padding:10px 20px; border-radius:24px; font-size:13px; }
+.lg-community-extras { border-top:1px solid var(--sp-line); padding-top:14px; }
+.lg-community-extras summary { color:var(--sp-sub); font-size:13px; cursor:pointer; }
+.lg-community-vigil { background:var(--lg-bordeaux); color:var(--lg-blush); }
+.lg-community-vigil .lg-mono, .lg-community-vigil .lg-section { color:inherit; }
