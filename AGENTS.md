@@ -20,3 +20,4 @@
 - Community screens reuse community-store and community-data, with vigil choices local and clearly distinguished from real reservations. Why: preserve existing interactions without implying a connected community service.
 - The Démarches tab view for bereavement spaces comes from `src/lib/papers-plan.ts` (pure, tested), driven by the papers answer from onboarding and space settings. Why: one rule decides order and the ceremony visibility on every path.
 - The body "petit suivi" lives in `src/lib/corps-suivi.ts` (localStorage, tested); the walking voice uses the browser speech synthesis. Why: nothing about the body leaves the phone.
+- The carnet and « Qui fait quoi » of sick-relative spaces go through `src/lib/carnet.ts`: shared_items in the space's circle when signed in, scoped localStorage otherwise; members accept tasks via the accept_circle_task RPC. Why: shared with the circle without loosening item RLS, and visitors keep working locally.
