@@ -70,6 +70,9 @@ import { Route as PracticalFlowersRouteImport } from './routes/practical.flowers
 import { Route as PracticalCeremonyRouteImport } from './routes/practical.ceremony'
 import { Route as PracticalBookletRouteImport } from './routes/practical.booklet'
 import { Route as PracticalAtmosphereRouteImport } from './routes/practical.atmosphere'
+import { Route as PracticalAnimalSubscriptionsRouteImport } from './routes/practical.animal-subscriptions'
+import { Route as PracticalAnimalInsuranceRouteImport } from './routes/practical.animal-insurance'
+import { Route as PracticalAnimalIdRouteImport } from './routes/practical.animal-id'
 import { Route as PracticalAnimalBodyRouteImport } from './routes/practical.animal-body'
 import { Route as ParcoursTaskIdRouteImport } from './routes/parcours.$taskId'
 import { Route as OnboardingPracticalRouteImport } from './routes/onboarding.practical'
@@ -102,6 +105,7 @@ import { Route as ResourcesCategoryIndexRouteImport } from './routes/resources.$
 import { Route as PracticalTasksIndexRouteImport } from './routes/practical.tasks.index'
 import { Route as PracticalShareIndexRouteImport } from './routes/practical.share.index'
 import { Route as PracticalProsIndexRouteImport } from './routes/practical.pros.index'
+import { Route as PracticalAnimalBodyIndexRouteImport } from './routes/practical.animal-body.index'
 import { Route as LibraryKindIndexRouteImport } from './routes/library.$kind.index'
 import { Route as HelpCorpsIndexRouteImport } from './routes/help.corps.index'
 import { Route as CareRituelsIndexRouteImport } from './routes/care.rituels.index'
@@ -114,6 +118,9 @@ import { Route as ResourcesCategoryProviderIdRouteImport } from './routes/resour
 import { Route as PracticalTasksIdRouteImport } from './routes/practical.tasks.$id'
 import { Route as PracticalShareTaskIdRouteImport } from './routes/practical.share.$taskId'
 import { Route as PracticalProsKindRouteImport } from './routes/practical.pros.$kind'
+import { Route as PracticalAnimalBodyJardinRouteImport } from './routes/practical.animal-body.jardin'
+import { Route as PracticalAnimalBodyCremationRouteImport } from './routes/practical.animal-body.cremation'
+import { Route as PracticalAnimalBodyCimetiereRouteImport } from './routes/practical.animal-body.cimetiere'
 import { Route as LibraryKindIdRouteImport } from './routes/library.$kind.$id'
 import { Route as HelpCorpsSuiviRouteImport } from './routes/help.corps.suivi'
 import { Route as HelpCorpsSoinRouteImport } from './routes/help.corps.soin'
@@ -456,6 +463,23 @@ const PracticalAtmosphereRoute = PracticalAtmosphereRouteImport.update({
   path: '/atmosphere',
   getParentRoute: () => PracticalRoute,
 } as any)
+const PracticalAnimalSubscriptionsRoute =
+  PracticalAnimalSubscriptionsRouteImport.update({
+    id: '/animal-subscriptions',
+    path: '/animal-subscriptions',
+    getParentRoute: () => PracticalRoute,
+  } as any)
+const PracticalAnimalInsuranceRoute =
+  PracticalAnimalInsuranceRouteImport.update({
+    id: '/animal-insurance',
+    path: '/animal-insurance',
+    getParentRoute: () => PracticalRoute,
+  } as any)
+const PracticalAnimalIdRoute = PracticalAnimalIdRouteImport.update({
+  id: '/animal-id',
+  path: '/animal-id',
+  getParentRoute: () => PracticalRoute,
+} as any)
 const PracticalAnimalBodyRoute = PracticalAnimalBodyRouteImport.update({
   id: '/animal-body',
   path: '/animal-body',
@@ -616,6 +640,12 @@ const PracticalProsIndexRoute = PracticalProsIndexRouteImport.update({
   path: '/',
   getParentRoute: () => PracticalProsRoute,
 } as any)
+const PracticalAnimalBodyIndexRoute =
+  PracticalAnimalBodyIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => PracticalAnimalBodyRoute,
+  } as any)
 const LibraryKindIndexRoute = LibraryKindIndexRouteImport.update({
   id: '/library/$kind/',
   path: '/library/$kind/',
@@ -678,6 +708,24 @@ const PracticalProsKindRoute = PracticalProsKindRouteImport.update({
   path: '/$kind',
   getParentRoute: () => PracticalProsRoute,
 } as any)
+const PracticalAnimalBodyJardinRoute =
+  PracticalAnimalBodyJardinRouteImport.update({
+    id: '/jardin',
+    path: '/jardin',
+    getParentRoute: () => PracticalAnimalBodyRoute,
+  } as any)
+const PracticalAnimalBodyCremationRoute =
+  PracticalAnimalBodyCremationRouteImport.update({
+    id: '/cremation',
+    path: '/cremation',
+    getParentRoute: () => PracticalAnimalBodyRoute,
+  } as any)
+const PracticalAnimalBodyCimetiereRoute =
+  PracticalAnimalBodyCimetiereRouteImport.update({
+    id: '/cimetiere',
+    path: '/cimetiere',
+    getParentRoute: () => PracticalAnimalBodyRoute,
+  } as any)
 const LibraryKindIdRoute = LibraryKindIdRouteImport.update({
   id: '/library/$kind/$id',
   path: '/library/$kind/$id',
@@ -915,7 +963,10 @@ export interface FileRoutesByFullPath {
   '/onboarding/care': typeof OnboardingCareRoute
   '/onboarding/practical': typeof OnboardingPracticalRoute
   '/parcours/$taskId': typeof ParcoursTaskIdRoute
-  '/practical/animal-body': typeof PracticalAnimalBodyRoute
+  '/practical/animal-body': typeof PracticalAnimalBodyRouteWithChildren
+  '/practical/animal-id': typeof PracticalAnimalIdRoute
+  '/practical/animal-insurance': typeof PracticalAnimalInsuranceRoute
+  '/practical/animal-subscriptions': typeof PracticalAnimalSubscriptionsRoute
   '/practical/atmosphere': typeof PracticalAtmosphereRoute
   '/practical/booklet': typeof PracticalBookletRoute
   '/practical/ceremony': typeof PracticalCeremonyRoute
@@ -979,6 +1030,9 @@ export interface FileRoutesByFullPath {
   '/help/corps/soin': typeof HelpCorpsSoinRouteWithChildren
   '/help/corps/suivi': typeof HelpCorpsSuiviRoute
   '/library/$kind/$id': typeof LibraryKindIdRoute
+  '/practical/animal-body/cimetiere': typeof PracticalAnimalBodyCimetiereRoute
+  '/practical/animal-body/cremation': typeof PracticalAnimalBodyCremationRoute
+  '/practical/animal-body/jardin': typeof PracticalAnimalBodyJardinRoute
   '/practical/pros/$kind': typeof PracticalProsKindRoute
   '/practical/share/$taskId': typeof PracticalShareTaskIdRoute
   '/practical/tasks/$id': typeof PracticalTasksIdRouteWithChildren
@@ -991,6 +1045,7 @@ export interface FileRoutesByFullPath {
   '/care/rituels/': typeof CareRituelsIndexRoute
   '/help/corps/': typeof HelpCorpsIndexRoute
   '/library/$kind/': typeof LibraryKindIndexRoute
+  '/practical/animal-body/': typeof PracticalAnimalBodyIndexRoute
   '/practical/pros/': typeof PracticalProsIndexRoute
   '/practical/share/': typeof PracticalShareIndexRoute
   '/practical/tasks/': typeof PracticalTasksIndexRoute
@@ -1050,7 +1105,9 @@ export interface FileRoutesByTo {
   '/onboarding/care': typeof OnboardingCareRoute
   '/onboarding/practical': typeof OnboardingPracticalRoute
   '/parcours/$taskId': typeof ParcoursTaskIdRoute
-  '/practical/animal-body': typeof PracticalAnimalBodyRoute
+  '/practical/animal-id': typeof PracticalAnimalIdRoute
+  '/practical/animal-insurance': typeof PracticalAnimalInsuranceRoute
+  '/practical/animal-subscriptions': typeof PracticalAnimalSubscriptionsRoute
   '/practical/atmosphere': typeof PracticalAtmosphereRoute
   '/practical/booklet': typeof PracticalBookletRoute
   '/practical/ceremony': typeof PracticalCeremonyRoute
@@ -1109,6 +1166,9 @@ export interface FileRoutesByTo {
   '/help/corps/nuits': typeof HelpCorpsNuitsRoute
   '/help/corps/suivi': typeof HelpCorpsSuiviRoute
   '/library/$kind/$id': typeof LibraryKindIdRoute
+  '/practical/animal-body/cimetiere': typeof PracticalAnimalBodyCimetiereRoute
+  '/practical/animal-body/cremation': typeof PracticalAnimalBodyCremationRoute
+  '/practical/animal-body/jardin': typeof PracticalAnimalBodyJardinRoute
   '/practical/pros/$kind': typeof PracticalProsKindRoute
   '/practical/share/$taskId': typeof PracticalShareTaskIdRoute
   '/resources/$category/$providerId': typeof ResourcesCategoryProviderIdRoute
@@ -1120,6 +1180,7 @@ export interface FileRoutesByTo {
   '/care/rituels': typeof CareRituelsIndexRoute
   '/help/corps': typeof HelpCorpsIndexRoute
   '/library/$kind': typeof LibraryKindIndexRoute
+  '/practical/animal-body': typeof PracticalAnimalBodyIndexRoute
   '/practical/pros': typeof PracticalProsIndexRoute
   '/practical/share': typeof PracticalShareIndexRoute
   '/practical/tasks': typeof PracticalTasksIndexRoute
@@ -1188,7 +1249,10 @@ export interface FileRoutesById {
   '/onboarding/care': typeof OnboardingCareRoute
   '/onboarding/practical': typeof OnboardingPracticalRoute
   '/parcours/$taskId': typeof ParcoursTaskIdRoute
-  '/practical/animal-body': typeof PracticalAnimalBodyRoute
+  '/practical/animal-body': typeof PracticalAnimalBodyRouteWithChildren
+  '/practical/animal-id': typeof PracticalAnimalIdRoute
+  '/practical/animal-insurance': typeof PracticalAnimalInsuranceRoute
+  '/practical/animal-subscriptions': typeof PracticalAnimalSubscriptionsRoute
   '/practical/atmosphere': typeof PracticalAtmosphereRoute
   '/practical/booklet': typeof PracticalBookletRoute
   '/practical/ceremony': typeof PracticalCeremonyRoute
@@ -1252,6 +1316,9 @@ export interface FileRoutesById {
   '/help/corps/soin': typeof HelpCorpsSoinRouteWithChildren
   '/help/corps/suivi': typeof HelpCorpsSuiviRoute
   '/library/$kind/$id': typeof LibraryKindIdRoute
+  '/practical/animal-body/cimetiere': typeof PracticalAnimalBodyCimetiereRoute
+  '/practical/animal-body/cremation': typeof PracticalAnimalBodyCremationRoute
+  '/practical/animal-body/jardin': typeof PracticalAnimalBodyJardinRoute
   '/practical/pros/$kind': typeof PracticalProsKindRoute
   '/practical/share/$taskId': typeof PracticalShareTaskIdRoute
   '/practical/tasks/$id': typeof PracticalTasksIdRouteWithChildren
@@ -1264,6 +1331,7 @@ export interface FileRoutesById {
   '/care/rituels/': typeof CareRituelsIndexRoute
   '/help/corps/': typeof HelpCorpsIndexRoute
   '/library/$kind/': typeof LibraryKindIndexRoute
+  '/practical/animal-body/': typeof PracticalAnimalBodyIndexRoute
   '/practical/pros/': typeof PracticalProsIndexRoute
   '/practical/share/': typeof PracticalShareIndexRoute
   '/practical/tasks/': typeof PracticalTasksIndexRoute
@@ -1334,6 +1402,9 @@ export interface FileRouteTypes {
     | '/onboarding/practical'
     | '/parcours/$taskId'
     | '/practical/animal-body'
+    | '/practical/animal-id'
+    | '/practical/animal-insurance'
+    | '/practical/animal-subscriptions'
     | '/practical/atmosphere'
     | '/practical/booklet'
     | '/practical/ceremony'
@@ -1397,6 +1468,9 @@ export interface FileRouteTypes {
     | '/help/corps/soin'
     | '/help/corps/suivi'
     | '/library/$kind/$id'
+    | '/practical/animal-body/cimetiere'
+    | '/practical/animal-body/cremation'
+    | '/practical/animal-body/jardin'
     | '/practical/pros/$kind'
     | '/practical/share/$taskId'
     | '/practical/tasks/$id'
@@ -1409,6 +1483,7 @@ export interface FileRouteTypes {
     | '/care/rituels/'
     | '/help/corps/'
     | '/library/$kind/'
+    | '/practical/animal-body/'
     | '/practical/pros/'
     | '/practical/share/'
     | '/practical/tasks/'
@@ -1468,7 +1543,9 @@ export interface FileRouteTypes {
     | '/onboarding/care'
     | '/onboarding/practical'
     | '/parcours/$taskId'
-    | '/practical/animal-body'
+    | '/practical/animal-id'
+    | '/practical/animal-insurance'
+    | '/practical/animal-subscriptions'
     | '/practical/atmosphere'
     | '/practical/booklet'
     | '/practical/ceremony'
@@ -1527,6 +1604,9 @@ export interface FileRouteTypes {
     | '/help/corps/nuits'
     | '/help/corps/suivi'
     | '/library/$kind/$id'
+    | '/practical/animal-body/cimetiere'
+    | '/practical/animal-body/cremation'
+    | '/practical/animal-body/jardin'
     | '/practical/pros/$kind'
     | '/practical/share/$taskId'
     | '/resources/$category/$providerId'
@@ -1538,6 +1618,7 @@ export interface FileRouteTypes {
     | '/care/rituels'
     | '/help/corps'
     | '/library/$kind'
+    | '/practical/animal-body'
     | '/practical/pros'
     | '/practical/share'
     | '/practical/tasks'
@@ -1606,6 +1687,9 @@ export interface FileRouteTypes {
     | '/onboarding/practical'
     | '/parcours/$taskId'
     | '/practical/animal-body'
+    | '/practical/animal-id'
+    | '/practical/animal-insurance'
+    | '/practical/animal-subscriptions'
     | '/practical/atmosphere'
     | '/practical/booklet'
     | '/practical/ceremony'
@@ -1669,6 +1753,9 @@ export interface FileRouteTypes {
     | '/help/corps/soin'
     | '/help/corps/suivi'
     | '/library/$kind/$id'
+    | '/practical/animal-body/cimetiere'
+    | '/practical/animal-body/cremation'
+    | '/practical/animal-body/jardin'
     | '/practical/pros/$kind'
     | '/practical/share/$taskId'
     | '/practical/tasks/$id'
@@ -1681,6 +1768,7 @@ export interface FileRouteTypes {
     | '/care/rituels/'
     | '/help/corps/'
     | '/library/$kind/'
+    | '/practical/animal-body/'
     | '/practical/pros/'
     | '/practical/share/'
     | '/practical/tasks/'
@@ -2184,6 +2272,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PracticalAtmosphereRouteImport
       parentRoute: typeof PracticalRoute
     }
+    '/practical/animal-subscriptions': {
+      id: '/practical/animal-subscriptions'
+      path: '/animal-subscriptions'
+      fullPath: '/practical/animal-subscriptions'
+      preLoaderRoute: typeof PracticalAnimalSubscriptionsRouteImport
+      parentRoute: typeof PracticalRoute
+    }
+    '/practical/animal-insurance': {
+      id: '/practical/animal-insurance'
+      path: '/animal-insurance'
+      fullPath: '/practical/animal-insurance'
+      preLoaderRoute: typeof PracticalAnimalInsuranceRouteImport
+      parentRoute: typeof PracticalRoute
+    }
+    '/practical/animal-id': {
+      id: '/practical/animal-id'
+      path: '/animal-id'
+      fullPath: '/practical/animal-id'
+      preLoaderRoute: typeof PracticalAnimalIdRouteImport
+      parentRoute: typeof PracticalRoute
+    }
     '/practical/animal-body': {
       id: '/practical/animal-body'
       path: '/animal-body'
@@ -2408,6 +2517,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PracticalProsIndexRouteImport
       parentRoute: typeof PracticalProsRoute
     }
+    '/practical/animal-body/': {
+      id: '/practical/animal-body/'
+      path: '/'
+      fullPath: '/practical/animal-body/'
+      preLoaderRoute: typeof PracticalAnimalBodyIndexRouteImport
+      parentRoute: typeof PracticalAnimalBodyRoute
+    }
     '/library/$kind/': {
       id: '/library/$kind/'
       path: '/library/$kind'
@@ -2491,6 +2607,27 @@ declare module '@tanstack/react-router' {
       fullPath: '/practical/pros/$kind'
       preLoaderRoute: typeof PracticalProsKindRouteImport
       parentRoute: typeof PracticalProsRoute
+    }
+    '/practical/animal-body/jardin': {
+      id: '/practical/animal-body/jardin'
+      path: '/jardin'
+      fullPath: '/practical/animal-body/jardin'
+      preLoaderRoute: typeof PracticalAnimalBodyJardinRouteImport
+      parentRoute: typeof PracticalAnimalBodyRoute
+    }
+    '/practical/animal-body/cremation': {
+      id: '/practical/animal-body/cremation'
+      path: '/cremation'
+      fullPath: '/practical/animal-body/cremation'
+      preLoaderRoute: typeof PracticalAnimalBodyCremationRouteImport
+      parentRoute: typeof PracticalAnimalBodyRoute
+    }
+    '/practical/animal-body/cimetiere': {
+      id: '/practical/animal-body/cimetiere'
+      path: '/cimetiere'
+      fullPath: '/practical/animal-body/cimetiere'
+      preLoaderRoute: typeof PracticalAnimalBodyCimetiereRouteImport
+      parentRoute: typeof PracticalAnimalBodyRoute
     }
     '/library/$kind/$id': {
       id: '/library/$kind/$id'
@@ -2974,6 +3111,23 @@ const ParcoursRouteWithChildren = ParcoursRoute._addFileChildren(
   ParcoursRouteChildren,
 )
 
+interface PracticalAnimalBodyRouteChildren {
+  PracticalAnimalBodyCimetiereRoute: typeof PracticalAnimalBodyCimetiereRoute
+  PracticalAnimalBodyCremationRoute: typeof PracticalAnimalBodyCremationRoute
+  PracticalAnimalBodyJardinRoute: typeof PracticalAnimalBodyJardinRoute
+  PracticalAnimalBodyIndexRoute: typeof PracticalAnimalBodyIndexRoute
+}
+
+const PracticalAnimalBodyRouteChildren: PracticalAnimalBodyRouteChildren = {
+  PracticalAnimalBodyCimetiereRoute: PracticalAnimalBodyCimetiereRoute,
+  PracticalAnimalBodyCremationRoute: PracticalAnimalBodyCremationRoute,
+  PracticalAnimalBodyJardinRoute: PracticalAnimalBodyJardinRoute,
+  PracticalAnimalBodyIndexRoute: PracticalAnimalBodyIndexRoute,
+}
+
+const PracticalAnimalBodyRouteWithChildren =
+  PracticalAnimalBodyRoute._addFileChildren(PracticalAnimalBodyRouteChildren)
+
 interface PracticalProsRouteChildren {
   PracticalProsKindRoute: typeof PracticalProsKindRoute
   PracticalProsIndexRoute: typeof PracticalProsIndexRoute
@@ -3016,7 +3170,10 @@ const PracticalTasksRouteWithChildren = PracticalTasksRoute._addFileChildren(
 )
 
 interface PracticalRouteChildren {
-  PracticalAnimalBodyRoute: typeof PracticalAnimalBodyRoute
+  PracticalAnimalBodyRoute: typeof PracticalAnimalBodyRouteWithChildren
+  PracticalAnimalIdRoute: typeof PracticalAnimalIdRoute
+  PracticalAnimalInsuranceRoute: typeof PracticalAnimalInsuranceRoute
+  PracticalAnimalSubscriptionsRoute: typeof PracticalAnimalSubscriptionsRoute
   PracticalAtmosphereRoute: typeof PracticalAtmosphereRoute
   PracticalBookletRoute: typeof PracticalBookletRoute
   PracticalCeremonyRoute: typeof PracticalCeremonyRoute
@@ -3037,7 +3194,10 @@ interface PracticalRouteChildren {
 }
 
 const PracticalRouteChildren: PracticalRouteChildren = {
-  PracticalAnimalBodyRoute: PracticalAnimalBodyRoute,
+  PracticalAnimalBodyRoute: PracticalAnimalBodyRouteWithChildren,
+  PracticalAnimalIdRoute: PracticalAnimalIdRoute,
+  PracticalAnimalInsuranceRoute: PracticalAnimalInsuranceRoute,
+  PracticalAnimalSubscriptionsRoute: PracticalAnimalSubscriptionsRoute,
   PracticalAtmosphereRoute: PracticalAtmosphereRoute,
   PracticalBookletRoute: PracticalBookletRoute,
   PracticalCeremonyRoute: PracticalCeremonyRoute,
