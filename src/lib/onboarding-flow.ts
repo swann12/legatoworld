@@ -4,6 +4,7 @@
 export type ForWhom = "personne" | "animal" | "malade" | "moi";
 export type Need = "tenir" | "demarches" | "parler" | "memoire";
 export type PapersState = "rien" | "obseques" | "presque" | "delegue";
+import type { AnimalBodyState } from "./space-navigation";
 
 const K = { forWhom: "lg.onb.forWhom", needs: "lg.onb.needs", papers: "lg.onb.papers", deathDate: "lg.onb.deathDate" };
 
@@ -24,9 +25,11 @@ export const getPapers = () => read<PapersState | null>(K.papers, null);
 export const setPapers = (v: PapersState | null) => write(K.papers, v);
 export const getDeathDate = () => read<string | null>(K.deathDate, null);
 export const setDeathDate = (v: string | null) => write(K.deathDate, v || null);
+export const getAnimalBodyState = () => read<AnimalBodyState | null>("lg.onb.animalBody", null);
+export const setAnimalBodyState = (v: AnimalBodyState | null) => write("lg.onb.animalBody", v);
 
 /** Les démarches n'ont de sens que pour une personne décédée. */
-export const showsPapers = (w: ForWhom | null) => w === "personne" || w === null;
+export const showsPapers = (w: ForWhom | null) => w === "personne" || w === "animal" || w === null;
 /** L'écran « Son prénom » ne concerne pas « Moi ». */
 export const showsName = (w: ForWhom | null) => w !== "moi";
 

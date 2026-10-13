@@ -5,6 +5,7 @@ import { useState, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { LegatoProvider } from "@/lib/legato-state";
 import { Toaster } from "@/components/ui/sonner";
+import { JourneyTheme } from "@/components/legato/JourneyTheme";
 
 function NotFoundComponent() {
   return (
@@ -47,8 +48,6 @@ export const Route = createRootRoute({
       { name: "twitter:title", content: "Legato — A quiet companion through grief" },
       { name: "description", content: "Legato is a refined emotional companion to navigate grief, support, practical steps and remembrance." },
       { name: "twitter:description", content: "Legato is a refined emotional companion to navigate grief, support, practical steps and remembrance." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/7139190c-31c4-4d64-9e2c-f7ec7f4c6929/id-preview-d9c3a536--d91fa4d1-1c0a-4d13-9192-56ad528792b2.lovable.app-1777895039371.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/7139190c-31c4-4d64-9e2c-f7ec7f4c6929/id-preview-d9c3a536--d91fa4d1-1c0a-4d13-9192-56ad528792b2.lovable.app-1777895039371.png" },
     ],
     links: [
       { rel: "icon", type: "image/png", href: "/favicon.png" },
@@ -96,7 +95,7 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <LegatoProvider>
-        <Outlet />
+        <JourneyTheme><Outlet /></JourneyTheme>
         <Toaster />
       </LegatoProvider>
     </QueryClientProvider>

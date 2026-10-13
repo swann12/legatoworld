@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import type { Relation } from "./legato-state";
+import type { AnimalBodyState } from "./space-navigation";
 
 /* ───────── Mes espaces — un espace par être aimé ─────────
    Stocké en localStorage, comme les souvenirs. Chaque espace porte
@@ -20,6 +21,7 @@ export type Space = {
   id: string;
   name: string;
   kind?: SpaceKind;
+  animalBodyState?: AnimalBodyState;
   relation: Relation | null;
   birthday?: string | null;  // ISO YYYY-MM-DD
   deathDate?: string | null; // ISO YYYY-MM-DD
@@ -113,6 +115,7 @@ export function useSpaces() {
       name: input.name.trim() || "Proche",
       relation: input.relation ?? null,
       kind: input.kind,
+      animalBodyState: input.animalBodyState,
       birthday: input.birthday ?? null,
       deathDate: input.deathDate ?? null,
       note: input.note ?? "",

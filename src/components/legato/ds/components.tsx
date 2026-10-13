@@ -1,8 +1,12 @@
 import { useSmartBack } from "@/lib/use-smart-back";
 import type { ReactNode, InputHTMLAttributes, TextareaHTMLAttributes } from "react";
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, ArrowUpRight, ChevronRight, ArrowLeft, Mic, Plus } from "lucide-react";
+import { ArrowRight, ArrowUpRight, ChevronRight, ArrowLeft, Mic, Plus, Send } from "lucide-react";
 import { spaceClass, type Space } from "./space";
+import { LegatoLogo } from "./LegatoLogo";
+import { useActiveSpace } from "@/lib/use-active-space";
+import { spaceTabLabels } from "@/lib/space-navigation";
+import { Button } from "@/components/ui/button";
 
 type S = { space?: Space; className?: string };
 const ink = { color: "var(--sp-ink)" };
@@ -15,6 +19,9 @@ export function PageHeader({ space, className = "", title, back, backLabel, help
   title?: string; back?: string; backLabel?: string; help?: boolean; left?: ReactNode;
 }) {
   const smartBack = useSmartBack();
+  const { kind } = useActiveSpace();
+  const labels = spaceTabLabels(kind);
+  const shownTitle = title === "Démarches" ? labels.practical : title === "Mémoire" ? labels.memory : title;
   return (
     <header className={`${spaceClass(space)} flex items-center justify-between ${className}`}
       style={{ height: "var(--lg-header-h)", borderBottom: "1px solid var(--sp-line-2)", ...ink }}>
@@ -25,11 +32,11 @@ export function PageHeader({ space, className = "", title, back, backLabel, help
             <ArrowLeft className="size-4" strokeWidth={1.4} /> {backLabel ?? "Retour"}
           </Link>
         ) : (
-          <span style={{ ...serif, fontSize: 25 }}>{title}</span>
+          title?.toLowerCase() === "legato" ? <LegatoLogo night={space === "night"} /> : <span style={{ ...serif, fontSize: 25 }}>{shownTitle}</span>
         )}
       </div>
       {help && (
-        <Link to="/crisis" className="flex min-h-11 items-center gap-2 text-[14px]" style={sans}>
+        <Link to="/crisis" className="flex min-h-11 items-center gap-[7px] text-[13px]" style={sans}>
           Besoin d'aide <ArrowRight className="size-4" strokeWidth={1.4} />
         </Link>
       )}
@@ -270,24 +277,22 @@ export function ChatBubble({ space, className = "", from, children }: S & { from
   const p = from === "presence";
   return (
     <div className={`${spaceClass(space)} flex ${p ? "justify-start" : "justify-end"} ${className}`}>
-      <div className={p ? "max-w-[87%] px-5 py-4" : "max-w-[85%] px-5 py-4"}
-        style={p
-          ? { background: "var(--lg-mint-pale)", color: "var(--lg-deep)", ...serif, fontSize: 18, lineHeight: 1.3 }
-          : { background: "var(--lg-blue)", color: "var(--lg-deep)", ...sans, fontSize: 14.5, lineHeight: 1.5 }}>
+      <div className={p ? "lg-presence-reply" : "lg-presence-user"}>
         {children}
       </div>
     </div>
   );
 }
 
-export function ChatInput({ space, className = "", value, onChange, onMic }: S & { value: string; onChange: (v: string) => void; onMic?: () => void }) {
+export function ChatInput({ space, className = "", value, onChange, onMic, pending, listening }: S & { value: string; onChange: (v: string) => void; onMic?: () => void; pending?: boolean; listening?: boolean }) {
   return (
-    <div className={`${spaceClass(space)} flex items-center gap-3 ${className}`} style={ink}>
-      <input value={value} onChange={(e) => onChange(e.target.value)} placeholder="Écrivez, ou parlez"
-        className="flex-1 bg-transparent pb-2 text-[16px] outline-none" style={{ ...sans, color: "var(--sp-ink)", borderBottom: "1px solid var(--sp-line-2)" }} />
-      <button type="button" onClick={onMic} aria-label="Parler" className="grid size-11 place-items-center rounded-full" style={{ border: "1px solid var(--sp-stroke)" }}>
+    <div className={`${spaceClass(space)} lg-presence-input ${className}`}>
+      <input aria-label="Écrire à Présence" value={value} maxLength={4000} onChange={(e) => onChange(e.target.value)} placeholder="Écrire à Présence…"
+        className="min-w-0 flex-1 bg-transparent text-[14px] outline-none" />
+      <Button variant="ghost" size="icon" type="button" onClick={onMic} aria-label="Parler" aria-pressed={listening} title="Parler" className="lg-presence-mic">
         <Mic className="size-4" strokeWidth={1.4} />
-      </button>
+      </Button>
+      <Button type="submit" size="icon" aria-label="Envoyer" title="Envoyer" disabled={pending || !value.trim()} className="lg-presence-send"><Send className="size-4" strokeWidth={1.4} /></Button>
     </div>
   );
 }
