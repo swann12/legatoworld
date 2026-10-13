@@ -2,6 +2,7 @@ import { useSmartBack } from "@/lib/use-smart-back";
 import { Link } from "@tanstack/react-router";
 
 export function BackLink({ to, label = "Retour" }: { to: string; label?: string }) {
+  const smartBack = useSmartBack();
   return (
     <Link
       to={to}

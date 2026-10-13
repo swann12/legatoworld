@@ -17,6 +17,7 @@ export function PageHeader({
   title?: string;
   right?: ReactNode;
 }) {
+  const smartBack = useSmartBack();
   const router = useRouter();
   return (
     <header className="grid grid-cols-[40px_1fr_40px] items-center px-6 pt-7 pb-5">

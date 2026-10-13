@@ -15,6 +15,7 @@ export function HelpShell({
   backTo?: "/help" | "/help/corps";
   backLabel?: string;
 }) {
+  const smartBack = useSmartBack();
   return (
     <Shell hideNav>
       <div className="relative pb-16">

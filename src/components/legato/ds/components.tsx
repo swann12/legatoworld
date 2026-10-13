@@ -14,6 +14,7 @@ const sans = { fontFamily: "var(--lg-sans)" };
 export function PageHeader({ space, className = "", title, back, backLabel, help = true, left }: S & {
   title?: string; back?: string; backLabel?: string; help?: boolean; left?: ReactNode;
 }) {
+  const smartBack = useSmartBack();
   return (
     <header className={`${spaceClass(space)} flex items-center justify-between ${className}`}
       style={{ height: "var(--lg-header-h)", borderBottom: "1px solid var(--sp-line-2)", ...ink }}>

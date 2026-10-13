@@ -44,6 +44,7 @@ export function ExperienceLayout({ variant = "support", back = "/care", backLabe
   variant?: keyof typeof GRAD; back?: string; backLabel?: string; close?: string; onBack?: () => void; onClose?: () => void;
   top?: ReactNode; children: ReactNode; action?: ReactNode;
 }) {
+  const smartBack = useSmartBack();
   const headInk = variant === "support" ? "var(--lg-deep)" : variant === "memory" ? "var(--lg-blush)" : "var(--lg-cream)";
   const cls = "flex min-h-11 items-center gap-2";
   return (
