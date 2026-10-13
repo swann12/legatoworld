@@ -11,11 +11,10 @@
 - Ceremony decisions and flower proposals use the space-scoped practical-store through ceremony-flow; flower views use validated search state on /practical/flowers. Why: one source of truth survives navigation and keeps existing URLs.
 - Text/music proposals and object choices use practical-store; wishes questionnaire views use validated search state and legato-state. Why: existing URLs and saved choices survive navigation without parallel stores.
 - Booklet PDF generation loads its browser-only library on explicit download and embeds the local editorial font. Why: SSR stays safe and accented text remains readable in downloaded documents.
-- Step 10 off-mockup features remain in collapsed legacy views until removal is approved. Why: reproducing captures must not silently remove existing functionality.
+- Off-mockup features (step 10, memory forms, portrait editors) remain in collapsed or lazily mounted legacy views until removal is approved. Why: reproducing captures must not silently remove existing functionality.
 - Funeral-specific resource views are isolated from the support directory and mark mockup providers as examples without invented contact details. Why: reproducing the mockups must not imply verified prices or real booking capabilities.
 - Memory collection pages share canonical category helpers and the existing space-scoped memories-store; the dynamic zone parent renders Outlet and its list is an index leaf. Why: detail pages mount correctly and old category URLs remain usable.
 - Ritual and date landing pages are index leaves; new ritual traces use the existing memories-store. Why: detail routes mount and saved words remain scoped to the chosen loved one.
-- Memory forms and portrait summaries keep their former advanced editors in lazily mounted legacy views until removal is approved. Why: matching captures must preserve existing functions.
 - Garden plot selection activates its existing space before opening the personal memory page, without altering the painted image or plot geometry. Why: each loved one's memories and portrait remain isolated.
 - Community screens reuse community-store and community-data, with vigil choices local and clearly distinguished from real reservations. Why: preserve existing interactions without implying a connected community service.
 - The Démarches tab view for bereavement spaces comes from `src/lib/papers-plan.ts` (pure, tested), driven by the papers answer from onboarding and space settings. Why: one rule decides order and the ceremony visibility on every path.
