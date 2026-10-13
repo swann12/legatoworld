@@ -9,6 +9,7 @@ import { useDictation } from "@/lib/use-dictation";
 import { StandardLayout, PageTitle, ChatBubble, ChatInput, TextLink, OutlineButton } from "@/components/legato/ds";
 import { useActiveSpace } from "@/lib/use-active-space";
 import { getDiscovery } from "@/lib/discovery";
+import { scopedKey } from "@/lib/active-space";
 
 export const Route = createFileRoute("/presence/")({
   head: () => ({
@@ -45,6 +46,8 @@ function Presence() {
   const endRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => setHello(greeting()), []);
+  useEffect(() => { if (getDiscovery().active) setDraft(localStorage.getItem(scopedKey("legato.presence-draft.v1")) || ""); }, []);
+  useEffect(() => { if (getDiscovery().active) localStorage.setItem(scopedKey("legato.presence-draft.v1"), draft); }, [draft]);
   const history: PresenceMsg[] = [{ role: "presence", text: hello }, ...stored];
   useEffect(() => { endRef.current?.scrollIntoView({ behavior: "smooth", block: "end" }); }, [stored.length, pending]);
 

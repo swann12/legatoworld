@@ -42,3 +42,6 @@ export function canUseConnectedAction(action: "invite" | "group"): boolean {
   if (!getDiscovery().active) return true;
   requestDiscoveryAccount(action); return false;
 }
+export function discoveryAllowsFunction(state: DiscoveryState, pathname: string): boolean {
+  return !state.active || (state.pending && /^\/(auth|start)(\/|$)/.test(pathname));
+}

@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { collectDiscoveryContent, isDiscoveryContentKey } from "./discovery";
+import { collectDiscoveryContent, isDiscoveryContentKey, discoveryAllowsFunction } from "./discovery";
 describe("Reprise de découverte", () => {
   test("reprend réponses, journal, souvenirs et préférences", () => {
     const entries = new Map([["lg.forWhom", "animal"], ["legato.journal.v1", "lettre"], ["legato.memories.v1::anne", "photo"], ["legato.space-prefs", "nuit"], ["sb-app-auth-token", "secret"], ["legato.discovery.v1", "active"]]);
@@ -9,5 +9,12 @@ describe("Reprise de découverte", () => {
   });
   test("ne transfère aucun identifiant de connexion", () => {
     for (const key of ["sb-app-auth-token", "legato.auth", "lg.session", "legato.token", "foreign-key"]) expect(isDiscoveryContentKey(key)).toBe(false);
+  });
+  test("ne permet aucun envoi en découverte", () => {
+    for (const path of ["/home", "/presence", "/auth", "/care/emotions"]) expect(discoveryAllowsFunction({ active: true, pending: false }, path)).toBe(false);
+  });
+  test("une conversion en attente ne permet pas les appels depuis les pages de découverte", () => {
+    expect(discoveryAllowsFunction({ active: true, pending: true }, "/presence")).toBe(false);
+    expect(discoveryAllowsFunction({ active: true, pending: true }, "/auth")).toBe(true);
   });
 });
