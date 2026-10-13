@@ -117,6 +117,7 @@ import { Route as HelpCorpsEauRouteImport } from './routes/help.corps.eau'
 import { Route as CareJournalLaterRouteImport } from './routes/care.journal.later'
 import { Route as CareGardenSpaceRouteImport } from './routes/care.garden.space'
 import { Route as CareGardenDepotRouteImport } from './routes/care.garden.depot'
+import { Route as CareGardenBookRouteImport } from './routes/care.garden.book'
 import { Route as CareGardenAllRouteImport } from './routes/care.garden.all'
 import { Route as CareGardenZoneRouteImport } from './routes/care.garden.$zone'
 import { Route as CareCommunityReglesRouteImport } from './routes/care.community.regles'
@@ -672,6 +673,11 @@ const CareGardenDepotRoute = CareGardenDepotRouteImport.update({
   path: '/depot',
   getParentRoute: () => CareGardenRoute,
 } as any)
+const CareGardenBookRoute = CareGardenBookRouteImport.update({
+  id: '/book',
+  path: '/book',
+  getParentRoute: () => CareGardenRoute,
+} as any)
 const CareGardenAllRoute = CareGardenAllRouteImport.update({
   id: '/all',
   path: '/all',
@@ -828,6 +834,7 @@ export interface FileRoutesByFullPath {
   '/care/community/regles': typeof CareCommunityReglesRoute
   '/care/garden/$zone': typeof CareGardenZoneRouteWithChildren
   '/care/garden/all': typeof CareGardenAllRoute
+  '/care/garden/book': typeof CareGardenBookRoute
   '/care/garden/depot': typeof CareGardenDepotRoute
   '/care/garden/space': typeof CareGardenSpaceRoute
   '/care/journal/later': typeof CareJournalLaterRoute
@@ -938,6 +945,7 @@ export interface FileRoutesByTo {
   '/space': typeof SpaceIndexRoute
   '/care/community/regles': typeof CareCommunityReglesRoute
   '/care/garden/all': typeof CareGardenAllRoute
+  '/care/garden/book': typeof CareGardenBookRoute
   '/care/garden/depot': typeof CareGardenDepotRoute
   '/care/garden/space': typeof CareGardenSpaceRoute
   '/care/journal/later': typeof CareJournalLaterRoute
@@ -1060,6 +1068,7 @@ export interface FileRoutesById {
   '/care/community/regles': typeof CareCommunityReglesRoute
   '/care/garden/$zone': typeof CareGardenZoneRouteWithChildren
   '/care/garden/all': typeof CareGardenAllRoute
+  '/care/garden/book': typeof CareGardenBookRoute
   '/care/garden/depot': typeof CareGardenDepotRoute
   '/care/garden/space': typeof CareGardenSpaceRoute
   '/care/journal/later': typeof CareJournalLaterRoute
@@ -1184,6 +1193,7 @@ export interface FileRouteTypes {
     | '/care/community/regles'
     | '/care/garden/$zone'
     | '/care/garden/all'
+    | '/care/garden/book'
     | '/care/garden/depot'
     | '/care/garden/space'
     | '/care/journal/later'
@@ -1294,6 +1304,7 @@ export interface FileRouteTypes {
     | '/space'
     | '/care/community/regles'
     | '/care/garden/all'
+    | '/care/garden/book'
     | '/care/garden/depot'
     | '/care/garden/space'
     | '/care/journal/later'
@@ -1415,6 +1426,7 @@ export interface FileRouteTypes {
     | '/care/community/regles'
     | '/care/garden/$zone'
     | '/care/garden/all'
+    | '/care/garden/book'
     | '/care/garden/depot'
     | '/care/garden/space'
     | '/care/journal/later'
@@ -2259,6 +2271,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CareGardenDepotRouteImport
       parentRoute: typeof CareGardenRoute
     }
+    '/care/garden/book': {
+      id: '/care/garden/book'
+      path: '/book'
+      fullPath: '/care/garden/book'
+      preLoaderRoute: typeof CareGardenBookRouteImport
+      parentRoute: typeof CareGardenRoute
+    }
     '/care/garden/all': {
       id: '/care/garden/all'
       path: '/all'
@@ -2399,6 +2418,7 @@ const CareGardenZoneRouteWithChildren = CareGardenZoneRoute._addFileChildren(
 interface CareGardenRouteChildren {
   CareGardenZoneRoute: typeof CareGardenZoneRouteWithChildren
   CareGardenAllRoute: typeof CareGardenAllRoute
+  CareGardenBookRoute: typeof CareGardenBookRoute
   CareGardenDepotRoute: typeof CareGardenDepotRoute
   CareGardenSpaceRoute: typeof CareGardenSpaceRoute
   CareGardenIndexRoute: typeof CareGardenIndexRoute
@@ -2407,6 +2427,7 @@ interface CareGardenRouteChildren {
 const CareGardenRouteChildren: CareGardenRouteChildren = {
   CareGardenZoneRoute: CareGardenZoneRouteWithChildren,
   CareGardenAllRoute: CareGardenAllRoute,
+  CareGardenBookRoute: CareGardenBookRoute,
   CareGardenDepotRoute: CareGardenDepotRoute,
   CareGardenSpaceRoute: CareGardenSpaceRoute,
   CareGardenIndexRoute: CareGardenIndexRoute,
