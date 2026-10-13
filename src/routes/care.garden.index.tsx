@@ -159,22 +159,10 @@ function CareGarden() {
         </section>
 
         <section className="px-6 pt-8">
-          <Link
-            to="/care/garden/depot"
-            className="flex items-center justify-between border-t border-dashed pt-4"
-            style={{ borderColor: "color-mix(in oklab, var(--dusk) 18%, transparent)" }}
-          >
-            <span className="font-lg-serif text-[21px]">Ajouter un souvenir</span>
-            <span aria-hidden className="text-dusk/30">→</span>
-          </Link>
-          <Link
-            to="/profile/proches"
-            className="mt-3 flex items-center justify-between border-t border-dashed pt-4"
-            style={{ borderColor: "color-mix(in oklab, var(--dusk) 18%, transparent)" }}
-          >
-            <span className="font-lg-serif text-[21px]">Ajouter une parcelle</span>
-            <span aria-hidden className="text-dusk/30">→</span>
-          </Link>
+          <div className="flex flex-wrap gap-4">
+            <PrimaryButton space="memory" to="/care/garden/depot" plus>Ajouter un souvenir</PrimaryButton>
+            <PrimaryButton space="memory" to="/space/new" plus>Ajouter une parcelle</PrimaryButton>
+          </div>
         </section>
       </div>
     </Shell>
