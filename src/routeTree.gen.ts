@@ -116,6 +116,7 @@ import { Route as HelpCorpsHabillerRouteImport } from './routes/help.corps.habil
 import { Route as HelpCorpsEauRouteImport } from './routes/help.corps.eau'
 import { Route as CareJournalLaterRouteImport } from './routes/care.journal.later'
 import { Route as CareGardenSpaceRouteImport } from './routes/care.garden.space'
+import { Route as CareGardenInviteRouteImport } from './routes/care.garden.invite'
 import { Route as CareGardenDepotRouteImport } from './routes/care.garden.depot'
 import { Route as CareGardenBookRouteImport } from './routes/care.garden.book'
 import { Route as CareGardenAllRouteImport } from './routes/care.garden.all'
@@ -668,6 +669,11 @@ const CareGardenSpaceRoute = CareGardenSpaceRouteImport.update({
   path: '/space',
   getParentRoute: () => CareGardenRoute,
 } as any)
+const CareGardenInviteRoute = CareGardenInviteRouteImport.update({
+  id: '/invite',
+  path: '/invite',
+  getParentRoute: () => CareGardenRoute,
+} as any)
 const CareGardenDepotRoute = CareGardenDepotRouteImport.update({
   id: '/depot',
   path: '/depot',
@@ -836,6 +842,7 @@ export interface FileRoutesByFullPath {
   '/care/garden/all': typeof CareGardenAllRoute
   '/care/garden/book': typeof CareGardenBookRoute
   '/care/garden/depot': typeof CareGardenDepotRoute
+  '/care/garden/invite': typeof CareGardenInviteRoute
   '/care/garden/space': typeof CareGardenSpaceRoute
   '/care/journal/later': typeof CareJournalLaterRoute
   '/help/corps/eau': typeof HelpCorpsEauRoute
@@ -947,6 +954,7 @@ export interface FileRoutesByTo {
   '/care/garden/all': typeof CareGardenAllRoute
   '/care/garden/book': typeof CareGardenBookRoute
   '/care/garden/depot': typeof CareGardenDepotRoute
+  '/care/garden/invite': typeof CareGardenInviteRoute
   '/care/garden/space': typeof CareGardenSpaceRoute
   '/care/journal/later': typeof CareJournalLaterRoute
   '/help/corps/eau': typeof HelpCorpsEauRoute
@@ -1070,6 +1078,7 @@ export interface FileRoutesById {
   '/care/garden/all': typeof CareGardenAllRoute
   '/care/garden/book': typeof CareGardenBookRoute
   '/care/garden/depot': typeof CareGardenDepotRoute
+  '/care/garden/invite': typeof CareGardenInviteRoute
   '/care/garden/space': typeof CareGardenSpaceRoute
   '/care/journal/later': typeof CareJournalLaterRoute
   '/help/corps/eau': typeof HelpCorpsEauRoute
@@ -1195,6 +1204,7 @@ export interface FileRouteTypes {
     | '/care/garden/all'
     | '/care/garden/book'
     | '/care/garden/depot'
+    | '/care/garden/invite'
     | '/care/garden/space'
     | '/care/journal/later'
     | '/help/corps/eau'
@@ -1306,6 +1316,7 @@ export interface FileRouteTypes {
     | '/care/garden/all'
     | '/care/garden/book'
     | '/care/garden/depot'
+    | '/care/garden/invite'
     | '/care/garden/space'
     | '/care/journal/later'
     | '/help/corps/eau'
@@ -1428,6 +1439,7 @@ export interface FileRouteTypes {
     | '/care/garden/all'
     | '/care/garden/book'
     | '/care/garden/depot'
+    | '/care/garden/invite'
     | '/care/garden/space'
     | '/care/journal/later'
     | '/help/corps/eau'
@@ -2264,6 +2276,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CareGardenSpaceRouteImport
       parentRoute: typeof CareGardenRoute
     }
+    '/care/garden/invite': {
+      id: '/care/garden/invite'
+      path: '/invite'
+      fullPath: '/care/garden/invite'
+      preLoaderRoute: typeof CareGardenInviteRouteImport
+      parentRoute: typeof CareGardenRoute
+    }
     '/care/garden/depot': {
       id: '/care/garden/depot'
       path: '/depot'
@@ -2420,6 +2439,7 @@ interface CareGardenRouteChildren {
   CareGardenAllRoute: typeof CareGardenAllRoute
   CareGardenBookRoute: typeof CareGardenBookRoute
   CareGardenDepotRoute: typeof CareGardenDepotRoute
+  CareGardenInviteRoute: typeof CareGardenInviteRoute
   CareGardenSpaceRoute: typeof CareGardenSpaceRoute
   CareGardenIndexRoute: typeof CareGardenIndexRoute
 }
@@ -2429,6 +2449,7 @@ const CareGardenRouteChildren: CareGardenRouteChildren = {
   CareGardenAllRoute: CareGardenAllRoute,
   CareGardenBookRoute: CareGardenBookRoute,
   CareGardenDepotRoute: CareGardenDepotRoute,
+  CareGardenInviteRoute: CareGardenInviteRoute,
   CareGardenSpaceRoute: CareGardenSpaceRoute,
   CareGardenIndexRoute: CareGardenIndexRoute,
 }
