@@ -1,3 +1,4 @@
+import { useSmartBack } from "@/lib/use-smart-back";
 import type { ReactNode, InputHTMLAttributes, TextareaHTMLAttributes } from "react";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, ArrowUpRight, ChevronRight, ArrowLeft, Mic, Plus } from "lucide-react";
@@ -13,13 +14,14 @@ const sans = { fontFamily: "var(--lg-sans)" };
 export function PageHeader({ space, className = "", title, back, backLabel, help = true, left }: S & {
   title?: string; back?: string; backLabel?: string; help?: boolean; left?: ReactNode;
 }) {
+  const smartBack = useSmartBack();
   return (
     <header className={`${spaceClass(space)} flex items-center justify-between ${className}`}
       style={{ height: "var(--lg-header-h)", borderBottom: "1px solid var(--sp-line-2)", ...ink }}>
       <div className="flex items-center gap-3">
         {left}
         {back ? (
-          <Link to={back} className="flex min-h-11 items-center gap-2 text-[14px]" style={sans}>
+          <Link to={back} onClick={smartBack} className="flex min-h-11 items-center gap-2 text-[14px]" style={sans}>
             <ArrowLeft className="size-4" strokeWidth={1.4} /> {backLabel ?? "Retour"}
           </Link>
         ) : (

@@ -1,3 +1,4 @@
+import { useSmartBack } from "@/lib/use-smart-back";
 import type { ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import { Shell } from "@/components/legato/Shell";
@@ -14,6 +15,7 @@ export function HelpShell({
   backTo?: "/help" | "/help/corps";
   backLabel?: string;
 }) {
+  const smartBack = useSmartBack();
   return (
     <Shell hideNav>
       <div className="relative pb-16">
@@ -21,6 +23,7 @@ export function HelpShell({
           <div className="px-7 pt-10">
             <Link
               to={backTo}
+              onClick={smartBack}
               className="eyebrow hover:text-dusk transition-colors"
             >
               {backLabel}

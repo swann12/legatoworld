@@ -1,7 +1,9 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import logoSymbole from "@/assets/logo-symbole.png";
-import logoLegato from "@/assets/logo-legato.png";
+import symboleAsset from "@/assets/legato-symbole.png.asset.json";
+import wordmarkAsset from "@/assets/legato-wordmark.png.asset.json";
+const logoSymbole = symboleAsset.url;
+const logoLegato = wordmarkAsset.url;
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -252,7 +254,7 @@ function Intro() {
         }}
       >
         <div className="flex justify-center pt-[44px]">
-          <img src={logoSymbole} alt="" className="block h-auto w-[58px]" />
+          <img src={logoSymbole} alt="" className="block h-auto w-[58px]" decoding="async" fetchPriority="high" />
         </div>
         <img
           src={logoLegato}
@@ -264,10 +266,10 @@ function Intro() {
 
       {/* Bouton « Entrer » — pleine largeur dans les marges de 28 px */}
       {showEnter && (
-        <div className="absolute inset-x-0 bottom-0 px-[28px] pb-[66px]">
+        <div className="absolute inset-x-0 bottom-0 flex justify-center pb-[66px]">
           <button
             onClick={enter}
-            className="flex h-[52px] w-full items-center justify-center rounded-full bg-transparent text-[15px]"
+            className="flex h-[51px] w-[110px] items-center justify-center rounded-full bg-transparent text-[15px]"
             style={{
               border: "1px solid var(--lg-deep)",
               color: "var(--lg-deep)",

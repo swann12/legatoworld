@@ -52,7 +52,9 @@ export const Route = createRootRoute({
     ],
     links: [
       { rel: "icon", type: "image/png", href: "/favicon.png" },
-      { rel: "preconnect", href: "https://use.typekit.net" },
+      { rel: "preconnect", href: "https://use.typekit.net", crossOrigin: "anonymous" },
+      { rel: "preconnect", href: "https://p.typekit.net", crossOrigin: "anonymous" },
+      { rel: "preload", as: "style", href: "https://use.typekit.net/gaf6yrs.css" },
       {
         rel: "stylesheet",
         href: "https://use.typekit.net/gaf6yrs.css",
