@@ -14,7 +14,7 @@ const OPTIONS = [
   { id: "inhumation", label: "Inhumation", hint: "Dans le caveau familial" },
   { id: "inconnu", label: "Je ne sais pas encore", hint: "Les proches choisiront" },
 ];
-export const Route = createFileRoute("/practical/wishes")({
+export const Route = createFileRoute("/practical/wishes/")({
   validateSearch: (s: Record<string, unknown>): { view?: View } => ({ view: VIEWS.find(v => v === s.view) }),
   head: ({ match }) => legatoHead(match.search.view === "obseques" ? "Volontés · obsèques" : match.search.view === "don" ? "Volontés · don" : match.search.view === "messages" ? "Volontés · messages" : match.search.view === "prevenir" ? "Volontés · qui prévenir" : "Ses volontés, ou les vôtres", "Conserver les souhaits et les messages qui comptent, et décider soi-même de leur partage."),
   component: WishesPage,

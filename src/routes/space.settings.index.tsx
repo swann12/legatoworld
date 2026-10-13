@@ -15,7 +15,7 @@ const PAPERS: { id: PapersState; label: string }[] = [
   { id: "delegue", label: "Quelqu'un s'en occupe pour moi" },
 ];
 
-export const Route = createFileRoute("/space/settings")({
+export const Route = createFileRoute("/space/settings/")({
   head: () => ({
     meta: [
       { title: "Réglages de l'espace — Legato" },

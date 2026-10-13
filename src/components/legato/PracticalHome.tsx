@@ -7,6 +7,7 @@ import { getDeathDate, getPapers, getPapersHelper, setPapers, type PapersState }
 import { planSections, viewFor } from "@/lib/papers-plan";
 import { useActiveSpace } from "@/lib/use-active-space";
 import { AnimalPractical } from "./AnimalPractical";
+import { MaladeAides } from "./MaladePractical";
 
 export const demarcheLink = (d: Demarche) => (d.letter && d.id === "banque" ? `/practical/tasks/${d.id}/template` : `/practical/tasks/${d.id}`);
 
@@ -20,7 +21,7 @@ function Label({ children, accent, className = "" }: { children: string; accent:
 /** B013–B016 · l'onglet Démarches suit la réponse « Où en êtes-vous avec les papiers ? » (§6). */
 export function Practical() {
   const { kind } = useActiveSpace();
-  return kind === "animal" ? <AnimalPractical /> : <DeuilPractical />;
+  return kind === "malade" ? <MaladeAides /> : kind === "animal" ? <AnimalPractical /> : <DeuilPractical />;
 }
 
 function DeuilPractical() {
