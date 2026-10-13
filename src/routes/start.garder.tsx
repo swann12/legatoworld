@@ -1,0 +1,6 @@
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { StandardLayout, PrimaryButton, TextLink } from "@/components/legato/ds";
+import { prepareDiscoveryAccount } from "@/lib/discovery";
+import { legatoHead } from "@/lib/legato-head";
+export const Route = createFileRoute("/start/garder")({ head: () => legatoHead("Garder ce qui est commencé", "Vos réponses, votre journal et vos souvenirs seront gardés dans votre espace."), component: Keep });
+function Keep() { const nav = useNavigate(); return <StandardLayout back="/home" backLabel="Aujourd'hui" nav={false} className="lg-discovery-prompt"><div className="lg-discovery-prompt-body"><h1 className="lg-title">Garder ce que<br /><em>vous avez commencé ?</em></h1><p className="lg-lead mt-[22px]">Vos réponses, vos pages de journal et vos souvenirs seront gardés dans votre espace.</p></div><footer className="lg-discovery-footer"><PrimaryButton full onClick={() => { prepareDiscoveryAccount(); void nav({ to: "/auth", search: { mode: "signup" } }); }}>Créer mon espace</PrimaryButton><TextLink to="/home">Plus tard</TextLink></footer></StandardLayout>; }

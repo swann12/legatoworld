@@ -3,6 +3,7 @@ import { Link, useLocation } from "@tanstack/react-router";
 import { BottomNav } from "./ds/BottomNav";
 import { ModeBackground } from "./ModeBackground";
 import { useLegato } from "@/lib/legato-state";
+import { DiscoveryBanner } from "./DiscoveryUI";
 
 /** Pastille profil, discrète, toujours en haut à droite pendant le scroll. */
 function ProfileDot() {
@@ -50,7 +51,7 @@ export function Shell({
     <div className="min-h-dvh bg-paper text-dusk">
       <div className={`mobile-frame grain veil relative ${hideNav ? "pb-0" : "pb-32"}`}>
         {livingBg && <ModeBackground mode={mode} />}
-        <div className="relative rise" style={{ zIndex: 1 }}>{children}</div>
+        <div className="relative rise" style={{ zIndex: 1 }}><DiscoveryBanner />{children}</div>
       </div>
       {!hideNav && isRoot && <ProfileDot />}
       {!hideNav && <BottomNav />}

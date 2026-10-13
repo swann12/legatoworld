@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import type { Reply } from "./community-data";
+import { canUseConnectedAction } from "./discovery";
 
 /** Échanges locaux : réponses, discussions ouvertes, soutiens, pseudonyme et signalements. */
 type State = {
@@ -52,6 +53,7 @@ export function useCommunity() {
 
   const addReply = useCallback(
     (threadId: string, body: string) => {
+      if (!canUseConnectedAction("group")) return;
       const next = read();
       const reply: Reply = {
         id: `own-${Date.now()}`,
@@ -77,6 +79,7 @@ export function useCommunity() {
 
   const openThread = useCallback(
     (group: string, title: string, body: string) => {
+      if (!canUseConnectedAction("group")) return;
       const next = read();
       const id = `own-${Date.now()}`;
       next.own = [{ id, group, title, body, when: "à l'instant" }, ...next.own];

@@ -1,5 +1,12 @@
 # Reprise UX/UI Legato
 
+## Étape B2 — découverte sans compte
+- [x] Présenter quatre listes pour B007–B012 ; profil : prénom et préférences confirmés.
+- [ ] Créer les pages, bandeau et questions en découverte ; ne rien envoyer.
+- [ ] Bloquer invitations et écriture en groupe, conserver les contenus lors de l'inscription confirmée.
+- [ ] Vérifier parcours local, reprise connectée, tests et écrans.
+- [ ] Captures individuelles non jointes ; suppression hors maquette attend l'accord utilisateur.
+
 ## Étape B1 — écrans B001 à B006
 - [x] Présenter quatre listes par écran avant le code.
 - [x] Adapter logos, quatre types, menus et palettes sans modifier ouverture ni jardin peint.

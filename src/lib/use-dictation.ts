@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { getDiscovery } from "./discovery";
 
 type Rec = {
   lang: string; interimResults: boolean; continuous: boolean;
@@ -13,6 +14,7 @@ export function useDictation(onText: (t: string) => void) {
 
   const toggle = () => {
     if (typeof window === "undefined") return;
+    if (getDiscovery().active) { alert("La dictée peut envoyer votre voix à un service de reconnaissance. Elle n'est pas disponible en mode découverte."); return; }
     const W = window as unknown as { SpeechRecognition?: new () => Rec; webkitSpeechRecognition?: new () => Rec };
     const Ctor = W.SpeechRecognition || W.webkitSpeechRecognition;
     if (!Ctor) { alert("La dictée n'est pas disponible sur ce navigateur."); return; }

@@ -8,6 +8,7 @@ import { usePresenceHistory, savePresenceHistory, type PresenceMsg } from "@/lib
 import { useDictation } from "@/lib/use-dictation";
 import { StandardLayout, PageTitle, ChatBubble, ChatInput, TextLink, OutlineButton } from "@/components/legato/ds";
 import { useActiveSpace } from "@/lib/use-active-space";
+import { getDiscovery } from "@/lib/discovery";
 
 export const Route = createFileRoute("/presence/")({
   head: () => ({
@@ -39,6 +40,7 @@ function Presence() {
   const [hello, setHello] = useState("");
   const [draft, setDraft] = useState("");
   const [pending, setPending] = useState(false);
+  const [notice, setNotice] = useState("");
   const { listening, toggle } = useDictation(setDraft);
   const endRef = useRef<HTMLDivElement>(null);
 
@@ -49,6 +51,7 @@ function Presence() {
   const send = async () => {
     const t = draft.trim();
     if (!t || pending) return;
+    if (getDiscovery().active) { setNotice("Présence nécessite un compte pour vous répondre. Votre texte reste sur ce téléphone."); return; }
     const next = [...stored, { role: "you" as const, text: t }];
     savePresenceHistory(next);
     setDraft("");
@@ -90,6 +93,7 @@ function Presence() {
       </div>
 
       <form className="sticky bottom-0 mt-auto pt-8 pb-6" style={{ background: "var(--sp-bg)" }} onSubmit={(e) => { e.preventDefault(); void send(); }}>
+        {notice && <p role="status" className="lg-lead mb-4">{notice} <TextLink to="/start/garder">Créer mon espace</TextLink></p>}
         <ChatInput value={draft} onChange={setDraft} onMic={toggle} pending={pending} listening={listening} />
         <div className="mt-[10px] flex flex-wrap items-center justify-between gap-2 text-[11px]" style={{ color: "var(--sp-sub)" }}>
           <span>{listening ? "Je vous écoute…" : "Vos échanges restent privés."}</span>

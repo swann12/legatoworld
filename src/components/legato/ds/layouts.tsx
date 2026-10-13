@@ -5,6 +5,7 @@ import { ArrowLeft, X } from "lucide-react";
 import { spaceClass, type Space } from "./space";
 import { PageHeader, StepBar } from "./components";
 import { BottomNav } from "./BottomNav";
+import { DiscoveryBanner } from "../DiscoveryUI";
 
 /** Écran standard (§4.1) : en-tête 64 px + barre flottante. */
 export function StandardLayout({ space = "today", title, back, backLabel, headerLeft, children, nav = true, activeTab, className = "" }: {
@@ -14,6 +15,7 @@ export function StandardLayout({ space = "today", title, back, backLabel, header
     <div className={`${spaceClass(space)} min-h-dvh ${className}`} style={{ background: "var(--sp-bg)", color: "var(--sp-ink)", fontFamily: "var(--lg-sans)" }}>
       <div className="mx-auto max-w-[430px] pb-32" style={{ paddingInline: "var(--lg-margin)" }}>
         <PageHeader space={space} title={title} back={back} backLabel={backLabel} left={headerLeft} />
+        <DiscoveryBanner />
         {children}
       </div>
       {nav && <BottomNav night={space === "night"} active={activeTab} />}
