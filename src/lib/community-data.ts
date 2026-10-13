@@ -46,6 +46,9 @@ export const GROUPS: Group[] = [
   { id: "famille", label: "Relations familiales", hint: "Désaccords, silences, héritage, place de chacun.", members: 860 },
   { id: "ceremonies", label: "Cérémonies et hommages", hint: "Préparer, dire, se souvenir ensemble.", members: 620 },
   { id: "suicide", label: "Après un suicide", hint: "Un espace pour parler de cette perte.", members: 22 },
+  { id: "chien", label: "Perte d'un chien", hint: "64 membres · très actif", members: 64 },
+  { id: "euthanasie", label: "Après une euthanasie", hint: "38 membres", members: 38 },
+  { id: "enfants-animal", label: "Expliquer aux enfants", hint: "21 membres", members: 21 },
   { id: "aidants", label: "Aidants d'un proche malade", hint: "Accompagner un proche, et être accompagné·e.", members: 57 },
 ];
 
