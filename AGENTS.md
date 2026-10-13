@@ -10,3 +10,4 @@
 - Memory collection pages share canonical category helpers and the existing space-scoped memories-store; the dynamic zone parent renders Outlet and its list is an index leaf. Why: detail pages mount correctly and old category URLs remain usable.
 - Memory forms and portrait summaries keep their former advanced editors in lazily mounted legacy views until removal is approved. Why: matching captures must preserve existing functions.
 - Garden plot selection activates its existing space before opening the personal memory page, without altering the painted image or plot geometry. Why: each loved one's memories and portrait remain isolated.
+- Community screens reuse community-store and community-data, with vigil choices local and clearly distinguished from real reservations. Why: preserve existing interactions without implying a connected community service.

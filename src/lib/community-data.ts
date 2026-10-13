@@ -45,6 +45,8 @@ export const GROUPS: Group[] = [
   { id: "sommeil", label: "Sommeil", hint: "S'endormir, se réveiller la nuit, les rêves.", members: 1330 },
   { id: "famille", label: "Relations familiales", hint: "Désaccords, silences, héritage, place de chacun.", members: 860 },
   { id: "ceremonies", label: "Cérémonies et hommages", hint: "Préparer, dire, se souvenir ensemble.", members: 620 },
+  { id: "suicide", label: "Après un suicide", hint: "Un espace pour parler de cette perte.", members: 22 },
+  { id: "aidants", label: "Aidants d'un proche malade", hint: "Accompagner un proche, et être accompagné·e.", members: 57 },
 ];
 
 export const THREADS: Thread[] = [
