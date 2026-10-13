@@ -166,7 +166,7 @@ function Start() {
           <h1 className="px-[28px] pt-10" style={{ fontFamily: "var(--lg-serif)", fontWeight: 400, fontSize: 64, lineHeight: 1.1 }}>
             Préparer <br />un adieu,<br /><em className="italic">garder une présence.</em>
           </h1>
-          <p className="lg-lead mx-[28px] mt-10 max-w-[252px]">Une application pour traverser le deuil, au jour le jour, à votre rythme.</p>
+          <p className="lg-lead mx-[28px] mt-10 max-w-[252px]">Une application pour traverser le deuil,{" \n"}au jour le jour, à votre rythme.</p>
           <div className="min-h-8 flex-1" aria-hidden />
           <div className="flex flex-col items-center gap-4 px-[28px] pb-[34px]">
             <PrimaryButton space="support" full onClick={() => navigate({ to: "/auth", search: { mode: "signup" } })}>Créer mon espace</PrimaryButton>
