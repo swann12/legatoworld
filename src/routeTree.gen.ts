@@ -115,15 +115,21 @@ import { Route as HelpCorpsMangerRouteImport } from './routes/help.corps.manger'
 import { Route as HelpCorpsHabillerRouteImport } from './routes/help.corps.habiller'
 import { Route as HelpCorpsEauRouteImport } from './routes/help.corps.eau'
 import { Route as CareJournalLaterRouteImport } from './routes/care.journal.later'
+import { Route as CareGardenSpaceRouteImport } from './routes/care.garden.space'
+import { Route as CareGardenInviteRouteImport } from './routes/care.garden.invite'
 import { Route as CareGardenDepotRouteImport } from './routes/care.garden.depot'
+import { Route as CareGardenBookRouteImport } from './routes/care.garden.book'
+import { Route as CareGardenAllRouteImport } from './routes/care.garden.all'
 import { Route as CareGardenZoneRouteImport } from './routes/care.garden.$zone'
 import { Route as CareCommunityReglesRouteImport } from './routes/care.community.regles'
 import { Route as PracticalTasksIdIndexRouteImport } from './routes/practical.tasks.$id.index'
 import { Route as HelpCorpsSoinIndexRouteImport } from './routes/help.corps.soin.index'
+import { Route as CareGardenZoneIndexRouteImport } from './routes/care.garden.$zone.index'
 import { Route as CareCommunityGroupIndexRouteImport } from './routes/care.community.$group.index'
 import { Route as PracticalTasksIdTemplateRouteImport } from './routes/practical.tasks.$id.template'
 import { Route as HelpCorpsSoinIdRouteImport } from './routes/help.corps.soin.$id'
 import { Route as HelpCorpsSujetContenusRouteImport } from './routes/help.corps.$sujet.contenus'
+import { Route as CareGardenZoneIdRouteImport } from './routes/care.garden.$zone.$id'
 import { Route as CareCommunityGroupThreadRouteImport } from './routes/care.community.$group.$thread'
 import { Route as ApiPublicSouffleSoundIdRouteImport } from './routes/api/public/souffle-sound.$id'
 
@@ -658,9 +664,29 @@ const CareJournalLaterRoute = CareJournalLaterRouteImport.update({
   path: '/journal/later',
   getParentRoute: () => CareRoute,
 } as any)
+const CareGardenSpaceRoute = CareGardenSpaceRouteImport.update({
+  id: '/space',
+  path: '/space',
+  getParentRoute: () => CareGardenRoute,
+} as any)
+const CareGardenInviteRoute = CareGardenInviteRouteImport.update({
+  id: '/invite',
+  path: '/invite',
+  getParentRoute: () => CareGardenRoute,
+} as any)
 const CareGardenDepotRoute = CareGardenDepotRouteImport.update({
   id: '/depot',
   path: '/depot',
+  getParentRoute: () => CareGardenRoute,
+} as any)
+const CareGardenBookRoute = CareGardenBookRouteImport.update({
+  id: '/book',
+  path: '/book',
+  getParentRoute: () => CareGardenRoute,
+} as any)
+const CareGardenAllRoute = CareGardenAllRouteImport.update({
+  id: '/all',
+  path: '/all',
   getParentRoute: () => CareGardenRoute,
 } as any)
 const CareGardenZoneRoute = CareGardenZoneRouteImport.update({
@@ -683,6 +709,11 @@ const HelpCorpsSoinIndexRoute = HelpCorpsSoinIndexRouteImport.update({
   path: '/',
   getParentRoute: () => HelpCorpsSoinRoute,
 } as any)
+const CareGardenZoneIndexRoute = CareGardenZoneIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => CareGardenZoneRoute,
+} as any)
 const CareCommunityGroupIndexRoute = CareCommunityGroupIndexRouteImport.update({
   id: '/$group/',
   path: '/$group/',
@@ -703,6 +734,11 @@ const HelpCorpsSujetContenusRoute = HelpCorpsSujetContenusRouteImport.update({
   id: '/$sujet/contenus',
   path: '/$sujet/contenus',
   getParentRoute: () => HelpCorpsRoute,
+} as any)
+const CareGardenZoneIdRoute = CareGardenZoneIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => CareGardenZoneRoute,
 } as any)
 const CareCommunityGroupThreadRoute =
   CareCommunityGroupThreadRouteImport.update({
@@ -802,8 +838,12 @@ export interface FileRoutesByFullPath {
   '/resources/': typeof ResourcesIndexRoute
   '/space/': typeof SpaceIndexRoute
   '/care/community/regles': typeof CareCommunityReglesRoute
-  '/care/garden/$zone': typeof CareGardenZoneRoute
+  '/care/garden/$zone': typeof CareGardenZoneRouteWithChildren
+  '/care/garden/all': typeof CareGardenAllRoute
+  '/care/garden/book': typeof CareGardenBookRoute
   '/care/garden/depot': typeof CareGardenDepotRoute
+  '/care/garden/invite': typeof CareGardenInviteRoute
+  '/care/garden/space': typeof CareGardenSpaceRoute
   '/care/journal/later': typeof CareJournalLaterRoute
   '/help/corps/eau': typeof HelpCorpsEauRoute
   '/help/corps/habiller': typeof HelpCorpsHabillerRoute
@@ -827,10 +867,12 @@ export interface FileRoutesByFullPath {
   '/resources/$category/': typeof ResourcesCategoryIndexRoute
   '/api/public/souffle-sound/$id': typeof ApiPublicSouffleSoundIdRoute
   '/care/community/$group/$thread': typeof CareCommunityGroupThreadRoute
+  '/care/garden/$zone/$id': typeof CareGardenZoneIdRoute
   '/help/corps/$sujet/contenus': typeof HelpCorpsSujetContenusRoute
   '/help/corps/soin/$id': typeof HelpCorpsSoinIdRoute
   '/practical/tasks/$id/template': typeof PracticalTasksIdTemplateRoute
   '/care/community/$group/': typeof CareCommunityGroupIndexRoute
+  '/care/garden/$zone/': typeof CareGardenZoneIndexRoute
   '/help/corps/soin/': typeof HelpCorpsSoinIndexRoute
   '/practical/tasks/$id/': typeof PracticalTasksIdIndexRoute
 }
@@ -909,8 +951,11 @@ export interface FileRoutesByTo {
   '/resources': typeof ResourcesIndexRoute
   '/space': typeof SpaceIndexRoute
   '/care/community/regles': typeof CareCommunityReglesRoute
-  '/care/garden/$zone': typeof CareGardenZoneRoute
+  '/care/garden/all': typeof CareGardenAllRoute
+  '/care/garden/book': typeof CareGardenBookRoute
   '/care/garden/depot': typeof CareGardenDepotRoute
+  '/care/garden/invite': typeof CareGardenInviteRoute
+  '/care/garden/space': typeof CareGardenSpaceRoute
   '/care/journal/later': typeof CareJournalLaterRoute
   '/help/corps/eau': typeof HelpCorpsEauRoute
   '/help/corps/habiller': typeof HelpCorpsHabillerRoute
@@ -932,10 +977,12 @@ export interface FileRoutesByTo {
   '/resources/$category': typeof ResourcesCategoryIndexRoute
   '/api/public/souffle-sound/$id': typeof ApiPublicSouffleSoundIdRoute
   '/care/community/$group/$thread': typeof CareCommunityGroupThreadRoute
+  '/care/garden/$zone/$id': typeof CareGardenZoneIdRoute
   '/help/corps/$sujet/contenus': typeof HelpCorpsSujetContenusRoute
   '/help/corps/soin/$id': typeof HelpCorpsSoinIdRoute
   '/practical/tasks/$id/template': typeof PracticalTasksIdTemplateRoute
   '/care/community/$group': typeof CareCommunityGroupIndexRoute
+  '/care/garden/$zone': typeof CareGardenZoneIndexRoute
   '/help/corps/soin': typeof HelpCorpsSoinIndexRoute
   '/practical/tasks/$id': typeof PracticalTasksIdIndexRoute
 }
@@ -1027,8 +1074,12 @@ export interface FileRoutesById {
   '/resources/': typeof ResourcesIndexRoute
   '/space/': typeof SpaceIndexRoute
   '/care/community/regles': typeof CareCommunityReglesRoute
-  '/care/garden/$zone': typeof CareGardenZoneRoute
+  '/care/garden/$zone': typeof CareGardenZoneRouteWithChildren
+  '/care/garden/all': typeof CareGardenAllRoute
+  '/care/garden/book': typeof CareGardenBookRoute
   '/care/garden/depot': typeof CareGardenDepotRoute
+  '/care/garden/invite': typeof CareGardenInviteRoute
+  '/care/garden/space': typeof CareGardenSpaceRoute
   '/care/journal/later': typeof CareJournalLaterRoute
   '/help/corps/eau': typeof HelpCorpsEauRoute
   '/help/corps/habiller': typeof HelpCorpsHabillerRoute
@@ -1052,10 +1103,12 @@ export interface FileRoutesById {
   '/resources/$category/': typeof ResourcesCategoryIndexRoute
   '/api/public/souffle-sound/$id': typeof ApiPublicSouffleSoundIdRoute
   '/care/community/$group/$thread': typeof CareCommunityGroupThreadRoute
+  '/care/garden/$zone/$id': typeof CareGardenZoneIdRoute
   '/help/corps/$sujet/contenus': typeof HelpCorpsSujetContenusRoute
   '/help/corps/soin/$id': typeof HelpCorpsSoinIdRoute
   '/practical/tasks/$id/template': typeof PracticalTasksIdTemplateRoute
   '/care/community/$group/': typeof CareCommunityGroupIndexRoute
+  '/care/garden/$zone/': typeof CareGardenZoneIndexRoute
   '/help/corps/soin/': typeof HelpCorpsSoinIndexRoute
   '/practical/tasks/$id/': typeof PracticalTasksIdIndexRoute
 }
@@ -1148,7 +1201,11 @@ export interface FileRouteTypes {
     | '/space/'
     | '/care/community/regles'
     | '/care/garden/$zone'
+    | '/care/garden/all'
+    | '/care/garden/book'
     | '/care/garden/depot'
+    | '/care/garden/invite'
+    | '/care/garden/space'
     | '/care/journal/later'
     | '/help/corps/eau'
     | '/help/corps/habiller'
@@ -1172,10 +1229,12 @@ export interface FileRouteTypes {
     | '/resources/$category/'
     | '/api/public/souffle-sound/$id'
     | '/care/community/$group/$thread'
+    | '/care/garden/$zone/$id'
     | '/help/corps/$sujet/contenus'
     | '/help/corps/soin/$id'
     | '/practical/tasks/$id/template'
     | '/care/community/$group/'
+    | '/care/garden/$zone/'
     | '/help/corps/soin/'
     | '/practical/tasks/$id/'
   fileRoutesByTo: FileRoutesByTo
@@ -1254,8 +1313,11 @@ export interface FileRouteTypes {
     | '/resources'
     | '/space'
     | '/care/community/regles'
-    | '/care/garden/$zone'
+    | '/care/garden/all'
+    | '/care/garden/book'
     | '/care/garden/depot'
+    | '/care/garden/invite'
+    | '/care/garden/space'
     | '/care/journal/later'
     | '/help/corps/eau'
     | '/help/corps/habiller'
@@ -1277,10 +1339,12 @@ export interface FileRouteTypes {
     | '/resources/$category'
     | '/api/public/souffle-sound/$id'
     | '/care/community/$group/$thread'
+    | '/care/garden/$zone/$id'
     | '/help/corps/$sujet/contenus'
     | '/help/corps/soin/$id'
     | '/practical/tasks/$id/template'
     | '/care/community/$group'
+    | '/care/garden/$zone'
     | '/help/corps/soin'
     | '/practical/tasks/$id'
   id:
@@ -1372,7 +1436,11 @@ export interface FileRouteTypes {
     | '/space/'
     | '/care/community/regles'
     | '/care/garden/$zone'
+    | '/care/garden/all'
+    | '/care/garden/book'
     | '/care/garden/depot'
+    | '/care/garden/invite'
+    | '/care/garden/space'
     | '/care/journal/later'
     | '/help/corps/eau'
     | '/help/corps/habiller'
@@ -1396,10 +1464,12 @@ export interface FileRouteTypes {
     | '/resources/$category/'
     | '/api/public/souffle-sound/$id'
     | '/care/community/$group/$thread'
+    | '/care/garden/$zone/$id'
     | '/help/corps/$sujet/contenus'
     | '/help/corps/soin/$id'
     | '/practical/tasks/$id/template'
     | '/care/community/$group/'
+    | '/care/garden/$zone/'
     | '/help/corps/soin/'
     | '/practical/tasks/$id/'
   fileRoutesById: FileRoutesById
@@ -2199,11 +2269,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CareJournalLaterRouteImport
       parentRoute: typeof CareRoute
     }
+    '/care/garden/space': {
+      id: '/care/garden/space'
+      path: '/space'
+      fullPath: '/care/garden/space'
+      preLoaderRoute: typeof CareGardenSpaceRouteImport
+      parentRoute: typeof CareGardenRoute
+    }
+    '/care/garden/invite': {
+      id: '/care/garden/invite'
+      path: '/invite'
+      fullPath: '/care/garden/invite'
+      preLoaderRoute: typeof CareGardenInviteRouteImport
+      parentRoute: typeof CareGardenRoute
+    }
     '/care/garden/depot': {
       id: '/care/garden/depot'
       path: '/depot'
       fullPath: '/care/garden/depot'
       preLoaderRoute: typeof CareGardenDepotRouteImport
+      parentRoute: typeof CareGardenRoute
+    }
+    '/care/garden/book': {
+      id: '/care/garden/book'
+      path: '/book'
+      fullPath: '/care/garden/book'
+      preLoaderRoute: typeof CareGardenBookRouteImport
+      parentRoute: typeof CareGardenRoute
+    }
+    '/care/garden/all': {
+      id: '/care/garden/all'
+      path: '/all'
+      fullPath: '/care/garden/all'
+      preLoaderRoute: typeof CareGardenAllRouteImport
       parentRoute: typeof CareGardenRoute
     }
     '/care/garden/$zone': {
@@ -2234,6 +2332,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HelpCorpsSoinIndexRouteImport
       parentRoute: typeof HelpCorpsSoinRoute
     }
+    '/care/garden/$zone/': {
+      id: '/care/garden/$zone/'
+      path: '/'
+      fullPath: '/care/garden/$zone/'
+      preLoaderRoute: typeof CareGardenZoneIndexRouteImport
+      parentRoute: typeof CareGardenZoneRoute
+    }
     '/care/community/$group/': {
       id: '/care/community/$group/'
       path: '/$group'
@@ -2261,6 +2366,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/help/corps/$sujet/contenus'
       preLoaderRoute: typeof HelpCorpsSujetContenusRouteImport
       parentRoute: typeof HelpCorpsRoute
+    }
+    '/care/garden/$zone/$id': {
+      id: '/care/garden/$zone/$id'
+      path: '/$id'
+      fullPath: '/care/garden/$zone/$id'
+      preLoaderRoute: typeof CareGardenZoneIdRouteImport
+      parentRoute: typeof CareGardenZoneRoute
     }
     '/care/community/$group/$thread': {
       id: '/care/community/$group/$thread'
@@ -2308,15 +2420,37 @@ const CareCommunityRouteWithChildren = CareCommunityRoute._addFileChildren(
   CareCommunityRouteChildren,
 )
 
+interface CareGardenZoneRouteChildren {
+  CareGardenZoneIdRoute: typeof CareGardenZoneIdRoute
+  CareGardenZoneIndexRoute: typeof CareGardenZoneIndexRoute
+}
+
+const CareGardenZoneRouteChildren: CareGardenZoneRouteChildren = {
+  CareGardenZoneIdRoute: CareGardenZoneIdRoute,
+  CareGardenZoneIndexRoute: CareGardenZoneIndexRoute,
+}
+
+const CareGardenZoneRouteWithChildren = CareGardenZoneRoute._addFileChildren(
+  CareGardenZoneRouteChildren,
+)
+
 interface CareGardenRouteChildren {
-  CareGardenZoneRoute: typeof CareGardenZoneRoute
+  CareGardenZoneRoute: typeof CareGardenZoneRouteWithChildren
+  CareGardenAllRoute: typeof CareGardenAllRoute
+  CareGardenBookRoute: typeof CareGardenBookRoute
   CareGardenDepotRoute: typeof CareGardenDepotRoute
+  CareGardenInviteRoute: typeof CareGardenInviteRoute
+  CareGardenSpaceRoute: typeof CareGardenSpaceRoute
   CareGardenIndexRoute: typeof CareGardenIndexRoute
 }
 
 const CareGardenRouteChildren: CareGardenRouteChildren = {
-  CareGardenZoneRoute: CareGardenZoneRoute,
+  CareGardenZoneRoute: CareGardenZoneRouteWithChildren,
+  CareGardenAllRoute: CareGardenAllRoute,
+  CareGardenBookRoute: CareGardenBookRoute,
   CareGardenDepotRoute: CareGardenDepotRoute,
+  CareGardenInviteRoute: CareGardenInviteRoute,
+  CareGardenSpaceRoute: CareGardenSpaceRoute,
   CareGardenIndexRoute: CareGardenIndexRoute,
 }
 

@@ -7,3 +7,6 @@
 - Booklet PDF generation loads its browser-only library on explicit download and embeds the local editorial font. Why: SSR stays safe and accented text remains readable in downloaded documents.
 - Step 10 off-mockup features remain in collapsed legacy views until removal is approved. Why: reproducing captures must not silently remove existing functionality.
 - Funeral-specific resource views are isolated from the support directory and mark mockup providers as examples without invented contact details. Why: reproducing the mockups must not imply verified prices or real booking capabilities.
+- Memory collection pages share canonical category helpers and the existing space-scoped memories-store; the dynamic zone parent renders Outlet and its list is an index leaf. Why: detail pages mount correctly and old category URLs remain usable.
+- Memory forms and portrait summaries keep their former advanced editors in lazily mounted legacy views until removal is approved. Why: matching captures must preserve existing functions.
+- Garden plot selection activates its existing space before opening the personal memory page, without altering the painted image or plot geometry. Why: each loved one's memories and portrait remain isolated.

@@ -1,20 +1,14 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Shell } from "@/components/legato/Shell";
-import { PageHeader } from "@/components/legato/EditorialUI";
+import { PageHeader, PageTitle, PrimaryButton } from "@/components/legato/ds";
+import { legatoHead } from "@/lib/legato-head";
 import { useSpaces } from "@/lib/spaces-store";
 import { setActiveSpaceId, useActiveSpaceId } from "@/lib/active-space";
 import gardenPainted from "@/assets/garden-painted-v4.png";
 
 export const Route = createFileRoute("/care/garden/")({
-  head: () => ({
-    meta: [
-      { title: "Le Jardin — Legato" },
-      { name: "description", content: "Le jardin de vos proches : une parcelle par être aimé, qui fleurit avec vos souvenirs." },
-      { property: "og:title", content: "Le Jardin — Legato" },
-      { property: "og:description", content: "Une parcelle par être aimé, qui fleurit avec vos souvenirs." },
-    ],
-  }),
+  head: () => legatoHead("Vos parcelles · Mémoire", "Un jardin peint, une parcelle par être aimé. Retrouvez les souvenirs de chacun."),
   component: CareGarden,
 });
 
@@ -70,18 +64,16 @@ function CareGarden() {
 
   const open = (id: string) => {
     setActiveSpaceId(id);
-    navigate({ to: "/care/garden/depot" });
+    navigate({ to: "/care/garden/space" });
   };
 
   return (
     <Shell livingBg={false}>
-      <div className="min-h-dvh bg-paper text-dusk pb-32">
-        <PageHeader back="/care" title="LE JARDIN" />
+      <div className="lg-space-memory lg-memory-painted-page min-h-dvh pb-32">
+        <div className="px-7"><PageHeader space="memory" title="Mémoire" /></div>
 
         <section className="px-6">
-          <h1 className="ed-page-title">
-            Vos <span className="italic" style={{ color: "var(--terracotta)" }}>parcelles</span>.
-          </h1>
+          <PageTitle space="memory" className="pt-7">Vos <em>parcelles.</em></PageTitle>
         </section>
 
         {/* La planche peinte — une parcelle par être aimé */}
@@ -152,7 +144,7 @@ function CareGarden() {
                     <span className="text-[10.5px] tabular-nums text-dusk/35" style={{ fontFamily: "var(--font-mono)" }}>
                       {String(i + 1).padStart(2, "0")}
                     </span>
-                    <span className="flex-1 font-serif text-[18px] leading-[1.15]">{s.name}</span>
+                    <span className="flex-1 font-lg-serif text-[21px] leading-[1.15]">{s.name}</span>
                     <span className="text-[11.5px] tabular-nums text-dusk/45">
                       {n === 0 ? "—" : `${n} souvenir${n > 1 ? "s" : ""}`}
                     </span>
@@ -167,22 +159,10 @@ function CareGarden() {
         </section>
 
         <section className="px-6 pt-8">
-          <Link
-            to="/care/garden/depot"
-            className="flex items-center justify-between border-t border-dashed pt-4"
-            style={{ borderColor: "color-mix(in oklab, var(--dusk) 18%, transparent)" }}
-          >
-            <span className="font-serif text-[19px]">Déposer un souvenir</span>
-            <span aria-hidden className="text-dusk/30">→</span>
-          </Link>
-          <Link
-            to="/profile/proches"
-            className="mt-3 flex items-center justify-between border-t border-dashed pt-4"
-            style={{ borderColor: "color-mix(in oklab, var(--dusk) 18%, transparent)" }}
-          >
-            <span className="font-serif text-[19px]">Ajouter une parcelle</span>
-            <span aria-hidden className="text-dusk/30">→</span>
-          </Link>
+          <div className="flex flex-wrap gap-4">
+            <PrimaryButton space="memory" to="/care/garden/depot" plus>Ajouter un souvenir</PrimaryButton>
+            <PrimaryButton space="memory" to="/space/new" plus>Ajouter une parcelle</PrimaryButton>
+          </div>
         </section>
       </div>
     </Shell>

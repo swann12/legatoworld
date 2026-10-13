@@ -37,6 +37,10 @@ export type Memory = {
   body?: string;         // sentence / text content
   durationSec?: number;  // for voice / sound
   imageDataUrl?: string; // for photo
+  audioDataUrl?: string;
+  when?: string;
+  place?: string;
+  author?: string;
   composition?: CompositionItem[];
   createdAt: number;
 };
@@ -59,9 +63,9 @@ function save(list: Memory[]) {
   try {
     window.localStorage.setItem(KEY(), JSON.stringify(list));
     window.dispatchEvent(new CustomEvent("legato:memories"));
-  } catch {
-    /* quota dépassé : on ignore silencieusement */
-  }
+   } catch {
+     throw new Error("Ce souvenir est trop volumineux pour être gardé sur cet appareil. Essayez un fichier plus petit.");
+   }
 }
 
 export function addMemory(m: Omit<Memory, "id" | "createdAt">): Memory {
@@ -95,9 +99,7 @@ export function getAllMemories(): Memory[] {
 
 /** Hook réactif : se met à jour quand le store change (même onglet). */
 export function useMemories(zone?: string) {
-  const [list, setList] = useState<Memory[]>(() =>
-    zone ? getMemoriesForZone(zone) : getAllMemories()
-  );
+  const [list, setList] = useState<Memory[]>([]);
   useEffect(() => {
     const handler = () =>
       setList(zone ? getMemoriesForZone(zone) : getAllMemories());
