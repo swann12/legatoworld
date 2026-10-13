@@ -27,3 +27,9 @@
 - [x] Reproduire les six écrans et conserver les fonctions hors maquette accessibles.
 - [x] Vérifier les propositions IA, les choix, le livret et le questionnaire.
 - [ ] Suppression des éléments hors maquette : en attente d’accord utilisateur.
+
+## Étape 11 — Mémoire : souvenirs et portrait
+- [x] Présenter les quatre listes des douze écrans avant le code.
+- [ ] Reproduire les écrans 080–089, 108 et 109 ; préserver la peinture et les positions des parcelles.
+- [ ] Relier les parcelles à leur espace personnel et vérifier dépôt, détail, portrait et livre.
+- [ ] Suppression des éléments hors maquette : en attente d’accord utilisateur.
