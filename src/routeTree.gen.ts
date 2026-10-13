@@ -81,7 +81,9 @@ import { Route as InviteTokenRouteImport } from './routes/invite.$token'
 import { Route as HomeSesAffairesRouteImport } from './routes/home.ses-affaires'
 import { Route as HomeQuestionsMedecinRouteImport } from './routes/home.questions-medecin'
 import { Route as HomeParlerEnfantRouteImport } from './routes/home.parler-enfant'
+import { Route as HomeEquipeRouteImport } from './routes/home.equipe'
 import { Route as HomeEnParlerRouteImport } from './routes/home.en-parler'
+import { Route as HomeCarnetRouteImport } from './routes/home.carnet'
 import { Route as HelpCorpsRouteImport } from './routes/help.corps'
 import { Route as GardenZoneRouteImport } from './routes/garden.$zone'
 import { Route as DevDesignRouteImport } from './routes/dev.design'
@@ -94,6 +96,7 @@ import { Route as CareMemoryRouteImport } from './routes/care.memory'
 import { Route as CareHelpRouteImport } from './routes/care.help'
 import { Route as CareGuiltRouteImport } from './routes/care.guilt'
 import { Route as CareGardenRouteImport } from './routes/care.garden'
+import { Route as CareEpuisementRouteImport } from './routes/care.epuisement'
 import { Route as CareEmotionsRouteImport } from './routes/care.emotions'
 import { Route as CareCommunityRouteImport } from './routes/care.community'
 import { Route as CareAideRouteImport } from './routes/care.aide'
@@ -107,6 +110,8 @@ import { Route as PracticalShareIndexRouteImport } from './routes/practical.shar
 import { Route as PracticalProsIndexRouteImport } from './routes/practical.pros.index'
 import { Route as PracticalAnimalBodyIndexRouteImport } from './routes/practical.animal-body.index'
 import { Route as LibraryKindIndexRouteImport } from './routes/library.$kind.index'
+import { Route as HomeEquipeIndexRouteImport } from './routes/home.equipe.index'
+import { Route as HomeCarnetIndexRouteImport } from './routes/home.carnet.index'
 import { Route as HelpCorpsIndexRouteImport } from './routes/help.corps.index'
 import { Route as CareRituelsIndexRouteImport } from './routes/care.rituels.index'
 import { Route as CareJournalIndexRouteImport } from './routes/care.journal.index'
@@ -122,6 +127,9 @@ import { Route as PracticalAnimalBodyJardinRouteImport } from './routes/practica
 import { Route as PracticalAnimalBodyCremationRouteImport } from './routes/practical.animal-body.cremation'
 import { Route as PracticalAnimalBodyCimetiereRouteImport } from './routes/practical.animal-body.cimetiere'
 import { Route as LibraryKindIdRouteImport } from './routes/library.$kind.$id'
+import { Route as HomeEquipeDemandeRouteImport } from './routes/home.equipe.demande'
+import { Route as HomeCarnetNoteRouteImport } from './routes/home.carnet.note'
+import { Route as HomeCarnetIdRouteImport } from './routes/home.carnet.$id'
 import { Route as HelpCorpsSuiviRouteImport } from './routes/help.corps.suivi'
 import { Route as HelpCorpsSoinRouteImport } from './routes/help.corps.soin'
 import { Route as HelpCorpsNuitsRouteImport } from './routes/help.corps.nuits'
@@ -520,9 +528,19 @@ const HomeParlerEnfantRoute = HomeParlerEnfantRouteImport.update({
   path: '/home/parler-enfant',
   getParentRoute: () => rootRouteImport,
 } as any)
+const HomeEquipeRoute = HomeEquipeRouteImport.update({
+  id: '/home/equipe',
+  path: '/home/equipe',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const HomeEnParlerRoute = HomeEnParlerRouteImport.update({
   id: '/home/en-parler',
   path: '/home/en-parler',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HomeCarnetRoute = HomeCarnetRouteImport.update({
+  id: '/home/carnet',
+  path: '/home/carnet',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HelpCorpsRoute = HelpCorpsRouteImport.update({
@@ -583,6 +601,11 @@ const CareGuiltRoute = CareGuiltRouteImport.update({
 const CareGardenRoute = CareGardenRouteImport.update({
   id: '/garden',
   path: '/garden',
+  getParentRoute: () => CareRoute,
+} as any)
+const CareEpuisementRoute = CareEpuisementRouteImport.update({
+  id: '/epuisement',
+  path: '/epuisement',
   getParentRoute: () => CareRoute,
 } as any)
 const CareEmotionsRoute = CareEmotionsRouteImport.update({
@@ -650,6 +673,16 @@ const LibraryKindIndexRoute = LibraryKindIndexRouteImport.update({
   id: '/library/$kind/',
   path: '/library/$kind/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const HomeEquipeIndexRoute = HomeEquipeIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => HomeEquipeRoute,
+} as any)
+const HomeCarnetIndexRoute = HomeCarnetIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => HomeCarnetRoute,
 } as any)
 const HelpCorpsIndexRoute = HelpCorpsIndexRouteImport.update({
   id: '/',
@@ -730,6 +763,21 @@ const LibraryKindIdRoute = LibraryKindIdRouteImport.update({
   id: '/library/$kind/$id',
   path: '/library/$kind/$id',
   getParentRoute: () => rootRouteImport,
+} as any)
+const HomeEquipeDemandeRoute = HomeEquipeDemandeRouteImport.update({
+  id: '/demande',
+  path: '/demande',
+  getParentRoute: () => HomeEquipeRoute,
+} as any)
+const HomeCarnetNoteRoute = HomeCarnetNoteRouteImport.update({
+  id: '/note',
+  path: '/note',
+  getParentRoute: () => HomeCarnetRoute,
+} as any)
+const HomeCarnetIdRoute = HomeCarnetIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => HomeCarnetRoute,
 } as any)
 const HelpCorpsSuiviRoute = HelpCorpsSuiviRouteImport.update({
   id: '/suivi',
@@ -943,6 +991,7 @@ export interface FileRoutesByFullPath {
   '/care/aide': typeof CareAideRoute
   '/care/community': typeof CareCommunityRouteWithChildren
   '/care/emotions': typeof CareEmotionsRoute
+  '/care/epuisement': typeof CareEpuisementRoute
   '/care/garden': typeof CareGardenRouteWithChildren
   '/care/guilt': typeof CareGuiltRoute
   '/care/help': typeof CareHelpRoute
@@ -955,7 +1004,9 @@ export interface FileRoutesByFullPath {
   '/dev/design': typeof DevDesignRoute
   '/garden/$zone': typeof GardenZoneRoute
   '/help/corps': typeof HelpCorpsRouteWithChildren
+  '/home/carnet': typeof HomeCarnetRouteWithChildren
   '/home/en-parler': typeof HomeEnParlerRoute
+  '/home/equipe': typeof HomeEquipeRouteWithChildren
   '/home/parler-enfant': typeof HomeParlerEnfantRoute
   '/home/questions-medecin': typeof HomeQuestionsMedecinRoute
   '/home/ses-affaires': typeof HomeSesAffairesRoute
@@ -1029,6 +1080,9 @@ export interface FileRoutesByFullPath {
   '/help/corps/nuits': typeof HelpCorpsNuitsRoute
   '/help/corps/soin': typeof HelpCorpsSoinRouteWithChildren
   '/help/corps/suivi': typeof HelpCorpsSuiviRoute
+  '/home/carnet/$id': typeof HomeCarnetIdRoute
+  '/home/carnet/note': typeof HomeCarnetNoteRoute
+  '/home/equipe/demande': typeof HomeEquipeDemandeRoute
   '/library/$kind/$id': typeof LibraryKindIdRoute
   '/practical/animal-body/cimetiere': typeof PracticalAnimalBodyCimetiereRoute
   '/practical/animal-body/cremation': typeof PracticalAnimalBodyCremationRoute
@@ -1044,6 +1098,8 @@ export interface FileRoutesByFullPath {
   '/care/journal/': typeof CareJournalIndexRoute
   '/care/rituels/': typeof CareRituelsIndexRoute
   '/help/corps/': typeof HelpCorpsIndexRoute
+  '/home/carnet/': typeof HomeCarnetIndexRoute
+  '/home/equipe/': typeof HomeEquipeIndexRoute
   '/library/$kind/': typeof LibraryKindIndexRoute
   '/practical/animal-body/': typeof PracticalAnimalBodyIndexRoute
   '/practical/pros/': typeof PracticalProsIndexRoute
@@ -1087,6 +1143,7 @@ export interface FileRoutesByTo {
   '/appointments/new': typeof AppointmentsNewRoute
   '/care/aide': typeof CareAideRoute
   '/care/emotions': typeof CareEmotionsRoute
+  '/care/epuisement': typeof CareEpuisementRoute
   '/care/guilt': typeof CareGuiltRoute
   '/care/help': typeof CareHelpRoute
   '/care/memory': typeof CareMemoryRoute
@@ -1165,6 +1222,9 @@ export interface FileRoutesByTo {
   '/help/corps/manger': typeof HelpCorpsMangerRoute
   '/help/corps/nuits': typeof HelpCorpsNuitsRoute
   '/help/corps/suivi': typeof HelpCorpsSuiviRoute
+  '/home/carnet/$id': typeof HomeCarnetIdRoute
+  '/home/carnet/note': typeof HomeCarnetNoteRoute
+  '/home/equipe/demande': typeof HomeEquipeDemandeRoute
   '/library/$kind/$id': typeof LibraryKindIdRoute
   '/practical/animal-body/cimetiere': typeof PracticalAnimalBodyCimetiereRoute
   '/practical/animal-body/cremation': typeof PracticalAnimalBodyCremationRoute
@@ -1179,6 +1239,8 @@ export interface FileRoutesByTo {
   '/care/journal': typeof CareJournalIndexRoute
   '/care/rituels': typeof CareRituelsIndexRoute
   '/help/corps': typeof HelpCorpsIndexRoute
+  '/home/carnet': typeof HomeCarnetIndexRoute
+  '/home/equipe': typeof HomeEquipeIndexRoute
   '/library/$kind': typeof LibraryKindIndexRoute
   '/practical/animal-body': typeof PracticalAnimalBodyIndexRoute
   '/practical/pros': typeof PracticalProsIndexRoute
@@ -1229,6 +1291,7 @@ export interface FileRoutesById {
   '/care/aide': typeof CareAideRoute
   '/care/community': typeof CareCommunityRouteWithChildren
   '/care/emotions': typeof CareEmotionsRoute
+  '/care/epuisement': typeof CareEpuisementRoute
   '/care/garden': typeof CareGardenRouteWithChildren
   '/care/guilt': typeof CareGuiltRoute
   '/care/help': typeof CareHelpRoute
@@ -1241,7 +1304,9 @@ export interface FileRoutesById {
   '/dev/design': typeof DevDesignRoute
   '/garden/$zone': typeof GardenZoneRoute
   '/help/corps': typeof HelpCorpsRouteWithChildren
+  '/home/carnet': typeof HomeCarnetRouteWithChildren
   '/home/en-parler': typeof HomeEnParlerRoute
+  '/home/equipe': typeof HomeEquipeRouteWithChildren
   '/home/parler-enfant': typeof HomeParlerEnfantRoute
   '/home/questions-medecin': typeof HomeQuestionsMedecinRoute
   '/home/ses-affaires': typeof HomeSesAffairesRoute
@@ -1315,6 +1380,9 @@ export interface FileRoutesById {
   '/help/corps/nuits': typeof HelpCorpsNuitsRoute
   '/help/corps/soin': typeof HelpCorpsSoinRouteWithChildren
   '/help/corps/suivi': typeof HelpCorpsSuiviRoute
+  '/home/carnet/$id': typeof HomeCarnetIdRoute
+  '/home/carnet/note': typeof HomeCarnetNoteRoute
+  '/home/equipe/demande': typeof HomeEquipeDemandeRoute
   '/library/$kind/$id': typeof LibraryKindIdRoute
   '/practical/animal-body/cimetiere': typeof PracticalAnimalBodyCimetiereRoute
   '/practical/animal-body/cremation': typeof PracticalAnimalBodyCremationRoute
@@ -1330,6 +1398,8 @@ export interface FileRoutesById {
   '/care/journal/': typeof CareJournalIndexRoute
   '/care/rituels/': typeof CareRituelsIndexRoute
   '/help/corps/': typeof HelpCorpsIndexRoute
+  '/home/carnet/': typeof HomeCarnetIndexRoute
+  '/home/equipe/': typeof HomeEquipeIndexRoute
   '/library/$kind/': typeof LibraryKindIndexRoute
   '/practical/animal-body/': typeof PracticalAnimalBodyIndexRoute
   '/practical/pros/': typeof PracticalProsIndexRoute
@@ -1381,6 +1451,7 @@ export interface FileRouteTypes {
     | '/care/aide'
     | '/care/community'
     | '/care/emotions'
+    | '/care/epuisement'
     | '/care/garden'
     | '/care/guilt'
     | '/care/help'
@@ -1393,7 +1464,9 @@ export interface FileRouteTypes {
     | '/dev/design'
     | '/garden/$zone'
     | '/help/corps'
+    | '/home/carnet'
     | '/home/en-parler'
+    | '/home/equipe'
     | '/home/parler-enfant'
     | '/home/questions-medecin'
     | '/home/ses-affaires'
@@ -1467,6 +1540,9 @@ export interface FileRouteTypes {
     | '/help/corps/nuits'
     | '/help/corps/soin'
     | '/help/corps/suivi'
+    | '/home/carnet/$id'
+    | '/home/carnet/note'
+    | '/home/equipe/demande'
     | '/library/$kind/$id'
     | '/practical/animal-body/cimetiere'
     | '/practical/animal-body/cremation'
@@ -1482,6 +1558,8 @@ export interface FileRouteTypes {
     | '/care/journal/'
     | '/care/rituels/'
     | '/help/corps/'
+    | '/home/carnet/'
+    | '/home/equipe/'
     | '/library/$kind/'
     | '/practical/animal-body/'
     | '/practical/pros/'
@@ -1525,6 +1603,7 @@ export interface FileRouteTypes {
     | '/appointments/new'
     | '/care/aide'
     | '/care/emotions'
+    | '/care/epuisement'
     | '/care/guilt'
     | '/care/help'
     | '/care/memory'
@@ -1603,6 +1682,9 @@ export interface FileRouteTypes {
     | '/help/corps/manger'
     | '/help/corps/nuits'
     | '/help/corps/suivi'
+    | '/home/carnet/$id'
+    | '/home/carnet/note'
+    | '/home/equipe/demande'
     | '/library/$kind/$id'
     | '/practical/animal-body/cimetiere'
     | '/practical/animal-body/cremation'
@@ -1617,6 +1699,8 @@ export interface FileRouteTypes {
     | '/care/journal'
     | '/care/rituels'
     | '/help/corps'
+    | '/home/carnet'
+    | '/home/equipe'
     | '/library/$kind'
     | '/practical/animal-body'
     | '/practical/pros'
@@ -1666,6 +1750,7 @@ export interface FileRouteTypes {
     | '/care/aide'
     | '/care/community'
     | '/care/emotions'
+    | '/care/epuisement'
     | '/care/garden'
     | '/care/guilt'
     | '/care/help'
@@ -1678,7 +1763,9 @@ export interface FileRouteTypes {
     | '/dev/design'
     | '/garden/$zone'
     | '/help/corps'
+    | '/home/carnet'
     | '/home/en-parler'
+    | '/home/equipe'
     | '/home/parler-enfant'
     | '/home/questions-medecin'
     | '/home/ses-affaires'
@@ -1752,6 +1839,9 @@ export interface FileRouteTypes {
     | '/help/corps/nuits'
     | '/help/corps/soin'
     | '/help/corps/suivi'
+    | '/home/carnet/$id'
+    | '/home/carnet/note'
+    | '/home/equipe/demande'
     | '/library/$kind/$id'
     | '/practical/animal-body/cimetiere'
     | '/practical/animal-body/cremation'
@@ -1767,6 +1857,8 @@ export interface FileRouteTypes {
     | '/care/journal/'
     | '/care/rituels/'
     | '/help/corps/'
+    | '/home/carnet/'
+    | '/home/equipe/'
     | '/library/$kind/'
     | '/practical/animal-body/'
     | '/practical/pros/'
@@ -1817,7 +1909,9 @@ export interface RootRouteChildren {
   ComposeZoneRoute: typeof ComposeZoneRoute
   DevDesignRoute: typeof DevDesignRoute
   GardenZoneRoute: typeof GardenZoneRoute
+  HomeCarnetRoute: typeof HomeCarnetRouteWithChildren
   HomeEnParlerRoute: typeof HomeEnParlerRoute
+  HomeEquipeRoute: typeof HomeEquipeRouteWithChildren
   HomeParlerEnfantRoute: typeof HomeParlerEnfantRoute
   HomeQuestionsMedecinRoute: typeof HomeQuestionsMedecinRoute
   HomeSesAffairesRoute: typeof HomeSesAffairesRoute
@@ -2349,11 +2443,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HomeParlerEnfantRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/home/equipe': {
+      id: '/home/equipe'
+      path: '/home/equipe'
+      fullPath: '/home/equipe'
+      preLoaderRoute: typeof HomeEquipeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/home/en-parler': {
       id: '/home/en-parler'
       path: '/home/en-parler'
       fullPath: '/home/en-parler'
       preLoaderRoute: typeof HomeEnParlerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/home/carnet': {
+      id: '/home/carnet'
+      path: '/home/carnet'
+      fullPath: '/home/carnet'
+      preLoaderRoute: typeof HomeCarnetRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/help/corps': {
@@ -2438,6 +2546,13 @@ declare module '@tanstack/react-router' {
       path: '/garden'
       fullPath: '/care/garden'
       preLoaderRoute: typeof CareGardenRouteImport
+      parentRoute: typeof CareRoute
+    }
+    '/care/epuisement': {
+      id: '/care/epuisement'
+      path: '/epuisement'
+      fullPath: '/care/epuisement'
+      preLoaderRoute: typeof CareEpuisementRouteImport
       parentRoute: typeof CareRoute
     }
     '/care/emotions': {
@@ -2530,6 +2645,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/library/$kind/'
       preLoaderRoute: typeof LibraryKindIndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/home/equipe/': {
+      id: '/home/equipe/'
+      path: '/'
+      fullPath: '/home/equipe/'
+      preLoaderRoute: typeof HomeEquipeIndexRouteImport
+      parentRoute: typeof HomeEquipeRoute
+    }
+    '/home/carnet/': {
+      id: '/home/carnet/'
+      path: '/'
+      fullPath: '/home/carnet/'
+      preLoaderRoute: typeof HomeCarnetIndexRouteImport
+      parentRoute: typeof HomeCarnetRoute
     }
     '/help/corps/': {
       id: '/help/corps/'
@@ -2635,6 +2764,27 @@ declare module '@tanstack/react-router' {
       fullPath: '/library/$kind/$id'
       preLoaderRoute: typeof LibraryKindIdRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/home/equipe/demande': {
+      id: '/home/equipe/demande'
+      path: '/demande'
+      fullPath: '/home/equipe/demande'
+      preLoaderRoute: typeof HomeEquipeDemandeRouteImport
+      parentRoute: typeof HomeEquipeRoute
+    }
+    '/home/carnet/note': {
+      id: '/home/carnet/note'
+      path: '/note'
+      fullPath: '/home/carnet/note'
+      preLoaderRoute: typeof HomeCarnetNoteRouteImport
+      parentRoute: typeof HomeCarnetRoute
+    }
+    '/home/carnet/$id': {
+      id: '/home/carnet/$id'
+      path: '/$id'
+      fullPath: '/home/carnet/$id'
+      preLoaderRoute: typeof HomeCarnetIdRouteImport
+      parentRoute: typeof HomeCarnetRoute
     }
     '/help/corps/suivi': {
       id: '/help/corps/suivi'
@@ -2981,6 +3131,7 @@ interface CareRouteChildren {
   CareAideRoute: typeof CareAideRoute
   CareCommunityRoute: typeof CareCommunityRouteWithChildren
   CareEmotionsRoute: typeof CareEmotionsRoute
+  CareEpuisementRoute: typeof CareEpuisementRoute
   CareGardenRoute: typeof CareGardenRouteWithChildren
   CareGuiltRoute: typeof CareGuiltRoute
   CareHelpRoute: typeof CareHelpRoute
@@ -3004,6 +3155,7 @@ const CareRouteChildren: CareRouteChildren = {
   CareAideRoute: CareAideRoute,
   CareCommunityRoute: CareCommunityRouteWithChildren,
   CareEmotionsRoute: CareEmotionsRoute,
+  CareEpuisementRoute: CareEpuisementRoute,
   CareGardenRoute: CareGardenRouteWithChildren,
   CareGuiltRoute: CareGuiltRoute,
   CareHelpRoute: CareHelpRoute,
@@ -3244,6 +3396,36 @@ const ProfileRouteChildren: ProfileRouteChildren = {
 const ProfileRouteWithChildren =
   ProfileRoute._addFileChildren(ProfileRouteChildren)
 
+interface HomeCarnetRouteChildren {
+  HomeCarnetIdRoute: typeof HomeCarnetIdRoute
+  HomeCarnetNoteRoute: typeof HomeCarnetNoteRoute
+  HomeCarnetIndexRoute: typeof HomeCarnetIndexRoute
+}
+
+const HomeCarnetRouteChildren: HomeCarnetRouteChildren = {
+  HomeCarnetIdRoute: HomeCarnetIdRoute,
+  HomeCarnetNoteRoute: HomeCarnetNoteRoute,
+  HomeCarnetIndexRoute: HomeCarnetIndexRoute,
+}
+
+const HomeCarnetRouteWithChildren = HomeCarnetRoute._addFileChildren(
+  HomeCarnetRouteChildren,
+)
+
+interface HomeEquipeRouteChildren {
+  HomeEquipeDemandeRoute: typeof HomeEquipeDemandeRoute
+  HomeEquipeIndexRoute: typeof HomeEquipeIndexRoute
+}
+
+const HomeEquipeRouteChildren: HomeEquipeRouteChildren = {
+  HomeEquipeDemandeRoute: HomeEquipeDemandeRoute,
+  HomeEquipeIndexRoute: HomeEquipeIndexRoute,
+}
+
+const HomeEquipeRouteWithChildren = HomeEquipeRoute._addFileChildren(
+  HomeEquipeRouteChildren,
+)
+
 interface ResourcesCategoryRouteChildren {
   ResourcesCategoryProviderIdRoute: typeof ResourcesCategoryProviderIdRoute
   ResourcesCategoryIndexRoute: typeof ResourcesCategoryIndexRoute
@@ -3285,7 +3467,9 @@ const rootRouteChildren: RootRouteChildren = {
   ComposeZoneRoute: ComposeZoneRoute,
   DevDesignRoute: DevDesignRoute,
   GardenZoneRoute: GardenZoneRoute,
+  HomeCarnetRoute: HomeCarnetRouteWithChildren,
   HomeEnParlerRoute: HomeEnParlerRoute,
+  HomeEquipeRoute: HomeEquipeRouteWithChildren,
   HomeParlerEnfantRoute: HomeParlerEnfantRoute,
   HomeQuestionsMedecinRoute: HomeQuestionsMedecinRoute,
   HomeSesAffairesRoute: HomeSesAffairesRoute,
