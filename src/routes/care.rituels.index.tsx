@@ -1,6 +1,8 @@
 import { PageHeader, SectionHead, Tabs } from "@/components/legato/EditorialUI";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useMyRituals, splitRituals } from "@/lib/my-rituals";
+import { GESTURES_ALONE, RITUALS_TOGETHER, WORLD_TRADITIONS, nextWorldDate } from "@/lib/rituals-catalog";
 import { useServerFn } from "@tanstack/react-start";
 import { Shell } from "@/components/legato/Shell";
 import { useLovedName } from "@/lib/loved-name";
@@ -12,7 +14,7 @@ import { MemoryExtras } from "@/components/legato/MemoryUI";
 import { legatoHead } from "@/lib/legato-head";
 
 export const Route = createFileRoute("/care/rituels/")({
-  head: () => legatoHead("Un geste pour elle", "Un petit rituel, seul ou avec vos proches, dans son jardin de souvenirs."),
+  head: () => legatoHead("Des rituels pour lui rendre hommage", "Un geste maintenant, un rituel à plusieurs, les rituels du monde, le calendrier et vos rituels."),
   component: CareRituels,
 });
 
@@ -72,16 +74,30 @@ function classifyRegion(origin: string): Region {
 }
 
 function CareRituels() {
-  return <StandardLayout space="memory" back="/care/garden/space" backLabel="Mémoire" activeTab="/care/garden">
-    <PageTitle className="pt-8">Un geste<br /><em>pour elle.</em></PageTitle>
-    <Lead className="mt-3">Un petit rituel, seul ou avec vos proches. Il reste visible dans son jardin de souvenirs.</Lead>
+  const mine = splitRituals(useMyRituals());
+  const [next, setNext] = useState<ReturnType<typeof nextWorldDate>>();
+  const [tradition, setTradition] = useState(false);
+  useEffect(() => { setNext(nextWorldDate()); setTradition(!!window.localStorage.getItem("lg.rituels.tradition")); }, []);
+  const nextLabel = next ? `Prochain : ${next.d.title.split(" · ")[0].replace(/^Toussaint$/, "la Toussaint")}, le ${next.t.getDate() === 1 ? "1er" : next.t.getDate()} ${next.t.toLocaleDateString("fr-FR", { month: "long" })}` : "Les dates du monde, et les vôtres";
+  const arrow = <span aria-hidden>↗</span>;
+  return <StandardLayout space="memory" title="Mémoire" activeTab="/care/garden">
+    <PageTitle className="pt-8">Des rituels<br /><em>pour lui rendre hommage.</em></PageTitle>
+    <Lead className="mt-3">Choisissez par où commencer.</Lead>
     <div className="mt-6">
+      <Row n={1} title="Un geste, maintenant" subtitle={`Seul, en quelques minutes · ${GESTURES_ALONE.length} rituels`} to="/care/rituels/maintenant" status={arrow} />
+      <Row n={2} title="Un rituel à plusieurs" subtitle={`Repas, veillée, cercle de parole · ${RITUALS_TOGETHER.length} rituels`} to="/care/rituels/ensemble" status={arrow} />
+      <Row n={3} title="Les rituels du monde" subtitle={`${WORLD_TRADITIONS.length} traditions, du Japon à Madagascar`} to="/care/rituels/monde" status={arrow} />
+      <Row n={4} title="Le calendrier des jours des morts" subtitle={nextLabel} to="/care/rituels/calendrier" status={arrow} />
+      <Row n={5} title="Vos rituels" subtitle={`${mine.planned.length} prévu${mine.planned.length > 1 ? "s" : ""} · ${mine.done.length} déjà fait${mine.done.length > 1 ? "s" : ""}`} to="/care/rituels/mes-rituels" status={arrow} last />
+    </div>
+    <p className="mt-8 text-[14px]" style={{ color: "var(--sp-sub)" }}>Vous ne savez pas lequel choisir ? <Link to={tradition ? "/care/rituels/propositions" : "/care/rituels/tradition"} className="underline underline-offset-4" style={{ color: "var(--sp-stroke)" }}>Présence vous en propose trois</Link></p>
+    <MemoryExtras>
       <Row n={1} title="Allumer une bougie" subtitle="Elle reste allumée jusqu’au lendemain" to="/care/rituels/candle" />
       <Row n={2} title="Une lanterne sur l’eau" subtitle="Quelques mots qui s’éloignent" to="/care/rituels/lantern" />
       <Row n={3} title="Une bougie de 24 heures" subtitle="Pour un anniversaire, une date" to="/care/rituels/candle" />
       <Row n={4} title="Une petite offrande" subtitle="Une fleur, un objet, une photo" to="/care/rituels/offering" last />
-    </div>
-    <MemoryExtras><LegacyCareRituels /></MemoryExtras>
+      <LegacyCareRituels />
+    </MemoryExtras>
   </StandardLayout>;
 }
 
