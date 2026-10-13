@@ -1,66 +1,11 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { Shell } from "@/components/legato/Shell";
-import { PageHeader } from "@/components/legato/EditorialUI";
-import { useLovedName } from "@/lib/loved-name";
-import { useMemories } from "@/lib/memories-store";
-
-export const Route = createFileRoute("/care/garden/depot")({
-  head: () => ({
-    meta: [
-      { title: "Déposer un souvenir — Legato" },
-      { name: "description", content: "Photos, voix, lettres, musiques, objets, citations : déposez un souvenir dans le Jardin." },
-      { property: "og:title", content: "Déposer un souvenir — Legato" },
-      { property: "og:description", content: "Photos, voix, lettres, musiques, objets, citations." },
-    ],
-  }),
-  component: Depot,
-});
-
-const KINDS = [
-  { kind: "photo", label: "Photos" },
-  { kind: "voix", label: "Voix" },
-  { kind: "lettre", label: "Lettres" },
-  { kind: "musique", label: "Musiques" },
-  { kind: "objet", label: "Objets" },
-  { kind: "citation", label: "Citations" },
-] as const;
-
-const DASH = "color-mix(in oklab, var(--dusk) 16%, transparent)";
-
-function Depot() {
-  const lovedName = useLovedName();
-  const all = useMemories();
-
-  return (
-    <Shell livingBg={false}>
-      <div className="min-h-dvh bg-paper text-dusk pb-32">
-        <PageHeader back="/care/garden" title="DÉPOSER" />
-
-        <section className="px-6">
-          <p className="mono-label">{lovedName}</p>
-          <h1 className="mt-3 ed-page-title">Un souvenir.</h1>
-        </section>
-
-        <section className="px-6 pt-8">
-          <ul>
-            {KINDS.map((k, i) => {
-              const n = all.filter((m) => m.zone === k.kind).length;
-              return (
-                <li key={k.kind} className="border-b border-dashed last:border-0" style={{ borderColor: DASH }}>
-                  <Link to="/care/garden/$zone" params={{ zone: k.kind }} className="flex items-center gap-4 py-4">
-                    <span className="text-[10.5px] tabular-nums tracking-[0.12em] text-dusk/35">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    <span className="flex-1 font-serif text-[20px] leading-[1.15]">{k.label}</span>
-                    <span className="text-[11px] tabular-nums text-dusk/35">{String(n).padStart(2, "0")}</span>
-                    <span aria-hidden className="text-dusk/30">→</span>
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-        </section>
-      </div>
-    </Shell>
-  );
-}
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { StandardLayout, PageTitle, Lead, Row, Block, TextLink } from "@/components/legato/ds";
+import { MemoryExtras } from "@/components/legato/MemoryUI";
+import { legatoHead } from "@/lib/legato-head";
+export const Route = createFileRoute("/care/garden/depot")({ head: () => legatoHead("Ajouter un souvenir", "Une photo, sa voix, un texte ou un lieu : garder ce qui compte."), component: MemoryDepot });
+function MemoryDepot() { const navigate = useNavigate(); const open = (zone: string) => navigate({ to: "/compose/$zone", params: { zone } }); return <StandardLayout space="memory" back="/care/garden/space" backLabel="Mémoire" activeTab="memory">
+  <PageTitle space="memory" className="mt-8">Que voulez-vous<br /><em>garder ?</em></PageTitle><Lead className="mt-4">Un souvenir peut être très simple : une phrase, un son, une image.</Lead>
+  <div className="mt-7"><Row n={1} title="Une photo" subtitle="Depuis votre téléphone" onClick={() => open("photo")} /><Row n={2} title="Sa voix" subtitle="Un message, un enregistrement" onClick={() => open("voix")} /><Row n={3} title="Un texte" subtitle="Une phrase qu’elle disait, une lettre" onClick={() => open("lettre")} /><Row n={4} title="Un lieu" subtitle="Un endroit qui compte" onClick={() => open("lieu")} last /></div>
+  <Block space="memory" className="mt-7"><p className="text-[14px] leading-relaxed">Vos proches peuvent aussi ajouter leurs souvenirs.</p><TextLink space="memory" to="/care/garden/invite" className="inline-block mt-3">Les inviter</TextLink></Block>
+  <MemoryExtras><Row title="Musiques" onClick={() => open("musique")} /><Row title="Objets" onClick={() => open("objet")} /><Row title="Citations" onClick={() => open("citation")} last /></MemoryExtras>
+</StandardLayout>; }

@@ -1,0 +1,27 @@
+import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { lazy, Suspense } from "react";
+import { StandardLayout, PageTitle, Lead, TextLink, Row } from "@/components/legato/ds";
+import { AddMemoryButton, MemoryListRow, AudioMemory, MemoryActions, MemoryExtras } from "@/components/legato/MemoryUI";
+import { useMemories } from "@/lib/memories-store";
+import { canonicalZone, memoriesInZone, memoryDate, MEMORY_ZONES } from "@/lib/memory-garden";
+import { usePortrait, portraitLabels } from "@/lib/portrait-store";
+import { legatoHead } from "@/lib/legato-head";
+const LegacyZone = lazy(() => import("@/components/legato/legacy/Step11Zone").then(m => ({ default: m.LegacyMemoryZone })));
+export const Route = createFileRoute("/care/garden/$zone/")({
+  beforeLoad: ({ params }) => { if (!["photo", "voix", "lettre", "lieu", "musique", "objet", "citation"].includes(canonicalZone(params.zone))) throw notFound(); },
+  head: ({ params }) => { const title = MEMORY_ZONES.find(z => z.id === canonicalZone(params.zone))?.title || "Souvenirs du jardin"; return legatoHead(title, `${title} : retrouver les traces de votre proche et ajouter un souvenir.`); },
+  notFoundComponent: () => <StandardLayout space="memory" back="/care/garden/all"><PageTitle className="mt-8">Ces souvenirs ne sont pas disponibles.</PageTitle></StandardLayout>,
+  component: MemoryZone,
+});
+function MemoryZone() {
+  const { zone } = Route.useParams(); const id = canonicalZone(zone); const memories = memoriesInZone(useMemories(), zone); const first = memories[0]; const { portrait } = usePortrait();
+  if (!["photo", "voix", "lettre", "lieu"].includes(id)) return <StandardLayout space="memory" back="/care/garden/all" backLabel="Tous ses souvenirs"><Suspense fallback={<Lead>Un instant…</Lead>}><LegacyZone zone={id} /></Suspense></StandardLayout>;
+  return <StandardLayout space="memory" back="/care/garden/all" backLabel="Tous ses souvenirs" activeTab="memory">
+    {id === "photo" && <><PageTitle space="memory" className="mt-8">Ses <em>photos.</em></PageTitle><Lead className="mt-4">Touchez une photo pour ajouter la date, le lieu ou un mot.</Lead><div className="lg-memory-photo-grid mt-7">{memories.map(m => <Link key={m.id} to="/care/garden/$zone/$id" params={{ zone: m.zone, id: m.id }}>{m.imageDataUrl ? <img src={m.imageDataUrl} alt={m.title || "Un souvenir"} /> : <div className="lg-memory-missing-photo">Photo non conservée</div>}<p>{m.title || m.place || "Une photo"}{m.when ? ` · ${m.when}` : ""}</p></Link>)}</div><div className="mt-7"><AddMemoryButton zone="photo">Ajouter une photo</AddMemoryButton></div></>}
+    {id === "voix" && <>{first ? <><p className="lg-mono mt-8">Message vocal · {memoryDate(first)}</p><PageTitle space="memory" className="mt-4">{first.title ? <>{first.title.split(",")[0]}{first.title.includes(",") ? <>,<br /><em>{first.title.split(",").slice(1).join(",")}.</em></> : "."}</> : <>Sa voix,<br /><em>au téléphone.</em></>}</PageTitle><div className="mt-8"><AudioMemory memory={first} /></div>{first.body && <p className="lg-memory-quote mt-7">« {first.body} »</p>}<MemoryActions memory={first} />{memories.length > 1 && <div className="mt-10">{memories.slice(1).map(m => <MemoryListRow key={m.id} memory={m} />)}</div>}</> : <><PageTitle space="memory" className="mt-8">Sa <em>voix.</em></PageTitle><Lead className="mt-4">Un message, un rire, un souffle à garder.</Lead></>}<div className="mt-8"><AddMemoryButton zone="voix">Ajouter sa voix</AddMemoryButton></div></>}
+    {id === "lettre" && <><PageTitle space="memory" className="mt-8">Lettres et <em>mots.</em></PageTitle><Lead className="mt-4">Ses phrases, les vôtres, celles de vos proches.</Lead><div className="mt-7">{memories.map(m => <Link className="lg-memory-letter" key={m.id} to="/care/garden/$zone/$id" params={{ zone: m.zone, id: m.id }}><p className="lg-mono">{m.author ? `Écrit par ${m.author}` : m.title || (m.type === "sentence" ? "Une phrase qu’elle disait souvent" : "Un message")} · {memoryDate(m)}</p><p className="lg-memory-quote mt-3">« {m.body || m.title} »</p></Link>)}</div><div className="mt-7"><AddMemoryButton zone="lettre">Ajouter un mot</AddMemoryButton></div></>}
+    {id === "lieu" && <><PageTitle space="memory" className="mt-8">Les lieux<br />qui <em>comptent.</em></PageTitle><Lead className="mt-4">Là où elle aimait aller. Vous pourrez y retourner, ou simplement vous en souvenir.</Lead><div className="mt-7">{memories.map(m => <a key={m.id} className="lg-memory-place" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent([m.title, m.place].filter(Boolean).join(" "))}`} target="_blank" rel="noopener noreferrer"><span><span className="lg-row-title block">{m.title || m.place}</span><span className="lg-row-sub mt-1 block">{[m.place, m.body].filter(Boolean).join(" · ")}</span></span><span aria-hidden>↗</span></a>)}{!memories.length && portraitLabels(portrait).places.map(p => <Row key={p} title={p} subtitle="Un lieu de son portrait" onClick={() => window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(p)}`, "_blank", "noopener,noreferrer")} icon="arrow" />)}</div><div className="mt-7"><AddMemoryButton zone="lieu">Ajouter un lieu</AddMemoryButton></div></>}
+    {!memories.length && id !== "voix" && <Lead className="mt-5">Aucun souvenir ajouté ici pour le moment.</Lead>}
+    {id !== "lieu" && <MemoryExtras><Suspense fallback={<Lead>Un instant…</Lead>}><LegacyZone zone={id} /></Suspense></MemoryExtras>}
+  </StandardLayout>;
+}
