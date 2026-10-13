@@ -1,4 +1,4 @@
-import { describe, expect, test } from "vitest";
+import { describe, expect, test } from "bun:test";
 import { canonicalZone, memoriesInZone, newestMemories } from "./memory-garden";
 import type { Memory } from "./memories-store";
 const memories: Memory[] = [
