@@ -54,7 +54,7 @@ export function AnimalSheet({ back, backLabel, eyebrow, title, children }: { bac
 export { Spec };
 
 /** Étapes à cocher, gardées sur le téléphone ; tout coché → la démarche est faite. */
-export function Steps({ id, steps, label, taskId }: { id: string; steps: string[]; label?: (n: number) => string; taskId?: string }) {
+export function Steps({ id, steps, label, taskId, fill = "var(--lg-coral)" }: { id: string; steps: string[]; label?: (n: number) => string; taskId?: string; fill?: string }) {
   const { setTaskStatus } = useAnimal();
   const [checked, setChecked] = useState<number[]>([]);
   useEffect(() => setChecked(loadTaskSteps(id)), [id]);
@@ -70,8 +70,8 @@ export function Steps({ id, steps, label, taskId }: { id: string; steps: string[
         return (
           <li key={s} style={{ borderBottom: i < steps.length - 1 ? "1px solid var(--sp-line)" : "none" }}>
             <button type="button" onClick={() => toggle(i)} aria-pressed={on} className="flex w-full items-center gap-4 py-4 text-left">
-              <span className="grid size-[26px] shrink-0 place-items-center rounded-full" style={{ background: on ? "var(--lg-coral)" : "transparent", border: on ? "none" : "1.3px solid var(--sp-ink)" }}>
-                {on && <Check className="size-3.5" strokeWidth={2} style={{ color: "var(--lg-cream)" }} />}
+              <span className="grid size-[26px] shrink-0 place-items-center rounded-full" style={{ background: on ? fill : "transparent", border: on ? "none" : "1.3px solid var(--sp-ink)" }}>
+                {on && <Check className="size-3.5" strokeWidth={2} style={{ color: "var(--sp-bg)" }} />}
               </span>
               <span className="text-[15px]" style={{ textDecoration: on ? "line-through" : undefined, color: on ? "var(--sp-sub)" : "var(--sp-ink)" }}>{s}</span>
             </button>

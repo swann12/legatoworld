@@ -49,6 +49,8 @@ export const GROUPS: Group[] = [
   { id: "chien", label: "Perte d'un chien", hint: "64 membres · très actif", members: 64 },
   { id: "euthanasie", label: "Après une euthanasie", hint: "38 membres", members: 38 },
   { id: "enfants-animal", label: "Expliquer aux enfants", hint: "21 membres", members: 21 },
+  { id: "palliatifs", label: "Soins palliatifs", hint: "29 membres · avec une psychologue", members: 29 },
+  { id: "travail-aidance", label: "Concilier travail et aidance", hint: "33 membres", members: 33 },
   { id: "aidants", label: "Aidants d'un proche malade", hint: "Accompagner un proche, et être accompagné·e.", members: 57 },
 ];
 
