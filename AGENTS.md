@@ -19,3 +19,4 @@
 - Garden plot selection activates its existing space before opening the personal memory page, without altering the painted image or plot geometry. Why: each loved one's memories and portrait remain isolated.
 - Community screens reuse community-store and community-data, with vigil choices local and clearly distinguished from real reservations. Why: preserve existing interactions without implying a connected community service.
 - The Démarches tab view for bereavement spaces comes from `src/lib/papers-plan.ts` (pure, tested), driven by the papers answer from onboarding and space settings. Why: one rule decides order and the ceremony visibility on every path.
+- The body "petit suivi" lives in `src/lib/corps-suivi.ts` (localStorage, tested); the walking voice uses the browser speech synthesis. Why: nothing about the body leaves the phone.
