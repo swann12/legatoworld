@@ -1,5 +1,11 @@
 # Reprise UX/UI Legato
 
+## Étape 13 — Communauté
+- [ ] Présenter les quatre listes avant le code pour 095–100, 111 et 112.
+- [ ] Reproduire les huit écrans et garder community-store et community-data.
+- [ ] Vérifier conversation, écriture, recherche et inscription à la veillée.
+- [ ] Suppression hors maquette : en attente d’accord utilisateur.
+
 - [ ] Conserver la barre Soutien / Démarches actuelle, désormais validée.
 - [ ] Reprendre le Jardin coloré : parcelles par proche, évolution selon les souvenirs, dépôt séparé et wording réduit.
 - [ ] Refaire Journal avec une vraie dimension carnet intime contemporaine et craft.
