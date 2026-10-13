@@ -1092,6 +1092,9 @@
   --sp-line: var(--lg-line-1); --sp-line-2: var(--lg-line-2);
 }
 .lg-presence-page { padding-bottom:0; }
+.lg-presence-page, [data-journey="questions"] .lg-presence-page :is(.lg-space-support, .lg-space-today) {
+  --lg-blue:#CFDBE8; --lg-linen:#F3EBE1;
+}
 .lg-presence-page > div { min-height:100dvh; display:flex; flex-direction:column; padding-bottom:0; }
 .lg-presence-reply { width:100%; color:var(--lg-deep); font-family:var(--lg-serif); font-size:19px; line-height:1.45; }
 .lg-presence-user { max-width:calc(100% - 48px); padding:13px 16px; border-radius:18px 18px 4px 18px; background:var(--lg-linen); color:var(--lg-deep); font-family:var(--lg-serif); font-size:18px; line-height:1.4; overflow-wrap:anywhere; }
@@ -1116,6 +1119,13 @@
 .lg-home-block > div { margin-top:18px; }
 .lg-home-block .lg-section { font-size:16px; margin-bottom:12px; }
 .lg-home-block .lg-home-action { height:46px; padding-inline:24px; font-size:15px; }
+.lg-home-screen.lg-space-night h1 { padding-top:30px; }
+.lg-home-screen.lg-space-night h1 em { color:var(--sp-accent); }
+.lg-home-screen.lg-space-night .lg-home-block { margin-top:30px; padding:24px 24px 26px; }
+.lg-home-screen.lg-space-night .lg-home-block h2 { font-size:25px; }
+.lg-home-screen.lg-space-night .lg-home-block .lg-section { color:var(--sp-accent); }
+.lg-home-screen.lg-space-night .lg-home-block > div { margin-top:20px; }
+[data-journey="questions"] .lg-home-block a[style*="--sp-btn-bg"] { border:1px solid var(--lg-deep); background:transparent !important; }
 .lg-ds-title em { font-style: italic; color: var(--sp-accent); }
 .lg-moodbar { -webkit-appearance: none; appearance: none; height: 14px; border-radius: 7px; background: linear-gradient(90deg, var(--lg-deep), var(--lg-blue)); }
 .lg-moodbar::-webkit-slider-thumb { -webkit-appearance: none; width: 26px; height: 26px; border-radius: 50%; background: var(--lg-cream); border: 1.5px solid var(--lg-deep); }

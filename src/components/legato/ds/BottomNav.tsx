@@ -15,13 +15,14 @@ const TABS = [
 export function BottomNav({ night = false, active, fixed = true }: { night?: boolean; active?: string; fixed?: boolean }) {
   const { pathname } = useLocation();
   const { kind, space } = useActiveSpace();
+  const nightOn = night && kind !== "questions";
   const labels = spaceTabLabels(kind);
   const tabs = TABS.filter(t => t.to !== "/practical" || showPracticalTab(kind, space?.animalBodyState));
   const current = active ?? pathname;
   return (
     <nav aria-label="Navigation principale"
       className={`${fixed ? "fixed inset-x-4 bottom-5 z-40 mx-auto max-w-[398px]" : "relative w-full"} flex h-[60px] items-center justify-between rounded-[30px] px-1.5`}
-      style={{ background: night ? "var(--lg-night-2)" : "var(--lg-deep)", border: night ? "1px solid var(--lg-night-line)" : "none" }}>
+       style={{ background: nightOn ? "var(--lg-night-2)" : "var(--lg-deep)", border: nightOn ? "1px solid var(--lg-night-line)" : "none" }}>
       {tabs.map(({ to, label: original, Icon, match }) => {
         const label = to === "/practical" ? labels.practical : to === "/care/garden" ? labels.memory : original;
         const on = active ? active === to : match(current);
@@ -30,8 +31,8 @@ export function BottomNav({ night = false, active, fixed = true }: { night?: boo
             className="flex h-12 min-w-11 items-center justify-center gap-2 rounded-full px-3 text-[14px] transition-all"
             style={{
               fontFamily: "var(--lg-sans)",
-              background: on ? (night ? "var(--lg-mint)" : "var(--lg-cream)") : "transparent",
-              color: on ? "var(--lg-deep)" : night ? "var(--lg-mint)" : "var(--lg-cream)",
+              background: on ? (nightOn ? "var(--lg-mint)" : "var(--lg-cream)") : "transparent",
+              color: on ? "var(--lg-deep)" : nightOn ? "var(--lg-mint)" : "var(--lg-cream)",
               opacity: on ? 1 : 0.75,
               flex: on ? "0 0 auto" : "1 1 0",
             }}>

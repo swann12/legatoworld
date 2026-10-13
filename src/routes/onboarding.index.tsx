@@ -170,12 +170,25 @@ function Ready() {
   const needsLabel = { tenir: "Tenir le coup", demarches: "les démarches", parler: "Parler à quelqu'un", memoire: "Garder sa mémoire" };
   const date = answers.date ? new Date(`${answers.date}T12:00:00`) : null;
   const dateLabel = date && !Number.isNaN(date.getTime()) ? `le ${date.toLocaleDateString("fr-FR", { day: "numeric", month: "long" })}` : "À préciser";
-  const summary = [
+  const summary = forWhom === "moi" ? [
+    { label: "Pour", value: "Vous" },
+    { label: "En premier", value: answers.needs.map(n => needsLabel[n]).join(", ") || "À votre rythme" },
+    { label: "Ensuite", value: "Préparer, pour vos proches" },
+  ] : [
     { label: forWhom === "moi" ? "Pour vous" : "Pour", value: forWhom === "moi" ? "Questions sur la mort" : `${name}${legato.lovedOther.trim() ? `, ${legato.lovedOther.trim()}` : ""}` },
     { label: forWhom === "malade" || forWhom === "moi" ? "Aujourd'hui" : "Depuis", value: forWhom === "malade" ? "Accompagner un proche malade" : forWhom === "moi" ? "À votre rythme" : dateLabel },
     { label: "En premier", value: answers.needs.map(n => needsLabel[n]).join(", ") || "À votre rythme" },
   ];
   const title = forWhom === "moi" ? "Votre espace" : forWhom === "malade" ? `L'espace pour ${name}` : `L'espace ${/^[aeiouyàâéèêëîïôùûü]/i.test(name) ? "d'" : "de "}${name}`;
+  const columns = forWhom === "animal" ? [
+    { label: "Chaque matin", value: "Une seule chose à faire" }, { label: "Les papiers", value: "Dans l'ordre" }, { label: "Sa mémoire", value: "Photos et souvenirs" },
+  ] : forWhom === "malade" ? [
+    { label: "Chaque matin", value: "Pour elle ou pour vous" }, { label: "Le carnet", value: "Ses rendez-vous" }, { label: "Vos droits", value: "Expliqués simplement" },
+  ] : forWhom === "moi" ? [
+    { label: "L'angoisse", value: "Des repères simples" }, { label: "Préparer", value: "À votre rythme" }, { label: "Transmettre", value: "Lettres, voix, histoire" },
+  ] : [
+    { label: "Chaque matin", value: "Une seule chose à faire" }, { label: "Après 21 h", value: "Seulement du repos" }, { label: "Vos proches", value: "Rien sans votre accord" },
+  ];
 
   return (
     <main className={`lg-space-today min-h-dvh ${forWhom === "moi" ? "lg-journey-questions" : ""}`} style={{ background: "var(--sp-bg)", color: "var(--sp-ink)", fontFamily: "var(--lg-sans)" }}>
@@ -189,9 +202,7 @@ function Ready() {
         <Lead className="mt-[14px]">Voici ce que vous avez choisi. Tout se modifie ensuite dans les réglages de l'espace.</Lead>
         <dl className="lg-ready-summary mt-[34px]">{summary.map(s => <div key={s.label}><dt className="lg-mono">{s.label}</dt><dd>{s.value}</dd></div>)}</dl>
         <div className="lg-ready-columns mt-[34px]">
-          <div><p className="lg-mono">Chaque matin</p><p>Une seule chose à faire</p></div>
-          <div><p className="lg-mono">Après 21 h</p><p>Seulement du repos</p></div>
-          <div><p className="lg-mono">Vos proches</p><p>Rien sans votre accord</p></div>
+          {columns.map(c => <div key={c.label}><p className="lg-mono">{c.label}</p><p>{c.value}</p></div>)}
         </div>
         <div className="min-h-8 flex-1" />
         <PrimaryButton full onClick={() => void open()}>Ouvrir {forWhom === "moi" ? "mon espace" : title.charAt(0).toLowerCase() + title.slice(1)}</PrimaryButton>

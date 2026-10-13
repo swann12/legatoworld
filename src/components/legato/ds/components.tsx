@@ -32,7 +32,7 @@ export function PageHeader({ space, className = "", title, back, backLabel, help
             <ArrowLeft className="size-4" strokeWidth={1.4} /> {backLabel ?? "Retour"}
           </Link>
         ) : (
-          title?.toLowerCase() === "legato" ? <LegatoLogo night={space === "night"} /> : <span style={{ ...serif, fontSize: 25 }}>{shownTitle}</span>
+          title?.toLowerCase() === "legato" ? <LegatoLogo night={space === "night" && kind !== "questions"} /> : <span style={{ ...serif, fontSize: 25 }}>{shownTitle}</span>
         )}
       </div>
       {help && (

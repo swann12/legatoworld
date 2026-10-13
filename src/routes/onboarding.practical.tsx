@@ -37,11 +37,11 @@ function PracticalStep() {
   useEffect(() => { if (hydrated) { const v = getPapers(); if (v) setChoice(v); } }, [hydrated]);
   const goOn = () => navigate({ to: "/onboarding/care" });
 
-  if (animal) return <QuestionLayout step={3} total={TOTAL_STEPS} footer={<QuestionFooter cta="Continuer" ctaDisabled={!body} onCta={() => { setAnimalBodyState(body); goOn(); }} />}>
+  if (animal) return <QuestionLayout step={3} total={TOTAL_STEPS} footer={<QuestionFooter cta="Continuer" ctaDisabled={!body} onCta={() => { setAnimalBodyState(body); goOn(); }} link="Passer cette étape" onLink={() => { setAnimalBodyState(null); goOn(); }} />}>
     <PageTitle size={30}>Où en êtes-vous<br /><em>pour son corps ?</em></PageTitle>
-    <Lead className="mt-3">Pour vous montrer seulement ce qui peut vous aider.</Lead>
+    <Lead className="mt-3">Pour vous montrer seulement ce qui reste à faire.</Lead>
     <div className="mt-6 flex flex-col gap-[10px]">{([
-      { id: "choisir", label: "Je dois choisir quoi faire" }, { id: "organise", label: "C'est en cours avec le vétérinaire" },
+      { id: "choisir", label: "Il est encore chez le vétérinaire" }, { id: "organise", label: "C'est en cours" },
       { id: "fait", label: "Tout est fait" }, { id: "pas_maintenant", label: "Je préfère ne pas y penser" },
     ] as { id: AnimalBodyState; label: string }[]).map(o => <OptionCard key={o.id} label={o.label} selected={body === o.id} onClick={() => setBody(o.id)} />)}</div>
   </QuestionLayout>;
