@@ -9,7 +9,7 @@ import { setActiveSpaceId } from "@/lib/active-space";
 import { kindForWhom } from "@/lib/space-navigation";
 import {
   TOTAL_STEPS, getDeathDate, getForWhom, getNeeds, getPapers, setDeathDate, setForWhom,
-  setNeeds, setPapers, showsName, showsPapers, getAnimalBodyState, type ForWhom,
+  setNeeds, setPapers, showsName, showsPapers, getAnimalBodyState, getCareState, getIllnessNote, setIllnessNote, CARE_STATE_SUMMARY, type ForWhom,
 } from "@/lib/onboarding-flow";
 import { Field, Lead, OptionCard, PageTitle, QuestionFooter, QuestionLayout, StepBar, PrimaryButton } from "@/components/legato/ds";
 
@@ -84,9 +84,13 @@ function NameStep() {
   const [link, setLink] = useState("");
   const [date, setDate] = useState("");
   const [animal, setAnimal] = useState(false);
+  const [ill, setIll] = useState(false);
+  const [illness, setIllness] = useState("");
   useEffect(() => {
     if (!hydrated) return;
     setAnimal(getForWhom() === "animal");
+    setIll(getForWhom() === "malade");
+    setIllness(getIllnessNote());
     setName(lovedOneName.trim());
     setLink(lovedOther);
     setDate(getDeathDate() ?? "");
@@ -97,14 +101,20 @@ function NameStep() {
     setLovedOneName(name.trim());
     setLovedOther(link.trim());
     if (link.trim() && lovedOneRelation !== "animal") setLovedOneRelation("autre");
-    setDeathDate(date);
+    if (ill) setIllnessNote(illness); else setDeathDate(date);
     setPracticalContext({ deathDate: date || null });
     goOn();
   };
 
   return (
     <QuestionLayout step={2} total={TOTAL_STEPS} footer={<QuestionFooter cta="Continuer" onCta={save} ctaDisabled={!name.trim()} link="Passer cette étape" onLink={goOn} />}>
-      {animal ? <>
+      {ill ? <>
+        <PageTitle size={30}>Qui accompagnez-vous ?</PageTitle>
+        <Lead className="mt-3">Legato utilisera ce nom pour vous parler d'elle. Personne d'autre ne le verra.</Lead>
+        <Field className="mt-7" label="Son prénom, ou le nom que vous lui donnez" value={name} onChange={(e) => setName(e.target.value)} placeholder="Maman" />
+        <Field className="mt-5" label="Votre lien avec elle" value={link} onChange={(e) => setLink(e.target.value)} placeholder="Ma mère" />
+        <Field className="mt-5" label="Ce qui se passe, en quelques mots · facultatif" value={illness} onChange={(e) => setIllness(e.target.value)} placeholder="Un cancer, soigné depuis l'été" maxLength={160} />
+      </> : animal ? <>
         <PageTitle size={30}>Comment s'appelait<br /><em>votre animal ?</em></PageTitle>
         <Lead className="mt-3">Legato utilisera son nom pour vous parler de lui. Personne d'autre ne le verra.</Lead>
         <Field className="mt-7" label="Son nom" value={name} onChange={(e) => setName(e.target.value)} placeholder="Ulysse" />
@@ -130,6 +140,8 @@ function Ready() {
   const [answers, setAnswers] = useState<{ who: ForWhom | null; needs: ReturnType<typeof getNeeds>; papers: ReturnType<typeof getPapers>; date: string | null }>({ who: null, needs: [], papers: null, date: null });
   useEffect(() => { setAnswers({ who: getForWhom(), needs: getNeeds(), papers: getPapers(), date: getDeathDate() }); }, []);
   const forWhom = answers.who;
+  const [careState, setCS] = useState<ReturnType<typeof getCareState>>(null);
+  useEffect(() => setCS(getCareState()), []);
   const name = forWhom === "moi" ? "vous" : legato.lovedOneName.trim() || "votre proche";
   const initial = (forWhom === "moi" ? legato.name : legato.lovedOneName).trim().charAt(0).toUpperCase() || "L";
 
@@ -156,10 +168,10 @@ function Ready() {
       // L'espace a pu être amorcé automatiquement à partir du prénom : on le complète plutôt que de le doubler.
       const existing = spaces.find((s) => !s.archived && s.name === spaceName);
       if (existing) {
-        updateSpace(existing.id, { kind, relation: legato.lovedOneRelation, deathDate: getDeathDate(), animalBodyState: forWhom === "animal" ? getAnimalBodyState() ?? undefined : undefined });
+        updateSpace(existing.id, { kind, relation: legato.lovedOneRelation, deathDate: getDeathDate(), animalBodyState: forWhom === "animal" ? getAnimalBodyState() ?? undefined : undefined, ...(forWhom === "malade" ? { careState: getCareState() ?? undefined, note: getIllnessNote() || undefined } : {}) });
         setActiveSpaceId(existing.id);
       } else {
-        const space = addSpace({ name: spaceName, kind, relation: legato.lovedOneRelation, deathDate: getDeathDate(), animalBodyState: forWhom === "animal" ? getAnimalBodyState() ?? undefined : undefined });
+        const space = addSpace({ name: spaceName, kind, relation: legato.lovedOneRelation, deathDate: getDeathDate(), animalBodyState: forWhom === "animal" ? getAnimalBodyState() ?? undefined : undefined, ...(forWhom === "malade" ? { careState: getCareState() ?? undefined, note: getIllnessNote() || undefined } : {}) });
         setActiveSpaceId(space.id);
       }
     }
@@ -179,9 +191,10 @@ function Ready() {
 
   const needsLabel: Record<string, string> = forWhom === "animal"
     ? { tenir: "Tenir le coup", demarches: "son corps", parler: "Parler à quelqu'un", memoire: "sa mémoire", enfant: "en parler à un enfant" }
+    : forWhom === "malade" ? { tenir: "Tenir le coup", rdv: "ses rendez-vous", droits: "vos droits", aidants: "d'autres aidants" }
     : { tenir: "Tenir le coup", demarches: "les démarches", parler: "Parler à quelqu'un", memoire: "Garder sa mémoire", enfant: "En parler à un enfant" };
   const other = legato.lovedOther.trim();
-  const linkLabel = forWhom === "animal" ? other.replace(/^(un|une)\s+/i, "votre ") : other;
+  const linkLabel = forWhom === "animal" ? other.replace(/^(un|une)\s+/i, "votre ") : forWhom === "malade" ? other.replace(/^(ma|mon)\s+/i, (m) => m.toLowerCase().startsWith("ma") ? "votre " : "votre ") : other;
   const date = answers.date ? new Date(`${answers.date}T12:00:00`) : null;
   const dateLabel = date && !Number.isNaN(date.getTime()) ? `le ${date.toLocaleDateString("fr-FR", { day: "numeric", month: "long" })}` : "À préciser";
   const summary = forWhom === "moi" ? [
@@ -190,7 +203,7 @@ function Ready() {
     { label: "Ensuite", value: "Préparer, pour vos proches" },
   ] : [
     { label: "Pour", value: `${name}${linkLabel ? `, ${linkLabel}` : ""}` },
-    { label: forWhom === "malade" ? "Aujourd'hui" : "Depuis", value: forWhom === "malade" ? "Accompagner un proche malade" : dateLabel },
+    { label: forWhom === "malade" ? "Aujourd'hui" : "Depuis", value: forWhom === "malade" ? (careState ? CARE_STATE_SUMMARY[careState] : "À préciser ensemble") : dateLabel },
     { label: "En premier", value: answers.needs.map(n => needsLabel[n]).join(", ") || "À votre rythme" },
   ];
   const title = forWhom === "moi" ? "Votre espace" : forWhom === "malade" ? `L'espace pour ${name}` : `L'espace ${/^[aeiouyàâéèêëîïôùûü]/i.test(name) ? "d'" : "de "}${name}`;
@@ -219,7 +232,7 @@ function Ready() {
           {columns.map(c => <div key={c.label}><p className="lg-mono">{c.label}</p><p>{c.value}</p></div>)}
         </div>
         <div className="min-h-8 flex-1" />
-        <PrimaryButton full onClick={() => void open()}>Ouvrir {forWhom === "moi" ? "mon espace" : title.charAt(0).toLowerCase() + title.slice(1)}</PrimaryButton>
+        <PrimaryButton full onClick={() => void open()}>Ouvrir {forWhom === "moi" ? "mon espace" : forWhom === "malade" ? "l'espace" : title.charAt(0).toLowerCase() + title.slice(1)}</PrimaryButton>
         <details className="mt-4 text-[12px]" style={{ color: "var(--sp-sub)" }}><summary>À propos de votre rythme</summary><ol className="mt-3 space-y-2">{items.map((t, i) => <li key={t}>{i + 1}. {t}</li>)}</ol></details>
       </div>
     </main>

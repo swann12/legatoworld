@@ -46,6 +46,12 @@ function Settings() {
     setP(next);
     if (space) setSpacePrefs(space.id, next);
   };
+  const becomeMourning = () => {
+    if (!space || !window.confirm(`${space.name} est décédée ? L'espace deviendra un espace de deuil, en gardant tout ce qu'il contient.`)) return;
+    updateSpace(space.id, { kind: "deuil", careState: undefined });
+    toast("L'espace est devenu un espace de deuil. Rien n'a été effacé.");
+    navigate({ to: "/home" });
+  };
   const archive = () => {
     if (!space || !window.confirm(`Archiver « ${space.name} » ? Vous pourrez le retrouver plus tard.`)) return;
     updateSpace(space.id, { archived: true });
@@ -77,6 +83,11 @@ function Settings() {
       <SectionLabel className="mt-6">Votre rythme</SectionLabel>
       <ToggleRow title="Le mode nuit" subtitle="Après 21 h, seulement du repos" checked={p.nuit} onChange={set("nuit")} />
       <ToggleRow title="La proposition du matin" subtitle="Chaque jour à 9 h" checked={p.matin} onChange={set("matin")} last />
+      {space && kind === "malade" && <>
+        <SectionLabel className="mt-6">Si elle est décédée</SectionLabel>
+        <p className="mt-2 text-[14px]" style={{ color: "var(--sp-sub)" }}>L'espace devient un espace de deuil. Le carnet, ses volontés, les souvenirs et le cercle sont gardés.</p>
+        <div className="mt-3"><TextLink onClick={becomeMourning}>Transformer l'espace</TextLink></div>
+      </>}
       {space && <div className="mt-6"><TextLink onClick={archive}>Archiver cet espace</TextLink></div>}
     </StandardLayout>
   );

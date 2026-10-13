@@ -8,6 +8,13 @@
       "when": 1791880509905,
       "tag": "0000_discovery_account_archive",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1791882614525,
+      "tag": "0001_accept_circle_task",
+      "breakpoints": true
     }
   ]
 }
