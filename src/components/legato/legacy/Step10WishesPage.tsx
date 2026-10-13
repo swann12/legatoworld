@@ -52,7 +52,7 @@ export function LegacyWishesPage() {
   };
 
   return (
-    <Shell>
+    <Shell hideNav>
       <div className="relative pb-12">
         <div className="relative z-10">
           <PageHeader title="VOLONTÉS" back="/practical" />

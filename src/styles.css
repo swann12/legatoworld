@@ -1147,3 +1147,9 @@
   .lg-booklet-print p { white-space:pre-line; margin:16pt 0; }
   .lg-booklet-print img { max-width:60mm; max-height:60mm; object-fit:cover; }
 }
+@media (max-height:800px) {
+  .lg-booklet-preview { height:200px; }
+  .lg-booklet-screen .lg-space-practical > button { padding-top:14px; padding-bottom:14px; }
+  .lg-space-practical:has(> button) { scroll-margin-bottom:100px; }
+  .lg-space-practical:has(.lg-step10-note > p) .lg-space-practical > button { padding-top:12px; padding-bottom:12px; }
+}
