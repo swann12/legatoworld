@@ -11,6 +11,8 @@ import { getDeathDate } from "@/lib/onboarding-flow";
 import { isNightHour, sinceWords } from "@/lib/today";
 import { StandardLayout, Block, OutlineButton, PrimaryButton, Row, Lead } from "@/components/legato/ds";
 import { getDiscovery, useDiscovery } from "@/lib/discovery";
+import { useCarnet } from "@/lib/carnet";
+import { upcoming, dayName, hour, cap } from "@/lib/carnet-model";
 
 export const Route = createFileRoute("/home/")({
   head: () => ({
@@ -92,6 +94,7 @@ function Today() {
     );
   }
 
+  if (kind === "malade" && active) return <MaladeHome space={active} header={header} emotions={currentEmotions} />;
   if (kind !== "deuil" && active) return <KindHome kind={kind} space={active} header={header} emotions={currentEmotions} />;
 
   const s = suggestion(currentEmotions, loved);
@@ -142,7 +145,8 @@ function variantFor(kind: SpaceKind, space: Space): Variant {
     label: "Pour aujourd'hui", blockTitle: <>Préparer vos questions<br />pour le médecin</>, meta: "Avant le prochain rendez-vous · 10 minutes",
     cta: "Préparer mes questions", to: "/home/questions-medecin",
     rows: [
-      { title: "Ses rendez-vous", subtitle: "Les prochains, au même endroit", to: "/appointments" },
+      { title: "Ses prochains rendez-vous", subtitle: "Le carnet, à remplir ensemble", to: "/home/carnet" },
+      { title: "Si vous n'en pouvez plus", subtitle: "Trouver un relais, souffler un peu", to: "/care/epuisement" },
       { title: "Parler à d'autres aidants", subtitle: "Un groupe, une ligne d'écoute", to: "/care/community" },
     ],
   };
@@ -180,8 +184,8 @@ function variantFor(kind: SpaceKind, space: Space): Variant {
 }
 
 /** 026 · 027 · 028 — /home selon le type de l'espace actif */
-function KindHome({ kind, space, header, emotions }: { kind: SpaceKind; space: Space; header: React.ReactNode; emotions: Emotion[] }) {
-  const v = variantFor(kind, space);
+function KindHome({ kind, space, header, emotions, variant }: { kind: SpaceKind; space: Space; header: React.ReactNode; emotions: Emotion[]; variant?: Variant }) {
+  const v = variant ?? variantFor(kind, space);
   return (
     <StandardLayout space="today" title="Legato" headerLeft={header}>
       <h1 className="lg-title pt-8" style={{ fontSize: 32 }}>{v.title}</h1>
@@ -205,4 +209,23 @@ function KindHome({ kind, space, header, emotions }: { kind: SpaceKind; space: S
       </div>
     </StandardLayout>
   );
+}
+
+/** B047 · Aujourd'hui pour un proche malade : le bloc et la ligne du carnet suivent le prochain rendez-vous. */
+function MaladeHome({ space, header, emotions }: { space: Space; header: React.ReactNode; emotions: Emotion[] }) {
+  const { rdvs } = useCarnet();
+  const next = upcoming(rdvs)[0];
+  const base = variantFor("malade", space);
+  const v: Variant = next ? {
+    ...base,
+    blockTitle: <>Préparer vos questions<br />pour {doctorLabel(next.who)}</>,
+    meta: `Rendez-vous ${dayName(next.date)} · 10 minutes`,
+    rows: base.rows.map((r) => r.to === "/home/carnet" ? { ...r, subtitle: [cap(dayName(next.date)) + (next.time ? ` ${hour(next.time)}` : ""), next.with ? `${next.with} l'accompagne` : ""].filter(Boolean).join(" · ") } : r),
+  } : base;
+  return <KindHome kind="malade" space={space} header={header} emotions={emotions} variant={v} />;
+}
+function doctorLabel(who: string) {
+  const w = who.split(",")[0].trim().toLowerCase();
+  if (!w) return "le médecin";
+  return /^[aeiouyéèh]/.test(w) ? `l'${w}` : `le ${w}`;
 }
