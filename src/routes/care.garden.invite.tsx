@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { canUseConnectedAction } from "@/lib/discovery";
 import { useEffect, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { StandardLayout, PageTitle, Lead, PrimaryButton, Field, Block, TextLink, OutlineButton } from "@/components/legato/ds";
@@ -14,6 +15,7 @@ function MemoryInvite() {
   const [authed, setAuthed] = useState<boolean | null>(null); const [me, setMe] = useState(""); const [circleId, setCircleId] = useState(""); const [members, setMembers] = useState<Member[]>([]); const [invites, setInvites] = useState<Invite[]>([]); const [form, setForm] = useState(false); const [email, setEmail] = useState(""); const [busy, setBusy] = useState(false); const [notice, setNotice] = useState(""); const [url, setUrl] = useState("");
   const refresh = async (id: string) => { const result = await get({ data: { circleId: id } }); setMembers(result.members); setInvites(result.invites); };
   useEffect(() => {
+    if (!canUseConnectedAction("invite")) return;
     let active = true; setCircleId(""); setMembers([]); setInvites([]); setUrl("");
     const load = async () => { try { const { data } = await supabase.auth.getUser(); if (!active) return; setAuthed(!!data.user); if (!data.user) return; setMe(data.user.id); const result = await list(); if (!active) return; const own = result.circles.find(c => c.owner_id === data.user?.id && c.defunt_name === name); if (own) { setCircleId(own.id); const details = await get({ data: { circleId: own.id } }); if (active) { setMembers(details.members); setInvites(details.invites); } } } catch { if (active) setNotice("Votre cercle n’a pas pu être chargé. Réessayez un peu plus tard."); } }; load(); return () => { active = false; };
   }, [person?.id, name]);

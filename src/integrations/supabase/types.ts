@@ -123,6 +123,32 @@ export type Database = {
         }
         Relationships: []
       }
+      discovery_archives: {
+        Row: {
+          payload: Json
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          payload?: Json
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          payload?: Json
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "discovery_archives_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       emotional_state: {
         Row: {
           created_at: string
@@ -161,18 +187,21 @@ export type Database = {
           created_at: string
           display_name: string | null
           id: string
+          preferences: Json
           updated_at: string
         }
         Insert: {
           created_at?: string
           display_name?: string | null
           id: string
+          preferences?: Json
           updated_at?: string
         }
         Update: {
           created_at?: string
           display_name?: string | null
           id?: string
+          preferences?: Json
           updated_at?: string
         }
         Relationships: []

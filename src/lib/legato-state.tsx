@@ -508,6 +508,9 @@ export function LegatoProvider({ children }: { children: ReactNode }) {
     setThemeState(lsGet("legato-theme", "auto" as ThemeMode));
     setSystemDark(window.matchMedia?.("(prefers-color-scheme: dark)").matches ?? false);
     setSituationState(lsGet("lg.situation", null));
+    setJournal(lsGet("lg.journal.v1", journal));
+    setName(lsGet("lg.name", ""));
+    setMode(lsGet("lg.mode", "cocoon" as Mode));
     setLovedLabelState(lsGet("lg.lovedLabel", lsGet("lg.lovedOneName", "")));
     setLovedOtherState(lsGet("lg.lovedOther", ""));
     setLovedOneRelationState(lsGet("lg.lovedOneRelation", null));
@@ -526,10 +529,14 @@ export function LegatoProvider({ children }: { children: ReactNode }) {
 
   const t = (key: string) => DICT[key]?.[lang] ?? key;
   const addJournalEntry = (e: Omit<JournalEntry, "id" | "date">) =>
-    setJournal((prev) => [
+    setJournal((prev) => {
+      const next = [
       { ...e, id: `j-${Date.now()}`, date: new Date().toISOString() },
       ...prev,
-    ]);
+      ];
+      lsSet("lg.journal.v1", next);
+      return next;
+    });
 
   return (
     <LegatoContext.Provider

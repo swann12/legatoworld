@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { PrimaryButton, TextLink } from "@/components/legato/ds";
 import { LegatoLogo } from "@/components/legato/ds/LegatoLogo";
 
-export const Route = createFileRoute("/start")({
+export const Route = createFileRoute("/start/")({
   head: () => ({
     meta: [
       { title: "Legato — A quiet companion through grief" },
@@ -157,7 +157,7 @@ function Start() {
   if (stage === "choice") {
     // 002 · Bienvenue — maquette legato-design
     return (
-      <main className="lg-space-today min-h-dvh" style={{ background: "var(--lg-cream)", color: "var(--lg-deep)", fontFamily: "var(--lg-sans)" }}>
+      <main className="lg-space-support lg-welcome-screen min-h-dvh" style={{ background: "var(--lg-cream)", color: "var(--lg-deep)", fontFamily: "var(--lg-sans)" }}>
         <div className="mx-auto flex min-h-dvh max-w-[430px] flex-col animate-fade-in">
           <header className="mx-[28px] flex h-16 shrink-0 items-center justify-between" style={{ borderBottom: "1px solid var(--lg-line-2)" }}>
             <LegatoLogo />
@@ -169,9 +169,11 @@ function Start() {
           <p className="lg-lead mx-[28px] mt-10 max-w-[252px]">Une application pour traverser le deuil, au jour le jour, à votre rythme.</p>
           <div className="min-h-8 flex-1" aria-hidden />
           <div className="flex flex-col items-center gap-4 px-[28px] pb-[34px]">
-            <PrimaryButton space="today" full onClick={goNext}>Créer mon espace</PrimaryButton>
-            <TextLink space="today" to="/auth">J'ai déjà un compte</TextLink>
-            <TextLink space="today" to="/home">Continuer en visiteur</TextLink>
+            <PrimaryButton space="support" full onClick={() => navigate({ to: "/auth", search: { mode: "signup" } })}>Créer mon espace</PrimaryButton>
+            <div className="lg-welcome-links">
+              <TextLink space="today" to="/start/decouverte">Découvrir sans compte</TextLink>
+              <TextLink space="today" to="/auth">J'ai déjà un compte</TextLink>
+            </div>
           </div>
         </div>
       </main>

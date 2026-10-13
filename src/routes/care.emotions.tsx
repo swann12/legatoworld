@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Fragment, useEffect, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
+import { getDiscovery } from "@/lib/discovery";
 import { supabase } from "@/integrations/supabase/client";
 import { recordEmotion } from "@/lib/emotional.functions";
 import { useLegato, type Emotion } from "@/lib/legato-state";
@@ -52,7 +53,7 @@ function Emotions() {
     const intensity = Math.round((100 - mood) / 10); // 10 = très dur
     saveIntensity(intensity);
     saveCheckin(loadCheckin());
-    const { data } = await supabase.auth.getSession();
+    const { data } = getDiscovery().active ? { data: { session: null } } : await supabase.auth.getSession();
     if (data.session) {
       record({ data: { source: "checkin", mood: emotions[0], intensity, tags: picked.map(String), note: note.trim() || undefined } }).catch(() => {});
     }

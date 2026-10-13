@@ -6,6 +6,7 @@ import appCss from "../styles.css?url";
 import { LegatoProvider } from "@/lib/legato-state";
 import { Toaster } from "@/components/ui/sonner";
 import { JourneyTheme } from "@/components/legato/JourneyTheme";
+import { DiscoverySession } from "@/components/legato/DiscoveryUI";
 
 function NotFoundComponent() {
   return (
@@ -95,7 +96,7 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <LegatoProvider>
-        <JourneyTheme><Outlet /></JourneyTheme>
+        <JourneyTheme><DiscoverySession><Outlet /></DiscoverySession></JourneyTheme>
         <Toaster />
       </LegatoProvider>
     </QueryClientProvider>

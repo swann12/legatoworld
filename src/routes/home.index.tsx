@@ -10,6 +10,7 @@ import { useAgenda, daysAway } from "@/lib/agenda-store";
 import { getDeathDate } from "@/lib/onboarding-flow";
 import { isNightHour, sinceWords } from "@/lib/today";
 import { StandardLayout, Block, OutlineButton, PrimaryButton, Row, Lead } from "@/components/legato/ds";
+import { getDiscovery, useDiscovery } from "@/lib/discovery";
 
 export const Route = createFileRoute("/home/")({
   head: () => ({
@@ -43,6 +44,7 @@ function suggestion(emotions: Emotion[], loved: string) {
 }
 
 function Today() {
+  const { active: discovery } = useDiscovery();
   const { lovedOneName, currentEmotions, name: localName } = useLegato();
   const { spaces } = useSpaces();
   const activeId = useActiveSpaceId();
@@ -53,7 +55,7 @@ function Today() {
   useEffect(() => {
     setNight(isNightHour());
     const t = window.setInterval(() => setNight(isNightHour()), 60_000);
-    supabase.auth.getUser().then(({ data }) => {
+    if (!getDiscovery().active) supabase.auth.getUser().then(({ data }) => {
       const n = (data.user?.user_metadata?.display_name as string | undefined) ?? "";
       if (n && !n.includes("@")) setFirst(n.split(" ")[0]);
     });
@@ -113,9 +115,10 @@ function Today() {
         })}
       </p>
       <Block className="lg-home-block" label="Pour aujourd'hui" title={s.title} meta={s.meta}>
-        <OutlineButton to={s.to} className="lg-home-action">{s.cta}</OutlineButton>
+        {discovery ? <PrimaryButton space="today" to={s.to}>{s.cta}</PrimaryButton> : <OutlineButton to={s.to} className="lg-home-action">{s.cta}</OutlineButton>}
       </Block>
       <div>
+        {discovery && <Row title="Inviter un proche" subtitle="Pour partager des souvenirs" to="/start/compte-requis" />}
         <Row title="Cette semaine" to="/practical"
           subtitle={week.length ? `${week.length} démarche${week.length > 1 ? "s" : ""} à l'agenda` : "Voir ce qui reste à faire"} last={!next} />
         {next && <Row title={formatDaysAway(next.daysAway)} subtitle={`${next.label} · préparer un geste`} to="/care/dates" last />}

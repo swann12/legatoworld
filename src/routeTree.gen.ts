@@ -11,7 +11,6 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as WishesRouteImport } from './routes/wishes'
 import { Route as VitrineRouteImport } from './routes/vitrine'
-import { Route as StartRouteImport } from './routes/start'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as PresentationRouteImport } from './routes/presentation'
 import { Route as PracticalRouteImport } from './routes/practical'
@@ -31,6 +30,7 @@ import { Route as CareRouteImport } from './routes/care'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as StartIndexRouteImport } from './routes/start.index'
 import { Route as SpaceIndexRouteImport } from './routes/space.index'
 import { Route as ResourcesIndexRouteImport } from './routes/resources.index'
 import { Route as ProfileIndexRouteImport } from './routes/profile.index'
@@ -43,6 +43,9 @@ import { Route as GardenIndexRouteImport } from './routes/garden.index'
 import { Route as CareIndexRouteImport } from './routes/care.index'
 import { Route as AppointmentsIndexRouteImport } from './routes/appointments.index'
 import { Route as AgendaIndexRouteImport } from './routes/agenda.index'
+import { Route as StartGarderRouteImport } from './routes/start.garder'
+import { Route as StartDecouverteRouteImport } from './routes/start.decouverte'
+import { Route as StartCompteRequisRouteImport } from './routes/start.compte-requis'
 import { Route as SpaceSettingsRouteImport } from './routes/space.settings'
 import { Route as SpaceNewRouteImport } from './routes/space.new'
 import { Route as ResourcesCategoryRouteImport } from './routes/resources.$category'
@@ -152,11 +155,6 @@ const VitrineRoute = VitrineRouteImport.update({
   path: '/vitrine',
   getParentRoute: () => rootRouteImport,
 } as any)
-const StartRoute = StartRouteImport.update({
-  id: '/start',
-  path: '/start',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ProfileRoute = ProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
@@ -251,6 +249,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const StartIndexRoute = StartIndexRouteImport.update({
+  id: '/start/',
+  path: '/start/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SpaceIndexRoute = SpaceIndexRouteImport.update({
   id: '/space/',
   path: '/space/',
@@ -309,6 +312,21 @@ const AppointmentsIndexRoute = AppointmentsIndexRouteImport.update({
 const AgendaIndexRoute = AgendaIndexRouteImport.update({
   id: '/agenda/',
   path: '/agenda/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StartGarderRoute = StartGarderRouteImport.update({
+  id: '/start/garder',
+  path: '/start/garder',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StartDecouverteRoute = StartDecouverteRouteImport.update({
+  id: '/start/decouverte',
+  path: '/start/decouverte',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StartCompteRequisRoute = StartCompteRequisRouteImport.update({
+  id: '/start/compte-requis',
+  path: '/start/compte-requis',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SpaceSettingsRoute = SpaceSettingsRouteImport.update({
@@ -826,7 +844,6 @@ export interface FileRoutesByFullPath {
   '/practical': typeof PracticalRouteWithChildren
   '/presentation': typeof PresentationRoute
   '/profile': typeof ProfileRouteWithChildren
-  '/start': typeof StartRoute
   '/vitrine': typeof VitrineRoute
   '/wishes': typeof WishesRoute
   '/circle': typeof AuthenticatedCircleRoute
@@ -878,6 +895,9 @@ export interface FileRoutesByFullPath {
   '/resources/$category': typeof ResourcesCategoryRouteWithChildren
   '/space/new': typeof SpaceNewRoute
   '/space/settings': typeof SpaceSettingsRoute
+  '/start/compte-requis': typeof StartCompteRequisRoute
+  '/start/decouverte': typeof StartDecouverteRoute
+  '/start/garder': typeof StartGarderRoute
   '/agenda/': typeof AgendaIndexRoute
   '/appointments/': typeof AppointmentsIndexRoute
   '/care/': typeof CareIndexRoute
@@ -890,6 +910,7 @@ export interface FileRoutesByFullPath {
   '/profile/': typeof ProfileIndexRoute
   '/resources/': typeof ResourcesIndexRoute
   '/space/': typeof SpaceIndexRoute
+  '/start/': typeof StartIndexRoute
   '/care/community/groups': typeof CareCommunityGroupsRoute
   '/care/community/regles': typeof CareCommunityReglesRoute
   '/care/dates/$id': typeof CareDatesIdRoute
@@ -954,7 +975,6 @@ export interface FileRoutesByTo {
   '/no-words': typeof NoWordsRoute
   '/parcours': typeof ParcoursRouteWithChildren
   '/presentation': typeof PresentationRoute
-  '/start': typeof StartRoute
   '/vitrine': typeof VitrineRoute
   '/wishes': typeof WishesRoute
   '/circle': typeof AuthenticatedCircleRoute
@@ -1000,6 +1020,9 @@ export interface FileRoutesByTo {
   '/profile/proches': typeof ProfileProchesRoute
   '/space/new': typeof SpaceNewRoute
   '/space/settings': typeof SpaceSettingsRoute
+  '/start/compte-requis': typeof StartCompteRequisRoute
+  '/start/decouverte': typeof StartDecouverteRoute
+  '/start/garder': typeof StartGarderRoute
   '/agenda': typeof AgendaIndexRoute
   '/appointments': typeof AppointmentsIndexRoute
   '/care': typeof CareIndexRoute
@@ -1012,6 +1035,7 @@ export interface FileRoutesByTo {
   '/profile': typeof ProfileIndexRoute
   '/resources': typeof ResourcesIndexRoute
   '/space': typeof SpaceIndexRoute
+  '/start': typeof StartIndexRoute
   '/care/community/groups': typeof CareCommunityGroupsRoute
   '/care/community/regles': typeof CareCommunityReglesRoute
   '/care/dates/$id': typeof CareDatesIdRoute
@@ -1079,7 +1103,6 @@ export interface FileRoutesById {
   '/practical': typeof PracticalRouteWithChildren
   '/presentation': typeof PresentationRoute
   '/profile': typeof ProfileRouteWithChildren
-  '/start': typeof StartRoute
   '/vitrine': typeof VitrineRoute
   '/wishes': typeof WishesRoute
   '/_authenticated/circle': typeof AuthenticatedCircleRoute
@@ -1131,6 +1154,9 @@ export interface FileRoutesById {
   '/resources/$category': typeof ResourcesCategoryRouteWithChildren
   '/space/new': typeof SpaceNewRoute
   '/space/settings': typeof SpaceSettingsRoute
+  '/start/compte-requis': typeof StartCompteRequisRoute
+  '/start/decouverte': typeof StartDecouverteRoute
+  '/start/garder': typeof StartGarderRoute
   '/agenda/': typeof AgendaIndexRoute
   '/appointments/': typeof AppointmentsIndexRoute
   '/care/': typeof CareIndexRoute
@@ -1143,6 +1169,7 @@ export interface FileRoutesById {
   '/profile/': typeof ProfileIndexRoute
   '/resources/': typeof ResourcesIndexRoute
   '/space/': typeof SpaceIndexRoute
+  '/start/': typeof StartIndexRoute
   '/care/community/groups': typeof CareCommunityGroupsRoute
   '/care/community/regles': typeof CareCommunityReglesRoute
   '/care/dates/$id': typeof CareDatesIdRoute
@@ -1214,7 +1241,6 @@ export interface FileRouteTypes {
     | '/practical'
     | '/presentation'
     | '/profile'
-    | '/start'
     | '/vitrine'
     | '/wishes'
     | '/circle'
@@ -1266,6 +1292,9 @@ export interface FileRouteTypes {
     | '/resources/$category'
     | '/space/new'
     | '/space/settings'
+    | '/start/compte-requis'
+    | '/start/decouverte'
+    | '/start/garder'
     | '/agenda/'
     | '/appointments/'
     | '/care/'
@@ -1278,6 +1307,7 @@ export interface FileRouteTypes {
     | '/profile/'
     | '/resources/'
     | '/space/'
+    | '/start/'
     | '/care/community/groups'
     | '/care/community/regles'
     | '/care/dates/$id'
@@ -1342,7 +1372,6 @@ export interface FileRouteTypes {
     | '/no-words'
     | '/parcours'
     | '/presentation'
-    | '/start'
     | '/vitrine'
     | '/wishes'
     | '/circle'
@@ -1388,6 +1417,9 @@ export interface FileRouteTypes {
     | '/profile/proches'
     | '/space/new'
     | '/space/settings'
+    | '/start/compte-requis'
+    | '/start/decouverte'
+    | '/start/garder'
     | '/agenda'
     | '/appointments'
     | '/care'
@@ -1400,6 +1432,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/resources'
     | '/space'
+    | '/start'
     | '/care/community/groups'
     | '/care/community/regles'
     | '/care/dates/$id'
@@ -1466,7 +1499,6 @@ export interface FileRouteTypes {
     | '/practical'
     | '/presentation'
     | '/profile'
-    | '/start'
     | '/vitrine'
     | '/wishes'
     | '/_authenticated/circle'
@@ -1518,6 +1550,9 @@ export interface FileRouteTypes {
     | '/resources/$category'
     | '/space/new'
     | '/space/settings'
+    | '/start/compte-requis'
+    | '/start/decouverte'
+    | '/start/garder'
     | '/agenda/'
     | '/appointments/'
     | '/care/'
@@ -1530,6 +1565,7 @@ export interface FileRouteTypes {
     | '/profile/'
     | '/resources/'
     | '/space/'
+    | '/start/'
     | '/care/community/groups'
     | '/care/community/regles'
     | '/care/dates/$id'
@@ -1601,7 +1637,6 @@ export interface RootRouteChildren {
   PracticalRoute: typeof PracticalRouteWithChildren
   PresentationRoute: typeof PresentationRoute
   ProfileRoute: typeof ProfileRouteWithChildren
-  StartRoute: typeof StartRoute
   VitrineRoute: typeof VitrineRoute
   WishesRoute: typeof WishesRoute
   AgendaNewRoute: typeof AgendaNewRoute
@@ -1619,6 +1654,9 @@ export interface RootRouteChildren {
   ResourcesCategoryRoute: typeof ResourcesCategoryRouteWithChildren
   SpaceNewRoute: typeof SpaceNewRoute
   SpaceSettingsRoute: typeof SpaceSettingsRoute
+  StartCompteRequisRoute: typeof StartCompteRequisRoute
+  StartDecouverteRoute: typeof StartDecouverteRoute
+  StartGarderRoute: typeof StartGarderRoute
   AgendaIndexRoute: typeof AgendaIndexRoute
   AppointmentsIndexRoute: typeof AppointmentsIndexRoute
   GardenIndexRoute: typeof GardenIndexRoute
@@ -1626,6 +1664,7 @@ export interface RootRouteChildren {
   PresenceIndexRoute: typeof PresenceIndexRoute
   ResourcesIndexRoute: typeof ResourcesIndexRoute
   SpaceIndexRoute: typeof SpaceIndexRoute
+  StartIndexRoute: typeof StartIndexRoute
   LibraryKindIdRoute: typeof LibraryKindIdRoute
   ResourcesConfirmProviderIdRoute: typeof ResourcesConfirmProviderIdRoute
   LibraryKindIndexRoute: typeof LibraryKindIndexRoute
@@ -1646,13 +1685,6 @@ declare module '@tanstack/react-router' {
       path: '/vitrine'
       fullPath: '/vitrine'
       preLoaderRoute: typeof VitrineRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/start': {
-      id: '/start'
-      path: '/start'
-      fullPath: '/start'
-      preLoaderRoute: typeof StartRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/profile': {
@@ -1788,6 +1820,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/start/': {
+      id: '/start/'
+      path: '/start'
+      fullPath: '/start/'
+      preLoaderRoute: typeof StartIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/space/': {
       id: '/space/'
       path: '/space'
@@ -1870,6 +1909,27 @@ declare module '@tanstack/react-router' {
       path: '/agenda'
       fullPath: '/agenda/'
       preLoaderRoute: typeof AgendaIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/start/garder': {
+      id: '/start/garder'
+      path: '/start/garder'
+      fullPath: '/start/garder'
+      preLoaderRoute: typeof StartGarderRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/start/decouverte': {
+      id: '/start/decouverte'
+      path: '/start/decouverte'
+      fullPath: '/start/decouverte'
+      preLoaderRoute: typeof StartDecouverteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/start/compte-requis': {
+      id: '/start/compte-requis'
+      path: '/start/compte-requis'
+      fullPath: '/start/compte-requis'
+      preLoaderRoute: typeof StartCompteRequisRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/space/settings': {
@@ -2910,7 +2970,6 @@ const rootRouteChildren: RootRouteChildren = {
   PracticalRoute: PracticalRouteWithChildren,
   PresentationRoute: PresentationRoute,
   ProfileRoute: ProfileRouteWithChildren,
-  StartRoute: StartRoute,
   VitrineRoute: VitrineRoute,
   WishesRoute: WishesRoute,
   AgendaNewRoute: AgendaNewRoute,
@@ -2928,6 +2987,9 @@ const rootRouteChildren: RootRouteChildren = {
   ResourcesCategoryRoute: ResourcesCategoryRouteWithChildren,
   SpaceNewRoute: SpaceNewRoute,
   SpaceSettingsRoute: SpaceSettingsRoute,
+  StartCompteRequisRoute: StartCompteRequisRoute,
+  StartDecouverteRoute: StartDecouverteRoute,
+  StartGarderRoute: StartGarderRoute,
   AgendaIndexRoute: AgendaIndexRoute,
   AppointmentsIndexRoute: AppointmentsIndexRoute,
   GardenIndexRoute: GardenIndexRoute,
@@ -2935,6 +2997,7 @@ const rootRouteChildren: RootRouteChildren = {
   PresenceIndexRoute: PresenceIndexRoute,
   ResourcesIndexRoute: ResourcesIndexRoute,
   SpaceIndexRoute: SpaceIndexRoute,
+  StartIndexRoute: StartIndexRoute,
   LibraryKindIdRoute: LibraryKindIdRoute,
   ResourcesConfirmProviderIdRoute: ResourcesConfirmProviderIdRoute,
   LibraryKindIndexRoute: LibraryKindIndexRoute,
