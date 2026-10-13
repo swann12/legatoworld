@@ -2,7 +2,7 @@
    entre les routes /onboarding, /onboarding/practical et /onboarding/care. */
 
 export type ForWhom = "personne" | "animal" | "malade" | "moi";
-export type Need = "tenir" | "demarches" | "parler" | "memoire";
+export type Need = "tenir" | "demarches" | "parler" | "memoire" | "enfant";
 export type PapersState = "rien" | "obseques" | "presque" | "delegue";
 import type { AnimalBodyState } from "./space-navigation";
 

@@ -41,9 +41,9 @@ function PracticalStep() {
     <PageTitle size={30}>Où en êtes-vous<br /><em>pour son corps ?</em></PageTitle>
     <Lead className="mt-3">Pour vous montrer seulement ce qui reste à faire.</Lead>
     <div className="mt-6 flex flex-col gap-[10px]">{([
-      { id: "choisir", label: "Il est encore chez le vétérinaire" }, { id: "organise", label: "C'est en cours" },
-      { id: "fait", label: "Tout est fait" }, { id: "pas_maintenant", label: "Je préfère ne pas y penser" },
-    ] as { id: AnimalBodyState; label: string }[]).map(o => <OptionCard key={o.id} label={o.label} selected={body === o.id} onClick={() => setBody(o.id)} />)}</div>
+      { id: "choisir", label: "Il est encore chez le vétérinaire", hint: "Rien n'est décidé" }, { id: "organise", label: "C'est en cours", hint: "Crémation ou enterrement organisé" },
+      { id: "fait", label: "Tout est fait", hint: "Il reste peut-être quelques papiers" }, { id: "pas_maintenant", label: "Je préfère ne pas y penser", hint: "Les démarches resteront masquées" },
+    ] as { id: AnimalBodyState; label: string; hint: string }[]).map(o => <OptionCard key={o.id} label={o.label} hint={o.hint} selected={body === o.id} onClick={() => setBody(o.id)} />)}</div>
   </QuestionLayout>;
 
   return (
