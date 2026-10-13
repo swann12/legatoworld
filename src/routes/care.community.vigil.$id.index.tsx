@@ -1,0 +1,8 @@
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { PageTitle, Lead, Spec, Block, PrimaryButton } from "@/components/legato/ds";
+import { CommunityLayout } from "@/components/legato/CommunityUI";
+import { VIGIL } from "@/lib/community-vigil";
+import { useCommunity } from "@/lib/community-store";
+import { legatoHead } from "@/lib/legato-head";
+export const Route=createFileRoute("/care/community/vigil/$id/")({head:()=>legatoHead("Une veillée", "Découvrir un temps de parole pour parler ensemble du premier mois."),component:Vigil});
+function Vigil(){const {id}=Route.useParams();const c=useCommunity();const nav=useNavigate();return <CommunityLayout back="/care/community" backLabel="Communauté"><PageTitle space="community" className="mt-8">{id===VIGIL.id?<>Le premier mois,<br/><em>en parler ensemble.</em></>:"Veillée introuvable."}</PageTitle>{id===VIGIL.id&&<><Spec className="mt-7" items={[{label:"Quand",value:VIGIL.when},{label:"Durée",value:VIGIL.duration},{label:"Où",value:VIGIL.where},{label:"Animée par",value:VIGIL.host}]}/><Block space="community" label="Comment ça se passe" className="mt-7"><p className="lg-title text-[21px]">Chacun se présente s’il le souhaite, puis un thème : ce qui a changé depuis un mois.</p></Block><div className="flex flex-wrap items-center gap-4 mt-7"><PrimaryButton space="community" onClick={()=>{c.setVigil(id,true);nav({to:"/care/community/vigil/$id/ok",params:{id}});}}>{c.vigils?.[id]?"Voir mon inscription":"S’inscrire"}</PrimaryButton><span className="lg-row-sub">{VIGIL.remaining} places · exemple</span></div><Lead className="mt-6">Veillée d’exemple, à la date de la maquette. Le choix reste local : aucune place n’est réservée ni aucun lien envoyé.</Lead></>}</CommunityLayout>;}

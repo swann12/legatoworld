@@ -1,0 +1,9 @@
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useState } from "react";
+import { PageTitle, Lead, Field, TextArea, PrimaryButton } from "@/components/legato/ds";
+import { CommunityLayout } from "@/components/legato/CommunityUI";
+import { groupById } from "@/lib/community-data";
+import { useCommunity } from "@/lib/community-store";
+import { legatoHead } from "@/lib/legato-head";
+export const Route=createFileRoute("/care/community/$group/new")({head:()=>legatoHead("Écrire au groupe", "Déposer quelques mots dans votre groupe, sous pseudonyme."),component:NewMessage});
+function NewMessage(){const {group}=Route.useParams();const g=groupById(group);const c=useCommunity();const nav=useNavigate();const [title,setTitle]=useState("");const [body,setBody]=useState("");return <CommunityLayout group={group} backLabel={g?.label}><PageTitle space="community" className="mt-8">Écrire<br/><em>au groupe.</em></PageTitle><Lead className="mt-4">Vous écrivez en tant que « {c.pseudo} ». Votre message sera gardé sur cet appareil.</Lead>{g ? <form className="mt-8" onSubmit={e=>{e.preventDefault();if(!body.trim())return;c.openThread(group,title.trim()||body.trim().slice(0,80),body.trim());nav({to:"/care/community/$group",params:{group}});}}><Field space="community" label="Un titre · facultatif" value={title} onChange={e=>setTitle(e.target.value)} placeholder="Les dimanches"/><TextArea space="community" className="mt-6" label="Votre message" value={body} onChange={e=>setBody(e.target.value)} placeholder="Ce que vous voulez partager…" rows={7}/><PrimaryButton space="community" className="mt-7" type="submit" disabled={!body.trim()}>Publier</PrimaryButton></form>:<Lead className="mt-6">Ce groupe n’existe pas.</Lead>}<Link to="/care/community/regles" search={{group}} className="lg-community-link inline-block mt-6">Les règles du groupe</Link></CommunityLayout>;}

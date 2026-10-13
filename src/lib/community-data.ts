@@ -45,9 +45,21 @@ export const GROUPS: Group[] = [
   { id: "sommeil", label: "Sommeil", hint: "S'endormir, se réveiller la nuit, les rêves.", members: 1330 },
   { id: "famille", label: "Relations familiales", hint: "Désaccords, silences, héritage, place de chacun.", members: 860 },
   { id: "ceremonies", label: "Cérémonies et hommages", hint: "Préparer, dire, se souvenir ensemble.", members: 620 },
+  { id: "suicide", label: "Après un suicide", hint: "Un espace pour parler de cette perte.", members: 22 },
+  { id: "aidants", label: "Aidants d'un proche malade", hint: "Accompagner un proche, et être accompagné·e.", members: 57 },
 ];
 
 export const THREADS: Thread[] = [
+  {
+    id: "dimanches", group: "conjoint", title: "Les dimanches", author: "Hélène", when: "il y a 1 h",
+    body: "Le plus dur, ce sont les dimanches. Comment les traversez-vous ?", care: 12, tag: "question",
+    replies: [
+      { id: "dimanches-r1", author: "Marc", when: "il y a 40 min", body: "Je marche le long de la mer, tôt, avant que la ville se réveille.", care: 0 },
+      { id: "dimanches-r2", author: "Hélène", when: "il y a 20 min", body: "Merci Marc. Je vais essayer demain.", care: 0 },
+      { id: "dimanches-r3", author: "Anne-Sophie", when: "il y a 5 min", body: "Moi, j'appelle ma sœur. Toujours à la même heure.", care: 0 },
+    ],
+  },
+  { id: "atelier", group: "conjoint", title: "Son atelier", author: "Marc", when: "il y a 3 h", body: "Trois mois aujourd'hui. J'ai rouvert son atelier pour la première fois.", care: 0, tag: "témoignage", replies: [] },
   {
     id: "t1",
     group: "premiers-mois",

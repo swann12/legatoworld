@@ -16,6 +16,7 @@ type State = {
   pseudo: string;
   /** Signalements envoyés à la modération : id du message → motif. */
   reports: Record<string, string>;
+  vigils?: Record<string, boolean>;
 };
 
 const KEY = "legato.community.v3";
@@ -103,5 +104,7 @@ export function useCommunity() {
     [save],
   );
 
-  return { ...state, hydrated, addReply, toggleCare, openThread, setPseudo, report };
+  const setVigil = useCallback((id: string, registered: boolean) => { const next = read(); next.vigils = { ...next.vigils, [id]: registered }; save(next); }, [save]);
+
+  return { ...state, hydrated, addReply, toggleCare, openThread, setPseudo, report, setVigil };
 }
