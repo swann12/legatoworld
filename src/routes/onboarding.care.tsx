@@ -31,13 +31,21 @@ const ANIMAL: { id: Need; label: string; hint: string }[] = [
   { id: "enfant", label: "En parler à un enfant", hint: "Des mots simples pour expliquer" },
 ];
 
+const MALADE: { id: Need; label: string; hint: string }[] = [
+  { id: "tenir", label: "Tenir le coup au jour le jour", hint: "Une proposition courte chaque matin" },
+  { id: "rdv", label: "Préparer les rendez-vous médicaux", hint: "Vos questions, ce qui a été dit" },
+  { id: "droits", label: "Connaître mes droits d'aidant", hint: "Congé, aides, relais" },
+  { id: "aidants", label: "Parler à d'autres aidants", hint: "Groupes et veillées en visio" },
+];
+
 /** 009 · 4 · Vos besoins — choix multiple, même apparence que le choix unique */
 function CareStep() {
   const navigate = useNavigate();
   const { hydrated } = useLegato();
   const [needs, setLocal] = useState<Need[]>([]);
   const [animal, setAnimal] = useState(false);
-  useEffect(() => setAnimal(getForWhom() === "animal"), []);
+  const [ill, setIll] = useState(false);
+  useEffect(() => { setAnimal(getForWhom() === "animal"); setIll(getForWhom() === "malade"); }, []);
   useEffect(() => { if (hydrated) { const v = getNeeds(); if (v.length) setLocal(v); } }, [hydrated]);
   const toggle = (id: Need) => setLocal((n) => (n.includes(id) ? n.filter((x) => x !== id) : [...n, id]));
   const goOn = () => navigate({ to: "/onboarding", search: { etape: "pret" } });
@@ -49,7 +57,7 @@ function CareStep() {
       <PageTitle size={30}>De quoi avez-vous<br /><em>besoin en ce moment ?</em></PageTitle>
       <Lead className="mt-3">Plusieurs choix possibles. Le reste restera accessible.</Lead>
       <div className="mt-6 flex flex-col gap-[10px]">
-        {(animal ? ANIMAL : OPTIONS).map((o) => <OptionCard key={o.id} label={o.label} hint={o.hint} selected={needs.includes(o.id)} onClick={() => toggle(o.id)} />)}
+        {(ill ? MALADE : animal ? ANIMAL : OPTIONS).map((o) => <OptionCard key={o.id} label={o.label} hint={o.hint} selected={needs.includes(o.id)} onClick={() => toggle(o.id)} />)}
       </div>
     </QuestionLayout>
   );

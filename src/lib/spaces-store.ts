@@ -22,6 +22,7 @@ export type Space = {
   name: string;
   kind?: SpaceKind;
   animalBodyState?: AnimalBodyState;
+  careState?: import("./onboarding-flow").CareState;
   relation: Relation | null;
   birthday?: string | null;  // ISO YYYY-MM-DD
   deathDate?: string | null; // ISO YYYY-MM-DD
