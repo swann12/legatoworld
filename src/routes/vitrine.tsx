@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import gardenPainted from "@/assets/garden-painted-v4.png";
+import { LegatoLogo } from "@/components/legato/ds/LegatoLogo";
 
 export const Route = createFileRoute("/vitrine")({
   head: () => ({
@@ -10,6 +11,10 @@ export const Route = createFileRoute("/vitrine")({
         content:
           "Legato accompagne le deuil et la peur de perdre. Téléchargez l'application pour un espace tenu, sans pression.",
       },
+      { property: "og:title", content: "Legato — Un compagnon doux pour le deuil" },
+      { property: "og:description", content: "Legato accompagne le deuil, les souvenirs et la peur de perdre, à votre rythme." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: Vitrine,
@@ -58,7 +63,7 @@ function Vitrine() {
     <main className="min-h-dvh bg-paper text-dusk">
       {/* Top bar */}
       <header className="mx-auto flex max-w-[1200px] items-center justify-between px-6 py-6 sm:px-10">
-        <p className="font-serif text-xl text-dusk">Legato</p>
+        <LegatoLogo />
         <nav className="flex items-center gap-6 text-[11px] uppercase tracking-[0.22em] text-dusk/55">
           <a href="#manifeste" className="hover:text-dusk">Manifeste</a>
           <a href="#apercu" className="hover:text-dusk">Aperçu</a>

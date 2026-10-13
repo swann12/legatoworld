@@ -1,5 +1,14 @@
 # Reprise UX/UI Legato
 
+## Étape B1 — écrans B001 à B006
+- [x] Présenter quatre listes par écran avant le code.
+- [x] Adapter logos, quatre types, menus et palettes sans modifier ouverture ni jardin peint.
+- [x] Reproduire Aujourd’hui, nuit, invitation, résumé et conversation Présence ; invitation générique faute de noms disponibles.
+- [x] Vérifier les quatre créations, envoi réel/persistance, menus, nuit, invitation vers connexion ; 10 tests réussis.
+- [ ] Comparaison aux captures individuelles : captures B001–B006 non jointes.
+- [ ] Acceptation d’une invitation réelle : lien valide d’un proche attendu.
+- [ ] Suppression hors maquette : accord utilisateur attendu.
+
 ## Contrôle final du système de design
 - [ ] Auditer le tableau des écrans et les liens, corriger couleurs, boutons, aide, navigation et ornements.
 - [ ] Vérifier l’animation d’ouverture et les parcelles sans modifier leur fonctionnement.

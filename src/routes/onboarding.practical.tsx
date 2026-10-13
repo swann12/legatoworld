@@ -1,7 +1,8 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useLegato } from "@/lib/legato-state";
-import { TOTAL_STEPS, getPapers, setPapers, type PapersState } from "@/lib/onboarding-flow";
+import { TOTAL_STEPS, getPapers, setPapers, getForWhom, getAnimalBodyState, setAnimalBodyState, type PapersState } from "@/lib/onboarding-flow";
+import type { AnimalBodyState } from "@/lib/space-navigation";
 import { Lead, OptionCard, PageTitle, QuestionFooter, QuestionLayout } from "@/components/legato/ds";
 
 export const Route = createFileRoute("/onboarding/practical")({
@@ -30,8 +31,20 @@ function PracticalStep() {
   const navigate = useNavigate();
   const { hydrated } = useLegato();
   const [choice, setChoice] = useState<PapersState | null>(null);
+  const [animal, setAnimal] = useState(false);
+  const [body, setBody] = useState<AnimalBodyState | null>(null);
+  useEffect(() => { setAnimal(getForWhom() === "animal"); setBody(getAnimalBodyState()); }, []);
   useEffect(() => { if (hydrated) { const v = getPapers(); if (v) setChoice(v); } }, [hydrated]);
   const goOn = () => navigate({ to: "/onboarding/care" });
+
+  if (animal) return <QuestionLayout step={3} total={TOTAL_STEPS} footer={<QuestionFooter cta="Continuer" ctaDisabled={!body} onCta={() => { setAnimalBodyState(body); goOn(); }} link="Passer cette étape" onLink={() => { setAnimalBodyState(null); goOn(); }} />}>
+    <PageTitle size={30}>Où en êtes-vous<br /><em>pour son corps ?</em></PageTitle>
+    <Lead className="mt-3">Pour vous montrer seulement ce qui reste à faire.</Lead>
+    <div className="mt-6 flex flex-col gap-[10px]">{([
+      { id: "choisir", label: "Il est encore chez le vétérinaire" }, { id: "organise", label: "C'est en cours" },
+      { id: "fait", label: "Tout est fait" }, { id: "pas_maintenant", label: "Je préfère ne pas y penser" },
+    ] as { id: AnimalBodyState; label: string }[]).map(o => <OptionCard key={o.id} label={o.label} selected={body === o.id} onClick={() => setBody(o.id)} />)}</div>
+  </QuestionLayout>;
 
   return (
     <QuestionLayout step={3} total={TOTAL_STEPS} footer={

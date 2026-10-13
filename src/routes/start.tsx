@@ -6,6 +6,7 @@ import { lovable } from "@/integrations/lovable/index";
 import { LegatoMark } from "@/components/legato/LegatoMark";
 import { Button } from "@/components/ui/button";
 import { PrimaryButton, TextLink } from "@/components/legato/ds";
+import { LegatoLogo } from "@/components/legato/ds/LegatoLogo";
 
 export const Route = createFileRoute("/start")({
   head: () => ({
@@ -159,7 +160,7 @@ function Start() {
       <main className="lg-space-today min-h-dvh" style={{ background: "var(--lg-cream)", color: "var(--lg-deep)", fontFamily: "var(--lg-sans)" }}>
         <div className="mx-auto flex min-h-dvh max-w-[430px] flex-col animate-fade-in">
           <header className="mx-[28px] flex h-16 shrink-0 items-center justify-between" style={{ borderBottom: "1px solid var(--lg-line-2)" }}>
-            <span style={{ fontFamily: "var(--lg-serif)", fontSize: 25 }}>LEGATO</span>
+            <LegatoLogo />
             <span className="lg-mono" style={{ color: "var(--lg-deep)" }}>Bienvenue</span>
           </header>
           <h1 className="px-[28px] pt-10" style={{ fontFamily: "var(--lg-serif)", fontWeight: 400, fontSize: 64, lineHeight: 1.1 }}>

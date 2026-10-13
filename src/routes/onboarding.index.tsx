@@ -6,11 +6,12 @@ import { recordEmotion } from "@/lib/emotional.functions";
 import { supabase } from "@/integrations/supabase/client";
 import { useSpaces } from "@/lib/spaces-store";
 import { setActiveSpaceId } from "@/lib/active-space";
+import { kindForWhom } from "@/lib/space-navigation";
 import {
   TOTAL_STEPS, getDeathDate, getForWhom, getNeeds, getPapers, setDeathDate, setForWhom,
-  setNeeds, setPapers, showsName, showsPapers, type ForWhom,
+  setNeeds, setPapers, showsName, showsPapers, getAnimalBodyState, type ForWhom,
 } from "@/lib/onboarding-flow";
-import { Field, Lead, OptionCard, PageTitle, QuestionFooter, QuestionLayout } from "@/components/legato/ds";
+import { Field, Lead, OptionCard, PageTitle, QuestionFooter, QuestionLayout, StepBar, PrimaryButton } from "@/components/legato/ds";
 
 type Search = { etape?: "prenom" | "pret" };
 
@@ -35,7 +36,7 @@ const FOR_WHOM: { id: ForWhom; label: string; hint: string }[] = [
   { id: "personne", label: "Une personne qui est décédée", hint: "Soutien, démarches, mémoire" },
   { id: "animal", label: "Un animal qui est mort", hint: "Soutien et mémoire" },
   { id: "malade", label: "Un proche gravement malade", hint: "L'accompagner et prendre soin de vous" },
-  { id: "moi", label: "Moi, pour préparer l'avenir", hint: "Comprendre, écrire mes volontés" },
+  { id: "moi", label: "Moi : je pense souvent à la mort", hint: "Comprendre, préparer, transmettre" },
 ];
 
 function Onboarding() {
@@ -55,7 +56,7 @@ function ForWhomStep() {
   const next = () => {
     if (!choice) return;
     setForWhom(choice);
-    setSituation(choice === "malade" ? "accompagner" : choice === "moi" ? "volontes" : "perdu");
+    setSituation(choice === "malade" ? "accompagner" : choice === "moi" ? "questionnement" : "perdu");
     setLovedOneRelation(choice === "animal" ? "animal" : null);
     setStage(null);
     if (showsName(choice)) navigate({ to: "/onboarding", search: { etape: "prenom" } });
@@ -116,7 +117,9 @@ function Ready() {
   const legato = useLegato();
   const { spaces, addSpace, updateSpace } = useSpaces();
   const record = useServerFn(recordEmotion);
-  const forWhom = getForWhom();
+  const [answers, setAnswers] = useState<{ who: ForWhom | null; needs: ReturnType<typeof getNeeds>; papers: ReturnType<typeof getPapers>; date: string | null }>({ who: null, needs: [], papers: null, date: null });
+  useEffect(() => { setAnswers({ who: getForWhom(), needs: getNeeds(), papers: getPapers(), date: getDeathDate() }); }, []);
+  const forWhom = answers.who;
   const name = forWhom === "moi" ? "vous" : legato.lovedOneName.trim() || "votre proche";
   const initial = (forWhom === "moi" ? legato.name : legato.lovedOneName).trim().charAt(0).toUpperCase() || "L";
 
@@ -137,16 +140,16 @@ function Ready() {
     legato.setPracticalOnboarded(true);
 
     // Création de l'espace de la personne, qui devient l'espace actif
-    const kind = forWhom === "malade" ? "malade" : forWhom === "animal" ? "animal" : forWhom === "moi" ? "questions" : "deuil";
+    const kind = kindForWhom(forWhom);
     {
       const spaceName = forWhom === "moi" ? "Questions sur la mort" : legato.lovedOneName.trim() || "Mon proche";
       // L'espace a pu être amorcé automatiquement à partir du prénom : on le complète plutôt que de le doubler.
       const existing = spaces.find((s) => !s.archived && s.name === spaceName);
       if (existing) {
-        updateSpace(existing.id, { kind, relation: legato.lovedOneRelation, deathDate: getDeathDate() });
+        updateSpace(existing.id, { kind, relation: legato.lovedOneRelation, deathDate: getDeathDate(), animalBodyState: forWhom === "animal" ? getAnimalBodyState() ?? undefined : undefined });
         setActiveSpaceId(existing.id);
       } else {
-        const space = addSpace({ name: spaceName, kind, relation: legato.lovedOneRelation, deathDate: getDeathDate() });
+        const space = addSpace({ name: spaceName, kind, relation: legato.lovedOneRelation, deathDate: getDeathDate(), animalBodyState: forWhom === "animal" ? getAnimalBodyState() ?? undefined : undefined });
         setActiveSpaceId(space.id);
       }
     }
@@ -164,19 +167,47 @@ function Ready() {
     "Rien n'est partagé avec vos proches sans votre accord.",
   ];
 
+  const needsLabel = { tenir: "Tenir le coup", demarches: "les démarches", parler: "Parler à quelqu'un", memoire: "Garder sa mémoire" };
+  const date = answers.date ? new Date(`${answers.date}T12:00:00`) : null;
+  const dateLabel = date && !Number.isNaN(date.getTime()) ? `le ${date.toLocaleDateString("fr-FR", { day: "numeric", month: "long" })}` : "À préciser";
+  const summary = forWhom === "moi" ? [
+    { label: "Pour", value: "Vous" },
+    { label: "En premier", value: answers.needs.map(n => needsLabel[n]).join(", ") || "À votre rythme" },
+    { label: "Ensuite", value: "Préparer, pour vos proches" },
+  ] : [
+    { label: "Pour", value: `${name}${legato.lovedOther.trim() ? `, ${legato.lovedOther.trim()}` : ""}` },
+    { label: forWhom === "malade" ? "Aujourd'hui" : "Depuis", value: forWhom === "malade" ? "Accompagner un proche malade" : dateLabel },
+    { label: "En premier", value: answers.needs.map(n => needsLabel[n]).join(", ") || "À votre rythme" },
+  ];
+  const title = forWhom === "moi" ? "Votre espace" : forWhom === "malade" ? `L'espace pour ${name}` : `L'espace ${/^[aeiouyàâéèêëîïôùûü]/i.test(name) ? "d'" : "de "}${name}`;
+  const columns = forWhom === "animal" ? [
+    { label: "Chaque matin", value: "Une seule chose à faire" }, { label: "Les papiers", value: "Dans l'ordre" }, { label: "Sa mémoire", value: "Photos et souvenirs" },
+  ] : forWhom === "malade" ? [
+    { label: "Chaque matin", value: "Pour elle ou pour vous" }, { label: "Le carnet", value: "Ses rendez-vous" }, { label: "Vos droits", value: "Expliqués simplement" },
+  ] : forWhom === "moi" ? [
+    { label: "L'angoisse", value: "Des repères simples" }, { label: "Préparer", value: "À votre rythme" }, { label: "Transmettre", value: "Lettres, voix, histoire" },
+  ] : [
+    { label: "Chaque matin", value: "Une seule chose à faire" }, { label: "Après 21 h", value: "Seulement du repos" }, { label: "Vos proches", value: "Rien sans votre accord" },
+  ];
+
   return (
-    <QuestionLayout step={TOTAL_STEPS} total={TOTAL_STEPS} footer={<QuestionFooter cta="Ouvrir mon espace" onCta={open} />}>
-      <span className="grid size-[58px] place-items-center rounded-full" style={{ background: "var(--lg-linen)", fontFamily: "var(--lg-serif)", fontSize: 27 }}>{initial}</span>
-      <PageTitle size={32} className="mt-5">Votre espace pour {name}<br /><em>est prêt.</em></PageTitle>
-      <Lead className="mt-3">Voici ce qui va se passer à partir de maintenant.</Lead>
-      <ol className="mt-5" style={{ borderTop: "1px solid var(--lg-line-2)" }}>
-        {items.map((t, i) => (
-          <li key={i} className="grid grid-cols-[36px_1fr] py-[15px]" style={{ borderBottom: "1px solid var(--lg-line-1)" }}>
-            <span style={{ fontFamily: "var(--lg-serif)", fontSize: 22 }}>{i + 1}</span>
-            <span className="text-[14.5px] leading-[1.5]">{t}</span>
-          </li>
-        ))}
-      </ol>
-    </QuestionLayout>
+    <main className={`lg-space-today min-h-dvh ${forWhom === "moi" ? "lg-journey-questions" : ""}`} style={{ background: "var(--sp-bg)", color: "var(--sp-ink)", fontFamily: "var(--lg-sans)" }}>
+      <div className="mx-auto flex min-h-dvh max-w-[430px] flex-col px-7 pt-[30px] pb-[34px]">
+        <StepBar step={TOTAL_STEPS} total={TOTAL_STEPS} />
+        <div className="mt-14 flex items-center gap-4">
+          <span className="grid size-[46px] shrink-0 place-items-center rounded-full" style={{ background: "var(--lg-linen)", fontFamily: "var(--lg-serif)", fontSize: 23 }}>{initial}</span>
+          <p className="lg-mono">Votre espace est prêt</p>
+        </div>
+        <PageTitle size={34} className="mt-[22px]">{title}<br /><em>vous attend.</em></PageTitle>
+        <Lead className="mt-[14px]">Voici ce que vous avez choisi. Tout se modifie ensuite dans les réglages de l'espace.</Lead>
+        <dl className="lg-ready-summary mt-[34px]">{summary.map(s => <div key={s.label}><dt className="lg-mono">{s.label}</dt><dd>{s.value}</dd></div>)}</dl>
+        <div className="lg-ready-columns mt-[34px]">
+          {columns.map(c => <div key={c.label}><p className="lg-mono">{c.label}</p><p>{c.value}</p></div>)}
+        </div>
+        <div className="min-h-8 flex-1" />
+        <PrimaryButton full onClick={() => void open()}>Ouvrir {forWhom === "moi" ? "mon espace" : title.charAt(0).toLowerCase() + title.slice(1)}</PrimaryButton>
+        <details className="mt-4 text-[12px]" style={{ color: "var(--sp-sub)" }}><summary>À propos de votre rythme</summary><ol className="mt-3 space-y-2">{items.map((t, i) => <li key={t}>{i + 1}. {t}</li>)}</ol></details>
+      </div>
+    </main>
   );
 }
