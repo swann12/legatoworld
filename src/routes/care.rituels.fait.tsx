@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { z } from "zod";
 import { PageTitle, Lead, SectionLabel, PrimaryButton, OutlineButton, TextLink } from "@/components/legato/ds";
@@ -23,7 +23,9 @@ function Fait() {
   const g = findGesture(geste);
   const [id, setId] = useState<string>();
   const [yearly, setYearly] = useState(false);
+  const once = useRef(false);
   useEffect(() => {
+    if (once.current) return; once.current = true;
     const title = geste === "bougie" ? "Une bougie allumée" : g?.title ?? "Un geste";
     const r = addMyRitual({ title, date: new Date().toISOString().slice(0, 10), sub: g?.mode === "seul" ? "Seul" : undefined, done: true });
     setId(r.id);

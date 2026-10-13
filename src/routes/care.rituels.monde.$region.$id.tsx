@@ -21,7 +21,7 @@ function TraditionSheet() {
   const words = t.title.split(" ");
   const cut = Math.max(1, Math.ceil(words.length / 2));
   return (
-    <RitualsLayout back="/care/rituels/monde/$region" backLabel={r.label}>
+    <RitualsLayout back={`/care/rituels/monde/${r.id}`} backLabel={r.label}>
       <p className="lg-mono pt-8">{[t.place, t.period].filter(Boolean).join(" · ")}</p>
       <PageTitle className="mt-3">{words.slice(0, cut).join(" ")}{words.length > cut && <><br /><em>{words.slice(cut).join(" ")}.</em></>}</PageTitle>
       <Lead className="mt-3">{t.long}</Lead>

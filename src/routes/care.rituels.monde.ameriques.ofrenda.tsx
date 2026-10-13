@@ -21,7 +21,7 @@ function Ofrenda() {
     navigate({ to: "/care/rituels/mes-rituels" });
   };
   return (
-    <RitualsLayout back="/care/rituels/monde/$region" backLabel="Amériques">
+    <RitualsLayout back="/care/rituels/monde/ameriques" backLabel="Amériques">
       <p className="lg-mono pt-8">Mexique · 1er et 2 novembre</p>
       <PageTitle className="mt-3">Faire une ofrenda,<br /><em>chez vous.</em></PageTitle>
       <Lead className="mt-3">Pour le Jour des morts, on dresse un autel pour accueillir ceux qui sont partis : leur photo, ce qu'ils aimaient, des fleurs orange, des bougies.</Lead>
