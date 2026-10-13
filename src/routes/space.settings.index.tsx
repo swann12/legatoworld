@@ -46,12 +46,6 @@ function Settings() {
     setP(next);
     if (space) setSpacePrefs(space.id, next);
   };
-  const becomeMourning = () => {
-    if (!space || !window.confirm(`${space.name} est décédée ? L'espace deviendra un espace de deuil, en gardant tout ce qu'il contient.`)) return;
-    updateSpace(space.id, { kind: "deuil", careState: undefined });
-    toast("L'espace est devenu un espace de deuil. Rien n'a été effacé.");
-    navigate({ to: "/home" });
-  };
   const archive = () => {
     if (!space || !window.confirm(`Archiver « ${space.name} » ? Vous pourrez le retrouver plus tard.`)) return;
     updateSpace(space.id, { archived: true });
