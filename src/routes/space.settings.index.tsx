@@ -86,7 +86,7 @@ function Settings() {
       {space && kind === "malade" && <>
         <SectionLabel className="mt-6">Si elle est décédée</SectionLabel>
         <p className="mt-2 text-[14px]" style={{ color: "var(--sp-sub)" }}>L'espace devient un espace de deuil. Le carnet, ses volontés, les souvenirs et le cercle sont gardés.</p>
-        <div className="mt-3"><TextLink onClick={becomeMourning}>Transformer l'espace</TextLink></div>
+        <div className="mt-3"><TextLink to="/space/settings/transition">Transformer l'espace</TextLink></div>
       </>}
       {space && <div className="mt-6"><TextLink onClick={archive}>Archiver cet espace</TextLink></div>}
     </StandardLayout>

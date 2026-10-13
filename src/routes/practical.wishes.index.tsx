@@ -4,6 +4,8 @@ import { StandardLayout, QuestionLayout, PageHeader, PageTitle, Lead, Row, Prima
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { useLegato } from "@/lib/legato-state";
 import { legatoHead } from "@/lib/legato-head";
+import { useActiveSpace } from "@/lib/use-active-space";
+import { MaladeWishes } from "@/components/legato/MaladePractical";
 import { Step10Extras } from "@/components/legato/Step10Extras";
 import { LegacyWishesPage } from "@/components/legato/legacy/Step10WishesPage";
 
@@ -20,6 +22,11 @@ export const Route = createFileRoute("/practical/wishes/")({
   component: WishesPage,
 });
 function WishesPage() {
+  const { view } = Route.useSearch();
+  const { kind } = useActiveSpace();
+  return kind === "malade" && !view ? <MaladeWishes /> : <WishesDefault />;
+}
+function WishesDefault() {
   const { view } = Route.useSearch();
   const navigate = useNavigate();
   const { wishes, setWishes } = useLegato();
