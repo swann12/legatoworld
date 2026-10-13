@@ -28,7 +28,7 @@ function Organiser() {
 
   const send = async () => {
     if (!date) return;
-    if (getDiscovery().active) { navigate({ to: "/start/compte-requis" }); return; }
+    if (getDiscovery().active) { navigate({ to: "/start/compte-requis", search: { action: "invite" } }); return; }
     const when = new Date(`${date}T${time || "12:00"}`).toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" });
     const msg = `${g.title}, en mémoire de ${name}.\n${when}${time ? `, ${time.replace(":", " h ")}` : ""}${where ? ` · ${where}` : ""}.\n${isMeal ? `Apporte un plat qu'${name} aimait et un souvenir à raconter.` : "Je serais heureux que tu sois là."}`;
     const guests = who.split(",").map((s) => s.trim()).filter(Boolean);
