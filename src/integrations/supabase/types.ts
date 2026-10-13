@@ -258,6 +258,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      accept_circle_task: { Args: { _item: string }; Returns: boolean }
       is_circle_member: {
         Args: { _circle_id: string; _user_id: string }
         Returns: boolean
