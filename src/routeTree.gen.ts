@@ -112,11 +112,15 @@ import { Route as PracticalTasksIdRouteImport } from './routes/practical.tasks.$
 import { Route as PracticalShareTaskIdRouteImport } from './routes/practical.share.$taskId'
 import { Route as PracticalProsKindRouteImport } from './routes/practical.pros.$kind'
 import { Route as LibraryKindIdRouteImport } from './routes/library.$kind.$id'
+import { Route as HelpCorpsSuiviRouteImport } from './routes/help.corps.suivi'
 import { Route as HelpCorpsSoinRouteImport } from './routes/help.corps.soin'
 import { Route as HelpCorpsNuitsRouteImport } from './routes/help.corps.nuits'
 import { Route as HelpCorpsMangerRouteImport } from './routes/help.corps.manger'
 import { Route as HelpCorpsHabillerRouteImport } from './routes/help.corps.habiller'
 import { Route as HelpCorpsEauRouteImport } from './routes/help.corps.eau'
+import { Route as HelpCorpsConsulterRouteImport } from './routes/help.corps.consulter'
+import { Route as HelpCorpsComprendreRouteImport } from './routes/help.corps.comprendre'
+import { Route as HelpCorpsBougerRouteImport } from './routes/help.corps.bouger'
 import { Route as CareRituelsOfferingRouteImport } from './routes/care.rituels.offering'
 import { Route as CareRituelsLanternRouteImport } from './routes/care.rituels.lantern'
 import { Route as CareRituelsCandleRouteImport } from './routes/care.rituels.candle'
@@ -661,6 +665,11 @@ const LibraryKindIdRoute = LibraryKindIdRouteImport.update({
   path: '/library/$kind/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const HelpCorpsSuiviRoute = HelpCorpsSuiviRouteImport.update({
+  id: '/suivi',
+  path: '/suivi',
+  getParentRoute: () => HelpCorpsRoute,
+} as any)
 const HelpCorpsSoinRoute = HelpCorpsSoinRouteImport.update({
   id: '/soin',
   path: '/soin',
@@ -684,6 +693,21 @@ const HelpCorpsHabillerRoute = HelpCorpsHabillerRouteImport.update({
 const HelpCorpsEauRoute = HelpCorpsEauRouteImport.update({
   id: '/eau',
   path: '/eau',
+  getParentRoute: () => HelpCorpsRoute,
+} as any)
+const HelpCorpsConsulterRoute = HelpCorpsConsulterRouteImport.update({
+  id: '/consulter',
+  path: '/consulter',
+  getParentRoute: () => HelpCorpsRoute,
+} as any)
+const HelpCorpsComprendreRoute = HelpCorpsComprendreRouteImport.update({
+  id: '/comprendre',
+  path: '/comprendre',
+  getParentRoute: () => HelpCorpsRoute,
+} as any)
+const HelpCorpsBougerRoute = HelpCorpsBougerRouteImport.update({
+  id: '/bouger',
+  path: '/bouger',
   getParentRoute: () => HelpCorpsRoute,
 } as any)
 const CareRituelsOfferingRoute = CareRituelsOfferingRouteImport.update({
@@ -924,11 +948,15 @@ export interface FileRoutesByFullPath {
   '/care/rituels/candle': typeof CareRituelsCandleRoute
   '/care/rituels/lantern': typeof CareRituelsLanternRoute
   '/care/rituels/offering': typeof CareRituelsOfferingRoute
+  '/help/corps/bouger': typeof HelpCorpsBougerRoute
+  '/help/corps/comprendre': typeof HelpCorpsComprendreRoute
+  '/help/corps/consulter': typeof HelpCorpsConsulterRoute
   '/help/corps/eau': typeof HelpCorpsEauRoute
   '/help/corps/habiller': typeof HelpCorpsHabillerRoute
   '/help/corps/manger': typeof HelpCorpsMangerRoute
   '/help/corps/nuits': typeof HelpCorpsNuitsRoute
   '/help/corps/soin': typeof HelpCorpsSoinRouteWithChildren
+  '/help/corps/suivi': typeof HelpCorpsSuiviRoute
   '/library/$kind/$id': typeof LibraryKindIdRoute
   '/practical/pros/$kind': typeof PracticalProsKindRoute
   '/practical/share/$taskId': typeof PracticalShareTaskIdRoute
@@ -1048,10 +1076,14 @@ export interface FileRoutesByTo {
   '/care/rituels/candle': typeof CareRituelsCandleRoute
   '/care/rituels/lantern': typeof CareRituelsLanternRoute
   '/care/rituels/offering': typeof CareRituelsOfferingRoute
+  '/help/corps/bouger': typeof HelpCorpsBougerRoute
+  '/help/corps/comprendre': typeof HelpCorpsComprendreRoute
+  '/help/corps/consulter': typeof HelpCorpsConsulterRoute
   '/help/corps/eau': typeof HelpCorpsEauRoute
   '/help/corps/habiller': typeof HelpCorpsHabillerRoute
   '/help/corps/manger': typeof HelpCorpsMangerRoute
   '/help/corps/nuits': typeof HelpCorpsNuitsRoute
+  '/help/corps/suivi': typeof HelpCorpsSuiviRoute
   '/library/$kind/$id': typeof LibraryKindIdRoute
   '/practical/pros/$kind': typeof PracticalProsKindRoute
   '/practical/share/$taskId': typeof PracticalShareTaskIdRoute
@@ -1183,11 +1215,15 @@ export interface FileRoutesById {
   '/care/rituels/candle': typeof CareRituelsCandleRoute
   '/care/rituels/lantern': typeof CareRituelsLanternRoute
   '/care/rituels/offering': typeof CareRituelsOfferingRoute
+  '/help/corps/bouger': typeof HelpCorpsBougerRoute
+  '/help/corps/comprendre': typeof HelpCorpsComprendreRoute
+  '/help/corps/consulter': typeof HelpCorpsConsulterRoute
   '/help/corps/eau': typeof HelpCorpsEauRoute
   '/help/corps/habiller': typeof HelpCorpsHabillerRoute
   '/help/corps/manger': typeof HelpCorpsMangerRoute
   '/help/corps/nuits': typeof HelpCorpsNuitsRoute
   '/help/corps/soin': typeof HelpCorpsSoinRouteWithChildren
+  '/help/corps/suivi': typeof HelpCorpsSuiviRoute
   '/library/$kind/$id': typeof LibraryKindIdRoute
   '/practical/pros/$kind': typeof PracticalProsKindRoute
   '/practical/share/$taskId': typeof PracticalShareTaskIdRoute
@@ -1321,11 +1357,15 @@ export interface FileRouteTypes {
     | '/care/rituels/candle'
     | '/care/rituels/lantern'
     | '/care/rituels/offering'
+    | '/help/corps/bouger'
+    | '/help/corps/comprendre'
+    | '/help/corps/consulter'
     | '/help/corps/eau'
     | '/help/corps/habiller'
     | '/help/corps/manger'
     | '/help/corps/nuits'
     | '/help/corps/soin'
+    | '/help/corps/suivi'
     | '/library/$kind/$id'
     | '/practical/pros/$kind'
     | '/practical/share/$taskId'
@@ -1445,10 +1485,14 @@ export interface FileRouteTypes {
     | '/care/rituels/candle'
     | '/care/rituels/lantern'
     | '/care/rituels/offering'
+    | '/help/corps/bouger'
+    | '/help/corps/comprendre'
+    | '/help/corps/consulter'
     | '/help/corps/eau'
     | '/help/corps/habiller'
     | '/help/corps/manger'
     | '/help/corps/nuits'
+    | '/help/corps/suivi'
     | '/library/$kind/$id'
     | '/practical/pros/$kind'
     | '/practical/share/$taskId'
@@ -1579,11 +1623,15 @@ export interface FileRouteTypes {
     | '/care/rituels/candle'
     | '/care/rituels/lantern'
     | '/care/rituels/offering'
+    | '/help/corps/bouger'
+    | '/help/corps/comprendre'
+    | '/help/corps/consulter'
     | '/help/corps/eau'
     | '/help/corps/habiller'
     | '/help/corps/manger'
     | '/help/corps/nuits'
     | '/help/corps/soin'
+    | '/help/corps/suivi'
     | '/library/$kind/$id'
     | '/practical/pros/$kind'
     | '/practical/share/$taskId'
@@ -2394,6 +2442,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LibraryKindIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/help/corps/suivi': {
+      id: '/help/corps/suivi'
+      path: '/suivi'
+      fullPath: '/help/corps/suivi'
+      preLoaderRoute: typeof HelpCorpsSuiviRouteImport
+      parentRoute: typeof HelpCorpsRoute
+    }
     '/help/corps/soin': {
       id: '/help/corps/soin'
       path: '/soin'
@@ -2427,6 +2482,27 @@ declare module '@tanstack/react-router' {
       path: '/eau'
       fullPath: '/help/corps/eau'
       preLoaderRoute: typeof HelpCorpsEauRouteImport
+      parentRoute: typeof HelpCorpsRoute
+    }
+    '/help/corps/consulter': {
+      id: '/help/corps/consulter'
+      path: '/consulter'
+      fullPath: '/help/corps/consulter'
+      preLoaderRoute: typeof HelpCorpsConsulterRouteImport
+      parentRoute: typeof HelpCorpsRoute
+    }
+    '/help/corps/comprendre': {
+      id: '/help/corps/comprendre'
+      path: '/comprendre'
+      fullPath: '/help/corps/comprendre'
+      preLoaderRoute: typeof HelpCorpsComprendreRouteImport
+      parentRoute: typeof HelpCorpsRoute
+    }
+    '/help/corps/bouger': {
+      id: '/help/corps/bouger'
+      path: '/bouger'
+      fullPath: '/help/corps/bouger'
+      preLoaderRoute: typeof HelpCorpsBougerRouteImport
       parentRoute: typeof HelpCorpsRoute
     }
     '/care/rituels/offering': {
@@ -2766,21 +2842,29 @@ const HelpCorpsSoinRouteWithChildren = HelpCorpsSoinRoute._addFileChildren(
 )
 
 interface HelpCorpsRouteChildren {
+  HelpCorpsBougerRoute: typeof HelpCorpsBougerRoute
+  HelpCorpsComprendreRoute: typeof HelpCorpsComprendreRoute
+  HelpCorpsConsulterRoute: typeof HelpCorpsConsulterRoute
   HelpCorpsEauRoute: typeof HelpCorpsEauRoute
   HelpCorpsHabillerRoute: typeof HelpCorpsHabillerRoute
   HelpCorpsMangerRoute: typeof HelpCorpsMangerRoute
   HelpCorpsNuitsRoute: typeof HelpCorpsNuitsRoute
   HelpCorpsSoinRoute: typeof HelpCorpsSoinRouteWithChildren
+  HelpCorpsSuiviRoute: typeof HelpCorpsSuiviRoute
   HelpCorpsIndexRoute: typeof HelpCorpsIndexRoute
   HelpCorpsSujetContenusRoute: typeof HelpCorpsSujetContenusRoute
 }
 
 const HelpCorpsRouteChildren: HelpCorpsRouteChildren = {
+  HelpCorpsBougerRoute: HelpCorpsBougerRoute,
+  HelpCorpsComprendreRoute: HelpCorpsComprendreRoute,
+  HelpCorpsConsulterRoute: HelpCorpsConsulterRoute,
   HelpCorpsEauRoute: HelpCorpsEauRoute,
   HelpCorpsHabillerRoute: HelpCorpsHabillerRoute,
   HelpCorpsMangerRoute: HelpCorpsMangerRoute,
   HelpCorpsNuitsRoute: HelpCorpsNuitsRoute,
   HelpCorpsSoinRoute: HelpCorpsSoinRouteWithChildren,
+  HelpCorpsSuiviRoute: HelpCorpsSuiviRoute,
   HelpCorpsIndexRoute: HelpCorpsIndexRoute,
   HelpCorpsSujetContenusRoute: HelpCorpsSujetContenusRoute,
 }
