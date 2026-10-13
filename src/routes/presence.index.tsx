@@ -6,7 +6,8 @@ import { talkToPresence } from "@/lib/presence.functions";
 import { usePortrait, portraitSentence } from "@/lib/portrait-store";
 import { usePresenceHistory, savePresenceHistory, type PresenceMsg } from "@/lib/presence-history";
 import { useDictation } from "@/lib/use-dictation";
-import { StandardLayout, PageTitle, Lead, ChatBubble, ChatInput, TextLink } from "@/components/legato/ds";
+import { StandardLayout, PageTitle, ChatBubble, ChatInput, TextLink, OutlineButton } from "@/components/legato/ds";
+import { useActiveSpace } from "@/lib/use-active-space";
 
 export const Route = createFileRoute("/presence/")({
   head: () => ({
@@ -30,6 +31,7 @@ function greeting() {
 
 function Presence() {
   const { mode, name, branch, lostName } = useLegato();
+  const { space, kind } = useActiveSpace();
   const callPresence = useServerFn(talkToPresence);
   const { portrait } = usePortrait();
   const portraitLine = portraitSentence(portrait, lostName);
@@ -54,8 +56,9 @@ function Presence() {
     try {
       const { reply } = await callPresence({
         data: {
-          branch, mode, name, lostName, portrait: portraitLine,
-          history: [{ role: "presence" as const, text: hello }, ...next].map((m) => ({ role: m.role === "you" ? ("user" as const) : ("assistant" as const), content: m.text })),
+          branch: kind === "animal" ? "animal" : kind === "malade" ? "fear" : kind === "questions" ? "anxiety" : branch,
+          mode, name, lostName: space?.name ?? lostName, portrait: portraitLine,
+          history: [{ role: "presence" as const, text: hello }, ...next].filter(m => m.text).slice(-40).map((m) => ({ role: m.role === "you" ? ("user" as const) : ("assistant" as const), content: m.text })),
         },
       });
       savePresenceHistory([...next, { role: "presence", text: reply }]);
@@ -67,11 +70,13 @@ function Presence() {
   };
 
   return (
-    <StandardLayout space="support" back="/care/aide" backLabel="Se confier" activeTab="/care">
-      <PageTitle space="support" className="mt-12">Présence</PageTitle>
-      <Lead space="support" className="mt-3">Une écoute à toute heure · intelligence artificielle. Elle ne remplace ni vos proches ni un professionnel.</Lead>
+    <StandardLayout space="support" back="/care/aide" backLabel="Se confier" nav={false} className="lg-presence-page">
+      <div className="mt-5 flex flex-wrap items-baseline justify-between gap-2">
+        <PageTitle size={32}>Présence</PageTitle>
+        <p className="lg-mono">Intelligence artificielle</p>
+      </div>
 
-      <div className="mt-8 space-y-3">
+      <div className="mt-7 space-y-[22px]" aria-live="polite" aria-busy={pending}>
         {history.filter((m) => m.text).map((m, i) => (
           <ChatBubble key={i} space="support" from={m.role === "you" ? "user" : "presence"}>{m.text}</ChatBubble>
         ))}
@@ -79,11 +84,16 @@ function Presence() {
         <div ref={endRef} />
       </div>
 
-      <form className="sticky bottom-[104px] mt-10 pt-4" style={{ background: "var(--sp-bg)" }} onSubmit={(e) => { e.preventDefault(); void send(); }}>
-        <ChatInput space="support" value={draft} onChange={setDraft} onMic={toggle} />
-        <div className="mt-3 flex items-center justify-between gap-3 text-[13px]" style={{ color: "var(--sp-sub)" }}>
-          <span>{listening ? "Je vous écoute… touchez le micro pour finir." : "Vos conversations restent privées."}</span>
-          <TextLink space="support" to="/presence/about">Ce qu'elle peut faire</TextLink>
+      <div className="mt-[22px] flex flex-wrap gap-2">
+        <OutlineButton onClick={() => { setDraft(`J'aimerais parler de ${space?.name ?? lostName}.`); document.querySelector<HTMLInputElement>('input[aria-label="Écrire à Présence"]')?.focus(); }}>Lui parler d'elle</OutlineButton>
+        <OutlineButton to="/care/respirer">M'apaiser</OutlineButton>
+      </div>
+
+      <form className="sticky bottom-0 mt-auto pt-8 pb-6" style={{ background: "var(--sp-bg)" }} onSubmit={(e) => { e.preventDefault(); void send(); }}>
+        <ChatInput value={draft} onChange={setDraft} onMic={toggle} pending={pending} listening={listening} />
+        <div className="mt-[10px] flex flex-wrap items-center justify-between gap-2 text-[11px]" style={{ color: "var(--sp-sub)" }}>
+          <span>{listening ? "Je vous écoute…" : "Vos échanges restent privés."}</span>
+          <TextLink to="/presence/about">Ce qu'elle peut faire</TextLink>
         </div>
       </form>
     </StandardLayout>

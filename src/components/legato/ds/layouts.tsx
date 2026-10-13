@@ -7,11 +7,11 @@ import { PageHeader, StepBar } from "./components";
 import { BottomNav } from "./BottomNav";
 
 /** Écran standard (§4.1) : en-tête 64 px + barre flottante. */
-export function StandardLayout({ space = "today", title, back, backLabel, headerLeft, children, nav = true, activeTab }: {
-  space?: Space; title?: string; back?: string; backLabel?: string; headerLeft?: ReactNode; children: ReactNode; nav?: boolean; activeTab?: string;
+export function StandardLayout({ space = "today", title, back, backLabel, headerLeft, children, nav = true, activeTab, className = "" }: {
+  space?: Space; title?: string; back?: string; backLabel?: string; headerLeft?: ReactNode; children: ReactNode; nav?: boolean; activeTab?: string; className?: string;
 }) {
   return (
-    <div className={`${spaceClass(space)} min-h-dvh`} style={{ background: "var(--sp-bg)", color: "var(--sp-ink)", fontFamily: "var(--lg-sans)" }}>
+    <div className={`${spaceClass(space)} min-h-dvh ${className}`} style={{ background: "var(--sp-bg)", color: "var(--sp-ink)", fontFamily: "var(--lg-sans)" }}>
       <div className="mx-auto max-w-[430px] pb-32" style={{ paddingInline: "var(--lg-margin)" }}>
         <PageHeader space={space} title={title} back={back} backLabel={backLabel} left={headerLeft} />
         {children}

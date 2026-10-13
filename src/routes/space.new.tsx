@@ -23,7 +23,7 @@ const KINDS: { id: SpaceKind; label: string; hint: string }[] = [
   { id: "deuil", label: "Une personne qui est décédée", hint: "Soutien, démarches, mémoire" },
   { id: "animal", label: "Un animal qui est mort", hint: "Soutien et mémoire" },
   { id: "malade", label: "Un proche gravement malade", hint: "L'accompagner et prendre soin de vous" },
-  { id: "questions", label: "Moi, pour préparer l'avenir", hint: "Comprendre, écrire mes volontés" },
+  { id: "questions", label: "Moi : je pense souvent à la mort", hint: "Comprendre, préparer, transmettre" },
 ];
 
 /** 020 · Créer un espace — trois étapes */
