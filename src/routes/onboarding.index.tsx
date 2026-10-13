@@ -175,8 +175,8 @@ function Ready() {
     { label: "En premier", value: answers.needs.map(n => needsLabel[n]).join(", ") || "À votre rythme" },
     { label: "Ensuite", value: "Préparer, pour vos proches" },
   ] : [
-    { label: forWhom === "moi" ? "Pour vous" : "Pour", value: forWhom === "moi" ? "Questions sur la mort" : `${name}${legato.lovedOther.trim() ? `, ${legato.lovedOther.trim()}` : ""}` },
-    { label: forWhom === "malade" || forWhom === "moi" ? "Aujourd'hui" : "Depuis", value: forWhom === "malade" ? "Accompagner un proche malade" : forWhom === "moi" ? "À votre rythme" : dateLabel },
+    { label: "Pour", value: `${name}${legato.lovedOther.trim() ? `, ${legato.lovedOther.trim()}` : ""}` },
+    { label: forWhom === "malade" ? "Aujourd'hui" : "Depuis", value: forWhom === "malade" ? "Accompagner un proche malade" : dateLabel },
     { label: "En premier", value: answers.needs.map(n => needsLabel[n]).join(", ") || "À votre rythme" },
   ];
   const title = forWhom === "moi" ? "Votre espace" : forWhom === "malade" ? `L'espace pour ${name}` : `L'espace ${/^[aeiouyàâéèêëîïôùûü]/i.test(name) ? "d'" : "de "}${name}`;
