@@ -8,7 +8,7 @@ export const Route = createFileRoute("/care/garden/space")({ head: () => legatoH
 function MemorySpace() {
   const { name, person } = useMemoryPerson(); const all = newestMemories(useMemories()); const latest = all[0];
   const birthday = person?.birthday ? new Date(`${person.birthday}T12:00:00`).toLocaleDateString("fr-FR", { day: "numeric", month: "long" }) : "";
-  return <StandardLayout space="memory" title="Mémoire" activeTab="memory">
+  return <StandardLayout space="memory" title="Mémoire" activeTab="/care/garden">
     <PageTitle space="memory" className="mt-8">Le jardin<br />de <em>{name}.</em></PageTitle>
     <Lead className="mt-4">{all.length ? `${all.length} souvenir${all.length > 1 ? "s" : ""} gardé${all.length > 1 ? "s" : ""}. Le dernier, ${new Date(latest.createdAt).toLocaleDateString("fr-FR", { day: "numeric", month: "long" })}.` : "Son jardin attend le premier souvenir."}</Lead>
     <div className="flex flex-wrap gap-5 mt-3"><TextLink space="memory" to="/profile/portrait">Son portrait</TextLink><TextLink space="memory" to="/care/garden/book">Un livre souvenir</TextLink></div>
