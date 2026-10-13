@@ -1,3 +1,4 @@
+import { useSmartBack } from "@/lib/use-smart-back";
 import type { ReactNode } from "react";
 import { Link, useRouter } from "@tanstack/react-router";
 
@@ -20,7 +21,7 @@ export function PageHeader({
   return (
     <header className="grid grid-cols-[40px_1fr_40px] items-center px-6 pt-7 pb-5">
       {back ? (
-        <Link to={back as "/home"} aria-label="Retour" className="h-10 w-10 -ml-2 grid place-items-center text-dusk/80 hover:text-dusk">
+        <Link to={back as "/home"} onClick={smartBack} aria-label="Retour" className="h-10 w-10 -ml-2 grid place-items-center text-dusk/80 hover:text-dusk">
           <span className="text-[18px] leading-none">←</span>
         </Link>
       ) : (

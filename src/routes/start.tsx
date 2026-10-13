@@ -170,6 +170,7 @@ function Start() {
           <div className="flex flex-col items-center gap-4 px-[28px] pb-[34px]">
             <PrimaryButton space="today" full onClick={goNext}>Créer mon espace</PrimaryButton>
             <TextLink space="today" to="/auth">J'ai déjà un compte</TextLink>
+            <TextLink space="today" to="/home">Continuer en visiteur</TextLink>
           </div>
         </div>
       </main>

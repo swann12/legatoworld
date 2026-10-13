@@ -1,3 +1,4 @@
+import { useSmartBack } from "@/lib/use-smart-back";
 import type { ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import { ArrowLeft, X } from "lucide-react";
@@ -51,7 +52,7 @@ export function ExperienceLayout({ variant = "support", back = "/care", backLabe
         <div className="flex items-center justify-between text-[14px]" style={{ height: "var(--lg-header-h)", color: headInk }}>
           {onBack
             ? <button type="button" onClick={onBack} className={cls}><ArrowLeft className="size-4" strokeWidth={1.4} /> {backLabel}</button>
-            : <Link to={back} className={cls}><ArrowLeft className="size-4" strokeWidth={1.4} /> {backLabel}</Link>}
+            : <Link to={back} onClick={smartBack} className={cls}><ArrowLeft className="size-4" strokeWidth={1.4} /> {backLabel}</Link>}
           {onClose
             ? <button type="button" onClick={onClose} className={cls}>Fermer <X className="size-4" strokeWidth={1.4} /></button>
             : <Link to={close ?? back} className={cls}>Fermer <X className="size-4" strokeWidth={1.4} /></Link>}

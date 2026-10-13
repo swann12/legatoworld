@@ -1,3 +1,4 @@
+import { useSmartBack } from "@/lib/use-smart-back";
 import type { ReactNode, InputHTMLAttributes, TextareaHTMLAttributes } from "react";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, ArrowUpRight, ChevronRight, ArrowLeft, Mic, Plus } from "lucide-react";
@@ -19,7 +20,7 @@ export function PageHeader({ space, className = "", title, back, backLabel, help
       <div className="flex items-center gap-3">
         {left}
         {back ? (
-          <Link to={back} className="flex min-h-11 items-center gap-2 text-[14px]" style={sans}>
+          <Link to={back} onClick={smartBack} className="flex min-h-11 items-center gap-2 text-[14px]" style={sans}>
             <ArrowLeft className="size-4" strokeWidth={1.4} /> {backLabel ?? "Retour"}
           </Link>
         ) : (
