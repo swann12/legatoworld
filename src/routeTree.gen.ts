@@ -46,6 +46,7 @@ import { Route as AgendaIndexRouteImport } from './routes/agenda.index'
 import { Route as StartGarderRouteImport } from './routes/start.garder'
 import { Route as StartDecouverteRouteImport } from './routes/start.decouverte'
 import { Route as StartCompteRequisRouteImport } from './routes/start.compte-requis'
+import { Route as SpaceSettingsRouteImport } from './routes/space.settings'
 import { Route as SpaceNewRouteImport } from './routes/space.new'
 import { Route as ResourcesCategoryRouteImport } from './routes/resources.$category'
 import { Route as ProfileProchesRouteImport } from './routes/profile.proches'
@@ -55,6 +56,7 @@ import { Route as ProfileNotificationsRouteImport } from './routes/profile.notif
 import { Route as ProfileHelpRouteImport } from './routes/profile.help'
 import { Route as ProfileDataRouteImport } from './routes/profile.data'
 import { Route as PresenceAboutRouteImport } from './routes/presence.about'
+import { Route as PracticalWishesRouteImport } from './routes/practical.wishes'
 import { Route as PracticalVaultRouteImport } from './routes/practical.vault'
 import { Route as PracticalTextsRouteImport } from './routes/practical.texts'
 import { Route as PracticalTasksRouteImport } from './routes/practical.tasks'
@@ -351,6 +353,11 @@ const StartCompteRequisRoute = StartCompteRequisRouteImport.update({
   path: '/start/compte-requis',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SpaceSettingsRoute = SpaceSettingsRouteImport.update({
+  id: '/space/settings',
+  path: '/space/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SpaceNewRoute = SpaceNewRouteImport.update({
   id: '/space/new',
   path: '/space/new',
@@ -395,6 +402,11 @@ const PresenceAboutRoute = PresenceAboutRouteImport.update({
   id: '/presence/about',
   path: '/presence/about',
   getParentRoute: () => rootRouteImport,
+} as any)
+const PracticalWishesRoute = PracticalWishesRouteImport.update({
+  id: '/wishes',
+  path: '/wishes',
+  getParentRoute: () => PracticalRoute,
 } as any)
 const PracticalVaultRoute = PracticalVaultRouteImport.update({
   id: '/vault',
@@ -634,9 +646,9 @@ const AuthenticatedCircleRoute = AuthenticatedCircleRouteImport.update({
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const SpaceSettingsIndexRoute = SpaceSettingsIndexRouteImport.update({
-  id: '/space/settings/',
-  path: '/space/settings/',
-  getParentRoute: () => rootRouteImport,
+  id: '/',
+  path: '/',
+  getParentRoute: () => SpaceSettingsRoute,
 } as any)
 const ResourcesCategoryIndexRoute = ResourcesCategoryIndexRouteImport.update({
   id: '/',
@@ -644,9 +656,9 @@ const ResourcesCategoryIndexRoute = ResourcesCategoryIndexRouteImport.update({
   getParentRoute: () => ResourcesCategoryRoute,
 } as any)
 const PracticalWishesIndexRoute = PracticalWishesIndexRouteImport.update({
-  id: '/wishes/',
-  path: '/wishes/',
-  getParentRoute: () => PracticalRoute,
+  id: '/',
+  path: '/',
+  getParentRoute: () => PracticalWishesRoute,
 } as any)
 const PracticalTasksIndexRoute = PracticalTasksIndexRouteImport.update({
   id: '/',
@@ -1031,6 +1043,7 @@ export interface FileRoutesByFullPath {
   '/practical/tasks': typeof PracticalTasksRouteWithChildren
   '/practical/texts': typeof PracticalTextsRoute
   '/practical/vault': typeof PracticalVaultRoute
+  '/practical/wishes': typeof PracticalWishesRouteWithChildren
   '/presence/about': typeof PresenceAboutRoute
   '/profile/data': typeof ProfileDataRoute
   '/profile/help': typeof ProfileHelpRoute
@@ -1040,6 +1053,7 @@ export interface FileRoutesByFullPath {
   '/profile/proches': typeof ProfileProchesRoute
   '/resources/$category': typeof ResourcesCategoryRouteWithChildren
   '/space/new': typeof SpaceNewRoute
+  '/space/settings': typeof SpaceSettingsRouteWithChildren
   '/start/compte-requis': typeof StartCompteRequisRoute
   '/start/decouverte': typeof StartDecouverteRoute
   '/start/garder': typeof StartGarderRoute
@@ -1331,6 +1345,7 @@ export interface FileRoutesById {
   '/practical/tasks': typeof PracticalTasksRouteWithChildren
   '/practical/texts': typeof PracticalTextsRoute
   '/practical/vault': typeof PracticalVaultRoute
+  '/practical/wishes': typeof PracticalWishesRouteWithChildren
   '/presence/about': typeof PresenceAboutRoute
   '/profile/data': typeof ProfileDataRoute
   '/profile/help': typeof ProfileHelpRoute
@@ -1340,6 +1355,7 @@ export interface FileRoutesById {
   '/profile/proches': typeof ProfileProchesRoute
   '/resources/$category': typeof ResourcesCategoryRouteWithChildren
   '/space/new': typeof SpaceNewRoute
+  '/space/settings': typeof SpaceSettingsRouteWithChildren
   '/start/compte-requis': typeof StartCompteRequisRoute
   '/start/decouverte': typeof StartDecouverteRoute
   '/start/garder': typeof StartGarderRoute
@@ -1491,6 +1507,7 @@ export interface FileRouteTypes {
     | '/practical/tasks'
     | '/practical/texts'
     | '/practical/vault'
+    | '/practical/wishes'
     | '/presence/about'
     | '/profile/data'
     | '/profile/help'
@@ -1500,6 +1517,7 @@ export interface FileRouteTypes {
     | '/profile/proches'
     | '/resources/$category'
     | '/space/new'
+    | '/space/settings'
     | '/start/compte-requis'
     | '/start/decouverte'
     | '/start/garder'
@@ -1790,6 +1808,7 @@ export interface FileRouteTypes {
     | '/practical/tasks'
     | '/practical/texts'
     | '/practical/vault'
+    | '/practical/wishes'
     | '/presence/about'
     | '/profile/data'
     | '/profile/help'
@@ -1799,6 +1818,7 @@ export interface FileRouteTypes {
     | '/profile/proches'
     | '/resources/$category'
     | '/space/new'
+    | '/space/settings'
     | '/start/compte-requis'
     | '/start/decouverte'
     | '/start/garder'
@@ -1919,6 +1939,7 @@ export interface RootRouteChildren {
   PresenceAboutRoute: typeof PresenceAboutRoute
   ResourcesCategoryRoute: typeof ResourcesCategoryRouteWithChildren
   SpaceNewRoute: typeof SpaceNewRoute
+  SpaceSettingsRoute: typeof SpaceSettingsRouteWithChildren
   StartCompteRequisRoute: typeof StartCompteRequisRoute
   StartDecouverteRoute: typeof StartDecouverteRoute
   StartGarderRoute: typeof StartGarderRoute
@@ -1933,7 +1954,6 @@ export interface RootRouteChildren {
   LibraryKindIdRoute: typeof LibraryKindIdRoute
   ResourcesConfirmProviderIdRoute: typeof ResourcesConfirmProviderIdRoute
   LibraryKindIndexRoute: typeof LibraryKindIndexRoute
-  SpaceSettingsIndexRoute: typeof SpaceSettingsIndexRoute
   ApiPublicSouffleSoundIdRoute: typeof ApiPublicSouffleSoundIdRoute
 }
 
@@ -2198,6 +2218,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StartCompteRequisRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/space/settings': {
+      id: '/space/settings'
+      path: '/space/settings'
+      fullPath: '/space/settings'
+      preLoaderRoute: typeof SpaceSettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/space/new': {
       id: '/space/new'
       path: '/space/new'
@@ -2260,6 +2287,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/presence/about'
       preLoaderRoute: typeof PresenceAboutRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/practical/wishes': {
+      id: '/practical/wishes'
+      path: '/wishes'
+      fullPath: '/practical/wishes'
+      preLoaderRoute: typeof PracticalWishesRouteImport
+      parentRoute: typeof PracticalRoute
     }
     '/practical/vault': {
       id: '/practical/vault'
@@ -2592,10 +2626,10 @@ declare module '@tanstack/react-router' {
     }
     '/space/settings/': {
       id: '/space/settings/'
-      path: '/space/settings'
+      path: '/'
       fullPath: '/space/settings/'
       preLoaderRoute: typeof SpaceSettingsIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof SpaceSettingsRoute
     }
     '/resources/$category/': {
       id: '/resources/$category/'
@@ -2606,10 +2640,10 @@ declare module '@tanstack/react-router' {
     }
     '/practical/wishes/': {
       id: '/practical/wishes/'
-      path: '/wishes'
+      path: '/'
       fullPath: '/practical/wishes/'
       preLoaderRoute: typeof PracticalWishesIndexRouteImport
-      parentRoute: typeof PracticalRoute
+      parentRoute: typeof PracticalWishesRoute
     }
     '/practical/tasks/': {
       id: '/practical/tasks/'
@@ -3321,6 +3355,18 @@ const PracticalTasksRouteWithChildren = PracticalTasksRoute._addFileChildren(
   PracticalTasksRouteChildren,
 )
 
+interface PracticalWishesRouteChildren {
+  PracticalWishesIndexRoute: typeof PracticalWishesIndexRoute
+}
+
+const PracticalWishesRouteChildren: PracticalWishesRouteChildren = {
+  PracticalWishesIndexRoute: PracticalWishesIndexRoute,
+}
+
+const PracticalWishesRouteWithChildren = PracticalWishesRoute._addFileChildren(
+  PracticalWishesRouteChildren,
+)
+
 interface PracticalRouteChildren {
   PracticalAnimalBodyRoute: typeof PracticalAnimalBodyRouteWithChildren
   PracticalAnimalIdRoute: typeof PracticalAnimalIdRoute
@@ -3339,10 +3385,10 @@ interface PracticalRouteChildren {
   PracticalTasksRoute: typeof PracticalTasksRouteWithChildren
   PracticalTextsRoute: typeof PracticalTextsRoute
   PracticalVaultRoute: typeof PracticalVaultRoute
+  PracticalWishesRoute: typeof PracticalWishesRouteWithChildren
   PracticalIndexRoute: typeof PracticalIndexRoute
   PracticalShareTaskIdRoute: typeof PracticalShareTaskIdRoute
   PracticalShareIndexRoute: typeof PracticalShareIndexRoute
-  PracticalWishesIndexRoute: typeof PracticalWishesIndexRoute
 }
 
 const PracticalRouteChildren: PracticalRouteChildren = {
@@ -3363,10 +3409,10 @@ const PracticalRouteChildren: PracticalRouteChildren = {
   PracticalTasksRoute: PracticalTasksRouteWithChildren,
   PracticalTextsRoute: PracticalTextsRoute,
   PracticalVaultRoute: PracticalVaultRoute,
+  PracticalWishesRoute: PracticalWishesRouteWithChildren,
   PracticalIndexRoute: PracticalIndexRoute,
   PracticalShareTaskIdRoute: PracticalShareTaskIdRoute,
   PracticalShareIndexRoute: PracticalShareIndexRoute,
-  PracticalWishesIndexRoute: PracticalWishesIndexRoute,
 }
 
 const PracticalRouteWithChildren = PracticalRoute._addFileChildren(
@@ -3439,6 +3485,18 @@ const ResourcesCategoryRouteChildren: ResourcesCategoryRouteChildren = {
 const ResourcesCategoryRouteWithChildren =
   ResourcesCategoryRoute._addFileChildren(ResourcesCategoryRouteChildren)
 
+interface SpaceSettingsRouteChildren {
+  SpaceSettingsIndexRoute: typeof SpaceSettingsIndexRoute
+}
+
+const SpaceSettingsRouteChildren: SpaceSettingsRouteChildren = {
+  SpaceSettingsIndexRoute: SpaceSettingsIndexRoute,
+}
+
+const SpaceSettingsRouteWithChildren = SpaceSettingsRoute._addFileChildren(
+  SpaceSettingsRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
@@ -3477,6 +3535,7 @@ const rootRouteChildren: RootRouteChildren = {
   PresenceAboutRoute: PresenceAboutRoute,
   ResourcesCategoryRoute: ResourcesCategoryRouteWithChildren,
   SpaceNewRoute: SpaceNewRoute,
+  SpaceSettingsRoute: SpaceSettingsRouteWithChildren,
   StartCompteRequisRoute: StartCompteRequisRoute,
   StartDecouverteRoute: StartDecouverteRoute,
   StartGarderRoute: StartGarderRoute,
@@ -3491,7 +3550,6 @@ const rootRouteChildren: RootRouteChildren = {
   LibraryKindIdRoute: LibraryKindIdRoute,
   ResourcesConfirmProviderIdRoute: ResourcesConfirmProviderIdRoute,
   LibraryKindIndexRoute: LibraryKindIndexRoute,
-  SpaceSettingsIndexRoute: SpaceSettingsIndexRoute,
   ApiPublicSouffleSoundIdRoute: ApiPublicSouffleSoundIdRoute,
 }
 export const routeTree = rootRouteImport
