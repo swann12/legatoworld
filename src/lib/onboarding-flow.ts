@@ -46,3 +46,9 @@ export const setCareState = (v: CareState | null) => write("lg.onb.careState", v
 export const getIllnessNote = () => read<string>("lg.onb.illness", "");
 export const setIllnessNote = (v: string) => write("lg.onb.illness", v.trim() || null);
 export const CARE_STATE_SUMMARY: Record<CareState, string> = { hopital: "Soignée à l'hôpital", maison: "Soignée à la maison", palliatif: "En soins palliatifs", incertain: "À préciser ensemble" };
+
+/** « Je pense beaucoup à la mort » : ce qui occupe (B069) et ces pensées en ce moment (B070). */
+export const getConcerns = () => read<import("./self-space").Concern[]>("lg.onb.concerns", []);
+export const setConcerns = (v: import("./self-space").Concern[]) => write("lg.onb.concerns", v.length ? v : null);
+export const getMoment = () => read<import("./self-space").Moment | null>("lg.onb.moment", null);
+export const setMoment = (v: import("./self-space").Moment | null) => write("lg.onb.moment", v);
