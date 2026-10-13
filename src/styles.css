@@ -1174,7 +1174,7 @@
 .lg-memory-upload { display:flex; flex-direction:column; align-items:center; justify-content:center; width:100%; min-height:160px; border:1px dashed var(--sp-accent); }
 .lg-memory-upload > img { width:100%; max-height:200px; object-fit:contain; }
 .lg-memory-upload > audio { width:90%; margin-top:20px; }
-.lg-memory-upload .lg-memory-upload-button { display:flex; flex-direction:column; gap:8px; height:150px; background:transparent; color:var(--sp-accent); }
+.lg-memory-upload .lg-memory-upload-button { display:flex; flex-direction:column; gap:8px; height:150px; background:transparent !important; color:var(--sp-accent) !important; }
 .lg-memory-upload-button > span { font-size:28px; }
 .lg-memory-audio { display:flex; align-items:center; gap:18px; padding:26px 22px; background:var(--sp-block); color:var(--sp-accent); }
 .lg-memory-audio .lg-memory-play { width:56px; height:56px; padding:0; flex-shrink:0; }

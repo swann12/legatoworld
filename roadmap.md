@@ -30,6 +30,7 @@
 
 ## Étape 11 — Mémoire : souvenirs et portrait
 - [x] Présenter les quatre listes des douze écrans avant le code.
-- [ ] Reproduire les écrans 080–089, 108 et 109 ; préserver la peinture et les positions des parcelles.
-- [ ] Relier les parcelles à leur espace personnel et vérifier dépôt, détail, portrait et livre.
+- [x] Reproduire les écrans 080–089, 108 et 109 ; préserver la peinture et les positions des parcelles.
+- [x] Relier les parcelles à leur espace personnel et vérifier dépôt, détail, portrait et livre.
+- [ ] Vérifier l’invitation connectée de bout en bout : session du compte utilisateur indisponible.
 - [ ] Suppression des éléments hors maquette : en attente d’accord utilisateur.
