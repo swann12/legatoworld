@@ -2,9 +2,11 @@
 
 ## Étape B1 — écrans B001 à B006
 - [x] Présenter quatre listes par écran avant le code.
-- [ ] Adapter logos, quatre types, menus et palettes sans modifier ouverture ni jardin peint.
-- [ ] Reproduire Aujourd’hui, nuit, invitation, résumé et conversation Présence.
-- [ ] Vérifier parcours, envoi réel et règles de menus ; signaler limites.
+- [x] Adapter logos, quatre types, menus et palettes sans modifier ouverture ni jardin peint.
+- [x] Reproduire Aujourd’hui, nuit, invitation, résumé et conversation Présence ; invitation générique faute de noms disponibles.
+- [x] Vérifier les quatre créations, envoi réel/persistance, menus, nuit, invitation vers connexion ; 10 tests réussis.
+- [ ] Comparaison aux captures individuelles : captures B001–B006 non jointes.
+- [ ] Acceptation d’une invitation réelle : lien valide d’un proche attendu.
 - [ ] Suppression hors maquette : accord utilisateur attendu.
 
 ## Contrôle final du système de design
