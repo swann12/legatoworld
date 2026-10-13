@@ -1,5 +1,10 @@
 # Reprise UX/UI Legato
 
+## Contrôle final du système de design
+- [ ] Auditer le tableau des écrans et les liens, corriger couleurs, boutons, aide, navigation et ornements.
+- [ ] Vérifier l’animation d’ouverture et les parcelles sans modifier leur fonctionnement.
+- [ ] Donner la liste des corrections et les éventuels écarts non vérifiés.
+
 ## Étape 13 — Communauté
 - [x] Présenter les quatre listes avant le code pour 095–100, 111 et 112.
 - [x] Reproduire les huit écrans et garder community-store et community-data.

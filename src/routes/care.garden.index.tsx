@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Shell } from "@/components/legato/Shell";
-import { PageHeader, PageTitle, PrimaryButton } from "@/components/legato/ds";
+import { PageHeader, PageTitle, PrimaryButton, OutlineButton } from "@/components/legato/ds";
 import { legatoHead } from "@/lib/legato-head";
 import { useSpaces } from "@/lib/spaces-store";
 import { setActiveSpaceId, useActiveSpaceId } from "@/lib/active-space";
@@ -160,7 +160,7 @@ function CareGarden() {
 
         <section className="px-6 pt-8">
           <div className="flex flex-wrap gap-4">
-            <PrimaryButton space="memory" to="/care/garden/depot" plus>Ajouter un souvenir</PrimaryButton>
+            <OutlineButton space="memory" to="/care/garden/depot">Ajouter un souvenir</OutlineButton>
             <PrimaryButton space="memory" to="/space/new" plus>Ajouter une parcelle</PrimaryButton>
           </div>
         </section>

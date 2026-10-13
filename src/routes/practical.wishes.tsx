@@ -31,7 +31,7 @@ function WishesPage() {
   const continueFlow = () => go(VIEWS[step]);
   const choice = wishes.funeralChoice ?? OPTIONS.find(o => wishes.ceremony.toLocaleLowerCase().includes(o.label.toLocaleLowerCase()))?.id;
   if (view) return <div className="lg-wishes-question"><QuestionLayout space="practical" step={step} total={4}
-    header={<PageHeader space="practical" back="/practical/wishes" backLabel="Volontés" />}
+    header={<PageHeader space="practical" back="/practical/wishes" backLabel="Volontés" help={false} />}
     footer={<div className="flex flex-col items-center gap-4"><PrimaryButton space="practical" full onClick={continueFlow}>Continuer</PrimaryButton><TextLink space="practical" onClick={continueFlow}>Passer cette étape</TextLink></div>}>
     {view === "obseques" ? <>
       <PageTitle space="practical">Pour <em>les obsèques.</em></PageTitle>

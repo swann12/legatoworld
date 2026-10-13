@@ -6,7 +6,7 @@ import { useActiveSpaceId } from "@/lib/active-space";
 import { setDateReminder, getDateReminder } from "@/lib/today";
 import { StandardLayout, PageTitle, Lead, Row, PrimaryButton } from "@/components/legato/ds";
 
-export const Route = createFileRoute("/care/dates")({
+export const Route = createFileRoute("/care/dates/")({
   head: () => ({
     meta: [
       { title: "Une date difficile — Legato" },

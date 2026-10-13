@@ -56,22 +56,22 @@ export function SectionLabel({ space, className = "", children, accent = false }
   );
 }
 
-function RowShell({ to, onClick, children, last }: { to?: string; onClick?: () => void; children: ReactNode; last?: boolean }) {
+function RowShell({ to, params, onClick, children, last }: { to?: string; params?: Record<string, string>; onClick?: () => void; children: ReactNode; last?: boolean }) {
   const cls = "flex w-full items-center gap-4 py-[18px] text-left";
   const style = { borderBottom: last ? "none" : "1px solid var(--sp-line)" };
-  if (to) return <Link to={to} className={cls} style={style}>{children}</Link>;
+  if (to) return <Link to={to} params={params} className={cls} style={style}>{children}</Link>;
   return <button type="button" onClick={onClick} className={cls} style={style}>{children}</button>;
 }
 
-export function Row({ space, className = "", title, subtitle, n, to, onClick, last, status, icon = "chevron" }: S & {
-  title: ReactNode; subtitle?: ReactNode; n?: number; to?: string; onClick?: () => void; last?: boolean;
+export function Row({ space, className = "", title, subtitle, n, to, params, onClick, last, status, icon = "chevron" }: S & {
+  title: ReactNode; subtitle?: ReactNode; n?: number; to?: string; params?: Record<string, string>; onClick?: () => void; last?: boolean;
   icon?: "chevron" | "arrow";
   status?: ReactNode;
 }) {
   const Icon = icon === "arrow" ? ArrowUpRight : ChevronRight;
   return (
     <div className={`${spaceClass(space)} ${className}`} style={ink}>
-      <RowShell to={to} onClick={onClick} last={last}>
+      <RowShell to={to} params={params} onClick={onClick} last={last}>
         {n !== undefined && <span className="w-[30px] shrink-0" style={{ ...serif, fontSize: 22, color: "var(--sp-accent)" }}>{n}</span>}
         <span className="min-w-0 flex-1">
           <span className="lg-row-title block">{title}</span>
@@ -270,7 +270,7 @@ export function ChatBubble({ space, className = "", from, children }: S & { from
     <div className={`${spaceClass(space)} flex ${p ? "justify-start" : "justify-end"} ${className}`}>
       <div className={p ? "max-w-[87%] px-5 py-4" : "max-w-[85%] px-5 py-4"}
         style={p
-          ? { background: "var(--lg-linen)", color: "var(--lg-deep)", ...serif, fontSize: 20, lineHeight: 1.3 }
+          ? { background: "var(--lg-mint-pale)", color: "var(--lg-deep)", ...serif, fontSize: 18, lineHeight: 1.3 }
           : { background: "var(--lg-blue)", color: "var(--lg-deep)", ...sans, fontSize: 14.5, lineHeight: 1.5 }}>
         {children}
       </div>

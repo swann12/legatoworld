@@ -25,7 +25,7 @@ export function AddMemoryButton({ zone, children = "Ajouter un souvenir" }: { zo
 }
 export function MemoryListRow({ memory }: { memory: Memory }) {
   return <Link to="/care/garden/$zone/$id" params={{ zone: memory.zone, id: memory.id }} className="lg-memory-list-row">
-    {memory.imageDataUrl ? <img src={memory.imageDataUrl} alt="" /> : <span className="lg-memory-thumbnail" aria-hidden>{memory.type === "voice" ? "▷" : memory.type === "sound" ? "♪" : "“"}</span>}
+    {memory.imageDataUrl ? <img src={memory.imageDataUrl} alt="" /> : <span className="lg-memory-thumbnail" aria-hidden />}
     <span className="min-w-0 flex-1"><span className="lg-row-title block">{memory.title || memory.body?.slice(0, 70) || memoryKind(memory)}</span><span className="lg-row-sub block mt-1">{memoryKind(memory)} · {memoryDate(memory)}</span></span><span aria-hidden>›</span>
   </Link>;
 }

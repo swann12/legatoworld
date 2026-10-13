@@ -1,5 +1,6 @@
 - New screens use `src/components/legato/ds/` (components + StandardLayout/QuestionLayout/ExperienceLayout) with a `space` prop mapped to `.lg-space-*` CSS vars in styles.css; never hardcode colors in pages. Why: one color pair per space, themable in one place.
 - Global nav is `ds/BottomNav` (5 tabs), rendered by Shell. Why: single navigation per the design system.
+- DS children without an explicit space inherit layout tokens. Why: nested elements must not reset the page palette to Today.
 - The opening flow (/onboarding, /onboarding/practical, /onboarding/care) shares its answers through `src/lib/onboarding-flow.ts` and maps them onto legato-state at the final screen. Why: three routes, one source of truth.
 - Concrete Démarches (screens 055–062) live in `src/lib/demarches.ts` (status via legato-state taskStatus, steps via task-steps); old category ids still resolve there. Why: one list feeds Démarches, Mon avancement, detail and Confier.
 - Ceremony decisions and flower proposals use the space-scoped practical-store through ceremony-flow; flower views use validated search state on /practical/flowers. Why: one source of truth survives navigation and keeps existing URLs.
@@ -8,6 +9,7 @@
 - Step 10 off-mockup features remain in collapsed legacy views until removal is approved. Why: reproducing captures must not silently remove existing functionality.
 - Funeral-specific resource views are isolated from the support directory and mark mockup providers as examples without invented contact details. Why: reproducing the mockups must not imply verified prices or real booking capabilities.
 - Memory collection pages share canonical category helpers and the existing space-scoped memories-store; the dynamic zone parent renders Outlet and its list is an index leaf. Why: detail pages mount correctly and old category URLs remain usable.
+- Ritual and date landing pages are index leaves; new ritual traces use the existing memories-store. Why: detail routes mount and saved words remain scoped to the chosen loved one.
 - Memory forms and portrait summaries keep their former advanced editors in lazily mounted legacy views until removal is approved. Why: matching captures must preserve existing functions.
 - Garden plot selection activates its existing space before opening the personal memory page, without altering the painted image or plot geometry. Why: each loved one's memories and portrait remain isolated.
 - Community screens reuse community-store and community-data, with vigil choices local and clearly distinguished from real reservations. Why: preserve existing interactions without implying a connected community service.

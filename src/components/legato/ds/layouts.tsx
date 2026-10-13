@@ -43,10 +43,10 @@ export function ExperienceLayout({ variant = "support", back = "/care", backLabe
   variant?: keyof typeof GRAD; back?: string; backLabel?: string; close?: string; onBack?: () => void; onClose?: () => void;
   top?: ReactNode; children: ReactNode; action?: ReactNode;
 }) {
-  const headInk = variant === "support" ? "var(--lg-deep)" : "var(--lg-cream)";
+  const headInk = variant === "support" ? "var(--lg-deep)" : variant === "memory" ? "var(--lg-blush)" : "var(--lg-cream)";
   const cls = "flex min-h-11 items-center gap-2";
   return (
-    <div className="lg-experience min-h-dvh" style={{ background: GRAD[variant], color: "var(--lg-cream)", fontFamily: "var(--lg-sans)" }}>
+    <div className="lg-experience min-h-dvh" style={{ background: GRAD[variant], color: variant === "memory" ? "var(--lg-blush)" : "var(--lg-cream)", fontFamily: "var(--lg-sans)" }}>
       <div className="mx-auto flex min-h-dvh max-w-[430px] flex-col pb-10" style={{ paddingInline: "var(--lg-margin)" }}>
         <div className="flex items-center justify-between text-[14px]" style={{ height: "var(--lg-header-h)", color: headInk }}>
           {onBack
