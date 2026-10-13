@@ -53,8 +53,8 @@ export function Practical() {
 
       {view === "apres" && (
         <div className="mt-[14px] flex items-center gap-[14px] py-4" style={{ borderBottom: "1px solid var(--sp-line)" }}>
-          <span className="flex size-6 shrink-0 items-center justify-center rounded-full" style={{ background: "var(--lg-coral-fill, #F4805A)" }}>
-            <Check className="size-[13px]" strokeWidth={1.8} style={{ color: "var(--lg-linen-bg, #F7F4EF)" }} />
+          <span className="flex size-6 shrink-0 items-center justify-center rounded-full" style={{ background: "var(--lg-coral)" }}>
+            <Check className="size-[13px]" strokeWidth={1.8} style={{ color: "var(--lg-cream)" }} />
           </span>
           <span className="flex flex-col gap-[3px]">
             <span style={{ ...serif, fontSize: 19, ...sub }}>La cérémonie</span>
