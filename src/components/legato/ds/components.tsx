@@ -120,27 +120,27 @@ export function Block({ space, className = "", label, eyebrow, title, meta, chil
   );
 }
 
-type BtnProps = S & { children: ReactNode; to?: string; onClick?: () => void; full?: boolean; type?: "button" | "submit"; disabled?: boolean; plus?: boolean };
+type BtnProps = S & { children: ReactNode; to?: string; onClick?: () => void; full?: boolean; type?: "button" | "submit"; disabled?: boolean; plus?: boolean; params?: Record<string, string>; search?: Record<string, string> };
 
-export function PrimaryButton({ space, className = "", children, to, onClick, full, type = "button", disabled, plus }: BtnProps) {
+export function PrimaryButton({ space, className = "", children, to, onClick, full, type = "button", disabled, plus , params, search }: BtnProps) {
   const cls = `${spaceClass(space)} inline-flex items-center justify-center gap-3 px-7 text-[15px] transition-opacity disabled:opacity-40 ${full ? "w-full h-[52px]" : "h-12"} rounded-full ${className}`;
   const style = { ...sans, background: "var(--sp-btn-bg)", color: "var(--sp-btn-fg)" };
   const inner = <>{plus && <Plus className="size-4" strokeWidth={1.4} />}{children}</>;
-  if (to) return <Link to={to} className={cls} style={style}>{inner}</Link>;
+  if (to) return <Link to={to} params={params as never} search={search as never} className={cls} style={style}>{inner}</Link>;
   return <button type={type} onClick={onClick} disabled={disabled} className={cls} style={style}>{inner}</button>;
 }
 
-export function OutlineButton({ space, className = "", children, to, onClick, type = "button", disabled }: BtnProps) {
+export function OutlineButton({ space, className = "", children, to, onClick, type = "button", disabled , params, search }: BtnProps) {
   const cls = `${spaceClass(space)} inline-flex h-9 min-h-9 items-center justify-center rounded-full px-5 text-[13.5px] disabled:opacity-40 ${className}`;
   const style = { ...sans, border: "1px solid var(--sp-stroke)", color: "var(--sp-stroke)" };
-  if (to) return <Link to={to} className={cls} style={style}>{children}</Link>;
+  if (to) return <Link to={to} params={params as never} search={search as never} className={cls} style={style}>{children}</Link>;
   return <button type={type} onClick={onClick} disabled={disabled} className={cls} style={style}>{children}</button>;
 }
 
-export function TextLink({ space, className = "", children, to, onClick }: BtnProps) {
+export function TextLink({ space, className = "", children, to, onClick , params, search }: BtnProps) {
   const cls = `${spaceClass(space)} text-[13.5px] underline underline-offset-4 ${className}`;
   const style = { ...sans, color: "var(--sp-stroke)", textDecorationThickness: 1 };
-  if (to) return <Link to={to} className={cls} style={style}>{children}</Link>;
+  if (to) return <Link to={to} params={params as never} search={search as never} className={cls} style={style}>{children}</Link>;
   return <button type="button" onClick={onClick} className={cls} style={style}>{children}</button>;
 }
 

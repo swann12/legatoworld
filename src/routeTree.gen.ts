@@ -147,9 +147,21 @@ import { Route as HelpCorpsEauRouteImport } from './routes/help.corps.eau'
 import { Route as HelpCorpsConsulterRouteImport } from './routes/help.corps.consulter'
 import { Route as HelpCorpsComprendreRouteImport } from './routes/help.corps.comprendre'
 import { Route as HelpCorpsBougerRouteImport } from './routes/help.corps.bouger'
+import { Route as CareRituelsTraditionRouteImport } from './routes/care.rituels.tradition'
+import { Route as CareRituelsRegardsRouteImport } from './routes/care.rituels.regards'
+import { Route as CareRituelsPropositionsRouteImport } from './routes/care.rituels.propositions'
+import { Route as CareRituelsOrganiserRouteImport } from './routes/care.rituels.organiser'
 import { Route as CareRituelsOfferingRouteImport } from './routes/care.rituels.offering'
+import { Route as CareRituelsMesRituelsRouteImport } from './routes/care.rituels.mes-rituels'
+import { Route as CareRituelsMaintenantRouteImport } from './routes/care.rituels.maintenant'
+import { Route as CareRituelsLettreRouteImport } from './routes/care.rituels.lettre'
 import { Route as CareRituelsLanternRouteImport } from './routes/care.rituels.lantern'
+import { Route as CareRituelsFaitRouteImport } from './routes/care.rituels.fait'
+import { Route as CareRituelsEnsembleRouteImport } from './routes/care.rituels.ensemble'
+import { Route as CareRituelsCercleRouteImport } from './routes/care.rituels.cercle'
 import { Route as CareRituelsCandleRouteImport } from './routes/care.rituels.candle'
+import { Route as CareRituelsArbreRouteImport } from './routes/care.rituels.arbre'
+import { Route as CareRituelsIdRouteImport } from './routes/care.rituels.$id'
 import { Route as CareJournalLaterRouteImport } from './routes/care.journal.later'
 import { Route as CareGardenSpaceRouteImport } from './routes/care.garden.space'
 import { Route as CareGardenRecettesRouteImport } from './routes/care.garden.recettes'
@@ -164,17 +176,23 @@ import { Route as CareCommunityReglesRouteImport } from './routes/care.community
 import { Route as CareCommunityGroupsRouteImport } from './routes/care.community.groups'
 import { Route as PracticalTasksIdIndexRouteImport } from './routes/practical.tasks.$id.index'
 import { Route as HelpCorpsSoinIndexRouteImport } from './routes/help.corps.soin.index'
+import { Route as CareRituelsMondeIndexRouteImport } from './routes/care.rituels.monde.index'
+import { Route as CareRituelsCalendrierIndexRouteImport } from './routes/care.rituels.calendrier.index'
 import { Route as CareGardenZoneIndexRouteImport } from './routes/care.garden.$zone.index'
 import { Route as CareCommunityGroupIndexRouteImport } from './routes/care.community.$group.index'
 import { Route as PracticalTasksIdTemplateRouteImport } from './routes/practical.tasks.$id.template'
 import { Route as HelpCorpsSoinIdRouteImport } from './routes/help.corps.soin.$id'
 import { Route as HelpCorpsSujetContenusRouteImport } from './routes/help.corps.$sujet.contenus'
+import { Route as CareRituelsCalendrierAnneeRouteImport } from './routes/care.rituels.calendrier.annee'
 import { Route as CareGardenZoneIdRouteImport } from './routes/care.garden.$zone.$id'
 import { Route as CareCommunityVigilIdRouteImport } from './routes/care.community.vigil.$id'
 import { Route as CareCommunityGroupNewRouteImport } from './routes/care.community.$group.new'
 import { Route as CareCommunityGroupThreadRouteImport } from './routes/care.community.$group.$thread'
 import { Route as ApiPublicSouffleSoundIdRouteImport } from './routes/api/public/souffle-sound.$id'
+import { Route as CareRituelsMondeRegionIndexRouteImport } from './routes/care.rituels.monde.$region.index'
 import { Route as CareCommunityVigilIdIndexRouteImport } from './routes/care.community.vigil.$id.index'
+import { Route as CareRituelsMondeAmeriquesOfrendaRouteImport } from './routes/care.rituels.monde.ameriques.ofrenda'
+import { Route as CareRituelsMondeRegionIdRouteImport } from './routes/care.rituels.monde.$region.$id'
 import { Route as CareCommunityVigilIdOkRouteImport } from './routes/care.community.vigil.$id.ok'
 
 const WishesRoute = WishesRouteImport.update({
@@ -876,9 +894,44 @@ const HelpCorpsBougerRoute = HelpCorpsBougerRouteImport.update({
   path: '/bouger',
   getParentRoute: () => HelpCorpsRoute,
 } as any)
+const CareRituelsTraditionRoute = CareRituelsTraditionRouteImport.update({
+  id: '/rituels/tradition',
+  path: '/rituels/tradition',
+  getParentRoute: () => CareRoute,
+} as any)
+const CareRituelsRegardsRoute = CareRituelsRegardsRouteImport.update({
+  id: '/rituels/regards',
+  path: '/rituels/regards',
+  getParentRoute: () => CareRoute,
+} as any)
+const CareRituelsPropositionsRoute = CareRituelsPropositionsRouteImport.update({
+  id: '/rituels/propositions',
+  path: '/rituels/propositions',
+  getParentRoute: () => CareRoute,
+} as any)
+const CareRituelsOrganiserRoute = CareRituelsOrganiserRouteImport.update({
+  id: '/rituels/organiser',
+  path: '/rituels/organiser',
+  getParentRoute: () => CareRoute,
+} as any)
 const CareRituelsOfferingRoute = CareRituelsOfferingRouteImport.update({
   id: '/rituels/offering',
   path: '/rituels/offering',
+  getParentRoute: () => CareRoute,
+} as any)
+const CareRituelsMesRituelsRoute = CareRituelsMesRituelsRouteImport.update({
+  id: '/rituels/mes-rituels',
+  path: '/rituels/mes-rituels',
+  getParentRoute: () => CareRoute,
+} as any)
+const CareRituelsMaintenantRoute = CareRituelsMaintenantRouteImport.update({
+  id: '/rituels/maintenant',
+  path: '/rituels/maintenant',
+  getParentRoute: () => CareRoute,
+} as any)
+const CareRituelsLettreRoute = CareRituelsLettreRouteImport.update({
+  id: '/rituels/lettre',
+  path: '/rituels/lettre',
   getParentRoute: () => CareRoute,
 } as any)
 const CareRituelsLanternRoute = CareRituelsLanternRouteImport.update({
@@ -886,9 +939,34 @@ const CareRituelsLanternRoute = CareRituelsLanternRouteImport.update({
   path: '/rituels/lantern',
   getParentRoute: () => CareRoute,
 } as any)
+const CareRituelsFaitRoute = CareRituelsFaitRouteImport.update({
+  id: '/rituels/fait',
+  path: '/rituels/fait',
+  getParentRoute: () => CareRoute,
+} as any)
+const CareRituelsEnsembleRoute = CareRituelsEnsembleRouteImport.update({
+  id: '/rituels/ensemble',
+  path: '/rituels/ensemble',
+  getParentRoute: () => CareRoute,
+} as any)
+const CareRituelsCercleRoute = CareRituelsCercleRouteImport.update({
+  id: '/rituels/cercle',
+  path: '/rituels/cercle',
+  getParentRoute: () => CareRoute,
+} as any)
 const CareRituelsCandleRoute = CareRituelsCandleRouteImport.update({
   id: '/rituels/candle',
   path: '/rituels/candle',
+  getParentRoute: () => CareRoute,
+} as any)
+const CareRituelsArbreRoute = CareRituelsArbreRouteImport.update({
+  id: '/rituels/arbre',
+  path: '/rituels/arbre',
+  getParentRoute: () => CareRoute,
+} as any)
+const CareRituelsIdRoute = CareRituelsIdRouteImport.update({
+  id: '/rituels/$id',
+  path: '/rituels/$id',
   getParentRoute: () => CareRoute,
 } as any)
 const CareJournalLaterRoute = CareJournalLaterRouteImport.update({
@@ -961,6 +1039,17 @@ const HelpCorpsSoinIndexRoute = HelpCorpsSoinIndexRouteImport.update({
   path: '/',
   getParentRoute: () => HelpCorpsSoinRoute,
 } as any)
+const CareRituelsMondeIndexRoute = CareRituelsMondeIndexRouteImport.update({
+  id: '/rituels/monde/',
+  path: '/rituels/monde/',
+  getParentRoute: () => CareRoute,
+} as any)
+const CareRituelsCalendrierIndexRoute =
+  CareRituelsCalendrierIndexRouteImport.update({
+    id: '/rituels/calendrier/',
+    path: '/rituels/calendrier/',
+    getParentRoute: () => CareRoute,
+  } as any)
 const CareGardenZoneIndexRoute = CareGardenZoneIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -987,6 +1076,12 @@ const HelpCorpsSujetContenusRoute = HelpCorpsSujetContenusRouteImport.update({
   path: '/$sujet/contenus',
   getParentRoute: () => HelpCorpsRoute,
 } as any)
+const CareRituelsCalendrierAnneeRoute =
+  CareRituelsCalendrierAnneeRouteImport.update({
+    id: '/rituels/calendrier/annee',
+    path: '/rituels/calendrier/annee',
+    getParentRoute: () => CareRoute,
+  } as any)
 const CareGardenZoneIdRoute = CareGardenZoneIdRouteImport.update({
   id: '/$id',
   path: '/$id',
@@ -1013,11 +1108,29 @@ const ApiPublicSouffleSoundIdRoute = ApiPublicSouffleSoundIdRouteImport.update({
   path: '/api/public/souffle-sound/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CareRituelsMondeRegionIndexRoute =
+  CareRituelsMondeRegionIndexRouteImport.update({
+    id: '/rituels/monde/$region/',
+    path: '/rituels/monde/$region/',
+    getParentRoute: () => CareRoute,
+  } as any)
 const CareCommunityVigilIdIndexRoute =
   CareCommunityVigilIdIndexRouteImport.update({
     id: '/',
     path: '/',
     getParentRoute: () => CareCommunityVigilIdRoute,
+  } as any)
+const CareRituelsMondeAmeriquesOfrendaRoute =
+  CareRituelsMondeAmeriquesOfrendaRouteImport.update({
+    id: '/rituels/monde/ameriques/ofrenda',
+    path: '/rituels/monde/ameriques/ofrenda',
+    getParentRoute: () => CareRoute,
+  } as any)
+const CareRituelsMondeRegionIdRoute =
+  CareRituelsMondeRegionIdRouteImport.update({
+    id: '/rituels/monde/$region/$id',
+    path: '/rituels/monde/$region/$id',
+    getParentRoute: () => CareRoute,
   } as any)
 const CareCommunityVigilIdOkRoute = CareCommunityVigilIdOkRouteImport.update({
   id: '/ok',
@@ -1135,9 +1248,21 @@ export interface FileRoutesByFullPath {
   '/care/garden/recettes': typeof CareGardenRecettesRoute
   '/care/garden/space': typeof CareGardenSpaceRoute
   '/care/journal/later': typeof CareJournalLaterRoute
+  '/care/rituels/$id': typeof CareRituelsIdRoute
+  '/care/rituels/arbre': typeof CareRituelsArbreRoute
   '/care/rituels/candle': typeof CareRituelsCandleRoute
+  '/care/rituels/cercle': typeof CareRituelsCercleRoute
+  '/care/rituels/ensemble': typeof CareRituelsEnsembleRoute
+  '/care/rituels/fait': typeof CareRituelsFaitRoute
   '/care/rituels/lantern': typeof CareRituelsLanternRoute
+  '/care/rituels/lettre': typeof CareRituelsLettreRoute
+  '/care/rituels/maintenant': typeof CareRituelsMaintenantRoute
+  '/care/rituels/mes-rituels': typeof CareRituelsMesRituelsRoute
   '/care/rituels/offering': typeof CareRituelsOfferingRoute
+  '/care/rituels/organiser': typeof CareRituelsOrganiserRoute
+  '/care/rituels/propositions': typeof CareRituelsPropositionsRoute
+  '/care/rituels/regards': typeof CareRituelsRegardsRoute
+  '/care/rituels/tradition': typeof CareRituelsTraditionRoute
   '/help/corps/bouger': typeof HelpCorpsBougerRoute
   '/help/corps/comprendre': typeof HelpCorpsComprendreRoute
   '/help/corps/consulter': typeof HelpCorpsConsulterRoute
@@ -1183,15 +1308,21 @@ export interface FileRoutesByFullPath {
   '/care/community/$group/new': typeof CareCommunityGroupNewRoute
   '/care/community/vigil/$id': typeof CareCommunityVigilIdRouteWithChildren
   '/care/garden/$zone/$id': typeof CareGardenZoneIdRoute
+  '/care/rituels/calendrier/annee': typeof CareRituelsCalendrierAnneeRoute
   '/help/corps/$sujet/contenus': typeof HelpCorpsSujetContenusRoute
   '/help/corps/soin/$id': typeof HelpCorpsSoinIdRoute
   '/practical/tasks/$id/template': typeof PracticalTasksIdTemplateRoute
   '/care/community/$group/': typeof CareCommunityGroupIndexRoute
   '/care/garden/$zone/': typeof CareGardenZoneIndexRoute
+  '/care/rituels/calendrier/': typeof CareRituelsCalendrierIndexRoute
+  '/care/rituels/monde/': typeof CareRituelsMondeIndexRoute
   '/help/corps/soin/': typeof HelpCorpsSoinIndexRoute
   '/practical/tasks/$id/': typeof PracticalTasksIdIndexRoute
   '/care/community/vigil/$id/ok': typeof CareCommunityVigilIdOkRoute
+  '/care/rituels/monde/$region/$id': typeof CareRituelsMondeRegionIdRoute
+  '/care/rituels/monde/ameriques/ofrenda': typeof CareRituelsMondeAmeriquesOfrendaRoute
   '/care/community/vigil/$id/': typeof CareCommunityVigilIdIndexRoute
+  '/care/rituels/monde/$region/': typeof CareRituelsMondeRegionIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -1286,9 +1417,21 @@ export interface FileRoutesByTo {
   '/care/garden/recettes': typeof CareGardenRecettesRoute
   '/care/garden/space': typeof CareGardenSpaceRoute
   '/care/journal/later': typeof CareJournalLaterRoute
+  '/care/rituels/$id': typeof CareRituelsIdRoute
+  '/care/rituels/arbre': typeof CareRituelsArbreRoute
   '/care/rituels/candle': typeof CareRituelsCandleRoute
+  '/care/rituels/cercle': typeof CareRituelsCercleRoute
+  '/care/rituels/ensemble': typeof CareRituelsEnsembleRoute
+  '/care/rituels/fait': typeof CareRituelsFaitRoute
   '/care/rituels/lantern': typeof CareRituelsLanternRoute
+  '/care/rituels/lettre': typeof CareRituelsLettreRoute
+  '/care/rituels/maintenant': typeof CareRituelsMaintenantRoute
+  '/care/rituels/mes-rituels': typeof CareRituelsMesRituelsRoute
   '/care/rituels/offering': typeof CareRituelsOfferingRoute
+  '/care/rituels/organiser': typeof CareRituelsOrganiserRoute
+  '/care/rituels/propositions': typeof CareRituelsPropositionsRoute
+  '/care/rituels/regards': typeof CareRituelsRegardsRoute
+  '/care/rituels/tradition': typeof CareRituelsTraditionRoute
   '/help/corps/bouger': typeof HelpCorpsBougerRoute
   '/help/corps/comprendre': typeof HelpCorpsComprendreRoute
   '/help/corps/consulter': typeof HelpCorpsConsulterRoute
@@ -1331,15 +1474,21 @@ export interface FileRoutesByTo {
   '/care/community/$group/$thread': typeof CareCommunityGroupThreadRoute
   '/care/community/$group/new': typeof CareCommunityGroupNewRoute
   '/care/garden/$zone/$id': typeof CareGardenZoneIdRoute
+  '/care/rituels/calendrier/annee': typeof CareRituelsCalendrierAnneeRoute
   '/help/corps/$sujet/contenus': typeof HelpCorpsSujetContenusRoute
   '/help/corps/soin/$id': typeof HelpCorpsSoinIdRoute
   '/practical/tasks/$id/template': typeof PracticalTasksIdTemplateRoute
   '/care/community/$group': typeof CareCommunityGroupIndexRoute
   '/care/garden/$zone': typeof CareGardenZoneIndexRoute
+  '/care/rituels/calendrier': typeof CareRituelsCalendrierIndexRoute
+  '/care/rituels/monde': typeof CareRituelsMondeIndexRoute
   '/help/corps/soin': typeof HelpCorpsSoinIndexRoute
   '/practical/tasks/$id': typeof PracticalTasksIdIndexRoute
   '/care/community/vigil/$id/ok': typeof CareCommunityVigilIdOkRoute
+  '/care/rituels/monde/$region/$id': typeof CareRituelsMondeRegionIdRoute
+  '/care/rituels/monde/ameriques/ofrenda': typeof CareRituelsMondeAmeriquesOfrendaRoute
   '/care/community/vigil/$id': typeof CareCommunityVigilIdIndexRoute
+  '/care/rituels/monde/$region': typeof CareRituelsMondeRegionIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -1453,9 +1602,21 @@ export interface FileRoutesById {
   '/care/garden/recettes': typeof CareGardenRecettesRoute
   '/care/garden/space': typeof CareGardenSpaceRoute
   '/care/journal/later': typeof CareJournalLaterRoute
+  '/care/rituels/$id': typeof CareRituelsIdRoute
+  '/care/rituels/arbre': typeof CareRituelsArbreRoute
   '/care/rituels/candle': typeof CareRituelsCandleRoute
+  '/care/rituels/cercle': typeof CareRituelsCercleRoute
+  '/care/rituels/ensemble': typeof CareRituelsEnsembleRoute
+  '/care/rituels/fait': typeof CareRituelsFaitRoute
   '/care/rituels/lantern': typeof CareRituelsLanternRoute
+  '/care/rituels/lettre': typeof CareRituelsLettreRoute
+  '/care/rituels/maintenant': typeof CareRituelsMaintenantRoute
+  '/care/rituels/mes-rituels': typeof CareRituelsMesRituelsRoute
   '/care/rituels/offering': typeof CareRituelsOfferingRoute
+  '/care/rituels/organiser': typeof CareRituelsOrganiserRoute
+  '/care/rituels/propositions': typeof CareRituelsPropositionsRoute
+  '/care/rituels/regards': typeof CareRituelsRegardsRoute
+  '/care/rituels/tradition': typeof CareRituelsTraditionRoute
   '/help/corps/bouger': typeof HelpCorpsBougerRoute
   '/help/corps/comprendre': typeof HelpCorpsComprendreRoute
   '/help/corps/consulter': typeof HelpCorpsConsulterRoute
@@ -1501,15 +1662,21 @@ export interface FileRoutesById {
   '/care/community/$group/new': typeof CareCommunityGroupNewRoute
   '/care/community/vigil/$id': typeof CareCommunityVigilIdRouteWithChildren
   '/care/garden/$zone/$id': typeof CareGardenZoneIdRoute
+  '/care/rituels/calendrier/annee': typeof CareRituelsCalendrierAnneeRoute
   '/help/corps/$sujet/contenus': typeof HelpCorpsSujetContenusRoute
   '/help/corps/soin/$id': typeof HelpCorpsSoinIdRoute
   '/practical/tasks/$id/template': typeof PracticalTasksIdTemplateRoute
   '/care/community/$group/': typeof CareCommunityGroupIndexRoute
   '/care/garden/$zone/': typeof CareGardenZoneIndexRoute
+  '/care/rituels/calendrier/': typeof CareRituelsCalendrierIndexRoute
+  '/care/rituels/monde/': typeof CareRituelsMondeIndexRoute
   '/help/corps/soin/': typeof HelpCorpsSoinIndexRoute
   '/practical/tasks/$id/': typeof PracticalTasksIdIndexRoute
   '/care/community/vigil/$id/ok': typeof CareCommunityVigilIdOkRoute
+  '/care/rituels/monde/$region/$id': typeof CareRituelsMondeRegionIdRoute
+  '/care/rituels/monde/ameriques/ofrenda': typeof CareRituelsMondeAmeriquesOfrendaRoute
   '/care/community/vigil/$id/': typeof CareCommunityVigilIdIndexRoute
+  '/care/rituels/monde/$region/': typeof CareRituelsMondeRegionIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -1623,9 +1790,21 @@ export interface FileRouteTypes {
     | '/care/garden/recettes'
     | '/care/garden/space'
     | '/care/journal/later'
+    | '/care/rituels/$id'
+    | '/care/rituels/arbre'
     | '/care/rituels/candle'
+    | '/care/rituels/cercle'
+    | '/care/rituels/ensemble'
+    | '/care/rituels/fait'
     | '/care/rituels/lantern'
+    | '/care/rituels/lettre'
+    | '/care/rituels/maintenant'
+    | '/care/rituels/mes-rituels'
     | '/care/rituels/offering'
+    | '/care/rituels/organiser'
+    | '/care/rituels/propositions'
+    | '/care/rituels/regards'
+    | '/care/rituels/tradition'
     | '/help/corps/bouger'
     | '/help/corps/comprendre'
     | '/help/corps/consulter'
@@ -1671,15 +1850,21 @@ export interface FileRouteTypes {
     | '/care/community/$group/new'
     | '/care/community/vigil/$id'
     | '/care/garden/$zone/$id'
+    | '/care/rituels/calendrier/annee'
     | '/help/corps/$sujet/contenus'
     | '/help/corps/soin/$id'
     | '/practical/tasks/$id/template'
     | '/care/community/$group/'
     | '/care/garden/$zone/'
+    | '/care/rituels/calendrier/'
+    | '/care/rituels/monde/'
     | '/help/corps/soin/'
     | '/practical/tasks/$id/'
     | '/care/community/vigil/$id/ok'
+    | '/care/rituels/monde/$region/$id'
+    | '/care/rituels/monde/ameriques/ofrenda'
     | '/care/community/vigil/$id/'
+    | '/care/rituels/monde/$region/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -1774,9 +1959,21 @@ export interface FileRouteTypes {
     | '/care/garden/recettes'
     | '/care/garden/space'
     | '/care/journal/later'
+    | '/care/rituels/$id'
+    | '/care/rituels/arbre'
     | '/care/rituels/candle'
+    | '/care/rituels/cercle'
+    | '/care/rituels/ensemble'
+    | '/care/rituels/fait'
     | '/care/rituels/lantern'
+    | '/care/rituels/lettre'
+    | '/care/rituels/maintenant'
+    | '/care/rituels/mes-rituels'
     | '/care/rituels/offering'
+    | '/care/rituels/organiser'
+    | '/care/rituels/propositions'
+    | '/care/rituels/regards'
+    | '/care/rituels/tradition'
     | '/help/corps/bouger'
     | '/help/corps/comprendre'
     | '/help/corps/consulter'
@@ -1819,15 +2016,21 @@ export interface FileRouteTypes {
     | '/care/community/$group/$thread'
     | '/care/community/$group/new'
     | '/care/garden/$zone/$id'
+    | '/care/rituels/calendrier/annee'
     | '/help/corps/$sujet/contenus'
     | '/help/corps/soin/$id'
     | '/practical/tasks/$id/template'
     | '/care/community/$group'
     | '/care/garden/$zone'
+    | '/care/rituels/calendrier'
+    | '/care/rituels/monde'
     | '/help/corps/soin'
     | '/practical/tasks/$id'
     | '/care/community/vigil/$id/ok'
+    | '/care/rituels/monde/$region/$id'
+    | '/care/rituels/monde/ameriques/ofrenda'
     | '/care/community/vigil/$id'
+    | '/care/rituels/monde/$region'
   id:
     | '__root__'
     | '/'
@@ -1940,9 +2143,21 @@ export interface FileRouteTypes {
     | '/care/garden/recettes'
     | '/care/garden/space'
     | '/care/journal/later'
+    | '/care/rituels/$id'
+    | '/care/rituels/arbre'
     | '/care/rituels/candle'
+    | '/care/rituels/cercle'
+    | '/care/rituels/ensemble'
+    | '/care/rituels/fait'
     | '/care/rituels/lantern'
+    | '/care/rituels/lettre'
+    | '/care/rituels/maintenant'
+    | '/care/rituels/mes-rituels'
     | '/care/rituels/offering'
+    | '/care/rituels/organiser'
+    | '/care/rituels/propositions'
+    | '/care/rituels/regards'
+    | '/care/rituels/tradition'
     | '/help/corps/bouger'
     | '/help/corps/comprendre'
     | '/help/corps/consulter'
@@ -1988,15 +2203,21 @@ export interface FileRouteTypes {
     | '/care/community/$group/new'
     | '/care/community/vigil/$id'
     | '/care/garden/$zone/$id'
+    | '/care/rituels/calendrier/annee'
     | '/help/corps/$sujet/contenus'
     | '/help/corps/soin/$id'
     | '/practical/tasks/$id/template'
     | '/care/community/$group/'
     | '/care/garden/$zone/'
+    | '/care/rituels/calendrier/'
+    | '/care/rituels/monde/'
     | '/help/corps/soin/'
     | '/practical/tasks/$id/'
     | '/care/community/vigil/$id/ok'
+    | '/care/rituels/monde/$region/$id'
+    | '/care/rituels/monde/ameriques/ofrenda'
     | '/care/community/vigil/$id/'
+    | '/care/rituels/monde/$region/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -3023,11 +3244,60 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HelpCorpsBougerRouteImport
       parentRoute: typeof HelpCorpsRoute
     }
+    '/care/rituels/tradition': {
+      id: '/care/rituels/tradition'
+      path: '/rituels/tradition'
+      fullPath: '/care/rituels/tradition'
+      preLoaderRoute: typeof CareRituelsTraditionRouteImport
+      parentRoute: typeof CareRoute
+    }
+    '/care/rituels/regards': {
+      id: '/care/rituels/regards'
+      path: '/rituels/regards'
+      fullPath: '/care/rituels/regards'
+      preLoaderRoute: typeof CareRituelsRegardsRouteImport
+      parentRoute: typeof CareRoute
+    }
+    '/care/rituels/propositions': {
+      id: '/care/rituels/propositions'
+      path: '/rituels/propositions'
+      fullPath: '/care/rituels/propositions'
+      preLoaderRoute: typeof CareRituelsPropositionsRouteImport
+      parentRoute: typeof CareRoute
+    }
+    '/care/rituels/organiser': {
+      id: '/care/rituels/organiser'
+      path: '/rituels/organiser'
+      fullPath: '/care/rituels/organiser'
+      preLoaderRoute: typeof CareRituelsOrganiserRouteImport
+      parentRoute: typeof CareRoute
+    }
     '/care/rituels/offering': {
       id: '/care/rituels/offering'
       path: '/rituels/offering'
       fullPath: '/care/rituels/offering'
       preLoaderRoute: typeof CareRituelsOfferingRouteImport
+      parentRoute: typeof CareRoute
+    }
+    '/care/rituels/mes-rituels': {
+      id: '/care/rituels/mes-rituels'
+      path: '/rituels/mes-rituels'
+      fullPath: '/care/rituels/mes-rituels'
+      preLoaderRoute: typeof CareRituelsMesRituelsRouteImport
+      parentRoute: typeof CareRoute
+    }
+    '/care/rituels/maintenant': {
+      id: '/care/rituels/maintenant'
+      path: '/rituels/maintenant'
+      fullPath: '/care/rituels/maintenant'
+      preLoaderRoute: typeof CareRituelsMaintenantRouteImport
+      parentRoute: typeof CareRoute
+    }
+    '/care/rituels/lettre': {
+      id: '/care/rituels/lettre'
+      path: '/rituels/lettre'
+      fullPath: '/care/rituels/lettre'
+      preLoaderRoute: typeof CareRituelsLettreRouteImport
       parentRoute: typeof CareRoute
     }
     '/care/rituels/lantern': {
@@ -3037,11 +3307,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CareRituelsLanternRouteImport
       parentRoute: typeof CareRoute
     }
+    '/care/rituels/fait': {
+      id: '/care/rituels/fait'
+      path: '/rituels/fait'
+      fullPath: '/care/rituels/fait'
+      preLoaderRoute: typeof CareRituelsFaitRouteImport
+      parentRoute: typeof CareRoute
+    }
+    '/care/rituels/ensemble': {
+      id: '/care/rituels/ensemble'
+      path: '/rituels/ensemble'
+      fullPath: '/care/rituels/ensemble'
+      preLoaderRoute: typeof CareRituelsEnsembleRouteImport
+      parentRoute: typeof CareRoute
+    }
+    '/care/rituels/cercle': {
+      id: '/care/rituels/cercle'
+      path: '/rituels/cercle'
+      fullPath: '/care/rituels/cercle'
+      preLoaderRoute: typeof CareRituelsCercleRouteImport
+      parentRoute: typeof CareRoute
+    }
     '/care/rituels/candle': {
       id: '/care/rituels/candle'
       path: '/rituels/candle'
       fullPath: '/care/rituels/candle'
       preLoaderRoute: typeof CareRituelsCandleRouteImport
+      parentRoute: typeof CareRoute
+    }
+    '/care/rituels/arbre': {
+      id: '/care/rituels/arbre'
+      path: '/rituels/arbre'
+      fullPath: '/care/rituels/arbre'
+      preLoaderRoute: typeof CareRituelsArbreRouteImport
+      parentRoute: typeof CareRoute
+    }
+    '/care/rituels/$id': {
+      id: '/care/rituels/$id'
+      path: '/rituels/$id'
+      fullPath: '/care/rituels/$id'
+      preLoaderRoute: typeof CareRituelsIdRouteImport
       parentRoute: typeof CareRoute
     }
     '/care/journal/later': {
@@ -3142,6 +3447,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HelpCorpsSoinIndexRouteImport
       parentRoute: typeof HelpCorpsSoinRoute
     }
+    '/care/rituels/monde/': {
+      id: '/care/rituels/monde/'
+      path: '/rituels/monde'
+      fullPath: '/care/rituels/monde/'
+      preLoaderRoute: typeof CareRituelsMondeIndexRouteImport
+      parentRoute: typeof CareRoute
+    }
+    '/care/rituels/calendrier/': {
+      id: '/care/rituels/calendrier/'
+      path: '/rituels/calendrier'
+      fullPath: '/care/rituels/calendrier/'
+      preLoaderRoute: typeof CareRituelsCalendrierIndexRouteImport
+      parentRoute: typeof CareRoute
+    }
     '/care/garden/$zone/': {
       id: '/care/garden/$zone/'
       path: '/'
@@ -3176,6 +3495,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/help/corps/$sujet/contenus'
       preLoaderRoute: typeof HelpCorpsSujetContenusRouteImport
       parentRoute: typeof HelpCorpsRoute
+    }
+    '/care/rituels/calendrier/annee': {
+      id: '/care/rituels/calendrier/annee'
+      path: '/rituels/calendrier/annee'
+      fullPath: '/care/rituels/calendrier/annee'
+      preLoaderRoute: typeof CareRituelsCalendrierAnneeRouteImport
+      parentRoute: typeof CareRoute
     }
     '/care/garden/$zone/$id': {
       id: '/care/garden/$zone/$id'
@@ -3212,12 +3538,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicSouffleSoundIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/care/rituels/monde/$region/': {
+      id: '/care/rituels/monde/$region/'
+      path: '/rituels/monde/$region'
+      fullPath: '/care/rituels/monde/$region/'
+      preLoaderRoute: typeof CareRituelsMondeRegionIndexRouteImport
+      parentRoute: typeof CareRoute
+    }
     '/care/community/vigil/$id/': {
       id: '/care/community/vigil/$id/'
       path: '/'
       fullPath: '/care/community/vigil/$id/'
       preLoaderRoute: typeof CareCommunityVigilIdIndexRouteImport
       parentRoute: typeof CareCommunityVigilIdRoute
+    }
+    '/care/rituels/monde/ameriques/ofrenda': {
+      id: '/care/rituels/monde/ameriques/ofrenda'
+      path: '/rituels/monde/ameriques/ofrenda'
+      fullPath: '/care/rituels/monde/ameriques/ofrenda'
+      preLoaderRoute: typeof CareRituelsMondeAmeriquesOfrendaRouteImport
+      parentRoute: typeof CareRoute
+    }
+    '/care/rituels/monde/$region/$id': {
+      id: '/care/rituels/monde/$region/$id'
+      path: '/rituels/monde/$region/$id'
+      fullPath: '/care/rituels/monde/$region/$id'
+      preLoaderRoute: typeof CareRituelsMondeRegionIdRouteImport
+      parentRoute: typeof CareRoute
     }
     '/care/community/vigil/$id/ok': {
       id: '/care/community/vigil/$id/ok'
@@ -3335,12 +3682,30 @@ interface CareRouteChildren {
   CareIndexRoute: typeof CareIndexRoute
   CareDatesIdRoute: typeof CareDatesIdRoute
   CareJournalLaterRoute: typeof CareJournalLaterRoute
+  CareRituelsIdRoute: typeof CareRituelsIdRoute
+  CareRituelsArbreRoute: typeof CareRituelsArbreRoute
   CareRituelsCandleRoute: typeof CareRituelsCandleRoute
+  CareRituelsCercleRoute: typeof CareRituelsCercleRoute
+  CareRituelsEnsembleRoute: typeof CareRituelsEnsembleRoute
+  CareRituelsFaitRoute: typeof CareRituelsFaitRoute
   CareRituelsLanternRoute: typeof CareRituelsLanternRoute
+  CareRituelsLettreRoute: typeof CareRituelsLettreRoute
+  CareRituelsMaintenantRoute: typeof CareRituelsMaintenantRoute
+  CareRituelsMesRituelsRoute: typeof CareRituelsMesRituelsRoute
   CareRituelsOfferingRoute: typeof CareRituelsOfferingRoute
+  CareRituelsOrganiserRoute: typeof CareRituelsOrganiserRoute
+  CareRituelsPropositionsRoute: typeof CareRituelsPropositionsRoute
+  CareRituelsRegardsRoute: typeof CareRituelsRegardsRoute
+  CareRituelsTraditionRoute: typeof CareRituelsTraditionRoute
   CareDatesIndexRoute: typeof CareDatesIndexRoute
   CareJournalIndexRoute: typeof CareJournalIndexRoute
   CareRituelsIndexRoute: typeof CareRituelsIndexRoute
+  CareRituelsCalendrierAnneeRoute: typeof CareRituelsCalendrierAnneeRoute
+  CareRituelsCalendrierIndexRoute: typeof CareRituelsCalendrierIndexRoute
+  CareRituelsMondeIndexRoute: typeof CareRituelsMondeIndexRoute
+  CareRituelsMondeRegionIdRoute: typeof CareRituelsMondeRegionIdRoute
+  CareRituelsMondeAmeriquesOfrendaRoute: typeof CareRituelsMondeAmeriquesOfrendaRoute
+  CareRituelsMondeRegionIndexRoute: typeof CareRituelsMondeRegionIndexRoute
 }
 
 const CareRouteChildren: CareRouteChildren = {
@@ -3359,12 +3724,30 @@ const CareRouteChildren: CareRouteChildren = {
   CareIndexRoute: CareIndexRoute,
   CareDatesIdRoute: CareDatesIdRoute,
   CareJournalLaterRoute: CareJournalLaterRoute,
+  CareRituelsIdRoute: CareRituelsIdRoute,
+  CareRituelsArbreRoute: CareRituelsArbreRoute,
   CareRituelsCandleRoute: CareRituelsCandleRoute,
+  CareRituelsCercleRoute: CareRituelsCercleRoute,
+  CareRituelsEnsembleRoute: CareRituelsEnsembleRoute,
+  CareRituelsFaitRoute: CareRituelsFaitRoute,
   CareRituelsLanternRoute: CareRituelsLanternRoute,
+  CareRituelsLettreRoute: CareRituelsLettreRoute,
+  CareRituelsMaintenantRoute: CareRituelsMaintenantRoute,
+  CareRituelsMesRituelsRoute: CareRituelsMesRituelsRoute,
   CareRituelsOfferingRoute: CareRituelsOfferingRoute,
+  CareRituelsOrganiserRoute: CareRituelsOrganiserRoute,
+  CareRituelsPropositionsRoute: CareRituelsPropositionsRoute,
+  CareRituelsRegardsRoute: CareRituelsRegardsRoute,
+  CareRituelsTraditionRoute: CareRituelsTraditionRoute,
   CareDatesIndexRoute: CareDatesIndexRoute,
   CareJournalIndexRoute: CareJournalIndexRoute,
   CareRituelsIndexRoute: CareRituelsIndexRoute,
+  CareRituelsCalendrierAnneeRoute: CareRituelsCalendrierAnneeRoute,
+  CareRituelsCalendrierIndexRoute: CareRituelsCalendrierIndexRoute,
+  CareRituelsMondeIndexRoute: CareRituelsMondeIndexRoute,
+  CareRituelsMondeRegionIdRoute: CareRituelsMondeRegionIdRoute,
+  CareRituelsMondeAmeriquesOfrendaRoute: CareRituelsMondeAmeriquesOfrendaRoute,
+  CareRituelsMondeRegionIndexRoute: CareRituelsMondeRegionIndexRoute,
 }
 
 const CareRouteWithChildren = CareRoute._addFileChildren(CareRouteChildren)
