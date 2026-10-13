@@ -9,15 +9,16 @@ import { setActiveSpaceId } from "@/lib/active-space";
 import { kindForWhom } from "@/lib/space-navigation";
 import {
   TOTAL_STEPS, getDeathDate, getForWhom, getNeeds, getPapers, setDeathDate, setForWhom,
-  setNeeds, setPapers, showsName, showsPapers, getAnimalBodyState, getCareState, getIllnessNote, setIllnessNote, CARE_STATE_SUMMARY, type ForWhom,
+  setNeeds, setPapers, showsName, getConcerns, setConcerns, getMoment, setMoment, showsPapers, getAnimalBodyState, getCareState, getIllnessNote, setIllnessNote, CARE_STATE_SUMMARY, type ForWhom,
 } from "@/lib/onboarding-flow";
+import type { Concern, Moment } from "@/lib/self-space";
 import { Field, Lead, OptionCard, PageTitle, QuestionFooter, QuestionLayout, StepBar, PrimaryButton } from "@/components/legato/ds";
 
-type Search = { etape?: "prenom" | "pret" };
+type Search = { etape?: "prenom" | "pret" | "occupe" | "moment" };
 
 export const Route = createFileRoute("/onboarding/")({
   validateSearch: (s: Record<string, unknown>): Search => ({
-    etape: s.etape === "prenom" || s.etape === "pret" ? s.etape : undefined,
+    etape: s.etape === "prenom" || s.etape === "pret" || s.etape === "occupe" || s.etape === "moment" ? s.etape : undefined,
   }),
   head: () => ({
     meta: [
@@ -36,13 +37,15 @@ const FOR_WHOM: { id: ForWhom; label: string; hint: string }[] = [
   { id: "personne", label: "Une personne qui est décédée", hint: "Soutien, démarches, mémoire" },
   { id: "animal", label: "Un animal qui est mort", hint: "Soutien, démarches et mémoire" },
   { id: "malade", label: "Un proche gravement malade", hint: "L'accompagner et prendre soin de vous" },
-  { id: "moi", label: "Moi, pour préparer l'avenir", hint: "Comprendre, écrire mes volontés" },
+  { id: "moi", label: "Moi : je pense souvent à la mort", hint: "Comprendre, en parler, préparer" },
 ];
 
 function Onboarding() {
   const { etape } = Route.useSearch();
   if (etape === "pret") return <Ready />;
   if (etape === "prenom") return <NameStep />;
+  if (etape === "occupe") return <ConcernStep />;
+  if (etape === "moment") return <MomentStep />;
   return <ForWhomStep />;
 }
 
@@ -60,17 +63,70 @@ function ForWhomStep() {
     setLovedOneRelation(choice === "animal" ? "animal" : null);
     setStage(null);
     if (showsName(choice)) navigate({ to: "/onboarding", search: { etape: "prenom" } });
-    else navigate({ to: "/onboarding/care" });
+    else navigate({ to: "/onboarding", search: { etape: "occupe" } });
   };
 
   return (
     <QuestionLayout step={1} total={TOTAL_STEPS} footer={<QuestionFooter cta="Continuer" onCta={next} ctaDisabled={!choice} />}>
       <PageTitle size={30}>Pour qui créez-vous<br /><em>cet espace ?</em></PageTitle>
-      <Lead className="mt-3">Choisissez la situation la plus proche. Vous pourrez créer d'autres espaces plus tard.</Lead>
+      <Lead className="mt-3">Choisissez la situation la plus proche.</Lead>
       <div className="mt-6 flex flex-col gap-[10px]">
         {FOR_WHOM.map((o) => (
           <OptionCard key={o.id} label={o.label} hint={o.hint} selected={choice === o.id} onClick={() => setChoice(o.id)} />
         ))}
+      </div>
+    </QuestionLayout>
+  );
+}
+
+const CONCERNS: { id: Concern; label: string }[] = [
+  { id: "peur", label: "La peur de mourir" },
+  { id: "proches", label: "La peur de perdre mes proches" },
+  { id: "apres", label: "Ce qui se passera pour eux après moi" },
+  { id: "papiers", label: "Préparer mes volontés et mes papiers" },
+  { id: "sens", label: "Le sens de tout cela" },
+];
+
+/** B069 · 2 · Ce qui vous occupe (plusieurs choix) */
+function ConcernStep() {
+  const navigate = useNavigate();
+  const [sel, setSel] = useState<Concern[]>([]);
+  useEffect(() => setSel(getConcerns()), []);
+  const goOn = () => navigate({ to: "/onboarding", search: { etape: "moment" } });
+  const toggle = (id: Concern) => setSel((v) => (v.includes(id) ? v.filter((x) => x !== id) : [...v, id]));
+  return (
+    <QuestionLayout step={2} total={TOTAL_STEPS} footer={<QuestionFooter cta="Continuer" ctaDisabled={!sel.length} onCta={() => { setConcerns(sel); goOn(); }} link="Passer cette étape" onLink={() => { setConcerns([]); goOn(); }} />}>
+      <PageTitle size={30}>Qu'est-ce qui vous occupe<br /><em>le plus ?</em></PageTitle>
+      <Lead className="mt-3">Plusieurs choix possibles.</Lead>
+      <div className="mt-6 flex flex-col gap-[10px]">
+        {CONCERNS.map((o) => <OptionCard key={o.id} label={o.label} selected={sel.includes(o.id)} onClick={() => toggle(o.id)} />)}
+      </div>
+    </QuestionLayout>
+  );
+}
+
+const MOMENTS: { id: Moment; label: string; hint?: string }[] = [
+  { id: "questions", label: "Des questions, une inquiétude de fond" },
+  { id: "angoisse", label: "Une angoisse qui prend beaucoup de place" },
+  { id: "envie", label: "Parfois, l'envie de ne plus être là", hint: "Legato vous propose tout de suite de parler à quelqu'un" },
+];
+
+/** B070 · 3 · En ce moment — sécurité (§7) : « l'envie de ne plus être là » ouvre tout de suite le 3114. */
+function MomentStep() {
+  const navigate = useNavigate();
+  const [sel, setSel] = useState<Moment | null>(null);
+  useEffect(() => { const m = getMoment(); if (m && m !== "envie") setSel(m); }, []);
+  const pick = (id: Moment) => {
+    setSel(id);
+    if (id === "envie") { setMoment(id); navigate({ to: "/home/penser-a-mourir", search: { suite: 1 } }); }
+  };
+  const goOn = () => navigate({ to: "/onboarding", search: { etape: "pret" } });
+  return (
+    <QuestionLayout step={3} total={TOTAL_STEPS} footer={<QuestionFooter cta="Continuer" ctaDisabled={!sel} onCta={() => { setMoment(sel); goOn(); }} link="Passer cette étape" onLink={goOn} />}>
+      <PageTitle size={30}>Ces pensées, en ce moment,<br /><em>c'est plutôt…</em></PageTitle>
+      <Lead className="mt-3">Votre réponse reste privée. Elle sert à vous proposer la bonne aide.</Lead>
+      <div className="mt-6 flex flex-col gap-[10px]">
+        {MOMENTS.map((o) => <OptionCard key={o.id} label={o.label} hint={o.hint} selected={sel === o.id} onClick={() => pick(o.id)} />)}
       </div>
     </QuestionLayout>
   );
@@ -197,10 +253,13 @@ function Ready() {
   const linkLabel = forWhom === "animal" ? other.replace(/^(un|une)\s+/i, "votre ") : forWhom === "malade" ? other.replace(/^(ma|mon)\s+/i, (m) => m.toLowerCase().startsWith("ma") ? "votre " : "votre ") : other;
   const date = answers.date ? new Date(`${answers.date}T12:00:00`) : null;
   const dateLabel = date && !Number.isNaN(date.getTime()) ? `le ${date.toLocaleDateString("fr-FR", { day: "numeric", month: "long" })}` : "À préciser";
+  const concerns = forWhom === "moi" ? getConcerns() : [];
+  const moment = forWhom === "moi" ? getMoment() : null;
+  const selfFirst = moment === "questions" && !concerns.includes("peur") && concerns.some((c) => c === "papiers" || c === "apres") ? "Préparer, pour vos proches" : "Apprivoiser l'angoisse";
   const summary = forWhom === "moi" ? [
     { label: "Pour", value: "Vous" },
-    { label: "En premier", value: answers.needs.map(n => needsLabel[n]).join(", ") || "À votre rythme" },
-    { label: "Ensuite", value: "Préparer, pour vos proches" },
+    { label: "En premier", value: selfFirst },
+    { label: "Ensuite", value: selfFirst.startsWith("Préparer") ? "Apprivoiser l'angoisse" : "Préparer, pour vos proches" },
   ] : [
     { label: "Pour", value: `${name}${linkLabel ? `, ${linkLabel}` : ""}` },
     { label: forWhom === "malade" ? "Aujourd'hui" : "Depuis", value: forWhom === "malade" ? (careState ? CARE_STATE_SUMMARY[careState] : "À préciser ensemble") : dateLabel },
