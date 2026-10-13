@@ -3,4 +3,7 @@
 - The opening flow (/onboarding, /onboarding/practical, /onboarding/care) shares its answers through `src/lib/onboarding-flow.ts` and maps them onto legato-state at the final screen. Why: three routes, one source of truth.
 - Concrete Démarches (screens 055–062) live in `src/lib/demarches.ts` (status via legato-state taskStatus, steps via task-steps); old category ids still resolve there. Why: one list feeds Démarches, Mon avancement, detail and Confier.
 - Ceremony decisions and flower proposals use the space-scoped practical-store through ceremony-flow; flower views use validated search state on /practical/flowers. Why: one source of truth survives navigation and keeps existing URLs.
+- Text/music proposals and object choices use practical-store; wishes questionnaire views use validated search state and legato-state. Why: existing URLs and saved choices survive navigation without parallel stores.
+- Booklet PDF generation loads its browser-only library on explicit download and embeds the local editorial font. Why: SSR stays safe and accented text remains readable in downloaded documents.
+- Step 10 off-mockup features remain in collapsed legacy views until removal is approved. Why: reproducing captures must not silently remove existing functionality.
 - Funeral-specific resource views are isolated from the support directory and mark mockup providers as examples without invented contact details. Why: reproducing the mockups must not imply verified prices or real booking capabilities.

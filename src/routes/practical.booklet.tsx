@@ -1,96 +1,62 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
-import { Shell } from "@/components/legato/Shell";
-import { ConfideDock } from "@/components/legato/ConfideDock";
+import { createFileRoute } from "@tanstack/react-router";
+import { useEffect, useRef, useState } from "react";
+import { StandardLayout, PageTitle, Lead, Row, PrimaryButton, TextLink, Field, TextArea } from "@/components/legato/ds";
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { useCeremonyPlan } from "@/lib/ceremony-flow";
 import { loadPractical, savePractical } from "@/lib/practical-store";
-import { PageHeader, IvoryCard } from "@/components/legato/EditorialUI";
+import { getAllMemories, type Memory } from "@/lib/memories-store";
+import { useLegato } from "@/lib/legato-state";
+import { legatoHead } from "@/lib/legato-head";
+import { Step10Extras } from "@/components/legato/Step10Extras";
+import { LegacyBooklet } from "@/components/legato/legacy/Step10Booklet";
 
 export const Route = createFileRoute("/practical/booklet")({
-  head: () => ({ meta: [{ title: "Livret de cérémonie — Legato" }] }),
+  head: () => legatoHead("Le livret de la cérémonie", "Une feuille pliée avec sa photo, le déroulé et un texte, à télécharger ou à imprimer."),
   component: Booklet,
 });
-
 function Booklet() {
-  const [d, setD] = useState(loadPractical().bookletDraft);
-  useEffect(() => { setD(loadPractical().bookletDraft); }, []);
-  const update = (patch: Partial<typeof d>) => {
-    const next = { ...d, ...patch };
-    setD(next);
-    savePractical({ bookletDraft: next });
-  };
-
-  return (
-    <Shell hideNav>
-      <div className="wash-sand min-h-dvh text-dusk pb-12">
-        <PageHeader title="LIVRET" back="/practical/ceremony" />
-
-        <section className="px-6 pt-4 pb-6 no-print">
-          <p className="mono-label">Livret de cérémonie</p>
-          <h1 className="mt-3 ed-page-title">
-            Une mise en page <span className="italic">simple, élégante.</span>
-          </h1>
-          <p className="mt-5 max-w-[36ch] text-[14px] leading-relaxed text-dusk/65">
-            Remplissez les champs. Aperçu en bas. Imprimez ou enregistrez en PDF.
-          </p>
-        </section>
-
-        <div className="px-5 space-y-3 no-print">
-          {([
-            ["name", "Prénom et nom", false],
-            ["dates", "Dates (1947 — 2025)", false],
-            ["photoUrl", "URL d'une photo (optionnel)", false],
-            ["intro", "Introduction (quelques mots d'accueil)", true],
-            ["program", "Programme de la cérémonie", true],
-            ["closing", "Mot de clôture, remerciements", true],
-          ] as const).map(([k, label, multi]) => (
-            <IvoryCard key={k} className="p-5">
-              <p className="mono-label">{label}</p>
-              {multi ? (
-                <textarea
-                  value={d[k]}
-                  onChange={(e) => update({ [k]: e.target.value })}
-                  rows={4}
-                  className="mt-2 w-full bg-transparent outline-none resize-none font-serif text-[15px] leading-[24px] text-dusk placeholder:text-dusk/25"
-                  placeholder="…"
-                />
-              ) : (
-                <input
-                  value={d[k]}
-                  onChange={(e) => update({ [k]: e.target.value })}
-                  className="mt-2 w-full bg-transparent outline-none border-b border-dusk/15 pb-2 font-serif text-[15px] text-dusk placeholder:text-dusk/30"
-                  placeholder="…"
-                />
-              )}
-            </IvoryCard>
-          ))}
-        </div>
-
-        <div className="px-5 mt-8 no-print">
-          <button onClick={() => window.print()} className="w-full rounded-[14px] border border-dusk/10 px-5 py-4 font-serif text-[15px] text-dusk hover:bg-dusk/5 transition-colors">
-            Imprimer ou enregistrer en PDF →
-          </button>
-        </div>
-
-        {/* Aperçu / version imprimable */}
-        <div className="px-5 mt-10 print-booklet">
-          <div className="page rounded-[18px] border border-dusk/10 bg-paper p-10 text-center" style={{ minHeight: 480 }}>
-            {d.photoUrl && (
-              <img src={d.photoUrl} alt="" className="w-32 h-32 object-cover rounded-full mx-auto mb-6 grayscale" />
-            )}
-            <h2 className="font-serif text-[28px] text-dusk leading-tight">{d.name || "Prénom Nom"}</h2>
-            <p className="mt-2 text-[13px] uppercase tracking-[0.22em] text-dusk/55">{d.dates || "1947 — 2025"}</p>
-            <p className="mt-8 font-serif text-[15px] text-dusk/75 leading-relaxed whitespace-pre-line">{d.intro || "Bienvenue. Merci d'être là."}</p>
-          </div>
-          <div className="page rounded-[18px] border border-dusk/10 bg-paper p-10 mt-6" style={{ minHeight: 480 }}>
-            <p className="mono-label text-center">Programme</p>
-            <p className="mt-4 font-serif text-[15px] text-dusk leading-relaxed whitespace-pre-line">{d.program || "1. Accueil\n2. Mots d'un proche\n3. Lecture\n4. Musique\n5. Recueillement"}</p>
-          </div>
-          <div className="page rounded-[18px] border border-dusk/10 bg-paper p-10 mt-6 text-center" style={{ minHeight: 320 }}>
-            <p className="font-serif text-[15px] text-dusk/75 leading-relaxed whitespace-pre-line">{d.closing || "Merci d'avoir partagé ce moment."}</p>
-          </div>
-        </div>
+  const { state } = useCeremonyPlan();
+  const d = state.bookletDraft;
+  const { lovedOneName } = useLegato();
+  const [editor, setEditor] = useState<"photo" | "program" | null>(null);
+  const [photos, setPhotos] = useState<Memory[]>([]);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
+  const file = useRef<HTMLInputElement>(null);
+  useEffect(() => { if (editor === "photo") setPhotos(getAllMemories().filter(m => m.type === "photo" && m.imageDataUrl)); }, [editor]);
+  const update = (patch: Partial<typeof d>) => { try { savePractical({ bookletDraft: { ...loadPractical().bookletDraft, ...patch } }); } catch { setError("La photo est trop volumineuse pour être conservée sur cet appareil."); } };
+  const download = async () => { setBusy(true); setError(""); try { const { downloadBooklet } = await import("@/lib/booklet-pdf"); await downloadBooklet({ ...d, name: d.name || lovedOneName }, state.selectedTexts, state.selectedMusic); } catch (e) { setError(e instanceof Error ? e.message : "Le livret n’a pas pu être téléchargé."); } finally { setBusy(false); } };
+  return <StandardLayout space="practical" back="/practical/atmosphere" backLabel="Les détails" activeTab="/practical">
+    <div className="lg-booklet-screen">
+      <PageTitle space="practical" size={36} className="mt-[30px]">Le livret<br /><em>de la cérémonie.</em></PageTitle>
+      <Lead space="practical" className="mt-3">Une feuille pliée avec sa photo, le déroulé et un texte. À imprimer ou à envoyer.</Lead>
+      <div className="lg-booklet-preview mt-6" aria-label="Aperçu du livret">
+        <div className="lg-booklet-sheet lg-booklet-cover">{d.photoUrl && <img src={d.photoUrl} alt="Photo du livret" />}<span>{d.name || lovedOneName || "En souvenir"}</span><small>{d.dates}</small></div>
+        <div className="lg-booklet-sheet lg-booklet-lines">{Array.from({ length: 6 }, (_, i) => <span key={i} />)}</div>
       </div>
-      <ConfideDock step="livret" />
-    </Shell>
-  );
+      <div className="mt-[10px]">
+        <Row space="practical" title="La photo" subtitle={d.photoUrl ? "Choisie dans ses souvenirs" : "Choisir dans ses souvenirs"} status={d.photoUrl ? "choisie" : undefined} onClick={() => setEditor("photo")} />
+        <Row space="practical" title="Le déroulé" subtitle="Accueil, textes, musique, hommage" onClick={() => setEditor("program")} last />
+      </div>
+      <div className="mt-[18px] flex flex-wrap items-center gap-[22px]"><PrimaryButton space="practical" onClick={download} disabled={busy}>{busy ? "Préparation…" : "Télécharger le livret"}</PrimaryButton><TextLink space="practical" onClick={() => window.print()}>Imprimer</TextLink></div>
+      {error && <p role="alert" className="lg-row-sub mt-3">{error}</p>}
+      <Step10Extras><LegacyBooklet /></Step10Extras>
+    </div>
+    <article className="lg-booklet-print"><h1>{d.name || lovedOneName || "En souvenir"}</h1><p>{d.dates}</p>{d.photoUrl && <img src={d.photoUrl} alt="" />}<p>{d.intro}</p><h2>Le déroulé</h2><p>{d.program || "Accueil\nTextes et musique\nHommage\nRecueillement"}</p><p>{state.selectedTexts.join("\n")}</p><p>{state.selectedMusic.join("\n")}</p><p>{d.closing}</p></article>
+    <Dialog open={editor !== null} onOpenChange={v => { if (!v) setEditor(null); }}><DialogContent className="lg-space-practical lg-step10-dialog"><DialogTitle>{editor === "photo" ? "La photo" : "Le déroulé"}</DialogTitle><DialogDescription>Vos choix restent modifiables.</DialogDescription>
+      {editor === "photo" ? <>
+        {photos.map(p => <div key={p.id} className="flex items-center gap-4">{p.imageDataUrl && <img src={p.imageDataUrl} alt={p.title || "Souvenir"} className="size-16 object-cover" />}<TextLink space="practical" onClick={() => { update({ photoUrl: p.imageDataUrl ?? "" }); setEditor(null); }}>{p.title || "Choisir cette photo"}</TextLink></div>)}
+        <input ref={file} type="file" accept="image/*" className="hidden" onChange={e => { const selected = e.target.files?.[0]; if (!selected) return; const reader = new FileReader(); reader.onload = () => { if (typeof reader.result === "string") { update({ photoUrl: reader.result }); setEditor(null); } }; reader.readAsDataURL(selected); }} />
+        <PrimaryButton space="practical" onClick={() => file.current?.click()}>Choisir une photo</PrimaryButton>
+        <Field space="practical" label="Adresse d’une photo · facultatif" value={d.photoUrl} onChange={e => update({ photoUrl: e.target.value })} />
+      </> : <>
+        <Field space="practical" label="Prénom et nom" value={d.name} placeholder={lovedOneName || "Prénom et nom"} onChange={e => update({ name: e.target.value })} />
+        <Field space="practical" label="Dates" value={d.dates} onChange={e => update({ dates: e.target.value })} />
+        <TextArea space="practical" label="Introduction" rows={2} value={d.intro} onChange={e => update({ intro: e.target.value })} />
+        <TextArea space="practical" label="Programme" rows={4} value={d.program} placeholder="Accueil, textes, musique, hommage" onChange={e => update({ program: e.target.value })} />
+        <TextArea space="practical" label="Remerciements" rows={2} value={d.closing} onChange={e => update({ closing: e.target.value })} />
+      </>}
+      <PrimaryButton space="practical" onClick={() => setEditor(null)}>Terminer</PrimaryButton>
+    </DialogContent></Dialog>
+  </StandardLayout>;
 }
