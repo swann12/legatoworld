@@ -146,17 +146,26 @@ function variantFor(kind: SpaceKind, space: Space): Variant {
       { title: "Parler à d'autres aidants", subtitle: "Un groupe, une ligne d'écoute", to: "/care/community" },
     ],
   };
-  if (kind === "animal") return {
-    title: <>{name} vous manque.<br /><em>C'est un vrai chagrin.</em></>,
-    tag: `Espace « ${name} » · perte d'un animal`,
-    moods: [{ id: "tristesse", label: "Tristesse" }, { id: "culpabilite", label: "Culpabilité" }, { id: "vide", label: "Vide" }, { id: "autre", label: "Autre" }],
-    label: "Pour aujourd'hui", blockTitle: "Rassembler ses photos préférées", meta: "15 minutes · pour garder sa trace",
-    cta: "Commencer", to: "/care/garden",
-    rows: [
-      { title: "Ses affaires", subtitle: "Que garder, que donner, à votre rythme", to: "/home/ses-affaires" },
-      { title: "En parler à un enfant", subtitle: "Des mots simples pour expliquer", to: "/home/parler-enfant" },
-    ],
-  };
+  if (kind === "animal") {
+    const atVet = space.animalBodyState === "choisir";
+    const papersHidden = space.animalBodyState === "pas_maintenant";
+    const left = space.animalBodyState === "fait" ? 3 : 4;
+    return {
+      title: <>{name} vous manque.<br /><em>C'est un vrai chagrin.</em></>,
+      tag: `Espace « ${name} » · perte d'un animal`,
+      moods: [{ id: "tristesse", label: "Tristesse" }, { id: "culpabilite", label: "Culpabilité" }, { id: "vide", label: "Vide" }, { id: "autre", label: "Autre" }],
+      label: "Pour aujourd'hui",
+      blockTitle: atVet ? "Choisir sa crémation ou son enterrement" : "Rassembler ses photos préférées",
+      meta: atVet ? "10 minutes · il est encore chez le vétérinaire" : "15 minutes · pour garder sa trace",
+      cta: atVet ? "Voir les possibilités" : "Commencer", to: atVet ? "/practical/animal-body" : "/care/garden",
+      rows: [
+        ...(papersHidden ? [] : [{ title: "Cette semaine", subtitle: `${left} démarches, rien d'urgent`, to: "/practical" }]),
+        { title: "Si vous vous sentez coupable", subtitle: "C'est très fréquent, surtout après une euthanasie", to: "/care/guilt" },
+        { title: "Ses affaires", subtitle: "Que garder, que donner, à votre rythme", to: "/home/ses-affaires" },
+        { title: "En parler à un enfant", subtitle: "Des mots simples pour expliquer", to: "/home/parler-enfant" },
+      ],
+    };
+  }
   return {
     title: <>Vos questions <em>sur la mort.</em></>,
     tag: "Espace personnel · sans urgence",
