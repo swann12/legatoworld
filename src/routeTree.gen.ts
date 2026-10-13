@@ -70,6 +70,7 @@ import { Route as PracticalFlowersRouteImport } from './routes/practical.flowers
 import { Route as PracticalCeremonyRouteImport } from './routes/practical.ceremony'
 import { Route as PracticalBookletRouteImport } from './routes/practical.booklet'
 import { Route as PracticalAtmosphereRouteImport } from './routes/practical.atmosphere'
+import { Route as PracticalAnimalBodyRouteImport } from './routes/practical.animal-body'
 import { Route as ParcoursTaskIdRouteImport } from './routes/parcours.$taskId'
 import { Route as OnboardingPracticalRouteImport } from './routes/onboarding.practical'
 import { Route as OnboardingCareRouteImport } from './routes/onboarding.care'
@@ -85,8 +86,10 @@ import { Route as ComposeZoneRouteImport } from './routes/compose.$zone'
 import { Route as CareSonsRouteImport } from './routes/care.sons'
 import { Route as CareRespirerRouteImport } from './routes/care.respirer'
 import { Route as CareResourcesRouteImport } from './routes/care.resources'
+import { Route as CareNewAnimalRouteImport } from './routes/care.new-animal'
 import { Route as CareMemoryRouteImport } from './routes/care.memory'
 import { Route as CareHelpRouteImport } from './routes/care.help'
+import { Route as CareGuiltRouteImport } from './routes/care.guilt'
 import { Route as CareGardenRouteImport } from './routes/care.garden'
 import { Route as CareEmotionsRouteImport } from './routes/care.emotions'
 import { Route as CareCommunityRouteImport } from './routes/care.community'
@@ -453,6 +456,11 @@ const PracticalAtmosphereRoute = PracticalAtmosphereRouteImport.update({
   path: '/atmosphere',
   getParentRoute: () => PracticalRoute,
 } as any)
+const PracticalAnimalBodyRoute = PracticalAnimalBodyRouteImport.update({
+  id: '/animal-body',
+  path: '/animal-body',
+  getParentRoute: () => PracticalRoute,
+} as any)
 const ParcoursTaskIdRoute = ParcoursTaskIdRouteImport.update({
   id: '/$taskId',
   path: '/$taskId',
@@ -528,6 +536,11 @@ const CareResourcesRoute = CareResourcesRouteImport.update({
   path: '/resources',
   getParentRoute: () => CareRoute,
 } as any)
+const CareNewAnimalRoute = CareNewAnimalRouteImport.update({
+  id: '/new-animal',
+  path: '/new-animal',
+  getParentRoute: () => CareRoute,
+} as any)
 const CareMemoryRoute = CareMemoryRouteImport.update({
   id: '/memory',
   path: '/memory',
@@ -536,6 +549,11 @@ const CareMemoryRoute = CareMemoryRouteImport.update({
 const CareHelpRoute = CareHelpRouteImport.update({
   id: '/help',
   path: '/help',
+  getParentRoute: () => CareRoute,
+} as any)
+const CareGuiltRoute = CareGuiltRouteImport.update({
+  id: '/guilt',
+  path: '/guilt',
   getParentRoute: () => CareRoute,
 } as any)
 const CareGardenRoute = CareGardenRouteImport.update({
@@ -878,8 +896,10 @@ export interface FileRoutesByFullPath {
   '/care/community': typeof CareCommunityRouteWithChildren
   '/care/emotions': typeof CareEmotionsRoute
   '/care/garden': typeof CareGardenRouteWithChildren
+  '/care/guilt': typeof CareGuiltRoute
   '/care/help': typeof CareHelpRoute
   '/care/memory': typeof CareMemoryRoute
+  '/care/new-animal': typeof CareNewAnimalRoute
   '/care/resources': typeof CareResourcesRoute
   '/care/respirer': typeof CareRespirerRoute
   '/care/sons': typeof CareSonsRoute
@@ -895,6 +915,7 @@ export interface FileRoutesByFullPath {
   '/onboarding/care': typeof OnboardingCareRoute
   '/onboarding/practical': typeof OnboardingPracticalRoute
   '/parcours/$taskId': typeof ParcoursTaskIdRoute
+  '/practical/animal-body': typeof PracticalAnimalBodyRoute
   '/practical/atmosphere': typeof PracticalAtmosphereRoute
   '/practical/booklet': typeof PracticalBookletRoute
   '/practical/ceremony': typeof PracticalCeremonyRoute
@@ -1011,8 +1032,10 @@ export interface FileRoutesByTo {
   '/appointments/new': typeof AppointmentsNewRoute
   '/care/aide': typeof CareAideRoute
   '/care/emotions': typeof CareEmotionsRoute
+  '/care/guilt': typeof CareGuiltRoute
   '/care/help': typeof CareHelpRoute
   '/care/memory': typeof CareMemoryRoute
+  '/care/new-animal': typeof CareNewAnimalRoute
   '/care/resources': typeof CareResourcesRoute
   '/care/respirer': typeof CareRespirerRoute
   '/care/sons': typeof CareSonsRoute
@@ -1027,6 +1050,7 @@ export interface FileRoutesByTo {
   '/onboarding/care': typeof OnboardingCareRoute
   '/onboarding/practical': typeof OnboardingPracticalRoute
   '/parcours/$taskId': typeof ParcoursTaskIdRoute
+  '/practical/animal-body': typeof PracticalAnimalBodyRoute
   '/practical/atmosphere': typeof PracticalAtmosphereRoute
   '/practical/booklet': typeof PracticalBookletRoute
   '/practical/ceremony': typeof PracticalCeremonyRoute
@@ -1145,8 +1169,10 @@ export interface FileRoutesById {
   '/care/community': typeof CareCommunityRouteWithChildren
   '/care/emotions': typeof CareEmotionsRoute
   '/care/garden': typeof CareGardenRouteWithChildren
+  '/care/guilt': typeof CareGuiltRoute
   '/care/help': typeof CareHelpRoute
   '/care/memory': typeof CareMemoryRoute
+  '/care/new-animal': typeof CareNewAnimalRoute
   '/care/resources': typeof CareResourcesRoute
   '/care/respirer': typeof CareRespirerRoute
   '/care/sons': typeof CareSonsRoute
@@ -1162,6 +1188,7 @@ export interface FileRoutesById {
   '/onboarding/care': typeof OnboardingCareRoute
   '/onboarding/practical': typeof OnboardingPracticalRoute
   '/parcours/$taskId': typeof ParcoursTaskIdRoute
+  '/practical/animal-body': typeof PracticalAnimalBodyRoute
   '/practical/atmosphere': typeof PracticalAtmosphereRoute
   '/practical/booklet': typeof PracticalBookletRoute
   '/practical/ceremony': typeof PracticalCeremonyRoute
@@ -1287,8 +1314,10 @@ export interface FileRouteTypes {
     | '/care/community'
     | '/care/emotions'
     | '/care/garden'
+    | '/care/guilt'
     | '/care/help'
     | '/care/memory'
+    | '/care/new-animal'
     | '/care/resources'
     | '/care/respirer'
     | '/care/sons'
@@ -1304,6 +1333,7 @@ export interface FileRouteTypes {
     | '/onboarding/care'
     | '/onboarding/practical'
     | '/parcours/$taskId'
+    | '/practical/animal-body'
     | '/practical/atmosphere'
     | '/practical/booklet'
     | '/practical/ceremony'
@@ -1420,8 +1450,10 @@ export interface FileRouteTypes {
     | '/appointments/new'
     | '/care/aide'
     | '/care/emotions'
+    | '/care/guilt'
     | '/care/help'
     | '/care/memory'
+    | '/care/new-animal'
     | '/care/resources'
     | '/care/respirer'
     | '/care/sons'
@@ -1436,6 +1468,7 @@ export interface FileRouteTypes {
     | '/onboarding/care'
     | '/onboarding/practical'
     | '/parcours/$taskId'
+    | '/practical/animal-body'
     | '/practical/atmosphere'
     | '/practical/booklet'
     | '/practical/ceremony'
@@ -1553,8 +1586,10 @@ export interface FileRouteTypes {
     | '/care/community'
     | '/care/emotions'
     | '/care/garden'
+    | '/care/guilt'
     | '/care/help'
     | '/care/memory'
+    | '/care/new-animal'
     | '/care/resources'
     | '/care/respirer'
     | '/care/sons'
@@ -1570,6 +1605,7 @@ export interface FileRouteTypes {
     | '/onboarding/care'
     | '/onboarding/practical'
     | '/parcours/$taskId'
+    | '/practical/animal-body'
     | '/practical/atmosphere'
     | '/practical/booklet'
     | '/practical/ceremony'
@@ -2148,6 +2184,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PracticalAtmosphereRouteImport
       parentRoute: typeof PracticalRoute
     }
+    '/practical/animal-body': {
+      id: '/practical/animal-body'
+      path: '/animal-body'
+      fullPath: '/practical/animal-body'
+      preLoaderRoute: typeof PracticalAnimalBodyRouteImport
+      parentRoute: typeof PracticalRoute
+    }
     '/parcours/$taskId': {
       id: '/parcours/$taskId'
       path: '/$taskId'
@@ -2253,6 +2296,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CareResourcesRouteImport
       parentRoute: typeof CareRoute
     }
+    '/care/new-animal': {
+      id: '/care/new-animal'
+      path: '/new-animal'
+      fullPath: '/care/new-animal'
+      preLoaderRoute: typeof CareNewAnimalRouteImport
+      parentRoute: typeof CareRoute
+    }
     '/care/memory': {
       id: '/care/memory'
       path: '/memory'
@@ -2265,6 +2315,13 @@ declare module '@tanstack/react-router' {
       path: '/help'
       fullPath: '/care/help'
       preLoaderRoute: typeof CareHelpRouteImport
+      parentRoute: typeof CareRoute
+    }
+    '/care/guilt': {
+      id: '/care/guilt'
+      path: '/guilt'
+      fullPath: '/care/guilt'
+      preLoaderRoute: typeof CareGuiltRouteImport
       parentRoute: typeof CareRoute
     }
     '/care/garden': {
@@ -2788,8 +2845,10 @@ interface CareRouteChildren {
   CareCommunityRoute: typeof CareCommunityRouteWithChildren
   CareEmotionsRoute: typeof CareEmotionsRoute
   CareGardenRoute: typeof CareGardenRouteWithChildren
+  CareGuiltRoute: typeof CareGuiltRoute
   CareHelpRoute: typeof CareHelpRoute
   CareMemoryRoute: typeof CareMemoryRoute
+  CareNewAnimalRoute: typeof CareNewAnimalRoute
   CareResourcesRoute: typeof CareResourcesRoute
   CareRespirerRoute: typeof CareRespirerRoute
   CareSonsRoute: typeof CareSonsRoute
@@ -2809,8 +2868,10 @@ const CareRouteChildren: CareRouteChildren = {
   CareCommunityRoute: CareCommunityRouteWithChildren,
   CareEmotionsRoute: CareEmotionsRoute,
   CareGardenRoute: CareGardenRouteWithChildren,
+  CareGuiltRoute: CareGuiltRoute,
   CareHelpRoute: CareHelpRoute,
   CareMemoryRoute: CareMemoryRoute,
+  CareNewAnimalRoute: CareNewAnimalRoute,
   CareResourcesRoute: CareResourcesRoute,
   CareRespirerRoute: CareRespirerRoute,
   CareSonsRoute: CareSonsRoute,
@@ -2955,6 +3016,7 @@ const PracticalTasksRouteWithChildren = PracticalTasksRoute._addFileChildren(
 )
 
 interface PracticalRouteChildren {
+  PracticalAnimalBodyRoute: typeof PracticalAnimalBodyRoute
   PracticalAtmosphereRoute: typeof PracticalAtmosphereRoute
   PracticalBookletRoute: typeof PracticalBookletRoute
   PracticalCeremonyRoute: typeof PracticalCeremonyRoute
@@ -2975,6 +3037,7 @@ interface PracticalRouteChildren {
 }
 
 const PracticalRouteChildren: PracticalRouteChildren = {
+  PracticalAnimalBodyRoute: PracticalAnimalBodyRoute,
   PracticalAtmosphereRoute: PracticalAtmosphereRoute,
   PracticalBookletRoute: PracticalBookletRoute,
   PracticalCeremonyRoute: PracticalCeremonyRoute,
