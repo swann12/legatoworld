@@ -34,9 +34,9 @@ export const Route = createFileRoute("/onboarding/")({
 
 const FOR_WHOM: { id: ForWhom; label: string; hint: string }[] = [
   { id: "personne", label: "Une personne qui est décédée", hint: "Soutien, démarches, mémoire" },
-  { id: "animal", label: "Un animal qui est mort", hint: "Soutien et mémoire" },
+  { id: "animal", label: "Un animal qui est mort", hint: "Soutien, démarches et mémoire" },
   { id: "malade", label: "Un proche gravement malade", hint: "L'accompagner et prendre soin de vous" },
-  { id: "moi", label: "Moi : je pense souvent à la mort", hint: "Comprendre, préparer, transmettre" },
+  { id: "moi", label: "Moi, pour préparer l'avenir", hint: "Comprendre, écrire mes volontés" },
 ];
 
 function Onboarding() {
@@ -83,8 +83,10 @@ function NameStep() {
   const [name, setName] = useState("");
   const [link, setLink] = useState("");
   const [date, setDate] = useState("");
+  const [animal, setAnimal] = useState(false);
   useEffect(() => {
     if (!hydrated) return;
+    setAnimal(getForWhom() === "animal");
     setName(lovedOneName.trim());
     setLink(lovedOther);
     setDate(getDeathDate() ?? "");
@@ -102,11 +104,19 @@ function NameStep() {
 
   return (
     <QuestionLayout step={2} total={TOTAL_STEPS} footer={<QuestionFooter cta="Continuer" onCta={save} ctaDisabled={!name.trim()} link="Passer cette étape" onLink={goOn} />}>
+      {animal ? <>
+        <PageTitle size={30}>Comment s'appelait<br /><em>votre animal ?</em></PageTitle>
+        <Lead className="mt-3">Legato utilisera son nom pour vous parler de lui. Personne d'autre ne le verra.</Lead>
+        <Field className="mt-7" label="Son nom" value={name} onChange={(e) => setName(e.target.value)} placeholder="Ulysse" />
+        <Field className="mt-5" label="C'était" value={link} onChange={(e) => setLink(e.target.value)} placeholder="Un chien" />
+        <Field className="mt-5" label="Il est mort le · facultatif" type="date" value={date} onChange={(e) => setDate(e.target.value)} />
+      </> : <>
       <PageTitle size={30}>Comment voulez-vous<br /><em>l'appeler ?</em></PageTitle>
       <Lead className="mt-3">Legato utilisera ce nom pour vous parler d'elle. Personne d'autre ne le verra.</Lead>
       <Field className="mt-7" label="Son prénom, ou le nom que vous lui donnez" value={name} onChange={(e) => setName(e.target.value)} placeholder="Mon amour" />
       <Field className="mt-5" label="Votre lien avec elle" value={link} onChange={(e) => setLink(e.target.value)} placeholder="Mon épouse" />
       <Field className="mt-5" label="Date du décès · facultatif" type="date" value={date} onChange={(e) => setDate(e.target.value)} />
+      </>}
     </QuestionLayout>
   );
 }
@@ -167,7 +177,11 @@ function Ready() {
     "Rien n'est partagé avec vos proches sans votre accord.",
   ];
 
-  const needsLabel = { tenir: "Tenir le coup", demarches: "les démarches", parler: "Parler à quelqu'un", memoire: "Garder sa mémoire" };
+  const needsLabel: Record<string, string> = forWhom === "animal"
+    ? { tenir: "Tenir le coup", demarches: "son corps", parler: "Parler à quelqu'un", memoire: "sa mémoire", enfant: "en parler à un enfant" }
+    : { tenir: "Tenir le coup", demarches: "les démarches", parler: "Parler à quelqu'un", memoire: "Garder sa mémoire", enfant: "En parler à un enfant" };
+  const other = legato.lovedOther.trim();
+  const linkLabel = forWhom === "animal" ? other.replace(/^(un|une)\s+/i, "votre ") : other;
   const date = answers.date ? new Date(`${answers.date}T12:00:00`) : null;
   const dateLabel = date && !Number.isNaN(date.getTime()) ? `le ${date.toLocaleDateString("fr-FR", { day: "numeric", month: "long" })}` : "À préciser";
   const summary = forWhom === "moi" ? [
@@ -175,7 +189,7 @@ function Ready() {
     { label: "En premier", value: answers.needs.map(n => needsLabel[n]).join(", ") || "À votre rythme" },
     { label: "Ensuite", value: "Préparer, pour vos proches" },
   ] : [
-    { label: "Pour", value: `${name}${legato.lovedOther.trim() ? `, ${legato.lovedOther.trim()}` : ""}` },
+    { label: "Pour", value: `${name}${linkLabel ? `, ${linkLabel}` : ""}` },
     { label: forWhom === "malade" ? "Aujourd'hui" : "Depuis", value: forWhom === "malade" ? "Accompagner un proche malade" : dateLabel },
     { label: "En premier", value: answers.needs.map(n => needsLabel[n]).join(", ") || "À votre rythme" },
   ];
