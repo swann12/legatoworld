@@ -1198,6 +1198,12 @@
 .lg-memory-invite-row .lg-row-status { max-width:84px; text-align:right; overflow-wrap:anywhere; }
 
 /* Communauté : échanges éditoriaux, et une seule ancre pour la veillée. */
+h1, h2, h3 { text-wrap: balance; }
+.lg-ritual-light { width:110px; height:110px; border-radius:50%; background:radial-gradient(circle,var(--lg-cream) 0%,var(--lg-blush) 45%,transparent 72%); box-shadow:0 0 90px 40px color-mix(in oklab,var(--lg-cream) 25%,transparent); transition:transform 8s ease-out,opacity 8s ease-out; }
+.lg-ritual-light.is-released { transform:translateY(-180px) scale(.2); opacity:0; }
+.lg-ritual-words { width:100%; min-height:55px; resize:none; background:transparent; color:var(--lg-bordeaux); font-family:var(--lg-serif); font-size:19px; font-style:italic; border-bottom:1px solid var(--lg-bordeaux); padding-bottom:10px; outline:none; }
+.lg-ritual-words::placeholder { color:var(--lg-bordeaux); opacity:.8; }
+.lg-ritual-footnote { color:var(--lg-bordeaux); font-size:12.5px; }
 .lg-community-row { display:flex; align-items:center; gap:14px; padding:18px 0; border-bottom:1px solid var(--sp-line); text-decoration:none; }
 .lg-community-message { border-bottom:1px solid var(--sp-line); }
 .lg-community-link { color:var(--sp-accent); font-size:13.5px; text-decoration:underline; text-underline-offset:4px; }

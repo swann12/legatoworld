@@ -15,7 +15,7 @@ function MemorySpace() {
     <div className="mt-7">{latest ? <Link to="/care/garden/$zone/$id" params={{ zone: latest.zone, id: latest.id }}><Block space="memory" eyebrow={`Dernier souvenir · ${memoryKind(latest)}`} title={latest.title || memoryKind(latest)}><p className="lg-memory-quote">{latest.body ? `« ${latest.body} »` : "Une trace, gardée doucement."}</p></Block></Link> : <Block space="memory" eyebrow="Son premier souvenir" title="Ce que vous voulez garder."><p className="lg-memory-quote">Une phrase, une photo, un son.</p></Block>}</div>
     <Row title="Tous ses souvenirs" subtitle="Photos, voix, lettres, lieux" to="/care/garden/all" />
     <Row title="Un geste pour elle" subtitle="Une bougie, une lanterne" to="/care/rituels" />
-    <Row title={`Son anniversaire${birthday ? `, le ${birthday}` : ""}`} to="/care/dates" last />
+    <Row title={`Son anniversaire${birthday ? `, le ${birthday}` : ""}`} to="/care/dates/$id" params={{ id: `${person?.id ?? "active"}-b` }} last />
     <div className="mt-6"><AddMemoryButton /></div>
     <div className="mt-10"><TextLink space="memory" to="/care/garden">Revenir aux parcelles</TextLink></div>
   </StandardLayout>;

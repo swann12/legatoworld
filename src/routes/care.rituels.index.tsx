@@ -7,14 +7,12 @@ import { useLovedName } from "@/lib/loved-name";
 import { useLegato } from "@/lib/legato-state";
 import { suggestRituals } from "@/lib/rituals.functions";
 import { usePortrait, portraitSentence } from "@/lib/portrait-store";
+import { StandardLayout, PageTitle, Lead, Row } from "@/components/legato/ds";
+import { MemoryExtras } from "@/components/legato/MemoryUI";
+import { legatoHead } from "@/lib/legato-head";
 
-export const Route = createFileRoute("/care/rituels")({
-  head: () => ({
-    meta: [
-      { title: "Rituels d'hommage — Legato" },
-      { name: "description", content: "Des rituels du monde pour honorer un être perdu : 2 minutes, ou plusieurs jours." },
-    ],
-  }),
+export const Route = createFileRoute("/care/rituels/")({
+  head: () => legatoHead("Un geste pour elle", "Un petit rituel, seul ou avec vos proches, dans son jardin de souvenirs."),
   component: CareRituels,
 });
 
@@ -74,6 +72,20 @@ function classifyRegion(origin: string): Region {
 }
 
 function CareRituels() {
+  return <StandardLayout space="memory" back="/care/garden/space" backLabel="Mémoire" activeTab="/care/garden">
+    <PageTitle className="pt-8">Un geste<br /><em>pour elle.</em></PageTitle>
+    <Lead className="mt-3">Un petit rituel, seul ou avec vos proches. Il reste visible dans son jardin de souvenirs.</Lead>
+    <div className="mt-6">
+      <Row n={1} title="Allumer une bougie" subtitle="Elle reste allumée jusqu’au lendemain" to="/care/rituels/candle" />
+      <Row n={2} title="Une lanterne sur l’eau" subtitle="Quelques mots qui s’éloignent" to="/care/rituels/lantern" />
+      <Row n={3} title="Une bougie de 24 heures" subtitle="Pour un anniversaire, une date" to="/care/rituels/candle" />
+      <Row n={4} title="Une petite offrande" subtitle="Une fleur, un objet, une photo" to="/care/rituels/offering" last />
+    </div>
+    <MemoryExtras><LegacyCareRituels /></MemoryExtras>
+  </StandardLayout>;
+}
+
+function LegacyCareRituels() {
   const lovedName = useLovedName();
   const { branch, lostName, lightMode, hydrated } = useLegato();
   const light = hydrated && lightMode;
@@ -119,7 +131,7 @@ function CareRituels() {
   const shown = light ? visible.slice(0, 3) : visible;
 
   return (
-    <Shell livingBg={false}>
+    <Shell livingBg={false} hideNav>
       <div className="wash-mauve min-h-dvh text-dusk pb-32">
         <PageHeader back="/care" title="RITUELS" />
 

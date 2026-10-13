@@ -227,7 +227,7 @@ function Intro() {
           className="absolute right-4 top-4 z-20 rounded-full border border-paper/50 bg-dusk/30 backdrop-blur-sm px-3 py-2 text-[10px] uppercase tracking-[0.22em] text-paper"
           aria-label="Activer le son"
         >
-          ♪ Son
+          Son
         </button>
       )}
 

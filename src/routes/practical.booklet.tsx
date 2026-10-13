@@ -47,7 +47,7 @@ function Booklet() {
       {editor === "photo" ? <>
         {photos.map(p => <div key={p.id} className="flex items-center gap-4">{p.imageDataUrl && <img src={p.imageDataUrl} alt={p.title || "Souvenir"} className="size-16 object-cover" />}<TextLink space="practical" onClick={() => { update({ photoUrl: p.imageDataUrl ?? "" }); setEditor(null); }}>{p.title || "Choisir cette photo"}</TextLink></div>)}
         <input ref={file} type="file" accept="image/*" className="hidden" onChange={e => { const selected = e.target.files?.[0]; if (!selected) return; const reader = new FileReader(); reader.onload = () => { if (typeof reader.result === "string") { update({ photoUrl: reader.result }); setEditor(null); } }; reader.readAsDataURL(selected); }} />
-        <PrimaryButton space="practical" onClick={() => file.current?.click()}>Choisir une photo</PrimaryButton>
+        <TextLink space="practical" onClick={() => file.current?.click()}>Choisir une photo</TextLink>
         <Field space="practical" label="Adresse d’une photo · facultatif" value={d.photoUrl} onChange={e => update({ photoUrl: e.target.value })} />
       </> : <>
         <Field space="practical" label="Prénom et nom" value={d.name} placeholder={lovedOneName || "Prénom et nom"} onChange={e => update({ name: e.target.value })} />

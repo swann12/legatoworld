@@ -105,7 +105,7 @@ function Confier() {
       )}
 
       <div className="mt-8 flex flex-wrap items-center gap-x-10 gap-y-5">
-        {person && <PrimaryButton space="practical" onClick={send}>Envoyer à {person.name}</PrimaryButton>}
+        {person && !adding && <PrimaryButton space="practical" onClick={send}>Envoyer à {person.name}</PrimaryButton>}
         {!adding && <TextLink space="practical" onClick={() => setAdding(true)}>Ajouter quelqu'un</TextLink>}
       </div>
     </StandardLayout>

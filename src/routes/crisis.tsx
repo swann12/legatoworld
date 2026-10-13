@@ -41,7 +41,7 @@ function Crisis() {
                 <span className="block" style={{ fontFamily: "var(--lg-serif)", fontSize: 19, lineHeight: 1.15 }}>{l.title}</span>
                 <span className="lg-mono mt-1 block" style={{ color: "color-mix(in oklab, var(--lg-blush) 75%, transparent)" }}>{l.tag}</span>
               </span>
-              <a href={`tel:${l.n}`} className="flex h-10 items-center rounded-full px-5 text-[14.5px]" style={{ background: "var(--lg-blush)", color: "var(--lg-bordeaux)" }}>Appeler</a>
+              <a href={`tel:${l.n}`} className="flex h-10 items-center rounded-full px-5 text-[14.5px]" style={{ background: i === 0 ? "var(--lg-blush)" : "transparent", color: i === 0 ? "var(--lg-bordeaux)" : "var(--lg-blush)", border: "1px solid var(--lg-blush)" }}>Appeler</a>
             </li>
           ))}
         </ul>

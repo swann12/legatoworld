@@ -132,19 +132,19 @@ function Start() {
 
   if (stage === "quote") {
     return (
-      <main className="min-h-dvh" style={{ background: "var(--bordeaux)", color: "var(--blush)" }}>
+      <main className="min-h-dvh" style={{ background: "var(--lg-blue)", color: "var(--lg-deep)" }}>
         <div
           className="mobile-frame relative flex min-h-dvh flex-col items-center text-center animate-fade-in"
           style={{
-            background: "var(--bordeaux)",
+            background: "var(--lg-blue)",
             padding: "110px 40px 79px",
           }}
           onClick={enterApp}
         >
-          <p className="font-serif" style={{ fontSize: 46, lineHeight: 1.11, whiteSpace: "nowrap", color: "var(--clay)", fontWeight: 400, letterSpacing: "-0.005em" }}>
+          <p className="font-lg-serif" style={{ fontSize: 46, lineHeight: 1.11, color: "var(--lg-deep)", fontWeight: 400 }}>
             Rien ne peut<br />ramener<br />l’heure passée,<br />mais nous<br />pouvons<br />trouver de<br />la force dans<br />ce qui<br />demeure.
           </p>
-          <p className="mt-auto font-mono uppercase" style={{ color: "var(--clay)", fontSize: 10.5, letterSpacing: "0.18em", lineHeight: 1.35 }}>
+          <p className="mt-auto font-lg-mono uppercase" style={{ color: "var(--lg-deep)", fontSize: 10.5, lineHeight: 1.35 }}>
             William Wordsworth,<br />Ode: Intimations of Immortality
           </p>
 
@@ -162,13 +162,13 @@ function Start() {
             <span style={{ fontFamily: "var(--lg-serif)", fontSize: 25 }}>LEGATO</span>
             <span className="lg-mono" style={{ color: "var(--lg-deep)" }}>Bienvenue</span>
           </header>
-          <h1 className="px-[28px] pt-10" style={{ fontFamily: "var(--lg-serif)", fontWeight: 400, fontSize: "clamp(56px, 20vw, 78px)", lineHeight: 1.1 }}>
+          <h1 className="px-[28px] pt-10" style={{ fontFamily: "var(--lg-serif)", fontWeight: 400, fontSize: 64, lineHeight: 1.1 }}>
             Préparer <br />un adieu,<br /><em className="italic">garder une présence.</em>
           </h1>
           <p className="lg-lead mx-[28px] mt-10 max-w-[252px]">Une application pour traverser le deuil, au jour le jour, à votre rythme.</p>
           <div className="min-h-8 flex-1" aria-hidden />
           <div className="flex flex-col items-center gap-4 px-[28px] pb-[34px]">
-            <PrimaryButton space="support" full onClick={goNext}>Créer mon espace</PrimaryButton>
+            <PrimaryButton space="today" full onClick={goNext}>Créer mon espace</PrimaryButton>
             <TextLink space="today" to="/auth">J'ai déjà un compte</TextLink>
           </div>
         </div>

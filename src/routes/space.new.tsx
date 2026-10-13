@@ -51,7 +51,6 @@ function NewSpace() {
       {step === 1
         ? <Link to="/space" className="flex min-h-11 items-center gap-2"><ArrowLeft className="size-4" strokeWidth={1.4} /> Vos espaces</Link>
         : <button type="button" onClick={() => setStep(step - 1)} className="flex min-h-11 items-center gap-2"><ArrowLeft className="size-4" strokeWidth={1.4} /> Retour</button>}
-      <Link to="/crisis" className="flex min-h-11 items-center gap-2">Besoin d'aide <ArrowRight className="size-4" strokeWidth={1.4} /></Link>
     </div>
   );
 

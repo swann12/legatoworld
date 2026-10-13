@@ -3,9 +3,9 @@ import { Sun, Heart, ListChecks, Sprout, Users } from "lucide-react";
 
 const TABS = [
   { to: "/home", label: "Aujourd'hui", Icon: Sun, match: (p: string) => p.startsWith("/home") },
-  { to: "/care", label: "Soutien", Icon: Heart, match: (p: string) => p.startsWith("/care") && !p.startsWith("/care/garden") && !p.startsWith("/care/community") },
+  { to: "/care", label: "Soutien", Icon: Heart, match: (p: string) => p.startsWith("/help") || p.startsWith("/presence") || p.startsWith("/library") || p.startsWith("/appointments") || p === "/no-words" || (p.startsWith("/care") && !p.startsWith("/care/garden") && !p.startsWith("/care/community") && !p.startsWith("/care/rituels") && !p.startsWith("/care/dates")) },
   { to: "/practical", label: "Démarches", Icon: ListChecks, match: (p: string) => p.startsWith("/practical") || p.startsWith("/agenda") },
-  { to: "/care/garden", label: "Mémoire", Icon: Sprout, match: (p: string) => p.startsWith("/care/garden") },
+  { to: "/care/garden", label: "Mémoire", Icon: Sprout, match: (p: string) => p.startsWith("/care/garden") || p.startsWith("/care/rituels") || p.startsWith("/care/dates") || p.startsWith("/compose") || p === "/profile/portrait" },
   { to: "/care/community", label: "Communauté", Icon: Users, match: (p: string) => p.startsWith("/care/community") },
 ] as const;
 

@@ -63,7 +63,7 @@ function Flowers() {
     const q = FLOWER_QUESTIONS[step];
     return <div className="lg-space-practical min-h-dvh bg-lg-cream text-lg-deep font-lg-sans">
       <div className="mx-auto flex min-h-dvh max-w-[430px] flex-col px-7 pb-[34px]">
-        <PageHeader space="practical" back="/practical/flowers" backLabel="Choisir les fleurs" />
+        <PageHeader space="practical" back="/practical/flowers" backLabel="Choisir les fleurs" help={false} />
         <div className="lg-question-progress" role="progressbar" aria-valuenow={step + 1} aria-valuemax={3}>{[0, 1, 2].map(i => <span key={i} className={i <= step ? "is-current" : ""} />)}</div>
         <div className="flex-1">
           <PageTitle space="practical" size={30} className="mt-[30px]">{q.title}<br /><em>{q.accent}</em></PageTitle>
