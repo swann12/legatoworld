@@ -1,3 +1,4 @@
+import { SelfPreparer } from "@/components/legato/SelfSpace";
 import { useEffect, useState } from "react";
 import { Check } from "lucide-react";
 import { StandardLayout, SplitHeader, Row, TextLink, Lead } from "@/components/legato/ds";
@@ -21,7 +22,7 @@ function Label({ children, accent, className = "" }: { children: string; accent:
 /** B013–B016 · l'onglet Démarches suit la réponse « Où en êtes-vous avec les papiers ? » (§6). */
 export function Practical() {
   const { kind } = useActiveSpace();
-  return kind === "malade" ? <MaladeAides /> : kind === "animal" ? <AnimalPractical /> : <DeuilPractical />;
+  return kind === "malade" ? <MaladeAides /> : kind === "questions" ? <SelfPreparer /> : kind === "animal" ? <AnimalPractical /> : <DeuilPractical />;
 }
 
 function DeuilPractical() {

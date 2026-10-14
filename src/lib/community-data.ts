@@ -51,6 +51,8 @@ export const GROUPS: Group[] = [
   { id: "enfants-animal", label: "Expliquer aux enfants", hint: "21 membres", members: 21 },
   { id: "palliatifs", label: "Soins palliatifs", hint: "29 membres · avec une psychologue", members: 29 },
   { id: "travail-aidance", label: "Concilier travail et aidance", hint: "33 membres", members: 33 },
+  { id: "mort-simplement", label: "Parler de la mort, simplement", hint: "82 membres", members: 82 },
+  { id: "angoisse", label: "Apprivoiser l'angoisse", hint: "34 membres · avec une psychologue", members: 34 },
   { id: "aidants", label: "Aidants d'un proche malade", hint: "Accompagner un proche, et être accompagné·e.", members: 57 },
 ];
 

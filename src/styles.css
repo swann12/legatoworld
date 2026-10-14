@@ -1292,3 +1292,7 @@ h1, h2, h3 { text-wrap: balance; }
 .lg-discovery-floating { position:fixed; top:64px; left:28px; right:28px; z-index:60; background:var(--lg-cream); color:var(--lg-deep); max-width:374px; margin:auto; }
 .lg-discovery-error { position:fixed; top:0; left:0; right:0; padding:14px 28px; z-index:80; background:var(--lg-cream); color:var(--lg-deep); font:14px var(--lg-sans); }
 @media (max-width:370px) { .lg-discovery-banner { flex-wrap:wrap; } .lg-welcome-links { gap:12px; } }
+
+/* Urgence (3114) : bordeaux et rose d'origine, même dans l'espace « questions ». */
+.lg-urgent-block { background:#7A2E2C; color:#EBC7C4; }
+.lg-urgent-call { background:#EBC7C4; color:#7A2E2C; }
