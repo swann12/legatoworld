@@ -89,9 +89,11 @@ import { Route as OnboardingCareRouteImport } from './routes/onboarding.care'
 import { Route as InviteTokenRouteImport } from './routes/invite.$token'
 import { Route as HomeSesAffairesRouteImport } from './routes/home.ses-affaires'
 import { Route as HomeQuestionsMedecinRouteImport } from './routes/home.questions-medecin'
+import { Route as HomePenserAMourirRouteImport } from './routes/home.penser-a-mourir'
 import { Route as HomeParlerEnfantRouteImport } from './routes/home.parler-enfant'
 import { Route as HomeEquipeRouteImport } from './routes/home.equipe'
 import { Route as HomeEnParlerRouteImport } from './routes/home.en-parler'
+import { Route as HomeEcrirePeurRouteImport } from './routes/home.ecrire-peur'
 import { Route as HomeCarnetRouteImport } from './routes/home.carnet'
 import { Route as HelpCorpsRouteImport } from './routes/help.corps'
 import { Route as GardenZoneRouteImport } from './routes/garden.$zone'
@@ -108,6 +110,7 @@ import { Route as CareGardenRouteImport } from './routes/care.garden'
 import { Route as CareEpuisementRouteImport } from './routes/care.epuisement'
 import { Route as CareEmotionsRouteImport } from './routes/care.emotions'
 import { Route as CareCommunityRouteImport } from './routes/care.community'
+import { Route as CareAngoisseRouteImport } from './routes/care.angoisse'
 import { Route as CareAideRouteImport } from './routes/care.aide'
 import { Route as AppointmentsNewRouteImport } from './routes/appointments.new'
 import { Route as AppointmentsIdRouteImport } from './routes/appointments.$id'
@@ -607,6 +610,11 @@ const HomeQuestionsMedecinRoute = HomeQuestionsMedecinRouteImport.update({
   path: '/home/questions-medecin',
   getParentRoute: () => rootRouteImport,
 } as any)
+const HomePenserAMourirRoute = HomePenserAMourirRouteImport.update({
+  id: '/home/penser-a-mourir',
+  path: '/home/penser-a-mourir',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const HomeParlerEnfantRoute = HomeParlerEnfantRouteImport.update({
   id: '/home/parler-enfant',
   path: '/home/parler-enfant',
@@ -620,6 +628,11 @@ const HomeEquipeRoute = HomeEquipeRouteImport.update({
 const HomeEnParlerRoute = HomeEnParlerRouteImport.update({
   id: '/home/en-parler',
   path: '/home/en-parler',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HomeEcrirePeurRoute = HomeEcrirePeurRouteImport.update({
+  id: '/home/ecrire-peur',
+  path: '/home/ecrire-peur',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HomeCarnetRoute = HomeCarnetRouteImport.update({
@@ -700,6 +713,11 @@ const CareEmotionsRoute = CareEmotionsRouteImport.update({
 const CareCommunityRoute = CareCommunityRouteImport.update({
   id: '/community',
   path: '/community',
+  getParentRoute: () => CareRoute,
+} as any)
+const CareAngoisseRoute = CareAngoisseRouteImport.update({
+  id: '/angoisse',
+  path: '/angoisse',
   getParentRoute: () => CareRoute,
 } as any)
 const CareAideRoute = CareAideRouteImport.update({
@@ -1225,6 +1243,7 @@ export interface FileRoutesByFullPath {
   '/appointments/$id': typeof AppointmentsIdRoute
   '/appointments/new': typeof AppointmentsNewRoute
   '/care/aide': typeof CareAideRoute
+  '/care/angoisse': typeof CareAngoisseRoute
   '/care/community': typeof CareCommunityRouteWithChildren
   '/care/emotions': typeof CareEmotionsRoute
   '/care/epuisement': typeof CareEpuisementRoute
@@ -1241,9 +1260,11 @@ export interface FileRoutesByFullPath {
   '/garden/$zone': typeof GardenZoneRoute
   '/help/corps': typeof HelpCorpsRouteWithChildren
   '/home/carnet': typeof HomeCarnetRouteWithChildren
+  '/home/ecrire-peur': typeof HomeEcrirePeurRoute
   '/home/en-parler': typeof HomeEnParlerRoute
   '/home/equipe': typeof HomeEquipeRouteWithChildren
   '/home/parler-enfant': typeof HomeParlerEnfantRoute
+  '/home/penser-a-mourir': typeof HomePenserAMourirRoute
   '/home/questions-medecin': typeof HomeQuestionsMedecinRoute
   '/home/ses-affaires': typeof HomeSesAffairesRoute
   '/invite/$token': typeof InviteTokenRoute
@@ -1416,6 +1437,7 @@ export interface FileRoutesByTo {
   '/appointments/$id': typeof AppointmentsIdRoute
   '/appointments/new': typeof AppointmentsNewRoute
   '/care/aide': typeof CareAideRoute
+  '/care/angoisse': typeof CareAngoisseRoute
   '/care/emotions': typeof CareEmotionsRoute
   '/care/epuisement': typeof CareEpuisementRoute
   '/care/guilt': typeof CareGuiltRoute
@@ -1428,8 +1450,10 @@ export interface FileRoutesByTo {
   '/compose/$zone': typeof ComposeZoneRoute
   '/dev/design': typeof DevDesignRoute
   '/garden/$zone': typeof GardenZoneRoute
+  '/home/ecrire-peur': typeof HomeEcrirePeurRoute
   '/home/en-parler': typeof HomeEnParlerRoute
   '/home/parler-enfant': typeof HomeParlerEnfantRoute
+  '/home/penser-a-mourir': typeof HomePenserAMourirRoute
   '/home/questions-medecin': typeof HomeQuestionsMedecinRoute
   '/home/ses-affaires': typeof HomeSesAffairesRoute
   '/invite/$token': typeof InviteTokenRoute
@@ -1599,6 +1623,7 @@ export interface FileRoutesById {
   '/appointments/$id': typeof AppointmentsIdRoute
   '/appointments/new': typeof AppointmentsNewRoute
   '/care/aide': typeof CareAideRoute
+  '/care/angoisse': typeof CareAngoisseRoute
   '/care/community': typeof CareCommunityRouteWithChildren
   '/care/emotions': typeof CareEmotionsRoute
   '/care/epuisement': typeof CareEpuisementRoute
@@ -1615,9 +1640,11 @@ export interface FileRoutesById {
   '/garden/$zone': typeof GardenZoneRoute
   '/help/corps': typeof HelpCorpsRouteWithChildren
   '/home/carnet': typeof HomeCarnetRouteWithChildren
+  '/home/ecrire-peur': typeof HomeEcrirePeurRoute
   '/home/en-parler': typeof HomeEnParlerRoute
   '/home/equipe': typeof HomeEquipeRouteWithChildren
   '/home/parler-enfant': typeof HomeParlerEnfantRoute
+  '/home/penser-a-mourir': typeof HomePenserAMourirRoute
   '/home/questions-medecin': typeof HomeQuestionsMedecinRoute
   '/home/ses-affaires': typeof HomeSesAffairesRoute
   '/invite/$token': typeof InviteTokenRoute
@@ -1797,6 +1824,7 @@ export interface FileRouteTypes {
     | '/appointments/$id'
     | '/appointments/new'
     | '/care/aide'
+    | '/care/angoisse'
     | '/care/community'
     | '/care/emotions'
     | '/care/epuisement'
@@ -1813,9 +1841,11 @@ export interface FileRouteTypes {
     | '/garden/$zone'
     | '/help/corps'
     | '/home/carnet'
+    | '/home/ecrire-peur'
     | '/home/en-parler'
     | '/home/equipe'
     | '/home/parler-enfant'
+    | '/home/penser-a-mourir'
     | '/home/questions-medecin'
     | '/home/ses-affaires'
     | '/invite/$token'
@@ -1988,6 +2018,7 @@ export interface FileRouteTypes {
     | '/appointments/$id'
     | '/appointments/new'
     | '/care/aide'
+    | '/care/angoisse'
     | '/care/emotions'
     | '/care/epuisement'
     | '/care/guilt'
@@ -2000,8 +2031,10 @@ export interface FileRouteTypes {
     | '/compose/$zone'
     | '/dev/design'
     | '/garden/$zone'
+    | '/home/ecrire-peur'
     | '/home/en-parler'
     | '/home/parler-enfant'
+    | '/home/penser-a-mourir'
     | '/home/questions-medecin'
     | '/home/ses-affaires'
     | '/invite/$token'
@@ -2170,6 +2203,7 @@ export interface FileRouteTypes {
     | '/appointments/$id'
     | '/appointments/new'
     | '/care/aide'
+    | '/care/angoisse'
     | '/care/community'
     | '/care/emotions'
     | '/care/epuisement'
@@ -2186,9 +2220,11 @@ export interface FileRouteTypes {
     | '/garden/$zone'
     | '/help/corps'
     | '/home/carnet'
+    | '/home/ecrire-peur'
     | '/home/en-parler'
     | '/home/equipe'
     | '/home/parler-enfant'
+    | '/home/penser-a-mourir'
     | '/home/questions-medecin'
     | '/home/ses-affaires'
     | '/invite/$token'
@@ -2370,9 +2406,11 @@ export interface RootRouteChildren {
   DevDesignRoute: typeof DevDesignRoute
   GardenZoneRoute: typeof GardenZoneRoute
   HomeCarnetRoute: typeof HomeCarnetRouteWithChildren
+  HomeEcrirePeurRoute: typeof HomeEcrirePeurRoute
   HomeEnParlerRoute: typeof HomeEnParlerRoute
   HomeEquipeRoute: typeof HomeEquipeRouteWithChildren
   HomeParlerEnfantRoute: typeof HomeParlerEnfantRoute
+  HomePenserAMourirRoute: typeof HomePenserAMourirRoute
   HomeQuestionsMedecinRoute: typeof HomeQuestionsMedecinRoute
   HomeSesAffairesRoute: typeof HomeSesAffairesRoute
   InviteTokenRoute: typeof InviteTokenRoute
@@ -2959,6 +2997,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HomeQuestionsMedecinRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/home/penser-a-mourir': {
+      id: '/home/penser-a-mourir'
+      path: '/home/penser-a-mourir'
+      fullPath: '/home/penser-a-mourir'
+      preLoaderRoute: typeof HomePenserAMourirRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/home/parler-enfant': {
       id: '/home/parler-enfant'
       path: '/home/parler-enfant'
@@ -2978,6 +3023,13 @@ declare module '@tanstack/react-router' {
       path: '/home/en-parler'
       fullPath: '/home/en-parler'
       preLoaderRoute: typeof HomeEnParlerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/home/ecrire-peur': {
+      id: '/home/ecrire-peur'
+      path: '/home/ecrire-peur'
+      fullPath: '/home/ecrire-peur'
+      preLoaderRoute: typeof HomeEcrirePeurRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/home/carnet': {
@@ -3090,6 +3142,13 @@ declare module '@tanstack/react-router' {
       path: '/community'
       fullPath: '/care/community'
       preLoaderRoute: typeof CareCommunityRouteImport
+      parentRoute: typeof CareRoute
+    }
+    '/care/angoisse': {
+      id: '/care/angoisse'
+      path: '/angoisse'
+      fullPath: '/care/angoisse'
+      preLoaderRoute: typeof CareAngoisseRouteImport
       parentRoute: typeof CareRoute
     }
     '/care/aide': {
@@ -3867,6 +3926,7 @@ const CareGardenRouteWithChildren = CareGardenRoute._addFileChildren(
 
 interface CareRouteChildren {
   CareAideRoute: typeof CareAideRoute
+  CareAngoisseRoute: typeof CareAngoisseRoute
   CareCommunityRoute: typeof CareCommunityRouteWithChildren
   CareEmotionsRoute: typeof CareEmotionsRoute
   CareEpuisementRoute: typeof CareEpuisementRoute
@@ -3909,6 +3969,7 @@ interface CareRouteChildren {
 
 const CareRouteChildren: CareRouteChildren = {
   CareAideRoute: CareAideRoute,
+  CareAngoisseRoute: CareAngoisseRoute,
   CareCommunityRoute: CareCommunityRouteWithChildren,
   CareEmotionsRoute: CareEmotionsRoute,
   CareEpuisementRoute: CareEpuisementRoute,
@@ -4290,9 +4351,11 @@ const rootRouteChildren: RootRouteChildren = {
   DevDesignRoute: DevDesignRoute,
   GardenZoneRoute: GardenZoneRoute,
   HomeCarnetRoute: HomeCarnetRouteWithChildren,
+  HomeEcrirePeurRoute: HomeEcrirePeurRoute,
   HomeEnParlerRoute: HomeEnParlerRoute,
   HomeEquipeRoute: HomeEquipeRouteWithChildren,
   HomeParlerEnfantRoute: HomeParlerEnfantRoute,
+  HomePenserAMourirRoute: HomePenserAMourirRoute,
   HomeQuestionsMedecinRoute: HomeQuestionsMedecinRoute,
   HomeSesAffairesRoute: HomeSesAffairesRoute,
   InviteTokenRoute: InviteTokenRoute,
