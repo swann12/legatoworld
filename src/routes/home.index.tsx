@@ -13,6 +13,7 @@ import { StandardLayout, Block, OutlineButton, PrimaryButton, Row, Lead } from "
 import { getDiscovery, useDiscovery } from "@/lib/discovery";
 import { useCarnet } from "@/lib/carnet";
 import { upcoming, dayName, hour, cap } from "@/lib/carnet-model";
+import { useSelf, prepareSummary } from "@/lib/self-space";
 
 export const Route = createFileRoute("/home/")({
   head: () => ({
@@ -95,6 +96,7 @@ function Today() {
   }
 
   if (kind === "malade" && active) return <MaladeHome space={active} header={header} emotions={currentEmotions} />;
+  if (kind === "questions" && active) return <SelfHome header={header} who={who} emotions={currentEmotions} />;
   if (kind !== "deuil" && active) return <KindHome kind={kind} space={active} header={header} emotions={currentEmotions} />;
 
   const s = suggestion(currentEmotions, loved);
@@ -228,4 +230,32 @@ function doctorLabel(who: string) {
   const w = who.split(",")[0].trim().toLowerCase();
   if (!w) return "le médecin";
   return /^[aeiouyéèh]/.test(w) ? `l'${w}` : `le ${w}`;
+}
+
+const SELF_MOODS: { id: Emotion | "autre"; label: string }[] = [
+  { id: "anxiete", label: "Angoisse" }, { id: "confusion", label: "Curiosité" }, { id: "tristesse", label: "Tristesse" }, { id: "soulagement", label: "Apaisé" }, { id: "autre", label: "Autre" },
+];
+
+/** B072 · Aujourd'hui, espace « je pense beaucoup à la mort » — le 3114 reste accessible (§7). */
+function SelfHome({ header, who, emotions }: { header: React.ReactNode; who: string; emotions: Emotion[] }) {
+  const d = useSelf();
+  const anxious = emotions.length === 0 || emotions.includes("anxiete");
+  return (
+    <StandardLayout space="today" title="Legato" headerLeft={header} className="lg-home-screen">
+      <h1 className="lg-title pt-6" style={{ fontSize: 32 }}>Bonjour{who ? ` ${who}` : ""}. Qu'est-ce qui vous occupe <em>aujourd'hui ?</em></h1>
+      <p className="lg-home-moods mt-[14px]" style={{ fontFamily: "var(--lg-serif)", fontSize: 20 }}>
+        {SELF_MOODS.map((m, i) => {
+          const on = m.id !== "autre" && emotions.includes(m.id);
+          return <Fragment key={m.id}><span className="whitespace-nowrap"><Link to="/care/emotions" className={on ? "underline underline-offset-4" : ""} style={{ color: on ? "var(--sp-ink)" : "var(--sp-sub)", textDecorationThickness: 1 }}>{m.label}</Link>{i < SELF_MOODS.length - 1 && <span style={{ color: "var(--sp-sub)" }}>,</span>}</span>{" "}</Fragment>;
+        })}
+      </p>
+      <Block className="lg-home-block mt-6" label="Pour aujourd'hui" title="Écrire ce qui vous fait peur" meta={anxious ? "10 minutes · parce que l'angoisse est là" : "10 minutes · pour y voir plus clair"}>
+        <PrimaryButton to="/home/ecrire-peur">Commencer à écrire</PrimaryButton>
+      </Block>
+      <div>
+        <Row title="Préparer" subtitle={prepareSummary(d)} to="/practical" />
+        <Row title="Penser à la mort, ou penser à mourir ?" subtitle="Si les pensées deviennent trop lourdes" to="/home/penser-a-mourir" last />
+      </div>
+    </StandardLayout>
+  );
 }

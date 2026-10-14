@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
+import { useActiveSpace } from "@/lib/use-active-space";
+import { SelfResources } from "@/components/legato/SelfSpace";
 import { LibraryList, type LibTab } from "@/components/legato/LibraryList";
 
 export const Route = createFileRoute("/care/resources")({
@@ -17,6 +19,8 @@ export const Route = createFileRoute("/care/resources")({
 });
 
 function Page() {
+  const { kind } = useActiveSpace();
   const [tab, setTab] = useState<LibTab>("lire");
+  if (kind === "questions") return <SelfResources />;
   return <LibraryList tab={tab} onTab={setTab} />;
 }

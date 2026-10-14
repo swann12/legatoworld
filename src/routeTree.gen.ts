@@ -59,15 +59,21 @@ import { Route as PresenceAboutRouteImport } from './routes/presence.about'
 import { Route as PracticalWishesRouteImport } from './routes/practical.wishes'
 import { Route as PracticalVaultRouteImport } from './routes/practical.vault'
 import { Route as PracticalTextsRouteImport } from './routes/practical.texts'
+import { Route as PracticalTestamentRouteImport } from './routes/practical.testament'
 import { Route as PracticalTasksRouteImport } from './routes/practical.tasks'
 import { Route as PracticalStepsRouteImport } from './routes/practical.steps'
 import { Route as PracticalResourcesRouteImport } from './routes/practical.resources'
 import { Route as PracticalProsRouteImport } from './routes/practical.pros'
 import { Route as PracticalProgressRouteImport } from './routes/practical.progress'
+import { Route as PracticalObsequesRouteImport } from './routes/practical.obseques'
 import { Route as PracticalObjectsRouteImport } from './routes/practical.objects'
 import { Route as PracticalLetterRouteImport } from './routes/practical.letter'
 import { Route as PracticalFlowersRouteImport } from './routes/practical.flowers'
+import { Route as PracticalDonOrganesRouteImport } from './routes/practical.don-organes'
+import { Route as PracticalDirectivesRouteImport } from './routes/practical.directives'
+import { Route as PracticalContratObsequesRouteImport } from './routes/practical.contrat-obseques'
 import { Route as PracticalCongeAidantRouteImport } from './routes/practical.conge-aidant'
+import { Route as PracticalConfianceRouteImport } from './routes/practical.confiance'
 import { Route as PracticalCeremonyRouteImport } from './routes/practical.ceremony'
 import { Route as PracticalBookletRouteImport } from './routes/practical.booklet'
 import { Route as PracticalAtmosphereRouteImport } from './routes/practical.atmosphere'
@@ -165,8 +171,11 @@ import { Route as CareRituelsIdRouteImport } from './routes/care.rituels.$id'
 import { Route as CareJournalLaterRouteImport } from './routes/care.journal.later'
 import { Route as CareGardenSpaceRouteImport } from './routes/care.garden.space'
 import { Route as CareGardenRecettesRouteImport } from './routes/care.garden.recettes'
+import { Route as CareGardenObjetsRouteImport } from './routes/care.garden.objets'
+import { Route as CareGardenLettresRouteImport } from './routes/care.garden.lettres'
 import { Route as CareGardenInviteRouteImport } from './routes/care.garden.invite'
 import { Route as CareGardenHistoiresRouteImport } from './routes/care.garden.histoires'
+import { Route as CareGardenHistoireRouteImport } from './routes/care.garden.histoire'
 import { Route as CareGardenDepotRouteImport } from './routes/care.garden.depot'
 import { Route as CareGardenBookRouteImport } from './routes/care.garden.book'
 import { Route as CareGardenAllRouteImport } from './routes/care.garden.all'
@@ -174,6 +183,7 @@ import { Route as CareGardenZoneRouteImport } from './routes/care.garden.$zone'
 import { Route as CareDatesIdRouteImport } from './routes/care.dates.$id'
 import { Route as CareCommunityReglesRouteImport } from './routes/care.community.regles'
 import { Route as CareCommunityGroupsRouteImport } from './routes/care.community.groups'
+import { Route as CareCommunityCafeMortelRouteImport } from './routes/care.community.cafe-mortel'
 import { Route as PracticalTasksIdIndexRouteImport } from './routes/practical.tasks.$id.index'
 import { Route as HelpCorpsSoinIndexRouteImport } from './routes/help.corps.soin.index'
 import { Route as CareRituelsMondeIndexRouteImport } from './routes/care.rituels.monde.index'
@@ -444,6 +454,11 @@ const PracticalTextsRoute = PracticalTextsRouteImport.update({
   path: '/texts',
   getParentRoute: () => PracticalRoute,
 } as any)
+const PracticalTestamentRoute = PracticalTestamentRouteImport.update({
+  id: '/testament',
+  path: '/testament',
+  getParentRoute: () => PracticalRoute,
+} as any)
 const PracticalTasksRoute = PracticalTasksRouteImport.update({
   id: '/tasks',
   path: '/tasks',
@@ -469,6 +484,11 @@ const PracticalProgressRoute = PracticalProgressRouteImport.update({
   path: '/progress',
   getParentRoute: () => PracticalRoute,
 } as any)
+const PracticalObsequesRoute = PracticalObsequesRouteImport.update({
+  id: '/obseques',
+  path: '/obseques',
+  getParentRoute: () => PracticalRoute,
+} as any)
 const PracticalObjectsRoute = PracticalObjectsRouteImport.update({
   id: '/objects',
   path: '/objects',
@@ -484,9 +504,30 @@ const PracticalFlowersRoute = PracticalFlowersRouteImport.update({
   path: '/flowers',
   getParentRoute: () => PracticalRoute,
 } as any)
+const PracticalDonOrganesRoute = PracticalDonOrganesRouteImport.update({
+  id: '/don-organes',
+  path: '/don-organes',
+  getParentRoute: () => PracticalRoute,
+} as any)
+const PracticalDirectivesRoute = PracticalDirectivesRouteImport.update({
+  id: '/directives',
+  path: '/directives',
+  getParentRoute: () => PracticalRoute,
+} as any)
+const PracticalContratObsequesRoute =
+  PracticalContratObsequesRouteImport.update({
+    id: '/contrat-obseques',
+    path: '/contrat-obseques',
+    getParentRoute: () => PracticalRoute,
+  } as any)
 const PracticalCongeAidantRoute = PracticalCongeAidantRouteImport.update({
   id: '/conge-aidant',
   path: '/conge-aidant',
+  getParentRoute: () => PracticalRoute,
+} as any)
+const PracticalConfianceRoute = PracticalConfianceRouteImport.update({
+  id: '/confiance',
+  path: '/confiance',
   getParentRoute: () => PracticalRoute,
 } as any)
 const PracticalCeremonyRoute = PracticalCeremonyRouteImport.update({
@@ -984,6 +1025,16 @@ const CareGardenRecettesRoute = CareGardenRecettesRouteImport.update({
   path: '/recettes',
   getParentRoute: () => CareGardenRoute,
 } as any)
+const CareGardenObjetsRoute = CareGardenObjetsRouteImport.update({
+  id: '/objets',
+  path: '/objets',
+  getParentRoute: () => CareGardenRoute,
+} as any)
+const CareGardenLettresRoute = CareGardenLettresRouteImport.update({
+  id: '/lettres',
+  path: '/lettres',
+  getParentRoute: () => CareGardenRoute,
+} as any)
 const CareGardenInviteRoute = CareGardenInviteRouteImport.update({
   id: '/invite',
   path: '/invite',
@@ -992,6 +1043,11 @@ const CareGardenInviteRoute = CareGardenInviteRouteImport.update({
 const CareGardenHistoiresRoute = CareGardenHistoiresRouteImport.update({
   id: '/histoires',
   path: '/histoires',
+  getParentRoute: () => CareGardenRoute,
+} as any)
+const CareGardenHistoireRoute = CareGardenHistoireRouteImport.update({
+  id: '/histoire',
+  path: '/histoire',
   getParentRoute: () => CareGardenRoute,
 } as any)
 const CareGardenDepotRoute = CareGardenDepotRouteImport.update({
@@ -1027,6 +1083,11 @@ const CareCommunityReglesRoute = CareCommunityReglesRouteImport.update({
 const CareCommunityGroupsRoute = CareCommunityGroupsRouteImport.update({
   id: '/groups',
   path: '/groups',
+  getParentRoute: () => CareCommunityRoute,
+} as any)
+const CareCommunityCafeMortelRoute = CareCommunityCafeMortelRouteImport.update({
+  id: '/cafe-mortel',
+  path: '/cafe-mortel',
   getParentRoute: () => CareCommunityRoute,
 } as any)
 const PracticalTasksIdIndexRoute = PracticalTasksIdIndexRouteImport.update({
@@ -1198,15 +1259,21 @@ export interface FileRoutesByFullPath {
   '/practical/atmosphere': typeof PracticalAtmosphereRoute
   '/practical/booklet': typeof PracticalBookletRoute
   '/practical/ceremony': typeof PracticalCeremonyRoute
+  '/practical/confiance': typeof PracticalConfianceRoute
   '/practical/conge-aidant': typeof PracticalCongeAidantRoute
+  '/practical/contrat-obseques': typeof PracticalContratObsequesRoute
+  '/practical/directives': typeof PracticalDirectivesRoute
+  '/practical/don-organes': typeof PracticalDonOrganesRoute
   '/practical/flowers': typeof PracticalFlowersRoute
   '/practical/letter': typeof PracticalLetterRoute
   '/practical/objects': typeof PracticalObjectsRoute
+  '/practical/obseques': typeof PracticalObsequesRoute
   '/practical/progress': typeof PracticalProgressRoute
   '/practical/pros': typeof PracticalProsRouteWithChildren
   '/practical/resources': typeof PracticalResourcesRoute
   '/practical/steps': typeof PracticalStepsRoute
   '/practical/tasks': typeof PracticalTasksRouteWithChildren
+  '/practical/testament': typeof PracticalTestamentRoute
   '/practical/texts': typeof PracticalTextsRoute
   '/practical/vault': typeof PracticalVaultRoute
   '/practical/wishes': typeof PracticalWishesRouteWithChildren
@@ -1236,6 +1303,7 @@ export interface FileRoutesByFullPath {
   '/resources/': typeof ResourcesIndexRoute
   '/space/': typeof SpaceIndexRoute
   '/start/': typeof StartIndexRoute
+  '/care/community/cafe-mortel': typeof CareCommunityCafeMortelRoute
   '/care/community/groups': typeof CareCommunityGroupsRoute
   '/care/community/regles': typeof CareCommunityReglesRoute
   '/care/dates/$id': typeof CareDatesIdRoute
@@ -1243,8 +1311,11 @@ export interface FileRoutesByFullPath {
   '/care/garden/all': typeof CareGardenAllRoute
   '/care/garden/book': typeof CareGardenBookRoute
   '/care/garden/depot': typeof CareGardenDepotRoute
+  '/care/garden/histoire': typeof CareGardenHistoireRoute
   '/care/garden/histoires': typeof CareGardenHistoiresRoute
   '/care/garden/invite': typeof CareGardenInviteRoute
+  '/care/garden/lettres': typeof CareGardenLettresRoute
+  '/care/garden/objets': typeof CareGardenObjetsRoute
   '/care/garden/recettes': typeof CareGardenRecettesRoute
   '/care/garden/space': typeof CareGardenSpaceRoute
   '/care/journal/later': typeof CareJournalLaterRoute
@@ -1373,13 +1444,19 @@ export interface FileRoutesByTo {
   '/practical/atmosphere': typeof PracticalAtmosphereRoute
   '/practical/booklet': typeof PracticalBookletRoute
   '/practical/ceremony': typeof PracticalCeremonyRoute
+  '/practical/confiance': typeof PracticalConfianceRoute
   '/practical/conge-aidant': typeof PracticalCongeAidantRoute
+  '/practical/contrat-obseques': typeof PracticalContratObsequesRoute
+  '/practical/directives': typeof PracticalDirectivesRoute
+  '/practical/don-organes': typeof PracticalDonOrganesRoute
   '/practical/flowers': typeof PracticalFlowersRoute
   '/practical/letter': typeof PracticalLetterRoute
   '/practical/objects': typeof PracticalObjectsRoute
+  '/practical/obseques': typeof PracticalObsequesRoute
   '/practical/progress': typeof PracticalProgressRoute
   '/practical/resources': typeof PracticalResourcesRoute
   '/practical/steps': typeof PracticalStepsRoute
+  '/practical/testament': typeof PracticalTestamentRoute
   '/practical/texts': typeof PracticalTextsRoute
   '/practical/vault': typeof PracticalVaultRoute
   '/presence/about': typeof PresenceAboutRoute
@@ -1406,14 +1483,18 @@ export interface FileRoutesByTo {
   '/resources': typeof ResourcesIndexRoute
   '/space': typeof SpaceIndexRoute
   '/start': typeof StartIndexRoute
+  '/care/community/cafe-mortel': typeof CareCommunityCafeMortelRoute
   '/care/community/groups': typeof CareCommunityGroupsRoute
   '/care/community/regles': typeof CareCommunityReglesRoute
   '/care/dates/$id': typeof CareDatesIdRoute
   '/care/garden/all': typeof CareGardenAllRoute
   '/care/garden/book': typeof CareGardenBookRoute
   '/care/garden/depot': typeof CareGardenDepotRoute
+  '/care/garden/histoire': typeof CareGardenHistoireRoute
   '/care/garden/histoires': typeof CareGardenHistoiresRoute
   '/care/garden/invite': typeof CareGardenInviteRoute
+  '/care/garden/lettres': typeof CareGardenLettresRoute
+  '/care/garden/objets': typeof CareGardenObjetsRoute
   '/care/garden/recettes': typeof CareGardenRecettesRoute
   '/care/garden/space': typeof CareGardenSpaceRoute
   '/care/journal/later': typeof CareJournalLaterRoute
@@ -1552,15 +1633,21 @@ export interface FileRoutesById {
   '/practical/atmosphere': typeof PracticalAtmosphereRoute
   '/practical/booklet': typeof PracticalBookletRoute
   '/practical/ceremony': typeof PracticalCeremonyRoute
+  '/practical/confiance': typeof PracticalConfianceRoute
   '/practical/conge-aidant': typeof PracticalCongeAidantRoute
+  '/practical/contrat-obseques': typeof PracticalContratObsequesRoute
+  '/practical/directives': typeof PracticalDirectivesRoute
+  '/practical/don-organes': typeof PracticalDonOrganesRoute
   '/practical/flowers': typeof PracticalFlowersRoute
   '/practical/letter': typeof PracticalLetterRoute
   '/practical/objects': typeof PracticalObjectsRoute
+  '/practical/obseques': typeof PracticalObsequesRoute
   '/practical/progress': typeof PracticalProgressRoute
   '/practical/pros': typeof PracticalProsRouteWithChildren
   '/practical/resources': typeof PracticalResourcesRoute
   '/practical/steps': typeof PracticalStepsRoute
   '/practical/tasks': typeof PracticalTasksRouteWithChildren
+  '/practical/testament': typeof PracticalTestamentRoute
   '/practical/texts': typeof PracticalTextsRoute
   '/practical/vault': typeof PracticalVaultRoute
   '/practical/wishes': typeof PracticalWishesRouteWithChildren
@@ -1590,6 +1677,7 @@ export interface FileRoutesById {
   '/resources/': typeof ResourcesIndexRoute
   '/space/': typeof SpaceIndexRoute
   '/start/': typeof StartIndexRoute
+  '/care/community/cafe-mortel': typeof CareCommunityCafeMortelRoute
   '/care/community/groups': typeof CareCommunityGroupsRoute
   '/care/community/regles': typeof CareCommunityReglesRoute
   '/care/dates/$id': typeof CareDatesIdRoute
@@ -1597,8 +1685,11 @@ export interface FileRoutesById {
   '/care/garden/all': typeof CareGardenAllRoute
   '/care/garden/book': typeof CareGardenBookRoute
   '/care/garden/depot': typeof CareGardenDepotRoute
+  '/care/garden/histoire': typeof CareGardenHistoireRoute
   '/care/garden/histoires': typeof CareGardenHistoiresRoute
   '/care/garden/invite': typeof CareGardenInviteRoute
+  '/care/garden/lettres': typeof CareGardenLettresRoute
+  '/care/garden/objets': typeof CareGardenObjetsRoute
   '/care/garden/recettes': typeof CareGardenRecettesRoute
   '/care/garden/space': typeof CareGardenSpaceRoute
   '/care/journal/later': typeof CareJournalLaterRoute
@@ -1740,15 +1831,21 @@ export interface FileRouteTypes {
     | '/practical/atmosphere'
     | '/practical/booklet'
     | '/practical/ceremony'
+    | '/practical/confiance'
     | '/practical/conge-aidant'
+    | '/practical/contrat-obseques'
+    | '/practical/directives'
+    | '/practical/don-organes'
     | '/practical/flowers'
     | '/practical/letter'
     | '/practical/objects'
+    | '/practical/obseques'
     | '/practical/progress'
     | '/practical/pros'
     | '/practical/resources'
     | '/practical/steps'
     | '/practical/tasks'
+    | '/practical/testament'
     | '/practical/texts'
     | '/practical/vault'
     | '/practical/wishes'
@@ -1778,6 +1875,7 @@ export interface FileRouteTypes {
     | '/resources/'
     | '/space/'
     | '/start/'
+    | '/care/community/cafe-mortel'
     | '/care/community/groups'
     | '/care/community/regles'
     | '/care/dates/$id'
@@ -1785,8 +1883,11 @@ export interface FileRouteTypes {
     | '/care/garden/all'
     | '/care/garden/book'
     | '/care/garden/depot'
+    | '/care/garden/histoire'
     | '/care/garden/histoires'
     | '/care/garden/invite'
+    | '/care/garden/lettres'
+    | '/care/garden/objets'
     | '/care/garden/recettes'
     | '/care/garden/space'
     | '/care/journal/later'
@@ -1915,13 +2016,19 @@ export interface FileRouteTypes {
     | '/practical/atmosphere'
     | '/practical/booklet'
     | '/practical/ceremony'
+    | '/practical/confiance'
     | '/practical/conge-aidant'
+    | '/practical/contrat-obseques'
+    | '/practical/directives'
+    | '/practical/don-organes'
     | '/practical/flowers'
     | '/practical/letter'
     | '/practical/objects'
+    | '/practical/obseques'
     | '/practical/progress'
     | '/practical/resources'
     | '/practical/steps'
+    | '/practical/testament'
     | '/practical/texts'
     | '/practical/vault'
     | '/presence/about'
@@ -1948,14 +2055,18 @@ export interface FileRouteTypes {
     | '/resources'
     | '/space'
     | '/start'
+    | '/care/community/cafe-mortel'
     | '/care/community/groups'
     | '/care/community/regles'
     | '/care/dates/$id'
     | '/care/garden/all'
     | '/care/garden/book'
     | '/care/garden/depot'
+    | '/care/garden/histoire'
     | '/care/garden/histoires'
     | '/care/garden/invite'
+    | '/care/garden/lettres'
+    | '/care/garden/objets'
     | '/care/garden/recettes'
     | '/care/garden/space'
     | '/care/journal/later'
@@ -2093,15 +2204,21 @@ export interface FileRouteTypes {
     | '/practical/atmosphere'
     | '/practical/booklet'
     | '/practical/ceremony'
+    | '/practical/confiance'
     | '/practical/conge-aidant'
+    | '/practical/contrat-obseques'
+    | '/practical/directives'
+    | '/practical/don-organes'
     | '/practical/flowers'
     | '/practical/letter'
     | '/practical/objects'
+    | '/practical/obseques'
     | '/practical/progress'
     | '/practical/pros'
     | '/practical/resources'
     | '/practical/steps'
     | '/practical/tasks'
+    | '/practical/testament'
     | '/practical/texts'
     | '/practical/vault'
     | '/practical/wishes'
@@ -2131,6 +2248,7 @@ export interface FileRouteTypes {
     | '/resources/'
     | '/space/'
     | '/start/'
+    | '/care/community/cafe-mortel'
     | '/care/community/groups'
     | '/care/community/regles'
     | '/care/dates/$id'
@@ -2138,8 +2256,11 @@ export interface FileRouteTypes {
     | '/care/garden/all'
     | '/care/garden/book'
     | '/care/garden/depot'
+    | '/care/garden/histoire'
     | '/care/garden/histoires'
     | '/care/garden/invite'
+    | '/care/garden/lettres'
+    | '/care/garden/objets'
     | '/care/garden/recettes'
     | '/care/garden/space'
     | '/care/journal/later'
@@ -2628,6 +2749,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PracticalTextsRouteImport
       parentRoute: typeof PracticalRoute
     }
+    '/practical/testament': {
+      id: '/practical/testament'
+      path: '/testament'
+      fullPath: '/practical/testament'
+      preLoaderRoute: typeof PracticalTestamentRouteImport
+      parentRoute: typeof PracticalRoute
+    }
     '/practical/tasks': {
       id: '/practical/tasks'
       path: '/tasks'
@@ -2663,6 +2791,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PracticalProgressRouteImport
       parentRoute: typeof PracticalRoute
     }
+    '/practical/obseques': {
+      id: '/practical/obseques'
+      path: '/obseques'
+      fullPath: '/practical/obseques'
+      preLoaderRoute: typeof PracticalObsequesRouteImport
+      parentRoute: typeof PracticalRoute
+    }
     '/practical/objects': {
       id: '/practical/objects'
       path: '/objects'
@@ -2684,11 +2819,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PracticalFlowersRouteImport
       parentRoute: typeof PracticalRoute
     }
+    '/practical/don-organes': {
+      id: '/practical/don-organes'
+      path: '/don-organes'
+      fullPath: '/practical/don-organes'
+      preLoaderRoute: typeof PracticalDonOrganesRouteImport
+      parentRoute: typeof PracticalRoute
+    }
+    '/practical/directives': {
+      id: '/practical/directives'
+      path: '/directives'
+      fullPath: '/practical/directives'
+      preLoaderRoute: typeof PracticalDirectivesRouteImport
+      parentRoute: typeof PracticalRoute
+    }
+    '/practical/contrat-obseques': {
+      id: '/practical/contrat-obseques'
+      path: '/contrat-obseques'
+      fullPath: '/practical/contrat-obseques'
+      preLoaderRoute: typeof PracticalContratObsequesRouteImport
+      parentRoute: typeof PracticalRoute
+    }
     '/practical/conge-aidant': {
       id: '/practical/conge-aidant'
       path: '/conge-aidant'
       fullPath: '/practical/conge-aidant'
       preLoaderRoute: typeof PracticalCongeAidantRouteImport
+      parentRoute: typeof PracticalRoute
+    }
+    '/practical/confiance': {
+      id: '/practical/confiance'
+      path: '/confiance'
+      fullPath: '/practical/confiance'
+      preLoaderRoute: typeof PracticalConfianceRouteImport
       parentRoute: typeof PracticalRoute
     }
     '/practical/ceremony': {
@@ -3370,6 +3533,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CareGardenRecettesRouteImport
       parentRoute: typeof CareGardenRoute
     }
+    '/care/garden/objets': {
+      id: '/care/garden/objets'
+      path: '/objets'
+      fullPath: '/care/garden/objets'
+      preLoaderRoute: typeof CareGardenObjetsRouteImport
+      parentRoute: typeof CareGardenRoute
+    }
+    '/care/garden/lettres': {
+      id: '/care/garden/lettres'
+      path: '/lettres'
+      fullPath: '/care/garden/lettres'
+      preLoaderRoute: typeof CareGardenLettresRouteImport
+      parentRoute: typeof CareGardenRoute
+    }
     '/care/garden/invite': {
       id: '/care/garden/invite'
       path: '/invite'
@@ -3382,6 +3559,13 @@ declare module '@tanstack/react-router' {
       path: '/histoires'
       fullPath: '/care/garden/histoires'
       preLoaderRoute: typeof CareGardenHistoiresRouteImport
+      parentRoute: typeof CareGardenRoute
+    }
+    '/care/garden/histoire': {
+      id: '/care/garden/histoire'
+      path: '/histoire'
+      fullPath: '/care/garden/histoire'
+      preLoaderRoute: typeof CareGardenHistoireRouteImport
       parentRoute: typeof CareGardenRoute
     }
     '/care/garden/depot': {
@@ -3431,6 +3615,13 @@ declare module '@tanstack/react-router' {
       path: '/groups'
       fullPath: '/care/community/groups'
       preLoaderRoute: typeof CareCommunityGroupsRouteImport
+      parentRoute: typeof CareCommunityRoute
+    }
+    '/care/community/cafe-mortel': {
+      id: '/care/community/cafe-mortel'
+      path: '/cafe-mortel'
+      fullPath: '/care/community/cafe-mortel'
+      preLoaderRoute: typeof CareCommunityCafeMortelRouteImport
       parentRoute: typeof CareCommunityRoute
     }
     '/practical/tasks/$id/': {
@@ -3601,6 +3792,7 @@ const CareCommunityVigilIdRouteWithChildren =
   CareCommunityVigilIdRoute._addFileChildren(CareCommunityVigilIdRouteChildren)
 
 interface CareCommunityRouteChildren {
+  CareCommunityCafeMortelRoute: typeof CareCommunityCafeMortelRoute
   CareCommunityGroupsRoute: typeof CareCommunityGroupsRoute
   CareCommunityReglesRoute: typeof CareCommunityReglesRoute
   CareCommunityIndexRoute: typeof CareCommunityIndexRoute
@@ -3611,6 +3803,7 @@ interface CareCommunityRouteChildren {
 }
 
 const CareCommunityRouteChildren: CareCommunityRouteChildren = {
+  CareCommunityCafeMortelRoute: CareCommunityCafeMortelRoute,
   CareCommunityGroupsRoute: CareCommunityGroupsRoute,
   CareCommunityReglesRoute: CareCommunityReglesRoute,
   CareCommunityIndexRoute: CareCommunityIndexRoute,
@@ -3643,8 +3836,11 @@ interface CareGardenRouteChildren {
   CareGardenAllRoute: typeof CareGardenAllRoute
   CareGardenBookRoute: typeof CareGardenBookRoute
   CareGardenDepotRoute: typeof CareGardenDepotRoute
+  CareGardenHistoireRoute: typeof CareGardenHistoireRoute
   CareGardenHistoiresRoute: typeof CareGardenHistoiresRoute
   CareGardenInviteRoute: typeof CareGardenInviteRoute
+  CareGardenLettresRoute: typeof CareGardenLettresRoute
+  CareGardenObjetsRoute: typeof CareGardenObjetsRoute
   CareGardenRecettesRoute: typeof CareGardenRecettesRoute
   CareGardenSpaceRoute: typeof CareGardenSpaceRoute
   CareGardenIndexRoute: typeof CareGardenIndexRoute
@@ -3655,8 +3851,11 @@ const CareGardenRouteChildren: CareGardenRouteChildren = {
   CareGardenAllRoute: CareGardenAllRoute,
   CareGardenBookRoute: CareGardenBookRoute,
   CareGardenDepotRoute: CareGardenDepotRoute,
+  CareGardenHistoireRoute: CareGardenHistoireRoute,
   CareGardenHistoiresRoute: CareGardenHistoiresRoute,
   CareGardenInviteRoute: CareGardenInviteRoute,
+  CareGardenLettresRoute: CareGardenLettresRoute,
+  CareGardenObjetsRoute: CareGardenObjetsRoute,
   CareGardenRecettesRoute: CareGardenRecettesRoute,
   CareGardenSpaceRoute: CareGardenSpaceRoute,
   CareGardenIndexRoute: CareGardenIndexRoute,
@@ -3922,15 +4121,21 @@ interface PracticalRouteChildren {
   PracticalAtmosphereRoute: typeof PracticalAtmosphereRoute
   PracticalBookletRoute: typeof PracticalBookletRoute
   PracticalCeremonyRoute: typeof PracticalCeremonyRoute
+  PracticalConfianceRoute: typeof PracticalConfianceRoute
   PracticalCongeAidantRoute: typeof PracticalCongeAidantRoute
+  PracticalContratObsequesRoute: typeof PracticalContratObsequesRoute
+  PracticalDirectivesRoute: typeof PracticalDirectivesRoute
+  PracticalDonOrganesRoute: typeof PracticalDonOrganesRoute
   PracticalFlowersRoute: typeof PracticalFlowersRoute
   PracticalLetterRoute: typeof PracticalLetterRoute
   PracticalObjectsRoute: typeof PracticalObjectsRoute
+  PracticalObsequesRoute: typeof PracticalObsequesRoute
   PracticalProgressRoute: typeof PracticalProgressRoute
   PracticalProsRoute: typeof PracticalProsRouteWithChildren
   PracticalResourcesRoute: typeof PracticalResourcesRoute
   PracticalStepsRoute: typeof PracticalStepsRoute
   PracticalTasksRoute: typeof PracticalTasksRouteWithChildren
+  PracticalTestamentRoute: typeof PracticalTestamentRoute
   PracticalTextsRoute: typeof PracticalTextsRoute
   PracticalVaultRoute: typeof PracticalVaultRoute
   PracticalWishesRoute: typeof PracticalWishesRouteWithChildren
@@ -3949,15 +4154,21 @@ const PracticalRouteChildren: PracticalRouteChildren = {
   PracticalAtmosphereRoute: PracticalAtmosphereRoute,
   PracticalBookletRoute: PracticalBookletRoute,
   PracticalCeremonyRoute: PracticalCeremonyRoute,
+  PracticalConfianceRoute: PracticalConfianceRoute,
   PracticalCongeAidantRoute: PracticalCongeAidantRoute,
+  PracticalContratObsequesRoute: PracticalContratObsequesRoute,
+  PracticalDirectivesRoute: PracticalDirectivesRoute,
+  PracticalDonOrganesRoute: PracticalDonOrganesRoute,
   PracticalFlowersRoute: PracticalFlowersRoute,
   PracticalLetterRoute: PracticalLetterRoute,
   PracticalObjectsRoute: PracticalObjectsRoute,
+  PracticalObsequesRoute: PracticalObsequesRoute,
   PracticalProgressRoute: PracticalProgressRoute,
   PracticalProsRoute: PracticalProsRouteWithChildren,
   PracticalResourcesRoute: PracticalResourcesRoute,
   PracticalStepsRoute: PracticalStepsRoute,
   PracticalTasksRoute: PracticalTasksRouteWithChildren,
+  PracticalTestamentRoute: PracticalTestamentRoute,
   PracticalTextsRoute: PracticalTextsRoute,
   PracticalVaultRoute: PracticalVaultRoute,
   PracticalWishesRoute: PracticalWishesRouteWithChildren,

@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { StandardLayout, PageTitle, SectionLabel, Row, Lead } from "@/components/legato/ds";
 import { useActiveSpace } from "@/lib/use-active-space";
+import { SelfSoutien } from "@/components/legato/SelfSpace";
 
 export const Route = createFileRoute("/care/")({
   head: () => ({
@@ -19,6 +20,7 @@ export const Route = createFileRoute("/care/")({
 function Soutien() {
   const { kind, space } = useActiveSpace();
   if (kind === "malade") return <MaladeSoutien />;
+  if (kind === "questions") return <SelfSoutien />;
   if (kind === "animal") return <AnimalSoutien name={space?.name ?? "lui"} />;
   return (
     <StandardLayout space="support" title="Soutien" activeTab="/care">
