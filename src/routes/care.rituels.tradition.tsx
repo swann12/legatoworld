@@ -19,7 +19,7 @@ function Tradition() {
   const toggle = (o: string) => setSel((l) => (l.includes(o) ? l.filter((x) => x !== o) : [...l, o]));
   const go = (v: string[]) => { window.localStorage.setItem(KEY, JSON.stringify(v)); navigate({ to: "/care/rituels/propositions" }); };
   return (
-    <QuestionLayout space="memory" step={1} total={1} header={<TextLink to="/care/rituels">Rituels</TextLink>} footer={<QuestionFooter cta="Continuer" ctaDisabled={!sel.length} onCta={() => go(sel)} link="Passer cette étape" onLink={() => go([])} />}>
+    <QuestionLayout space="memory" step={1} total={1} header={<div className="flex items-center justify-between"><TextLink to="/care/rituels">Rituels</TextLink><TextLink to="/crisis">Besoin d'aide</TextLink></div>} footer={<QuestionFooter cta="Continuer" ctaDisabled={!sel.length} onCta={() => go(sel)} link="Passer cette étape" onLink={() => go([])} />}>
       <PageTitle size={30}>Souhaitez-vous des rituels<br /><em>d'une tradition ?</em></PageTitle>
       <Lead className="mt-3">Pour vous proposer des gestes qui ont du sens pour vous. Plusieurs choix possibles.</Lead>
       <div className="mt-6 flex flex-col gap-[10px]">{OPTIONS.map((o) => <OptionCard key={o} label={o} selected={sel.includes(o)} onClick={() => toggle(o)} />)}</div>

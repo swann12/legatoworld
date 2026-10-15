@@ -21,3 +21,4 @@
 - The body "petit suivi" lives in `src/lib/corps-suivi.ts` (localStorage, tested); the walking voice uses the browser speech synthesis. Why: nothing about the body leaves the phone.
 - The carnet and « Qui fait quoi » of sick-relative spaces go through `src/lib/carnet.ts`: shared_items in the space's circle when signed in, scoped localStorage otherwise; members accept tasks via the accept_circle_task RPC. Why: shared with the circle without loosening item RLS, and visitors keep working locally.
 - Rituals content (gestures, world traditions, calendar dates) lives in `src/lib/rituals-catalog.ts`; « Vos rituels » in `src/lib/my-rituals.ts` (scoped localStorage, tested). Why: one catalog feeds every ritual screen and personal rituals stay per space.
+- "questions" space data: `src/lib/self-space.ts`, local. Why: stays on the phone.
