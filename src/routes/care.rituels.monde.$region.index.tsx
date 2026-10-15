@@ -20,7 +20,7 @@ function Region() {
       <div className="mt-6">
         {list.map((t, i) => (
           <Link key={t.id} to="/care/rituels/monde/$region/$id" params={{ region: r.id, id: t.id }} className="block py-5" style={{ borderBottom: i < list.length - 1 ? "1px solid var(--sp-line)" : "none" }}>
-            <p className="lg-mono" style={{ color: "var(--sp-accent)" }}>{[t.place.split(" · ")[0], t.period].filter(Boolean).join(" · ")}</p>
+            <p className="lg-mono" style={{ color: "var(--sp-accent)" }}>{t.period ? [t.place.split(" · ")[0], t.period].join(" · ") : t.place}</p>
             <p className="lg-title mt-2" style={{ fontSize: 22 }}>{t.title}</p>
             <p className="mt-1 text-[14px]" style={{ color: "var(--sp-sub)" }}>{t.description}</p>
           </Link>
