@@ -1,5 +1,11 @@
 # Reprise UX/UI Legato
 
+## Étape B13 — Lire, écouter, voir
+- [x] Présenter les quatre listes pour B114–B118 avant le code.
+- [ ] Reproduire les onglets, la fiche film et les suggestions ; conserver les ressources hors maquette.
+- [ ] Vérifier les favoris, les retours, les propositions et l’absence d’envoi en découverte.
+- [ ] Comparaison aux captures individuelles : captures B114–B118 non jointes.
+
 ## Étape B2 — découverte sans compte
 - [x] Présenter quatre listes pour B007–B012 ; profil : prénom et préférences confirmés.
 - [x] Créer les pages, bandeau et questions en découverte ; aucun envoi de contenu observé.
