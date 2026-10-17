@@ -9,294 +9,213 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as WishesRouteImport } from './routes/wishes'
-import { Route as VitrineRouteImport } from './routes/vitrine'
-import { Route as ProfileRouteImport } from './routes/profile'
-import { Route as PresentationRouteImport } from './routes/presentation'
-import { Route as PracticalRouteImport } from './routes/practical'
-import { Route as ParcoursRouteImport } from './routes/parcours'
-import { Route as OnboardingRouteImport } from './routes/onboarding'
-import { Route as NoWordsRouteImport } from './routes/no-words'
-import { Route as MemoryRouteImport } from './routes/memory'
-import { Route as MemoriesRouteImport } from './routes/memories'
-import { Route as JournalRouteImport } from './routes/journal'
-import { Route as InspirationRouteImport } from './routes/inspiration'
-import { Route as HelpRouteImport } from './routes/help'
-import { Route as DatesRouteImport } from './routes/dates'
-import { Route as CrisisRouteImport } from './routes/crisis'
-import { Route as CommunityRouteImport } from './routes/community'
-import { Route as CheckinRouteImport } from './routes/checkin'
-import { Route as CareRouteImport } from './routes/care'
-import { Route as AuthRouteImport } from './routes/auth'
-import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as StartIndexRouteImport } from './routes/start.index'
-import { Route as SpaceIndexRouteImport } from './routes/space.index'
-import { Route as ResourcesIndexRouteImport } from './routes/resources.index'
-import { Route as ProfileIndexRouteImport } from './routes/profile.index'
-import { Route as PresenceIndexRouteImport } from './routes/presence.index'
-import { Route as PracticalIndexRouteImport } from './routes/practical.index'
-import { Route as OnboardingIndexRouteImport } from './routes/onboarding.index'
-import { Route as HomeIndexRouteImport } from './routes/home.index'
-import { Route as HelpIndexRouteImport } from './routes/help.index'
-import { Route as GardenIndexRouteImport } from './routes/garden.index'
-import { Route as CareIndexRouteImport } from './routes/care.index'
-import { Route as AppointmentsIndexRouteImport } from './routes/appointments.index'
-import { Route as AgendaIndexRouteImport } from './routes/agenda.index'
-import { Route as StartGarderRouteImport } from './routes/start.garder'
-import { Route as StartDecouverteRouteImport } from './routes/start.decouverte'
-import { Route as StartCompteRequisRouteImport } from './routes/start.compte-requis'
-import { Route as SpaceSettingsRouteImport } from './routes/space.settings'
-import { Route as SpaceNewRouteImport } from './routes/space.new'
-import { Route as ResourcesCategoryRouteImport } from './routes/resources.$category'
-import { Route as ProfileProchesRouteImport } from './routes/profile.proches'
-import { Route as ProfilePrivacyRouteImport } from './routes/profile.privacy'
-import { Route as ProfilePortraitRouteImport } from './routes/profile.portrait'
-import { Route as ProfileNotificationsRouteImport } from './routes/profile.notifications'
-import { Route as ProfileHelpRouteImport } from './routes/profile.help'
-import { Route as ProfileDataRouteImport } from './routes/profile.data'
-import { Route as PresenceAboutRouteImport } from './routes/presence.about'
-import { Route as PracticalWishesRouteImport } from './routes/practical.wishes'
-import { Route as PracticalVaultRouteImport } from './routes/practical.vault'
-import { Route as PracticalTextsRouteImport } from './routes/practical.texts'
-import { Route as PracticalTestamentRouteImport } from './routes/practical.testament'
-import { Route as PracticalTasksRouteImport } from './routes/practical.tasks'
-import { Route as PracticalStepsRouteImport } from './routes/practical.steps'
-import { Route as PracticalResourcesRouteImport } from './routes/practical.resources'
-import { Route as PracticalProsRouteImport } from './routes/practical.pros'
-import { Route as PracticalProgressRouteImport } from './routes/practical.progress'
-import { Route as PracticalObsequesRouteImport } from './routes/practical.obseques'
-import { Route as PracticalObjectsRouteImport } from './routes/practical.objects'
-import { Route as PracticalLetterRouteImport } from './routes/practical.letter'
-import { Route as PracticalFlowersRouteImport } from './routes/practical.flowers'
-import { Route as PracticalDonOrganesRouteImport } from './routes/practical.don-organes'
-import { Route as PracticalDirectivesRouteImport } from './routes/practical.directives'
-import { Route as PracticalContratObsequesRouteImport } from './routes/practical.contrat-obseques'
-import { Route as PracticalCongeAidantRouteImport } from './routes/practical.conge-aidant'
-import { Route as PracticalConfianceRouteImport } from './routes/practical.confiance'
-import { Route as PracticalCeremonyRouteImport } from './routes/practical.ceremony'
-import { Route as PracticalBookletRouteImport } from './routes/practical.booklet'
-import { Route as PracticalAtmosphereRouteImport } from './routes/practical.atmosphere'
-import { Route as PracticalAnimalSubscriptionsRouteImport } from './routes/practical.animal-subscriptions'
-import { Route as PracticalAnimalInsuranceRouteImport } from './routes/practical.animal-insurance'
-import { Route as PracticalAnimalIdRouteImport } from './routes/practical.animal-id'
-import { Route as PracticalAnimalBodyRouteImport } from './routes/practical.animal-body'
-import { Route as PracticalAjpaRouteImport } from './routes/practical.ajpa'
-import { Route as PracticalAideDomicileRouteImport } from './routes/practical.aide-domicile'
-import { Route as ParcoursTaskIdRouteImport } from './routes/parcours.$taskId'
-import { Route as OnboardingPracticalRouteImport } from './routes/onboarding.practical'
-import { Route as OnboardingCareRouteImport } from './routes/onboarding.care'
-import { Route as InviteTokenRouteImport } from './routes/invite.$token'
-import { Route as HomeSesAffairesRouteImport } from './routes/home.ses-affaires'
-import { Route as HomeQuestionsMedecinRouteImport } from './routes/home.questions-medecin'
-import { Route as HomePenserAMourirRouteImport } from './routes/home.penser-a-mourir'
-import { Route as HomeParlerEnfantRouteImport } from './routes/home.parler-enfant'
-import { Route as HomeEquipeRouteImport } from './routes/home.equipe'
-import { Route as HomeEnParlerRouteImport } from './routes/home.en-parler'
-import { Route as HomeEcrirePeurRouteImport } from './routes/home.ecrire-peur'
-import { Route as HomeCarnetRouteImport } from './routes/home.carnet'
-import { Route as HelpCorpsRouteImport } from './routes/help.corps'
-import { Route as GardenZoneRouteImport } from './routes/garden.$zone'
-import { Route as DevDesignRouteImport } from './routes/dev.design'
-import { Route as ComposeZoneRouteImport } from './routes/compose.$zone'
-import { Route as CareSonsRouteImport } from './routes/care.sons'
-import { Route as CareRespirerRouteImport } from './routes/care.respirer'
-import { Route as CareResourcesRouteImport } from './routes/care.resources'
-import { Route as CareNewAnimalRouteImport } from './routes/care.new-animal'
-import { Route as CareMemoryRouteImport } from './routes/care.memory'
-import { Route as CareHelpRouteImport } from './routes/care.help'
-import { Route as CareGuiltRouteImport } from './routes/care.guilt'
-import { Route as CareGardenRouteImport } from './routes/care.garden'
-import { Route as CareEpuisementRouteImport } from './routes/care.epuisement'
-import { Route as CareEmotionsRouteImport } from './routes/care.emotions'
-import { Route as CareCommunityRouteImport } from './routes/care.community'
-import { Route as CareAngoisseRouteImport } from './routes/care.angoisse'
-import { Route as CareAideRouteImport } from './routes/care.aide'
-import { Route as AppointmentsNewRouteImport } from './routes/appointments.new'
-import { Route as AppointmentsIdRouteImport } from './routes/appointments.$id'
-import { Route as AgendaNewRouteImport } from './routes/agenda.new'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as CareRouteImport } from './routes/care'
+import { Route as CheckinRouteImport } from './routes/checkin'
+import { Route as CommunityRouteImport } from './routes/community'
+import { Route as CrisisRouteImport } from './routes/crisis'
+import { Route as DatesRouteImport } from './routes/dates'
+import { Route as HelpRouteImport } from './routes/help'
+import { Route as InspirationRouteImport } from './routes/inspiration'
+import { Route as JournalRouteImport } from './routes/journal'
+import { Route as MemoriesRouteImport } from './routes/memories'
+import { Route as MemoryRouteImport } from './routes/memory'
+import { Route as NoWordsRouteImport } from './routes/no-words'
+import { Route as OnboardingRouteImport } from './routes/onboarding'
+import { Route as ParcoursRouteImport } from './routes/parcours'
+import { Route as PracticalRouteImport } from './routes/practical'
+import { Route as PresentationRouteImport } from './routes/presentation'
+import { Route as ProfileRouteImport } from './routes/profile'
+import { Route as VitrineRouteImport } from './routes/vitrine'
+import { Route as WishesRouteImport } from './routes/wishes'
 import { Route as AuthenticatedCircleRouteImport } from './routes/_authenticated/circle'
-import { Route as SpaceSettingsIndexRouteImport } from './routes/space.settings.index'
-import { Route as ResourcesCategoryIndexRouteImport } from './routes/resources.$category.index'
-import { Route as PracticalWishesIndexRouteImport } from './routes/practical.wishes.index'
-import { Route as PracticalTasksIndexRouteImport } from './routes/practical.tasks.index'
-import { Route as PracticalShareIndexRouteImport } from './routes/practical.share.index'
-import { Route as PracticalProsIndexRouteImport } from './routes/practical.pros.index'
-import { Route as PracticalAnimalBodyIndexRouteImport } from './routes/practical.animal-body.index'
-import { Route as LibraryKindIndexRouteImport } from './routes/library.$kind.index'
-import { Route as HomeEquipeIndexRouteImport } from './routes/home.equipe.index'
-import { Route as HomeCarnetIndexRouteImport } from './routes/home.carnet.index'
-import { Route as HelpCorpsIndexRouteImport } from './routes/help.corps.index'
-import { Route as CareRituelsIndexRouteImport } from './routes/care.rituels.index'
-import { Route as CareJournalIndexRouteImport } from './routes/care.journal.index'
-import { Route as CareGardenIndexRouteImport } from './routes/care.garden.index'
-import { Route as CareDatesIndexRouteImport } from './routes/care.dates.index'
+import { Route as AgendaIndexRouteImport } from './routes/agenda.index'
+import { Route as AgendaNewRouteImport } from './routes/agenda.new'
+import { Route as AppointmentsIndexRouteImport } from './routes/appointments.index'
+import { Route as AppointmentsIdRouteImport } from './routes/appointments.$id'
+import { Route as AppointmentsNewRouteImport } from './routes/appointments.new'
+import { Route as CareIndexRouteImport } from './routes/care.index'
+import { Route as CareAideRouteImport } from './routes/care.aide'
+import { Route as CareAngoisseRouteImport } from './routes/care.angoisse'
+import { Route as CareCommunityRouteImport } from './routes/care.community'
+import { Route as CareEmotionsRouteImport } from './routes/care.emotions'
+import { Route as CareEpuisementRouteImport } from './routes/care.epuisement'
+import { Route as CareGardenRouteImport } from './routes/care.garden'
+import { Route as CareGuiltRouteImport } from './routes/care.guilt'
+import { Route as CareHelpRouteImport } from './routes/care.help'
+import { Route as CareMemoryRouteImport } from './routes/care.memory'
+import { Route as CareNewAnimalRouteImport } from './routes/care.new-animal'
+import { Route as CareResourcesRouteImport } from './routes/care.resources'
+import { Route as CareRespirerRouteImport } from './routes/care.respirer'
+import { Route as CareSonsRouteImport } from './routes/care.sons'
+import { Route as ComposeZoneRouteImport } from './routes/compose.$zone'
+import { Route as DevDesignRouteImport } from './routes/dev.design'
+import { Route as GardenIndexRouteImport } from './routes/garden.index'
+import { Route as GardenZoneRouteImport } from './routes/garden.$zone'
+import { Route as HelpIndexRouteImport } from './routes/help.index'
+import { Route as HelpCorpsRouteImport } from './routes/help.corps'
+import { Route as HomeIndexRouteImport } from './routes/home.index'
+import { Route as HomeCarnetRouteImport } from './routes/home.carnet'
+import { Route as HomeEcrirePeurRouteImport } from './routes/home.ecrire-peur'
+import { Route as HomeEnParlerRouteImport } from './routes/home.en-parler'
+import { Route as HomeEquipeRouteImport } from './routes/home.equipe'
+import { Route as HomeParlerEnfantRouteImport } from './routes/home.parler-enfant'
+import { Route as HomePenserAMourirRouteImport } from './routes/home.penser-a-mourir'
+import { Route as HomeQuestionsMedecinRouteImport } from './routes/home.questions-medecin'
+import { Route as HomeSesAffairesRouteImport } from './routes/home.ses-affaires'
+import { Route as InviteTokenRouteImport } from './routes/invite.$token'
+import { Route as OnboardingIndexRouteImport } from './routes/onboarding.index'
+import { Route as OnboardingCareRouteImport } from './routes/onboarding.care'
+import { Route as OnboardingPracticalRouteImport } from './routes/onboarding.practical'
+import { Route as ParcoursTaskIdRouteImport } from './routes/parcours.$taskId'
+import { Route as PracticalIndexRouteImport } from './routes/practical.index'
+import { Route as PracticalAideDomicileRouteImport } from './routes/practical.aide-domicile'
+import { Route as PracticalAjpaRouteImport } from './routes/practical.ajpa'
+import { Route as PracticalAnimalBodyRouteImport } from './routes/practical.animal-body'
+import { Route as PracticalAnimalIdRouteImport } from './routes/practical.animal-id'
+import { Route as PracticalAnimalInsuranceRouteImport } from './routes/practical.animal-insurance'
+import { Route as PracticalAnimalSubscriptionsRouteImport } from './routes/practical.animal-subscriptions'
+import { Route as PracticalAtmosphereRouteImport } from './routes/practical.atmosphere'
+import { Route as PracticalBookletRouteImport } from './routes/practical.booklet'
+import { Route as PracticalCeremonyRouteImport } from './routes/practical.ceremony'
+import { Route as PracticalConfianceRouteImport } from './routes/practical.confiance'
+import { Route as PracticalCongeAidantRouteImport } from './routes/practical.conge-aidant'
+import { Route as PracticalContratObsequesRouteImport } from './routes/practical.contrat-obseques'
+import { Route as PracticalDirectivesRouteImport } from './routes/practical.directives'
+import { Route as PracticalDonOrganesRouteImport } from './routes/practical.don-organes'
+import { Route as PracticalFlowersRouteImport } from './routes/practical.flowers'
+import { Route as PracticalLetterRouteImport } from './routes/practical.letter'
+import { Route as PracticalObjectsRouteImport } from './routes/practical.objects'
+import { Route as PracticalObsequesRouteImport } from './routes/practical.obseques'
+import { Route as PracticalProgressRouteImport } from './routes/practical.progress'
+import { Route as PracticalProsRouteImport } from './routes/practical.pros'
+import { Route as PracticalResourcesRouteImport } from './routes/practical.resources'
+import { Route as PracticalStepsRouteImport } from './routes/practical.steps'
+import { Route as PracticalTasksRouteImport } from './routes/practical.tasks'
+import { Route as PracticalTestamentRouteImport } from './routes/practical.testament'
+import { Route as PracticalTextsRouteImport } from './routes/practical.texts'
+import { Route as PracticalVaultRouteImport } from './routes/practical.vault'
+import { Route as PracticalWishesRouteImport } from './routes/practical.wishes'
+import { Route as PresenceIndexRouteImport } from './routes/presence.index'
+import { Route as PresenceAboutRouteImport } from './routes/presence.about'
+import { Route as ProfileIndexRouteImport } from './routes/profile.index'
+import { Route as ProfileDataRouteImport } from './routes/profile.data'
+import { Route as ProfileHelpRouteImport } from './routes/profile.help'
+import { Route as ProfileNotificationsRouteImport } from './routes/profile.notifications'
+import { Route as ProfilePortraitRouteImport } from './routes/profile.portrait'
+import { Route as ProfilePrivacyRouteImport } from './routes/profile.privacy'
+import { Route as ProfileProchesRouteImport } from './routes/profile.proches'
+import { Route as ResourcesIndexRouteImport } from './routes/resources.index'
+import { Route as ResourcesCategoryRouteImport } from './routes/resources.$category'
+import { Route as SpaceIndexRouteImport } from './routes/space.index'
+import { Route as SpaceNewRouteImport } from './routes/space.new'
+import { Route as SpaceSettingsRouteImport } from './routes/space.settings'
+import { Route as StartIndexRouteImport } from './routes/start.index'
+import { Route as StartCompteRequisRouteImport } from './routes/start.compte-requis'
+import { Route as StartDecouverteRouteImport } from './routes/start.decouverte'
+import { Route as StartGarderRouteImport } from './routes/start.garder'
 import { Route as CareCommunityIndexRouteImport } from './routes/care.community.index'
-import { Route as SpaceSettingsTransitionRouteImport } from './routes/space.settings.transition'
-import { Route as ResourcesConfirmProviderIdRouteImport } from './routes/resources.confirm.$providerId'
-import { Route as ResourcesCategoryProviderIdRouteImport } from './routes/resources.$category.$providerId'
-import { Route as PracticalWishesDirectivesRouteImport } from './routes/practical.wishes.directives'
-import { Route as PracticalWishesConfianceRouteImport } from './routes/practical.wishes.confiance'
-import { Route as PracticalTasksIdRouteImport } from './routes/practical.tasks.$id'
-import { Route as PracticalShareTaskIdRouteImport } from './routes/practical.share.$taskId'
-import { Route as PracticalProsKindRouteImport } from './routes/practical.pros.$kind'
-import { Route as PracticalAnimalBodyJardinRouteImport } from './routes/practical.animal-body.jardin'
-import { Route as PracticalAnimalBodyCremationRouteImport } from './routes/practical.animal-body.cremation'
-import { Route as PracticalAnimalBodyCimetiereRouteImport } from './routes/practical.animal-body.cimetiere'
-import { Route as LibraryKindIdRouteImport } from './routes/library.$kind.$id'
-import { Route as HomeEquipeDemandeRouteImport } from './routes/home.equipe.demande'
-import { Route as HomeCarnetNoteRouteImport } from './routes/home.carnet.note'
-import { Route as HomeCarnetIdRouteImport } from './routes/home.carnet.$id'
-import { Route as HelpCorpsSuiviRouteImport } from './routes/help.corps.suivi'
-import { Route as HelpCorpsSoinRouteImport } from './routes/help.corps.soin'
-import { Route as HelpCorpsNuitsRouteImport } from './routes/help.corps.nuits'
-import { Route as HelpCorpsMangerRouteImport } from './routes/help.corps.manger'
-import { Route as HelpCorpsHabillerRouteImport } from './routes/help.corps.habiller'
-import { Route as HelpCorpsEauRouteImport } from './routes/help.corps.eau'
-import { Route as HelpCorpsConsulterRouteImport } from './routes/help.corps.consulter'
-import { Route as HelpCorpsComprendreRouteImport } from './routes/help.corps.comprendre'
-import { Route as HelpCorpsBougerRouteImport } from './routes/help.corps.bouger'
-import { Route as CareRituelsTraditionRouteImport } from './routes/care.rituels.tradition'
-import { Route as CareRituelsRegardsRouteImport } from './routes/care.rituels.regards'
-import { Route as CareRituelsPropositionsRouteImport } from './routes/care.rituels.propositions'
-import { Route as CareRituelsOrganiserRouteImport } from './routes/care.rituels.organiser'
-import { Route as CareRituelsOfferingRouteImport } from './routes/care.rituels.offering'
-import { Route as CareRituelsMesRituelsRouteImport } from './routes/care.rituels.mes-rituels'
-import { Route as CareRituelsMaintenantRouteImport } from './routes/care.rituels.maintenant'
-import { Route as CareRituelsLettreRouteImport } from './routes/care.rituels.lettre'
-import { Route as CareRituelsLanternRouteImport } from './routes/care.rituels.lantern'
-import { Route as CareRituelsFaitRouteImport } from './routes/care.rituels.fait'
-import { Route as CareRituelsEnsembleRouteImport } from './routes/care.rituels.ensemble'
-import { Route as CareRituelsCercleRouteImport } from './routes/care.rituels.cercle'
-import { Route as CareRituelsCandleRouteImport } from './routes/care.rituels.candle'
-import { Route as CareRituelsArbreRouteImport } from './routes/care.rituels.arbre'
-import { Route as CareRituelsIdRouteImport } from './routes/care.rituels.$id'
-import { Route as CareResourcesSuggestionsRouteImport } from './routes/care.resources.suggestions'
-import { Route as CareJournalLaterRouteImport } from './routes/care.journal.later'
-import { Route as CareGardenSpaceRouteImport } from './routes/care.garden.space'
-import { Route as CareGardenRecettesRouteImport } from './routes/care.garden.recettes'
-import { Route as CareGardenObjetsRouteImport } from './routes/care.garden.objets'
-import { Route as CareGardenLettresRouteImport } from './routes/care.garden.lettres'
-import { Route as CareGardenInviteRouteImport } from './routes/care.garden.invite'
-import { Route as CareGardenHistoiresRouteImport } from './routes/care.garden.histoires'
-import { Route as CareGardenHistoireRouteImport } from './routes/care.garden.histoire'
-import { Route as CareGardenDepotRouteImport } from './routes/care.garden.depot'
-import { Route as CareGardenBookRouteImport } from './routes/care.garden.book'
-import { Route as CareGardenAllRouteImport } from './routes/care.garden.all'
-import { Route as CareGardenZoneRouteImport } from './routes/care.garden.$zone'
-import { Route as CareDatesIdRouteImport } from './routes/care.dates.$id'
-import { Route as CareCommunityReglesRouteImport } from './routes/care.community.regles'
-import { Route as CareCommunityGroupsRouteImport } from './routes/care.community.groups'
 import { Route as CareCommunityCafeMortelRouteImport } from './routes/care.community.cafe-mortel'
-import { Route as PracticalTasksIdIndexRouteImport } from './routes/practical.tasks.$id.index'
-import { Route as HelpCorpsSoinIndexRouteImport } from './routes/help.corps.soin.index'
-import { Route as CareRituelsMondeIndexRouteImport } from './routes/care.rituels.monde.index'
-import { Route as CareRituelsCalendrierIndexRouteImport } from './routes/care.rituels.calendrier.index'
-import { Route as CareGardenZoneIndexRouteImport } from './routes/care.garden.$zone.index'
-import { Route as CareCommunityGroupIndexRouteImport } from './routes/care.community.$group.index'
-import { Route as PracticalTasksIdTemplateRouteImport } from './routes/practical.tasks.$id.template'
-import { Route as HelpCorpsSoinIdRouteImport } from './routes/help.corps.soin.$id'
-import { Route as HelpCorpsSujetContenusRouteImport } from './routes/help.corps.$sujet.contenus'
-import { Route as CareRituelsCalendrierAnneeRouteImport } from './routes/care.rituels.calendrier.annee'
-import { Route as CareGardenZoneIdRouteImport } from './routes/care.garden.$zone.$id'
-import { Route as CareCommunityVigilIdRouteImport } from './routes/care.community.vigil.$id'
-import { Route as CareCommunityGroupNewRouteImport } from './routes/care.community.$group.new'
-import { Route as CareCommunityGroupThreadRouteImport } from './routes/care.community.$group.$thread'
+import { Route as CareCommunityGroupsRouteImport } from './routes/care.community.groups'
+import { Route as CareCommunityReglesRouteImport } from './routes/care.community.regles'
+import { Route as CareDatesIndexRouteImport } from './routes/care.dates.index'
+import { Route as CareDatesIdRouteImport } from './routes/care.dates.$id'
+import { Route as CareGardenIndexRouteImport } from './routes/care.garden.index'
+import { Route as CareGardenZoneRouteImport } from './routes/care.garden.$zone'
+import { Route as CareGardenAllRouteImport } from './routes/care.garden.all'
+import { Route as CareGardenBookRouteImport } from './routes/care.garden.book'
+import { Route as CareGardenDepotRouteImport } from './routes/care.garden.depot'
+import { Route as CareGardenHistoireRouteImport } from './routes/care.garden.histoire'
+import { Route as CareGardenHistoiresRouteImport } from './routes/care.garden.histoires'
+import { Route as CareGardenInviteRouteImport } from './routes/care.garden.invite'
+import { Route as CareGardenLettresRouteImport } from './routes/care.garden.lettres'
+import { Route as CareGardenObjetsRouteImport } from './routes/care.garden.objets'
+import { Route as CareGardenRecettesRouteImport } from './routes/care.garden.recettes'
+import { Route as CareGardenSpaceRouteImport } from './routes/care.garden.space'
+import { Route as CareJournalIndexRouteImport } from './routes/care.journal.index'
+import { Route as CareJournalLaterRouteImport } from './routes/care.journal.later'
+import { Route as CareResourcesSuggestionsRouteImport } from './routes/care.resources.suggestions'
+import { Route as CareRituelsIndexRouteImport } from './routes/care.rituels.index'
+import { Route as CareRituelsIdRouteImport } from './routes/care.rituels.$id'
+import { Route as CareRituelsArbreRouteImport } from './routes/care.rituels.arbre'
+import { Route as CareRituelsCandleRouteImport } from './routes/care.rituels.candle'
+import { Route as CareRituelsCercleRouteImport } from './routes/care.rituels.cercle'
+import { Route as CareRituelsEnsembleRouteImport } from './routes/care.rituels.ensemble'
+import { Route as CareRituelsFaitRouteImport } from './routes/care.rituels.fait'
+import { Route as CareRituelsLanternRouteImport } from './routes/care.rituels.lantern'
+import { Route as CareRituelsLettreRouteImport } from './routes/care.rituels.lettre'
+import { Route as CareRituelsMaintenantRouteImport } from './routes/care.rituels.maintenant'
+import { Route as CareRituelsMesRituelsRouteImport } from './routes/care.rituels.mes-rituels'
+import { Route as CareRituelsOfferingRouteImport } from './routes/care.rituels.offering'
+import { Route as CareRituelsOrganiserRouteImport } from './routes/care.rituels.organiser'
+import { Route as CareRituelsPropositionsRouteImport } from './routes/care.rituels.propositions'
+import { Route as CareRituelsRegardsRouteImport } from './routes/care.rituels.regards'
+import { Route as CareRituelsTraditionRouteImport } from './routes/care.rituels.tradition'
+import { Route as HelpCorpsIndexRouteImport } from './routes/help.corps.index'
+import { Route as HelpCorpsBougerRouteImport } from './routes/help.corps.bouger'
+import { Route as HelpCorpsComprendreRouteImport } from './routes/help.corps.comprendre'
+import { Route as HelpCorpsConsulterRouteImport } from './routes/help.corps.consulter'
+import { Route as HelpCorpsEauRouteImport } from './routes/help.corps.eau'
+import { Route as HelpCorpsHabillerRouteImport } from './routes/help.corps.habiller'
+import { Route as HelpCorpsMangerRouteImport } from './routes/help.corps.manger'
+import { Route as HelpCorpsNuitsRouteImport } from './routes/help.corps.nuits'
+import { Route as HelpCorpsSoinRouteImport } from './routes/help.corps.soin'
+import { Route as HelpCorpsSuiviRouteImport } from './routes/help.corps.suivi'
+import { Route as HomeCarnetIndexRouteImport } from './routes/home.carnet.index'
+import { Route as HomeCarnetIdRouteImport } from './routes/home.carnet.$id'
+import { Route as HomeCarnetNoteRouteImport } from './routes/home.carnet.note'
+import { Route as HomeEquipeIndexRouteImport } from './routes/home.equipe.index'
+import { Route as HomeEquipeDemandeRouteImport } from './routes/home.equipe.demande'
+import { Route as LibraryKindIndexRouteImport } from './routes/library.$kind.index'
+import { Route as LibraryKindIdRouteImport } from './routes/library.$kind.$id'
+import { Route as PracticalAnimalBodyIndexRouteImport } from './routes/practical.animal-body.index'
+import { Route as PracticalAnimalBodyCimetiereRouteImport } from './routes/practical.animal-body.cimetiere'
+import { Route as PracticalAnimalBodyCremationRouteImport } from './routes/practical.animal-body.cremation'
+import { Route as PracticalAnimalBodyJardinRouteImport } from './routes/practical.animal-body.jardin'
+import { Route as PracticalProsIndexRouteImport } from './routes/practical.pros.index'
+import { Route as PracticalProsKindRouteImport } from './routes/practical.pros.$kind'
+import { Route as PracticalShareIndexRouteImport } from './routes/practical.share.index'
+import { Route as PracticalShareTaskIdRouteImport } from './routes/practical.share.$taskId'
+import { Route as PracticalTasksIndexRouteImport } from './routes/practical.tasks.index'
+import { Route as PracticalTasksIdRouteImport } from './routes/practical.tasks.$id'
+import { Route as PracticalWishesIndexRouteImport } from './routes/practical.wishes.index'
+import { Route as PracticalWishesConfianceRouteImport } from './routes/practical.wishes.confiance'
+import { Route as PracticalWishesDirectivesRouteImport } from './routes/practical.wishes.directives'
+import { Route as ResourcesCategoryIndexRouteImport } from './routes/resources.$category.index'
+import { Route as ResourcesCategoryProviderIdRouteImport } from './routes/resources.$category.$providerId'
+import { Route as ResourcesConfirmProviderIdRouteImport } from './routes/resources.confirm.$providerId'
+import { Route as SpaceSettingsIndexRouteImport } from './routes/space.settings.index'
+import { Route as SpaceSettingsTransitionRouteImport } from './routes/space.settings.transition'
 import { Route as ApiPublicSouffleSoundIdRouteImport } from './routes/api/public/souffle-sound.$id'
-import { Route as CareRituelsMondeRegionIndexRouteImport } from './routes/care.rituels.monde.$region.index'
+import { Route as CareCommunityGroupIndexRouteImport } from './routes/care.community.$group.index'
+import { Route as CareCommunityGroupThreadRouteImport } from './routes/care.community.$group.$thread'
+import { Route as CareCommunityGroupNewRouteImport } from './routes/care.community.$group.new'
+import { Route as CareCommunityVigilIdRouteImport } from './routes/care.community.vigil.$id'
+import { Route as CareGardenZoneIndexRouteImport } from './routes/care.garden.$zone.index'
+import { Route as CareGardenZoneIdRouteImport } from './routes/care.garden.$zone.$id'
+import { Route as CareRituelsCalendrierIndexRouteImport } from './routes/care.rituels.calendrier.index'
+import { Route as CareRituelsCalendrierAnneeRouteImport } from './routes/care.rituels.calendrier.annee'
+import { Route as CareRituelsMondeIndexRouteImport } from './routes/care.rituels.monde.index'
+import { Route as HelpCorpsSujetContenusRouteImport } from './routes/help.corps.$sujet.contenus'
+import { Route as HelpCorpsSoinIndexRouteImport } from './routes/help.corps.soin.index'
+import { Route as HelpCorpsSoinIdRouteImport } from './routes/help.corps.soin.$id'
+import { Route as PracticalTasksIdIndexRouteImport } from './routes/practical.tasks.$id.index'
+import { Route as PracticalTasksIdTemplateRouteImport } from './routes/practical.tasks.$id.template'
 import { Route as CareCommunityVigilIdIndexRouteImport } from './routes/care.community.vigil.$id.index'
-import { Route as CareRituelsMondeAmeriquesOfrendaRouteImport } from './routes/care.rituels.monde.ameriques.ofrenda'
-import { Route as CareRituelsMondeRegionIdRouteImport } from './routes/care.rituels.monde.$region.$id'
 import { Route as CareCommunityVigilIdOkRouteImport } from './routes/care.community.vigil.$id.ok'
+import { Route as CareRituelsMondeRegionIndexRouteImport } from './routes/care.rituels.monde.$region.index'
+import { Route as CareRituelsMondeRegionIdRouteImport } from './routes/care.rituels.monde.$region.$id'
+import { Route as CareRituelsMondeAmeriquesOfrendaRouteImport } from './routes/care.rituels.monde.ameriques.ofrenda'
 
-const WishesRoute = WishesRouteImport.update({
-  id: '/wishes',
-  path: '/wishes',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const VitrineRoute = VitrineRouteImport.update({
-  id: '/vitrine',
-  path: '/vitrine',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ProfileRoute = ProfileRouteImport.update({
-  id: '/profile',
-  path: '/profile',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PresentationRoute = PresentationRouteImport.update({
-  id: '/presentation',
-  path: '/presentation',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PracticalRoute = PracticalRouteImport.update({
-  id: '/practical',
-  path: '/practical',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ParcoursRoute = ParcoursRouteImport.update({
-  id: '/parcours',
-  path: '/parcours',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const OnboardingRoute = OnboardingRouteImport.update({
-  id: '/onboarding',
-  path: '/onboarding',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const NoWordsRoute = NoWordsRouteImport.update({
-  id: '/no-words',
-  path: '/no-words',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const MemoryRoute = MemoryRouteImport.update({
-  id: '/memory',
-  path: '/memory',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const MemoriesRoute = MemoriesRouteImport.update({
-  id: '/memories',
-  path: '/memories',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const JournalRoute = JournalRouteImport.update({
-  id: '/journal',
-  path: '/journal',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const InspirationRoute = InspirationRouteImport.update({
-  id: '/inspiration',
-  path: '/inspiration',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const HelpRoute = HelpRouteImport.update({
-  id: '/help',
-  path: '/help',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DatesRoute = DatesRouteImport.update({
-  id: '/dates',
-  path: '/dates',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CrisisRoute = CrisisRouteImport.update({
-  id: '/crisis',
-  path: '/crisis',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CommunityRoute = CommunityRouteImport.update({
-  id: '/community',
-  path: '/community',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CheckinRoute = CheckinRouteImport.update({
-  id: '/checkin',
-  path: '/checkin',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CareRoute = CareRouteImport.update({
-  id: '/care',
-  path: '/care',
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -304,63 +223,124 @@ const AuthRoute = AuthRouteImport.update({
   path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
-  id: '/_authenticated',
+const CareRoute = CareRouteImport.update({
+  id: '/care',
+  path: '/care',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const CheckinRoute = CheckinRouteImport.update({
+  id: '/checkin',
+  path: '/checkin',
   getParentRoute: () => rootRouteImport,
 } as any)
-const StartIndexRoute = StartIndexRouteImport.update({
-  id: '/start/',
-  path: '/start/',
+const CommunityRoute = CommunityRouteImport.update({
+  id: '/community',
+  path: '/community',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SpaceIndexRoute = SpaceIndexRouteImport.update({
-  id: '/space/',
-  path: '/space/',
+const CrisisRoute = CrisisRouteImport.update({
+  id: '/crisis',
+  path: '/crisis',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ResourcesIndexRoute = ResourcesIndexRouteImport.update({
-  id: '/resources/',
-  path: '/resources/',
+const DatesRoute = DatesRouteImport.update({
+  id: '/dates',
+  path: '/dates',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ProfileIndexRoute = ProfileIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => ProfileRoute,
-} as any)
-const PresenceIndexRoute = PresenceIndexRouteImport.update({
-  id: '/presence/',
-  path: '/presence/',
+const HelpRoute = HelpRouteImport.update({
+  id: '/help',
+  path: '/help',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PracticalIndexRoute = PracticalIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => PracticalRoute,
-} as any)
-const OnboardingIndexRoute = OnboardingIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => OnboardingRoute,
-} as any)
-const HomeIndexRoute = HomeIndexRouteImport.update({
-  id: '/home/',
-  path: '/home/',
+const InspirationRoute = InspirationRouteImport.update({
+  id: '/inspiration',
+  path: '/inspiration',
   getParentRoute: () => rootRouteImport,
 } as any)
-const HelpIndexRoute = HelpIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => HelpRoute,
+const JournalRoute = JournalRouteImport.update({
+  id: '/journal',
+  path: '/journal',
+  getParentRoute: () => rootRouteImport,
 } as any)
-const GardenIndexRoute = GardenIndexRouteImport.update({
-  id: '/garden/',
-  path: '/garden/',
+const MemoriesRoute = MemoriesRouteImport.update({
+  id: '/memories',
+  path: '/memories',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MemoryRoute = MemoryRouteImport.update({
+  id: '/memory',
+  path: '/memory',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NoWordsRoute = NoWordsRouteImport.update({
+  id: '/no-words',
+  path: '/no-words',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OnboardingRoute = OnboardingRouteImport.update({
+  id: '/onboarding',
+  path: '/onboarding',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ParcoursRoute = ParcoursRouteImport.update({
+  id: '/parcours',
+  path: '/parcours',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PracticalRoute = PracticalRouteImport.update({
+  id: '/practical',
+  path: '/practical',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PresentationRoute = PresentationRouteImport.update({
+  id: '/presentation',
+  path: '/presentation',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfileRoute = ProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VitrineRoute = VitrineRouteImport.update({
+  id: '/vitrine',
+  path: '/vitrine',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WishesRoute = WishesRouteImport.update({
+  id: '/wishes',
+  path: '/wishes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedCircleRoute = AuthenticatedCircleRouteImport.update({
+  id: '/circle',
+  path: '/circle',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AgendaIndexRoute = AgendaIndexRouteImport.update({
+  id: '/agenda/',
+  path: '/agenda/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AgendaNewRoute = AgendaNewRouteImport.update({
+  id: '/agenda/new',
+  path: '/agenda/new',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppointmentsIndexRoute = AppointmentsIndexRouteImport.update({
+  id: '/appointments/',
+  path: '/appointments/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppointmentsIdRoute = AppointmentsIdRouteImport.update({
+  id: '/appointments/$id',
+  path: '/appointments/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppointmentsNewRoute = AppointmentsNewRouteImport.update({
+  id: '/appointments/new',
+  path: '/appointments/new',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CareIndexRoute = CareIndexRouteImport.update({
@@ -368,154 +348,231 @@ const CareIndexRoute = CareIndexRouteImport.update({
   path: '/',
   getParentRoute: () => CareRoute,
 } as any)
-const AppointmentsIndexRoute = AppointmentsIndexRouteImport.update({
-  id: '/appointments/',
-  path: '/appointments/',
-  getParentRoute: () => rootRouteImport,
+const CareAideRoute = CareAideRouteImport.update({
+  id: '/aide',
+  path: '/aide',
+  getParentRoute: () => CareRoute,
 } as any)
-const AgendaIndexRoute = AgendaIndexRouteImport.update({
-  id: '/agenda/',
-  path: '/agenda/',
-  getParentRoute: () => rootRouteImport,
+const CareAngoisseRoute = CareAngoisseRouteImport.update({
+  id: '/angoisse',
+  path: '/angoisse',
+  getParentRoute: () => CareRoute,
 } as any)
-const StartGarderRoute = StartGarderRouteImport.update({
-  id: '/start/garder',
-  path: '/start/garder',
-  getParentRoute: () => rootRouteImport,
+const CareCommunityRoute = CareCommunityRouteImport.update({
+  id: '/community',
+  path: '/community',
+  getParentRoute: () => CareRoute,
 } as any)
-const StartDecouverteRoute = StartDecouverteRouteImport.update({
-  id: '/start/decouverte',
-  path: '/start/decouverte',
-  getParentRoute: () => rootRouteImport,
+const CareEmotionsRoute = CareEmotionsRouteImport.update({
+  id: '/emotions',
+  path: '/emotions',
+  getParentRoute: () => CareRoute,
 } as any)
-const StartCompteRequisRoute = StartCompteRequisRouteImport.update({
-  id: '/start/compte-requis',
-  path: '/start/compte-requis',
-  getParentRoute: () => rootRouteImport,
+const CareEpuisementRoute = CareEpuisementRouteImport.update({
+  id: '/epuisement',
+  path: '/epuisement',
+  getParentRoute: () => CareRoute,
 } as any)
-const SpaceSettingsRoute = SpaceSettingsRouteImport.update({
-  id: '/space/settings',
-  path: '/space/settings',
-  getParentRoute: () => rootRouteImport,
+const CareGardenRoute = CareGardenRouteImport.update({
+  id: '/garden',
+  path: '/garden',
+  getParentRoute: () => CareRoute,
 } as any)
-const SpaceNewRoute = SpaceNewRouteImport.update({
-  id: '/space/new',
-  path: '/space/new',
-  getParentRoute: () => rootRouteImport,
+const CareGuiltRoute = CareGuiltRouteImport.update({
+  id: '/guilt',
+  path: '/guilt',
+  getParentRoute: () => CareRoute,
 } as any)
-const ResourcesCategoryRoute = ResourcesCategoryRouteImport.update({
-  id: '/resources/$category',
-  path: '/resources/$category',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ProfileProchesRoute = ProfileProchesRouteImport.update({
-  id: '/proches',
-  path: '/proches',
-  getParentRoute: () => ProfileRoute,
-} as any)
-const ProfilePrivacyRoute = ProfilePrivacyRouteImport.update({
-  id: '/privacy',
-  path: '/privacy',
-  getParentRoute: () => ProfileRoute,
-} as any)
-const ProfilePortraitRoute = ProfilePortraitRouteImport.update({
-  id: '/portrait',
-  path: '/portrait',
-  getParentRoute: () => ProfileRoute,
-} as any)
-const ProfileNotificationsRoute = ProfileNotificationsRouteImport.update({
-  id: '/notifications',
-  path: '/notifications',
-  getParentRoute: () => ProfileRoute,
-} as any)
-const ProfileHelpRoute = ProfileHelpRouteImport.update({
+const CareHelpRoute = CareHelpRouteImport.update({
   id: '/help',
   path: '/help',
-  getParentRoute: () => ProfileRoute,
+  getParentRoute: () => CareRoute,
 } as any)
-const ProfileDataRoute = ProfileDataRouteImport.update({
-  id: '/data',
-  path: '/data',
-  getParentRoute: () => ProfileRoute,
+const CareMemoryRoute = CareMemoryRouteImport.update({
+  id: '/memory',
+  path: '/memory',
+  getParentRoute: () => CareRoute,
 } as any)
-const PresenceAboutRoute = PresenceAboutRouteImport.update({
-  id: '/presence/about',
-  path: '/presence/about',
-  getParentRoute: () => rootRouteImport,
+const CareNewAnimalRoute = CareNewAnimalRouteImport.update({
+  id: '/new-animal',
+  path: '/new-animal',
+  getParentRoute: () => CareRoute,
 } as any)
-const PracticalWishesRoute = PracticalWishesRouteImport.update({
-  id: '/wishes',
-  path: '/wishes',
-  getParentRoute: () => PracticalRoute,
-} as any)
-const PracticalVaultRoute = PracticalVaultRouteImport.update({
-  id: '/vault',
-  path: '/vault',
-  getParentRoute: () => PracticalRoute,
-} as any)
-const PracticalTextsRoute = PracticalTextsRouteImport.update({
-  id: '/texts',
-  path: '/texts',
-  getParentRoute: () => PracticalRoute,
-} as any)
-const PracticalTestamentRoute = PracticalTestamentRouteImport.update({
-  id: '/testament',
-  path: '/testament',
-  getParentRoute: () => PracticalRoute,
-} as any)
-const PracticalTasksRoute = PracticalTasksRouteImport.update({
-  id: '/tasks',
-  path: '/tasks',
-  getParentRoute: () => PracticalRoute,
-} as any)
-const PracticalStepsRoute = PracticalStepsRouteImport.update({
-  id: '/steps',
-  path: '/steps',
-  getParentRoute: () => PracticalRoute,
-} as any)
-const PracticalResourcesRoute = PracticalResourcesRouteImport.update({
+const CareResourcesRoute = CareResourcesRouteImport.update({
   id: '/resources',
   path: '/resources',
+  getParentRoute: () => CareRoute,
+} as any)
+const CareRespirerRoute = CareRespirerRouteImport.update({
+  id: '/respirer',
+  path: '/respirer',
+  getParentRoute: () => CareRoute,
+} as any)
+const CareSonsRoute = CareSonsRouteImport.update({
+  id: '/sons',
+  path: '/sons',
+  getParentRoute: () => CareRoute,
+} as any)
+const ComposeZoneRoute = ComposeZoneRouteImport.update({
+  id: '/compose/$zone',
+  path: '/compose/$zone',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DevDesignRoute = DevDesignRouteImport.update({
+  id: '/dev/design',
+  path: '/dev/design',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GardenIndexRoute = GardenIndexRouteImport.update({
+  id: '/garden/',
+  path: '/garden/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GardenZoneRoute = GardenZoneRouteImport.update({
+  id: '/garden/$zone',
+  path: '/garden/$zone',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HelpIndexRoute = HelpIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => HelpRoute,
+} as any)
+const HelpCorpsRoute = HelpCorpsRouteImport.update({
+  id: '/corps',
+  path: '/corps',
+  getParentRoute: () => HelpRoute,
+} as any)
+const HomeIndexRoute = HomeIndexRouteImport.update({
+  id: '/home/',
+  path: '/home/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HomeCarnetRoute = HomeCarnetRouteImport.update({
+  id: '/home/carnet',
+  path: '/home/carnet',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HomeEcrirePeurRoute = HomeEcrirePeurRouteImport.update({
+  id: '/home/ecrire-peur',
+  path: '/home/ecrire-peur',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HomeEnParlerRoute = HomeEnParlerRouteImport.update({
+  id: '/home/en-parler',
+  path: '/home/en-parler',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HomeEquipeRoute = HomeEquipeRouteImport.update({
+  id: '/home/equipe',
+  path: '/home/equipe',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HomeParlerEnfantRoute = HomeParlerEnfantRouteImport.update({
+  id: '/home/parler-enfant',
+  path: '/home/parler-enfant',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HomePenserAMourirRoute = HomePenserAMourirRouteImport.update({
+  id: '/home/penser-a-mourir',
+  path: '/home/penser-a-mourir',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HomeQuestionsMedecinRoute = HomeQuestionsMedecinRouteImport.update({
+  id: '/home/questions-medecin',
+  path: '/home/questions-medecin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HomeSesAffairesRoute = HomeSesAffairesRouteImport.update({
+  id: '/home/ses-affaires',
+  path: '/home/ses-affaires',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InviteTokenRoute = InviteTokenRouteImport.update({
+  id: '/invite/$token',
+  path: '/invite/$token',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OnboardingIndexRoute = OnboardingIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => OnboardingRoute,
+} as any)
+const OnboardingCareRoute = OnboardingCareRouteImport.update({
+  id: '/care',
+  path: '/care',
+  getParentRoute: () => OnboardingRoute,
+} as any)
+const OnboardingPracticalRoute = OnboardingPracticalRouteImport.update({
+  id: '/practical',
+  path: '/practical',
+  getParentRoute: () => OnboardingRoute,
+} as any)
+const ParcoursTaskIdRoute = ParcoursTaskIdRouteImport.update({
+  id: '/$taskId',
+  path: '/$taskId',
+  getParentRoute: () => ParcoursRoute,
+} as any)
+const PracticalIndexRoute = PracticalIndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => PracticalRoute,
 } as any)
-const PracticalProsRoute = PracticalProsRouteImport.update({
-  id: '/pros',
-  path: '/pros',
+const PracticalAideDomicileRoute = PracticalAideDomicileRouteImport.update({
+  id: '/aide-domicile',
+  path: '/aide-domicile',
   getParentRoute: () => PracticalRoute,
 } as any)
-const PracticalProgressRoute = PracticalProgressRouteImport.update({
-  id: '/progress',
-  path: '/progress',
+const PracticalAjpaRoute = PracticalAjpaRouteImport.update({
+  id: '/ajpa',
+  path: '/ajpa',
   getParentRoute: () => PracticalRoute,
 } as any)
-const PracticalObsequesRoute = PracticalObsequesRouteImport.update({
-  id: '/obseques',
-  path: '/obseques',
+const PracticalAnimalBodyRoute = PracticalAnimalBodyRouteImport.update({
+  id: '/animal-body',
+  path: '/animal-body',
   getParentRoute: () => PracticalRoute,
 } as any)
-const PracticalObjectsRoute = PracticalObjectsRouteImport.update({
-  id: '/objects',
-  path: '/objects',
+const PracticalAnimalIdRoute = PracticalAnimalIdRouteImport.update({
+  id: '/animal-id',
+  path: '/animal-id',
   getParentRoute: () => PracticalRoute,
 } as any)
-const PracticalLetterRoute = PracticalLetterRouteImport.update({
-  id: '/letter',
-  path: '/letter',
+const PracticalAnimalInsuranceRoute =
+  PracticalAnimalInsuranceRouteImport.update({
+    id: '/animal-insurance',
+    path: '/animal-insurance',
+    getParentRoute: () => PracticalRoute,
+  } as any)
+const PracticalAnimalSubscriptionsRoute =
+  PracticalAnimalSubscriptionsRouteImport.update({
+    id: '/animal-subscriptions',
+    path: '/animal-subscriptions',
+    getParentRoute: () => PracticalRoute,
+  } as any)
+const PracticalAtmosphereRoute = PracticalAtmosphereRouteImport.update({
+  id: '/atmosphere',
+  path: '/atmosphere',
   getParentRoute: () => PracticalRoute,
 } as any)
-const PracticalFlowersRoute = PracticalFlowersRouteImport.update({
-  id: '/flowers',
-  path: '/flowers',
+const PracticalBookletRoute = PracticalBookletRouteImport.update({
+  id: '/booklet',
+  path: '/booklet',
   getParentRoute: () => PracticalRoute,
 } as any)
-const PracticalDonOrganesRoute = PracticalDonOrganesRouteImport.update({
-  id: '/don-organes',
-  path: '/don-organes',
+const PracticalCeremonyRoute = PracticalCeremonyRouteImport.update({
+  id: '/ceremony',
+  path: '/ceremony',
   getParentRoute: () => PracticalRoute,
 } as any)
-const PracticalDirectivesRoute = PracticalDirectivesRouteImport.update({
-  id: '/directives',
-  path: '/directives',
+const PracticalConfianceRoute = PracticalConfianceRouteImport.update({
+  id: '/confiance',
+  path: '/confiance',
+  getParentRoute: () => PracticalRoute,
+} as any)
+const PracticalCongeAidantRoute = PracticalCongeAidantRouteImport.update({
+  id: '/conge-aidant',
+  path: '/conge-aidant',
   getParentRoute: () => PracticalRoute,
 } as any)
 const PracticalContratObsequesRoute =
@@ -524,292 +581,199 @@ const PracticalContratObsequesRoute =
     path: '/contrat-obseques',
     getParentRoute: () => PracticalRoute,
   } as any)
-const PracticalCongeAidantRoute = PracticalCongeAidantRouteImport.update({
-  id: '/conge-aidant',
-  path: '/conge-aidant',
+const PracticalDirectivesRoute = PracticalDirectivesRouteImport.update({
+  id: '/directives',
+  path: '/directives',
   getParentRoute: () => PracticalRoute,
 } as any)
-const PracticalConfianceRoute = PracticalConfianceRouteImport.update({
-  id: '/confiance',
-  path: '/confiance',
+const PracticalDonOrganesRoute = PracticalDonOrganesRouteImport.update({
+  id: '/don-organes',
+  path: '/don-organes',
   getParentRoute: () => PracticalRoute,
 } as any)
-const PracticalCeremonyRoute = PracticalCeremonyRouteImport.update({
-  id: '/ceremony',
-  path: '/ceremony',
+const PracticalFlowersRoute = PracticalFlowersRouteImport.update({
+  id: '/flowers',
+  path: '/flowers',
   getParentRoute: () => PracticalRoute,
 } as any)
-const PracticalBookletRoute = PracticalBookletRouteImport.update({
-  id: '/booklet',
-  path: '/booklet',
+const PracticalLetterRoute = PracticalLetterRouteImport.update({
+  id: '/letter',
+  path: '/letter',
   getParentRoute: () => PracticalRoute,
 } as any)
-const PracticalAtmosphereRoute = PracticalAtmosphereRouteImport.update({
-  id: '/atmosphere',
-  path: '/atmosphere',
+const PracticalObjectsRoute = PracticalObjectsRouteImport.update({
+  id: '/objects',
+  path: '/objects',
   getParentRoute: () => PracticalRoute,
 } as any)
-const PracticalAnimalSubscriptionsRoute =
-  PracticalAnimalSubscriptionsRouteImport.update({
-    id: '/animal-subscriptions',
-    path: '/animal-subscriptions',
-    getParentRoute: () => PracticalRoute,
-  } as any)
-const PracticalAnimalInsuranceRoute =
-  PracticalAnimalInsuranceRouteImport.update({
-    id: '/animal-insurance',
-    path: '/animal-insurance',
-    getParentRoute: () => PracticalRoute,
-  } as any)
-const PracticalAnimalIdRoute = PracticalAnimalIdRouteImport.update({
-  id: '/animal-id',
-  path: '/animal-id',
+const PracticalObsequesRoute = PracticalObsequesRouteImport.update({
+  id: '/obseques',
+  path: '/obseques',
   getParentRoute: () => PracticalRoute,
 } as any)
-const PracticalAnimalBodyRoute = PracticalAnimalBodyRouteImport.update({
-  id: '/animal-body',
-  path: '/animal-body',
+const PracticalProgressRoute = PracticalProgressRouteImport.update({
+  id: '/progress',
+  path: '/progress',
   getParentRoute: () => PracticalRoute,
 } as any)
-const PracticalAjpaRoute = PracticalAjpaRouteImport.update({
-  id: '/ajpa',
-  path: '/ajpa',
+const PracticalProsRoute = PracticalProsRouteImport.update({
+  id: '/pros',
+  path: '/pros',
   getParentRoute: () => PracticalRoute,
 } as any)
-const PracticalAideDomicileRoute = PracticalAideDomicileRouteImport.update({
-  id: '/aide-domicile',
-  path: '/aide-domicile',
-  getParentRoute: () => PracticalRoute,
-} as any)
-const ParcoursTaskIdRoute = ParcoursTaskIdRouteImport.update({
-  id: '/$taskId',
-  path: '/$taskId',
-  getParentRoute: () => ParcoursRoute,
-} as any)
-const OnboardingPracticalRoute = OnboardingPracticalRouteImport.update({
-  id: '/practical',
-  path: '/practical',
-  getParentRoute: () => OnboardingRoute,
-} as any)
-const OnboardingCareRoute = OnboardingCareRouteImport.update({
-  id: '/care',
-  path: '/care',
-  getParentRoute: () => OnboardingRoute,
-} as any)
-const InviteTokenRoute = InviteTokenRouteImport.update({
-  id: '/invite/$token',
-  path: '/invite/$token',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const HomeSesAffairesRoute = HomeSesAffairesRouteImport.update({
-  id: '/home/ses-affaires',
-  path: '/home/ses-affaires',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const HomeQuestionsMedecinRoute = HomeQuestionsMedecinRouteImport.update({
-  id: '/home/questions-medecin',
-  path: '/home/questions-medecin',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const HomePenserAMourirRoute = HomePenserAMourirRouteImport.update({
-  id: '/home/penser-a-mourir',
-  path: '/home/penser-a-mourir',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const HomeParlerEnfantRoute = HomeParlerEnfantRouteImport.update({
-  id: '/home/parler-enfant',
-  path: '/home/parler-enfant',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const HomeEquipeRoute = HomeEquipeRouteImport.update({
-  id: '/home/equipe',
-  path: '/home/equipe',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const HomeEnParlerRoute = HomeEnParlerRouteImport.update({
-  id: '/home/en-parler',
-  path: '/home/en-parler',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const HomeEcrirePeurRoute = HomeEcrirePeurRouteImport.update({
-  id: '/home/ecrire-peur',
-  path: '/home/ecrire-peur',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const HomeCarnetRoute = HomeCarnetRouteImport.update({
-  id: '/home/carnet',
-  path: '/home/carnet',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const HelpCorpsRoute = HelpCorpsRouteImport.update({
-  id: '/corps',
-  path: '/corps',
-  getParentRoute: () => HelpRoute,
-} as any)
-const GardenZoneRoute = GardenZoneRouteImport.update({
-  id: '/garden/$zone',
-  path: '/garden/$zone',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DevDesignRoute = DevDesignRouteImport.update({
-  id: '/dev/design',
-  path: '/dev/design',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ComposeZoneRoute = ComposeZoneRouteImport.update({
-  id: '/compose/$zone',
-  path: '/compose/$zone',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CareSonsRoute = CareSonsRouteImport.update({
-  id: '/sons',
-  path: '/sons',
-  getParentRoute: () => CareRoute,
-} as any)
-const CareRespirerRoute = CareRespirerRouteImport.update({
-  id: '/respirer',
-  path: '/respirer',
-  getParentRoute: () => CareRoute,
-} as any)
-const CareResourcesRoute = CareResourcesRouteImport.update({
+const PracticalResourcesRoute = PracticalResourcesRouteImport.update({
   id: '/resources',
   path: '/resources',
-  getParentRoute: () => CareRoute,
-} as any)
-const CareNewAnimalRoute = CareNewAnimalRouteImport.update({
-  id: '/new-animal',
-  path: '/new-animal',
-  getParentRoute: () => CareRoute,
-} as any)
-const CareMemoryRoute = CareMemoryRouteImport.update({
-  id: '/memory',
-  path: '/memory',
-  getParentRoute: () => CareRoute,
-} as any)
-const CareHelpRoute = CareHelpRouteImport.update({
-  id: '/help',
-  path: '/help',
-  getParentRoute: () => CareRoute,
-} as any)
-const CareGuiltRoute = CareGuiltRouteImport.update({
-  id: '/guilt',
-  path: '/guilt',
-  getParentRoute: () => CareRoute,
-} as any)
-const CareGardenRoute = CareGardenRouteImport.update({
-  id: '/garden',
-  path: '/garden',
-  getParentRoute: () => CareRoute,
-} as any)
-const CareEpuisementRoute = CareEpuisementRouteImport.update({
-  id: '/epuisement',
-  path: '/epuisement',
-  getParentRoute: () => CareRoute,
-} as any)
-const CareEmotionsRoute = CareEmotionsRouteImport.update({
-  id: '/emotions',
-  path: '/emotions',
-  getParentRoute: () => CareRoute,
-} as any)
-const CareCommunityRoute = CareCommunityRouteImport.update({
-  id: '/community',
-  path: '/community',
-  getParentRoute: () => CareRoute,
-} as any)
-const CareAngoisseRoute = CareAngoisseRouteImport.update({
-  id: '/angoisse',
-  path: '/angoisse',
-  getParentRoute: () => CareRoute,
-} as any)
-const CareAideRoute = CareAideRouteImport.update({
-  id: '/aide',
-  path: '/aide',
-  getParentRoute: () => CareRoute,
-} as any)
-const AppointmentsNewRoute = AppointmentsNewRouteImport.update({
-  id: '/appointments/new',
-  path: '/appointments/new',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AppointmentsIdRoute = AppointmentsIdRouteImport.update({
-  id: '/appointments/$id',
-  path: '/appointments/$id',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AgendaNewRoute = AgendaNewRouteImport.update({
-  id: '/agenda/new',
-  path: '/agenda/new',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthenticatedCircleRoute = AuthenticatedCircleRouteImport.update({
-  id: '/circle',
-  path: '/circle',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const SpaceSettingsIndexRoute = SpaceSettingsIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => SpaceSettingsRoute,
-} as any)
-const ResourcesCategoryIndexRoute = ResourcesCategoryIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => ResourcesCategoryRoute,
-} as any)
-const PracticalWishesIndexRoute = PracticalWishesIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => PracticalWishesRoute,
-} as any)
-const PracticalTasksIndexRoute = PracticalTasksIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => PracticalTasksRoute,
-} as any)
-const PracticalShareIndexRoute = PracticalShareIndexRouteImport.update({
-  id: '/share/',
-  path: '/share/',
   getParentRoute: () => PracticalRoute,
 } as any)
-const PracticalProsIndexRoute = PracticalProsIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => PracticalProsRoute,
+const PracticalStepsRoute = PracticalStepsRouteImport.update({
+  id: '/steps',
+  path: '/steps',
+  getParentRoute: () => PracticalRoute,
 } as any)
-const PracticalAnimalBodyIndexRoute =
-  PracticalAnimalBodyIndexRouteImport.update({
-    id: '/',
-    path: '/',
-    getParentRoute: () => PracticalAnimalBodyRoute,
-  } as any)
-const LibraryKindIndexRoute = LibraryKindIndexRouteImport.update({
-  id: '/library/$kind/',
-  path: '/library/$kind/',
+const PracticalTasksRoute = PracticalTasksRouteImport.update({
+  id: '/tasks',
+  path: '/tasks',
+  getParentRoute: () => PracticalRoute,
+} as any)
+const PracticalTestamentRoute = PracticalTestamentRouteImport.update({
+  id: '/testament',
+  path: '/testament',
+  getParentRoute: () => PracticalRoute,
+} as any)
+const PracticalTextsRoute = PracticalTextsRouteImport.update({
+  id: '/texts',
+  path: '/texts',
+  getParentRoute: () => PracticalRoute,
+} as any)
+const PracticalVaultRoute = PracticalVaultRouteImport.update({
+  id: '/vault',
+  path: '/vault',
+  getParentRoute: () => PracticalRoute,
+} as any)
+const PracticalWishesRoute = PracticalWishesRouteImport.update({
+  id: '/wishes',
+  path: '/wishes',
+  getParentRoute: () => PracticalRoute,
+} as any)
+const PresenceIndexRoute = PresenceIndexRouteImport.update({
+  id: '/presence/',
+  path: '/presence/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const HomeEquipeIndexRoute = HomeEquipeIndexRouteImport.update({
+const PresenceAboutRoute = PresenceAboutRouteImport.update({
+  id: '/presence/about',
+  path: '/presence/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfileIndexRoute = ProfileIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => HomeEquipeRoute,
+  getParentRoute: () => ProfileRoute,
 } as any)
-const HomeCarnetIndexRoute = HomeCarnetIndexRouteImport.update({
+const ProfileDataRoute = ProfileDataRouteImport.update({
+  id: '/data',
+  path: '/data',
+  getParentRoute: () => ProfileRoute,
+} as any)
+const ProfileHelpRoute = ProfileHelpRouteImport.update({
+  id: '/help',
+  path: '/help',
+  getParentRoute: () => ProfileRoute,
+} as any)
+const ProfileNotificationsRoute = ProfileNotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
+  getParentRoute: () => ProfileRoute,
+} as any)
+const ProfilePortraitRoute = ProfilePortraitRouteImport.update({
+  id: '/portrait',
+  path: '/portrait',
+  getParentRoute: () => ProfileRoute,
+} as any)
+const ProfilePrivacyRoute = ProfilePrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => ProfileRoute,
+} as any)
+const ProfileProchesRoute = ProfileProchesRouteImport.update({
+  id: '/proches',
+  path: '/proches',
+  getParentRoute: () => ProfileRoute,
+} as any)
+const ResourcesIndexRoute = ResourcesIndexRouteImport.update({
+  id: '/resources/',
+  path: '/resources/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResourcesCategoryRoute = ResourcesCategoryRouteImport.update({
+  id: '/resources/$category',
+  path: '/resources/$category',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SpaceIndexRoute = SpaceIndexRouteImport.update({
+  id: '/space/',
+  path: '/space/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SpaceNewRoute = SpaceNewRouteImport.update({
+  id: '/space/new',
+  path: '/space/new',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SpaceSettingsRoute = SpaceSettingsRouteImport.update({
+  id: '/space/settings',
+  path: '/space/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StartIndexRoute = StartIndexRouteImport.update({
+  id: '/start/',
+  path: '/start/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StartCompteRequisRoute = StartCompteRequisRouteImport.update({
+  id: '/start/compte-requis',
+  path: '/start/compte-requis',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StartDecouverteRoute = StartDecouverteRouteImport.update({
+  id: '/start/decouverte',
+  path: '/start/decouverte',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StartGarderRoute = StartGarderRouteImport.update({
+  id: '/start/garder',
+  path: '/start/garder',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CareCommunityIndexRoute = CareCommunityIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => HomeCarnetRoute,
+  getParentRoute: () => CareCommunityRoute,
 } as any)
-const HelpCorpsIndexRoute = HelpCorpsIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => HelpCorpsRoute,
+const CareCommunityCafeMortelRoute = CareCommunityCafeMortelRouteImport.update({
+  id: '/cafe-mortel',
+  path: '/cafe-mortel',
+  getParentRoute: () => CareCommunityRoute,
 } as any)
-const CareRituelsIndexRoute = CareRituelsIndexRouteImport.update({
-  id: '/rituels/',
-  path: '/rituels/',
+const CareCommunityGroupsRoute = CareCommunityGroupsRouteImport.update({
+  id: '/groups',
+  path: '/groups',
+  getParentRoute: () => CareCommunityRoute,
+} as any)
+const CareCommunityReglesRoute = CareCommunityReglesRouteImport.update({
+  id: '/regles',
+  path: '/regles',
+  getParentRoute: () => CareCommunityRoute,
+} as any)
+const CareDatesIndexRoute = CareDatesIndexRouteImport.update({
+  id: '/dates/',
+  path: '/dates/',
   getParentRoute: () => CareRoute,
 } as any)
-const CareJournalIndexRoute = CareJournalIndexRouteImport.update({
-  id: '/journal/',
-  path: '/journal/',
+const CareDatesIdRoute = CareDatesIdRouteImport.update({
+  id: '/dates/$id',
+  path: '/dates/$id',
   getParentRoute: () => CareRoute,
 } as any)
 const CareGardenIndexRoute = CareGardenIndexRouteImport.update({
@@ -817,216 +781,69 @@ const CareGardenIndexRoute = CareGardenIndexRouteImport.update({
   path: '/',
   getParentRoute: () => CareGardenRoute,
 } as any)
-const CareDatesIndexRoute = CareDatesIndexRouteImport.update({
-  id: '/dates/',
-  path: '/dates/',
+const CareGardenZoneRoute = CareGardenZoneRouteImport.update({
+  id: '/$zone',
+  path: '/$zone',
+  getParentRoute: () => CareGardenRoute,
+} as any)
+const CareGardenAllRoute = CareGardenAllRouteImport.update({
+  id: '/all',
+  path: '/all',
+  getParentRoute: () => CareGardenRoute,
+} as any)
+const CareGardenBookRoute = CareGardenBookRouteImport.update({
+  id: '/book',
+  path: '/book',
+  getParentRoute: () => CareGardenRoute,
+} as any)
+const CareGardenDepotRoute = CareGardenDepotRouteImport.update({
+  id: '/depot',
+  path: '/depot',
+  getParentRoute: () => CareGardenRoute,
+} as any)
+const CareGardenHistoireRoute = CareGardenHistoireRouteImport.update({
+  id: '/histoire',
+  path: '/histoire',
+  getParentRoute: () => CareGardenRoute,
+} as any)
+const CareGardenHistoiresRoute = CareGardenHistoiresRouteImport.update({
+  id: '/histoires',
+  path: '/histoires',
+  getParentRoute: () => CareGardenRoute,
+} as any)
+const CareGardenInviteRoute = CareGardenInviteRouteImport.update({
+  id: '/invite',
+  path: '/invite',
+  getParentRoute: () => CareGardenRoute,
+} as any)
+const CareGardenLettresRoute = CareGardenLettresRouteImport.update({
+  id: '/lettres',
+  path: '/lettres',
+  getParentRoute: () => CareGardenRoute,
+} as any)
+const CareGardenObjetsRoute = CareGardenObjetsRouteImport.update({
+  id: '/objets',
+  path: '/objets',
+  getParentRoute: () => CareGardenRoute,
+} as any)
+const CareGardenRecettesRoute = CareGardenRecettesRouteImport.update({
+  id: '/recettes',
+  path: '/recettes',
+  getParentRoute: () => CareGardenRoute,
+} as any)
+const CareGardenSpaceRoute = CareGardenSpaceRouteImport.update({
+  id: '/space',
+  path: '/space',
+  getParentRoute: () => CareGardenRoute,
+} as any)
+const CareJournalIndexRoute = CareJournalIndexRouteImport.update({
+  id: '/journal/',
+  path: '/journal/',
   getParentRoute: () => CareRoute,
 } as any)
-const CareCommunityIndexRoute = CareCommunityIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => CareCommunityRoute,
-} as any)
-const SpaceSettingsTransitionRoute = SpaceSettingsTransitionRouteImport.update({
-  id: '/transition',
-  path: '/transition',
-  getParentRoute: () => SpaceSettingsRoute,
-} as any)
-const ResourcesConfirmProviderIdRoute =
-  ResourcesConfirmProviderIdRouteImport.update({
-    id: '/resources/confirm/$providerId',
-    path: '/resources/confirm/$providerId',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const ResourcesCategoryProviderIdRoute =
-  ResourcesCategoryProviderIdRouteImport.update({
-    id: '/$providerId',
-    path: '/$providerId',
-    getParentRoute: () => ResourcesCategoryRoute,
-  } as any)
-const PracticalWishesDirectivesRoute =
-  PracticalWishesDirectivesRouteImport.update({
-    id: '/directives',
-    path: '/directives',
-    getParentRoute: () => PracticalWishesRoute,
-  } as any)
-const PracticalWishesConfianceRoute =
-  PracticalWishesConfianceRouteImport.update({
-    id: '/confiance',
-    path: '/confiance',
-    getParentRoute: () => PracticalWishesRoute,
-  } as any)
-const PracticalTasksIdRoute = PracticalTasksIdRouteImport.update({
-  id: '/$id',
-  path: '/$id',
-  getParentRoute: () => PracticalTasksRoute,
-} as any)
-const PracticalShareTaskIdRoute = PracticalShareTaskIdRouteImport.update({
-  id: '/share/$taskId',
-  path: '/share/$taskId',
-  getParentRoute: () => PracticalRoute,
-} as any)
-const PracticalProsKindRoute = PracticalProsKindRouteImport.update({
-  id: '/$kind',
-  path: '/$kind',
-  getParentRoute: () => PracticalProsRoute,
-} as any)
-const PracticalAnimalBodyJardinRoute =
-  PracticalAnimalBodyJardinRouteImport.update({
-    id: '/jardin',
-    path: '/jardin',
-    getParentRoute: () => PracticalAnimalBodyRoute,
-  } as any)
-const PracticalAnimalBodyCremationRoute =
-  PracticalAnimalBodyCremationRouteImport.update({
-    id: '/cremation',
-    path: '/cremation',
-    getParentRoute: () => PracticalAnimalBodyRoute,
-  } as any)
-const PracticalAnimalBodyCimetiereRoute =
-  PracticalAnimalBodyCimetiereRouteImport.update({
-    id: '/cimetiere',
-    path: '/cimetiere',
-    getParentRoute: () => PracticalAnimalBodyRoute,
-  } as any)
-const LibraryKindIdRoute = LibraryKindIdRouteImport.update({
-  id: '/library/$kind/$id',
-  path: '/library/$kind/$id',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const HomeEquipeDemandeRoute = HomeEquipeDemandeRouteImport.update({
-  id: '/demande',
-  path: '/demande',
-  getParentRoute: () => HomeEquipeRoute,
-} as any)
-const HomeCarnetNoteRoute = HomeCarnetNoteRouteImport.update({
-  id: '/note',
-  path: '/note',
-  getParentRoute: () => HomeCarnetRoute,
-} as any)
-const HomeCarnetIdRoute = HomeCarnetIdRouteImport.update({
-  id: '/$id',
-  path: '/$id',
-  getParentRoute: () => HomeCarnetRoute,
-} as any)
-const HelpCorpsSuiviRoute = HelpCorpsSuiviRouteImport.update({
-  id: '/suivi',
-  path: '/suivi',
-  getParentRoute: () => HelpCorpsRoute,
-} as any)
-const HelpCorpsSoinRoute = HelpCorpsSoinRouteImport.update({
-  id: '/soin',
-  path: '/soin',
-  getParentRoute: () => HelpCorpsRoute,
-} as any)
-const HelpCorpsNuitsRoute = HelpCorpsNuitsRouteImport.update({
-  id: '/nuits',
-  path: '/nuits',
-  getParentRoute: () => HelpCorpsRoute,
-} as any)
-const HelpCorpsMangerRoute = HelpCorpsMangerRouteImport.update({
-  id: '/manger',
-  path: '/manger',
-  getParentRoute: () => HelpCorpsRoute,
-} as any)
-const HelpCorpsHabillerRoute = HelpCorpsHabillerRouteImport.update({
-  id: '/habiller',
-  path: '/habiller',
-  getParentRoute: () => HelpCorpsRoute,
-} as any)
-const HelpCorpsEauRoute = HelpCorpsEauRouteImport.update({
-  id: '/eau',
-  path: '/eau',
-  getParentRoute: () => HelpCorpsRoute,
-} as any)
-const HelpCorpsConsulterRoute = HelpCorpsConsulterRouteImport.update({
-  id: '/consulter',
-  path: '/consulter',
-  getParentRoute: () => HelpCorpsRoute,
-} as any)
-const HelpCorpsComprendreRoute = HelpCorpsComprendreRouteImport.update({
-  id: '/comprendre',
-  path: '/comprendre',
-  getParentRoute: () => HelpCorpsRoute,
-} as any)
-const HelpCorpsBougerRoute = HelpCorpsBougerRouteImport.update({
-  id: '/bouger',
-  path: '/bouger',
-  getParentRoute: () => HelpCorpsRoute,
-} as any)
-const CareRituelsTraditionRoute = CareRituelsTraditionRouteImport.update({
-  id: '/rituels/tradition',
-  path: '/rituels/tradition',
-  getParentRoute: () => CareRoute,
-} as any)
-const CareRituelsRegardsRoute = CareRituelsRegardsRouteImport.update({
-  id: '/rituels/regards',
-  path: '/rituels/regards',
-  getParentRoute: () => CareRoute,
-} as any)
-const CareRituelsPropositionsRoute = CareRituelsPropositionsRouteImport.update({
-  id: '/rituels/propositions',
-  path: '/rituels/propositions',
-  getParentRoute: () => CareRoute,
-} as any)
-const CareRituelsOrganiserRoute = CareRituelsOrganiserRouteImport.update({
-  id: '/rituels/organiser',
-  path: '/rituels/organiser',
-  getParentRoute: () => CareRoute,
-} as any)
-const CareRituelsOfferingRoute = CareRituelsOfferingRouteImport.update({
-  id: '/rituels/offering',
-  path: '/rituels/offering',
-  getParentRoute: () => CareRoute,
-} as any)
-const CareRituelsMesRituelsRoute = CareRituelsMesRituelsRouteImport.update({
-  id: '/rituels/mes-rituels',
-  path: '/rituels/mes-rituels',
-  getParentRoute: () => CareRoute,
-} as any)
-const CareRituelsMaintenantRoute = CareRituelsMaintenantRouteImport.update({
-  id: '/rituels/maintenant',
-  path: '/rituels/maintenant',
-  getParentRoute: () => CareRoute,
-} as any)
-const CareRituelsLettreRoute = CareRituelsLettreRouteImport.update({
-  id: '/rituels/lettre',
-  path: '/rituels/lettre',
-  getParentRoute: () => CareRoute,
-} as any)
-const CareRituelsLanternRoute = CareRituelsLanternRouteImport.update({
-  id: '/rituels/lantern',
-  path: '/rituels/lantern',
-  getParentRoute: () => CareRoute,
-} as any)
-const CareRituelsFaitRoute = CareRituelsFaitRouteImport.update({
-  id: '/rituels/fait',
-  path: '/rituels/fait',
-  getParentRoute: () => CareRoute,
-} as any)
-const CareRituelsEnsembleRoute = CareRituelsEnsembleRouteImport.update({
-  id: '/rituels/ensemble',
-  path: '/rituels/ensemble',
-  getParentRoute: () => CareRoute,
-} as any)
-const CareRituelsCercleRoute = CareRituelsCercleRouteImport.update({
-  id: '/rituels/cercle',
-  path: '/rituels/cercle',
-  getParentRoute: () => CareRoute,
-} as any)
-const CareRituelsCandleRoute = CareRituelsCandleRouteImport.update({
-  id: '/rituels/candle',
-  path: '/rituels/candle',
-  getParentRoute: () => CareRoute,
-} as any)
-const CareRituelsArbreRoute = CareRituelsArbreRouteImport.update({
-  id: '/rituels/arbre',
-  path: '/rituels/arbre',
-  getParentRoute: () => CareRoute,
-} as any)
-const CareRituelsIdRoute = CareRituelsIdRouteImport.update({
-  id: '/rituels/$id',
-  path: '/rituels/$id',
+const CareJournalLaterRoute = CareJournalLaterRouteImport.update({
+  id: '/journal/later',
+  path: '/journal/later',
   getParentRoute: () => CareRoute,
 } as any)
 const CareResourcesSuggestionsRoute =
@@ -1035,152 +852,277 @@ const CareResourcesSuggestionsRoute =
     path: '/suggestions',
     getParentRoute: () => CareResourcesRoute,
   } as any)
-const CareJournalLaterRoute = CareJournalLaterRouteImport.update({
-  id: '/journal/later',
-  path: '/journal/later',
+const CareRituelsIndexRoute = CareRituelsIndexRouteImport.update({
+  id: '/rituels/',
+  path: '/rituels/',
   getParentRoute: () => CareRoute,
 } as any)
-const CareGardenSpaceRoute = CareGardenSpaceRouteImport.update({
-  id: '/space',
-  path: '/space',
-  getParentRoute: () => CareGardenRoute,
-} as any)
-const CareGardenRecettesRoute = CareGardenRecettesRouteImport.update({
-  id: '/recettes',
-  path: '/recettes',
-  getParentRoute: () => CareGardenRoute,
-} as any)
-const CareGardenObjetsRoute = CareGardenObjetsRouteImport.update({
-  id: '/objets',
-  path: '/objets',
-  getParentRoute: () => CareGardenRoute,
-} as any)
-const CareGardenLettresRoute = CareGardenLettresRouteImport.update({
-  id: '/lettres',
-  path: '/lettres',
-  getParentRoute: () => CareGardenRoute,
-} as any)
-const CareGardenInviteRoute = CareGardenInviteRouteImport.update({
-  id: '/invite',
-  path: '/invite',
-  getParentRoute: () => CareGardenRoute,
-} as any)
-const CareGardenHistoiresRoute = CareGardenHistoiresRouteImport.update({
-  id: '/histoires',
-  path: '/histoires',
-  getParentRoute: () => CareGardenRoute,
-} as any)
-const CareGardenHistoireRoute = CareGardenHistoireRouteImport.update({
-  id: '/histoire',
-  path: '/histoire',
-  getParentRoute: () => CareGardenRoute,
-} as any)
-const CareGardenDepotRoute = CareGardenDepotRouteImport.update({
-  id: '/depot',
-  path: '/depot',
-  getParentRoute: () => CareGardenRoute,
-} as any)
-const CareGardenBookRoute = CareGardenBookRouteImport.update({
-  id: '/book',
-  path: '/book',
-  getParentRoute: () => CareGardenRoute,
-} as any)
-const CareGardenAllRoute = CareGardenAllRouteImport.update({
-  id: '/all',
-  path: '/all',
-  getParentRoute: () => CareGardenRoute,
-} as any)
-const CareGardenZoneRoute = CareGardenZoneRouteImport.update({
-  id: '/$zone',
-  path: '/$zone',
-  getParentRoute: () => CareGardenRoute,
-} as any)
-const CareDatesIdRoute = CareDatesIdRouteImport.update({
-  id: '/dates/$id',
-  path: '/dates/$id',
+const CareRituelsIdRoute = CareRituelsIdRouteImport.update({
+  id: '/rituels/$id',
+  path: '/rituels/$id',
   getParentRoute: () => CareRoute,
 } as any)
-const CareCommunityReglesRoute = CareCommunityReglesRouteImport.update({
-  id: '/regles',
-  path: '/regles',
-  getParentRoute: () => CareCommunityRoute,
+const CareRituelsArbreRoute = CareRituelsArbreRouteImport.update({
+  id: '/rituels/arbre',
+  path: '/rituels/arbre',
+  getParentRoute: () => CareRoute,
 } as any)
-const CareCommunityGroupsRoute = CareCommunityGroupsRouteImport.update({
-  id: '/groups',
-  path: '/groups',
-  getParentRoute: () => CareCommunityRoute,
+const CareRituelsCandleRoute = CareRituelsCandleRouteImport.update({
+  id: '/rituels/candle',
+  path: '/rituels/candle',
+  getParentRoute: () => CareRoute,
 } as any)
-const CareCommunityCafeMortelRoute = CareCommunityCafeMortelRouteImport.update({
-  id: '/cafe-mortel',
-  path: '/cafe-mortel',
-  getParentRoute: () => CareCommunityRoute,
+const CareRituelsCercleRoute = CareRituelsCercleRouteImport.update({
+  id: '/rituels/cercle',
+  path: '/rituels/cercle',
+  getParentRoute: () => CareRoute,
 } as any)
-const PracticalTasksIdIndexRoute = PracticalTasksIdIndexRouteImport.update({
+const CareRituelsEnsembleRoute = CareRituelsEnsembleRouteImport.update({
+  id: '/rituels/ensemble',
+  path: '/rituels/ensemble',
+  getParentRoute: () => CareRoute,
+} as any)
+const CareRituelsFaitRoute = CareRituelsFaitRouteImport.update({
+  id: '/rituels/fait',
+  path: '/rituels/fait',
+  getParentRoute: () => CareRoute,
+} as any)
+const CareRituelsLanternRoute = CareRituelsLanternRouteImport.update({
+  id: '/rituels/lantern',
+  path: '/rituels/lantern',
+  getParentRoute: () => CareRoute,
+} as any)
+const CareRituelsLettreRoute = CareRituelsLettreRouteImport.update({
+  id: '/rituels/lettre',
+  path: '/rituels/lettre',
+  getParentRoute: () => CareRoute,
+} as any)
+const CareRituelsMaintenantRoute = CareRituelsMaintenantRouteImport.update({
+  id: '/rituels/maintenant',
+  path: '/rituels/maintenant',
+  getParentRoute: () => CareRoute,
+} as any)
+const CareRituelsMesRituelsRoute = CareRituelsMesRituelsRouteImport.update({
+  id: '/rituels/mes-rituels',
+  path: '/rituels/mes-rituels',
+  getParentRoute: () => CareRoute,
+} as any)
+const CareRituelsOfferingRoute = CareRituelsOfferingRouteImport.update({
+  id: '/rituels/offering',
+  path: '/rituels/offering',
+  getParentRoute: () => CareRoute,
+} as any)
+const CareRituelsOrganiserRoute = CareRituelsOrganiserRouteImport.update({
+  id: '/rituels/organiser',
+  path: '/rituels/organiser',
+  getParentRoute: () => CareRoute,
+} as any)
+const CareRituelsPropositionsRoute = CareRituelsPropositionsRouteImport.update({
+  id: '/rituels/propositions',
+  path: '/rituels/propositions',
+  getParentRoute: () => CareRoute,
+} as any)
+const CareRituelsRegardsRoute = CareRituelsRegardsRouteImport.update({
+  id: '/rituels/regards',
+  path: '/rituels/regards',
+  getParentRoute: () => CareRoute,
+} as any)
+const CareRituelsTraditionRoute = CareRituelsTraditionRouteImport.update({
+  id: '/rituels/tradition',
+  path: '/rituels/tradition',
+  getParentRoute: () => CareRoute,
+} as any)
+const HelpCorpsIndexRoute = HelpCorpsIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => PracticalTasksIdRoute,
+  getParentRoute: () => HelpCorpsRoute,
 } as any)
-const HelpCorpsSoinIndexRoute = HelpCorpsSoinIndexRouteImport.update({
+const HelpCorpsBougerRoute = HelpCorpsBougerRouteImport.update({
+  id: '/bouger',
+  path: '/bouger',
+  getParentRoute: () => HelpCorpsRoute,
+} as any)
+const HelpCorpsComprendreRoute = HelpCorpsComprendreRouteImport.update({
+  id: '/comprendre',
+  path: '/comprendre',
+  getParentRoute: () => HelpCorpsRoute,
+} as any)
+const HelpCorpsConsulterRoute = HelpCorpsConsulterRouteImport.update({
+  id: '/consulter',
+  path: '/consulter',
+  getParentRoute: () => HelpCorpsRoute,
+} as any)
+const HelpCorpsEauRoute = HelpCorpsEauRouteImport.update({
+  id: '/eau',
+  path: '/eau',
+  getParentRoute: () => HelpCorpsRoute,
+} as any)
+const HelpCorpsHabillerRoute = HelpCorpsHabillerRouteImport.update({
+  id: '/habiller',
+  path: '/habiller',
+  getParentRoute: () => HelpCorpsRoute,
+} as any)
+const HelpCorpsMangerRoute = HelpCorpsMangerRouteImport.update({
+  id: '/manger',
+  path: '/manger',
+  getParentRoute: () => HelpCorpsRoute,
+} as any)
+const HelpCorpsNuitsRoute = HelpCorpsNuitsRouteImport.update({
+  id: '/nuits',
+  path: '/nuits',
+  getParentRoute: () => HelpCorpsRoute,
+} as any)
+const HelpCorpsSoinRoute = HelpCorpsSoinRouteImport.update({
+  id: '/soin',
+  path: '/soin',
+  getParentRoute: () => HelpCorpsRoute,
+} as any)
+const HelpCorpsSuiviRoute = HelpCorpsSuiviRouteImport.update({
+  id: '/suivi',
+  path: '/suivi',
+  getParentRoute: () => HelpCorpsRoute,
+} as any)
+const HomeCarnetIndexRoute = HomeCarnetIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => HelpCorpsSoinRoute,
+  getParentRoute: () => HomeCarnetRoute,
 } as any)
-const CareRituelsMondeIndexRoute = CareRituelsMondeIndexRouteImport.update({
-  id: '/rituels/monde/',
-  path: '/rituels/monde/',
-  getParentRoute: () => CareRoute,
+const HomeCarnetIdRoute = HomeCarnetIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => HomeCarnetRoute,
 } as any)
-const CareRituelsCalendrierIndexRoute =
-  CareRituelsCalendrierIndexRouteImport.update({
-    id: '/rituels/calendrier/',
-    path: '/rituels/calendrier/',
-    getParentRoute: () => CareRoute,
+const HomeCarnetNoteRoute = HomeCarnetNoteRouteImport.update({
+  id: '/note',
+  path: '/note',
+  getParentRoute: () => HomeCarnetRoute,
+} as any)
+const HomeEquipeIndexRoute = HomeEquipeIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => HomeEquipeRoute,
+} as any)
+const HomeEquipeDemandeRoute = HomeEquipeDemandeRouteImport.update({
+  id: '/demande',
+  path: '/demande',
+  getParentRoute: () => HomeEquipeRoute,
+} as any)
+const LibraryKindIndexRoute = LibraryKindIndexRouteImport.update({
+  id: '/library/$kind/',
+  path: '/library/$kind/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LibraryKindIdRoute = LibraryKindIdRouteImport.update({
+  id: '/library/$kind/$id',
+  path: '/library/$kind/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PracticalAnimalBodyIndexRoute =
+  PracticalAnimalBodyIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => PracticalAnimalBodyRoute,
   } as any)
-const CareGardenZoneIndexRoute = CareGardenZoneIndexRouteImport.update({
+const PracticalAnimalBodyCimetiereRoute =
+  PracticalAnimalBodyCimetiereRouteImport.update({
+    id: '/cimetiere',
+    path: '/cimetiere',
+    getParentRoute: () => PracticalAnimalBodyRoute,
+  } as any)
+const PracticalAnimalBodyCremationRoute =
+  PracticalAnimalBodyCremationRouteImport.update({
+    id: '/cremation',
+    path: '/cremation',
+    getParentRoute: () => PracticalAnimalBodyRoute,
+  } as any)
+const PracticalAnimalBodyJardinRoute =
+  PracticalAnimalBodyJardinRouteImport.update({
+    id: '/jardin',
+    path: '/jardin',
+    getParentRoute: () => PracticalAnimalBodyRoute,
+  } as any)
+const PracticalProsIndexRoute = PracticalProsIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => CareGardenZoneRoute,
+  getParentRoute: () => PracticalProsRoute,
+} as any)
+const PracticalProsKindRoute = PracticalProsKindRouteImport.update({
+  id: '/$kind',
+  path: '/$kind',
+  getParentRoute: () => PracticalProsRoute,
+} as any)
+const PracticalShareIndexRoute = PracticalShareIndexRouteImport.update({
+  id: '/share/',
+  path: '/share/',
+  getParentRoute: () => PracticalRoute,
+} as any)
+const PracticalShareTaskIdRoute = PracticalShareTaskIdRouteImport.update({
+  id: '/share/$taskId',
+  path: '/share/$taskId',
+  getParentRoute: () => PracticalRoute,
+} as any)
+const PracticalTasksIndexRoute = PracticalTasksIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PracticalTasksRoute,
+} as any)
+const PracticalTasksIdRoute = PracticalTasksIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => PracticalTasksRoute,
+} as any)
+const PracticalWishesIndexRoute = PracticalWishesIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PracticalWishesRoute,
+} as any)
+const PracticalWishesConfianceRoute =
+  PracticalWishesConfianceRouteImport.update({
+    id: '/confiance',
+    path: '/confiance',
+    getParentRoute: () => PracticalWishesRoute,
+  } as any)
+const PracticalWishesDirectivesRoute =
+  PracticalWishesDirectivesRouteImport.update({
+    id: '/directives',
+    path: '/directives',
+    getParentRoute: () => PracticalWishesRoute,
+  } as any)
+const ResourcesCategoryIndexRoute = ResourcesCategoryIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ResourcesCategoryRoute,
+} as any)
+const ResourcesCategoryProviderIdRoute =
+  ResourcesCategoryProviderIdRouteImport.update({
+    id: '/$providerId',
+    path: '/$providerId',
+    getParentRoute: () => ResourcesCategoryRoute,
+  } as any)
+const ResourcesConfirmProviderIdRoute =
+  ResourcesConfirmProviderIdRouteImport.update({
+    id: '/resources/confirm/$providerId',
+    path: '/resources/confirm/$providerId',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const SpaceSettingsIndexRoute = SpaceSettingsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => SpaceSettingsRoute,
+} as any)
+const SpaceSettingsTransitionRoute = SpaceSettingsTransitionRouteImport.update({
+  id: '/transition',
+  path: '/transition',
+  getParentRoute: () => SpaceSettingsRoute,
+} as any)
+const ApiPublicSouffleSoundIdRoute = ApiPublicSouffleSoundIdRouteImport.update({
+  id: '/api/public/souffle-sound/$id',
+  path: '/api/public/souffle-sound/$id',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const CareCommunityGroupIndexRoute = CareCommunityGroupIndexRouteImport.update({
   id: '/$group/',
   path: '/$group/',
-  getParentRoute: () => CareCommunityRoute,
-} as any)
-const PracticalTasksIdTemplateRoute =
-  PracticalTasksIdTemplateRouteImport.update({
-    id: '/template',
-    path: '/template',
-    getParentRoute: () => PracticalTasksIdRoute,
-  } as any)
-const HelpCorpsSoinIdRoute = HelpCorpsSoinIdRouteImport.update({
-  id: '/$id',
-  path: '/$id',
-  getParentRoute: () => HelpCorpsSoinRoute,
-} as any)
-const HelpCorpsSujetContenusRoute = HelpCorpsSujetContenusRouteImport.update({
-  id: '/$sujet/contenus',
-  path: '/$sujet/contenus',
-  getParentRoute: () => HelpCorpsRoute,
-} as any)
-const CareRituelsCalendrierAnneeRoute =
-  CareRituelsCalendrierAnneeRouteImport.update({
-    id: '/rituels/calendrier/annee',
-    path: '/rituels/calendrier/annee',
-    getParentRoute: () => CareRoute,
-  } as any)
-const CareGardenZoneIdRoute = CareGardenZoneIdRouteImport.update({
-  id: '/$id',
-  path: '/$id',
-  getParentRoute: () => CareGardenZoneRoute,
-} as any)
-const CareCommunityVigilIdRoute = CareCommunityVigilIdRouteImport.update({
-  id: '/vigil/$id',
-  path: '/vigil/$id',
-  getParentRoute: () => CareCommunityRoute,
-} as any)
-const CareCommunityGroupNewRoute = CareCommunityGroupNewRouteImport.update({
-  id: '/$group/new',
-  path: '/$group/new',
   getParentRoute: () => CareCommunityRoute,
 } as any)
 const CareCommunityGroupThreadRoute =
@@ -1189,16 +1131,68 @@ const CareCommunityGroupThreadRoute =
     path: '/$group/$thread',
     getParentRoute: () => CareCommunityRoute,
   } as any)
-const ApiPublicSouffleSoundIdRoute = ApiPublicSouffleSoundIdRouteImport.update({
-  id: '/api/public/souffle-sound/$id',
-  path: '/api/public/souffle-sound/$id',
-  getParentRoute: () => rootRouteImport,
+const CareCommunityGroupNewRoute = CareCommunityGroupNewRouteImport.update({
+  id: '/$group/new',
+  path: '/$group/new',
+  getParentRoute: () => CareCommunityRoute,
 } as any)
-const CareRituelsMondeRegionIndexRoute =
-  CareRituelsMondeRegionIndexRouteImport.update({
-    id: '/rituels/monde/$region/',
-    path: '/rituels/monde/$region/',
+const CareCommunityVigilIdRoute = CareCommunityVigilIdRouteImport.update({
+  id: '/vigil/$id',
+  path: '/vigil/$id',
+  getParentRoute: () => CareCommunityRoute,
+} as any)
+const CareGardenZoneIndexRoute = CareGardenZoneIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => CareGardenZoneRoute,
+} as any)
+const CareGardenZoneIdRoute = CareGardenZoneIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => CareGardenZoneRoute,
+} as any)
+const CareRituelsCalendrierIndexRoute =
+  CareRituelsCalendrierIndexRouteImport.update({
+    id: '/rituels/calendrier/',
+    path: '/rituels/calendrier/',
     getParentRoute: () => CareRoute,
+  } as any)
+const CareRituelsCalendrierAnneeRoute =
+  CareRituelsCalendrierAnneeRouteImport.update({
+    id: '/rituels/calendrier/annee',
+    path: '/rituels/calendrier/annee',
+    getParentRoute: () => CareRoute,
+  } as any)
+const CareRituelsMondeIndexRoute = CareRituelsMondeIndexRouteImport.update({
+  id: '/rituels/monde/',
+  path: '/rituels/monde/',
+  getParentRoute: () => CareRoute,
+} as any)
+const HelpCorpsSujetContenusRoute = HelpCorpsSujetContenusRouteImport.update({
+  id: '/$sujet/contenus',
+  path: '/$sujet/contenus',
+  getParentRoute: () => HelpCorpsRoute,
+} as any)
+const HelpCorpsSoinIndexRoute = HelpCorpsSoinIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => HelpCorpsSoinRoute,
+} as any)
+const HelpCorpsSoinIdRoute = HelpCorpsSoinIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => HelpCorpsSoinRoute,
+} as any)
+const PracticalTasksIdIndexRoute = PracticalTasksIdIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PracticalTasksIdRoute,
+} as any)
+const PracticalTasksIdTemplateRoute =
+  PracticalTasksIdTemplateRouteImport.update({
+    id: '/template',
+    path: '/template',
+    getParentRoute: () => PracticalTasksIdRoute,
   } as any)
 const CareCommunityVigilIdIndexRoute =
   CareCommunityVigilIdIndexRouteImport.update({
@@ -1206,10 +1200,15 @@ const CareCommunityVigilIdIndexRoute =
     path: '/',
     getParentRoute: () => CareCommunityVigilIdRoute,
   } as any)
-const CareRituelsMondeAmeriquesOfrendaRoute =
-  CareRituelsMondeAmeriquesOfrendaRouteImport.update({
-    id: '/rituels/monde/ameriques/ofrenda',
-    path: '/rituels/monde/ameriques/ofrenda',
+const CareCommunityVigilIdOkRoute = CareCommunityVigilIdOkRouteImport.update({
+  id: '/ok',
+  path: '/ok',
+  getParentRoute: () => CareCommunityVigilIdRoute,
+} as any)
+const CareRituelsMondeRegionIndexRoute =
+  CareRituelsMondeRegionIndexRouteImport.update({
+    id: '/rituels/monde/$region/',
+    path: '/rituels/monde/$region/',
     getParentRoute: () => CareRoute,
   } as any)
 const CareRituelsMondeRegionIdRoute =
@@ -1218,11 +1217,12 @@ const CareRituelsMondeRegionIdRoute =
     path: '/rituels/monde/$region/$id',
     getParentRoute: () => CareRoute,
   } as any)
-const CareCommunityVigilIdOkRoute = CareCommunityVigilIdOkRouteImport.update({
-  id: '/ok',
-  path: '/ok',
-  getParentRoute: () => CareCommunityVigilIdRoute,
-} as any)
+const CareRituelsMondeAmeriquesOfrendaRoute =
+  CareRituelsMondeAmeriquesOfrendaRouteImport.update({
+    id: '/rituels/monde/ameriques/ofrenda',
+    path: '/rituels/monde/ameriques/ofrenda',
+    getParentRoute: () => CareRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -2450,137 +2450,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/wishes': {
-      id: '/wishes'
-      path: '/wishes'
-      fullPath: '/wishes'
-      preLoaderRoute: typeof WishesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/vitrine': {
-      id: '/vitrine'
-      path: '/vitrine'
-      fullPath: '/vitrine'
-      preLoaderRoute: typeof VitrineRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/profile': {
-      id: '/profile'
-      path: '/profile'
-      fullPath: '/profile'
-      preLoaderRoute: typeof ProfileRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/presentation': {
-      id: '/presentation'
-      path: '/presentation'
-      fullPath: '/presentation'
-      preLoaderRoute: typeof PresentationRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/practical': {
-      id: '/practical'
-      path: '/practical'
-      fullPath: '/practical'
-      preLoaderRoute: typeof PracticalRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/parcours': {
-      id: '/parcours'
-      path: '/parcours'
-      fullPath: '/parcours'
-      preLoaderRoute: typeof ParcoursRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/onboarding': {
-      id: '/onboarding'
-      path: '/onboarding'
-      fullPath: '/onboarding'
-      preLoaderRoute: typeof OnboardingRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/no-words': {
-      id: '/no-words'
-      path: '/no-words'
-      fullPath: '/no-words'
-      preLoaderRoute: typeof NoWordsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/memory': {
-      id: '/memory'
-      path: '/memory'
-      fullPath: '/memory'
-      preLoaderRoute: typeof MemoryRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/memories': {
-      id: '/memories'
-      path: '/memories'
-      fullPath: '/memories'
-      preLoaderRoute: typeof MemoriesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/journal': {
-      id: '/journal'
-      path: '/journal'
-      fullPath: '/journal'
-      preLoaderRoute: typeof JournalRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/inspiration': {
-      id: '/inspiration'
-      path: '/inspiration'
-      fullPath: '/inspiration'
-      preLoaderRoute: typeof InspirationRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/help': {
-      id: '/help'
-      path: '/help'
-      fullPath: '/help'
-      preLoaderRoute: typeof HelpRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/dates': {
-      id: '/dates'
-      path: '/dates'
-      fullPath: '/dates'
-      preLoaderRoute: typeof DatesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/crisis': {
-      id: '/crisis'
-      path: '/crisis'
-      fullPath: '/crisis'
-      preLoaderRoute: typeof CrisisRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/community': {
-      id: '/community'
-      path: '/community'
-      fullPath: '/community'
-      preLoaderRoute: typeof CommunityRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/checkin': {
-      id: '/checkin'
-      path: '/checkin'
-      fullPath: '/checkin'
-      preLoaderRoute: typeof CheckinRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/care': {
-      id: '/care'
-      path: '/care'
-      fullPath: '/care'
-      preLoaderRoute: typeof CareRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/auth': {
-      id: '/auth'
-      path: '/auth'
-      fullPath: '/auth'
-      preLoaderRoute: typeof AuthRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated': {
@@ -2590,606 +2464,137 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/start/': {
-      id: '/start/'
-      path: '/start'
-      fullPath: '/start/'
-      preLoaderRoute: typeof StartIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/space/': {
-      id: '/space/'
-      path: '/space'
-      fullPath: '/space/'
-      preLoaderRoute: typeof SpaceIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/resources/': {
-      id: '/resources/'
-      path: '/resources'
-      fullPath: '/resources/'
-      preLoaderRoute: typeof ResourcesIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/profile/': {
-      id: '/profile/'
-      path: '/'
-      fullPath: '/profile/'
-      preLoaderRoute: typeof ProfileIndexRouteImport
-      parentRoute: typeof ProfileRoute
-    }
-    '/presence/': {
-      id: '/presence/'
-      path: '/presence'
-      fullPath: '/presence/'
-      preLoaderRoute: typeof PresenceIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/practical/': {
-      id: '/practical/'
-      path: '/'
-      fullPath: '/practical/'
-      preLoaderRoute: typeof PracticalIndexRouteImport
-      parentRoute: typeof PracticalRoute
-    }
-    '/onboarding/': {
-      id: '/onboarding/'
-      path: '/'
-      fullPath: '/onboarding/'
-      preLoaderRoute: typeof OnboardingIndexRouteImport
-      parentRoute: typeof OnboardingRoute
-    }
-    '/home/': {
-      id: '/home/'
-      path: '/home'
-      fullPath: '/home/'
-      preLoaderRoute: typeof HomeIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/help/': {
-      id: '/help/'
-      path: '/'
-      fullPath: '/help/'
-      preLoaderRoute: typeof HelpIndexRouteImport
-      parentRoute: typeof HelpRoute
-    }
-    '/garden/': {
-      id: '/garden/'
-      path: '/garden'
-      fullPath: '/garden/'
-      preLoaderRoute: typeof GardenIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/care/': {
-      id: '/care/'
-      path: '/'
-      fullPath: '/care/'
-      preLoaderRoute: typeof CareIndexRouteImport
-      parentRoute: typeof CareRoute
-    }
-    '/appointments/': {
-      id: '/appointments/'
-      path: '/appointments'
-      fullPath: '/appointments/'
-      preLoaderRoute: typeof AppointmentsIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/agenda/': {
-      id: '/agenda/'
-      path: '/agenda'
-      fullPath: '/agenda/'
-      preLoaderRoute: typeof AgendaIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/start/garder': {
-      id: '/start/garder'
-      path: '/start/garder'
-      fullPath: '/start/garder'
-      preLoaderRoute: typeof StartGarderRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/start/decouverte': {
-      id: '/start/decouverte'
-      path: '/start/decouverte'
-      fullPath: '/start/decouverte'
-      preLoaderRoute: typeof StartDecouverteRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/start/compte-requis': {
-      id: '/start/compte-requis'
-      path: '/start/compte-requis'
-      fullPath: '/start/compte-requis'
-      preLoaderRoute: typeof StartCompteRequisRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/space/settings': {
-      id: '/space/settings'
-      path: '/space/settings'
-      fullPath: '/space/settings'
-      preLoaderRoute: typeof SpaceSettingsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/space/new': {
-      id: '/space/new'
-      path: '/space/new'
-      fullPath: '/space/new'
-      preLoaderRoute: typeof SpaceNewRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/resources/$category': {
-      id: '/resources/$category'
-      path: '/resources/$category'
-      fullPath: '/resources/$category'
-      preLoaderRoute: typeof ResourcesCategoryRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/profile/proches': {
-      id: '/profile/proches'
-      path: '/proches'
-      fullPath: '/profile/proches'
-      preLoaderRoute: typeof ProfileProchesRouteImport
-      parentRoute: typeof ProfileRoute
-    }
-    '/profile/privacy': {
-      id: '/profile/privacy'
-      path: '/privacy'
-      fullPath: '/profile/privacy'
-      preLoaderRoute: typeof ProfilePrivacyRouteImport
-      parentRoute: typeof ProfileRoute
-    }
-    '/profile/portrait': {
-      id: '/profile/portrait'
-      path: '/portrait'
-      fullPath: '/profile/portrait'
-      preLoaderRoute: typeof ProfilePortraitRouteImport
-      parentRoute: typeof ProfileRoute
-    }
-    '/profile/notifications': {
-      id: '/profile/notifications'
-      path: '/notifications'
-      fullPath: '/profile/notifications'
-      preLoaderRoute: typeof ProfileNotificationsRouteImport
-      parentRoute: typeof ProfileRoute
-    }
-    '/profile/help': {
-      id: '/profile/help'
-      path: '/help'
-      fullPath: '/profile/help'
-      preLoaderRoute: typeof ProfileHelpRouteImport
-      parentRoute: typeof ProfileRoute
-    }
-    '/profile/data': {
-      id: '/profile/data'
-      path: '/data'
-      fullPath: '/profile/data'
-      preLoaderRoute: typeof ProfileDataRouteImport
-      parentRoute: typeof ProfileRoute
-    }
-    '/presence/about': {
-      id: '/presence/about'
-      path: '/presence/about'
-      fullPath: '/presence/about'
-      preLoaderRoute: typeof PresenceAboutRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/practical/wishes': {
-      id: '/practical/wishes'
-      path: '/wishes'
-      fullPath: '/practical/wishes'
-      preLoaderRoute: typeof PracticalWishesRouteImport
-      parentRoute: typeof PracticalRoute
-    }
-    '/practical/vault': {
-      id: '/practical/vault'
-      path: '/vault'
-      fullPath: '/practical/vault'
-      preLoaderRoute: typeof PracticalVaultRouteImport
-      parentRoute: typeof PracticalRoute
-    }
-    '/practical/texts': {
-      id: '/practical/texts'
-      path: '/texts'
-      fullPath: '/practical/texts'
-      preLoaderRoute: typeof PracticalTextsRouteImport
-      parentRoute: typeof PracticalRoute
-    }
-    '/practical/testament': {
-      id: '/practical/testament'
-      path: '/testament'
-      fullPath: '/practical/testament'
-      preLoaderRoute: typeof PracticalTestamentRouteImport
-      parentRoute: typeof PracticalRoute
-    }
-    '/practical/tasks': {
-      id: '/practical/tasks'
-      path: '/tasks'
-      fullPath: '/practical/tasks'
-      preLoaderRoute: typeof PracticalTasksRouteImport
-      parentRoute: typeof PracticalRoute
-    }
-    '/practical/steps': {
-      id: '/practical/steps'
-      path: '/steps'
-      fullPath: '/practical/steps'
-      preLoaderRoute: typeof PracticalStepsRouteImport
-      parentRoute: typeof PracticalRoute
-    }
-    '/practical/resources': {
-      id: '/practical/resources'
-      path: '/resources'
-      fullPath: '/practical/resources'
-      preLoaderRoute: typeof PracticalResourcesRouteImport
-      parentRoute: typeof PracticalRoute
-    }
-    '/practical/pros': {
-      id: '/practical/pros'
-      path: '/pros'
-      fullPath: '/practical/pros'
-      preLoaderRoute: typeof PracticalProsRouteImport
-      parentRoute: typeof PracticalRoute
-    }
-    '/practical/progress': {
-      id: '/practical/progress'
-      path: '/progress'
-      fullPath: '/practical/progress'
-      preLoaderRoute: typeof PracticalProgressRouteImport
-      parentRoute: typeof PracticalRoute
-    }
-    '/practical/obseques': {
-      id: '/practical/obseques'
-      path: '/obseques'
-      fullPath: '/practical/obseques'
-      preLoaderRoute: typeof PracticalObsequesRouteImport
-      parentRoute: typeof PracticalRoute
-    }
-    '/practical/objects': {
-      id: '/practical/objects'
-      path: '/objects'
-      fullPath: '/practical/objects'
-      preLoaderRoute: typeof PracticalObjectsRouteImport
-      parentRoute: typeof PracticalRoute
-    }
-    '/practical/letter': {
-      id: '/practical/letter'
-      path: '/letter'
-      fullPath: '/practical/letter'
-      preLoaderRoute: typeof PracticalLetterRouteImport
-      parentRoute: typeof PracticalRoute
-    }
-    '/practical/flowers': {
-      id: '/practical/flowers'
-      path: '/flowers'
-      fullPath: '/practical/flowers'
-      preLoaderRoute: typeof PracticalFlowersRouteImport
-      parentRoute: typeof PracticalRoute
-    }
-    '/practical/don-organes': {
-      id: '/practical/don-organes'
-      path: '/don-organes'
-      fullPath: '/practical/don-organes'
-      preLoaderRoute: typeof PracticalDonOrganesRouteImport
-      parentRoute: typeof PracticalRoute
-    }
-    '/practical/directives': {
-      id: '/practical/directives'
-      path: '/directives'
-      fullPath: '/practical/directives'
-      preLoaderRoute: typeof PracticalDirectivesRouteImport
-      parentRoute: typeof PracticalRoute
-    }
-    '/practical/contrat-obseques': {
-      id: '/practical/contrat-obseques'
-      path: '/contrat-obseques'
-      fullPath: '/practical/contrat-obseques'
-      preLoaderRoute: typeof PracticalContratObsequesRouteImport
-      parentRoute: typeof PracticalRoute
-    }
-    '/practical/conge-aidant': {
-      id: '/practical/conge-aidant'
-      path: '/conge-aidant'
-      fullPath: '/practical/conge-aidant'
-      preLoaderRoute: typeof PracticalCongeAidantRouteImport
-      parentRoute: typeof PracticalRoute
-    }
-    '/practical/confiance': {
-      id: '/practical/confiance'
-      path: '/confiance'
-      fullPath: '/practical/confiance'
-      preLoaderRoute: typeof PracticalConfianceRouteImport
-      parentRoute: typeof PracticalRoute
-    }
-    '/practical/ceremony': {
-      id: '/practical/ceremony'
-      path: '/ceremony'
-      fullPath: '/practical/ceremony'
-      preLoaderRoute: typeof PracticalCeremonyRouteImport
-      parentRoute: typeof PracticalRoute
-    }
-    '/practical/booklet': {
-      id: '/practical/booklet'
-      path: '/booklet'
-      fullPath: '/practical/booklet'
-      preLoaderRoute: typeof PracticalBookletRouteImport
-      parentRoute: typeof PracticalRoute
-    }
-    '/practical/atmosphere': {
-      id: '/practical/atmosphere'
-      path: '/atmosphere'
-      fullPath: '/practical/atmosphere'
-      preLoaderRoute: typeof PracticalAtmosphereRouteImport
-      parentRoute: typeof PracticalRoute
-    }
-    '/practical/animal-subscriptions': {
-      id: '/practical/animal-subscriptions'
-      path: '/animal-subscriptions'
-      fullPath: '/practical/animal-subscriptions'
-      preLoaderRoute: typeof PracticalAnimalSubscriptionsRouteImport
-      parentRoute: typeof PracticalRoute
-    }
-    '/practical/animal-insurance': {
-      id: '/practical/animal-insurance'
-      path: '/animal-insurance'
-      fullPath: '/practical/animal-insurance'
-      preLoaderRoute: typeof PracticalAnimalInsuranceRouteImport
-      parentRoute: typeof PracticalRoute
-    }
-    '/practical/animal-id': {
-      id: '/practical/animal-id'
-      path: '/animal-id'
-      fullPath: '/practical/animal-id'
-      preLoaderRoute: typeof PracticalAnimalIdRouteImport
-      parentRoute: typeof PracticalRoute
-    }
-    '/practical/animal-body': {
-      id: '/practical/animal-body'
-      path: '/animal-body'
-      fullPath: '/practical/animal-body'
-      preLoaderRoute: typeof PracticalAnimalBodyRouteImport
-      parentRoute: typeof PracticalRoute
-    }
-    '/practical/ajpa': {
-      id: '/practical/ajpa'
-      path: '/ajpa'
-      fullPath: '/practical/ajpa'
-      preLoaderRoute: typeof PracticalAjpaRouteImport
-      parentRoute: typeof PracticalRoute
-    }
-    '/practical/aide-domicile': {
-      id: '/practical/aide-domicile'
-      path: '/aide-domicile'
-      fullPath: '/practical/aide-domicile'
-      preLoaderRoute: typeof PracticalAideDomicileRouteImport
-      parentRoute: typeof PracticalRoute
-    }
-    '/parcours/$taskId': {
-      id: '/parcours/$taskId'
-      path: '/$taskId'
-      fullPath: '/parcours/$taskId'
-      preLoaderRoute: typeof ParcoursTaskIdRouteImport
-      parentRoute: typeof ParcoursRoute
-    }
-    '/onboarding/practical': {
-      id: '/onboarding/practical'
-      path: '/practical'
-      fullPath: '/onboarding/practical'
-      preLoaderRoute: typeof OnboardingPracticalRouteImport
-      parentRoute: typeof OnboardingRoute
-    }
-    '/onboarding/care': {
-      id: '/onboarding/care'
+    '/care': {
+      id: '/care'
       path: '/care'
-      fullPath: '/onboarding/care'
-      preLoaderRoute: typeof OnboardingCareRouteImport
-      parentRoute: typeof OnboardingRoute
-    }
-    '/invite/$token': {
-      id: '/invite/$token'
-      path: '/invite/$token'
-      fullPath: '/invite/$token'
-      preLoaderRoute: typeof InviteTokenRouteImport
+      fullPath: '/care'
+      preLoaderRoute: typeof CareRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/home/ses-affaires': {
-      id: '/home/ses-affaires'
-      path: '/home/ses-affaires'
-      fullPath: '/home/ses-affaires'
-      preLoaderRoute: typeof HomeSesAffairesRouteImport
+    '/checkin': {
+      id: '/checkin'
+      path: '/checkin'
+      fullPath: '/checkin'
+      preLoaderRoute: typeof CheckinRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/home/questions-medecin': {
-      id: '/home/questions-medecin'
-      path: '/home/questions-medecin'
-      fullPath: '/home/questions-medecin'
-      preLoaderRoute: typeof HomeQuestionsMedecinRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/home/penser-a-mourir': {
-      id: '/home/penser-a-mourir'
-      path: '/home/penser-a-mourir'
-      fullPath: '/home/penser-a-mourir'
-      preLoaderRoute: typeof HomePenserAMourirRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/home/parler-enfant': {
-      id: '/home/parler-enfant'
-      path: '/home/parler-enfant'
-      fullPath: '/home/parler-enfant'
-      preLoaderRoute: typeof HomeParlerEnfantRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/home/equipe': {
-      id: '/home/equipe'
-      path: '/home/equipe'
-      fullPath: '/home/equipe'
-      preLoaderRoute: typeof HomeEquipeRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/home/en-parler': {
-      id: '/home/en-parler'
-      path: '/home/en-parler'
-      fullPath: '/home/en-parler'
-      preLoaderRoute: typeof HomeEnParlerRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/home/ecrire-peur': {
-      id: '/home/ecrire-peur'
-      path: '/home/ecrire-peur'
-      fullPath: '/home/ecrire-peur'
-      preLoaderRoute: typeof HomeEcrirePeurRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/home/carnet': {
-      id: '/home/carnet'
-      path: '/home/carnet'
-      fullPath: '/home/carnet'
-      preLoaderRoute: typeof HomeCarnetRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/help/corps': {
-      id: '/help/corps'
-      path: '/corps'
-      fullPath: '/help/corps'
-      preLoaderRoute: typeof HelpCorpsRouteImport
-      parentRoute: typeof HelpRoute
-    }
-    '/garden/$zone': {
-      id: '/garden/$zone'
-      path: '/garden/$zone'
-      fullPath: '/garden/$zone'
-      preLoaderRoute: typeof GardenZoneRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/dev/design': {
-      id: '/dev/design'
-      path: '/dev/design'
-      fullPath: '/dev/design'
-      preLoaderRoute: typeof DevDesignRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/compose/$zone': {
-      id: '/compose/$zone'
-      path: '/compose/$zone'
-      fullPath: '/compose/$zone'
-      preLoaderRoute: typeof ComposeZoneRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/care/sons': {
-      id: '/care/sons'
-      path: '/sons'
-      fullPath: '/care/sons'
-      preLoaderRoute: typeof CareSonsRouteImport
-      parentRoute: typeof CareRoute
-    }
-    '/care/respirer': {
-      id: '/care/respirer'
-      path: '/respirer'
-      fullPath: '/care/respirer'
-      preLoaderRoute: typeof CareRespirerRouteImport
-      parentRoute: typeof CareRoute
-    }
-    '/care/resources': {
-      id: '/care/resources'
-      path: '/resources'
-      fullPath: '/care/resources'
-      preLoaderRoute: typeof CareResourcesRouteImport
-      parentRoute: typeof CareRoute
-    }
-    '/care/new-animal': {
-      id: '/care/new-animal'
-      path: '/new-animal'
-      fullPath: '/care/new-animal'
-      preLoaderRoute: typeof CareNewAnimalRouteImport
-      parentRoute: typeof CareRoute
-    }
-    '/care/memory': {
-      id: '/care/memory'
-      path: '/memory'
-      fullPath: '/care/memory'
-      preLoaderRoute: typeof CareMemoryRouteImport
-      parentRoute: typeof CareRoute
-    }
-    '/care/help': {
-      id: '/care/help'
-      path: '/help'
-      fullPath: '/care/help'
-      preLoaderRoute: typeof CareHelpRouteImport
-      parentRoute: typeof CareRoute
-    }
-    '/care/guilt': {
-      id: '/care/guilt'
-      path: '/guilt'
-      fullPath: '/care/guilt'
-      preLoaderRoute: typeof CareGuiltRouteImport
-      parentRoute: typeof CareRoute
-    }
-    '/care/garden': {
-      id: '/care/garden'
-      path: '/garden'
-      fullPath: '/care/garden'
-      preLoaderRoute: typeof CareGardenRouteImport
-      parentRoute: typeof CareRoute
-    }
-    '/care/epuisement': {
-      id: '/care/epuisement'
-      path: '/epuisement'
-      fullPath: '/care/epuisement'
-      preLoaderRoute: typeof CareEpuisementRouteImport
-      parentRoute: typeof CareRoute
-    }
-    '/care/emotions': {
-      id: '/care/emotions'
-      path: '/emotions'
-      fullPath: '/care/emotions'
-      preLoaderRoute: typeof CareEmotionsRouteImport
-      parentRoute: typeof CareRoute
-    }
-    '/care/community': {
-      id: '/care/community'
+    '/community': {
+      id: '/community'
       path: '/community'
-      fullPath: '/care/community'
-      preLoaderRoute: typeof CareCommunityRouteImport
-      parentRoute: typeof CareRoute
-    }
-    '/care/angoisse': {
-      id: '/care/angoisse'
-      path: '/angoisse'
-      fullPath: '/care/angoisse'
-      preLoaderRoute: typeof CareAngoisseRouteImport
-      parentRoute: typeof CareRoute
-    }
-    '/care/aide': {
-      id: '/care/aide'
-      path: '/aide'
-      fullPath: '/care/aide'
-      preLoaderRoute: typeof CareAideRouteImport
-      parentRoute: typeof CareRoute
-    }
-    '/appointments/new': {
-      id: '/appointments/new'
-      path: '/appointments/new'
-      fullPath: '/appointments/new'
-      preLoaderRoute: typeof AppointmentsNewRouteImport
+      fullPath: '/community'
+      preLoaderRoute: typeof CommunityRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/appointments/$id': {
-      id: '/appointments/$id'
-      path: '/appointments/$id'
-      fullPath: '/appointments/$id'
-      preLoaderRoute: typeof AppointmentsIdRouteImport
+    '/crisis': {
+      id: '/crisis'
+      path: '/crisis'
+      fullPath: '/crisis'
+      preLoaderRoute: typeof CrisisRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/agenda/new': {
-      id: '/agenda/new'
-      path: '/agenda/new'
-      fullPath: '/agenda/new'
-      preLoaderRoute: typeof AgendaNewRouteImport
+    '/dates': {
+      id: '/dates'
+      path: '/dates'
+      fullPath: '/dates'
+      preLoaderRoute: typeof DatesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/help': {
+      id: '/help'
+      path: '/help'
+      fullPath: '/help'
+      preLoaderRoute: typeof HelpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/inspiration': {
+      id: '/inspiration'
+      path: '/inspiration'
+      fullPath: '/inspiration'
+      preLoaderRoute: typeof InspirationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/journal': {
+      id: '/journal'
+      path: '/journal'
+      fullPath: '/journal'
+      preLoaderRoute: typeof JournalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/memories': {
+      id: '/memories'
+      path: '/memories'
+      fullPath: '/memories'
+      preLoaderRoute: typeof MemoriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/memory': {
+      id: '/memory'
+      path: '/memory'
+      fullPath: '/memory'
+      preLoaderRoute: typeof MemoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/no-words': {
+      id: '/no-words'
+      path: '/no-words'
+      fullPath: '/no-words'
+      preLoaderRoute: typeof NoWordsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/onboarding': {
+      id: '/onboarding'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof OnboardingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/parcours': {
+      id: '/parcours'
+      path: '/parcours'
+      fullPath: '/parcours'
+      preLoaderRoute: typeof ParcoursRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/practical': {
+      id: '/practical'
+      path: '/practical'
+      fullPath: '/practical'
+      preLoaderRoute: typeof PracticalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/presentation': {
+      id: '/presentation'
+      path: '/presentation'
+      fullPath: '/presentation'
+      preLoaderRoute: typeof PresentationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/vitrine': {
+      id: '/vitrine'
+      path: '/vitrine'
+      fullPath: '/vitrine'
+      preLoaderRoute: typeof VitrineRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/wishes': {
+      id: '/wishes'
+      path: '/wishes'
+      fullPath: '/wishes'
+      preLoaderRoute: typeof WishesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/circle': {
@@ -3199,501 +2604,606 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedCircleRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/space/settings/': {
-      id: '/space/settings/'
-      path: '/'
-      fullPath: '/space/settings/'
-      preLoaderRoute: typeof SpaceSettingsIndexRouteImport
-      parentRoute: typeof SpaceSettingsRoute
-    }
-    '/resources/$category/': {
-      id: '/resources/$category/'
-      path: '/'
-      fullPath: '/resources/$category/'
-      preLoaderRoute: typeof ResourcesCategoryIndexRouteImport
-      parentRoute: typeof ResourcesCategoryRoute
-    }
-    '/practical/wishes/': {
-      id: '/practical/wishes/'
-      path: '/'
-      fullPath: '/practical/wishes/'
-      preLoaderRoute: typeof PracticalWishesIndexRouteImport
-      parentRoute: typeof PracticalWishesRoute
-    }
-    '/practical/tasks/': {
-      id: '/practical/tasks/'
-      path: '/'
-      fullPath: '/practical/tasks/'
-      preLoaderRoute: typeof PracticalTasksIndexRouteImport
-      parentRoute: typeof PracticalTasksRoute
-    }
-    '/practical/share/': {
-      id: '/practical/share/'
-      path: '/share'
-      fullPath: '/practical/share/'
-      preLoaderRoute: typeof PracticalShareIndexRouteImport
-      parentRoute: typeof PracticalRoute
-    }
-    '/practical/pros/': {
-      id: '/practical/pros/'
-      path: '/'
-      fullPath: '/practical/pros/'
-      preLoaderRoute: typeof PracticalProsIndexRouteImport
-      parentRoute: typeof PracticalProsRoute
-    }
-    '/practical/animal-body/': {
-      id: '/practical/animal-body/'
-      path: '/'
-      fullPath: '/practical/animal-body/'
-      preLoaderRoute: typeof PracticalAnimalBodyIndexRouteImport
-      parentRoute: typeof PracticalAnimalBodyRoute
-    }
-    '/library/$kind/': {
-      id: '/library/$kind/'
-      path: '/library/$kind'
-      fullPath: '/library/$kind/'
-      preLoaderRoute: typeof LibraryKindIndexRouteImport
+    '/agenda/': {
+      id: '/agenda/'
+      path: '/agenda'
+      fullPath: '/agenda/'
+      preLoaderRoute: typeof AgendaIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/home/equipe/': {
-      id: '/home/equipe/'
-      path: '/'
-      fullPath: '/home/equipe/'
-      preLoaderRoute: typeof HomeEquipeIndexRouteImport
-      parentRoute: typeof HomeEquipeRoute
+    '/agenda/new': {
+      id: '/agenda/new'
+      path: '/agenda/new'
+      fullPath: '/agenda/new'
+      preLoaderRoute: typeof AgendaNewRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/home/carnet/': {
-      id: '/home/carnet/'
-      path: '/'
-      fullPath: '/home/carnet/'
-      preLoaderRoute: typeof HomeCarnetIndexRouteImport
-      parentRoute: typeof HomeCarnetRoute
+    '/appointments/': {
+      id: '/appointments/'
+      path: '/appointments'
+      fullPath: '/appointments/'
+      preLoaderRoute: typeof AppointmentsIndexRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/help/corps/': {
-      id: '/help/corps/'
-      path: '/'
-      fullPath: '/help/corps/'
-      preLoaderRoute: typeof HelpCorpsIndexRouteImport
-      parentRoute: typeof HelpCorpsRoute
+    '/appointments/$id': {
+      id: '/appointments/$id'
+      path: '/appointments/$id'
+      fullPath: '/appointments/$id'
+      preLoaderRoute: typeof AppointmentsIdRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    '/care/rituels/': {
-      id: '/care/rituels/'
-      path: '/rituels'
-      fullPath: '/care/rituels/'
-      preLoaderRoute: typeof CareRituelsIndexRouteImport
+    '/appointments/new': {
+      id: '/appointments/new'
+      path: '/appointments/new'
+      fullPath: '/appointments/new'
+      preLoaderRoute: typeof AppointmentsNewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/care/': {
+      id: '/care/'
+      path: '/'
+      fullPath: '/care/'
+      preLoaderRoute: typeof CareIndexRouteImport
       parentRoute: typeof CareRoute
     }
-    '/care/journal/': {
-      id: '/care/journal/'
-      path: '/journal'
-      fullPath: '/care/journal/'
-      preLoaderRoute: typeof CareJournalIndexRouteImport
+    '/care/aide': {
+      id: '/care/aide'
+      path: '/aide'
+      fullPath: '/care/aide'
+      preLoaderRoute: typeof CareAideRouteImport
       parentRoute: typeof CareRoute
     }
-    '/care/garden/': {
-      id: '/care/garden/'
+    '/care/angoisse': {
+      id: '/care/angoisse'
+      path: '/angoisse'
+      fullPath: '/care/angoisse'
+      preLoaderRoute: typeof CareAngoisseRouteImport
+      parentRoute: typeof CareRoute
+    }
+    '/care/community': {
+      id: '/care/community'
+      path: '/community'
+      fullPath: '/care/community'
+      preLoaderRoute: typeof CareCommunityRouteImport
+      parentRoute: typeof CareRoute
+    }
+    '/care/emotions': {
+      id: '/care/emotions'
+      path: '/emotions'
+      fullPath: '/care/emotions'
+      preLoaderRoute: typeof CareEmotionsRouteImport
+      parentRoute: typeof CareRoute
+    }
+    '/care/epuisement': {
+      id: '/care/epuisement'
+      path: '/epuisement'
+      fullPath: '/care/epuisement'
+      preLoaderRoute: typeof CareEpuisementRouteImport
+      parentRoute: typeof CareRoute
+    }
+    '/care/garden': {
+      id: '/care/garden'
+      path: '/garden'
+      fullPath: '/care/garden'
+      preLoaderRoute: typeof CareGardenRouteImport
+      parentRoute: typeof CareRoute
+    }
+    '/care/guilt': {
+      id: '/care/guilt'
+      path: '/guilt'
+      fullPath: '/care/guilt'
+      preLoaderRoute: typeof CareGuiltRouteImport
+      parentRoute: typeof CareRoute
+    }
+    '/care/help': {
+      id: '/care/help'
+      path: '/help'
+      fullPath: '/care/help'
+      preLoaderRoute: typeof CareHelpRouteImport
+      parentRoute: typeof CareRoute
+    }
+    '/care/memory': {
+      id: '/care/memory'
+      path: '/memory'
+      fullPath: '/care/memory'
+      preLoaderRoute: typeof CareMemoryRouteImport
+      parentRoute: typeof CareRoute
+    }
+    '/care/new-animal': {
+      id: '/care/new-animal'
+      path: '/new-animal'
+      fullPath: '/care/new-animal'
+      preLoaderRoute: typeof CareNewAnimalRouteImport
+      parentRoute: typeof CareRoute
+    }
+    '/care/resources': {
+      id: '/care/resources'
+      path: '/resources'
+      fullPath: '/care/resources'
+      preLoaderRoute: typeof CareResourcesRouteImport
+      parentRoute: typeof CareRoute
+    }
+    '/care/respirer': {
+      id: '/care/respirer'
+      path: '/respirer'
+      fullPath: '/care/respirer'
+      preLoaderRoute: typeof CareRespirerRouteImport
+      parentRoute: typeof CareRoute
+    }
+    '/care/sons': {
+      id: '/care/sons'
+      path: '/sons'
+      fullPath: '/care/sons'
+      preLoaderRoute: typeof CareSonsRouteImport
+      parentRoute: typeof CareRoute
+    }
+    '/compose/$zone': {
+      id: '/compose/$zone'
+      path: '/compose/$zone'
+      fullPath: '/compose/$zone'
+      preLoaderRoute: typeof ComposeZoneRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dev/design': {
+      id: '/dev/design'
+      path: '/dev/design'
+      fullPath: '/dev/design'
+      preLoaderRoute: typeof DevDesignRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/garden/': {
+      id: '/garden/'
+      path: '/garden'
+      fullPath: '/garden/'
+      preLoaderRoute: typeof GardenIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/garden/$zone': {
+      id: '/garden/$zone'
+      path: '/garden/$zone'
+      fullPath: '/garden/$zone'
+      preLoaderRoute: typeof GardenZoneRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/help/': {
+      id: '/help/'
       path: '/'
-      fullPath: '/care/garden/'
-      preLoaderRoute: typeof CareGardenIndexRouteImport
-      parentRoute: typeof CareGardenRoute
+      fullPath: '/help/'
+      preLoaderRoute: typeof HelpIndexRouteImport
+      parentRoute: typeof HelpRoute
     }
-    '/care/dates/': {
-      id: '/care/dates/'
-      path: '/dates'
-      fullPath: '/care/dates/'
-      preLoaderRoute: typeof CareDatesIndexRouteImport
-      parentRoute: typeof CareRoute
+    '/help/corps': {
+      id: '/help/corps'
+      path: '/corps'
+      fullPath: '/help/corps'
+      preLoaderRoute: typeof HelpCorpsRouteImport
+      parentRoute: typeof HelpRoute
+    }
+    '/home/': {
+      id: '/home/'
+      path: '/home'
+      fullPath: '/home/'
+      preLoaderRoute: typeof HomeIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/home/carnet': {
+      id: '/home/carnet'
+      path: '/home/carnet'
+      fullPath: '/home/carnet'
+      preLoaderRoute: typeof HomeCarnetRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/home/ecrire-peur': {
+      id: '/home/ecrire-peur'
+      path: '/home/ecrire-peur'
+      fullPath: '/home/ecrire-peur'
+      preLoaderRoute: typeof HomeEcrirePeurRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/home/en-parler': {
+      id: '/home/en-parler'
+      path: '/home/en-parler'
+      fullPath: '/home/en-parler'
+      preLoaderRoute: typeof HomeEnParlerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/home/equipe': {
+      id: '/home/equipe'
+      path: '/home/equipe'
+      fullPath: '/home/equipe'
+      preLoaderRoute: typeof HomeEquipeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/home/parler-enfant': {
+      id: '/home/parler-enfant'
+      path: '/home/parler-enfant'
+      fullPath: '/home/parler-enfant'
+      preLoaderRoute: typeof HomeParlerEnfantRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/home/penser-a-mourir': {
+      id: '/home/penser-a-mourir'
+      path: '/home/penser-a-mourir'
+      fullPath: '/home/penser-a-mourir'
+      preLoaderRoute: typeof HomePenserAMourirRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/home/questions-medecin': {
+      id: '/home/questions-medecin'
+      path: '/home/questions-medecin'
+      fullPath: '/home/questions-medecin'
+      preLoaderRoute: typeof HomeQuestionsMedecinRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/home/ses-affaires': {
+      id: '/home/ses-affaires'
+      path: '/home/ses-affaires'
+      fullPath: '/home/ses-affaires'
+      preLoaderRoute: typeof HomeSesAffairesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/invite/$token': {
+      id: '/invite/$token'
+      path: '/invite/$token'
+      fullPath: '/invite/$token'
+      preLoaderRoute: typeof InviteTokenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/onboarding/': {
+      id: '/onboarding/'
+      path: '/'
+      fullPath: '/onboarding/'
+      preLoaderRoute: typeof OnboardingIndexRouteImport
+      parentRoute: typeof OnboardingRoute
+    }
+    '/onboarding/care': {
+      id: '/onboarding/care'
+      path: '/care'
+      fullPath: '/onboarding/care'
+      preLoaderRoute: typeof OnboardingCareRouteImport
+      parentRoute: typeof OnboardingRoute
+    }
+    '/onboarding/practical': {
+      id: '/onboarding/practical'
+      path: '/practical'
+      fullPath: '/onboarding/practical'
+      preLoaderRoute: typeof OnboardingPracticalRouteImport
+      parentRoute: typeof OnboardingRoute
+    }
+    '/parcours/$taskId': {
+      id: '/parcours/$taskId'
+      path: '/$taskId'
+      fullPath: '/parcours/$taskId'
+      preLoaderRoute: typeof ParcoursTaskIdRouteImport
+      parentRoute: typeof ParcoursRoute
+    }
+    '/practical/': {
+      id: '/practical/'
+      path: '/'
+      fullPath: '/practical/'
+      preLoaderRoute: typeof PracticalIndexRouteImport
+      parentRoute: typeof PracticalRoute
+    }
+    '/practical/aide-domicile': {
+      id: '/practical/aide-domicile'
+      path: '/aide-domicile'
+      fullPath: '/practical/aide-domicile'
+      preLoaderRoute: typeof PracticalAideDomicileRouteImport
+      parentRoute: typeof PracticalRoute
+    }
+    '/practical/ajpa': {
+      id: '/practical/ajpa'
+      path: '/ajpa'
+      fullPath: '/practical/ajpa'
+      preLoaderRoute: typeof PracticalAjpaRouteImport
+      parentRoute: typeof PracticalRoute
+    }
+    '/practical/animal-body': {
+      id: '/practical/animal-body'
+      path: '/animal-body'
+      fullPath: '/practical/animal-body'
+      preLoaderRoute: typeof PracticalAnimalBodyRouteImport
+      parentRoute: typeof PracticalRoute
+    }
+    '/practical/animal-id': {
+      id: '/practical/animal-id'
+      path: '/animal-id'
+      fullPath: '/practical/animal-id'
+      preLoaderRoute: typeof PracticalAnimalIdRouteImport
+      parentRoute: typeof PracticalRoute
+    }
+    '/practical/animal-insurance': {
+      id: '/practical/animal-insurance'
+      path: '/animal-insurance'
+      fullPath: '/practical/animal-insurance'
+      preLoaderRoute: typeof PracticalAnimalInsuranceRouteImport
+      parentRoute: typeof PracticalRoute
+    }
+    '/practical/animal-subscriptions': {
+      id: '/practical/animal-subscriptions'
+      path: '/animal-subscriptions'
+      fullPath: '/practical/animal-subscriptions'
+      preLoaderRoute: typeof PracticalAnimalSubscriptionsRouteImport
+      parentRoute: typeof PracticalRoute
+    }
+    '/practical/atmosphere': {
+      id: '/practical/atmosphere'
+      path: '/atmosphere'
+      fullPath: '/practical/atmosphere'
+      preLoaderRoute: typeof PracticalAtmosphereRouteImport
+      parentRoute: typeof PracticalRoute
+    }
+    '/practical/booklet': {
+      id: '/practical/booklet'
+      path: '/booklet'
+      fullPath: '/practical/booklet'
+      preLoaderRoute: typeof PracticalBookletRouteImport
+      parentRoute: typeof PracticalRoute
+    }
+    '/practical/ceremony': {
+      id: '/practical/ceremony'
+      path: '/ceremony'
+      fullPath: '/practical/ceremony'
+      preLoaderRoute: typeof PracticalCeremonyRouteImport
+      parentRoute: typeof PracticalRoute
+    }
+    '/practical/confiance': {
+      id: '/practical/confiance'
+      path: '/confiance'
+      fullPath: '/practical/confiance'
+      preLoaderRoute: typeof PracticalConfianceRouteImport
+      parentRoute: typeof PracticalRoute
+    }
+    '/practical/conge-aidant': {
+      id: '/practical/conge-aidant'
+      path: '/conge-aidant'
+      fullPath: '/practical/conge-aidant'
+      preLoaderRoute: typeof PracticalCongeAidantRouteImport
+      parentRoute: typeof PracticalRoute
+    }
+    '/practical/contrat-obseques': {
+      id: '/practical/contrat-obseques'
+      path: '/contrat-obseques'
+      fullPath: '/practical/contrat-obseques'
+      preLoaderRoute: typeof PracticalContratObsequesRouteImport
+      parentRoute: typeof PracticalRoute
+    }
+    '/practical/directives': {
+      id: '/practical/directives'
+      path: '/directives'
+      fullPath: '/practical/directives'
+      preLoaderRoute: typeof PracticalDirectivesRouteImport
+      parentRoute: typeof PracticalRoute
+    }
+    '/practical/don-organes': {
+      id: '/practical/don-organes'
+      path: '/don-organes'
+      fullPath: '/practical/don-organes'
+      preLoaderRoute: typeof PracticalDonOrganesRouteImport
+      parentRoute: typeof PracticalRoute
+    }
+    '/practical/flowers': {
+      id: '/practical/flowers'
+      path: '/flowers'
+      fullPath: '/practical/flowers'
+      preLoaderRoute: typeof PracticalFlowersRouteImport
+      parentRoute: typeof PracticalRoute
+    }
+    '/practical/letter': {
+      id: '/practical/letter'
+      path: '/letter'
+      fullPath: '/practical/letter'
+      preLoaderRoute: typeof PracticalLetterRouteImport
+      parentRoute: typeof PracticalRoute
+    }
+    '/practical/objects': {
+      id: '/practical/objects'
+      path: '/objects'
+      fullPath: '/practical/objects'
+      preLoaderRoute: typeof PracticalObjectsRouteImport
+      parentRoute: typeof PracticalRoute
+    }
+    '/practical/obseques': {
+      id: '/practical/obseques'
+      path: '/obseques'
+      fullPath: '/practical/obseques'
+      preLoaderRoute: typeof PracticalObsequesRouteImport
+      parentRoute: typeof PracticalRoute
+    }
+    '/practical/progress': {
+      id: '/practical/progress'
+      path: '/progress'
+      fullPath: '/practical/progress'
+      preLoaderRoute: typeof PracticalProgressRouteImport
+      parentRoute: typeof PracticalRoute
+    }
+    '/practical/pros': {
+      id: '/practical/pros'
+      path: '/pros'
+      fullPath: '/practical/pros'
+      preLoaderRoute: typeof PracticalProsRouteImport
+      parentRoute: typeof PracticalRoute
+    }
+    '/practical/resources': {
+      id: '/practical/resources'
+      path: '/resources'
+      fullPath: '/practical/resources'
+      preLoaderRoute: typeof PracticalResourcesRouteImport
+      parentRoute: typeof PracticalRoute
+    }
+    '/practical/steps': {
+      id: '/practical/steps'
+      path: '/steps'
+      fullPath: '/practical/steps'
+      preLoaderRoute: typeof PracticalStepsRouteImport
+      parentRoute: typeof PracticalRoute
+    }
+    '/practical/tasks': {
+      id: '/practical/tasks'
+      path: '/tasks'
+      fullPath: '/practical/tasks'
+      preLoaderRoute: typeof PracticalTasksRouteImport
+      parentRoute: typeof PracticalRoute
+    }
+    '/practical/testament': {
+      id: '/practical/testament'
+      path: '/testament'
+      fullPath: '/practical/testament'
+      preLoaderRoute: typeof PracticalTestamentRouteImport
+      parentRoute: typeof PracticalRoute
+    }
+    '/practical/texts': {
+      id: '/practical/texts'
+      path: '/texts'
+      fullPath: '/practical/texts'
+      preLoaderRoute: typeof PracticalTextsRouteImport
+      parentRoute: typeof PracticalRoute
+    }
+    '/practical/vault': {
+      id: '/practical/vault'
+      path: '/vault'
+      fullPath: '/practical/vault'
+      preLoaderRoute: typeof PracticalVaultRouteImport
+      parentRoute: typeof PracticalRoute
+    }
+    '/practical/wishes': {
+      id: '/practical/wishes'
+      path: '/wishes'
+      fullPath: '/practical/wishes'
+      preLoaderRoute: typeof PracticalWishesRouteImport
+      parentRoute: typeof PracticalRoute
+    }
+    '/presence/': {
+      id: '/presence/'
+      path: '/presence'
+      fullPath: '/presence/'
+      preLoaderRoute: typeof PresenceIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/presence/about': {
+      id: '/presence/about'
+      path: '/presence/about'
+      fullPath: '/presence/about'
+      preLoaderRoute: typeof PresenceAboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profile/': {
+      id: '/profile/'
+      path: '/'
+      fullPath: '/profile/'
+      preLoaderRoute: typeof ProfileIndexRouteImport
+      parentRoute: typeof ProfileRoute
+    }
+    '/profile/data': {
+      id: '/profile/data'
+      path: '/data'
+      fullPath: '/profile/data'
+      preLoaderRoute: typeof ProfileDataRouteImport
+      parentRoute: typeof ProfileRoute
+    }
+    '/profile/help': {
+      id: '/profile/help'
+      path: '/help'
+      fullPath: '/profile/help'
+      preLoaderRoute: typeof ProfileHelpRouteImport
+      parentRoute: typeof ProfileRoute
+    }
+    '/profile/notifications': {
+      id: '/profile/notifications'
+      path: '/notifications'
+      fullPath: '/profile/notifications'
+      preLoaderRoute: typeof ProfileNotificationsRouteImport
+      parentRoute: typeof ProfileRoute
+    }
+    '/profile/portrait': {
+      id: '/profile/portrait'
+      path: '/portrait'
+      fullPath: '/profile/portrait'
+      preLoaderRoute: typeof ProfilePortraitRouteImport
+      parentRoute: typeof ProfileRoute
+    }
+    '/profile/privacy': {
+      id: '/profile/privacy'
+      path: '/privacy'
+      fullPath: '/profile/privacy'
+      preLoaderRoute: typeof ProfilePrivacyRouteImport
+      parentRoute: typeof ProfileRoute
+    }
+    '/profile/proches': {
+      id: '/profile/proches'
+      path: '/proches'
+      fullPath: '/profile/proches'
+      preLoaderRoute: typeof ProfileProchesRouteImport
+      parentRoute: typeof ProfileRoute
+    }
+    '/resources/': {
+      id: '/resources/'
+      path: '/resources'
+      fullPath: '/resources/'
+      preLoaderRoute: typeof ResourcesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/resources/$category': {
+      id: '/resources/$category'
+      path: '/resources/$category'
+      fullPath: '/resources/$category'
+      preLoaderRoute: typeof ResourcesCategoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/space/': {
+      id: '/space/'
+      path: '/space'
+      fullPath: '/space/'
+      preLoaderRoute: typeof SpaceIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/space/new': {
+      id: '/space/new'
+      path: '/space/new'
+      fullPath: '/space/new'
+      preLoaderRoute: typeof SpaceNewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/space/settings': {
+      id: '/space/settings'
+      path: '/space/settings'
+      fullPath: '/space/settings'
+      preLoaderRoute: typeof SpaceSettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/start/': {
+      id: '/start/'
+      path: '/start'
+      fullPath: '/start/'
+      preLoaderRoute: typeof StartIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/start/compte-requis': {
+      id: '/start/compte-requis'
+      path: '/start/compte-requis'
+      fullPath: '/start/compte-requis'
+      preLoaderRoute: typeof StartCompteRequisRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/start/decouverte': {
+      id: '/start/decouverte'
+      path: '/start/decouverte'
+      fullPath: '/start/decouverte'
+      preLoaderRoute: typeof StartDecouverteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/start/garder': {
+      id: '/start/garder'
+      path: '/start/garder'
+      fullPath: '/start/garder'
+      preLoaderRoute: typeof StartGarderRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/care/community/': {
       id: '/care/community/'
       path: '/'
       fullPath: '/care/community/'
       preLoaderRoute: typeof CareCommunityIndexRouteImport
-      parentRoute: typeof CareCommunityRoute
-    }
-    '/space/settings/transition': {
-      id: '/space/settings/transition'
-      path: '/transition'
-      fullPath: '/space/settings/transition'
-      preLoaderRoute: typeof SpaceSettingsTransitionRouteImport
-      parentRoute: typeof SpaceSettingsRoute
-    }
-    '/resources/confirm/$providerId': {
-      id: '/resources/confirm/$providerId'
-      path: '/resources/confirm/$providerId'
-      fullPath: '/resources/confirm/$providerId'
-      preLoaderRoute: typeof ResourcesConfirmProviderIdRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/resources/$category/$providerId': {
-      id: '/resources/$category/$providerId'
-      path: '/$providerId'
-      fullPath: '/resources/$category/$providerId'
-      preLoaderRoute: typeof ResourcesCategoryProviderIdRouteImport
-      parentRoute: typeof ResourcesCategoryRoute
-    }
-    '/practical/wishes/directives': {
-      id: '/practical/wishes/directives'
-      path: '/directives'
-      fullPath: '/practical/wishes/directives'
-      preLoaderRoute: typeof PracticalWishesDirectivesRouteImport
-      parentRoute: typeof PracticalWishesRoute
-    }
-    '/practical/wishes/confiance': {
-      id: '/practical/wishes/confiance'
-      path: '/confiance'
-      fullPath: '/practical/wishes/confiance'
-      preLoaderRoute: typeof PracticalWishesConfianceRouteImport
-      parentRoute: typeof PracticalWishesRoute
-    }
-    '/practical/tasks/$id': {
-      id: '/practical/tasks/$id'
-      path: '/$id'
-      fullPath: '/practical/tasks/$id'
-      preLoaderRoute: typeof PracticalTasksIdRouteImport
-      parentRoute: typeof PracticalTasksRoute
-    }
-    '/practical/share/$taskId': {
-      id: '/practical/share/$taskId'
-      path: '/share/$taskId'
-      fullPath: '/practical/share/$taskId'
-      preLoaderRoute: typeof PracticalShareTaskIdRouteImport
-      parentRoute: typeof PracticalRoute
-    }
-    '/practical/pros/$kind': {
-      id: '/practical/pros/$kind'
-      path: '/$kind'
-      fullPath: '/practical/pros/$kind'
-      preLoaderRoute: typeof PracticalProsKindRouteImport
-      parentRoute: typeof PracticalProsRoute
-    }
-    '/practical/animal-body/jardin': {
-      id: '/practical/animal-body/jardin'
-      path: '/jardin'
-      fullPath: '/practical/animal-body/jardin'
-      preLoaderRoute: typeof PracticalAnimalBodyJardinRouteImport
-      parentRoute: typeof PracticalAnimalBodyRoute
-    }
-    '/practical/animal-body/cremation': {
-      id: '/practical/animal-body/cremation'
-      path: '/cremation'
-      fullPath: '/practical/animal-body/cremation'
-      preLoaderRoute: typeof PracticalAnimalBodyCremationRouteImport
-      parentRoute: typeof PracticalAnimalBodyRoute
-    }
-    '/practical/animal-body/cimetiere': {
-      id: '/practical/animal-body/cimetiere'
-      path: '/cimetiere'
-      fullPath: '/practical/animal-body/cimetiere'
-      preLoaderRoute: typeof PracticalAnimalBodyCimetiereRouteImport
-      parentRoute: typeof PracticalAnimalBodyRoute
-    }
-    '/library/$kind/$id': {
-      id: '/library/$kind/$id'
-      path: '/library/$kind/$id'
-      fullPath: '/library/$kind/$id'
-      preLoaderRoute: typeof LibraryKindIdRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/home/equipe/demande': {
-      id: '/home/equipe/demande'
-      path: '/demande'
-      fullPath: '/home/equipe/demande'
-      preLoaderRoute: typeof HomeEquipeDemandeRouteImport
-      parentRoute: typeof HomeEquipeRoute
-    }
-    '/home/carnet/note': {
-      id: '/home/carnet/note'
-      path: '/note'
-      fullPath: '/home/carnet/note'
-      preLoaderRoute: typeof HomeCarnetNoteRouteImport
-      parentRoute: typeof HomeCarnetRoute
-    }
-    '/home/carnet/$id': {
-      id: '/home/carnet/$id'
-      path: '/$id'
-      fullPath: '/home/carnet/$id'
-      preLoaderRoute: typeof HomeCarnetIdRouteImport
-      parentRoute: typeof HomeCarnetRoute
-    }
-    '/help/corps/suivi': {
-      id: '/help/corps/suivi'
-      path: '/suivi'
-      fullPath: '/help/corps/suivi'
-      preLoaderRoute: typeof HelpCorpsSuiviRouteImport
-      parentRoute: typeof HelpCorpsRoute
-    }
-    '/help/corps/soin': {
-      id: '/help/corps/soin'
-      path: '/soin'
-      fullPath: '/help/corps/soin'
-      preLoaderRoute: typeof HelpCorpsSoinRouteImport
-      parentRoute: typeof HelpCorpsRoute
-    }
-    '/help/corps/nuits': {
-      id: '/help/corps/nuits'
-      path: '/nuits'
-      fullPath: '/help/corps/nuits'
-      preLoaderRoute: typeof HelpCorpsNuitsRouteImport
-      parentRoute: typeof HelpCorpsRoute
-    }
-    '/help/corps/manger': {
-      id: '/help/corps/manger'
-      path: '/manger'
-      fullPath: '/help/corps/manger'
-      preLoaderRoute: typeof HelpCorpsMangerRouteImport
-      parentRoute: typeof HelpCorpsRoute
-    }
-    '/help/corps/habiller': {
-      id: '/help/corps/habiller'
-      path: '/habiller'
-      fullPath: '/help/corps/habiller'
-      preLoaderRoute: typeof HelpCorpsHabillerRouteImport
-      parentRoute: typeof HelpCorpsRoute
-    }
-    '/help/corps/eau': {
-      id: '/help/corps/eau'
-      path: '/eau'
-      fullPath: '/help/corps/eau'
-      preLoaderRoute: typeof HelpCorpsEauRouteImport
-      parentRoute: typeof HelpCorpsRoute
-    }
-    '/help/corps/consulter': {
-      id: '/help/corps/consulter'
-      path: '/consulter'
-      fullPath: '/help/corps/consulter'
-      preLoaderRoute: typeof HelpCorpsConsulterRouteImport
-      parentRoute: typeof HelpCorpsRoute
-    }
-    '/help/corps/comprendre': {
-      id: '/help/corps/comprendre'
-      path: '/comprendre'
-      fullPath: '/help/corps/comprendre'
-      preLoaderRoute: typeof HelpCorpsComprendreRouteImport
-      parentRoute: typeof HelpCorpsRoute
-    }
-    '/help/corps/bouger': {
-      id: '/help/corps/bouger'
-      path: '/bouger'
-      fullPath: '/help/corps/bouger'
-      preLoaderRoute: typeof HelpCorpsBougerRouteImport
-      parentRoute: typeof HelpCorpsRoute
-    }
-    '/care/rituels/tradition': {
-      id: '/care/rituels/tradition'
-      path: '/rituels/tradition'
-      fullPath: '/care/rituels/tradition'
-      preLoaderRoute: typeof CareRituelsTraditionRouteImport
-      parentRoute: typeof CareRoute
-    }
-    '/care/rituels/regards': {
-      id: '/care/rituels/regards'
-      path: '/rituels/regards'
-      fullPath: '/care/rituels/regards'
-      preLoaderRoute: typeof CareRituelsRegardsRouteImport
-      parentRoute: typeof CareRoute
-    }
-    '/care/rituels/propositions': {
-      id: '/care/rituels/propositions'
-      path: '/rituels/propositions'
-      fullPath: '/care/rituels/propositions'
-      preLoaderRoute: typeof CareRituelsPropositionsRouteImport
-      parentRoute: typeof CareRoute
-    }
-    '/care/rituels/organiser': {
-      id: '/care/rituels/organiser'
-      path: '/rituels/organiser'
-      fullPath: '/care/rituels/organiser'
-      preLoaderRoute: typeof CareRituelsOrganiserRouteImport
-      parentRoute: typeof CareRoute
-    }
-    '/care/rituels/offering': {
-      id: '/care/rituels/offering'
-      path: '/rituels/offering'
-      fullPath: '/care/rituels/offering'
-      preLoaderRoute: typeof CareRituelsOfferingRouteImport
-      parentRoute: typeof CareRoute
-    }
-    '/care/rituels/mes-rituels': {
-      id: '/care/rituels/mes-rituels'
-      path: '/rituels/mes-rituels'
-      fullPath: '/care/rituels/mes-rituels'
-      preLoaderRoute: typeof CareRituelsMesRituelsRouteImport
-      parentRoute: typeof CareRoute
-    }
-    '/care/rituels/maintenant': {
-      id: '/care/rituels/maintenant'
-      path: '/rituels/maintenant'
-      fullPath: '/care/rituels/maintenant'
-      preLoaderRoute: typeof CareRituelsMaintenantRouteImport
-      parentRoute: typeof CareRoute
-    }
-    '/care/rituels/lettre': {
-      id: '/care/rituels/lettre'
-      path: '/rituels/lettre'
-      fullPath: '/care/rituels/lettre'
-      preLoaderRoute: typeof CareRituelsLettreRouteImport
-      parentRoute: typeof CareRoute
-    }
-    '/care/rituels/lantern': {
-      id: '/care/rituels/lantern'
-      path: '/rituels/lantern'
-      fullPath: '/care/rituels/lantern'
-      preLoaderRoute: typeof CareRituelsLanternRouteImport
-      parentRoute: typeof CareRoute
-    }
-    '/care/rituels/fait': {
-      id: '/care/rituels/fait'
-      path: '/rituels/fait'
-      fullPath: '/care/rituels/fait'
-      preLoaderRoute: typeof CareRituelsFaitRouteImport
-      parentRoute: typeof CareRoute
-    }
-    '/care/rituels/ensemble': {
-      id: '/care/rituels/ensemble'
-      path: '/rituels/ensemble'
-      fullPath: '/care/rituels/ensemble'
-      preLoaderRoute: typeof CareRituelsEnsembleRouteImport
-      parentRoute: typeof CareRoute
-    }
-    '/care/rituels/cercle': {
-      id: '/care/rituels/cercle'
-      path: '/rituels/cercle'
-      fullPath: '/care/rituels/cercle'
-      preLoaderRoute: typeof CareRituelsCercleRouteImport
-      parentRoute: typeof CareRoute
-    }
-    '/care/rituels/candle': {
-      id: '/care/rituels/candle'
-      path: '/rituels/candle'
-      fullPath: '/care/rituels/candle'
-      preLoaderRoute: typeof CareRituelsCandleRouteImport
-      parentRoute: typeof CareRoute
-    }
-    '/care/rituels/arbre': {
-      id: '/care/rituels/arbre'
-      path: '/rituels/arbre'
-      fullPath: '/care/rituels/arbre'
-      preLoaderRoute: typeof CareRituelsArbreRouteImport
-      parentRoute: typeof CareRoute
-    }
-    '/care/rituels/$id': {
-      id: '/care/rituels/$id'
-      path: '/rituels/$id'
-      fullPath: '/care/rituels/$id'
-      preLoaderRoute: typeof CareRituelsIdRouteImport
-      parentRoute: typeof CareRoute
-    }
-    '/care/resources/suggestions': {
-      id: '/care/resources/suggestions'
-      path: '/suggestions'
-      fullPath: '/care/resources/suggestions'
-      preLoaderRoute: typeof CareResourcesSuggestionsRouteImport
-      parentRoute: typeof CareResourcesRoute
-    }
-    '/care/journal/later': {
-      id: '/care/journal/later'
-      path: '/journal/later'
-      fullPath: '/care/journal/later'
-      preLoaderRoute: typeof CareJournalLaterRouteImport
-      parentRoute: typeof CareRoute
-    }
-    '/care/garden/space': {
-      id: '/care/garden/space'
-      path: '/space'
-      fullPath: '/care/garden/space'
-      preLoaderRoute: typeof CareGardenSpaceRouteImport
-      parentRoute: typeof CareGardenRoute
-    }
-    '/care/garden/recettes': {
-      id: '/care/garden/recettes'
-      path: '/recettes'
-      fullPath: '/care/garden/recettes'
-      preLoaderRoute: typeof CareGardenRecettesRouteImport
-      parentRoute: typeof CareGardenRoute
-    }
-    '/care/garden/objets': {
-      id: '/care/garden/objets'
-      path: '/objets'
-      fullPath: '/care/garden/objets'
-      preLoaderRoute: typeof CareGardenObjetsRouteImport
-      parentRoute: typeof CareGardenRoute
-    }
-    '/care/garden/lettres': {
-      id: '/care/garden/lettres'
-      path: '/lettres'
-      fullPath: '/care/garden/lettres'
-      preLoaderRoute: typeof CareGardenLettresRouteImport
-      parentRoute: typeof CareGardenRoute
-    }
-    '/care/garden/invite': {
-      id: '/care/garden/invite'
-      path: '/invite'
-      fullPath: '/care/garden/invite'
-      preLoaderRoute: typeof CareGardenInviteRouteImport
-      parentRoute: typeof CareGardenRoute
-    }
-    '/care/garden/histoires': {
-      id: '/care/garden/histoires'
-      path: '/histoires'
-      fullPath: '/care/garden/histoires'
-      preLoaderRoute: typeof CareGardenHistoiresRouteImport
-      parentRoute: typeof CareGardenRoute
-    }
-    '/care/garden/histoire': {
-      id: '/care/garden/histoire'
-      path: '/histoire'
-      fullPath: '/care/garden/histoire'
-      preLoaderRoute: typeof CareGardenHistoireRouteImport
-      parentRoute: typeof CareGardenRoute
-    }
-    '/care/garden/depot': {
-      id: '/care/garden/depot'
-      path: '/depot'
-      fullPath: '/care/garden/depot'
-      preLoaderRoute: typeof CareGardenDepotRouteImport
-      parentRoute: typeof CareGardenRoute
-    }
-    '/care/garden/book': {
-      id: '/care/garden/book'
-      path: '/book'
-      fullPath: '/care/garden/book'
-      preLoaderRoute: typeof CareGardenBookRouteImport
-      parentRoute: typeof CareGardenRoute
-    }
-    '/care/garden/all': {
-      id: '/care/garden/all'
-      path: '/all'
-      fullPath: '/care/garden/all'
-      preLoaderRoute: typeof CareGardenAllRouteImport
-      parentRoute: typeof CareGardenRoute
-    }
-    '/care/garden/$zone': {
-      id: '/care/garden/$zone'
-      path: '/$zone'
-      fullPath: '/care/garden/$zone'
-      preLoaderRoute: typeof CareGardenZoneRouteImport
-      parentRoute: typeof CareGardenRoute
-    }
-    '/care/dates/$id': {
-      id: '/care/dates/$id'
-      path: '/dates/$id'
-      fullPath: '/care/dates/$id'
-      preLoaderRoute: typeof CareDatesIdRouteImport
-      parentRoute: typeof CareRoute
-    }
-    '/care/community/regles': {
-      id: '/care/community/regles'
-      path: '/regles'
-      fullPath: '/care/community/regles'
-      preLoaderRoute: typeof CareCommunityReglesRouteImport
-      parentRoute: typeof CareCommunityRoute
-    }
-    '/care/community/groups': {
-      id: '/care/community/groups'
-      path: '/groups'
-      fullPath: '/care/community/groups'
-      preLoaderRoute: typeof CareCommunityGroupsRouteImport
       parentRoute: typeof CareCommunityRoute
     }
     '/care/community/cafe-mortel': {
@@ -3703,95 +3213,508 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CareCommunityCafeMortelRouteImport
       parentRoute: typeof CareCommunityRoute
     }
-    '/practical/tasks/$id/': {
-      id: '/practical/tasks/$id/'
-      path: '/'
-      fullPath: '/practical/tasks/$id/'
-      preLoaderRoute: typeof PracticalTasksIdIndexRouteImport
-      parentRoute: typeof PracticalTasksIdRoute
+    '/care/community/groups': {
+      id: '/care/community/groups'
+      path: '/groups'
+      fullPath: '/care/community/groups'
+      preLoaderRoute: typeof CareCommunityGroupsRouteImport
+      parentRoute: typeof CareCommunityRoute
     }
-    '/help/corps/soin/': {
-      id: '/help/corps/soin/'
-      path: '/'
-      fullPath: '/help/corps/soin/'
-      preLoaderRoute: typeof HelpCorpsSoinIndexRouteImport
-      parentRoute: typeof HelpCorpsSoinRoute
+    '/care/community/regles': {
+      id: '/care/community/regles'
+      path: '/regles'
+      fullPath: '/care/community/regles'
+      preLoaderRoute: typeof CareCommunityReglesRouteImport
+      parentRoute: typeof CareCommunityRoute
     }
-    '/care/rituels/monde/': {
-      id: '/care/rituels/monde/'
-      path: '/rituels/monde'
-      fullPath: '/care/rituels/monde/'
-      preLoaderRoute: typeof CareRituelsMondeIndexRouteImport
+    '/care/dates/': {
+      id: '/care/dates/'
+      path: '/dates'
+      fullPath: '/care/dates/'
+      preLoaderRoute: typeof CareDatesIndexRouteImport
       parentRoute: typeof CareRoute
     }
-    '/care/rituels/calendrier/': {
-      id: '/care/rituels/calendrier/'
-      path: '/rituels/calendrier'
-      fullPath: '/care/rituels/calendrier/'
-      preLoaderRoute: typeof CareRituelsCalendrierIndexRouteImport
+    '/care/dates/$id': {
+      id: '/care/dates/$id'
+      path: '/dates/$id'
+      fullPath: '/care/dates/$id'
+      preLoaderRoute: typeof CareDatesIdRouteImport
       parentRoute: typeof CareRoute
     }
-    '/care/garden/$zone/': {
-      id: '/care/garden/$zone/'
+    '/care/garden/': {
+      id: '/care/garden/'
       path: '/'
-      fullPath: '/care/garden/$zone/'
-      preLoaderRoute: typeof CareGardenZoneIndexRouteImport
-      parentRoute: typeof CareGardenZoneRoute
+      fullPath: '/care/garden/'
+      preLoaderRoute: typeof CareGardenIndexRouteImport
+      parentRoute: typeof CareGardenRoute
+    }
+    '/care/garden/$zone': {
+      id: '/care/garden/$zone'
+      path: '/$zone'
+      fullPath: '/care/garden/$zone'
+      preLoaderRoute: typeof CareGardenZoneRouteImport
+      parentRoute: typeof CareGardenRoute
+    }
+    '/care/garden/all': {
+      id: '/care/garden/all'
+      path: '/all'
+      fullPath: '/care/garden/all'
+      preLoaderRoute: typeof CareGardenAllRouteImport
+      parentRoute: typeof CareGardenRoute
+    }
+    '/care/garden/book': {
+      id: '/care/garden/book'
+      path: '/book'
+      fullPath: '/care/garden/book'
+      preLoaderRoute: typeof CareGardenBookRouteImport
+      parentRoute: typeof CareGardenRoute
+    }
+    '/care/garden/depot': {
+      id: '/care/garden/depot'
+      path: '/depot'
+      fullPath: '/care/garden/depot'
+      preLoaderRoute: typeof CareGardenDepotRouteImport
+      parentRoute: typeof CareGardenRoute
+    }
+    '/care/garden/histoire': {
+      id: '/care/garden/histoire'
+      path: '/histoire'
+      fullPath: '/care/garden/histoire'
+      preLoaderRoute: typeof CareGardenHistoireRouteImport
+      parentRoute: typeof CareGardenRoute
+    }
+    '/care/garden/histoires': {
+      id: '/care/garden/histoires'
+      path: '/histoires'
+      fullPath: '/care/garden/histoires'
+      preLoaderRoute: typeof CareGardenHistoiresRouteImport
+      parentRoute: typeof CareGardenRoute
+    }
+    '/care/garden/invite': {
+      id: '/care/garden/invite'
+      path: '/invite'
+      fullPath: '/care/garden/invite'
+      preLoaderRoute: typeof CareGardenInviteRouteImport
+      parentRoute: typeof CareGardenRoute
+    }
+    '/care/garden/lettres': {
+      id: '/care/garden/lettres'
+      path: '/lettres'
+      fullPath: '/care/garden/lettres'
+      preLoaderRoute: typeof CareGardenLettresRouteImport
+      parentRoute: typeof CareGardenRoute
+    }
+    '/care/garden/objets': {
+      id: '/care/garden/objets'
+      path: '/objets'
+      fullPath: '/care/garden/objets'
+      preLoaderRoute: typeof CareGardenObjetsRouteImport
+      parentRoute: typeof CareGardenRoute
+    }
+    '/care/garden/recettes': {
+      id: '/care/garden/recettes'
+      path: '/recettes'
+      fullPath: '/care/garden/recettes'
+      preLoaderRoute: typeof CareGardenRecettesRouteImport
+      parentRoute: typeof CareGardenRoute
+    }
+    '/care/garden/space': {
+      id: '/care/garden/space'
+      path: '/space'
+      fullPath: '/care/garden/space'
+      preLoaderRoute: typeof CareGardenSpaceRouteImport
+      parentRoute: typeof CareGardenRoute
+    }
+    '/care/journal/': {
+      id: '/care/journal/'
+      path: '/journal'
+      fullPath: '/care/journal/'
+      preLoaderRoute: typeof CareJournalIndexRouteImport
+      parentRoute: typeof CareRoute
+    }
+    '/care/journal/later': {
+      id: '/care/journal/later'
+      path: '/journal/later'
+      fullPath: '/care/journal/later'
+      preLoaderRoute: typeof CareJournalLaterRouteImport
+      parentRoute: typeof CareRoute
+    }
+    '/care/resources/suggestions': {
+      id: '/care/resources/suggestions'
+      path: '/suggestions'
+      fullPath: '/care/resources/suggestions'
+      preLoaderRoute: typeof CareResourcesSuggestionsRouteImport
+      parentRoute: typeof CareResourcesRoute
+    }
+    '/care/rituels/': {
+      id: '/care/rituels/'
+      path: '/rituels'
+      fullPath: '/care/rituels/'
+      preLoaderRoute: typeof CareRituelsIndexRouteImport
+      parentRoute: typeof CareRoute
+    }
+    '/care/rituels/$id': {
+      id: '/care/rituels/$id'
+      path: '/rituels/$id'
+      fullPath: '/care/rituels/$id'
+      preLoaderRoute: typeof CareRituelsIdRouteImport
+      parentRoute: typeof CareRoute
+    }
+    '/care/rituels/arbre': {
+      id: '/care/rituels/arbre'
+      path: '/rituels/arbre'
+      fullPath: '/care/rituels/arbre'
+      preLoaderRoute: typeof CareRituelsArbreRouteImport
+      parentRoute: typeof CareRoute
+    }
+    '/care/rituels/candle': {
+      id: '/care/rituels/candle'
+      path: '/rituels/candle'
+      fullPath: '/care/rituels/candle'
+      preLoaderRoute: typeof CareRituelsCandleRouteImport
+      parentRoute: typeof CareRoute
+    }
+    '/care/rituels/cercle': {
+      id: '/care/rituels/cercle'
+      path: '/rituels/cercle'
+      fullPath: '/care/rituels/cercle'
+      preLoaderRoute: typeof CareRituelsCercleRouteImport
+      parentRoute: typeof CareRoute
+    }
+    '/care/rituels/ensemble': {
+      id: '/care/rituels/ensemble'
+      path: '/rituels/ensemble'
+      fullPath: '/care/rituels/ensemble'
+      preLoaderRoute: typeof CareRituelsEnsembleRouteImport
+      parentRoute: typeof CareRoute
+    }
+    '/care/rituels/fait': {
+      id: '/care/rituels/fait'
+      path: '/rituels/fait'
+      fullPath: '/care/rituels/fait'
+      preLoaderRoute: typeof CareRituelsFaitRouteImport
+      parentRoute: typeof CareRoute
+    }
+    '/care/rituels/lantern': {
+      id: '/care/rituels/lantern'
+      path: '/rituels/lantern'
+      fullPath: '/care/rituels/lantern'
+      preLoaderRoute: typeof CareRituelsLanternRouteImport
+      parentRoute: typeof CareRoute
+    }
+    '/care/rituels/lettre': {
+      id: '/care/rituels/lettre'
+      path: '/rituels/lettre'
+      fullPath: '/care/rituels/lettre'
+      preLoaderRoute: typeof CareRituelsLettreRouteImport
+      parentRoute: typeof CareRoute
+    }
+    '/care/rituels/maintenant': {
+      id: '/care/rituels/maintenant'
+      path: '/rituels/maintenant'
+      fullPath: '/care/rituels/maintenant'
+      preLoaderRoute: typeof CareRituelsMaintenantRouteImport
+      parentRoute: typeof CareRoute
+    }
+    '/care/rituels/mes-rituels': {
+      id: '/care/rituels/mes-rituels'
+      path: '/rituels/mes-rituels'
+      fullPath: '/care/rituels/mes-rituels'
+      preLoaderRoute: typeof CareRituelsMesRituelsRouteImport
+      parentRoute: typeof CareRoute
+    }
+    '/care/rituels/offering': {
+      id: '/care/rituels/offering'
+      path: '/rituels/offering'
+      fullPath: '/care/rituels/offering'
+      preLoaderRoute: typeof CareRituelsOfferingRouteImport
+      parentRoute: typeof CareRoute
+    }
+    '/care/rituels/organiser': {
+      id: '/care/rituels/organiser'
+      path: '/rituels/organiser'
+      fullPath: '/care/rituels/organiser'
+      preLoaderRoute: typeof CareRituelsOrganiserRouteImport
+      parentRoute: typeof CareRoute
+    }
+    '/care/rituels/propositions': {
+      id: '/care/rituels/propositions'
+      path: '/rituels/propositions'
+      fullPath: '/care/rituels/propositions'
+      preLoaderRoute: typeof CareRituelsPropositionsRouteImport
+      parentRoute: typeof CareRoute
+    }
+    '/care/rituels/regards': {
+      id: '/care/rituels/regards'
+      path: '/rituels/regards'
+      fullPath: '/care/rituels/regards'
+      preLoaderRoute: typeof CareRituelsRegardsRouteImport
+      parentRoute: typeof CareRoute
+    }
+    '/care/rituels/tradition': {
+      id: '/care/rituels/tradition'
+      path: '/rituels/tradition'
+      fullPath: '/care/rituels/tradition'
+      preLoaderRoute: typeof CareRituelsTraditionRouteImport
+      parentRoute: typeof CareRoute
+    }
+    '/help/corps/': {
+      id: '/help/corps/'
+      path: '/'
+      fullPath: '/help/corps/'
+      preLoaderRoute: typeof HelpCorpsIndexRouteImport
+      parentRoute: typeof HelpCorpsRoute
+    }
+    '/help/corps/bouger': {
+      id: '/help/corps/bouger'
+      path: '/bouger'
+      fullPath: '/help/corps/bouger'
+      preLoaderRoute: typeof HelpCorpsBougerRouteImport
+      parentRoute: typeof HelpCorpsRoute
+    }
+    '/help/corps/comprendre': {
+      id: '/help/corps/comprendre'
+      path: '/comprendre'
+      fullPath: '/help/corps/comprendre'
+      preLoaderRoute: typeof HelpCorpsComprendreRouteImport
+      parentRoute: typeof HelpCorpsRoute
+    }
+    '/help/corps/consulter': {
+      id: '/help/corps/consulter'
+      path: '/consulter'
+      fullPath: '/help/corps/consulter'
+      preLoaderRoute: typeof HelpCorpsConsulterRouteImport
+      parentRoute: typeof HelpCorpsRoute
+    }
+    '/help/corps/eau': {
+      id: '/help/corps/eau'
+      path: '/eau'
+      fullPath: '/help/corps/eau'
+      preLoaderRoute: typeof HelpCorpsEauRouteImport
+      parentRoute: typeof HelpCorpsRoute
+    }
+    '/help/corps/habiller': {
+      id: '/help/corps/habiller'
+      path: '/habiller'
+      fullPath: '/help/corps/habiller'
+      preLoaderRoute: typeof HelpCorpsHabillerRouteImport
+      parentRoute: typeof HelpCorpsRoute
+    }
+    '/help/corps/manger': {
+      id: '/help/corps/manger'
+      path: '/manger'
+      fullPath: '/help/corps/manger'
+      preLoaderRoute: typeof HelpCorpsMangerRouteImport
+      parentRoute: typeof HelpCorpsRoute
+    }
+    '/help/corps/nuits': {
+      id: '/help/corps/nuits'
+      path: '/nuits'
+      fullPath: '/help/corps/nuits'
+      preLoaderRoute: typeof HelpCorpsNuitsRouteImport
+      parentRoute: typeof HelpCorpsRoute
+    }
+    '/help/corps/soin': {
+      id: '/help/corps/soin'
+      path: '/soin'
+      fullPath: '/help/corps/soin'
+      preLoaderRoute: typeof HelpCorpsSoinRouteImport
+      parentRoute: typeof HelpCorpsRoute
+    }
+    '/help/corps/suivi': {
+      id: '/help/corps/suivi'
+      path: '/suivi'
+      fullPath: '/help/corps/suivi'
+      preLoaderRoute: typeof HelpCorpsSuiviRouteImport
+      parentRoute: typeof HelpCorpsRoute
+    }
+    '/home/carnet/': {
+      id: '/home/carnet/'
+      path: '/'
+      fullPath: '/home/carnet/'
+      preLoaderRoute: typeof HomeCarnetIndexRouteImport
+      parentRoute: typeof HomeCarnetRoute
+    }
+    '/home/carnet/$id': {
+      id: '/home/carnet/$id'
+      path: '/$id'
+      fullPath: '/home/carnet/$id'
+      preLoaderRoute: typeof HomeCarnetIdRouteImport
+      parentRoute: typeof HomeCarnetRoute
+    }
+    '/home/carnet/note': {
+      id: '/home/carnet/note'
+      path: '/note'
+      fullPath: '/home/carnet/note'
+      preLoaderRoute: typeof HomeCarnetNoteRouteImport
+      parentRoute: typeof HomeCarnetRoute
+    }
+    '/home/equipe/': {
+      id: '/home/equipe/'
+      path: '/'
+      fullPath: '/home/equipe/'
+      preLoaderRoute: typeof HomeEquipeIndexRouteImport
+      parentRoute: typeof HomeEquipeRoute
+    }
+    '/home/equipe/demande': {
+      id: '/home/equipe/demande'
+      path: '/demande'
+      fullPath: '/home/equipe/demande'
+      preLoaderRoute: typeof HomeEquipeDemandeRouteImport
+      parentRoute: typeof HomeEquipeRoute
+    }
+    '/library/$kind/': {
+      id: '/library/$kind/'
+      path: '/library/$kind'
+      fullPath: '/library/$kind/'
+      preLoaderRoute: typeof LibraryKindIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/library/$kind/$id': {
+      id: '/library/$kind/$id'
+      path: '/library/$kind/$id'
+      fullPath: '/library/$kind/$id'
+      preLoaderRoute: typeof LibraryKindIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/practical/animal-body/': {
+      id: '/practical/animal-body/'
+      path: '/'
+      fullPath: '/practical/animal-body/'
+      preLoaderRoute: typeof PracticalAnimalBodyIndexRouteImport
+      parentRoute: typeof PracticalAnimalBodyRoute
+    }
+    '/practical/animal-body/cimetiere': {
+      id: '/practical/animal-body/cimetiere'
+      path: '/cimetiere'
+      fullPath: '/practical/animal-body/cimetiere'
+      preLoaderRoute: typeof PracticalAnimalBodyCimetiereRouteImport
+      parentRoute: typeof PracticalAnimalBodyRoute
+    }
+    '/practical/animal-body/cremation': {
+      id: '/practical/animal-body/cremation'
+      path: '/cremation'
+      fullPath: '/practical/animal-body/cremation'
+      preLoaderRoute: typeof PracticalAnimalBodyCremationRouteImport
+      parentRoute: typeof PracticalAnimalBodyRoute
+    }
+    '/practical/animal-body/jardin': {
+      id: '/practical/animal-body/jardin'
+      path: '/jardin'
+      fullPath: '/practical/animal-body/jardin'
+      preLoaderRoute: typeof PracticalAnimalBodyJardinRouteImport
+      parentRoute: typeof PracticalAnimalBodyRoute
+    }
+    '/practical/pros/': {
+      id: '/practical/pros/'
+      path: '/'
+      fullPath: '/practical/pros/'
+      preLoaderRoute: typeof PracticalProsIndexRouteImport
+      parentRoute: typeof PracticalProsRoute
+    }
+    '/practical/pros/$kind': {
+      id: '/practical/pros/$kind'
+      path: '/$kind'
+      fullPath: '/practical/pros/$kind'
+      preLoaderRoute: typeof PracticalProsKindRouteImport
+      parentRoute: typeof PracticalProsRoute
+    }
+    '/practical/share/': {
+      id: '/practical/share/'
+      path: '/share'
+      fullPath: '/practical/share/'
+      preLoaderRoute: typeof PracticalShareIndexRouteImport
+      parentRoute: typeof PracticalRoute
+    }
+    '/practical/share/$taskId': {
+      id: '/practical/share/$taskId'
+      path: '/share/$taskId'
+      fullPath: '/practical/share/$taskId'
+      preLoaderRoute: typeof PracticalShareTaskIdRouteImport
+      parentRoute: typeof PracticalRoute
+    }
+    '/practical/tasks/': {
+      id: '/practical/tasks/'
+      path: '/'
+      fullPath: '/practical/tasks/'
+      preLoaderRoute: typeof PracticalTasksIndexRouteImport
+      parentRoute: typeof PracticalTasksRoute
+    }
+    '/practical/tasks/$id': {
+      id: '/practical/tasks/$id'
+      path: '/$id'
+      fullPath: '/practical/tasks/$id'
+      preLoaderRoute: typeof PracticalTasksIdRouteImport
+      parentRoute: typeof PracticalTasksRoute
+    }
+    '/practical/wishes/': {
+      id: '/practical/wishes/'
+      path: '/'
+      fullPath: '/practical/wishes/'
+      preLoaderRoute: typeof PracticalWishesIndexRouteImport
+      parentRoute: typeof PracticalWishesRoute
+    }
+    '/practical/wishes/confiance': {
+      id: '/practical/wishes/confiance'
+      path: '/confiance'
+      fullPath: '/practical/wishes/confiance'
+      preLoaderRoute: typeof PracticalWishesConfianceRouteImport
+      parentRoute: typeof PracticalWishesRoute
+    }
+    '/practical/wishes/directives': {
+      id: '/practical/wishes/directives'
+      path: '/directives'
+      fullPath: '/practical/wishes/directives'
+      preLoaderRoute: typeof PracticalWishesDirectivesRouteImport
+      parentRoute: typeof PracticalWishesRoute
+    }
+    '/resources/$category/': {
+      id: '/resources/$category/'
+      path: '/'
+      fullPath: '/resources/$category/'
+      preLoaderRoute: typeof ResourcesCategoryIndexRouteImport
+      parentRoute: typeof ResourcesCategoryRoute
+    }
+    '/resources/$category/$providerId': {
+      id: '/resources/$category/$providerId'
+      path: '/$providerId'
+      fullPath: '/resources/$category/$providerId'
+      preLoaderRoute: typeof ResourcesCategoryProviderIdRouteImport
+      parentRoute: typeof ResourcesCategoryRoute
+    }
+    '/resources/confirm/$providerId': {
+      id: '/resources/confirm/$providerId'
+      path: '/resources/confirm/$providerId'
+      fullPath: '/resources/confirm/$providerId'
+      preLoaderRoute: typeof ResourcesConfirmProviderIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/space/settings/': {
+      id: '/space/settings/'
+      path: '/'
+      fullPath: '/space/settings/'
+      preLoaderRoute: typeof SpaceSettingsIndexRouteImport
+      parentRoute: typeof SpaceSettingsRoute
+    }
+    '/space/settings/transition': {
+      id: '/space/settings/transition'
+      path: '/transition'
+      fullPath: '/space/settings/transition'
+      preLoaderRoute: typeof SpaceSettingsTransitionRouteImport
+      parentRoute: typeof SpaceSettingsRoute
+    }
+    '/api/public/souffle-sound/$id': {
+      id: '/api/public/souffle-sound/$id'
+      path: '/api/public/souffle-sound/$id'
+      fullPath: '/api/public/souffle-sound/$id'
+      preLoaderRoute: typeof ApiPublicSouffleSoundIdRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/care/community/$group/': {
       id: '/care/community/$group/'
       path: '/$group'
       fullPath: '/care/community/$group/'
       preLoaderRoute: typeof CareCommunityGroupIndexRouteImport
-      parentRoute: typeof CareCommunityRoute
-    }
-    '/practical/tasks/$id/template': {
-      id: '/practical/tasks/$id/template'
-      path: '/template'
-      fullPath: '/practical/tasks/$id/template'
-      preLoaderRoute: typeof PracticalTasksIdTemplateRouteImport
-      parentRoute: typeof PracticalTasksIdRoute
-    }
-    '/help/corps/soin/$id': {
-      id: '/help/corps/soin/$id'
-      path: '/$id'
-      fullPath: '/help/corps/soin/$id'
-      preLoaderRoute: typeof HelpCorpsSoinIdRouteImport
-      parentRoute: typeof HelpCorpsSoinRoute
-    }
-    '/help/corps/$sujet/contenus': {
-      id: '/help/corps/$sujet/contenus'
-      path: '/$sujet/contenus'
-      fullPath: '/help/corps/$sujet/contenus'
-      preLoaderRoute: typeof HelpCorpsSujetContenusRouteImport
-      parentRoute: typeof HelpCorpsRoute
-    }
-    '/care/rituels/calendrier/annee': {
-      id: '/care/rituels/calendrier/annee'
-      path: '/rituels/calendrier/annee'
-      fullPath: '/care/rituels/calendrier/annee'
-      preLoaderRoute: typeof CareRituelsCalendrierAnneeRouteImport
-      parentRoute: typeof CareRoute
-    }
-    '/care/garden/$zone/$id': {
-      id: '/care/garden/$zone/$id'
-      path: '/$id'
-      fullPath: '/care/garden/$zone/$id'
-      preLoaderRoute: typeof CareGardenZoneIdRouteImport
-      parentRoute: typeof CareGardenZoneRoute
-    }
-    '/care/community/vigil/$id': {
-      id: '/care/community/vigil/$id'
-      path: '/vigil/$id'
-      fullPath: '/care/community/vigil/$id'
-      preLoaderRoute: typeof CareCommunityVigilIdRouteImport
-      parentRoute: typeof CareCommunityRoute
-    }
-    '/care/community/$group/new': {
-      id: '/care/community/$group/new'
-      path: '/$group/new'
-      fullPath: '/care/community/$group/new'
-      preLoaderRoute: typeof CareCommunityGroupNewRouteImport
       parentRoute: typeof CareCommunityRoute
     }
     '/care/community/$group/$thread': {
@@ -3801,19 +3724,89 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CareCommunityGroupThreadRouteImport
       parentRoute: typeof CareCommunityRoute
     }
-    '/api/public/souffle-sound/$id': {
-      id: '/api/public/souffle-sound/$id'
-      path: '/api/public/souffle-sound/$id'
-      fullPath: '/api/public/souffle-sound/$id'
-      preLoaderRoute: typeof ApiPublicSouffleSoundIdRouteImport
-      parentRoute: typeof rootRouteImport
+    '/care/community/$group/new': {
+      id: '/care/community/$group/new'
+      path: '/$group/new'
+      fullPath: '/care/community/$group/new'
+      preLoaderRoute: typeof CareCommunityGroupNewRouteImport
+      parentRoute: typeof CareCommunityRoute
     }
-    '/care/rituels/monde/$region/': {
-      id: '/care/rituels/monde/$region/'
-      path: '/rituels/monde/$region'
-      fullPath: '/care/rituels/monde/$region/'
-      preLoaderRoute: typeof CareRituelsMondeRegionIndexRouteImport
+    '/care/community/vigil/$id': {
+      id: '/care/community/vigil/$id'
+      path: '/vigil/$id'
+      fullPath: '/care/community/vigil/$id'
+      preLoaderRoute: typeof CareCommunityVigilIdRouteImport
+      parentRoute: typeof CareCommunityRoute
+    }
+    '/care/garden/$zone/': {
+      id: '/care/garden/$zone/'
+      path: '/'
+      fullPath: '/care/garden/$zone/'
+      preLoaderRoute: typeof CareGardenZoneIndexRouteImport
+      parentRoute: typeof CareGardenZoneRoute
+    }
+    '/care/garden/$zone/$id': {
+      id: '/care/garden/$zone/$id'
+      path: '/$id'
+      fullPath: '/care/garden/$zone/$id'
+      preLoaderRoute: typeof CareGardenZoneIdRouteImport
+      parentRoute: typeof CareGardenZoneRoute
+    }
+    '/care/rituels/calendrier/': {
+      id: '/care/rituels/calendrier/'
+      path: '/rituels/calendrier'
+      fullPath: '/care/rituels/calendrier/'
+      preLoaderRoute: typeof CareRituelsCalendrierIndexRouteImport
       parentRoute: typeof CareRoute
+    }
+    '/care/rituels/calendrier/annee': {
+      id: '/care/rituels/calendrier/annee'
+      path: '/rituels/calendrier/annee'
+      fullPath: '/care/rituels/calendrier/annee'
+      preLoaderRoute: typeof CareRituelsCalendrierAnneeRouteImport
+      parentRoute: typeof CareRoute
+    }
+    '/care/rituels/monde/': {
+      id: '/care/rituels/monde/'
+      path: '/rituels/monde'
+      fullPath: '/care/rituels/monde/'
+      preLoaderRoute: typeof CareRituelsMondeIndexRouteImport
+      parentRoute: typeof CareRoute
+    }
+    '/help/corps/$sujet/contenus': {
+      id: '/help/corps/$sujet/contenus'
+      path: '/$sujet/contenus'
+      fullPath: '/help/corps/$sujet/contenus'
+      preLoaderRoute: typeof HelpCorpsSujetContenusRouteImport
+      parentRoute: typeof HelpCorpsRoute
+    }
+    '/help/corps/soin/': {
+      id: '/help/corps/soin/'
+      path: '/'
+      fullPath: '/help/corps/soin/'
+      preLoaderRoute: typeof HelpCorpsSoinIndexRouteImport
+      parentRoute: typeof HelpCorpsSoinRoute
+    }
+    '/help/corps/soin/$id': {
+      id: '/help/corps/soin/$id'
+      path: '/$id'
+      fullPath: '/help/corps/soin/$id'
+      preLoaderRoute: typeof HelpCorpsSoinIdRouteImport
+      parentRoute: typeof HelpCorpsSoinRoute
+    }
+    '/practical/tasks/$id/': {
+      id: '/practical/tasks/$id/'
+      path: '/'
+      fullPath: '/practical/tasks/$id/'
+      preLoaderRoute: typeof PracticalTasksIdIndexRouteImport
+      parentRoute: typeof PracticalTasksIdRoute
+    }
+    '/practical/tasks/$id/template': {
+      id: '/practical/tasks/$id/template'
+      path: '/template'
+      fullPath: '/practical/tasks/$id/template'
+      preLoaderRoute: typeof PracticalTasksIdTemplateRouteImport
+      parentRoute: typeof PracticalTasksIdRoute
     }
     '/care/community/vigil/$id/': {
       id: '/care/community/vigil/$id/'
@@ -3822,11 +3815,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CareCommunityVigilIdIndexRouteImport
       parentRoute: typeof CareCommunityVigilIdRoute
     }
-    '/care/rituels/monde/ameriques/ofrenda': {
-      id: '/care/rituels/monde/ameriques/ofrenda'
-      path: '/rituels/monde/ameriques/ofrenda'
-      fullPath: '/care/rituels/monde/ameriques/ofrenda'
-      preLoaderRoute: typeof CareRituelsMondeAmeriquesOfrendaRouteImport
+    '/care/community/vigil/$id/ok': {
+      id: '/care/community/vigil/$id/ok'
+      path: '/ok'
+      fullPath: '/care/community/vigil/$id/ok'
+      preLoaderRoute: typeof CareCommunityVigilIdOkRouteImport
+      parentRoute: typeof CareCommunityVigilIdRoute
+    }
+    '/care/rituels/monde/$region/': {
+      id: '/care/rituels/monde/$region/'
+      path: '/rituels/monde/$region'
+      fullPath: '/care/rituels/monde/$region/'
+      preLoaderRoute: typeof CareRituelsMondeRegionIndexRouteImport
       parentRoute: typeof CareRoute
     }
     '/care/rituels/monde/$region/$id': {
@@ -3836,12 +3836,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CareRituelsMondeRegionIdRouteImport
       parentRoute: typeof CareRoute
     }
-    '/care/community/vigil/$id/ok': {
-      id: '/care/community/vigil/$id/ok'
-      path: '/ok'
-      fullPath: '/care/community/vigil/$id/ok'
-      preLoaderRoute: typeof CareCommunityVigilIdOkRouteImport
-      parentRoute: typeof CareCommunityVigilIdRoute
+    '/care/rituels/monde/ameriques/ofrenda': {
+      id: '/care/rituels/monde/ameriques/ofrenda'
+      path: '/rituels/monde/ameriques/ofrenda'
+      fullPath: '/care/rituels/monde/ameriques/ofrenda'
+      preLoaderRoute: typeof CareRituelsMondeAmeriquesOfrendaRouteImport
+      parentRoute: typeof CareRoute
     }
   }
 }
