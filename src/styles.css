@@ -1315,7 +1315,7 @@ h1, h2, h3 { text-wrap: balance; }
 .lg-library-query textarea::placeholder { color:var(--sp-sub); opacity:1; }
 .lg-library-query button { background:transparent; color:var(--sp-ink); }
 .lg-library-precisions { display:flex; flex-wrap:wrap; gap:7px; padding-bottom:12px; }
-.lg-library .lg-library-precision { border:1px solid var(--sp-line-2); background:transparent; color:var(--sp-ink); border-radius:20px; min-height:32px; height:auto; padding:6px 10px; font-size:12px; font-weight:400; }
+.lg-library .lg-library-precision { border:1px solid var(--sp-line-2); background:transparent; color:var(--sp-ink); border-radius:19px; min-height:38px; height:auto; padding:0 16px; font-size:14px; font-weight:400; box-shadow:none; }
 .lg-library .lg-library-precision[aria-pressed=true] { border-color:var(--sp-accent); background:var(--sp-select); }
 .lg-library-proposal { padding:15px 0; border-bottom:1px solid var(--sp-line); }
 .lg-library-proposal:last-child { border-bottom:0; }
