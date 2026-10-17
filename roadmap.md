@@ -2,8 +2,9 @@
 
 ## Étape B13 — Lire, écouter, voir
 - [x] Présenter les quatre listes pour B114–B118 avant le code.
-- [ ] Reproduire les onglets, la fiche film et les suggestions ; conserver les ressources hors maquette.
-- [ ] Vérifier les favoris, les retours, les propositions et l’absence d’envoi en découverte.
+- [x] Reproduire les onglets, la fiche film et les suggestions ; conserver les ressources hors maquette.
+- [x] Vérifier les favoris persistants, les retours, une proposition réelle et l’absence d’envoi en découverte ; quatre tests réussis.
+- [ ] Vérification connectée de bout en bout : aucune session du demandeur disponible ; connexion dans l’aperçu attendue.
 - [ ] Comparaison aux captures individuelles : captures B114–B118 non jointes.
 
 ## Étape B2 — découverte sans compte

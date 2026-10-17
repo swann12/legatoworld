@@ -10,11 +10,11 @@
 - Concrete Démarches (screens 055–062) live in `src/lib/demarches.ts` (status via legato-state taskStatus, steps via task-steps); old category ids still resolve there. Why: one list feeds Démarches, Mon avancement, detail and Confier.
 - Ceremony decisions and flower proposals use the space-scoped practical-store through ceremony-flow; flower views use validated search state on /practical/flowers. Why: one source of truth survives navigation and keeps existing URLs.
 - Text/music proposals and object choices use practical-store; wishes questionnaire views use validated search state and legato-state. Why: existing URLs and saved choices survive navigation without parallel stores.
-- Booklet PDF generation loads its browser-only library on explicit download and embeds the local editorial font. Why: SSR stays safe and accented text remains readable in downloaded documents.
+- Booklet PDF loads on download with the editorial font. Why: safe SSR and readable accents.
 - Off-mockup features (step 10, memory forms, portrait editors) remain in collapsed or lazily mounted legacy views until removal is approved. Why: reproducing captures must not silently remove existing functionality.
 - Funeral-specific resource views are isolated from the support directory and mark mockup providers as examples without invented contact details. Why: reproducing the mockups must not imply verified prices or real booking capabilities.
 - Memory collection pages share canonical category helpers and the existing space-scoped memories-store; the dynamic zone parent renders Outlet and its list is an index leaf. Why: detail pages mount correctly and old category URLs remain usable.
-- Ritual and date landing pages are index leaves; new ritual traces use the existing memories-store. Why: detail routes mount and saved words remain scoped to the chosen loved one.
+- Ritual/date landings are index leaves; traces use memories-store. Why: mounted details and space-scoped words.
 - Garden plot selection activates its existing space before opening the personal memory page, without altering the painted image or plot geometry. Why: each loved one's memories and portrait remain isolated.
 - Community screens reuse community-store and community-data, with vigil choices local and clearly distinguished from real reservations. Why: preserve existing interactions without implying a connected community service.
 - The Démarches tab view for bereavement spaces comes from `src/lib/papers-plan.ts` (pure, tested), driven by the papers answer from onboarding and space settings. Why: one rule decides order and the ceremony visibility on every path.
@@ -22,3 +22,5 @@
 - The carnet and « Qui fait quoi » of sick-relative spaces go through `src/lib/carnet.ts`: shared_items in the space's circle when signed in, scoped localStorage otherwise; members accept tasks via the accept_circle_task RPC. Why: shared with the circle without loosening item RLS, and visitors keep working locally.
 - Rituals content (gestures, world traditions, calendar dates) lives in `src/lib/rituals-catalog.ts`; « Vos rituels » in `src/lib/my-rituals.ts` (scoped localStorage, tested). Why: one catalog feeds every ritual screen and personal rituals stay per space.
 - "questions" space data: `src/lib/self-space.ts`, local. Why: stays on the phone.
+
+- Library uses library-data IDs; suggestions use authenticated Gateway SDK or local discovery selection. Why: retain URLs/favorites and keep visitor words on-device.
