@@ -47,6 +47,7 @@ import { Route as CareGuiltRouteImport } from './routes/care.guilt'
 import { Route as CareHelpRouteImport } from './routes/care.help'
 import { Route as CareMemoryRouteImport } from './routes/care.memory'
 import { Route as CareNewAnimalRouteImport } from './routes/care.new-animal'
+import { Route as CareResourcesRouteImport } from './routes/care.resources'
 import { Route as CareRespirerRouteImport } from './routes/care.respirer'
 import { Route as CareSonsRouteImport } from './routes/care.sons'
 import { Route as ComposeZoneRouteImport } from './routes/compose.$zone'
@@ -396,6 +397,11 @@ const CareMemoryRoute = CareMemoryRouteImport.update({
 const CareNewAnimalRoute = CareNewAnimalRouteImport.update({
   id: '/new-animal',
   path: '/new-animal',
+  getParentRoute: () => CareRoute,
+} as any)
+const CareResourcesRoute = CareResourcesRouteImport.update({
+  id: '/resources',
+  path: '/resources',
   getParentRoute: () => CareRoute,
 } as any)
 const CareRespirerRoute = CareRespirerRouteImport.update({
@@ -842,15 +848,15 @@ const CareJournalLaterRoute = CareJournalLaterRouteImport.update({
   getParentRoute: () => CareRoute,
 } as any)
 const CareResourcesIndexRoute = CareResourcesIndexRouteImport.update({
-  id: '/resources/',
-  path: '/resources/',
-  getParentRoute: () => CareRoute,
+  id: '/',
+  path: '/',
+  getParentRoute: () => CareResourcesRoute,
 } as any)
 const CareResourcesSuggestionsRoute =
   CareResourcesSuggestionsRouteImport.update({
-    id: '/resources/suggestions',
-    path: '/resources/suggestions',
-    getParentRoute: () => CareRoute,
+    id: '/suggestions',
+    path: '/suggestions',
+    getParentRoute: () => CareResourcesRoute,
   } as any)
 const CareRituelsIndexRoute = CareRituelsIndexRouteImport.update({
   id: '/rituels/',
@@ -1259,6 +1265,7 @@ export interface FileRoutesByFullPath {
   '/care/help': typeof CareHelpRoute
   '/care/memory': typeof CareMemoryRoute
   '/care/new-animal': typeof CareNewAnimalRoute
+  '/care/resources': typeof CareResourcesRouteWithChildren
   '/care/respirer': typeof CareRespirerRoute
   '/care/sons': typeof CareSonsRoute
   '/compose/$zone': typeof ComposeZoneRoute
@@ -1641,6 +1648,7 @@ export interface FileRoutesById {
   '/care/help': typeof CareHelpRoute
   '/care/memory': typeof CareMemoryRoute
   '/care/new-animal': typeof CareNewAnimalRoute
+  '/care/resources': typeof CareResourcesRouteWithChildren
   '/care/respirer': typeof CareRespirerRoute
   '/care/sons': typeof CareSonsRoute
   '/compose/$zone': typeof ComposeZoneRoute
@@ -1843,6 +1851,7 @@ export interface FileRouteTypes {
     | '/care/help'
     | '/care/memory'
     | '/care/new-animal'
+    | '/care/resources'
     | '/care/respirer'
     | '/care/sons'
     | '/compose/$zone'
@@ -2224,6 +2233,7 @@ export interface FileRouteTypes {
     | '/care/help'
     | '/care/memory'
     | '/care/new-animal'
+    | '/care/resources'
     | '/care/respirer'
     | '/care/sons'
     | '/compose/$zone'
@@ -2714,6 +2724,13 @@ declare module '@tanstack/react-router' {
       path: '/new-animal'
       fullPath: '/care/new-animal'
       preLoaderRoute: typeof CareNewAnimalRouteImport
+      parentRoute: typeof CareRoute
+    }
+    '/care/resources': {
+      id: '/care/resources'
+      path: '/resources'
+      fullPath: '/care/resources'
+      preLoaderRoute: typeof CareResourcesRouteImport
       parentRoute: typeof CareRoute
     }
     '/care/respirer': {
@@ -3334,17 +3351,17 @@ declare module '@tanstack/react-router' {
     }
     '/care/resources/': {
       id: '/care/resources/'
-      path: '/resources'
+      path: '/'
       fullPath: '/care/resources/'
       preLoaderRoute: typeof CareResourcesIndexRouteImport
-      parentRoute: typeof CareRoute
+      parentRoute: typeof CareResourcesRoute
     }
     '/care/resources/suggestions': {
       id: '/care/resources/suggestions'
-      path: '/resources/suggestions'
+      path: '/suggestions'
       fullPath: '/care/resources/suggestions'
       preLoaderRoute: typeof CareResourcesSuggestionsRouteImport
-      parentRoute: typeof CareRoute
+      parentRoute: typeof CareResourcesRoute
     }
     '/care/rituels/': {
       id: '/care/rituels/'
@@ -3944,6 +3961,20 @@ const CareGardenRouteWithChildren = CareGardenRoute._addFileChildren(
   CareGardenRouteChildren,
 )
 
+interface CareResourcesRouteChildren {
+  CareResourcesSuggestionsRoute: typeof CareResourcesSuggestionsRoute
+  CareResourcesIndexRoute: typeof CareResourcesIndexRoute
+}
+
+const CareResourcesRouteChildren: CareResourcesRouteChildren = {
+  CareResourcesSuggestionsRoute: CareResourcesSuggestionsRoute,
+  CareResourcesIndexRoute: CareResourcesIndexRoute,
+}
+
+const CareResourcesRouteWithChildren = CareResourcesRoute._addFileChildren(
+  CareResourcesRouteChildren,
+)
+
 interface CareRouteChildren {
   CareAideRoute: typeof CareAideRoute
   CareAngoisseRoute: typeof CareAngoisseRoute
@@ -3955,12 +3986,12 @@ interface CareRouteChildren {
   CareHelpRoute: typeof CareHelpRoute
   CareMemoryRoute: typeof CareMemoryRoute
   CareNewAnimalRoute: typeof CareNewAnimalRoute
+  CareResourcesRoute: typeof CareResourcesRouteWithChildren
   CareRespirerRoute: typeof CareRespirerRoute
   CareSonsRoute: typeof CareSonsRoute
   CareIndexRoute: typeof CareIndexRoute
   CareDatesIdRoute: typeof CareDatesIdRoute
   CareJournalLaterRoute: typeof CareJournalLaterRoute
-  CareResourcesSuggestionsRoute: typeof CareResourcesSuggestionsRoute
   CareRituelsIdRoute: typeof CareRituelsIdRoute
   CareRituelsArbreRoute: typeof CareRituelsArbreRoute
   CareRituelsCandleRoute: typeof CareRituelsCandleRoute
@@ -3978,7 +4009,6 @@ interface CareRouteChildren {
   CareRituelsTraditionRoute: typeof CareRituelsTraditionRoute
   CareDatesIndexRoute: typeof CareDatesIndexRoute
   CareJournalIndexRoute: typeof CareJournalIndexRoute
-  CareResourcesIndexRoute: typeof CareResourcesIndexRoute
   CareRituelsIndexRoute: typeof CareRituelsIndexRoute
   CareRituelsCalendrierAnneeRoute: typeof CareRituelsCalendrierAnneeRoute
   CareRituelsCalendrierIndexRoute: typeof CareRituelsCalendrierIndexRoute
@@ -3999,12 +4029,12 @@ const CareRouteChildren: CareRouteChildren = {
   CareHelpRoute: CareHelpRoute,
   CareMemoryRoute: CareMemoryRoute,
   CareNewAnimalRoute: CareNewAnimalRoute,
+  CareResourcesRoute: CareResourcesRouteWithChildren,
   CareRespirerRoute: CareRespirerRoute,
   CareSonsRoute: CareSonsRoute,
   CareIndexRoute: CareIndexRoute,
   CareDatesIdRoute: CareDatesIdRoute,
   CareJournalLaterRoute: CareJournalLaterRoute,
-  CareResourcesSuggestionsRoute: CareResourcesSuggestionsRoute,
   CareRituelsIdRoute: CareRituelsIdRoute,
   CareRituelsArbreRoute: CareRituelsArbreRoute,
   CareRituelsCandleRoute: CareRituelsCandleRoute,
@@ -4022,7 +4052,6 @@ const CareRouteChildren: CareRouteChildren = {
   CareRituelsTraditionRoute: CareRituelsTraditionRoute,
   CareDatesIndexRoute: CareDatesIndexRoute,
   CareJournalIndexRoute: CareJournalIndexRoute,
-  CareResourcesIndexRoute: CareResourcesIndexRoute,
   CareRituelsIndexRoute: CareRituelsIndexRoute,
   CareRituelsCalendrierAnneeRoute: CareRituelsCalendrierAnneeRoute,
   CareRituelsCalendrierIndexRoute: CareRituelsCalendrierIndexRoute,
