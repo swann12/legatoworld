@@ -129,3 +129,12 @@ export const RITUALS_TOGETHER: Gesture[] = [
   { id: "table-offrandes", title: "Une table d'offrandes", origin: "Corée, Chine · un repas pour ceux qui sont partis", duration: "Un repas", mode: "plusieurs", text: "En Corée et en Chine, on dresse une table avec les plats que les défunts aimaient, avant de partager le repas en famille.", steps: ["Préparez un ou deux plats qu'elle aimait.", "Posez sa photo sur la table.", "Un moment de silence, puis on mange ensemble."] },
 ];
 export const findGesture = (id: string) => [...GESTURES_ALONE, ...RITUALS_TOGETHER].find((g) => g.id === id);
+
+/** Les traditions du monde gardent leur identité dans l'invitation. */
+export function findOrganisedRitual(id = "repas") {
+  const gesture = findGesture(id);
+  if (gesture) return gesture;
+  const tradition = WORLD_TRADITIONS.find((t) => t.id === id);
+  if (tradition) return { id: tradition.id, title: tradition.title, text: tradition.long };
+  return findGesture("repas");
+}

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "bun:test";
 import { splitRituals, type MyRitual } from "./my-rituals";
-import { nextWorldDate, WORLD_TRADITIONS, WORLD_REGIONS } from "./rituals-catalog";
+import { nextWorldDate, WORLD_TRADITIONS, WORLD_REGIONS, findOrganisedRitual, findGesture } from "./rituals-catalog";
 
 const r = (p: Partial<MyRitual>): MyRitual => ({ id: Math.random().toString(), title: "x", done: false, createdAt: 0, ...p });
 
@@ -13,6 +13,13 @@ describe("vos rituels", () => {
 });
 
 describe("rituels du monde", () => {
+  it("garde Obon et les lanternes dans l'organisation avec des proches", () => {
+    expect(findOrganisedRitual("obon")?.title).toBe("Obon et les lanternes");
+    expect(findOrganisedRitual("obon")?.id).toBe("obon");
+  });
+  it("la lanterne des propositions ouvre une fiche existante", () => {
+    expect(findGesture("lanterne")?.title).toBe("Une lanterne sur l'eau");
+  });
   it("compte 21 traditions réparties 5, 4, 4, 5, 3", () => {
     expect(WORLD_TRADITIONS.length).toBe(21);
     expect(WORLD_REGIONS.map((g) => WORLD_TRADITIONS.filter((t) => t.region === g.id).length)).toEqual([5, 4, 4, 5, 3]);

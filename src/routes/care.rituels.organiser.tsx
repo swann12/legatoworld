@@ -5,7 +5,7 @@ import { z } from "zod";
 import { PageTitle, Lead, PrimaryButton, Field } from "@/components/legato/ds";
 import { RitualsLayout } from "@/components/legato/RitualsUI";
 import { useMemoryPerson } from "@/components/legato/MemoryUI";
-import { findGesture } from "@/lib/rituals-catalog";
+import { findOrganisedRitual } from "@/lib/rituals-catalog";
 import { addMyRitual } from "@/lib/my-rituals";
 import { getDiscovery } from "@/lib/discovery";
 import { legatoHead } from "@/lib/legato-head";
@@ -21,13 +21,13 @@ function Organiser() {
   const navigate = useNavigate();
   const { rituel } = Route.useSearch();
   const { name } = useMemoryPerson();
-  const g = findGesture(rituel ?? "repas") ?? findGesture("repas")!;
+  const g = findOrganisedRitual(rituel);
   const [date, setDate] = useState(""); const [time, setTime] = useState("19:00");
   const [where, setWhere] = useState(""); const [who, setWho] = useState("");
-  const isMeal = g.id === "repas";
+  const isMeal = g?.id === "repas";
 
   const send = async () => {
-    if (!date) return;
+    if (!date || !g) return;
     if (getDiscovery().active) { navigate({ to: "/start/compte-requis", search: { action: "invite" } }); return; }
     const when = new Date(`${date}T${time || "12:00"}`).toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" });
     const msg = `${g.title}, en mémoire de ${name}.\n${when}${time ? `, ${time.replace(":", " h ")}` : ""}${where ? ` · ${where}` : ""}.\n${isMeal ? `Apporte un plat qu'${name} aimait et un souvenir à raconter.` : "Je serais heureux que tu sois là."}`;
@@ -40,6 +40,7 @@ function Organiser() {
     navigate({ to: "/care/rituels/mes-rituels" });
   };
 
+  if (!g) return <RitualsLayout><PageTitle className="pt-8">Ce rituel n'est plus disponible.</PageTitle></RitualsLayout>;
   const [a, ...b] = g.title.split(" ");
   return (
     <RitualsLayout back={isMeal ? "/care/rituels/ensemble" : "/care/rituels"} backLabel={g.title}>
