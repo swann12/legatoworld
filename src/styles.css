@@ -995,6 +995,8 @@
 
   /* Couleurs d'espace */
   --lg-blue:   #CFDBE8;   /* bloc Aujourd'hui, bouton Soutien et Démarches */
+  --lg-blue-original: var(--lg-blue);
+  --lg-blue-ink: oklch(0.33 0.045 250);
   --lg-mint:   #BFE3D2;   /* texte du bouton Aujourd'hui, accent du mode nuit */
   --lg-mint-pale: #E4EDE7;/* bulles de Présence uniquement */
   --lg-coral:  #F4805A;   /* Démarches : remplissages (coches, barre d'avancement) */
@@ -1092,6 +1094,26 @@
   --sp-line: var(--lg-line-1); --sp-line-2: var(--lg-line-2);
 }
 .lg-presence-page { padding-bottom:0; }
+/* Mémoire / Communauté : la demande du 17 octobre prime sur les palettes B.
+   Une encre bleue foncée maintient le contraste sur les deux pastels. */
+[data-journey="malade"] :is(.lg-space-memory, .lg-space-community),
+[data-journey="questions"] :is(.lg-space-memory, .lg-space-community) {
+  --lg-blue: #CFDBE8;
+  --lg-deep: var(--lg-blue-ink); --lg-bordeaux: var(--lg-blue-ink);
+  --lg-cream: var(--lg-blush); --lg-mint: var(--lg-blush);
+  --lg-sub: color-mix(in oklab, var(--lg-blue-ink) 80%, var(--lg-blush));
+  --lg-line-1: color-mix(in oklab, var(--lg-blue-ink) 16%, transparent);
+  --lg-line-2: color-mix(in oklab, var(--lg-blue-ink) 32%, transparent);
+  --sp-bg: var(--lg-blush); --sp-ink: var(--lg-blue-ink); --sp-sub: var(--lg-sub);
+  --sp-block: var(--lg-blue); --sp-block-ink: var(--lg-blue-ink);
+  --sp-select: var(--lg-blue); --sp-btn-bg: var(--lg-blue); --sp-btn-fg: var(--lg-blue-ink);
+  --sp-accent: var(--lg-blue-ink); --sp-fill: var(--lg-blue-ink); --sp-stroke: var(--lg-blue-ink);
+  --sp-line: var(--lg-line-1); --sp-line-2: var(--lg-line-2);
+}
+[data-journey="malade"] .lg-space-community .lg-community-vigil,
+[data-journey="questions"] .lg-space-community .lg-community-vigil {
+  background: var(--lg-blue); color: var(--lg-blue-ink);
+}
 .lg-presence-page, [data-journey="questions"] .lg-presence-page :is(.lg-space-support, .lg-space-today) {
   --lg-blue:#CFDBE8; --lg-linen:#F3EBE1;
 }
