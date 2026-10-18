@@ -1,5 +1,5 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
-import { PageTitle, Lead, SectionLabel, PrimaryButton } from "@/components/legato/ds";
+import { PageTitle, Lead, SectionLabel, PrimaryButton, TextLink } from "@/components/legato/ds";
 import { RitualsLayout, NumberedSteps } from "@/components/legato/RitualsUI";
 import { WORLD_REGIONS, WORLD_TRADITIONS } from "@/lib/rituals-catalog";
 import { legatoHead } from "@/lib/legato-head";
@@ -29,6 +29,7 @@ function TraditionSheet() {
       <p className="mt-2" style={{ fontFamily: "var(--lg-serif)", fontSize: 19, lineHeight: 1.4 }}>{t.meaning}</p>
       <NumberedSteps title="Ce que l'on peut en garder" items={[...t.keep]} />
       {t.id === "dia-de-muertos" && <div className="mt-8"><PrimaryButton to="/care/rituels/monde/ameriques/ofrenda">Faire une ofrenda chez vous</PrimaryButton></div>}
+      <div className="mt-6"><TextLink to="/care/rituels/organiser" search={{ rituel: t.id }}>Le faire avec des proches</TextLink></div>
     </RitualsLayout>
   );
 }

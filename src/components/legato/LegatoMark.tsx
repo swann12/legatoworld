@@ -1,6 +1,5 @@
 import { Link, useLocation } from "@tanstack/react-router";
-import blackLogo from "@/assets/legato-logo-cropped.png";
-import whiteLogo from "@/assets/legato-logo-white-cropped.png";
+import { LegatoLogo } from "./ds/LegatoLogo";
 import stackedBlackLogo from "@/assets/legato-logo-stacked.png";
 import stackedWhiteLogo from "@/assets/legato-logo-white-stacked.png";
 
@@ -35,15 +34,14 @@ export function LegatoMark({
       </Link>
     );
   }
-  const logo = variant === "paper" ? whiteLogo : blackLogo;
   return (
     <Link
       to={home as "/care"}
       aria-label="Legato — accueil"
       className="inline-flex items-center select-none"
-      style={{ color, gap: size * 0.28 }}
+      style={{ color }}
     >
-      <img src={logo} alt="Legato" className="h-auto object-contain" style={{ width: size * 3.72, opacity: variant === "olive" ? 0.58 : 1 }} />
+      <LegatoLogo night={variant === "paper"} />
     </Link>
   );
 }

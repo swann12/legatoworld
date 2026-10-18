@@ -1,5 +1,11 @@
 # Reprise UX/UI Legato
 
+## Vérification des ajouts — 18 octobre 2026
+- [x] Retrouver les captures originales 001–080 dans l’archive et inventorier logos, menus, sécurité et rituels.
+- [ ] Corriger les écarts confirmés de logo et les palettes rose/bleu de Mémoire et Communauté maladie/questions.
+- [ ] Vérifier les quatre espaces, le 3114 immédiat, le plan des rituels et les liens des écrans 001–080.
+- [ ] Comparer les captures originales aux écrans accessibles et donner les corrections et limites précises.
+
 ## Étape B13 — Lire, écouter, voir
 - [x] Présenter les quatre listes pour B114–B118 avant le code.
 - [x] Reproduire les onglets, la fiche film et les suggestions ; conserver les ressources hors maquette.

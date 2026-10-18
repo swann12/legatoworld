@@ -51,6 +51,7 @@ function Calendrier() {
           const body = <><DateBadge day={it.day ? String(it.day) : "·"} month={short(it.m)} /><span className="min-w-0 flex-1"><span className="lg-row-title block">{it.title}</span><span className="lg-row-sub mt-1 block">{it.hint}</span></span>{it.mine && <span className="lg-mono shrink-0" style={{ color: "var(--sp-accent)" }}>Votre date</span>}</>;
           const style = { borderBottom: i < items.length - 1 ? "1px solid var(--sp-line)" : "none" };
           return it.mine ? <Link key={i} to="/care/rituels/organiser" className="flex items-center gap-5 py-4" style={style}>{body}</Link>
+            : it.to?.id === "dia-de-muertos" ? <Link key={i} to="/care/rituels/monde/ameriques/ofrenda" className="flex items-center gap-5 py-4" style={style}>{body}</Link>
             : it.to ? <Link key={i} to="/care/rituels/monde/$region/$id" params={it.to} className="flex items-center gap-5 py-4" style={style}>{body}</Link>
             : <div key={i} className="flex items-center gap-5 py-4" style={style}>{body}</div>;
         })}
