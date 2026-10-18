@@ -995,7 +995,6 @@
 
   /* Couleurs d'espace */
   --lg-blue:   #CFDBE8;   /* bloc Aujourd'hui, bouton Soutien et Démarches */
-  --lg-blue-original: var(--lg-blue);
   --lg-blue-ink: oklch(0.33 0.045 250);
   --lg-mint:   #BFE3D2;   /* texte du bouton Aujourd'hui, accent du mode nuit */
   --lg-mint-pale: #E4EDE7;/* bulles de Présence uniquement */

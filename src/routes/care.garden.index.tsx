@@ -114,9 +114,9 @@ function CareGarden() {
                     fontFamily: "var(--font-mono)",
                     background:
                       touched === s.id || s.id === activeId
-                        ? "var(--bordeaux)"
-                        : "color-mix(in oklab, var(--paper) 78%, transparent)",
-                    color: touched === s.id || s.id === activeId ? "var(--paper)" : "var(--bordeaux)",
+                        ? "var(--sp-accent)"
+                        : "color-mix(in oklab, var(--sp-bg) 78%, transparent)",
+                    color: touched === s.id || s.id === activeId ? "var(--sp-bg)" : "var(--sp-accent)",
                   }}
                 >
                   {i + 1}
@@ -139,13 +139,13 @@ function CareGarden() {
                     onMouseEnter={() => setTouched(s.id)}
                     onMouseLeave={() => setTouched((t) => (t === s.id ? null : t))}
                     className="flex w-full items-baseline gap-3 border-b border-dashed py-3 text-left last:border-0"
-                    style={{ borderColor: "color-mix(in oklab, var(--dusk) 14%, transparent)" }}
+                    style={{ borderColor: "var(--sp-line)" }}
                   >
-                    <span className="text-[10.5px] tabular-nums text-dusk/35" style={{ fontFamily: "var(--font-mono)" }}>
+                    <span className="text-[10.5px] tabular-nums" style={{ fontFamily: "var(--font-mono)", color: "var(--sp-sub)" }}>
                       {String(i + 1).padStart(2, "0")}
                     </span>
                     <span className="flex-1 font-lg-serif text-[21px] leading-[1.15]">{s.name}</span>
-                    <span className="text-[11.5px] tabular-nums text-dusk/45">
+                    <span className="text-[11.5px] tabular-nums" style={{ color: "var(--sp-sub)" }}>
                       {n === 0 ? "—" : `${n} souvenir${n > 1 ? "s" : ""}`}
                     </span>
                   </button>
@@ -153,7 +153,7 @@ function CareGarden() {
               );
             })}
           </ul>
-          <p className="mt-3 text-[12px] italic text-dusk/45">
+          <p className="mt-3 text-[12px] italic" style={{ color: "var(--sp-sub)" }}>
             {named ? `La parcelle de ${named.name}` : total === 0 ? "Le jardin attend son premier souvenir." : ""}
           </p>
         </section>
