@@ -1,5 +1,5 @@
 - New screens use `src/components/legato/ds/` (components + StandardLayout/QuestionLayout/ExperienceLayout) with a `space` prop mapped to `.lg-space-*` CSS vars in styles.css; never hardcode colors in pages. Why: one color pair per space, themable in one place.
-- Global nav is `ds/BottomNav`, with labels and visibility from `space-navigation` and the active space. Why: all layouts share the same adaptive navigation rules.
+- Global nav is `ds/BottomNav`, with labels/visibility from `space-navigation` and palette from its active tab. Why: shared navigation inherits journey colors even outside the page wrapper.
 - JourneyTheme applies space-kind palette overrides to DS tokens; emergency screens retain their separate colors. Why: explicit DS descendants must not reset the active journey palette.
 - Onboarding keeps animal body answers on the created space and derives its kind through space-navigation. Why: navigation follows the selected space rather than another space's onboarding answers.
 - Header wordmarks use ds/LegatoLogo with the supplied day/night assets. Why: every header shares the exact same source images and size.
@@ -20,7 +20,7 @@
 - The Démarches tab view for bereavement spaces comes from `src/lib/papers-plan.ts` (pure, tested), driven by the papers answer from onboarding and space settings. Why: one rule decides order and the ceremony visibility on every path.
 - The body "petit suivi" lives in `src/lib/corps-suivi.ts` (localStorage, tested); the walking voice uses the browser speech synthesis. Why: nothing about the body leaves the phone.
 - The carnet and « Qui fait quoi » of sick-relative spaces go through `src/lib/carnet.ts`: shared_items in the space's circle when signed in, scoped localStorage otherwise; members accept tasks via the accept_circle_task RPC. Why: shared with the circle without loosening item RLS, and visitors keep working locally.
-- Rituals content (gestures, world traditions, calendar dates) lives in `src/lib/rituals-catalog.ts`; « Vos rituels » in `src/lib/my-rituals.ts` (scoped localStorage, tested). Why: one catalog feeds every ritual screen and personal rituals stay per space.
+- Rituals and invitation identities use `src/lib/rituals-catalog.ts`; personal rituals use scoped `src/lib/my-rituals.ts`. Why: world traditions retain their identity when organised and personal rituals stay per space.
 - "questions" space data: `src/lib/self-space.ts`, local. Why: stays on the phone.
 
 - Library uses library-data IDs; suggestions use authenticated Gateway SDK or local discovery selection. Why: retain URLs/favorites and keep visitor words on-device.
