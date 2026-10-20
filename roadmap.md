@@ -2,9 +2,11 @@
 
 ## Vérification des ajouts — 18 octobre 2026
 - [x] Retrouver les captures originales 001–080 dans l’archive et inventorier logos, menus, sécurité et rituels.
-- [ ] Corriger les écarts confirmés de logo et les palettes rose/bleu de Mémoire et Communauté maladie/questions.
-- [ ] Vérifier les quatre espaces, le 3114 immédiat, le plan des rituels et les liens des écrans 001–080.
-- [ ] Comparer les captures originales aux écrans accessibles et donner les corrections et limites précises.
+- [x] Corriger l’ancien logo, les palettes rose/bleu et leur navigation, y compris repères des parcelles et expériences Mémoire.
+- [x] Vérifier les quatre espaces et le 3114 immédiat ; corriger et tester Obon → organisation, calendrier → ofrenda et lanterne → geste fait.
+- [x] Ouvrir les 80 destinations et comparer les captures en planches ; conserver les différences Ajouts-2 et les données variables.
+- [ ] Comparaison exacte des états 005, 012, 014, 026–028, 031, 036, 038, 073 et 075 : invitation valide, conversation réelle, choix/enregistrements/propositions nécessaires ; les seules ouvertures ne valident pas ces états.
+- [x] Donner les corrections et préciser que ni tous les états ni tous les liens connectés ne sont validés.
 
 ## Étape B13 — Lire, écouter, voir
 - [x] Présenter les quatre listes pour B114–B118 avant le code.
