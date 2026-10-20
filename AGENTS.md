@@ -24,4 +24,5 @@
 - "questions" space data: `src/lib/self-space.ts`, local. Why: stays on the phone.
 - Ajouts-4: Démarches title italics use `--sp-title-accent`; memory experiences use ExperienceButton; explained words use MotExplique + `src/lib/lexique.json`; page-less buttons use ActionFeedback; reused pages are parametrized in `shared-pages.tsx`. Why: ajouts-4 §1–§4.
 
-- Library uses library-data IDs; suggestions use authenticated Gateway SDK or local discovery selection. Why: retain URLs/favorites and keep visitor words on-device.
+- Library preserves IDs; suggestions use authenticated Gateway or local discovery. Why: preserve favorites and privacy.
+- Sounds use a shared native player and offline-rendered files with encoded fades. Why: navigation and timer throttling must not stop audio.

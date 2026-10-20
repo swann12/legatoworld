@@ -1012,6 +1012,7 @@
   /* Dégradés des pages d'expérience (plein écran, sans barre) */
   --lg-grad-soutien: linear-gradient(180deg, #CFDBE8 0%, #A9D6C4 45%, #2C4B40 100%);
   --lg-grad-nuit:    linear-gradient(180deg, #2C4B40 0%, #5E8F7F 52%, #CFDBE8 100%);
+  --lg-grad-sounds: linear-gradient(180deg, #2C4B40 0%, #4F7270 50%, #CFDBE8 100%);
   --lg-grad-memoire: linear-gradient(180deg, #EBC7C4 0%, #C98B86 55%, #7A2E2C 100%);
   --lg-grad-foret:   linear-gradient(180deg, #BFE3D2 0%, #8FBFAA 55%, #5E8F7F 100%);
 
