@@ -29,6 +29,8 @@ const page = (etiquette: string, titre: string, to: string, extra: Partial<Card>
 type Rule = { when: string[]; topic: "soutien" | "demarches"; cards: () => Card[]; situations?: string[] };
 /** Ordre = priorité. Repris des questions de test (§7). */
 const RULES: Rule[] = [
+  { when: ["preparer les choses", "si je meurs", "mes documents"], topic: "demarches", cards: () => [page("Préparer", "Mon coffre pour mes proches", "/practical/coffre")] },
+  { when: ["recevra mes documents", "transmis"], topic: "demarches", cards: () => [page("Mon coffre", "Comment ils seront transmis", "/practical/coffre/transmission")] },
   { when: ["bloque ses comptes", "compte bloque", "comptes bloques", "payer les pompes", "paie les pompes", "plus acces a l argent"], topic: "demarches", situations: ["argent"],
     cards: () => [page("Prêt à envoyer", "Le courrier pour sa banque", "/practical/tasks/$id/template", { params: { id: "banque" }, sous: "rempli avec ses informations", type: "preparer_courrier" }), bloque("argent")] },
   { when: ["code", "mot de passe", "mots de passe", "deverrouiller"], topic: "demarches", situations: ["mots-de-passe", "telephone"], cards: () => [bloque("mots-de-passe")] },
@@ -47,8 +49,6 @@ const RULES: Rule[] = [
   { when: ["jours de conge", "conge"], topic: "demarches", situations: ["conges"], cards: () => [bloque("conges")] },
   { when: ["facebook", "instagram", "reseaux", "anniversaire en ligne"], topic: "demarches", situations: ["comptes"], cards: () => [bloque("comptes")] },
   { when: ["combien de temps", "delai pour les obseques", "obseques"], topic: "demarches", situations: ["maison"], cards: () => [bloque("maison")] },
-  { when: ["preparer les choses", "si je meurs", "mes documents"], topic: "demarches", cards: () => [page("Préparer", "Mon coffre pour mes proches", "/practical/coffre")] },
-  { when: ["recevra mes documents", "transmis"], topic: "demarches", cards: () => [page("Mon coffre", "Comment ils seront transmis", "/practical/coffre/transmission")] },
   { when: ["prochaines demarches", "quoi faire maintenant"], topic: "demarches", cards: () => [page("Démarches", "Ce qu'il reste à faire", "/practical")] },
   { when: ["prevenir tout le monde", "prevenir les proches"], topic: "demarches", cards: () => [page("Prêt à envoyer", "Prévenir les proches", "/practical/prevenir", { type: "preparer_message" })] },
   { when: ["formulaire", "site officiel", "assurance maladie"], topic: "demarches", cards: () => [page("Avant d'ouvrir un site", "Le site de l'Assurance maladie", "/partage/site-officiel", { type: "ouvrir_page" })] },
