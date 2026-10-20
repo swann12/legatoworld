@@ -52,6 +52,7 @@ import { Route as CareRespirerRouteImport } from './routes/care.respirer'
 import { Route as CareSonsRouteImport } from './routes/care.sons'
 import { Route as ComposeZoneRouteImport } from './routes/compose.$zone'
 import { Route as DevDesignRouteImport } from './routes/dev.design'
+import { Route as DocumentsIdRouteImport } from './routes/documents.$id'
 import { Route as GardenIndexRouteImport } from './routes/garden.index'
 import { Route as GardenZoneRouteImport } from './routes/garden.$zone'
 import { Route as HelpIndexRouteImport } from './routes/help.index'
@@ -70,6 +71,8 @@ import { Route as OnboardingIndexRouteImport } from './routes/onboarding.index'
 import { Route as OnboardingCareRouteImport } from './routes/onboarding.care'
 import { Route as OnboardingPracticalRouteImport } from './routes/onboarding.practical'
 import { Route as ParcoursTaskIdRouteImport } from './routes/parcours.$taskId'
+import { Route as PartageMessageRouteImport } from './routes/partage.message'
+import { Route as PartageSiteOfficielRouteImport } from './routes/partage.site-officiel'
 import { Route as PracticalIndexRouteImport } from './routes/practical.index'
 import { Route as PracticalAideDomicileRouteImport } from './routes/practical.aide-domicile'
 import { Route as PracticalAjpaRouteImport } from './routes/practical.ajpa'
@@ -154,6 +157,7 @@ import { Route as CareRituelsOrganiserRouteImport } from './routes/care.rituels.
 import { Route as CareRituelsPropositionsRouteImport } from './routes/care.rituels.propositions'
 import { Route as CareRituelsRegardsRouteImport } from './routes/care.rituels.regards'
 import { Route as CareRituelsTraditionRouteImport } from './routes/care.rituels.tradition'
+import { Route as DocumentsDossierCategorieRouteImport } from './routes/documents.dossier.$categorie'
 import { Route as HelpCorpsIndexRouteImport } from './routes/help.corps.index'
 import { Route as HelpCorpsBougerRouteImport } from './routes/help.corps.bouger'
 import { Route as HelpCorpsComprendreRouteImport } from './routes/help.corps.comprendre'
@@ -424,6 +428,11 @@ const DevDesignRoute = DevDesignRouteImport.update({
   path: '/dev/design',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DocumentsIdRoute = DocumentsIdRouteImport.update({
+  id: '/documents/$id',
+  path: '/documents/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const GardenIndexRoute = GardenIndexRouteImport.update({
   id: '/garden/',
   path: '/garden/',
@@ -513,6 +522,16 @@ const ParcoursTaskIdRoute = ParcoursTaskIdRouteImport.update({
   id: '/$taskId',
   path: '/$taskId',
   getParentRoute: () => ParcoursRoute,
+} as any)
+const PartageMessageRoute = PartageMessageRouteImport.update({
+  id: '/partage/message',
+  path: '/partage/message',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PartageSiteOfficielRoute = PartageSiteOfficielRouteImport.update({
+  id: '/partage/site-officiel',
+  path: '/partage/site-officiel',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const PracticalIndexRoute = PracticalIndexRouteImport.update({
   id: '/',
@@ -938,6 +957,12 @@ const CareRituelsTraditionRoute = CareRituelsTraditionRouteImport.update({
   path: '/rituels/tradition',
   getParentRoute: () => CareRoute,
 } as any)
+const DocumentsDossierCategorieRoute =
+  DocumentsDossierCategorieRouteImport.update({
+    id: '/documents/dossier/$categorie',
+    path: '/documents/dossier/$categorie',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const HelpCorpsIndexRoute = HelpCorpsIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -1270,6 +1295,7 @@ export interface FileRoutesByFullPath {
   '/care/sons': typeof CareSonsRoute
   '/compose/$zone': typeof ComposeZoneRoute
   '/dev/design': typeof DevDesignRoute
+  '/documents/$id': typeof DocumentsIdRoute
   '/garden/$zone': typeof GardenZoneRoute
   '/help/corps': typeof HelpCorpsRouteWithChildren
   '/home/carnet': typeof HomeCarnetRouteWithChildren
@@ -1284,6 +1310,8 @@ export interface FileRoutesByFullPath {
   '/onboarding/care': typeof OnboardingCareRoute
   '/onboarding/practical': typeof OnboardingPracticalRoute
   '/parcours/$taskId': typeof ParcoursTaskIdRoute
+  '/partage/message': typeof PartageMessageRoute
+  '/partage/site-officiel': typeof PartageSiteOfficielRoute
   '/practical/aide-domicile': typeof PracticalAideDomicileRoute
   '/practical/ajpa': typeof PracticalAjpaRoute
   '/practical/animal-body': typeof PracticalAnimalBodyRouteWithChildren
@@ -1369,6 +1397,7 @@ export interface FileRoutesByFullPath {
   '/care/rituels/propositions': typeof CareRituelsPropositionsRoute
   '/care/rituels/regards': typeof CareRituelsRegardsRoute
   '/care/rituels/tradition': typeof CareRituelsTraditionRoute
+  '/documents/dossier/$categorie': typeof DocumentsDossierCategorieRoute
   '/help/corps/bouger': typeof HelpCorpsBougerRoute
   '/help/corps/comprendre': typeof HelpCorpsComprendreRoute
   '/help/corps/consulter': typeof HelpCorpsConsulterRoute
@@ -1463,6 +1492,7 @@ export interface FileRoutesByTo {
   '/care/sons': typeof CareSonsRoute
   '/compose/$zone': typeof ComposeZoneRoute
   '/dev/design': typeof DevDesignRoute
+  '/documents/$id': typeof DocumentsIdRoute
   '/garden/$zone': typeof GardenZoneRoute
   '/home/ecrire-peur': typeof HomeEcrirePeurRoute
   '/home/en-parler': typeof HomeEnParlerRoute
@@ -1474,6 +1504,8 @@ export interface FileRoutesByTo {
   '/onboarding/care': typeof OnboardingCareRoute
   '/onboarding/practical': typeof OnboardingPracticalRoute
   '/parcours/$taskId': typeof ParcoursTaskIdRoute
+  '/partage/message': typeof PartageMessageRoute
+  '/partage/site-officiel': typeof PartageSiteOfficielRoute
   '/practical/aide-domicile': typeof PracticalAideDomicileRoute
   '/practical/ajpa': typeof PracticalAjpaRoute
   '/practical/animal-id': typeof PracticalAnimalIdRoute
@@ -1552,6 +1584,7 @@ export interface FileRoutesByTo {
   '/care/rituels/propositions': typeof CareRituelsPropositionsRoute
   '/care/rituels/regards': typeof CareRituelsRegardsRoute
   '/care/rituels/tradition': typeof CareRituelsTraditionRoute
+  '/documents/dossier/$categorie': typeof DocumentsDossierCategorieRoute
   '/help/corps/bouger': typeof HelpCorpsBougerRoute
   '/help/corps/comprendre': typeof HelpCorpsComprendreRoute
   '/help/corps/consulter': typeof HelpCorpsConsulterRoute
@@ -1653,6 +1686,7 @@ export interface FileRoutesById {
   '/care/sons': typeof CareSonsRoute
   '/compose/$zone': typeof ComposeZoneRoute
   '/dev/design': typeof DevDesignRoute
+  '/documents/$id': typeof DocumentsIdRoute
   '/garden/$zone': typeof GardenZoneRoute
   '/help/corps': typeof HelpCorpsRouteWithChildren
   '/home/carnet': typeof HomeCarnetRouteWithChildren
@@ -1667,6 +1701,8 @@ export interface FileRoutesById {
   '/onboarding/care': typeof OnboardingCareRoute
   '/onboarding/practical': typeof OnboardingPracticalRoute
   '/parcours/$taskId': typeof ParcoursTaskIdRoute
+  '/partage/message': typeof PartageMessageRoute
+  '/partage/site-officiel': typeof PartageSiteOfficielRoute
   '/practical/aide-domicile': typeof PracticalAideDomicileRoute
   '/practical/ajpa': typeof PracticalAjpaRoute
   '/practical/animal-body': typeof PracticalAnimalBodyRouteWithChildren
@@ -1752,6 +1788,7 @@ export interface FileRoutesById {
   '/care/rituels/propositions': typeof CareRituelsPropositionsRoute
   '/care/rituels/regards': typeof CareRituelsRegardsRoute
   '/care/rituels/tradition': typeof CareRituelsTraditionRoute
+  '/documents/dossier/$categorie': typeof DocumentsDossierCategorieRoute
   '/help/corps/bouger': typeof HelpCorpsBougerRoute
   '/help/corps/comprendre': typeof HelpCorpsComprendreRoute
   '/help/corps/consulter': typeof HelpCorpsConsulterRoute
@@ -1856,6 +1893,7 @@ export interface FileRouteTypes {
     | '/care/sons'
     | '/compose/$zone'
     | '/dev/design'
+    | '/documents/$id'
     | '/garden/$zone'
     | '/help/corps'
     | '/home/carnet'
@@ -1870,6 +1908,8 @@ export interface FileRouteTypes {
     | '/onboarding/care'
     | '/onboarding/practical'
     | '/parcours/$taskId'
+    | '/partage/message'
+    | '/partage/site-officiel'
     | '/practical/aide-domicile'
     | '/practical/ajpa'
     | '/practical/animal-body'
@@ -1955,6 +1995,7 @@ export interface FileRouteTypes {
     | '/care/rituels/propositions'
     | '/care/rituels/regards'
     | '/care/rituels/tradition'
+    | '/documents/dossier/$categorie'
     | '/help/corps/bouger'
     | '/help/corps/comprendre'
     | '/help/corps/consulter'
@@ -2049,6 +2090,7 @@ export interface FileRouteTypes {
     | '/care/sons'
     | '/compose/$zone'
     | '/dev/design'
+    | '/documents/$id'
     | '/garden/$zone'
     | '/home/ecrire-peur'
     | '/home/en-parler'
@@ -2060,6 +2102,8 @@ export interface FileRouteTypes {
     | '/onboarding/care'
     | '/onboarding/practical'
     | '/parcours/$taskId'
+    | '/partage/message'
+    | '/partage/site-officiel'
     | '/practical/aide-domicile'
     | '/practical/ajpa'
     | '/practical/animal-id'
@@ -2138,6 +2182,7 @@ export interface FileRouteTypes {
     | '/care/rituels/propositions'
     | '/care/rituels/regards'
     | '/care/rituels/tradition'
+    | '/documents/dossier/$categorie'
     | '/help/corps/bouger'
     | '/help/corps/comprendre'
     | '/help/corps/consulter'
@@ -2238,6 +2283,7 @@ export interface FileRouteTypes {
     | '/care/sons'
     | '/compose/$zone'
     | '/dev/design'
+    | '/documents/$id'
     | '/garden/$zone'
     | '/help/corps'
     | '/home/carnet'
@@ -2252,6 +2298,8 @@ export interface FileRouteTypes {
     | '/onboarding/care'
     | '/onboarding/practical'
     | '/parcours/$taskId'
+    | '/partage/message'
+    | '/partage/site-officiel'
     | '/practical/aide-domicile'
     | '/practical/ajpa'
     | '/practical/animal-body'
@@ -2337,6 +2385,7 @@ export interface FileRouteTypes {
     | '/care/rituels/propositions'
     | '/care/rituels/regards'
     | '/care/rituels/tradition'
+    | '/documents/dossier/$categorie'
     | '/help/corps/bouger'
     | '/help/corps/comprendre'
     | '/help/corps/consulter'
@@ -2427,6 +2476,7 @@ export interface RootRouteChildren {
   AppointmentsNewRoute: typeof AppointmentsNewRoute
   ComposeZoneRoute: typeof ComposeZoneRoute
   DevDesignRoute: typeof DevDesignRoute
+  DocumentsIdRoute: typeof DocumentsIdRoute
   GardenZoneRoute: typeof GardenZoneRoute
   HomeCarnetRoute: typeof HomeCarnetRouteWithChildren
   HomeEcrirePeurRoute: typeof HomeEcrirePeurRoute
@@ -2437,6 +2487,8 @@ export interface RootRouteChildren {
   HomeQuestionsMedecinRoute: typeof HomeQuestionsMedecinRoute
   HomeSesAffairesRoute: typeof HomeSesAffairesRoute
   InviteTokenRoute: typeof InviteTokenRoute
+  PartageMessageRoute: typeof PartageMessageRoute
+  PartageSiteOfficielRoute: typeof PartageSiteOfficielRoute
   PresenceAboutRoute: typeof PresenceAboutRoute
   ResourcesCategoryRoute: typeof ResourcesCategoryRouteWithChildren
   SpaceNewRoute: typeof SpaceNewRoute
@@ -2452,6 +2504,7 @@ export interface RootRouteChildren {
   ResourcesIndexRoute: typeof ResourcesIndexRoute
   SpaceIndexRoute: typeof SpaceIndexRoute
   StartIndexRoute: typeof StartIndexRoute
+  DocumentsDossierCategorieRoute: typeof DocumentsDossierCategorieRoute
   LibraryKindIdRoute: typeof LibraryKindIdRoute
   ResourcesConfirmProviderIdRoute: typeof ResourcesConfirmProviderIdRoute
   LibraryKindIndexRoute: typeof LibraryKindIndexRoute
@@ -2761,6 +2814,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DevDesignRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/documents/$id': {
+      id: '/documents/$id'
+      path: '/documents/$id'
+      fullPath: '/documents/$id'
+      preLoaderRoute: typeof DocumentsIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/garden/': {
       id: '/garden/'
       path: '/garden'
@@ -2886,6 +2946,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/parcours/$taskId'
       preLoaderRoute: typeof ParcoursTaskIdRouteImport
       parentRoute: typeof ParcoursRoute
+    }
+    '/partage/message': {
+      id: '/partage/message'
+      path: '/partage/message'
+      fullPath: '/partage/message'
+      preLoaderRoute: typeof PartageMessageRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/partage/site-officiel': {
+      id: '/partage/site-officiel'
+      path: '/partage/site-officiel'
+      fullPath: '/partage/site-officiel'
+      preLoaderRoute: typeof PartageSiteOfficielRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/practical/': {
       id: '/practical/'
@@ -3474,6 +3548,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/care/rituels/tradition'
       preLoaderRoute: typeof CareRituelsTraditionRouteImport
       parentRoute: typeof CareRoute
+    }
+    '/documents/dossier/$categorie': {
+      id: '/documents/dossier/$categorie'
+      path: '/documents/dossier/$categorie'
+      fullPath: '/documents/dossier/$categorie'
+      preLoaderRoute: typeof DocumentsDossierCategorieRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/help/corps/': {
       id: '/help/corps/'
@@ -4400,6 +4481,7 @@ const rootRouteChildren: RootRouteChildren = {
   AppointmentsNewRoute: AppointmentsNewRoute,
   ComposeZoneRoute: ComposeZoneRoute,
   DevDesignRoute: DevDesignRoute,
+  DocumentsIdRoute: DocumentsIdRoute,
   GardenZoneRoute: GardenZoneRoute,
   HomeCarnetRoute: HomeCarnetRouteWithChildren,
   HomeEcrirePeurRoute: HomeEcrirePeurRoute,
@@ -4410,6 +4492,8 @@ const rootRouteChildren: RootRouteChildren = {
   HomeQuestionsMedecinRoute: HomeQuestionsMedecinRoute,
   HomeSesAffairesRoute: HomeSesAffairesRoute,
   InviteTokenRoute: InviteTokenRoute,
+  PartageMessageRoute: PartageMessageRoute,
+  PartageSiteOfficielRoute: PartageSiteOfficielRoute,
   PresenceAboutRoute: PresenceAboutRoute,
   ResourcesCategoryRoute: ResourcesCategoryRouteWithChildren,
   SpaceNewRoute: SpaceNewRoute,
@@ -4425,6 +4509,7 @@ const rootRouteChildren: RootRouteChildren = {
   ResourcesIndexRoute: ResourcesIndexRoute,
   SpaceIndexRoute: SpaceIndexRoute,
   StartIndexRoute: StartIndexRoute,
+  DocumentsDossierCategorieRoute: DocumentsDossierCategorieRoute,
   LibraryKindIdRoute: LibraryKindIdRoute,
   ResourcesConfirmProviderIdRoute: ResourcesConfirmProviderIdRoute,
   LibraryKindIndexRoute: LibraryKindIndexRoute,

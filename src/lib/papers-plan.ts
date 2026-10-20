@@ -27,7 +27,7 @@ export function planSections(s: PapersState | null, isDone: (id: string) => bool
   if (v === "avant") return [{ label: "Aujourd'hui ou demain", accent: true, rows: [
     { id: "obseques", title: "Choisir les pompes funèbres", sub: "Elles déclarent aussi le décès", to: "/practical/tasks/obseques" },
     { id: "ceremonie", title: "Organiser la cérémonie", sub: "Le lieu, la date, les détails", to: "/practical/ceremony" },
-    { id: "proches", title: "Prévenir les proches", sub: "Un message prêt à envoyer", to: "/practical/share" },
+    { id: "proches", title: "Prévenir les proches", sub: "Un message prêt à envoyer", to: "/practical/prevenir" },
   ] }];
   if (v === "presque") return [{ label: "Il reste", accent: true, rows: keep([
     { id: "notaire", title: "La déclaration de succession", sub: `avec le notaire · ${SIX_MONTHS(deathIso)}`, to: "/practical/tasks/notaire" },
