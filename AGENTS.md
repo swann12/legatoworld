@@ -3,8 +3,8 @@
 - JourneyTheme applies space-kind palette overrides to DS tokens; emergency screens retain their separate colors. Why: explicit DS descendants must not reset the active journey palette.
 - Onboarding keeps animal body answers on the created space and derives its kind through space-navigation. Why: navigation follows the selected space rather than another space's onboarding answers.
 - Header wordmarks use ds/LegatoLogo with the supplied day/night assets. Why: every header shares the exact same source images and size.
-- Discovery uses a local mode flag, a client function-middleware boundary, and existing local stores; account conversion archives only allowlisted application keys under authenticated RLS. Why: no visitor content leaves the device and credentials never enter the archive.
-- DiscoverySession owns the single identity listener and completes pending conversion only after validated sign-in; local content is retained until a successful archive save. Why: email confirmation and failed transfers must not lose visitor work.
+- Discovery stays local; conversion archives only allowlisted app keys under authenticated RLS. Why: no visitor content leaves the device.
+- DiscoverySession owns the identity listener; conversion completes only after validated sign-in, keeping local content until archive save. Why: failed transfers must not lose visitor work.
 - DS children without an explicit space inherit layout tokens. Why: nested elements must not reset the page palette to Today.
 - The opening flow (/onboarding, /onboarding/practical, /onboarding/care) shares its answers through `src/lib/onboarding-flow.ts` and maps them onto legato-state at the final screen. Why: three routes, one source of truth.
 - Concrete Démarches (screens 055–062) live in `src/lib/demarches.ts` (status via legato-state taskStatus, steps via task-steps); old category ids still resolve there. Why: one list feeds Démarches, Mon avancement, detail and Confier.
@@ -19,7 +19,7 @@
 - Community screens reuse community-store and community-data, with vigil choices local and clearly distinguished from real reservations. Why: preserve existing interactions without implying a connected community service.
 - The Démarches tab view for bereavement spaces comes from `src/lib/papers-plan.ts` (pure, tested), driven by the papers answer from onboarding and space settings. Why: one rule decides order and the ceremony visibility on every path.
 - The body "petit suivi" lives in `src/lib/corps-suivi.ts` (localStorage, tested); the walking voice uses the browser speech synthesis. Why: nothing about the body leaves the phone.
-- The carnet and « Qui fait quoi » of sick-relative spaces go through `src/lib/carnet.ts`: shared_items in the space's circle when signed in, scoped localStorage otherwise; members accept tasks via the accept_circle_task RPC. Why: shared with the circle without loosening item RLS, and visitors keep working locally.
+- Sick-relative carnet and tasks use `src/lib/carnet.ts`: shared_items in the circle when signed in, localStorage otherwise; members accept via accept_circle_task RPC. Why: circle sharing without loosening RLS.
 - Rituals and invitation identities use `src/lib/rituals-catalog.ts`; personal rituals use scoped `src/lib/my-rituals.ts`. Why: world traditions retain their identity when organised and personal rituals stay per space.
 - "questions" space data: `src/lib/self-space.ts`, local. Why: stays on the phone.
 
