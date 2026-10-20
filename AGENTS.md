@@ -25,3 +25,4 @@
 - Library preserves IDs; suggestions use authenticated Gateway or local discovery. Why: preserve favorites and privacy.
 - Sounds use a shared native player and offline-rendered files with encoded fades. Why: navigation and timer throttling must not stop audio.
 - Local-only data: `self-space.ts` (questions space), `soutien.ts` (Soutien, per space); the single Aujourd'hui card comes from pure tested `au-bon-moment.ts`. Why: one priority rule, stays on the phone.
+- Coffre (D109–D118): rules in pure tested `src/lib/coffre.ts` (7-day delay after verification, per-recipient docs, no passwords), stored on the device; pages in `CoffrePages.tsx`. Why: §9 rules in one place, nothing leaves the phone until a verified backend exists.
