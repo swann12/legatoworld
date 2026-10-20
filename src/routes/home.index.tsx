@@ -14,6 +14,8 @@ import { getDiscovery, useDiscovery } from "@/lib/discovery";
 import { useCarnet } from "@/lib/carnet";
 import { upcoming, dayName, hour, cap } from "@/lib/carnet-model";
 import { useSelf, prepareSummary } from "@/lib/self-space";
+import { pickMoment } from "@/lib/au-bon-moment";
+import { loadSoutien, monthKey } from "@/lib/soutien";
 
 export const Route = createFileRoute("/home/")({
   head: () => ({
@@ -99,7 +101,22 @@ function Today() {
   if (kind === "questions" && active) return <SelfHome header={header} who={who} emotions={currentEmotions} />;
   if (kind !== "deuil" && active) return <KindHome kind={kind} space={active} header={header} emotions={currentEmotions} />;
 
-  const s = suggestion(currentEmotions, loved);
+  const sug = suggestion(currentEmotions, loved);
+  const soutien = loadSoutien();
+  const nextDeadline = events.filter((e) => e.kind === "demarche" && daysAway(e.date) >= 0).sort((a, b) => daysAway(a.date) - daysAway(b.date))[0];
+  // Une seule carte à la fois (ajouts-4 §6) : le bon moment passe avant la proposition du jour.
+  const moment = pickMoment({
+    now: new Date(),
+    safety: currentEmotions.includes("besoin_aide"),
+    nextDeadlineDays: nextDeadline ? daysAway(nextDeadline.date) : null,
+    nextDeadlineLabel: nextDeadline?.title,
+    deathDate: active?.deathDate ?? getDeathDate(),
+    workDate: soutien.workDate,
+    pointDoneThisMonth: soutien.points.some((p) => p.month === monthKey()),
+    pointOff: soutien.pointOff,
+    fatigueDays: currentEmotions.includes("fatigue") ? 3 : 0,
+  });
+  const s = moment ? { title: moment.title, meta: moment.meta, cta: moment.cta, to: moment.to, label: moment.label } : { ...sug, label: "Pour aujourd'hui" };
   const week = events.filter((e) => e.kind === "demarche" && daysAway(e.date) >= 0 && daysAway(e.date) <= 7);
   const next = upcomingForSpaces(active ? [active] : spaces, 60)[0];
 
@@ -119,7 +136,7 @@ function Today() {
           );
         })}
       </p>
-      <Block className="lg-home-block" label="Pour aujourd'hui" title={s.title} meta={s.meta}>
+      <Block className="lg-home-block" label={s.label} title={s.title} meta={s.meta}>
         {discovery ? <PrimaryButton space="today" to={s.to}>{s.cta}</PrimaryButton> : <OutlineButton to={s.to} className="lg-home-action">{s.cta}</OutlineButton>}
       </Block>
       <div>
