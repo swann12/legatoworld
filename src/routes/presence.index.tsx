@@ -129,7 +129,7 @@ function Presence() {
         <div ref={endRef} />
       </div>
 
-      {stored.length === 0 && <div className="mt-[22px] flex flex-wrap gap-2">
+      {!stored.at(-1)?.cards?.length && <div className="mt-[22px] flex flex-wrap gap-2">
         <OutlineButton onClick={() => { setDraft(`J'aimerais parler de ${space?.name ?? lostName}.`); document.querySelector<HTMLInputElement>('input[aria-label="Écrire à Présence"]')?.focus(); }}>Lui parler d'elle</OutlineButton>
         <OutlineButton to="/care/sons/voix">M'apaiser</OutlineButton>
       </div>}
