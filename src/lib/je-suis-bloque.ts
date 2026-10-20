@@ -7,11 +7,11 @@ export type Action = { libelle: string; type: "appel" | "page" | "lien_officiel"
 export type Situation = {
   id: string; ecran: string; famille: string; titre: string; en_clair: string | null;
   etapes: { texte: string; action: Action | null }[];
-  papiers: string[]; bouton_principal: Action | null; source: string; verifie_le: string; statut: "verifie" | "a_verifier";
+  papiers: string[]; bouton_principal: Action | null; source: string; verifie_le: string | null; statut: "verifie" | "a_verifier";
 };
 
 export const SITUATIONS = data.situations as Situation[];
-export const TITRES = titres as Record<string, [string, string]>;
+export const TITRES = titres as unknown as Record<string, [string, string]>;
 
 export function findSituation(id: string) {
   return SITUATIONS.find((s) => s.id === id) ?? null;

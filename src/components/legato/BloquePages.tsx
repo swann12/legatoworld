@@ -103,7 +103,7 @@ export function SituationPage({ s }: { s: Situation }) {
         </div>
       )}
       {main && s.bouton_principal && <div className="pt-5"><MainButton t={main} label={s.bouton_principal.libelle} /></div>}
-      <p className="lg-mono mt-[14px]" style={sub}>Source : {s.source} · vérifié en {verifiedWords(s.verifie_le)}</p>
+      <p className="lg-mono mt-[14px]" style={sub}>Source : {s.source}{s.verifie_le ? ` · vérifié en ${verifiedWords(s.verifie_le)}` : ""}</p>
       {s.statut === "a_verifier" && <p className="lg-mono mt-1" style={coral}>à vérifier</p>}
     </StandardLayout>
   );
@@ -195,7 +195,7 @@ export function BloquePresence() {
             {m.cards && m.cards.length > 0 && (
               <div className="mt-3 flex flex-wrap gap-2">
                 {m.cards.map((id) => (
-                  <Link key={id} to={`/practical/bloque/${id}`} className="inline-flex h-10 items-center rounded-full px-5 text-[14px]" style={{ border: "1px solid var(--sp-stroke)" }}>
+                  <Link key={id} to="/practical/bloque/$id" params={{ id }} className="inline-flex h-10 items-center rounded-full px-5 text-[14px]" style={{ border: "1px solid var(--sp-stroke)" }}>
                     {CARD_LABEL[id] ?? findSituation(id)?.titre ?? id}
                   </Link>
                 ))}
