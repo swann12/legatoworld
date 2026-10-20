@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 
 /** Conversations avec Présence, gardées sur l'appareil uniquement, effaçables (écran 032). */
-export type PresenceMsg = { role: "you" | "presence"; text: string };
+import type { Card } from "./presence-guide";
+export type PresenceMsg = { role: "you" | "presence"; text: string; cards?: Card[] };
 const KEY = "legato.presence.history.v1";
 const EVT = "legato:presence-history";
 

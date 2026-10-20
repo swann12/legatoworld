@@ -110,6 +110,7 @@ import { Route as PracticalVaultRouteImport } from './routes/practical.vault'
 import { Route as PracticalWishesRouteImport } from './routes/practical.wishes'
 import { Route as PresenceIndexRouteImport } from './routes/presence.index'
 import { Route as PresenceAboutRouteImport } from './routes/presence.about'
+import { Route as PresenceInfosRouteImport } from './routes/presence.infos'
 import { Route as ProfileIndexRouteImport } from './routes/profile.index'
 import { Route as ProfileDataRouteImport } from './routes/profile.data'
 import { Route as ProfileHelpRouteImport } from './routes/profile.help'
@@ -784,6 +785,11 @@ const PresenceIndexRoute = PresenceIndexRouteImport.update({
 const PresenceAboutRoute = PresenceAboutRouteImport.update({
   id: '/presence/about',
   path: '/presence/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PresenceInfosRoute = PresenceInfosRouteImport.update({
+  id: '/presence/infos',
+  path: '/presence/infos',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProfileIndexRoute = ProfileIndexRouteImport.update({
@@ -1744,6 +1750,7 @@ export interface FileRoutesByFullPath {
   '/practical/vault': typeof PracticalVaultRoute
   '/practical/wishes': typeof PracticalWishesRouteWithChildren
   '/presence/about': typeof PresenceAboutRoute
+  '/presence/infos': typeof PresenceInfosRoute
   '/profile/data': typeof ProfileDataRoute
   '/profile/help': typeof ProfileHelpRoute
   '/profile/notifications': typeof ProfileNotificationsRoute
@@ -1992,6 +1999,7 @@ export interface FileRoutesByTo {
   '/practical/texts': typeof PracticalTextsRoute
   '/practical/vault': typeof PracticalVaultRoute
   '/presence/about': typeof PresenceAboutRoute
+  '/presence/infos': typeof PresenceInfosRoute
   '/profile/data': typeof ProfileDataRoute
   '/profile/help': typeof ProfileHelpRoute
   '/profile/notifications': typeof ProfileNotificationsRoute
@@ -2254,6 +2262,7 @@ export interface FileRoutesById {
   '/practical/vault': typeof PracticalVaultRoute
   '/practical/wishes': typeof PracticalWishesRouteWithChildren
   '/presence/about': typeof PresenceAboutRoute
+  '/presence/infos': typeof PresenceInfosRoute
   '/profile/data': typeof ProfileDataRoute
   '/profile/help': typeof ProfileHelpRoute
   '/profile/notifications': typeof ProfileNotificationsRoute
@@ -2526,6 +2535,7 @@ export interface FileRouteTypes {
     | '/practical/vault'
     | '/practical/wishes'
     | '/presence/about'
+    | '/presence/infos'
     | '/profile/data'
     | '/profile/help'
     | '/profile/notifications'
@@ -2774,6 +2784,7 @@ export interface FileRouteTypes {
     | '/practical/texts'
     | '/practical/vault'
     | '/presence/about'
+    | '/presence/infos'
     | '/profile/data'
     | '/profile/help'
     | '/profile/notifications'
@@ -3035,6 +3046,7 @@ export interface FileRouteTypes {
     | '/practical/vault'
     | '/practical/wishes'
     | '/presence/about'
+    | '/presence/infos'
     | '/profile/data'
     | '/profile/help'
     | '/profile/notifications'
@@ -3257,6 +3269,7 @@ export interface RootRouteChildren {
   PartageMessageRoute: typeof PartageMessageRoute
   PartageSiteOfficielRoute: typeof PartageSiteOfficielRoute
   PresenceAboutRoute: typeof PresenceAboutRoute
+  PresenceInfosRoute: typeof PresenceInfosRoute
   ReglagesSupprimerRoute: typeof ReglagesSupprimerRoute
   ResourcesCategoryRoute: typeof ResourcesCategoryRouteWithChildren
   SpaceNewRoute: typeof SpaceNewRoute
@@ -3986,6 +3999,13 @@ declare module '@tanstack/react-router' {
       path: '/presence/about'
       fullPath: '/presence/about'
       preLoaderRoute: typeof PresenceAboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/presence/infos': {
+      id: '/presence/infos'
+      path: '/presence/infos'
+      fullPath: '/presence/infos'
+      preLoaderRoute: typeof PresenceInfosRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/profile/': {
@@ -5951,6 +5971,7 @@ const rootRouteChildren: RootRouteChildren = {
   PartageMessageRoute: PartageMessageRoute,
   PartageSiteOfficielRoute: PartageSiteOfficielRoute,
   PresenceAboutRoute: PresenceAboutRoute,
+  PresenceInfosRoute: PresenceInfosRoute,
   ReglagesSupprimerRoute: ReglagesSupprimerRoute,
   ResourcesCategoryRoute: ResourcesCategoryRouteWithChildren,
   SpaceNewRoute: SpaceNewRoute,
