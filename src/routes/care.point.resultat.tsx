@@ -1,4 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { ChevronRight } from "lucide-react";
 import { StandardLayout, PageTitle, Lead, SectionLabel, Row, PrimaryButton, OutlineButton } from "@/components/legato/ds";
 import { legatoHead } from "@/lib/legato-head";
 import { isHeavy, livable, useSoutien } from "@/lib/soutien";
@@ -41,7 +42,13 @@ function Resultat() {
         <PrimaryButton space="support" to="/care/parler" className="!h-10 whitespace-nowrap px-6">Voir comment</PrimaryButton>
       </section>
       <Row space="support" title="Dire à vos proches ce qui vous aiderait" subtitle="pour ne pas porter tout seul" to="/care/aide" />
-      <Row space="support" title="Revoir vos mois précédents" subtitle="votre humeur, mois par mois" to="/care/point/resultat?vue=mois" last />
+      <Link to="/care/point/resultat" search={{ vue: "mois" }} className="flex w-full items-center gap-4 py-[18px]" style={{ color: "var(--sp-ink)" }}>
+        <span className="min-w-0 flex-1">
+          <span className="lg-row-title block">Revoir vos mois précédents</span>
+          <span className="lg-row-sub mt-1 block" style={{ color: "var(--sp-sub)" }}>votre humeur, mois par mois</span>
+        </span>
+        <ChevronRight className="size-4 shrink-0" strokeWidth={1.3} />
+      </Link>
     </StandardLayout>
   );
 }

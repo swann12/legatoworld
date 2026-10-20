@@ -39,6 +39,7 @@ import { Route as AppointmentsIdRouteImport } from './routes/appointments.$id'
 import { Route as AppointmentsNewRouteImport } from './routes/appointments.new'
 import { Route as AuthMotDePasseRouteImport } from './routes/auth_.mot-de-passe'
 import { Route as CareIndexRouteImport } from './routes/care.index'
+import { Route as CareAideRouteImport } from './routes/care.aide'
 import { Route as CareAngoisseRouteImport } from './routes/care.angoisse'
 import { Route as CareCommunityRouteImport } from './routes/care.community'
 import { Route as CareEmotionsRouteImport } from './routes/care.emotions'
@@ -48,9 +49,12 @@ import { Route as CareGuiltRouteImport } from './routes/care.guilt'
 import { Route as CareHelpRouteImport } from './routes/care.help'
 import { Route as CareMemoryRouteImport } from './routes/care.memory'
 import { Route as CareNewAnimalRouteImport } from './routes/care.new-animal'
+import { Route as CareParlerRouteImport } from './routes/care.parler'
+import { Route as CarePointRouteImport } from './routes/care.point'
 import { Route as CareResourcesRouteImport } from './routes/care.resources'
 import { Route as CareRespirerRouteImport } from './routes/care.respirer'
 import { Route as CareSonsRouteImport } from './routes/care.sons'
+import { Route as CareTravailRouteImport } from './routes/care.travail'
 import { Route as ComposeZoneRouteImport } from './routes/compose.$zone'
 import { Route as DevDesignRouteImport } from './routes/dev.design'
 import { Route as DocumentsIdRouteImport } from './routes/documents.$id'
@@ -123,6 +127,8 @@ import { Route as StartCompteRequisRouteImport } from './routes/start.compte-req
 import { Route as StartDecouverteRouteImport } from './routes/start.decouverte'
 import { Route as StartGarderRouteImport } from './routes/start.garder'
 import { Route as CareAideIndexRouteImport } from './routes/care.aide.index'
+import { Route as CareAideEnvoyerRouteImport } from './routes/care.aide.envoyer'
+import { Route as CareAideSuiviRouteImport } from './routes/care.aide.suivi'
 import { Route as CareCommunityIndexRouteImport } from './routes/care.community.index'
 import { Route as CareCommunityCafeMortelRouteImport } from './routes/care.community.cafe-mortel'
 import { Route as CareCommunityGroupsRouteImport } from './routes/care.community.groups'
@@ -149,6 +155,10 @@ import { Route as CareGardenSouvenirsRouteImport } from './routes/care.garden.so
 import { Route as CareGardenSpaceRouteImport } from './routes/care.garden.space'
 import { Route as CareJournalIndexRouteImport } from './routes/care.journal.index'
 import { Route as CareJournalLaterRouteImport } from './routes/care.journal.later'
+import { Route as CareParlerIndexRouteImport } from './routes/care.parler.index'
+import { Route as CareParlerPsychologueRouteImport } from './routes/care.parler.psychologue'
+import { Route as CarePointIndexRouteImport } from './routes/care.point.index'
+import { Route as CarePointResultatRouteImport } from './routes/care.point.resultat'
 import { Route as CareResourcesIndexRouteImport } from './routes/care.resources.index'
 import { Route as CareResourcesSuggestionsRouteImport } from './routes/care.resources.suggestions'
 import { Route as CareRituelsIndexRouteImport } from './routes/care.rituels.index'
@@ -173,6 +183,8 @@ import { Route as CareSonsMelangeRouteImport } from './routes/care.sons.melange'
 import { Route as CareSonsMinuteurRouteImport } from './routes/care.sons.minuteur'
 import { Route as CareSonsVoixRouteImport } from './routes/care.sons.voix'
 import { Route as CareSonsVosSonsRouteImport } from './routes/care.sons.vos-sons'
+import { Route as CareTravailIndexRouteImport } from './routes/care.travail.index'
+import { Route as CareTravailMessageRouteImport } from './routes/care.travail.message'
 import { Route as DocumentsDossierCategorieRouteImport } from './routes/documents.dossier.$categorie'
 import { Route as HelpCorpsIndexRouteImport } from './routes/help.corps.index'
 import { Route as HelpCorpsBougerRouteImport } from './routes/help.corps.bouger'
@@ -398,6 +410,11 @@ const CareIndexRoute = CareIndexRouteImport.update({
   path: '/',
   getParentRoute: () => CareRoute,
 } as any)
+const CareAideRoute = CareAideRouteImport.update({
+  id: '/aide',
+  path: '/aide',
+  getParentRoute: () => CareRoute,
+} as any)
 const CareAngoisseRoute = CareAngoisseRouteImport.update({
   id: '/angoisse',
   path: '/angoisse',
@@ -443,6 +460,16 @@ const CareNewAnimalRoute = CareNewAnimalRouteImport.update({
   path: '/new-animal',
   getParentRoute: () => CareRoute,
 } as any)
+const CareParlerRoute = CareParlerRouteImport.update({
+  id: '/parler',
+  path: '/parler',
+  getParentRoute: () => CareRoute,
+} as any)
+const CarePointRoute = CarePointRouteImport.update({
+  id: '/point',
+  path: '/point',
+  getParentRoute: () => CareRoute,
+} as any)
 const CareResourcesRoute = CareResourcesRouteImport.update({
   id: '/resources',
   path: '/resources',
@@ -456,6 +483,11 @@ const CareRespirerRoute = CareRespirerRouteImport.update({
 const CareSonsRoute = CareSonsRouteImport.update({
   id: '/sons',
   path: '/sons',
+  getParentRoute: () => CareRoute,
+} as any)
+const CareTravailRoute = CareTravailRouteImport.update({
+  id: '/travail',
+  path: '/travail',
   getParentRoute: () => CareRoute,
 } as any)
 const ComposeZoneRoute = ComposeZoneRouteImport.update({
@@ -817,9 +849,19 @@ const StartGarderRoute = StartGarderRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const CareAideIndexRoute = CareAideIndexRouteImport.update({
-  id: '/aide/',
-  path: '/aide/',
-  getParentRoute: () => CareRoute,
+  id: '/',
+  path: '/',
+  getParentRoute: () => CareAideRoute,
+} as any)
+const CareAideEnvoyerRoute = CareAideEnvoyerRouteImport.update({
+  id: '/envoyer',
+  path: '/envoyer',
+  getParentRoute: () => CareAideRoute,
+} as any)
+const CareAideSuiviRoute = CareAideSuiviRouteImport.update({
+  id: '/suivi',
+  path: '/suivi',
+  getParentRoute: () => CareAideRoute,
 } as any)
 const CareCommunityIndexRoute = CareCommunityIndexRouteImport.update({
   id: '/',
@@ -951,6 +993,26 @@ const CareJournalLaterRoute = CareJournalLaterRouteImport.update({
   path: '/journal/later',
   getParentRoute: () => CareRoute,
 } as any)
+const CareParlerIndexRoute = CareParlerIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => CareParlerRoute,
+} as any)
+const CareParlerPsychologueRoute = CareParlerPsychologueRouteImport.update({
+  id: '/psychologue',
+  path: '/psychologue',
+  getParentRoute: () => CareParlerRoute,
+} as any)
+const CarePointIndexRoute = CarePointIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => CarePointRoute,
+} as any)
+const CarePointResultatRoute = CarePointResultatRouteImport.update({
+  id: '/resultat',
+  path: '/resultat',
+  getParentRoute: () => CarePointRoute,
+} as any)
 const CareResourcesIndexRoute = CareResourcesIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -1071,6 +1133,16 @@ const CareSonsVosSonsRoute = CareSonsVosSonsRouteImport.update({
   id: '/vos-sons',
   path: '/vos-sons',
   getParentRoute: () => CareSonsRoute,
+} as any)
+const CareTravailIndexRoute = CareTravailIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => CareTravailRoute,
+} as any)
+const CareTravailMessageRoute = CareTravailMessageRouteImport.update({
+  id: '/message',
+  path: '/message',
+  getParentRoute: () => CareTravailRoute,
 } as any)
 const DocumentsDossierCategorieRoute =
   DocumentsDossierCategorieRouteImport.update({
@@ -1494,6 +1566,7 @@ export interface FileRoutesByFullPath {
   '/appointments/$id': typeof AppointmentsIdRoute
   '/appointments/new': typeof AppointmentsNewRoute
   '/auth/mot-de-passe': typeof AuthMotDePasseRoute
+  '/care/aide': typeof CareAideRouteWithChildren
   '/care/angoisse': typeof CareAngoisseRoute
   '/care/community': typeof CareCommunityRouteWithChildren
   '/care/emotions': typeof CareEmotionsRoute
@@ -1503,9 +1576,12 @@ export interface FileRoutesByFullPath {
   '/care/help': typeof CareHelpRoute
   '/care/memory': typeof CareMemoryRoute
   '/care/new-animal': typeof CareNewAnimalRoute
+  '/care/parler': typeof CareParlerRouteWithChildren
+  '/care/point': typeof CarePointRouteWithChildren
   '/care/resources': typeof CareResourcesRouteWithChildren
   '/care/respirer': typeof CareRespirerRoute
   '/care/sons': typeof CareSonsRouteWithChildren
+  '/care/travail': typeof CareTravailRouteWithChildren
   '/compose/$zone': typeof ComposeZoneRoute
   '/dev/design': typeof DevDesignRoute
   '/documents/$id': typeof DocumentsIdRoute
@@ -1580,6 +1656,8 @@ export interface FileRoutesByFullPath {
   '/resources/': typeof ResourcesIndexRoute
   '/space/': typeof SpaceIndexRoute
   '/start/': typeof StartIndexRoute
+  '/care/aide/envoyer': typeof CareAideEnvoyerRoute
+  '/care/aide/suivi': typeof CareAideSuiviRoute
   '/care/community/cafe-mortel': typeof CareCommunityCafeMortelRoute
   '/care/community/groups': typeof CareCommunityGroupsRoute
   '/care/community/regles': typeof CareCommunityReglesRoute
@@ -1602,6 +1680,8 @@ export interface FileRoutesByFullPath {
   '/care/garden/souvenirs': typeof CareGardenSouvenirsRouteWithChildren
   '/care/garden/space': typeof CareGardenSpaceRoute
   '/care/journal/later': typeof CareJournalLaterRoute
+  '/care/parler/psychologue': typeof CareParlerPsychologueRoute
+  '/care/point/resultat': typeof CarePointResultatRoute
   '/care/resources/suggestions': typeof CareResourcesSuggestionsRoute
   '/care/rituels/$id': typeof CareRituelsIdRoute
   '/care/rituels/arbre': typeof CareRituelsArbreRoute
@@ -1623,6 +1703,7 @@ export interface FileRoutesByFullPath {
   '/care/sons/minuteur': typeof CareSonsMinuteurRoute
   '/care/sons/voix': typeof CareSonsVoixRoute
   '/care/sons/vos-sons': typeof CareSonsVosSonsRoute
+  '/care/travail/message': typeof CareTravailMessageRoute
   '/documents/dossier/$categorie': typeof DocumentsDossierCategorieRoute
   '/help/corps/bouger': typeof HelpCorpsBougerRoute
   '/help/corps/comprendre': typeof HelpCorpsComprendreRoute
@@ -1659,9 +1740,12 @@ export interface FileRoutesByFullPath {
   '/care/dates/': typeof CareDatesIndexRoute
   '/care/garden/': typeof CareGardenIndexRoute
   '/care/journal/': typeof CareJournalIndexRoute
+  '/care/parler/': typeof CareParlerIndexRoute
+  '/care/point/': typeof CarePointIndexRoute
   '/care/resources/': typeof CareResourcesIndexRoute
   '/care/rituels/': typeof CareRituelsIndexRoute
   '/care/sons/': typeof CareSonsIndexRoute
+  '/care/travail/': typeof CareTravailIndexRoute
   '/help/corps/': typeof HelpCorpsIndexRoute
   '/home/carnet/': typeof HomeCarnetIndexRoute
   '/home/equipe/': typeof HomeEquipeIndexRoute
@@ -1802,6 +1886,8 @@ export interface FileRoutesByTo {
   '/resources': typeof ResourcesIndexRoute
   '/space': typeof SpaceIndexRoute
   '/start': typeof StartIndexRoute
+  '/care/aide/envoyer': typeof CareAideEnvoyerRoute
+  '/care/aide/suivi': typeof CareAideSuiviRoute
   '/care/community/cafe-mortel': typeof CareCommunityCafeMortelRoute
   '/care/community/groups': typeof CareCommunityGroupsRoute
   '/care/community/regles': typeof CareCommunityReglesRoute
@@ -1819,6 +1905,8 @@ export interface FileRoutesByTo {
   '/care/garden/recettes': typeof CareGardenRecettesRoute
   '/care/garden/space': typeof CareGardenSpaceRoute
   '/care/journal/later': typeof CareJournalLaterRoute
+  '/care/parler/psychologue': typeof CareParlerPsychologueRoute
+  '/care/point/resultat': typeof CarePointResultatRoute
   '/care/resources/suggestions': typeof CareResourcesSuggestionsRoute
   '/care/rituels/$id': typeof CareRituelsIdRoute
   '/care/rituels/arbre': typeof CareRituelsArbreRoute
@@ -1840,6 +1928,7 @@ export interface FileRoutesByTo {
   '/care/sons/minuteur': typeof CareSonsMinuteurRoute
   '/care/sons/voix': typeof CareSonsVoixRoute
   '/care/sons/vos-sons': typeof CareSonsVosSonsRoute
+  '/care/travail/message': typeof CareTravailMessageRoute
   '/documents/dossier/$categorie': typeof DocumentsDossierCategorieRoute
   '/help/corps/bouger': typeof HelpCorpsBougerRoute
   '/help/corps/comprendre': typeof HelpCorpsComprendreRoute
@@ -1874,9 +1963,12 @@ export interface FileRoutesByTo {
   '/care/dates': typeof CareDatesIndexRoute
   '/care/garden': typeof CareGardenIndexRoute
   '/care/journal': typeof CareJournalIndexRoute
+  '/care/parler': typeof CareParlerIndexRoute
+  '/care/point': typeof CarePointIndexRoute
   '/care/resources': typeof CareResourcesIndexRoute
   '/care/rituels': typeof CareRituelsIndexRoute
   '/care/sons': typeof CareSonsIndexRoute
+  '/care/travail': typeof CareTravailIndexRoute
   '/help/corps': typeof HelpCorpsIndexRoute
   '/home/carnet': typeof HomeCarnetIndexRoute
   '/home/equipe': typeof HomeEquipeIndexRoute
@@ -1950,6 +2042,7 @@ export interface FileRoutesById {
   '/appointments/$id': typeof AppointmentsIdRoute
   '/appointments/new': typeof AppointmentsNewRoute
   '/auth_/mot-de-passe': typeof AuthMotDePasseRoute
+  '/care/aide': typeof CareAideRouteWithChildren
   '/care/angoisse': typeof CareAngoisseRoute
   '/care/community': typeof CareCommunityRouteWithChildren
   '/care/emotions': typeof CareEmotionsRoute
@@ -1959,9 +2052,12 @@ export interface FileRoutesById {
   '/care/help': typeof CareHelpRoute
   '/care/memory': typeof CareMemoryRoute
   '/care/new-animal': typeof CareNewAnimalRoute
+  '/care/parler': typeof CareParlerRouteWithChildren
+  '/care/point': typeof CarePointRouteWithChildren
   '/care/resources': typeof CareResourcesRouteWithChildren
   '/care/respirer': typeof CareRespirerRoute
   '/care/sons': typeof CareSonsRouteWithChildren
+  '/care/travail': typeof CareTravailRouteWithChildren
   '/compose/$zone': typeof ComposeZoneRoute
   '/dev/design': typeof DevDesignRoute
   '/documents/$id': typeof DocumentsIdRoute
@@ -2036,6 +2132,8 @@ export interface FileRoutesById {
   '/resources/': typeof ResourcesIndexRoute
   '/space/': typeof SpaceIndexRoute
   '/start/': typeof StartIndexRoute
+  '/care/aide/envoyer': typeof CareAideEnvoyerRoute
+  '/care/aide/suivi': typeof CareAideSuiviRoute
   '/care/community/cafe-mortel': typeof CareCommunityCafeMortelRoute
   '/care/community/groups': typeof CareCommunityGroupsRoute
   '/care/community/regles': typeof CareCommunityReglesRoute
@@ -2058,6 +2156,8 @@ export interface FileRoutesById {
   '/care/garden/souvenirs': typeof CareGardenSouvenirsRouteWithChildren
   '/care/garden/space': typeof CareGardenSpaceRoute
   '/care/journal/later': typeof CareJournalLaterRoute
+  '/care/parler/psychologue': typeof CareParlerPsychologueRoute
+  '/care/point/resultat': typeof CarePointResultatRoute
   '/care/resources/suggestions': typeof CareResourcesSuggestionsRoute
   '/care/rituels/$id': typeof CareRituelsIdRoute
   '/care/rituels/arbre': typeof CareRituelsArbreRoute
@@ -2079,6 +2179,7 @@ export interface FileRoutesById {
   '/care/sons/minuteur': typeof CareSonsMinuteurRoute
   '/care/sons/voix': typeof CareSonsVoixRoute
   '/care/sons/vos-sons': typeof CareSonsVosSonsRoute
+  '/care/travail/message': typeof CareTravailMessageRoute
   '/documents/dossier/$categorie': typeof DocumentsDossierCategorieRoute
   '/help/corps/bouger': typeof HelpCorpsBougerRoute
   '/help/corps/comprendre': typeof HelpCorpsComprendreRoute
@@ -2115,9 +2216,12 @@ export interface FileRoutesById {
   '/care/dates/': typeof CareDatesIndexRoute
   '/care/garden/': typeof CareGardenIndexRoute
   '/care/journal/': typeof CareJournalIndexRoute
+  '/care/parler/': typeof CareParlerIndexRoute
+  '/care/point/': typeof CarePointIndexRoute
   '/care/resources/': typeof CareResourcesIndexRoute
   '/care/rituels/': typeof CareRituelsIndexRoute
   '/care/sons/': typeof CareSonsIndexRoute
+  '/care/travail/': typeof CareTravailIndexRoute
   '/help/corps/': typeof HelpCorpsIndexRoute
   '/home/carnet/': typeof HomeCarnetIndexRoute
   '/home/equipe/': typeof HomeEquipeIndexRoute
@@ -2192,6 +2296,7 @@ export interface FileRouteTypes {
     | '/appointments/$id'
     | '/appointments/new'
     | '/auth/mot-de-passe'
+    | '/care/aide'
     | '/care/angoisse'
     | '/care/community'
     | '/care/emotions'
@@ -2201,9 +2306,12 @@ export interface FileRouteTypes {
     | '/care/help'
     | '/care/memory'
     | '/care/new-animal'
+    | '/care/parler'
+    | '/care/point'
     | '/care/resources'
     | '/care/respirer'
     | '/care/sons'
+    | '/care/travail'
     | '/compose/$zone'
     | '/dev/design'
     | '/documents/$id'
@@ -2278,6 +2386,8 @@ export interface FileRouteTypes {
     | '/resources/'
     | '/space/'
     | '/start/'
+    | '/care/aide/envoyer'
+    | '/care/aide/suivi'
     | '/care/community/cafe-mortel'
     | '/care/community/groups'
     | '/care/community/regles'
@@ -2300,6 +2410,8 @@ export interface FileRouteTypes {
     | '/care/garden/souvenirs'
     | '/care/garden/space'
     | '/care/journal/later'
+    | '/care/parler/psychologue'
+    | '/care/point/resultat'
     | '/care/resources/suggestions'
     | '/care/rituels/$id'
     | '/care/rituels/arbre'
@@ -2321,6 +2433,7 @@ export interface FileRouteTypes {
     | '/care/sons/minuteur'
     | '/care/sons/voix'
     | '/care/sons/vos-sons'
+    | '/care/travail/message'
     | '/documents/dossier/$categorie'
     | '/help/corps/bouger'
     | '/help/corps/comprendre'
@@ -2357,9 +2470,12 @@ export interface FileRouteTypes {
     | '/care/dates/'
     | '/care/garden/'
     | '/care/journal/'
+    | '/care/parler/'
+    | '/care/point/'
     | '/care/resources/'
     | '/care/rituels/'
     | '/care/sons/'
+    | '/care/travail/'
     | '/help/corps/'
     | '/home/carnet/'
     | '/home/equipe/'
@@ -2500,6 +2616,8 @@ export interface FileRouteTypes {
     | '/resources'
     | '/space'
     | '/start'
+    | '/care/aide/envoyer'
+    | '/care/aide/suivi'
     | '/care/community/cafe-mortel'
     | '/care/community/groups'
     | '/care/community/regles'
@@ -2517,6 +2635,8 @@ export interface FileRouteTypes {
     | '/care/garden/recettes'
     | '/care/garden/space'
     | '/care/journal/later'
+    | '/care/parler/psychologue'
+    | '/care/point/resultat'
     | '/care/resources/suggestions'
     | '/care/rituels/$id'
     | '/care/rituels/arbre'
@@ -2538,6 +2658,7 @@ export interface FileRouteTypes {
     | '/care/sons/minuteur'
     | '/care/sons/voix'
     | '/care/sons/vos-sons'
+    | '/care/travail/message'
     | '/documents/dossier/$categorie'
     | '/help/corps/bouger'
     | '/help/corps/comprendre'
@@ -2572,9 +2693,12 @@ export interface FileRouteTypes {
     | '/care/dates'
     | '/care/garden'
     | '/care/journal'
+    | '/care/parler'
+    | '/care/point'
     | '/care/resources'
     | '/care/rituels'
     | '/care/sons'
+    | '/care/travail'
     | '/help/corps'
     | '/home/carnet'
     | '/home/equipe'
@@ -2647,6 +2771,7 @@ export interface FileRouteTypes {
     | '/appointments/$id'
     | '/appointments/new'
     | '/auth_/mot-de-passe'
+    | '/care/aide'
     | '/care/angoisse'
     | '/care/community'
     | '/care/emotions'
@@ -2656,9 +2781,12 @@ export interface FileRouteTypes {
     | '/care/help'
     | '/care/memory'
     | '/care/new-animal'
+    | '/care/parler'
+    | '/care/point'
     | '/care/resources'
     | '/care/respirer'
     | '/care/sons'
+    | '/care/travail'
     | '/compose/$zone'
     | '/dev/design'
     | '/documents/$id'
@@ -2733,6 +2861,8 @@ export interface FileRouteTypes {
     | '/resources/'
     | '/space/'
     | '/start/'
+    | '/care/aide/envoyer'
+    | '/care/aide/suivi'
     | '/care/community/cafe-mortel'
     | '/care/community/groups'
     | '/care/community/regles'
@@ -2755,6 +2885,8 @@ export interface FileRouteTypes {
     | '/care/garden/souvenirs'
     | '/care/garden/space'
     | '/care/journal/later'
+    | '/care/parler/psychologue'
+    | '/care/point/resultat'
     | '/care/resources/suggestions'
     | '/care/rituels/$id'
     | '/care/rituels/arbre'
@@ -2776,6 +2908,7 @@ export interface FileRouteTypes {
     | '/care/sons/minuteur'
     | '/care/sons/voix'
     | '/care/sons/vos-sons'
+    | '/care/travail/message'
     | '/documents/dossier/$categorie'
     | '/help/corps/bouger'
     | '/help/corps/comprendre'
@@ -2812,9 +2945,12 @@ export interface FileRouteTypes {
     | '/care/dates/'
     | '/care/garden/'
     | '/care/journal/'
+    | '/care/parler/'
+    | '/care/point/'
     | '/care/resources/'
     | '/care/rituels/'
     | '/care/sons/'
+    | '/care/travail/'
     | '/help/corps/'
     | '/home/carnet/'
     | '/home/equipe/'
@@ -3138,6 +3274,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CareIndexRouteImport
       parentRoute: typeof CareRoute
     }
+    '/care/aide': {
+      id: '/care/aide'
+      path: '/aide'
+      fullPath: '/care/aide'
+      preLoaderRoute: typeof CareAideRouteImport
+      parentRoute: typeof CareRoute
+    }
     '/care/angoisse': {
       id: '/care/angoisse'
       path: '/angoisse'
@@ -3201,6 +3344,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CareNewAnimalRouteImport
       parentRoute: typeof CareRoute
     }
+    '/care/parler': {
+      id: '/care/parler'
+      path: '/parler'
+      fullPath: '/care/parler'
+      preLoaderRoute: typeof CareParlerRouteImport
+      parentRoute: typeof CareRoute
+    }
+    '/care/point': {
+      id: '/care/point'
+      path: '/point'
+      fullPath: '/care/point'
+      preLoaderRoute: typeof CarePointRouteImport
+      parentRoute: typeof CareRoute
+    }
     '/care/resources': {
       id: '/care/resources'
       path: '/resources'
@@ -3220,6 +3377,13 @@ declare module '@tanstack/react-router' {
       path: '/sons'
       fullPath: '/care/sons'
       preLoaderRoute: typeof CareSonsRouteImport
+      parentRoute: typeof CareRoute
+    }
+    '/care/travail': {
+      id: '/care/travail'
+      path: '/travail'
+      fullPath: '/care/travail'
+      preLoaderRoute: typeof CareTravailRouteImport
       parentRoute: typeof CareRoute
     }
     '/compose/$zone': {
@@ -3721,10 +3885,24 @@ declare module '@tanstack/react-router' {
     }
     '/care/aide/': {
       id: '/care/aide/'
-      path: '/aide'
+      path: '/'
       fullPath: '/care/aide/'
       preLoaderRoute: typeof CareAideIndexRouteImport
-      parentRoute: typeof CareRoute
+      parentRoute: typeof CareAideRoute
+    }
+    '/care/aide/envoyer': {
+      id: '/care/aide/envoyer'
+      path: '/envoyer'
+      fullPath: '/care/aide/envoyer'
+      preLoaderRoute: typeof CareAideEnvoyerRouteImport
+      parentRoute: typeof CareAideRoute
+    }
+    '/care/aide/suivi': {
+      id: '/care/aide/suivi'
+      path: '/suivi'
+      fullPath: '/care/aide/suivi'
+      preLoaderRoute: typeof CareAideSuiviRouteImport
+      parentRoute: typeof CareAideRoute
     }
     '/care/community/': {
       id: '/care/community/'
@@ -3908,6 +4086,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CareJournalLaterRouteImport
       parentRoute: typeof CareRoute
     }
+    '/care/parler/': {
+      id: '/care/parler/'
+      path: '/'
+      fullPath: '/care/parler/'
+      preLoaderRoute: typeof CareParlerIndexRouteImport
+      parentRoute: typeof CareParlerRoute
+    }
+    '/care/parler/psychologue': {
+      id: '/care/parler/psychologue'
+      path: '/psychologue'
+      fullPath: '/care/parler/psychologue'
+      preLoaderRoute: typeof CareParlerPsychologueRouteImport
+      parentRoute: typeof CareParlerRoute
+    }
+    '/care/point/': {
+      id: '/care/point/'
+      path: '/'
+      fullPath: '/care/point/'
+      preLoaderRoute: typeof CarePointIndexRouteImport
+      parentRoute: typeof CarePointRoute
+    }
+    '/care/point/resultat': {
+      id: '/care/point/resultat'
+      path: '/resultat'
+      fullPath: '/care/point/resultat'
+      preLoaderRoute: typeof CarePointResultatRouteImport
+      parentRoute: typeof CarePointRoute
+    }
     '/care/resources/': {
       id: '/care/resources/'
       path: '/'
@@ -4075,6 +4281,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/care/sons/vos-sons'
       preLoaderRoute: typeof CareSonsVosSonsRouteImport
       parentRoute: typeof CareSonsRoute
+    }
+    '/care/travail/': {
+      id: '/care/travail/'
+      path: '/'
+      fullPath: '/care/travail/'
+      preLoaderRoute: typeof CareTravailIndexRouteImport
+      parentRoute: typeof CareTravailRoute
+    }
+    '/care/travail/message': {
+      id: '/care/travail/message'
+      path: '/message'
+      fullPath: '/care/travail/message'
+      preLoaderRoute: typeof CareTravailMessageRouteImport
+      parentRoute: typeof CareTravailRoute
     }
     '/documents/dossier/$categorie': {
       id: '/documents/dossier/$categorie'
@@ -4615,6 +4835,22 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
+interface CareAideRouteChildren {
+  CareAideEnvoyerRoute: typeof CareAideEnvoyerRoute
+  CareAideSuiviRoute: typeof CareAideSuiviRoute
+  CareAideIndexRoute: typeof CareAideIndexRoute
+}
+
+const CareAideRouteChildren: CareAideRouteChildren = {
+  CareAideEnvoyerRoute: CareAideEnvoyerRoute,
+  CareAideSuiviRoute: CareAideSuiviRoute,
+  CareAideIndexRoute: CareAideIndexRoute,
+}
+
+const CareAideRouteWithChildren = CareAideRoute._addFileChildren(
+  CareAideRouteChildren,
+)
+
 interface CareCommunityVigilIdRouteChildren {
   CareCommunityVigilIdOkRoute: typeof CareCommunityVigilIdOkRoute
   CareCommunityVigilIdIndexRoute: typeof CareCommunityVigilIdIndexRoute
@@ -4775,6 +5011,34 @@ const CareGardenRouteWithChildren = CareGardenRoute._addFileChildren(
   CareGardenRouteChildren,
 )
 
+interface CareParlerRouteChildren {
+  CareParlerPsychologueRoute: typeof CareParlerPsychologueRoute
+  CareParlerIndexRoute: typeof CareParlerIndexRoute
+}
+
+const CareParlerRouteChildren: CareParlerRouteChildren = {
+  CareParlerPsychologueRoute: CareParlerPsychologueRoute,
+  CareParlerIndexRoute: CareParlerIndexRoute,
+}
+
+const CareParlerRouteWithChildren = CareParlerRoute._addFileChildren(
+  CareParlerRouteChildren,
+)
+
+interface CarePointRouteChildren {
+  CarePointResultatRoute: typeof CarePointResultatRoute
+  CarePointIndexRoute: typeof CarePointIndexRoute
+}
+
+const CarePointRouteChildren: CarePointRouteChildren = {
+  CarePointResultatRoute: CarePointResultatRoute,
+  CarePointIndexRoute: CarePointIndexRoute,
+}
+
+const CarePointRouteWithChildren = CarePointRoute._addFileChildren(
+  CarePointRouteChildren,
+)
+
 interface CareResourcesRouteChildren {
   CareResourcesSuggestionsRoute: typeof CareResourcesSuggestionsRoute
   CareResourcesIndexRoute: typeof CareResourcesIndexRoute
@@ -4813,7 +5077,22 @@ const CareSonsRouteWithChildren = CareSonsRoute._addFileChildren(
   CareSonsRouteChildren,
 )
 
+interface CareTravailRouteChildren {
+  CareTravailMessageRoute: typeof CareTravailMessageRoute
+  CareTravailIndexRoute: typeof CareTravailIndexRoute
+}
+
+const CareTravailRouteChildren: CareTravailRouteChildren = {
+  CareTravailMessageRoute: CareTravailMessageRoute,
+  CareTravailIndexRoute: CareTravailIndexRoute,
+}
+
+const CareTravailRouteWithChildren = CareTravailRoute._addFileChildren(
+  CareTravailRouteChildren,
+)
+
 interface CareRouteChildren {
+  CareAideRoute: typeof CareAideRouteWithChildren
   CareAngoisseRoute: typeof CareAngoisseRoute
   CareCommunityRoute: typeof CareCommunityRouteWithChildren
   CareEmotionsRoute: typeof CareEmotionsRoute
@@ -4823,9 +5102,12 @@ interface CareRouteChildren {
   CareHelpRoute: typeof CareHelpRoute
   CareMemoryRoute: typeof CareMemoryRoute
   CareNewAnimalRoute: typeof CareNewAnimalRoute
+  CareParlerRoute: typeof CareParlerRouteWithChildren
+  CarePointRoute: typeof CarePointRouteWithChildren
   CareResourcesRoute: typeof CareResourcesRouteWithChildren
   CareRespirerRoute: typeof CareRespirerRoute
   CareSonsRoute: typeof CareSonsRouteWithChildren
+  CareTravailRoute: typeof CareTravailRouteWithChildren
   CareIndexRoute: typeof CareIndexRoute
   CareDatesIdRoute: typeof CareDatesIdRoute
   CareJournalLaterRoute: typeof CareJournalLaterRoute
@@ -4844,7 +5126,6 @@ interface CareRouteChildren {
   CareRituelsPropositionsRoute: typeof CareRituelsPropositionsRoute
   CareRituelsRegardsRoute: typeof CareRituelsRegardsRoute
   CareRituelsTraditionRoute: typeof CareRituelsTraditionRoute
-  CareAideIndexRoute: typeof CareAideIndexRoute
   CareDatesIndexRoute: typeof CareDatesIndexRoute
   CareJournalIndexRoute: typeof CareJournalIndexRoute
   CareRituelsIndexRoute: typeof CareRituelsIndexRoute
@@ -4857,6 +5138,7 @@ interface CareRouteChildren {
 }
 
 const CareRouteChildren: CareRouteChildren = {
+  CareAideRoute: CareAideRouteWithChildren,
   CareAngoisseRoute: CareAngoisseRoute,
   CareCommunityRoute: CareCommunityRouteWithChildren,
   CareEmotionsRoute: CareEmotionsRoute,
@@ -4866,9 +5148,12 @@ const CareRouteChildren: CareRouteChildren = {
   CareHelpRoute: CareHelpRoute,
   CareMemoryRoute: CareMemoryRoute,
   CareNewAnimalRoute: CareNewAnimalRoute,
+  CareParlerRoute: CareParlerRouteWithChildren,
+  CarePointRoute: CarePointRouteWithChildren,
   CareResourcesRoute: CareResourcesRouteWithChildren,
   CareRespirerRoute: CareRespirerRoute,
   CareSonsRoute: CareSonsRouteWithChildren,
+  CareTravailRoute: CareTravailRouteWithChildren,
   CareIndexRoute: CareIndexRoute,
   CareDatesIdRoute: CareDatesIdRoute,
   CareJournalLaterRoute: CareJournalLaterRoute,
@@ -4887,7 +5172,6 @@ const CareRouteChildren: CareRouteChildren = {
   CareRituelsPropositionsRoute: CareRituelsPropositionsRoute,
   CareRituelsRegardsRoute: CareRituelsRegardsRoute,
   CareRituelsTraditionRoute: CareRituelsTraditionRoute,
-  CareAideIndexRoute: CareAideIndexRoute,
   CareDatesIndexRoute: CareDatesIndexRoute,
   CareJournalIndexRoute: CareJournalIndexRoute,
   CareRituelsIndexRoute: CareRituelsIndexRoute,
