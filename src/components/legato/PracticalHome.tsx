@@ -9,6 +9,7 @@ import { planSections, viewFor } from "@/lib/papers-plan";
 import { useActiveSpace } from "@/lib/use-active-space";
 import { AnimalPractical } from "./AnimalPractical";
 import { MaladeAides } from "./MaladePractical";
+import { MotExplique } from "./MotExplique";
 
 export const demarcheLink = (d: Demarche) => (d.letter && d.id === "banque" ? `/practical/tasks/${d.id}/template` : `/practical/tasks/${d.id}`);
 
