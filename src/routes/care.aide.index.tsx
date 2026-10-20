@@ -1,56 +1,61 @@
 import { createFileRoute } from "@tanstack/react-router";
-import type { ReactNode } from "react";
-import { StandardLayout, PageTitle, SectionLabel, PrimaryButton, OutlineButton } from "@/components/legato/ds";
+import { useState } from "react";
+import { Check } from "lucide-react";
+import { StandardLayout, PageTitle, Lead, PrimaryButton } from "@/components/legato/ds";
+import { legatoHead } from "@/lib/legato-head";
+import { useSoutien } from "@/lib/soutien";
 
+/** D051 · so-aide : ce qui m'aiderait */
 export const Route = createFileRoute("/care/aide/")({
-  head: () => ({
-    meta: [
-      { title: "Se confier — Legato" },
-      { name: "description", content: "Parler à Présence, à un bénévole, à un groupe ou à un professionnel." },
-      { property: "og:title", content: "Se confier — Legato" },
-      { property: "og:description", content: "À qui voulez-vous parler ?" },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
-    ],
-  }),
-  component: SeConfier,
+  head: () => legatoHead("Ce qui m'aiderait", "Cocher ce qui vous soulagerait, pour que vos proches choisissent ce qu'ils peuvent faire."),
+  component: CeQuiMAiderait,
 });
 
-// Ligne d'écoute du deuil (Empreintes) — numéro et horaires à confirmer.
-const LIGNE_DEUIL = "0142380808";
+function CeQuiMAiderait() {
+  const { s, update } = useSoutien();
+  const [adding, setAdding] = useState(false);
+  const [title, setTitle] = useState("");
+  const [when, setWhen] = useState("");
 
-function Human({ title, subtitle, action, last }: { title: string; subtitle: string; action: ReactNode; last?: boolean }) {
-  return (
-    <div className="flex items-center gap-4 py-[18px]" style={{ borderBottom: last ? "none" : "1px solid var(--sp-line)" }}>
-      <div className="min-w-0 flex-1">
-        <p className="lg-row-title">{title}</p>
-        <p className="lg-row-sub mt-1" style={{ color: "var(--sp-sub)" }}>{subtitle}</p>
-      </div>
-      {action}
-    </div>
-  );
-}
+  const toggle = (id: string) => update((p) => ({ ...p, help: p.help.map((h) => (h.id === id ? { ...h, checked: !h.checked } : h)) }));
+  const add = () => {
+    if (!title.trim()) return;
+    update((p) => ({ ...p, help: [...p.help, { id: `a${Date.now()}`, title: title.trim(), when: when.trim(), checked: true }] }));
+    setTitle(""); setWhen(""); setAdding(false);
+  };
 
-function SeConfier() {
   return (
     <StandardLayout space="support" back="/care" backLabel="Soutien" activeTab="/care">
-      <PageTitle space="support" className="mt-12">À qui voulez-vous<br /><em>parler ?</em></PageTitle>
-
-      <section className="mt-10 p-6" style={{ background: "var(--sp-block)", color: "var(--sp-block-ink)" }}>
-        <p className="lg-section">Tout de suite —</p>
-        <h2 className="lg-ds-title mt-3" style={{ fontFamily: "var(--lg-serif)", fontSize: 25 }}>Présence</h2>
-        <p className="mt-3 text-[14.5px] leading-[1.55]" style={{ color: "var(--sp-sub)" }}>
-          Une écoute à toute heure. Intelligence artificielle : elle ne remplace ni vos proches ni un professionnel.
-        </p>
-        <PrimaryButton space="support" to="/presence" className="mt-6">Écrire à Présence</PrimaryButton>
-      </section>
-
-      <SectionLabel space="support" className="mt-10">Ou un humain</SectionLabel>
-      <div className="mt-2">
-        <Human title="Un bénévole" subtitle="Ligne d'écoute du deuil · 9 h – 21 h"
-          action={<a href={`tel:${LIGNE_DEUIL}`} className="inline-flex h-9 items-center rounded-full px-5 text-[13.5px]" style={{ border: "1px solid var(--sp-stroke)", color: "var(--sp-stroke)" }}>Appeler</a>} />
-        <Human title="Un groupe" subtitle="Des personnes qui vivent la même chose" action={<OutlineButton space="support" to="/care/community">Voir</OutlineButton>} />
-        <Human title="Un professionnel" subtitle="Psychologue, sur rendez-vous" action={<OutlineButton space="support" to="/care/help">Chercher</OutlineButton>} last />
+      <PageTitle space="support" size={36} className="pt-[22px]">Ce qui<br /><em>m'aiderait.</em></PageTitle>
+      <Lead className="mt-2 max-w-[310px]">Cochez ce qui vous soulagerait. Vos proches choisiront ce qu'ils peuvent faire. Personne n'est obligé.</Lead>
+      <div className="pt-3">
+        {s.help.map((h) => (
+          <button key={h.id} type="button" role="checkbox" aria-checked={h.checked} onClick={() => toggle(h.id)}
+            className="flex w-full items-center gap-[14px] py-[13px] text-left" style={{ borderBottom: "1px solid var(--sp-line)" }}>
+            <span className="grid size-[22px] shrink-0 place-items-center rounded-[6px]"
+              style={h.checked ? { background: "var(--lg-deep)" } : { border: "1.5px solid var(--lg-deep)" }}>
+              {h.checked && <Check className="size-3" strokeWidth={1.8} style={{ color: "var(--lg-mint)" }} />}
+            </span>
+            <span className="flex flex-col gap-[2px]">
+              <span style={{ fontFamily: "var(--lg-serif)", fontSize: 19 }}>{h.title}</span>
+              {h.when && <span className="text-[12px]" style={{ color: "var(--sp-sub)" }}>{h.when}</span>}
+            </span>
+          </button>
+        ))}
+      </div>
+      {adding ? (
+        <div className="mt-4 space-y-3">
+          <input aria-label="Ce qui vous aiderait" placeholder="Ce qui vous aiderait" value={title} onChange={(e) => setTitle(e.target.value)}
+            className="w-full bg-transparent py-2 text-[16px] outline-none" style={{ borderBottom: "1px solid var(--sp-line-2)" }} />
+          <input aria-label="Quand" placeholder="Quand (facultatif)" value={when} onChange={(e) => setWhen(e.target.value)}
+            className="w-full bg-transparent py-2 text-[14px] outline-none" style={{ borderBottom: "1px solid var(--sp-line-2)" }} />
+          <button type="button" onClick={add} className="text-[14px] underline underline-offset-4">Ajouter</button>
+        </div>
+      ) : (
+        <button type="button" onClick={() => setAdding(true)} className="mt-[14px] text-[14px]">+ Ajouter autre chose</button>
+      )}
+      <div className="pt-5">
+        <PrimaryButton space="support" to="/care/aide/envoyer">Choisir à qui l'envoyer</PrimaryButton>
       </div>
     </StandardLayout>
   );
