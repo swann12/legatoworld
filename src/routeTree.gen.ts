@@ -168,8 +168,11 @@ import { Route as HelpCorpsComprendreRouteImport } from './routes/help.corps.com
 import { Route as HelpCorpsConsulterRouteImport } from './routes/help.corps.consulter'
 import { Route as HelpCorpsDormirRouteImport } from './routes/help.corps.dormir'
 import { Route as HelpCorpsEauRouteImport } from './routes/help.corps.eau'
+import { Route as HelpCorpsExerciceRouteImport } from './routes/help.corps.exercice'
 import { Route as HelpCorpsHabillerRouteImport } from './routes/help.corps.habiller'
 import { Route as HelpCorpsMangerRouteImport } from './routes/help.corps.manger'
+import { Route as HelpCorpsMarcheRouteImport } from './routes/help.corps.marche'
+import { Route as HelpCorpsNoterRouteImport } from './routes/help.corps.noter'
 import { Route as HelpCorpsNuitsRouteImport } from './routes/help.corps.nuits'
 import { Route as HelpCorpsSHabillerRouteImport } from './routes/help.corps.s-habiller'
 import { Route as HelpCorpsSeLaverRouteImport } from './routes/help.corps.se-laver'
@@ -1020,6 +1023,11 @@ const HelpCorpsEauRoute = HelpCorpsEauRouteImport.update({
   path: '/eau',
   getParentRoute: () => HelpCorpsRoute,
 } as any)
+const HelpCorpsExerciceRoute = HelpCorpsExerciceRouteImport.update({
+  id: '/exercice',
+  path: '/exercice',
+  getParentRoute: () => HelpCorpsRoute,
+} as any)
 const HelpCorpsHabillerRoute = HelpCorpsHabillerRouteImport.update({
   id: '/habiller',
   path: '/habiller',
@@ -1028,6 +1036,16 @@ const HelpCorpsHabillerRoute = HelpCorpsHabillerRouteImport.update({
 const HelpCorpsMangerRoute = HelpCorpsMangerRouteImport.update({
   id: '/manger',
   path: '/manger',
+  getParentRoute: () => HelpCorpsRoute,
+} as any)
+const HelpCorpsMarcheRoute = HelpCorpsMarcheRouteImport.update({
+  id: '/marche',
+  path: '/marche',
+  getParentRoute: () => HelpCorpsRoute,
+} as any)
+const HelpCorpsNoterRoute = HelpCorpsNoterRouteImport.update({
+  id: '/noter',
+  path: '/noter',
   getParentRoute: () => HelpCorpsRoute,
 } as any)
 const HelpCorpsNuitsRoute = HelpCorpsNuitsRouteImport.update({
@@ -1449,8 +1467,11 @@ export interface FileRoutesByFullPath {
   '/help/corps/consulter': typeof HelpCorpsConsulterRoute
   '/help/corps/dormir': typeof HelpCorpsDormirRoute
   '/help/corps/eau': typeof HelpCorpsEauRoute
+  '/help/corps/exercice': typeof HelpCorpsExerciceRoute
   '/help/corps/habiller': typeof HelpCorpsHabillerRoute
   '/help/corps/manger': typeof HelpCorpsMangerRoute
+  '/help/corps/marche': typeof HelpCorpsMarcheRoute
+  '/help/corps/noter': typeof HelpCorpsNoterRoute
   '/help/corps/nuits': typeof HelpCorpsNuitsRoute
   '/help/corps/s-habiller': typeof HelpCorpsSHabillerRoute
   '/help/corps/se-laver': typeof HelpCorpsSeLaverRoute
@@ -1643,8 +1664,11 @@ export interface FileRoutesByTo {
   '/help/corps/consulter': typeof HelpCorpsConsulterRoute
   '/help/corps/dormir': typeof HelpCorpsDormirRoute
   '/help/corps/eau': typeof HelpCorpsEauRoute
+  '/help/corps/exercice': typeof HelpCorpsExerciceRoute
   '/help/corps/habiller': typeof HelpCorpsHabillerRoute
   '/help/corps/manger': typeof HelpCorpsMangerRoute
+  '/help/corps/marche': typeof HelpCorpsMarcheRoute
+  '/help/corps/noter': typeof HelpCorpsNoterRoute
   '/help/corps/nuits': typeof HelpCorpsNuitsRoute
   '/help/corps/s-habiller': typeof HelpCorpsSHabillerRoute
   '/help/corps/se-laver': typeof HelpCorpsSeLaverRoute
@@ -1854,8 +1878,11 @@ export interface FileRoutesById {
   '/help/corps/consulter': typeof HelpCorpsConsulterRoute
   '/help/corps/dormir': typeof HelpCorpsDormirRoute
   '/help/corps/eau': typeof HelpCorpsEauRoute
+  '/help/corps/exercice': typeof HelpCorpsExerciceRoute
   '/help/corps/habiller': typeof HelpCorpsHabillerRoute
   '/help/corps/manger': typeof HelpCorpsMangerRoute
+  '/help/corps/marche': typeof HelpCorpsMarcheRoute
+  '/help/corps/noter': typeof HelpCorpsNoterRoute
   '/help/corps/nuits': typeof HelpCorpsNuitsRoute
   '/help/corps/s-habiller': typeof HelpCorpsSHabillerRoute
   '/help/corps/se-laver': typeof HelpCorpsSeLaverRoute
@@ -2068,8 +2095,11 @@ export interface FileRouteTypes {
     | '/help/corps/consulter'
     | '/help/corps/dormir'
     | '/help/corps/eau'
+    | '/help/corps/exercice'
     | '/help/corps/habiller'
     | '/help/corps/manger'
+    | '/help/corps/marche'
+    | '/help/corps/noter'
     | '/help/corps/nuits'
     | '/help/corps/s-habiller'
     | '/help/corps/se-laver'
@@ -2262,8 +2292,11 @@ export interface FileRouteTypes {
     | '/help/corps/consulter'
     | '/help/corps/dormir'
     | '/help/corps/eau'
+    | '/help/corps/exercice'
     | '/help/corps/habiller'
     | '/help/corps/manger'
+    | '/help/corps/marche'
+    | '/help/corps/noter'
     | '/help/corps/nuits'
     | '/help/corps/s-habiller'
     | '/help/corps/se-laver'
@@ -2472,8 +2505,11 @@ export interface FileRouteTypes {
     | '/help/corps/consulter'
     | '/help/corps/dormir'
     | '/help/corps/eau'
+    | '/help/corps/exercice'
     | '/help/corps/habiller'
     | '/help/corps/manger'
+    | '/help/corps/marche'
+    | '/help/corps/noter'
     | '/help/corps/nuits'
     | '/help/corps/s-habiller'
     | '/help/corps/se-laver'
@@ -3713,6 +3749,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HelpCorpsEauRouteImport
       parentRoute: typeof HelpCorpsRoute
     }
+    '/help/corps/exercice': {
+      id: '/help/corps/exercice'
+      path: '/exercice'
+      fullPath: '/help/corps/exercice'
+      preLoaderRoute: typeof HelpCorpsExerciceRouteImport
+      parentRoute: typeof HelpCorpsRoute
+    }
     '/help/corps/habiller': {
       id: '/help/corps/habiller'
       path: '/habiller'
@@ -3725,6 +3768,20 @@ declare module '@tanstack/react-router' {
       path: '/manger'
       fullPath: '/help/corps/manger'
       preLoaderRoute: typeof HelpCorpsMangerRouteImport
+      parentRoute: typeof HelpCorpsRoute
+    }
+    '/help/corps/marche': {
+      id: '/help/corps/marche'
+      path: '/marche'
+      fullPath: '/help/corps/marche'
+      preLoaderRoute: typeof HelpCorpsMarcheRouteImport
+      parentRoute: typeof HelpCorpsRoute
+    }
+    '/help/corps/noter': {
+      id: '/help/corps/noter'
+      path: '/noter'
+      fullPath: '/help/corps/noter'
+      preLoaderRoute: typeof HelpCorpsNoterRouteImport
       parentRoute: typeof HelpCorpsRoute
     }
     '/help/corps/nuits': {
@@ -4300,8 +4357,11 @@ interface HelpCorpsRouteChildren {
   HelpCorpsConsulterRoute: typeof HelpCorpsConsulterRoute
   HelpCorpsDormirRoute: typeof HelpCorpsDormirRoute
   HelpCorpsEauRoute: typeof HelpCorpsEauRoute
+  HelpCorpsExerciceRoute: typeof HelpCorpsExerciceRoute
   HelpCorpsHabillerRoute: typeof HelpCorpsHabillerRoute
   HelpCorpsMangerRoute: typeof HelpCorpsMangerRoute
+  HelpCorpsMarcheRoute: typeof HelpCorpsMarcheRoute
+  HelpCorpsNoterRoute: typeof HelpCorpsNoterRoute
   HelpCorpsNuitsRoute: typeof HelpCorpsNuitsRoute
   HelpCorpsSHabillerRoute: typeof HelpCorpsSHabillerRoute
   HelpCorpsSeLaverRoute: typeof HelpCorpsSeLaverRoute
@@ -4317,8 +4377,11 @@ const HelpCorpsRouteChildren: HelpCorpsRouteChildren = {
   HelpCorpsConsulterRoute: HelpCorpsConsulterRoute,
   HelpCorpsDormirRoute: HelpCorpsDormirRoute,
   HelpCorpsEauRoute: HelpCorpsEauRoute,
+  HelpCorpsExerciceRoute: HelpCorpsExerciceRoute,
   HelpCorpsHabillerRoute: HelpCorpsHabillerRoute,
   HelpCorpsMangerRoute: HelpCorpsMangerRoute,
+  HelpCorpsMarcheRoute: HelpCorpsMarcheRoute,
+  HelpCorpsNoterRoute: HelpCorpsNoterRoute,
   HelpCorpsNuitsRoute: HelpCorpsNuitsRoute,
   HelpCorpsSHabillerRoute: HelpCorpsSHabillerRoute,
   HelpCorpsSeLaverRoute: HelpCorpsSeLaverRoute,
