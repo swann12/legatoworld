@@ -174,7 +174,7 @@ export function BloquePresence() {
     }
     setPending(true);
     try {
-      const { reply } = await call({ data: { branch: "practical", mode, name, history: next.map((m) => ({ role: m.role === "you" ? "user" as const : "assistant" as const, content: m.text })).slice(-20) } });
+      const { reply } = await call({ data: { branch: "bloque", mode, name, history: next.map((m) => ({ role: m.role === "you" ? "user" as const : "assistant" as const, content: m.text })).slice(-20) } });
       setMsgs([...next, { role: "presence", text: reply, cards }]);
     } catch {
       setMsgs([...next, { role: "presence", text: "Je n'ai pas pu répondre. Les pages ci-dessous peuvent déjà vous aider.", cards }]);
