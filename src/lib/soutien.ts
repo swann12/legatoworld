@@ -47,6 +47,9 @@ export type SoutienState = {
   points: PointEntry[];
   pointOff?: boolean;
   workDate?: string; // AAAA-MM-JJ
+  linkToken?: string;
+  linkId?: string;
+  shareDates?: boolean;
 };
 
 const EMPTY: SoutienState = { help: DEFAULT_HELP, recipients: [], points: [] };

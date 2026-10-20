@@ -226,6 +226,71 @@ export type Database = {
           },
         ]
       }
+      help_claims: {
+        Row: {
+          created_at: string
+          helper_name: string
+          id: string
+          item_id: string
+          link_id: string
+        }
+        Insert: {
+          created_at?: string
+          helper_name: string
+          id?: string
+          item_id: string
+          link_id: string
+        }
+        Update: {
+          created_at?: string
+          helper_name?: string
+          id?: string
+          item_id?: string
+          link_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "help_claims_link_id_fkey"
+            columns: ["link_id"]
+            isOneToOne: false
+            referencedRelation: "help_links"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      help_links: {
+        Row: {
+          created_at: string
+          dates: Json
+          expires_at: string
+          id: string
+          items: Json
+          owner_id: string
+          sender_name: string
+          token_hash: string
+        }
+        Insert: {
+          created_at?: string
+          dates?: Json
+          expires_at?: string
+          id?: string
+          items?: Json
+          owner_id: string
+          sender_name?: string
+          token_hash: string
+        }
+        Update: {
+          created_at?: string
+          dates?: Json
+          expires_at?: string
+          id?: string
+          items?: Json
+          owner_id?: string
+          sender_name?: string
+          token_hash?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
@@ -304,6 +369,15 @@ export type Database = {
     Functions: {
       accept_circle_task: { Args: { _item: string }; Returns: boolean }
       accept_legato_invite: { Args: { _token: string }; Returns: string }
+      claim_help_item: {
+        Args: { p_item: string; p_name: string; p_token: string }
+        Returns: boolean
+      }
+      create_help_link: {
+        Args: { p_dates: Json; p_items: Json; p_name: string }
+        Returns: string
+      }
+      get_help_link: { Args: { p_token: string }; Returns: Json }
       is_circle_member: {
         Args: { _circle_id: string; _user_id: string }
         Returns: boolean

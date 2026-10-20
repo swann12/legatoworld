@@ -2,6 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { StandardLayout, PageTitle, Lead, PrimaryButton, TextLink } from "@/components/legato/ds";
 import { legatoHead } from "@/lib/legato-head";
 import { joinNames, useSoutien } from "@/lib/soutien";
+import { useEffect, useState } from "react";
+import { loadMyClaims } from "@/lib/help-link";
 
 /** D053 · so-aide-suivi : qui s'occupe de quoi */
 export const Route = createFileRoute("/care/aide/suivi")({
@@ -17,6 +19,8 @@ function sentWords(iso?: string) {
 
 function Suivi() {
   const { s } = useSoutien();
+  const [claims, setClaims] = useState<Record<string, string>>({});
+  useEffect(() => { if (s.linkId) void loadMyClaims(s.linkId).then(setClaims); }, [s.linkId]);
   const names = s.recipients.map((r) => r.name);
   const items = s.help.filter((h) => h.checked);
   return (
@@ -30,14 +34,14 @@ function Suivi() {
               <span style={{ fontFamily: "var(--lg-serif)", fontSize: 19 }}>{h.title}</span>
               {h.when && <span className="text-[12px]" style={{ color: "var(--sp-sub)" }}>{h.when}</span>}
             </span>
-            <span className="text-[12.5px]" style={h.who ? undefined : { color: "var(--sp-sub)" }}>{h.who ?? "personne encore"}</span>
+            <span className="text-[12.5px]" style={(claims[h.id] ?? h.who) ? undefined : { color: "var(--sp-sub)" }}>{claims[h.id] ?? h.who ?? "personne encore"}</span>
           </div>
         ))}
       </div>
       <div className="flex flex-wrap items-center gap-[22px] pt-5">
         <PrimaryButton space="support" to="/partage/message" search={{
           destinataires: names.join(","),
-          texte: "« Je me permets de vous redire ce qui m'aiderait en ce moment. Seulement si c'est possible pour vous, sans obligation. Merci. »",
+          texte: `« Je me permets de vous redire ce qui m'aiderait en ce moment. Seulement si c'est possible pour vous, sans obligation. Merci. »${s.linkToken && typeof window !== "undefined" ? ` ${window.location.origin}/aide/${s.linkToken}` : ""}`,
         }}>Relancer gentiment</PrimaryButton>
         <TextLink space="support" to="/care/aide">Modifier ma liste</TextLink>
       </div>

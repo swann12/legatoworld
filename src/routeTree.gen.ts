@@ -126,6 +126,11 @@ import { Route as StartIndexRouteImport } from './routes/start.index'
 import { Route as StartCompteRequisRouteImport } from './routes/start.compte-requis'
 import { Route as StartDecouverteRouteImport } from './routes/start.decouverte'
 import { Route as StartGarderRouteImport } from './routes/start.garder'
+import { Route as AideArticleIndexRouteImport } from './routes/aide.$article.index'
+import { Route as AideArticleAiderRouteImport } from './routes/aide.$article.aider'
+import { Route as AideArticleDatesRouteImport } from './routes/aide.$article.dates'
+import { Route as AideArticleInquietRouteImport } from './routes/aide.$article.inquiet'
+import { Route as AideArticleMotsRouteImport } from './routes/aide.$article.mots'
 import { Route as CareAideIndexRouteImport } from './routes/care.aide.index'
 import { Route as CareAideEnvoyerRouteImport } from './routes/care.aide.envoyer'
 import { Route as CareAideSuiviRouteImport } from './routes/care.aide.suivi'
@@ -848,6 +853,31 @@ const StartGarderRoute = StartGarderRouteImport.update({
   path: '/start/garder',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AideArticleIndexRoute = AideArticleIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AideArticleRoute,
+} as any)
+const AideArticleAiderRoute = AideArticleAiderRouteImport.update({
+  id: '/aider',
+  path: '/aider',
+  getParentRoute: () => AideArticleRoute,
+} as any)
+const AideArticleDatesRoute = AideArticleDatesRouteImport.update({
+  id: '/dates',
+  path: '/dates',
+  getParentRoute: () => AideArticleRoute,
+} as any)
+const AideArticleInquietRoute = AideArticleInquietRouteImport.update({
+  id: '/inquiet',
+  path: '/inquiet',
+  getParentRoute: () => AideArticleRoute,
+} as any)
+const AideArticleMotsRoute = AideArticleMotsRouteImport.update({
+  id: '/mots',
+  path: '/mots',
+  getParentRoute: () => AideArticleRoute,
+} as any)
 const CareAideIndexRoute = CareAideIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -1562,7 +1592,7 @@ export interface FileRoutesByFullPath {
   '/wishes': typeof WishesRoute
   '/circle': typeof AuthenticatedCircleRoute
   '/agenda/new': typeof AgendaNewRoute
-  '/aide/$article': typeof AideArticleRoute
+  '/aide/$article': typeof AideArticleRouteWithChildren
   '/appointments/$id': typeof AppointmentsIdRoute
   '/appointments/new': typeof AppointmentsNewRoute
   '/auth/mot-de-passe': typeof AuthMotDePasseRoute
@@ -1656,6 +1686,10 @@ export interface FileRoutesByFullPath {
   '/resources/': typeof ResourcesIndexRoute
   '/space/': typeof SpaceIndexRoute
   '/start/': typeof StartIndexRoute
+  '/aide/$article/aider': typeof AideArticleAiderRoute
+  '/aide/$article/dates': typeof AideArticleDatesRoute
+  '/aide/$article/inquiet': typeof AideArticleInquietRoute
+  '/aide/$article/mots': typeof AideArticleMotsRoute
   '/care/aide/envoyer': typeof CareAideEnvoyerRoute
   '/care/aide/suivi': typeof CareAideSuiviRoute
   '/care/community/cafe-mortel': typeof CareCommunityCafeMortelRoute
@@ -1735,6 +1769,7 @@ export interface FileRoutesByFullPath {
   '/resources/$category/$providerId': typeof ResourcesCategoryProviderIdRoute
   '/resources/confirm/$providerId': typeof ResourcesConfirmProviderIdRoute
   '/space/settings/transition': typeof SpaceSettingsTransitionRoute
+  '/aide/$article/': typeof AideArticleIndexRoute
   '/care/aide/': typeof CareAideIndexRoute
   '/care/community/': typeof CareCommunityIndexRoute
   '/care/dates/': typeof CareDatesIndexRoute
@@ -1809,7 +1844,6 @@ export interface FileRoutesByTo {
   '/wishes': typeof WishesRoute
   '/circle': typeof AuthenticatedCircleRoute
   '/agenda/new': typeof AgendaNewRoute
-  '/aide/$article': typeof AideArticleRoute
   '/appointments/$id': typeof AppointmentsIdRoute
   '/appointments/new': typeof AppointmentsNewRoute
   '/auth/mot-de-passe': typeof AuthMotDePasseRoute
@@ -1886,6 +1920,10 @@ export interface FileRoutesByTo {
   '/resources': typeof ResourcesIndexRoute
   '/space': typeof SpaceIndexRoute
   '/start': typeof StartIndexRoute
+  '/aide/$article/aider': typeof AideArticleAiderRoute
+  '/aide/$article/dates': typeof AideArticleDatesRoute
+  '/aide/$article/inquiet': typeof AideArticleInquietRoute
+  '/aide/$article/mots': typeof AideArticleMotsRoute
   '/care/aide/envoyer': typeof CareAideEnvoyerRoute
   '/care/aide/suivi': typeof CareAideSuiviRoute
   '/care/community/cafe-mortel': typeof CareCommunityCafeMortelRoute
@@ -1958,6 +1996,7 @@ export interface FileRoutesByTo {
   '/resources/$category/$providerId': typeof ResourcesCategoryProviderIdRoute
   '/resources/confirm/$providerId': typeof ResourcesConfirmProviderIdRoute
   '/space/settings/transition': typeof SpaceSettingsTransitionRoute
+  '/aide/$article': typeof AideArticleIndexRoute
   '/care/aide': typeof CareAideIndexRoute
   '/care/community': typeof CareCommunityIndexRoute
   '/care/dates': typeof CareDatesIndexRoute
@@ -2038,7 +2077,7 @@ export interface FileRoutesById {
   '/wishes': typeof WishesRoute
   '/_authenticated/circle': typeof AuthenticatedCircleRoute
   '/agenda/new': typeof AgendaNewRoute
-  '/aide/$article': typeof AideArticleRoute
+  '/aide/$article': typeof AideArticleRouteWithChildren
   '/appointments/$id': typeof AppointmentsIdRoute
   '/appointments/new': typeof AppointmentsNewRoute
   '/auth_/mot-de-passe': typeof AuthMotDePasseRoute
@@ -2132,6 +2171,10 @@ export interface FileRoutesById {
   '/resources/': typeof ResourcesIndexRoute
   '/space/': typeof SpaceIndexRoute
   '/start/': typeof StartIndexRoute
+  '/aide/$article/aider': typeof AideArticleAiderRoute
+  '/aide/$article/dates': typeof AideArticleDatesRoute
+  '/aide/$article/inquiet': typeof AideArticleInquietRoute
+  '/aide/$article/mots': typeof AideArticleMotsRoute
   '/care/aide/envoyer': typeof CareAideEnvoyerRoute
   '/care/aide/suivi': typeof CareAideSuiviRoute
   '/care/community/cafe-mortel': typeof CareCommunityCafeMortelRoute
@@ -2211,6 +2254,7 @@ export interface FileRoutesById {
   '/resources/$category/$providerId': typeof ResourcesCategoryProviderIdRoute
   '/resources/confirm/$providerId': typeof ResourcesConfirmProviderIdRoute
   '/space/settings/transition': typeof SpaceSettingsTransitionRoute
+  '/aide/$article/': typeof AideArticleIndexRoute
   '/care/aide/': typeof CareAideIndexRoute
   '/care/community/': typeof CareCommunityIndexRoute
   '/care/dates/': typeof CareDatesIndexRoute
@@ -2386,6 +2430,10 @@ export interface FileRouteTypes {
     | '/resources/'
     | '/space/'
     | '/start/'
+    | '/aide/$article/aider'
+    | '/aide/$article/dates'
+    | '/aide/$article/inquiet'
+    | '/aide/$article/mots'
     | '/care/aide/envoyer'
     | '/care/aide/suivi'
     | '/care/community/cafe-mortel'
@@ -2465,6 +2513,7 @@ export interface FileRouteTypes {
     | '/resources/$category/$providerId'
     | '/resources/confirm/$providerId'
     | '/space/settings/transition'
+    | '/aide/$article/'
     | '/care/aide/'
     | '/care/community/'
     | '/care/dates/'
@@ -2539,7 +2588,6 @@ export interface FileRouteTypes {
     | '/wishes'
     | '/circle'
     | '/agenda/new'
-    | '/aide/$article'
     | '/appointments/$id'
     | '/appointments/new'
     | '/auth/mot-de-passe'
@@ -2616,6 +2664,10 @@ export interface FileRouteTypes {
     | '/resources'
     | '/space'
     | '/start'
+    | '/aide/$article/aider'
+    | '/aide/$article/dates'
+    | '/aide/$article/inquiet'
+    | '/aide/$article/mots'
     | '/care/aide/envoyer'
     | '/care/aide/suivi'
     | '/care/community/cafe-mortel'
@@ -2688,6 +2740,7 @@ export interface FileRouteTypes {
     | '/resources/$category/$providerId'
     | '/resources/confirm/$providerId'
     | '/space/settings/transition'
+    | '/aide/$article'
     | '/care/aide'
     | '/care/community'
     | '/care/dates'
@@ -2861,6 +2914,10 @@ export interface FileRouteTypes {
     | '/resources/'
     | '/space/'
     | '/start/'
+    | '/aide/$article/aider'
+    | '/aide/$article/dates'
+    | '/aide/$article/inquiet'
+    | '/aide/$article/mots'
     | '/care/aide/envoyer'
     | '/care/aide/suivi'
     | '/care/community/cafe-mortel'
@@ -2940,6 +2997,7 @@ export interface FileRouteTypes {
     | '/resources/$category/$providerId'
     | '/resources/confirm/$providerId'
     | '/space/settings/transition'
+    | '/aide/$article/'
     | '/care/aide/'
     | '/care/community/'
     | '/care/dates/'
@@ -3020,7 +3078,7 @@ export interface RootRouteChildren {
   VitrineRoute: typeof VitrineRoute
   WishesRoute: typeof WishesRoute
   AgendaNewRoute: typeof AgendaNewRoute
-  AideArticleRoute: typeof AideArticleRoute
+  AideArticleRoute: typeof AideArticleRouteWithChildren
   AppointmentsIdRoute: typeof AppointmentsIdRoute
   AppointmentsNewRoute: typeof AppointmentsNewRoute
   AuthMotDePasseRoute: typeof AuthMotDePasseRoute
@@ -3882,6 +3940,41 @@ declare module '@tanstack/react-router' {
       fullPath: '/start/garder'
       preLoaderRoute: typeof StartGarderRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/aide/$article/': {
+      id: '/aide/$article/'
+      path: '/'
+      fullPath: '/aide/$article/'
+      preLoaderRoute: typeof AideArticleIndexRouteImport
+      parentRoute: typeof AideArticleRoute
+    }
+    '/aide/$article/aider': {
+      id: '/aide/$article/aider'
+      path: '/aider'
+      fullPath: '/aide/$article/aider'
+      preLoaderRoute: typeof AideArticleAiderRouteImport
+      parentRoute: typeof AideArticleRoute
+    }
+    '/aide/$article/dates': {
+      id: '/aide/$article/dates'
+      path: '/dates'
+      fullPath: '/aide/$article/dates'
+      preLoaderRoute: typeof AideArticleDatesRouteImport
+      parentRoute: typeof AideArticleRoute
+    }
+    '/aide/$article/inquiet': {
+      id: '/aide/$article/inquiet'
+      path: '/inquiet'
+      fullPath: '/aide/$article/inquiet'
+      preLoaderRoute: typeof AideArticleInquietRouteImport
+      parentRoute: typeof AideArticleRoute
+    }
+    '/aide/$article/mots': {
+      id: '/aide/$article/mots'
+      path: '/mots'
+      fullPath: '/aide/$article/mots'
+      preLoaderRoute: typeof AideArticleMotsRouteImport
+      parentRoute: typeof AideArticleRoute
     }
     '/care/aide/': {
       id: '/care/aide/'
@@ -5452,6 +5545,26 @@ const ProfileRouteChildren: ProfileRouteChildren = {
 const ProfileRouteWithChildren =
   ProfileRoute._addFileChildren(ProfileRouteChildren)
 
+interface AideArticleRouteChildren {
+  AideArticleAiderRoute: typeof AideArticleAiderRoute
+  AideArticleDatesRoute: typeof AideArticleDatesRoute
+  AideArticleInquietRoute: typeof AideArticleInquietRoute
+  AideArticleMotsRoute: typeof AideArticleMotsRoute
+  AideArticleIndexRoute: typeof AideArticleIndexRoute
+}
+
+const AideArticleRouteChildren: AideArticleRouteChildren = {
+  AideArticleAiderRoute: AideArticleAiderRoute,
+  AideArticleDatesRoute: AideArticleDatesRoute,
+  AideArticleInquietRoute: AideArticleInquietRoute,
+  AideArticleMotsRoute: AideArticleMotsRoute,
+  AideArticleIndexRoute: AideArticleIndexRoute,
+}
+
+const AideArticleRouteWithChildren = AideArticleRoute._addFileChildren(
+  AideArticleRouteChildren,
+)
+
 interface HomeCarnetRouteChildren {
   HomeCarnetIdRoute: typeof HomeCarnetIdRoute
   HomeCarnetNoteRoute: typeof HomeCarnetNoteRoute
@@ -5532,7 +5645,7 @@ const rootRouteChildren: RootRouteChildren = {
   VitrineRoute: VitrineRoute,
   WishesRoute: WishesRoute,
   AgendaNewRoute: AgendaNewRoute,
-  AideArticleRoute: AideArticleRoute,
+  AideArticleRoute: AideArticleRouteWithChildren,
   AppointmentsIdRoute: AppointmentsIdRoute,
   AppointmentsNewRoute: AppointmentsNewRoute,
   AuthMotDePasseRoute: AuthMotDePasseRoute,
