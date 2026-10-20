@@ -1,5 +1,12 @@
 # Reprise UX/UI Legato
 
+## Étape D1 — règles transverses (ajouts-4)
+- [x] Présenter les quatre listes pour D001–D005 avant le code.
+- [x] §1 titres Démarches en vert (token --sp-title-accent) ; §2 dégradé Mémoire rose→bordeaux, texte et bouton rose (ExperienceButton) ; §3 MotExplique + lexique.json (37 mots) ; §7 délai obsèques 14 jours ; D002 conversation refaite ; D004 SavedToast/ConfirmSheet/ConfirmedCall (15).
+- [x] Vérifier sur téléphone : titre vert + chiffres corail, fenêtre du mot, lettre en dégradé, conversation (pensée 13, réponse), confirmation du 15 ; 4 tests lexique réussis, tsgo OK.
+- [ ] Étapes D2 à D14 de 00-PROMPTS.md : en attente de la demande.
+- [ ] « En clair » (composant créé) n'est pas encore posé sur les pages de démarches : le dossier ne liste pas encore les écrans concernés.
+
 ## Vérification des ajouts — 18 octobre 2026
 - [x] Retrouver les captures originales 001–080 dans l’archive et inventorier logos, menus, sécurité et rituels.
 - [x] Corriger l’ancien logo, les palettes rose/bleu et leur navigation, y compris repères des parcelles et expériences Mémoire.
