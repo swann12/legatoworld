@@ -12,7 +12,6 @@ const mono = "lg-mono";
 
 /** D006 · x-message : un message prêt à envoyer, ouvert par plusieurs boutons. */
 export function MessagePret({ destinataires, texte }: { destinataires: string[]; texte: string }) {
-  const smartBack = useSmartBack();
   const { show, toast } = useSavedToast();
   const [body, setBody] = useState(texte);
   const [canal, setCanal] = useState<"sms" | "email">("sms");
@@ -75,7 +74,6 @@ export function MessagePret({ destinataires, texte }: { destinataires: string[];
 
 /** D007 · x-lien-officiel : préparer, puis ouvrir un site officiel. */
 export function SiteOfficiel({ site, url, papiers, duree }: { site: string; url: string; papiers: string[]; duree: string }) {
-  const smartBack = useSmartBack();
   const { show, toast } = useSavedToast();
   const navigate = useNavigate();
   return (
@@ -116,7 +114,6 @@ export function SiteOfficiel({ site, url, papiers, duree }: { site: string; url:
 
 /** D008 · x-document : lire un document du coffre. */
 export function DocumentView({ id }: { id: string }) {
-  const smartBack = useSmartBack();
   const { show, toast } = useSavedToast();
   const { docs } = useVault();
   const doc = docs.find((d) => d.id === id);
