@@ -85,7 +85,7 @@ function DeuilPractical() {
       {view === "presque" && sections.length === 0 && <p className="mt-10 lg-lead" style={sub}>Tout est fait.</p>}
       {view === "presque" && <div className="pt-[26px]"><TextLink space="practical" to="/practical/progress">Revoir ce qui est fait</TextLink></div>}
       {view === "apres" && sections.length === 0 && <p className="mt-10 lg-lead" style={sub}>Rien d'urgent ce mois-ci. Le reste peut attendre.</p>}
-      {view === "avant" && <p className="mt-8 text-[13.5px] leading-[1.55]" style={sub}>Après les obsèques, la banque, les organismes et la succession apparaîtront ici. Rien ne presse avant.</p>}
+      {view === "avant" && <p className="mt-8 text-[13.5px] leading-[1.55]" style={sub}>Après les obsèques, la banque, les organismes et la <MotExplique mot="succession" pourVous="Rien avant les obsèques. Ensuite, prenez rendez-vous avec un notaire." page="/practical/tasks/notaire" /> apparaîtront ici. Rien ne presse avant.</p>}
 
       {view === "confie" && <>
         <section className="mt-[34px] px-6 pb-[26px] pt-6" style={{ background: "var(--sp-block)", color: "var(--sp-block-ink)" }}>
