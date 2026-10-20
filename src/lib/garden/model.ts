@@ -7,6 +7,7 @@ export function canReadMemory(owner: boolean, author: boolean, member: boolean, 
 }
 export const submissionStatus = (owner: boolean): ReviewStatus => owner ? 'approved' : 'pending';
 export const fileKey = (circle: string, memory: string, name: string) => `${circle}/${memory}/${name.replace(/[^a-zA-Z0-9._-]/g, '_')}`;
+export const gardenCircleKey = (spaceId: string) => `legato.garden-circle.v1::${spaceId}`;
 export type AddKind = 'photo' | 'voix' | 'phrase' | 'lieu' | 'objet' | 'date' | 'recette';
 export const addKinds: AddKind[] = ['photo','voix','phrase','lieu','objet','date','recette'];
 export function filterMemories(rows: GardenMemory[], kind: string) {

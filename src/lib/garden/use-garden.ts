@@ -5,7 +5,7 @@ import { useMemoryPerson } from '@/components/legato/MemoryUI';
 import { getDiscovery } from '@/lib/discovery';
 import { supabase } from '@/integrations/supabase/client';
 import { loadGarden,ensureGarden,createGardenMemory,changeGardenMemory } from '@/lib/garden.functions';
-import { approvedMemories,type GardenMemory } from './model';
+import { approvedMemories,gardenCircleKey,type GardenMemory } from './model';
 export function useGarden(){
  const id=useActiveSpaceId();const {name,person}=useMemoryPerson();const local=useMemories();
  const [remote,setRemote]=useState<GardenMemory[]>([]);const [circle,setCircle]=useState<{id:string;owner_id:string}|null>(null);
@@ -18,14 +18,14 @@ export function useGarden(){
   const {data:s}=await supabase.auth.getSession();setUser(s.session?.user.id??null);
   if(!s.session){setReady(true);return;}
   try{
-   const linked=localStorage.getItem(scopedKey('legato.garden-circle.v1'))||undefined;
+   const linked=localStorage.getItem(gardenCircleKey(id))||undefined;
    const r=await loadGarden({data:{spaceKey:id,circleId:linked}});
    setCircle(r.circle);setMembers(r.members);
    setRemote(r.rows.map(row=>{const p=row.payload as unknown as Memory;return {...p,id:row.id,createdAt:Date.parse(row.created_at),status:row.status as GardenMemory['status'],shared:row.shared,mine:row.author_id===r.userId,filePath:row.file_path??undefined,imageDataUrl:p.type==='photo'?row.url:undefined,audioDataUrl:p.type==='voice'||p.type==='sound'?row.url:undefined};}));
   }catch{setError('Les souvenirs partagés n’ont pas pu être chargés. Réessayez.');}finally{setReady(true);}
  },[id]);
  useEffect(()=>{void refresh();const t=setInterval(()=>void refresh(),240000);return()=>clearInterval(t);},[refresh]);
- const ensure=async()=>{if(circle)return circle.id;if(!id)throw new Error('Choisissez d’abord une parcelle.');const c=await ensureGarden({data:{spaceKey:id,name}});localStorage.setItem(scopedKey('legato.garden-circle.v1'),c.id);await refresh();return c.id;};
+ const ensure=async()=>{if(circle)return circle.id;if(!id)throw new Error('Choisissez d’abord une parcelle.');const c=await ensureGarden({data:{spaceKey:id,name}});localStorage.setItem(gardenCircleKey(id),c.id);await refresh();return c.id;};
  const save=async(input:Omit<Memory,'id'|'createdAt'>,file?:File,shared=false)=>{
   if(!id)throw new Error('Choisissez d’abord une parcelle.');
   let memoryId:string;

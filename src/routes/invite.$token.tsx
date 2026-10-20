@@ -4,7 +4,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { useServerFn } from "@tanstack/react-start";
 import { acceptInvite, getCircle } from "@/lib/circle.functions";
 import { useSpaces } from "@/lib/spaces-store";
-import { setActiveSpaceId, scopedKey } from "@/lib/active-space";
+import { setActiveSpaceId } from "@/lib/active-space";
+import { gardenCircleKey } from "@/lib/garden/model";
 import { toast } from "sonner";
 import { PrimaryButton, TextLink } from "@/components/legato/ds";
 import { LegatoLogo } from "@/components/legato/ds/LegatoLogo";
@@ -43,7 +44,7 @@ function InvitePage() {
       const details = await getCircle({ data: { circleId: joined.circleId } });
       const space = addSpace({ name: details.circle.defunt_name || details.circle.name, relation: "autre" });
       setActiveSpaceId(space.id);
-      localStorage.setItem(scopedKey("legato.garden-circle.v1"), joined.circleId);
+      localStorage.setItem(gardenCircleKey(space.id), joined.circleId);
       toast.success("Vous avez rejoint l'espace.");
       navigate({ to: "/care/garden/space" });
     } catch (e: any) {
