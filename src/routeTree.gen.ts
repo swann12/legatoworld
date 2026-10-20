@@ -39,7 +39,6 @@ import { Route as AppointmentsIdRouteImport } from './routes/appointments.$id'
 import { Route as AppointmentsNewRouteImport } from './routes/appointments.new'
 import { Route as AuthMotDePasseRouteImport } from './routes/auth_.mot-de-passe'
 import { Route as CareIndexRouteImport } from './routes/care.index'
-import { Route as CareAideRouteImport } from './routes/care.aide'
 import { Route as CareAngoisseRouteImport } from './routes/care.angoisse'
 import { Route as CareCommunityRouteImport } from './routes/care.community'
 import { Route as CareEmotionsRouteImport } from './routes/care.emotions'
@@ -123,6 +122,7 @@ import { Route as StartIndexRouteImport } from './routes/start.index'
 import { Route as StartCompteRequisRouteImport } from './routes/start.compte-requis'
 import { Route as StartDecouverteRouteImport } from './routes/start.decouverte'
 import { Route as StartGarderRouteImport } from './routes/start.garder'
+import { Route as CareAideIndexRouteImport } from './routes/care.aide.index'
 import { Route as CareCommunityIndexRouteImport } from './routes/care.community.index'
 import { Route as CareCommunityCafeMortelRouteImport } from './routes/care.community.cafe-mortel'
 import { Route as CareCommunityGroupsRouteImport } from './routes/care.community.groups'
@@ -396,11 +396,6 @@ const AuthMotDePasseRoute = AuthMotDePasseRouteImport.update({
 const CareIndexRoute = CareIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => CareRoute,
-} as any)
-const CareAideRoute = CareAideRouteImport.update({
-  id: '/aide',
-  path: '/aide',
   getParentRoute: () => CareRoute,
 } as any)
 const CareAngoisseRoute = CareAngoisseRouteImport.update({
@@ -820,6 +815,11 @@ const StartGarderRoute = StartGarderRouteImport.update({
   id: '/start/garder',
   path: '/start/garder',
   getParentRoute: () => rootRouteImport,
+} as any)
+const CareAideIndexRoute = CareAideIndexRouteImport.update({
+  id: '/aide/',
+  path: '/aide/',
+  getParentRoute: () => CareRoute,
 } as any)
 const CareCommunityIndexRoute = CareCommunityIndexRouteImport.update({
   id: '/',
@@ -1494,7 +1494,6 @@ export interface FileRoutesByFullPath {
   '/appointments/$id': typeof AppointmentsIdRoute
   '/appointments/new': typeof AppointmentsNewRoute
   '/auth/mot-de-passe': typeof AuthMotDePasseRoute
-  '/care/aide': typeof CareAideRoute
   '/care/angoisse': typeof CareAngoisseRoute
   '/care/community': typeof CareCommunityRouteWithChildren
   '/care/emotions': typeof CareEmotionsRoute
@@ -1655,6 +1654,7 @@ export interface FileRoutesByFullPath {
   '/resources/$category/$providerId': typeof ResourcesCategoryProviderIdRoute
   '/resources/confirm/$providerId': typeof ResourcesConfirmProviderIdRoute
   '/space/settings/transition': typeof SpaceSettingsTransitionRoute
+  '/care/aide/': typeof CareAideIndexRoute
   '/care/community/': typeof CareCommunityIndexRoute
   '/care/dates/': typeof CareDatesIndexRoute
   '/care/garden/': typeof CareGardenIndexRoute
@@ -1729,7 +1729,6 @@ export interface FileRoutesByTo {
   '/appointments/$id': typeof AppointmentsIdRoute
   '/appointments/new': typeof AppointmentsNewRoute
   '/auth/mot-de-passe': typeof AuthMotDePasseRoute
-  '/care/aide': typeof CareAideRoute
   '/care/angoisse': typeof CareAngoisseRoute
   '/care/emotions': typeof CareEmotionsRoute
   '/care/epuisement': typeof CareEpuisementRoute
@@ -1870,6 +1869,7 @@ export interface FileRoutesByTo {
   '/resources/$category/$providerId': typeof ResourcesCategoryProviderIdRoute
   '/resources/confirm/$providerId': typeof ResourcesConfirmProviderIdRoute
   '/space/settings/transition': typeof SpaceSettingsTransitionRoute
+  '/care/aide': typeof CareAideIndexRoute
   '/care/community': typeof CareCommunityIndexRoute
   '/care/dates': typeof CareDatesIndexRoute
   '/care/garden': typeof CareGardenIndexRoute
@@ -1950,7 +1950,6 @@ export interface FileRoutesById {
   '/appointments/$id': typeof AppointmentsIdRoute
   '/appointments/new': typeof AppointmentsNewRoute
   '/auth_/mot-de-passe': typeof AuthMotDePasseRoute
-  '/care/aide': typeof CareAideRoute
   '/care/angoisse': typeof CareAngoisseRoute
   '/care/community': typeof CareCommunityRouteWithChildren
   '/care/emotions': typeof CareEmotionsRoute
@@ -2111,6 +2110,7 @@ export interface FileRoutesById {
   '/resources/$category/$providerId': typeof ResourcesCategoryProviderIdRoute
   '/resources/confirm/$providerId': typeof ResourcesConfirmProviderIdRoute
   '/space/settings/transition': typeof SpaceSettingsTransitionRoute
+  '/care/aide/': typeof CareAideIndexRoute
   '/care/community/': typeof CareCommunityIndexRoute
   '/care/dates/': typeof CareDatesIndexRoute
   '/care/garden/': typeof CareGardenIndexRoute
@@ -2192,7 +2192,6 @@ export interface FileRouteTypes {
     | '/appointments/$id'
     | '/appointments/new'
     | '/auth/mot-de-passe'
-    | '/care/aide'
     | '/care/angoisse'
     | '/care/community'
     | '/care/emotions'
@@ -2353,6 +2352,7 @@ export interface FileRouteTypes {
     | '/resources/$category/$providerId'
     | '/resources/confirm/$providerId'
     | '/space/settings/transition'
+    | '/care/aide/'
     | '/care/community/'
     | '/care/dates/'
     | '/care/garden/'
@@ -2427,7 +2427,6 @@ export interface FileRouteTypes {
     | '/appointments/$id'
     | '/appointments/new'
     | '/auth/mot-de-passe'
-    | '/care/aide'
     | '/care/angoisse'
     | '/care/emotions'
     | '/care/epuisement'
@@ -2568,6 +2567,7 @@ export interface FileRouteTypes {
     | '/resources/$category/$providerId'
     | '/resources/confirm/$providerId'
     | '/space/settings/transition'
+    | '/care/aide'
     | '/care/community'
     | '/care/dates'
     | '/care/garden'
@@ -2647,7 +2647,6 @@ export interface FileRouteTypes {
     | '/appointments/$id'
     | '/appointments/new'
     | '/auth_/mot-de-passe'
-    | '/care/aide'
     | '/care/angoisse'
     | '/care/community'
     | '/care/emotions'
@@ -2808,6 +2807,7 @@ export interface FileRouteTypes {
     | '/resources/$category/$providerId'
     | '/resources/confirm/$providerId'
     | '/space/settings/transition'
+    | '/care/aide/'
     | '/care/community/'
     | '/care/dates/'
     | '/care/garden/'
@@ -3136,13 +3136,6 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/care/'
       preLoaderRoute: typeof CareIndexRouteImport
-      parentRoute: typeof CareRoute
-    }
-    '/care/aide': {
-      id: '/care/aide'
-      path: '/aide'
-      fullPath: '/care/aide'
-      preLoaderRoute: typeof CareAideRouteImport
       parentRoute: typeof CareRoute
     }
     '/care/angoisse': {
@@ -3725,6 +3718,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/start/garder'
       preLoaderRoute: typeof StartGarderRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/care/aide/': {
+      id: '/care/aide/'
+      path: '/aide'
+      fullPath: '/care/aide/'
+      preLoaderRoute: typeof CareAideIndexRouteImport
+      parentRoute: typeof CareRoute
     }
     '/care/community/': {
       id: '/care/community/'
@@ -4814,7 +4814,6 @@ const CareSonsRouteWithChildren = CareSonsRoute._addFileChildren(
 )
 
 interface CareRouteChildren {
-  CareAideRoute: typeof CareAideRoute
   CareAngoisseRoute: typeof CareAngoisseRoute
   CareCommunityRoute: typeof CareCommunityRouteWithChildren
   CareEmotionsRoute: typeof CareEmotionsRoute
@@ -4845,6 +4844,7 @@ interface CareRouteChildren {
   CareRituelsPropositionsRoute: typeof CareRituelsPropositionsRoute
   CareRituelsRegardsRoute: typeof CareRituelsRegardsRoute
   CareRituelsTraditionRoute: typeof CareRituelsTraditionRoute
+  CareAideIndexRoute: typeof CareAideIndexRoute
   CareDatesIndexRoute: typeof CareDatesIndexRoute
   CareJournalIndexRoute: typeof CareJournalIndexRoute
   CareRituelsIndexRoute: typeof CareRituelsIndexRoute
@@ -4857,7 +4857,6 @@ interface CareRouteChildren {
 }
 
 const CareRouteChildren: CareRouteChildren = {
-  CareAideRoute: CareAideRoute,
   CareAngoisseRoute: CareAngoisseRoute,
   CareCommunityRoute: CareCommunityRouteWithChildren,
   CareEmotionsRoute: CareEmotionsRoute,
@@ -4888,6 +4887,7 @@ const CareRouteChildren: CareRouteChildren = {
   CareRituelsPropositionsRoute: CareRituelsPropositionsRoute,
   CareRituelsRegardsRoute: CareRituelsRegardsRoute,
   CareRituelsTraditionRoute: CareRituelsTraditionRoute,
+  CareAideIndexRoute: CareAideIndexRoute,
   CareDatesIndexRoute: CareDatesIndexRoute,
   CareJournalIndexRoute: CareJournalIndexRoute,
   CareRituelsIndexRoute: CareRituelsIndexRoute,

@@ -74,7 +74,7 @@ function Emotions() {
           <PrimaryButton to="/care/respirer">Respirer</PrimaryButton>
         </Block>
         <div className="mt-2">
-          <Row title="Parler à quelqu'un, tout de suite" subtitle="Présence, ou une ligne d'écoute" to="/care/aide" />
+          <Row title="Parler à quelqu'un, tout de suite" subtitle="Présence, ou une ligne d'écoute" to="/care/parler" />
           <Row title="Revenir à Aujourd'hui" to="/home" last />
         </div>
       </StandardLayout>

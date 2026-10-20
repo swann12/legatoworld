@@ -20,7 +20,7 @@ export function SelfSoutien() {
       <Lead className="mt-[10px] max-w-[310px]">La peur de la mort touche presque tout le monde. Elle peut s'apaiser.</Lead>
       <SectionLabel className="mt-[30px]">Maintenant</SectionLabel>
       <Row title="Quand l'angoisse monte" subtitle="Trois gestes simples" to="/care/angoisse" />
-      <Row title="En parler" subtitle="À Présence, ou à un psychologue" to="/care/aide" last />
+      <Row title="En parler" subtitle="À Présence, ou à un psychologue" to="/care/parler" last />
       <div className="mt-[26px] px-5" style={{ background: "var(--sp-block)" }}>
         <Row title="Ce que d'autres en ont dit" subtitle="Philosophes, soignants, cinéastes" to="/care/resources" />
         <Row title="Écrire" subtitle="Ce qui vous fait peur, ce qui compte" to="/home/ecrire-peur" last />

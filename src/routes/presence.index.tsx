@@ -76,7 +76,7 @@ function Presence() {
   };
 
   return (
-    <StandardLayout space="support" back="/care/aide" backLabel="Se confier" nav={false} className="lg-presence-page">
+    <StandardLayout space="support" back="/care/parler" backLabel="Parler à quelqu'un" nav={false} className="lg-presence-page">
       <div className="mt-5 flex flex-wrap items-baseline justify-between gap-2">
         <PageTitle size={32}>Présence</PageTitle>
         <p className="lg-mono">Intelligence artificielle</p>
