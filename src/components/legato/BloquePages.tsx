@@ -147,7 +147,7 @@ export function PreparerPage() {
         <p style={{ ...serif, fontSize: 18 }}>Transmis à la personne de votre choix si quelque chose vous arrive</p>
         <p className="mt-1 text-[12.5px]" style={sub}>Elle le recevra avec l'acte de décès, ou si vous êtes hospitalisé</p>
       </div>
-      <div className="pt-5"><PrimaryButton space="practical" to="/practical/vault">Ouvrir mon coffre</PrimaryButton></div>
+      <div className="pt-5"><PrimaryButton space="practical" to="/practical/coffre">Ouvrir mon coffre</PrimaryButton></div>
     </StandardLayout>
   );
 }

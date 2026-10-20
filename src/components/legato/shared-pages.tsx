@@ -5,6 +5,7 @@ import { StandardLayout, PageTitle, Lead, PrimaryButton, TextLink, SectionLabel 
 import { useSavedToast } from "@/components/legato/ActionFeedback";
 
 import { useVault, VAULT_CATS, type VaultCat } from "@/lib/vault-store";
+import { RECU_EXEMPLE } from "@/components/legato/CoffrePages";
 
 const serif = { fontFamily: "var(--lg-serif)", fontWeight: 400 } as const;
 const sub = { color: "var(--sp-sub)" } as const;
@@ -126,8 +127,9 @@ export function SiteOfficiel({ site, url, papiers, duree }: { site: string; url:
 export function DocumentView({ id }: { id: string }) {
   const { show, toast } = useSavedToast();
   const { docs } = useVault();
-  const doc = docs.find((d) => d.id === id);
-  const cat = doc ? VAULT_CATS.find((c) => c.id === doc.cat)?.label : undefined;
+  const recu = RECU_EXEMPLE.find((d) => d.id === id);
+  const doc = docs.find((d) => d.id === id) ?? (recu ? { id, cat: "volontes" as VaultCat, name: recu.title, at: "" } : undefined);
+  const cat = recu ? "Coffre reçu" : doc ? VAULT_CATS.find((c) => c.id === doc.cat)?.label : undefined;
   const noFile = () => show("Pas encore de fichier joint à ce document.");
   return (
     <StandardLayout space="practical" back="/practical" backLabel="Retour" activeTab="/practical">

@@ -222,6 +222,15 @@ import { Route as PracticalAnimalBodyJardinRouteImport } from './routes/practica
 import { Route as PracticalBloqueIndexRouteImport } from './routes/practical.bloque.index'
 import { Route as PracticalBloqueIdRouteImport } from './routes/practical.bloque.$id'
 import { Route as PracticalBloquePresenceRouteImport } from './routes/practical.bloque.presence'
+import { Route as PracticalCoffreRecuIndexRouteImport } from './routes/practical.coffre-recu.index'
+import { Route as PracticalCoffreRecuAttenteRouteImport } from './routes/practical.coffre-recu.attente'
+import { Route as PracticalCoffreRecuDemandeRouteImport } from './routes/practical.coffre-recu.demande'
+import { Route as PracticalCoffreIndexRouteImport } from './routes/practical.coffre.index'
+import { Route as PracticalCoffreIdRouteImport } from './routes/practical.coffre.$id'
+import { Route as PracticalCoffreAjouterRouteImport } from './routes/practical.coffre.ajouter'
+import { Route as PracticalCoffreAlerteRouteImport } from './routes/practical.coffre.alerte'
+import { Route as PracticalCoffreDestinatairesRouteImport } from './routes/practical.coffre.destinataires'
+import { Route as PracticalCoffreTransmissionRouteImport } from './routes/practical.coffre.transmission'
 import { Route as PracticalProsIndexRouteImport } from './routes/practical.pros.index'
 import { Route as PracticalProsKindRouteImport } from './routes/practical.pros.$kind'
 import { Route as PracticalShareIndexRouteImport } from './routes/practical.share.index'
@@ -1343,6 +1352,56 @@ const PracticalBloquePresenceRoute = PracticalBloquePresenceRouteImport.update({
   path: '/presence',
   getParentRoute: () => PracticalBloqueRoute,
 } as any)
+const PracticalCoffreRecuIndexRoute =
+  PracticalCoffreRecuIndexRouteImport.update({
+    id: '/coffre-recu/',
+    path: '/coffre-recu/',
+    getParentRoute: () => PracticalRoute,
+  } as any)
+const PracticalCoffreRecuAttenteRoute =
+  PracticalCoffreRecuAttenteRouteImport.update({
+    id: '/coffre-recu/attente',
+    path: '/coffre-recu/attente',
+    getParentRoute: () => PracticalRoute,
+  } as any)
+const PracticalCoffreRecuDemandeRoute =
+  PracticalCoffreRecuDemandeRouteImport.update({
+    id: '/coffre-recu/demande',
+    path: '/coffre-recu/demande',
+    getParentRoute: () => PracticalRoute,
+  } as any)
+const PracticalCoffreIndexRoute = PracticalCoffreIndexRouteImport.update({
+  id: '/coffre/',
+  path: '/coffre/',
+  getParentRoute: () => PracticalRoute,
+} as any)
+const PracticalCoffreIdRoute = PracticalCoffreIdRouteImport.update({
+  id: '/coffre/$id',
+  path: '/coffre/$id',
+  getParentRoute: () => PracticalRoute,
+} as any)
+const PracticalCoffreAjouterRoute = PracticalCoffreAjouterRouteImport.update({
+  id: '/coffre/ajouter',
+  path: '/coffre/ajouter',
+  getParentRoute: () => PracticalRoute,
+} as any)
+const PracticalCoffreAlerteRoute = PracticalCoffreAlerteRouteImport.update({
+  id: '/coffre/alerte',
+  path: '/coffre/alerte',
+  getParentRoute: () => PracticalRoute,
+} as any)
+const PracticalCoffreDestinatairesRoute =
+  PracticalCoffreDestinatairesRouteImport.update({
+    id: '/coffre/destinataires',
+    path: '/coffre/destinataires',
+    getParentRoute: () => PracticalRoute,
+  } as any)
+const PracticalCoffreTransmissionRoute =
+  PracticalCoffreTransmissionRouteImport.update({
+    id: '/coffre/transmission',
+    path: '/coffre/transmission',
+    getParentRoute: () => PracticalRoute,
+  } as any)
 const PracticalProsIndexRoute = PracticalProsIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -1788,6 +1847,13 @@ export interface FileRoutesByFullPath {
   '/practical/animal-body/jardin': typeof PracticalAnimalBodyJardinRoute
   '/practical/bloque/$id': typeof PracticalBloqueIdRoute
   '/practical/bloque/presence': typeof PracticalBloquePresenceRoute
+  '/practical/coffre-recu/attente': typeof PracticalCoffreRecuAttenteRoute
+  '/practical/coffre-recu/demande': typeof PracticalCoffreRecuDemandeRoute
+  '/practical/coffre/$id': typeof PracticalCoffreIdRoute
+  '/practical/coffre/ajouter': typeof PracticalCoffreAjouterRoute
+  '/practical/coffre/alerte': typeof PracticalCoffreAlerteRoute
+  '/practical/coffre/destinataires': typeof PracticalCoffreDestinatairesRoute
+  '/practical/coffre/transmission': typeof PracticalCoffreTransmissionRoute
   '/practical/pros/$kind': typeof PracticalProsKindRoute
   '/practical/share/$taskId': typeof PracticalShareTaskIdRoute
   '/practical/tasks/$id': typeof PracticalTasksIdRouteWithChildren
@@ -1814,6 +1880,8 @@ export interface FileRoutesByFullPath {
   '/library/$kind/': typeof LibraryKindIndexRoute
   '/practical/animal-body/': typeof PracticalAnimalBodyIndexRoute
   '/practical/bloque/': typeof PracticalBloqueIndexRoute
+  '/practical/coffre-recu/': typeof PracticalCoffreRecuIndexRoute
+  '/practical/coffre/': typeof PracticalCoffreIndexRoute
   '/practical/pros/': typeof PracticalProsIndexRoute
   '/practical/share/': typeof PracticalShareIndexRoute
   '/practical/tasks/': typeof PracticalTasksIndexRoute
@@ -2019,6 +2087,13 @@ export interface FileRoutesByTo {
   '/practical/animal-body/jardin': typeof PracticalAnimalBodyJardinRoute
   '/practical/bloque/$id': typeof PracticalBloqueIdRoute
   '/practical/bloque/presence': typeof PracticalBloquePresenceRoute
+  '/practical/coffre-recu/attente': typeof PracticalCoffreRecuAttenteRoute
+  '/practical/coffre-recu/demande': typeof PracticalCoffreRecuDemandeRoute
+  '/practical/coffre/$id': typeof PracticalCoffreIdRoute
+  '/practical/coffre/ajouter': typeof PracticalCoffreAjouterRoute
+  '/practical/coffre/alerte': typeof PracticalCoffreAlerteRoute
+  '/practical/coffre/destinataires': typeof PracticalCoffreDestinatairesRoute
+  '/practical/coffre/transmission': typeof PracticalCoffreTransmissionRoute
   '/practical/pros/$kind': typeof PracticalProsKindRoute
   '/practical/share/$taskId': typeof PracticalShareTaskIdRoute
   '/practical/wishes/confiance': typeof PracticalWishesConfianceRoute
@@ -2044,6 +2119,8 @@ export interface FileRoutesByTo {
   '/library/$kind': typeof LibraryKindIndexRoute
   '/practical/animal-body': typeof PracticalAnimalBodyIndexRoute
   '/practical/bloque': typeof PracticalBloqueIndexRoute
+  '/practical/coffre-recu': typeof PracticalCoffreRecuIndexRoute
+  '/practical/coffre': typeof PracticalCoffreIndexRoute
   '/practical/pros': typeof PracticalProsIndexRoute
   '/practical/share': typeof PracticalShareIndexRoute
   '/practical/tasks': typeof PracticalTasksIndexRoute
@@ -2280,6 +2357,13 @@ export interface FileRoutesById {
   '/practical/animal-body/jardin': typeof PracticalAnimalBodyJardinRoute
   '/practical/bloque/$id': typeof PracticalBloqueIdRoute
   '/practical/bloque/presence': typeof PracticalBloquePresenceRoute
+  '/practical/coffre-recu/attente': typeof PracticalCoffreRecuAttenteRoute
+  '/practical/coffre-recu/demande': typeof PracticalCoffreRecuDemandeRoute
+  '/practical/coffre/$id': typeof PracticalCoffreIdRoute
+  '/practical/coffre/ajouter': typeof PracticalCoffreAjouterRoute
+  '/practical/coffre/alerte': typeof PracticalCoffreAlerteRoute
+  '/practical/coffre/destinataires': typeof PracticalCoffreDestinatairesRoute
+  '/practical/coffre/transmission': typeof PracticalCoffreTransmissionRoute
   '/practical/pros/$kind': typeof PracticalProsKindRoute
   '/practical/share/$taskId': typeof PracticalShareTaskIdRoute
   '/practical/tasks/$id': typeof PracticalTasksIdRouteWithChildren
@@ -2306,6 +2390,8 @@ export interface FileRoutesById {
   '/library/$kind/': typeof LibraryKindIndexRoute
   '/practical/animal-body/': typeof PracticalAnimalBodyIndexRoute
   '/practical/bloque/': typeof PracticalBloqueIndexRoute
+  '/practical/coffre-recu/': typeof PracticalCoffreRecuIndexRoute
+  '/practical/coffre/': typeof PracticalCoffreIndexRoute
   '/practical/pros/': typeof PracticalProsIndexRoute
   '/practical/share/': typeof PracticalShareIndexRoute
   '/practical/tasks/': typeof PracticalTasksIndexRoute
@@ -2543,6 +2629,13 @@ export interface FileRouteTypes {
     | '/practical/animal-body/jardin'
     | '/practical/bloque/$id'
     | '/practical/bloque/presence'
+    | '/practical/coffre-recu/attente'
+    | '/practical/coffre-recu/demande'
+    | '/practical/coffre/$id'
+    | '/practical/coffre/ajouter'
+    | '/practical/coffre/alerte'
+    | '/practical/coffre/destinataires'
+    | '/practical/coffre/transmission'
     | '/practical/pros/$kind'
     | '/practical/share/$taskId'
     | '/practical/tasks/$id'
@@ -2569,6 +2662,8 @@ export interface FileRouteTypes {
     | '/library/$kind/'
     | '/practical/animal-body/'
     | '/practical/bloque/'
+    | '/practical/coffre-recu/'
+    | '/practical/coffre/'
     | '/practical/pros/'
     | '/practical/share/'
     | '/practical/tasks/'
@@ -2774,6 +2869,13 @@ export interface FileRouteTypes {
     | '/practical/animal-body/jardin'
     | '/practical/bloque/$id'
     | '/practical/bloque/presence'
+    | '/practical/coffre-recu/attente'
+    | '/practical/coffre-recu/demande'
+    | '/practical/coffre/$id'
+    | '/practical/coffre/ajouter'
+    | '/practical/coffre/alerte'
+    | '/practical/coffre/destinataires'
+    | '/practical/coffre/transmission'
     | '/practical/pros/$kind'
     | '/practical/share/$taskId'
     | '/practical/wishes/confiance'
@@ -2799,6 +2901,8 @@ export interface FileRouteTypes {
     | '/library/$kind'
     | '/practical/animal-body'
     | '/practical/bloque'
+    | '/practical/coffre-recu'
+    | '/practical/coffre'
     | '/practical/pros'
     | '/practical/share'
     | '/practical/tasks'
@@ -3034,6 +3138,13 @@ export interface FileRouteTypes {
     | '/practical/animal-body/jardin'
     | '/practical/bloque/$id'
     | '/practical/bloque/presence'
+    | '/practical/coffre-recu/attente'
+    | '/practical/coffre-recu/demande'
+    | '/practical/coffre/$id'
+    | '/practical/coffre/ajouter'
+    | '/practical/coffre/alerte'
+    | '/practical/coffre/destinataires'
+    | '/practical/coffre/transmission'
     | '/practical/pros/$kind'
     | '/practical/share/$taskId'
     | '/practical/tasks/$id'
@@ -3060,6 +3171,8 @@ export interface FileRouteTypes {
     | '/library/$kind/'
     | '/practical/animal-body/'
     | '/practical/bloque/'
+    | '/practical/coffre-recu/'
+    | '/practical/coffre/'
     | '/practical/pros/'
     | '/practical/share/'
     | '/practical/tasks/'
@@ -4659,6 +4772,69 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PracticalBloquePresenceRouteImport
       parentRoute: typeof PracticalBloqueRoute
     }
+    '/practical/coffre-recu/': {
+      id: '/practical/coffre-recu/'
+      path: '/coffre-recu'
+      fullPath: '/practical/coffre-recu/'
+      preLoaderRoute: typeof PracticalCoffreRecuIndexRouteImport
+      parentRoute: typeof PracticalRoute
+    }
+    '/practical/coffre-recu/attente': {
+      id: '/practical/coffre-recu/attente'
+      path: '/coffre-recu/attente'
+      fullPath: '/practical/coffre-recu/attente'
+      preLoaderRoute: typeof PracticalCoffreRecuAttenteRouteImport
+      parentRoute: typeof PracticalRoute
+    }
+    '/practical/coffre-recu/demande': {
+      id: '/practical/coffre-recu/demande'
+      path: '/coffre-recu/demande'
+      fullPath: '/practical/coffre-recu/demande'
+      preLoaderRoute: typeof PracticalCoffreRecuDemandeRouteImport
+      parentRoute: typeof PracticalRoute
+    }
+    '/practical/coffre/': {
+      id: '/practical/coffre/'
+      path: '/coffre'
+      fullPath: '/practical/coffre/'
+      preLoaderRoute: typeof PracticalCoffreIndexRouteImport
+      parentRoute: typeof PracticalRoute
+    }
+    '/practical/coffre/$id': {
+      id: '/practical/coffre/$id'
+      path: '/coffre/$id'
+      fullPath: '/practical/coffre/$id'
+      preLoaderRoute: typeof PracticalCoffreIdRouteImport
+      parentRoute: typeof PracticalRoute
+    }
+    '/practical/coffre/ajouter': {
+      id: '/practical/coffre/ajouter'
+      path: '/coffre/ajouter'
+      fullPath: '/practical/coffre/ajouter'
+      preLoaderRoute: typeof PracticalCoffreAjouterRouteImport
+      parentRoute: typeof PracticalRoute
+    }
+    '/practical/coffre/alerte': {
+      id: '/practical/coffre/alerte'
+      path: '/coffre/alerte'
+      fullPath: '/practical/coffre/alerte'
+      preLoaderRoute: typeof PracticalCoffreAlerteRouteImport
+      parentRoute: typeof PracticalRoute
+    }
+    '/practical/coffre/destinataires': {
+      id: '/practical/coffre/destinataires'
+      path: '/coffre/destinataires'
+      fullPath: '/practical/coffre/destinataires'
+      preLoaderRoute: typeof PracticalCoffreDestinatairesRouteImport
+      parentRoute: typeof PracticalRoute
+    }
+    '/practical/coffre/transmission': {
+      id: '/practical/coffre/transmission'
+      path: '/coffre/transmission'
+      fullPath: '/practical/coffre/transmission'
+      preLoaderRoute: typeof PracticalCoffreTransmissionRouteImport
+      parentRoute: typeof PracticalRoute
+    }
     '/practical/pros/': {
       id: '/practical/pros/'
       path: '/'
@@ -5571,7 +5747,16 @@ interface PracticalRouteChildren {
   PracticalVaultRoute: typeof PracticalVaultRoute
   PracticalWishesRoute: typeof PracticalWishesRouteWithChildren
   PracticalIndexRoute: typeof PracticalIndexRoute
+  PracticalCoffreRecuAttenteRoute: typeof PracticalCoffreRecuAttenteRoute
+  PracticalCoffreRecuDemandeRoute: typeof PracticalCoffreRecuDemandeRoute
+  PracticalCoffreIdRoute: typeof PracticalCoffreIdRoute
+  PracticalCoffreAjouterRoute: typeof PracticalCoffreAjouterRoute
+  PracticalCoffreAlerteRoute: typeof PracticalCoffreAlerteRoute
+  PracticalCoffreDestinatairesRoute: typeof PracticalCoffreDestinatairesRoute
+  PracticalCoffreTransmissionRoute: typeof PracticalCoffreTransmissionRoute
   PracticalShareTaskIdRoute: typeof PracticalShareTaskIdRoute
+  PracticalCoffreRecuIndexRoute: typeof PracticalCoffreRecuIndexRoute
+  PracticalCoffreIndexRoute: typeof PracticalCoffreIndexRoute
   PracticalShareIndexRoute: typeof PracticalShareIndexRoute
 }
 
@@ -5606,7 +5791,16 @@ const PracticalRouteChildren: PracticalRouteChildren = {
   PracticalVaultRoute: PracticalVaultRoute,
   PracticalWishesRoute: PracticalWishesRouteWithChildren,
   PracticalIndexRoute: PracticalIndexRoute,
+  PracticalCoffreRecuAttenteRoute: PracticalCoffreRecuAttenteRoute,
+  PracticalCoffreRecuDemandeRoute: PracticalCoffreRecuDemandeRoute,
+  PracticalCoffreIdRoute: PracticalCoffreIdRoute,
+  PracticalCoffreAjouterRoute: PracticalCoffreAjouterRoute,
+  PracticalCoffreAlerteRoute: PracticalCoffreAlerteRoute,
+  PracticalCoffreDestinatairesRoute: PracticalCoffreDestinatairesRoute,
+  PracticalCoffreTransmissionRoute: PracticalCoffreTransmissionRoute,
   PracticalShareTaskIdRoute: PracticalShareTaskIdRoute,
+  PracticalCoffreRecuIndexRoute: PracticalCoffreRecuIndexRoute,
+  PracticalCoffreIndexRoute: PracticalCoffreIndexRoute,
   PracticalShareIndexRoute: PracticalShareIndexRoute,
 }
 

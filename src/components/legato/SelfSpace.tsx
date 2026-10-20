@@ -72,6 +72,8 @@ export function SelfPreparer() {
             status={isReady(d, it.id) ? <span className="lg-mono" style={{ color: "var(--sp-ink)" }}>fait</span> : undefined} />
         ))}
       </div>
+      {/* D109 · lien vers le coffre */}
+      <div className="pt-[22px]"><Link to="/practical/coffre" className="text-[14px]" style={{ color: "var(--sp-ink)" }}>Mon coffre pour mes proches →</Link></div>
     </StandardLayout>
   );
 }
