@@ -1,4 +1,4 @@
-- New screens use `src/components/legato/ds/` (components + StandardLayout/QuestionLayout/ExperienceLayout) with a `space` prop mapped to `.lg-space-*` CSS vars in styles.css; never hardcode colors in pages. Why: one color pair per space, themable in one place.
+- New screens use `src/components/legato/ds/` and its Standard/Question/Experience layouts; `space` maps to `.lg-space-*` variables in styles.css, never page colors. Why: central, themable space palettes.
 - Global nav is `ds/BottomNav`, with labels/visibility from `space-navigation` and palette from its active tab. Why: shared navigation inherits journey colors even outside the page wrapper.
 - JourneyTheme applies space-kind palette overrides to DS tokens; emergency screens retain their separate colors. Why: explicit DS descendants must not reset the active journey palette.
 - Onboarding keeps animal body answers on the created space and derives its kind through space-navigation. Why: navigation follows the selected space rather than another space's onboarding answers.
@@ -6,7 +6,7 @@
 - Discovery stays local; conversion archives only allowlisted app keys under authenticated RLS. Why: no visitor content leaves the device.
 - DiscoverySession owns the identity listener; conversion completes only after validated sign-in, keeping local content until archive save. Why: failed transfers must not lose visitor work.
 - DS children without an explicit space inherit layout tokens. Why: nested elements must not reset the page palette to Today.
-- The opening flow (/onboarding, /onboarding/practical, /onboarding/care) shares its answers through `src/lib/onboarding-flow.ts` and maps them onto legato-state at the final screen. Why: three routes, one source of truth.
+- /onboarding, /onboarding/practical and /onboarding/care share `src/lib/onboarding-flow.ts` answers, mapped to legato-state on completion. Why: one source of truth.
 - Concrete Démarches (screens 055–062) live in `src/lib/demarches.ts` (status via legato-state taskStatus, steps via task-steps); old category ids still resolve there. Why: one list feeds Démarches, Mon avancement, detail and Confier.
 - Ceremony decisions and flower proposals use the space-scoped practical-store through ceremony-flow; flower views use validated search state on /practical/flowers. Why: one source of truth survives navigation and keeps existing URLs.
 - Text/music proposals and object choices use practical-store; wishes questionnaire views use validated search state and legato-state. Why: existing URLs and saved choices survive navigation without parallel stores.
