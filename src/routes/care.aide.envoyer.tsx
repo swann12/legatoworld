@@ -53,7 +53,7 @@ function Envoyer() {
   const [err, setErr] = useState("");
   const send = async () => {
     // Le lien sécurisé demande un compte : en découverte, rien ne part.
-    if (getDiscovery().active) { navigate({ to: "/start/compte-requis" }); return; }
+    if (getDiscovery().active) { navigate({ to: "/start/compte-requis", search: { action: "invite" } }); return; }
     setBusy(true); setErr("");
     try {
       const items = s.help.filter((h) => h.checked).map(({ id, title, when }) => ({ id, title, when }));
