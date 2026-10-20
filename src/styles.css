@@ -1012,7 +1012,7 @@
   /* Dégradés des pages d'expérience (plein écran, sans barre) */
   --lg-grad-soutien: linear-gradient(180deg, #CFDBE8 0%, #A9D6C4 45%, #2C4B40 100%);
   --lg-grad-nuit:    linear-gradient(180deg, #2C4B40 0%, #5E8F7F 52%, #CFDBE8 100%);
-  --lg-grad-memoire: linear-gradient(180deg, #7A2E2C 0%, #A5534F 42%, #EBC7C4 100%);
+  --lg-grad-memoire: linear-gradient(180deg, #EBC7C4 0%, #C98B86 55%, #7A2E2C 100%);
   --lg-grad-foret:   linear-gradient(180deg, #BFE3D2 0%, #8FBFAA 55%, #5E8F7F 100%);
 
   /* Typographies */
@@ -1059,10 +1059,13 @@
   --sp-line: var(--lg-line-1); --sp-line-2: var(--lg-line-2); --sp-select: var(--lg-linen);
   --sp-stroke: var(--lg-deep); --sp-accent: var(--lg-deep); --sp-fill: var(--lg-deep);
   --sp-block-ink: var(--lg-deep);
+  --sp-title-accent: var(--sp-accent);
 }
 .lg-space-today    { --sp-block: var(--lg-blue);  --sp-btn-bg: var(--lg-deep); --sp-btn-fg: var(--lg-mint); }
 .lg-space-support  { --sp-block: var(--lg-linen); --sp-btn-bg: var(--lg-blue); --sp-btn-fg: var(--lg-deep); }
-.lg-space-practical{ --sp-block: var(--lg-linen); --sp-btn-bg: var(--lg-blue); --sp-btn-fg: var(--lg-deep); --sp-accent: var(--lg-coral-text); --sp-fill: var(--lg-coral); }
+/* Ajouts-4 §1 : seuls les grands titres de Démarches passent au vert profond ;
+   numéros, étiquettes, badges et barre d'avancement restent corail. */
+.lg-space-practical{ --sp-block: var(--lg-linen); --sp-btn-bg: var(--lg-blue); --sp-btn-fg: var(--lg-deep); --sp-accent: var(--lg-coral-text); --sp-fill: var(--lg-coral); --sp-title-accent: var(--lg-deep); }
 .lg-space-memory, .lg-space-community {
   --sp-block: var(--lg-blush); --sp-btn-bg: var(--lg-bordeaux); --sp-btn-fg: var(--lg-blush);
   --sp-accent: var(--lg-bordeaux); --sp-fill: var(--lg-bordeaux); --sp-stroke: var(--lg-bordeaux); --sp-block-ink: var(--lg-bordeaux);
@@ -1148,7 +1151,7 @@
 .lg-home-screen.lg-space-night .lg-home-block .lg-section { color:var(--sp-accent); }
 .lg-home-screen.lg-space-night .lg-home-block > div { margin-top:20px; }
 [data-journey="questions"] .lg-home-block a[style*="--sp-btn-bg"] { border:1px solid var(--lg-deep); background:transparent !important; }
-.lg-ds-title em { font-style: italic; color: var(--sp-accent); }
+.lg-ds-title em { font-style: italic; color: var(--sp-title-accent, var(--sp-accent)); }
 .lg-moodbar { -webkit-appearance: none; appearance: none; height: 14px; border-radius: 7px; background: linear-gradient(90deg, var(--lg-deep), var(--lg-blue)); }
 .lg-moodbar::-webkit-slider-thumb { -webkit-appearance: none; width: 26px; height: 26px; border-radius: 50%; background: var(--lg-cream); border: 1.5px solid var(--lg-deep); }
 .lg-moodbar::-moz-range-thumb { width: 26px; height: 26px; border-radius: 50%; background: var(--lg-cream); border: 1.5px solid var(--lg-deep); }
