@@ -1,0 +1,787 @@
+{
+ "_lire_moi": "Contenus de « Je suis bloqué ». Une entrée = une page d'un écran. Les montants et délais sont ici et nulle part ailleurs ; à revoir chaque année. Statut « a_verifier » : afficher « à vérifier » sous la source.",
+ "familles": [
+  {
+   "id": "premieres-heures",
+   "titre": "Les premières heures"
+  },
+  {
+   "id": "acces-argent-papiers",
+   "titre": "Accès, argent, papiers"
+  },
+  {
+   "id": "famille-maison-travail",
+   "titre": "Famille, maison, travail"
+  },
+  {
+   "id": "il-ne-peut-plus-decider",
+   "titre": "Il ne peut plus décider"
+  },
+  {
+   "id": "sommes-a-demander",
+   "titre": "Les sommes à demander"
+  }
+ ],
+ "situations": [
+  {
+   "id": "maison",
+   "ecran": "b-maison",
+   "famille": "premieres-heures",
+   "titre": "Le décès a eu lieu à la maison",
+   "en_clair": null,
+   "etapes": [
+    {
+     "texte": "Appelez son médecin, ou le 15 la nuit : un médecin doit constater le décès et signer le certificat.",
+     "action": {
+      "libelle": "Appeler le 15",
+      "type": "appel",
+      "cible": null
+     }
+    },
+    {
+     "texte": "Appelez des pompes funèbres : avec votre mandat, elles déclarent le décès à la mairie.",
+     "action": {
+      "libelle": "Trouver des pompes funèbres",
+      "type": "page",
+      "cible": "f-pompes-funebres"
+     }
+    },
+    {
+     "texte": "Vous avez du temps : les obsèques peuvent avoir lieu jusqu'à 14 jours après le décès.",
+     "action": null
+    }
+   ],
+   "papiers": [
+    "Sa pièce d'identité",
+    "Son livret de famille"
+   ],
+   "bouton_principal": null,
+   "source": "service-public.fr (F909), décret du 10 juillet 2024",
+   "verifie_le": "2026-10",
+   "statut": "verifie"
+  },
+  {
+   "id": "hopital-deces",
+   "ecran": "b-hopital-deces",
+   "famille": "premieres-heures",
+   "titre": "À l'hôpital ou en maison de retraite",
+   "en_clair": null,
+   "etapes": [
+    {
+     "texte": "L'établissement fait constater le décès et le déclare lui-même à la mairie.",
+     "action": null
+    },
+    {
+     "texte": "Choisissez librement vos pompes funèbres ; chacune doit vous remettre un devis gratuit.",
+     "action": {
+      "libelle": "Comparer des pompes funèbres",
+      "type": "page",
+      "cible": "f-pompes-funebres"
+     }
+    },
+    {
+     "texte": "Le corps peut rester gratuitement trois jours à la chambre mortuaire de l'hôpital.",
+     "action": null
+    }
+   ],
+   "papiers": [],
+   "bouton_principal": null,
+   "source": "service-public.fr (F909), economie.gouv.fr (DGCCRF)",
+   "verifie_le": "2026-10",
+   "statut": "verifie"
+  },
+  {
+   "id": "enquete",
+   "ecran": "b-enquete",
+   "famille": "premieres-heures",
+   "titre": "Un accident, une mort inexpliquée",
+   "en_clair": "Quand la cause du décès n'est pas claire, la justice vérifie d'abord ce qui s'est passé.",
+   "etapes": [
+    {
+     "texte": "Si les causes sont suspectes, ce sont les forces de l'ordre qui déclarent le décès ; le procureur, le magistrat chargé de l'enquête, peut demander un examen.",
+     "action": null
+    },
+    {
+     "texte": "Les obsèques ont lieu au plus tard 14 jours après l'autorisation du procureur.",
+     "action": null
+    },
+    {
+     "texte": "Demandez au commissariat ou à la gendarmerie qui suit le dossier, et quand le corps sera rendu.",
+     "action": {
+      "libelle": "Écrire à Présence",
+      "type": "page",
+      "cible": "b-presence"
+     }
+    }
+   ],
+   "papiers": [],
+   "bouton_principal": null,
+   "source": "service-public.fr (F909), notaires.fr",
+   "verifie_le": "2026-10",
+   "statut": "verifie"
+  },
+  {
+   "id": "etranger",
+   "ecran": "b-etranger",
+   "famille": "premieres-heures",
+   "titre": "Le décès a eu lieu à l'étranger",
+   "en_clair": "Le consulat est le bureau de la France dans le pays. Il vous aide sur place.",
+   "etapes": [
+    {
+     "texte": "Le décès est déclaré à l'état civil du pays. Prévenez l'ambassade ou le consulat de France : il vous aide pour les obsèques ou le rapatriement.",
+     "action": {
+      "libelle": "Trouver le consulat",
+      "type": "lien_officiel",
+      "cible": null
+     }
+    },
+    {
+     "texte": "Vérifiez son assurance voyage, ou celle de sa carte bancaire, pour le rapatriement.",
+     "action": null
+    },
+    {
+     "texte": "Le consulat peut transcrire l'acte de décès en France : c'est recommandé pour la succession et la retraite.",
+     "action": null
+    }
+   ],
+   "papiers": [
+    "Son passeport",
+    "Ses contrats d'assurance"
+   ],
+   "bouton_principal": null,
+   "source": "service-public.fr (F911)",
+   "verifie_le": "2026-10",
+   "statut": "verifie"
+  },
+  {
+   "id": "enfant-deces",
+   "ecran": "b-enfant-deces",
+   "famille": "premieres-heures",
+   "titre": "Le décès d'un enfant",
+   "en_clair": null,
+   "etapes": [
+    {
+     "texte": "Prenez le temps : rien n'oblige à décider dans l'heure. Les soignants peuvent vous laisser du temps auprès de lui.",
+     "action": null
+    },
+    {
+     "texte": "Salarié : au moins 14 jours ouvrables de congé, plus 8 jours de congé de deuil, pour un enfant de moins de 25 ans.",
+     "action": null
+    },
+    {
+     "texte": "Des associations de parents endeuillés vous accompagnent.",
+     "action": {
+      "libelle": "Voir les groupes",
+      "type": "lien_officiel",
+      "cible": null
+     }
+    }
+   ],
+   "papiers": [],
+   "bouton_principal": {
+    "libelle": "Prévenir mon employeur",
+    "type": "message",
+    "cible": null
+   },
+   "source": "service-public.fr (F2278), Code du travail",
+   "verifie_le": "2026-10",
+   "statut": "verifie"
+  },
+  {
+   "id": "suicide",
+   "ecran": "b-suicide",
+   "famille": "premieres-heures",
+   "titre": "Après un suicide",
+   "en_clair": null,
+   "etapes": [
+    {
+     "texte": "Le 3114 accompagne aussi les personnes endeuillées par un suicide, jour et nuit, gratuitement.",
+     "action": {
+      "libelle": "Appeler le 3114",
+      "type": "appel",
+      "cible": null
+     }
+    },
+    {
+     "texte": "La police et le procureur interviennent : c'est la règle, pas une accusation.",
+     "action": null
+    },
+    {
+     "texte": "La culpabilité est presque toujours là. Elle n'est pas la vérité : parlez-en à quelqu'un.",
+     "action": null
+    }
+   ],
+   "papiers": [],
+   "bouton_principal": {
+    "libelle": "Écrire à Présence",
+    "type": "page",
+    "cible": "b-presence"
+   },
+   "source": "3114.fr, agences régionales de santé",
+   "verifie_le": "2026-10",
+   "statut": "verifie"
+  },
+  {
+   "id": "mots-de-passe",
+   "ecran": "b-mots-de-passe",
+   "famille": "acces-argent-papiers",
+   "titre": "Je n'ai pas ses mots de passe",
+   "en_clair": null,
+   "etapes": [
+    {
+     "texte": "N'essayez pas de codes au hasard : Apple ne peut pas déverrouiller un iPhone sans l'effacer.",
+     "action": null
+    },
+    {
+     "texte": "S'il vous a choisi comme contact légataire, sa clé et l'acte de décès suffisent.",
+     "action": {
+      "libelle": "Faire la demande Apple",
+      "type": "lien_officiel",
+      "cible": null
+     }
+    },
+    {
+     "texte": "Sinon, une demande reste possible avec l'acte de décès ; Apple peut exiger un jugement. Google a un formulaire.",
+     "action": {
+      "libelle": "Formulaire Google",
+      "type": "lien_officiel",
+      "cible": null
+     }
+    }
+   ],
+   "papiers": [
+    "Acte de décès",
+    "Votre pièce d'identité"
+   ],
+   "bouton_principal": null,
+   "source": "support.apple.com, support.google.com",
+   "verifie_le": "2026-10",
+   "statut": "verifie"
+  },
+  {
+   "id": "comptes",
+   "ecran": "b-comptes",
+   "famille": "acces-argent-papiers",
+   "titre": "Ses comptes en ligne",
+   "en_clair": null,
+   "etapes": [
+    {
+     "texte": "Facebook, Instagram : compte de commémoration ou suppression.",
+     "action": {
+      "libelle": "Faire la demande",
+      "type": "lien_officiel",
+      "cible": null
+     }
+    },
+    {
+     "texte": "Google, Apple : demande avec l'acte de décès.",
+     "action": {
+      "libelle": "Ouvrir les formulaires",
+      "type": "lien_officiel",
+      "cible": null
+     }
+    },
+    {
+     "texte": "Prévenez ses contacts par un message simple.",
+     "action": {
+      "libelle": "Message prêt à envoyer",
+      "type": "message",
+      "cible": null
+     }
+    }
+   ],
+   "papiers": [
+    "Acte de décès"
+   ],
+   "bouton_principal": null,
+   "source": "aides de Meta, Google, Apple",
+   "verifie_le": null,
+   "statut": "a_verifier"
+  },
+  {
+   "id": "papiers",
+   "ecran": "b-papiers",
+   "famille": "acces-argent-papiers",
+   "titre": "Je ne trouve pas ses papiers",
+   "en_clair": "Des services officiels et gratuits retrouvent ses comptes, ses assurances et son testament.",
+   "etapes": [
+    {
+     "texte": "Ses comptes : écrivez au fichier des comptes bancaires (Ficoba). C'est gratuit.",
+     "action": {
+      "libelle": "Courrier prêt à envoyer",
+      "type": "courrier",
+      "cible": null
+     }
+    },
+    {
+     "texte": "Ses assurances-vie : demande gratuite en ligne à l'AGIRA, l'organisme qui recherche les contrats ; au-delà de 10 ans, sur Ciclade, le service public de l'argent oublié.",
+     "action": {
+      "libelle": "Faire la demande",
+      "type": "lien_officiel",
+      "cible": null
+     }
+    },
+    {
+     "texte": "Son testament : le notaire consulte le registre national des testaments.",
+     "action": {
+      "libelle": "Trouver un notaire",
+      "type": "page",
+      "cible": "f-pro-guide"
+     }
+    }
+   ],
+   "papiers": [
+    "Acte de décès",
+    "Votre pièce d'identité",
+    "Preuve d'héritier"
+   ],
+   "bouton_principal": null,
+   "source": "service-public.fr (F2233), justice.fr",
+   "verifie_le": "2026-10",
+   "statut": "verifie"
+  },
+  {
+   "id": "argent",
+   "ecran": "b-argent",
+   "famille": "acces-argent-papiers",
+   "titre": "Je n'ai plus accès à l'argent",
+   "en_clair": null,
+   "etapes": [
+    {
+     "texte": "Ses comptes à son seul nom sont bloqués. Un compte joint reste en principe ouvert pour l'autre titulaire.",
+     "action": null
+    },
+    {
+     "texte": "Sa banque peut payer les obsèques directement, sur facture, jusqu'à près de 6 000 € (plafond revu chaque année).",
+     "action": {
+      "libelle": "Courrier prêt pour la banque",
+      "type": "courrier",
+      "cible": "f-modele-courrier"
+     }
+    },
+    {
+     "texte": "Il avait peut-être un contrat obsèques : l'AGIRA le recherche gratuitement.",
+     "action": {
+      "libelle": "Faire la recherche",
+      "type": "lien_officiel",
+      "cible": null
+     }
+    }
+   ],
+   "papiers": [
+    "Facture des pompes funèbres",
+    "Acte de décès"
+   ],
+   "bouton_principal": null,
+   "source": "Code monétaire et financier (L312-1-4), senat.fr",
+   "verifie_le": "2026-10",
+   "statut": "verifie"
+  },
+  {
+   "id": "credits",
+   "ecran": "b-credits",
+   "famille": "acces-argent-papiers",
+   "titre": "Ses crédits et ses dettes",
+   "en_clair": "Ce qu'il devait encore rembourser, et ce que devient cette dette.",
+   "etapes": [
+    {
+     "texte": "Un crédit immobilier est souvent remboursé par l'assurance liée au prêt : prévenez la banque.",
+     "action": null
+    },
+    {
+     "texte": "Les dettes font partie de la succession : vous pouvez l'accepter, l'accepter seulement à hauteur de ses biens, ou la refuser.",
+     "action": null
+    },
+    {
+     "texte": "Pendant 4 mois, personne ne peut vous obliger à choisir ; sinon, vous avez jusqu'à 10 ans.",
+     "action": {
+      "libelle": "Trouver un notaire",
+      "type": "page",
+      "cible": "f-pro-guide"
+     }
+    }
+   ],
+   "papiers": [],
+   "bouton_principal": null,
+   "source": "service-public.fr (F1199)",
+   "verifie_le": "2026-10",
+   "statut": "verifie"
+  },
+  {
+   "id": "contrats",
+   "ecran": "b-contrats",
+   "famille": "acces-argent-papiers",
+   "titre": "Ses abonnements et contrats",
+   "en_clair": null,
+   "etapes": [
+    {
+     "texte": "Téléphone, internet, énergie, assurances : la résiliation se fait avec l'acte de décès.",
+     "action": {
+      "libelle": "Préparer les courriers",
+      "type": "courrier",
+      "cible": null
+     }
+    },
+    {
+     "texte": "Le contrat d'énergie peut être passé à votre nom si vous restez dans le logement.",
+     "action": null
+    },
+    {
+     "texte": "Gardez sa ligne quelques semaines si des codes arrivent par SMS.",
+     "action": null
+    }
+   ],
+   "papiers": [
+    "Acte de décès",
+    "Numéros de contrat"
+   ],
+   "bouton_principal": null,
+   "source": "service-public.fr",
+   "verifie_le": null,
+   "statut": "a_verifier"
+  },
+  {
+   "id": "enfants",
+   "ecran": "b-enfants",
+   "famille": "famille-maison-travail",
+   "titre": "Les enfants mineurs",
+   "en_clair": null,
+   "etapes": [
+    {
+     "texte": "Si l'autre parent est en vie, c'est lui seul qui décide pour l'enfant.",
+     "action": null
+    },
+    {
+     "texte": "Si aucun parent ne peut s'en occuper, le juge des tutelles désigne qui le fera.",
+     "action": null
+    },
+    {
+     "texte": "La CAF peut verser une aide chaque mois pour l'enfant et, pour un temps, une aide à domicile.",
+     "action": {
+      "libelle": "Faire la demande",
+      "type": "lien_officiel",
+      "cible": null
+     }
+    }
+   ],
+   "papiers": [],
+   "bouton_principal": null,
+   "source": "service-public.fr, caf.fr",
+   "verifie_le": "2026-10",
+   "statut": "verifie"
+  },
+  {
+   "id": "logement",
+   "ecran": "b-logement",
+   "famille": "famille-maison-travail",
+   "titre": "Le logement",
+   "en_clair": "Le bail est le contrat de location. Ce qu'il devient dépend de qui vivait avec lui.",
+   "etapes": [
+    {
+     "texte": "Le bail continue pour le conjoint ou le partenaire de Pacs ; il passe au concubin, aux enfants ou aux parents s'ils vivaient avec lui depuis au moins un an.",
+     "action": null
+    },
+    {
+     "texte": "S'il vivait seul, le bail prend fin à la date du décès, sans préavis.",
+     "action": null
+    },
+    {
+     "texte": "Prévenez le bailleur et les fournisseurs d'énergie.",
+     "action": {
+      "libelle": "Courriers prêts",
+      "type": "courrier",
+      "cible": null
+     }
+    }
+   ],
+   "papiers": [],
+   "bouton_principal": null,
+   "source": "loi du 6 juillet 1989, art. 14 ; notaires.fr, ANIL",
+   "verifie_le": "2026-10",
+   "statut": "verifie"
+  },
+  {
+   "id": "voiture",
+   "ecran": "b-voiture",
+   "famille": "famille-maison-travail",
+   "titre": "La voiture",
+   "en_clair": null,
+   "etapes": [
+    {
+     "texte": "L'assurance continue au profit des héritiers : prévenez l'assureur, puis gardez-la ou résiliez-la.",
+     "action": null
+    },
+    {
+     "texte": "Si vous la vendez ou la donnez dans les 3 mois, inutile de refaire la carte grise.",
+     "action": null
+    },
+    {
+     "texte": "Si vous la gardez, la carte grise est refaite au nom d'un héritier, en ligne.",
+     "action": {
+      "libelle": "Site de l'ANTS",
+      "type": "lien_officiel",
+      "cible": null
+     }
+    }
+   ],
+   "papiers": [],
+   "bouton_principal": null,
+   "source": "Code des assurances (L121-10), ANTS",
+   "verifie_le": "2026-10",
+   "statut": "verifie"
+  },
+  {
+   "id": "conges",
+   "ecran": "b-conges",
+   "famille": "famille-maison-travail",
+   "titre": "Votre travail",
+   "en_clair": null,
+   "etapes": [
+    {
+     "texte": "Salarié : au moins 3 jours pour un conjoint, un parent, un frère ou une sœur ; 12 à 14 jours pour un enfant. Votre convention peut prévoir plus.",
+     "action": null
+    },
+    {
+     "texte": "Prévenez votre employeur avec un message simple.",
+     "action": {
+      "libelle": "Message prêt",
+      "type": "message",
+      "cible": null
+     }
+    },
+    {
+     "texte": "Si vous n'êtes pas en état de reprendre, votre médecin peut vous arrêter.",
+     "action": null
+    }
+   ],
+   "papiers": [],
+   "bouton_principal": null,
+   "source": "service-public.fr (F2278), Code du travail",
+   "verifie_le": "2026-10",
+   "statut": "verifie"
+  },
+  {
+   "id": "son-travail",
+   "ecran": "b-son-travail",
+   "famille": "famille-maison-travail",
+   "titre": "Son travail ou son entreprise",
+   "en_clair": null,
+   "etapes": [
+    {
+     "texte": "Prévenez son employeur : il doit verser son dernier salaire et ses congés non pris.",
+     "action": {
+      "libelle": "Courrier prêt",
+      "type": "courrier",
+      "cible": null
+     }
+    },
+    {
+     "texte": "Vérifiez l'assurance décès de son entreprise : elle verse souvent une somme aux proches.",
+     "action": null
+    },
+    {
+     "texte": "S'il était indépendant, son activité peut être reprise ou fermée ; un expert-comptable vous guide.",
+     "action": null
+    }
+   ],
+   "papiers": [],
+   "bouton_principal": null,
+   "source": "service-public.fr",
+   "verifie_le": null,
+   "statut": "a_verifier"
+  },
+  {
+   "id": "hopital",
+   "ecran": "b-hopital",
+   "famille": "il-ne-peut-plus-decider",
+   "titre": "Il est à l'hôpital, il ne peut plus parler",
+   "en_clair": null,
+   "etapes": [
+    {
+     "texte": "Sa personne de confiance, s'il en a désigné une, parle aux médecins pour lui.",
+     "action": null
+    },
+    {
+     "texte": "S'il peut encore signer, une procuration suffit pour la banque.",
+     "action": null
+    },
+    {
+     "texte": "Sinon, un juge peut autoriser un proche à le représenter.",
+     "action": {
+      "libelle": "L'habilitation familiale",
+      "type": "page",
+      "cible": "b-habilitation"
+     }
+    }
+   ],
+   "papiers": [],
+   "bouton_principal": null,
+   "source": "service-public.fr",
+   "verifie_le": "2026-10",
+   "statut": "verifie"
+  },
+  {
+   "id": "habilitation",
+   "ecran": "b-habilitation",
+   "famille": "il-ne-peut-plus-decider",
+   "titre": "Agir à sa place, durablement",
+   "en_clair": "Une autorisation du juge pour gérer ses papiers et son argent à sa place.",
+   "etapes": [
+    {
+     "texte": "L'habilitation familiale permet à un proche de le représenter, sans tutelle lourde, si une procuration ne suffit pas.",
+     "action": null
+    },
+    {
+     "texte": "La demande va au juge des contentieux de la protection, avec le certificat d'un médecin inscrit sur la liste du procureur (pas le médecin traitant).",
+     "action": null
+    },
+    {
+     "texte": "Elle peut être demandée par son conjoint, ses enfants, ses parents, ses frères et sœurs.",
+     "action": {
+      "libelle": "Formulaire officiel",
+      "type": "lien_officiel",
+      "cible": null
+     }
+    }
+   ],
+   "papiers": [
+    "Certificat médical circonstancié (environ 160 €)",
+    "Pièces d'identité"
+   ],
+   "bouton_principal": null,
+   "source": "service-public.fr, justice.fr",
+   "verifie_le": "2026-10",
+   "statut": "verifie"
+  },
+  {
+   "id": "telephone",
+   "ecran": "b-telephone",
+   "famille": "il-ne-peut-plus-decider",
+   "titre": "Son téléphone, ses comptes",
+   "en_clair": null,
+   "etapes": [
+    {
+     "texte": "S'il est en vie, personne ne peut accéder à ses comptes sans son accord ou celui d'un juge.",
+     "action": null
+    },
+    {
+     "texte": "N'essayez pas de codes au hasard : un iPhone peut s'effacer.",
+     "action": null
+    },
+    {
+     "texte": "Après un décès, les demandes se font avec l'acte de décès.",
+     "action": {
+      "libelle": "Je n'ai pas ses mots de passe",
+      "type": "page",
+      "cible": "b-mots-de-passe"
+     }
+    }
+   ],
+   "papiers": [],
+   "bouton_principal": null,
+   "source": "support.apple.com, service-public.fr",
+   "verifie_le": "2026-10",
+   "statut": "verifie"
+  },
+  {
+   "id": "capital",
+   "ecran": "b-capital",
+   "famille": "sommes-a-demander",
+   "titre": "Le capital décès",
+   "en_clair": "Une somme versée par l'Assurance maladie aux proches d'une personne qui travaillait, pour faire face aux premiers frais.",
+   "etapes": [
+    {
+     "texte": "L'Assurance maladie verse 4 009 € aux proches d'un salarié ou d'un demandeur d'emploi, depuis le 1er avril 2026.",
+     "action": null
+    },
+    {
+     "texte": "Il n'est pas automatique : demandez-le dans le mois pour rester prioritaire ; sinon, dans les 2 ans.",
+     "action": null
+    },
+    {
+     "texte": "Le formulaire part à sa caisse d'assurance maladie.",
+     "action": {
+      "libelle": "Formulaire déjà rempli",
+      "type": "lien_officiel",
+      "cible": null
+     }
+    }
+   ],
+   "papiers": [
+    "Acte de décès",
+    "Votre RIB",
+    "Livret de famille"
+   ],
+   "bouton_principal": null,
+   "source": "ameli.fr (revalorisé chaque 1er avril)",
+   "verifie_le": "2026-10",
+   "statut": "verifie"
+  },
+  {
+   "id": "reversion",
+   "ecran": "b-reversion",
+   "famille": "sommes-a-demander",
+   "titre": "La pension de réversion",
+   "en_clair": "Une partie de sa retraite, versée chaque mois à son époux ou à son épouse.",
+   "etapes": [
+    {
+     "texte": "Le conjoint marié, même divorcé, peut toucher une partie de sa retraite ; pas un partenaire de Pacs ni un concubin.",
+     "action": null
+    },
+    {
+     "texte": "Une seule demande en ligne vaut pour tous ses régimes de retraite.",
+     "action": {
+      "libelle": "Faire la demande",
+      "type": "lien_officiel",
+      "cible": null
+     }
+    },
+    {
+     "texte": "Elle n'est jamais automatique : il faut la demander.",
+     "action": null
+    }
+   ],
+   "papiers": [
+    "Acte de décès",
+    "Livret de famille",
+    "Votre avis d'imposition"
+   ],
+   "bouton_principal": null,
+   "source": "info-retraite.fr, retraitesdeletat.gouv.fr",
+   "verifie_le": "2026-10",
+   "statut": "verifie"
+  },
+  {
+   "id": "assurance-vie",
+   "ecran": "b-assurance-vie",
+   "famille": "sommes-a-demander",
+   "titre": "L'assurance-vie et la prévoyance",
+   "en_clair": "Deux formes d'épargne ou d'assurance qui versent une somme à des proches après un décès.",
+   "etapes": [
+    {
+     "texte": "Si vous ne savez pas s'il avait un contrat, l'AGIRA le recherche gratuitement.",
+     "action": {
+      "libelle": "Faire la demande",
+      "type": "lien_officiel",
+      "cible": null
+     }
+    },
+    {
+     "texte": "Seul le bénéficiaire est contacté par l'assureur, qui paie dans le mois une fois le dossier complet.",
+     "action": null
+    },
+    {
+     "texte": "Décès de plus de 10 ans : la recherche se fait sur Ciclade.",
+     "action": null
+    }
+   ],
+   "papiers": [
+    "Acte de décès"
+   ],
+   "bouton_principal": null,
+   "source": "justice.fr (service-public), Code des assurances",
+   "verifie_le": "2026-10",
+   "statut": "verifie"
+  }
+ ]
+}

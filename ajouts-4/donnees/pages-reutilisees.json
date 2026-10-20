@@ -1,0 +1,711 @@
+{
+ "_lire_moi": "Les pages réutilisées : une seule page construite, ouverte par plusieurs boutons. Le contenu (destinataires, texte, site, papiers, document…) vient du bouton et de l'espace. Ne jamais créer une page séparée pour chaque bouton.",
+ "pages": {
+  "x-message": {
+   "route": "/partage/message",
+   "parametres": [
+    "destinataires",
+    "texte",
+    "canal (SMS, e-mail, copier)"
+   ],
+   "utilisee_par": [
+    {
+     "ecran": "b-comptes",
+     "bouton": "Message prêt à envoyer →"
+    },
+    {
+     "ecran": "b-conges",
+     "bouton": "Message prêt →"
+    },
+    {
+     "ecran": "b-enfant-deces",
+     "bouton": "Prévenir mon employeur"
+    },
+    {
+     "ecran": "fa-abonnements",
+     "bouton": "Préparer les messages"
+    },
+    {
+     "ecran": "fq-directives",
+     "bouton": "En parler d'abord avec mon médecin"
+    },
+    {
+     "ecran": "fq-don",
+     "bouton": "Écrire un mot à mes proches"
+    },
+    {
+     "ecran": "so-aide-suivi",
+     "bouton": "Relancer gentiment"
+    },
+    {
+     "ecran": "so-psy-rembourse",
+     "bouton": "Un message prêt pour prendre rendez-vous"
+    },
+    {
+     "ecran": "so-psy",
+     "bouton": "Votre médecin traitant le premier à voir si vous dormez ou mangez mal"
+    },
+    {
+     "ecran": "x-prevenir",
+     "bouton": "Voir le message"
+    },
+    {
+     "ecran": "f-anniversaire",
+     "bouton": "2 Avec des proches Inviter quelques personnes, simplement"
+    },
+    {
+     "ecran": "f-date-difficile",
+     "bouton": "Prévenir un proche Lui demander de passer, ou d'appeler"
+    },
+    {
+     "ecran": "f-rdv-detail",
+     "bouton": "Y aller accompagné Claire est libre ce jour-là"
+    }
+   ]
+  },
+  "x-lien-officiel": {
+   "route": "/partage/site-officiel",
+   "parametres": [
+    "site",
+    "papiers à préparer",
+    "durée",
+    "étape à cocher au retour"
+   ],
+   "utilisee_par": [
+    {
+     "ecran": "b-argent",
+     "bouton": "Faire la recherche →"
+    },
+    {
+     "ecran": "b-assurance-vie",
+     "bouton": "Faire la demande →"
+    },
+    {
+     "ecran": "b-capital",
+     "bouton": "Formulaire déjà rempli →"
+    },
+    {
+     "ecran": "b-comptes",
+     "bouton": "Faire la demande →"
+    },
+    {
+     "ecran": "b-comptes",
+     "bouton": "Ouvrir les formulaires →"
+    },
+    {
+     "ecran": "b-enfants",
+     "bouton": "Faire la demande →"
+    },
+    {
+     "ecran": "b-etranger",
+     "bouton": "Trouver le consulat →"
+    },
+    {
+     "ecran": "b-habilitation",
+     "bouton": "Formulaire officiel →"
+    },
+    {
+     "ecran": "b-mots-de-passe",
+     "bouton": "Faire la demande Apple →"
+    },
+    {
+     "ecran": "b-mots-de-passe",
+     "bouton": "Formulaire Google →"
+    },
+    {
+     "ecran": "b-papiers",
+     "bouton": "Faire la demande →"
+    },
+    {
+     "ecran": "b-reversion",
+     "bouton": "Faire la demande →"
+    },
+    {
+     "ecran": "b-voiture",
+     "bouton": "Site de l'ANTS →"
+    },
+    {
+     "ecran": "e-echeance",
+     "bouton": "Faire la demande, déjà remplie"
+    },
+    {
+     "ecran": "fa-cimetiere",
+     "bouton": "Trouver un cimetière proche"
+    },
+    {
+     "ecran": "fa-declarer",
+     "bouton": "Ouvrir le site de déclaration"
+    },
+    {
+     "ecran": "fm-ajpa",
+     "bouton": "Faire la demande en ligne"
+    },
+    {
+     "ecran": "fq-directives",
+     "bouton": "Les rédiger avec le modèle officiel"
+    },
+    {
+     "ecran": "k-demande",
+     "bouton": "Demander l'acte de décès"
+    },
+    {
+     "ecran": "l-film",
+     "bouton": "Où le voir"
+    },
+    {
+     "ecran": "so-psy-rembourse",
+     "bouton": "Trouver un psychologue près de chez moi"
+    },
+    {
+     "ecran": "x-lien-officiel",
+     "bouton": "Ouvrir le site officiel"
+    },
+    {
+     "ecran": "f-ressource",
+     "bouton": "Où le trouver"
+    },
+    {
+     "ecran": "f-ses-affaires",
+     "bouton": "Trouver un refuge près de chez vous"
+    },
+    {
+     "ecran": "f-une-demarche",
+     "bouton": "Faire la demande en ligne"
+    }
+   ]
+  },
+  "x-document": {
+   "route": "/documents/$id",
+   "parametres": [
+    "document"
+   ],
+   "utilisee_par": [
+    {
+     "ecran": "d-etat-delegue",
+     "bouton": "Voir le document"
+    },
+    {
+     "ecran": "k-recus",
+     "bouton": "Copie de son testament à remettre au notaire Ouvrir"
+    },
+    {
+     "ecran": "k-recus",
+     "bouton": "Son contrat obsèques à transmettre aux pompes funèbres Ouvrir"
+    },
+    {
+     "ecran": "k-recus",
+     "bouton": "La liste de ses comptes utile pour la banque et le notaire Ouvrir"
+    },
+    {
+     "ecran": "k-recus",
+     "bouton": "Où trouver ses codes dans le tiroir du bureau Ouvrir"
+    },
+    {
+     "ecran": "x-dossier",
+     "bouton": "Relevé du compte joint septembre 2026"
+    },
+    {
+     "ecran": "x-dossier",
+     "bouton": "Attestation de la banque soldes au jour du décès"
+    }
+   ]
+  },
+  "x-dossier": {
+   "route": "/documents/dossier/$categorie",
+   "parametres": [
+    "catégorie"
+   ],
+   "utilisee_par": [
+    {
+     "ecran": "f-documents",
+     "bouton": "Identité et état civil 3"
+    },
+    {
+     "ecran": "f-documents",
+     "bouton": "Banque 2"
+    },
+    {
+     "ecran": "f-documents",
+     "bouton": "Logement 1"
+    },
+    {
+     "ecran": "f-documents",
+     "bouton": "Assurances 2"
+    },
+    {
+     "ecran": "f-documents",
+     "bouton": "Volontés 1"
+    }
+   ]
+  },
+  "x-prevenir": {
+   "route": "/practical/prevenir",
+   "parametres": [
+    "groupes de proches"
+   ],
+   "utilisee_par": [
+    {
+     "ecran": "b-acces",
+     "bouton": "3 Prévenir les proches Un message prêt à envoyer"
+    },
+    {
+     "ecran": "d-etat-debut",
+     "bouton": "3 Prévenir les proches Un message prêt à envoyer"
+    },
+    {
+     "ecran": "f-volontes",
+     "bouton": "4 Qui prévenir Une liste de personnes"
+    }
+   ]
+  },
+  "x-article": {
+   "route": "/aide/$article",
+   "parametres": [
+    "article"
+   ],
+   "utilisee_par": [
+    {
+     "ecran": "fa-memoire",
+     "bouton": "Son collier, sa gamelle Que garder, à votre rythme"
+    },
+    {
+     "ecran": "fm-directives",
+     "bouton": "Voir des phrases"
+    },
+    {
+     "ecran": "fm-volontes",
+     "bouton": "Comment ouvrir la conversation"
+    },
+    {
+     "ecran": "fq-testament",
+     "bouton": "Ce qu'il faut savoir avant"
+    },
+    {
+     "ecran": "f-aide-contact",
+     "bouton": "Comment supprimer un souvenir ? ↗"
+    },
+    {
+     "ecran": "f-aide-contact",
+     "bouton": "Comment inviter un proche ? ↗"
+    },
+    {
+     "ecran": "f-aide-contact",
+     "bouton": "Mes données sont-elles protégées ? ↗"
+    }
+   ]
+  },
+  "x-supprimer": {
+   "route": "/reglages/supprimer",
+   "parametres": [
+    "ce qui est supprimé ou archivé"
+   ],
+   "utilisee_par": [
+    {
+     "ecran": "f-donnees",
+     "bouton": "Supprimer un espace Ses souvenirs et ses démarches seront effacés ↗"
+    },
+    {
+     "ecran": "f-donnees",
+     "bouton": "Supprimer mon compte Tout sera effacé, définitivement ↗"
+    }
+   ]
+  },
+  "x-mot-de-passe": {
+   "route": "/auth/mot-de-passe",
+   "parametres": [],
+   "utilisee_par": [
+    {
+     "ecran": "f-connexion",
+     "bouton": "Mot de passe oublié"
+    }
+   ]
+  },
+  "f-modele-courrier": {
+   "route": "/practical/courrier/$modele",
+   "parametres": [
+    "modèle de courrier",
+    "informations de l'espace"
+   ],
+   "utilisee_par": [
+    {
+     "ecran": "b-argent",
+     "bouton": "Courrier prêt pour la banque →"
+    },
+    {
+     "ecran": "b-contrats",
+     "bouton": "Préparer les courriers →"
+    },
+    {
+     "ecran": "b-logement",
+     "bouton": "Courriers prêts →"
+    },
+    {
+     "ecran": "b-papiers",
+     "bouton": "Courrier prêt à envoyer →"
+    },
+    {
+     "ecran": "b-son-travail",
+     "bouton": "Courrier prêt →"
+    },
+    {
+     "ecran": "d-etat-apres",
+     "bouton": "2 Prévenir la banque 15 min · courrier prêt"
+    },
+    {
+     "ecran": "fa-assurance",
+     "bouton": "Utiliser le courrier prêt"
+    },
+    {
+     "ecran": "fm-confiance",
+     "bouton": "Préparer le document"
+    },
+    {
+     "ecran": "fm-conge",
+     "bouton": "Préparer la lettre à l'employeur"
+    },
+    {
+     "ecran": "fq-confiance",
+     "bouton": "Préparer le document à signer"
+    },
+    {
+     "ecran": "p-guide-demarches",
+     "bouton": "Prêt à envoyer Le courrier pour sa banque rempli avec ses informations ↗"
+    },
+    {
+     "ecran": "f-demarches",
+     "bouton": "2 Prévenir la banque 15 min · modèle de courrier prêt"
+    }
+   ]
+  },
+  "m-ajouter-texte": {
+   "route": "/care/garden/ajouter/$type",
+   "parametres": [
+    "type : phrase, lieu, objet, date, recette"
+   ],
+   "utilisee_par": [
+    {
+     "ecran": "fm-recettes",
+     "bouton": "Ajouter une recette"
+    },
+    {
+     "ecran": "fq-objets",
+     "bouton": "Ajouter un objet"
+    },
+    {
+     "ecran": "m-ajouter",
+     "bouton": "Une phrase qu'elle disait, une lettre"
+    },
+    {
+     "ecran": "m-ajouter",
+     "bouton": "Un lieu un endroit qui compte"
+    },
+    {
+     "ecran": "m-ajouter",
+     "bouton": "Un objet une photo et son histoire"
+    },
+    {
+     "ecran": "m-dates",
+     "bouton": "Ajouter une date"
+    },
+    {
+     "ecran": "f-ajouter",
+     "bouton": "3 Un texte Une phrase qu'elle disait, une lettre"
+    },
+    {
+     "ecran": "f-ajouter",
+     "bouton": "4 Un lieu Un endroit qui compte"
+    },
+    {
+     "ecran": "f-lieux",
+     "bouton": "Ajouter un lieu"
+    }
+   ]
+  },
+  "m-ajouter-voix": {
+   "route": "/care/garden/ajouter/voix",
+   "parametres": [],
+   "utilisee_par": [
+    {
+     "ecran": "fm-histoires",
+     "bouton": "Enregistrer"
+    },
+    {
+     "ecran": "fm-memoire",
+     "bouton": "Enregistrer"
+    },
+    {
+     "ecran": "m-ajouter",
+     "bouton": "Sa voix un message, un enregistrement"
+    },
+    {
+     "ecran": "f-ajouter",
+     "bouton": "2 Sa voix Un message, un enregistrement"
+    }
+   ]
+  },
+  "m-souvenir": {
+   "route": "/care/garden/souvenirs/$id",
+   "parametres": [
+    "souvenir"
+   ],
+   "utilisee_par": [
+    {
+     "ecran": "fa-memoire",
+     "bouton": "Dernier souvenir · photo Sur la plage, l'hiver « Il courait après chaque vague. »"
+    },
+    {
+     "ecran": "fm-histoires",
+     "bouton": "Son enfance à Toulon enregistré le 2 octobre · 6 min"
+    },
+    {
+     "ecran": "fm-histoires",
+     "bouton": "Le voyage en Italie enregistré le 28 septembre · 4 min"
+    },
+    {
+     "ecran": "fm-recettes",
+     "bouton": "Le clafoutis aux cerises « Beaucoup de beurre, et pas de noyaux enlevés »"
+    },
+    {
+     "ecran": "fm-recettes",
+     "bouton": "La soupe au pistou Notée en août"
+    },
+    {
+     "ecran": "m-accueil",
+     "bouton": "Dernier souvenir Le dimanche à Cassis photo · juillet 2024"
+    },
+    {
+     "ecran": "m-ajoute",
+     "bouton": "Voir le souvenir"
+    },
+    {
+     "ecran": "m-photos",
+     "bouton": "Cassis 2024"
+    },
+    {
+     "ecran": "m-photos",
+     "bouton": "Notre mariage 2011"
+    },
+    {
+     "ecran": "m-photos",
+     "bouton": "Le jardin 2023"
+    },
+    {
+     "ecran": "m-photos",
+     "bouton": "Lisbonne 2019"
+    },
+    {
+     "ecran": "m-souvenirs",
+     "bouton": "Photo Le dimanche à Cassis juillet 2024 · ajoutée par Claire"
+    },
+    {
+     "ecran": "m-souvenirs",
+     "bouton": "Phrase « Tu verras, ça ira » une phrase qu'elle disait"
+    },
+    {
+     "ecran": "m-souvenirs",
+     "bouton": "Lieu La calanque de Port-Miou ses dimanches d'été"
+    },
+    {
+     "ecran": "f-lieux",
+     "bouton": "La calanque de Port-Miou Cassis · ses dimanches d'été ↗"
+    },
+    {
+     "ecran": "f-lieux",
+     "bouton": "Le marché du Prado Marseille · chaque samedi matin ↗"
+    },
+    {
+     "ecran": "f-souvenirs",
+     "bouton": "Lisbonne Photo · 2019"
+    }
+   ]
+  },
+  "r-fiche": {
+   "route": "/care/rituels/monde/$region/$id",
+   "parametres": [
+    "tradition (21, depuis rituals-catalog)"
+   ],
+   "utilisee_par": [
+    {
+     "ecran": "r-calendrier",
+     "bouton": "31 oct. Samhain Irlande · on pense à ceux qui sont partis"
+    },
+    {
+     "ecran": "r-calendrier",
+     "bouton": "1 nov. La Toussaint France · on fleurit les tombes"
+    },
+    {
+     "ecran": "r-calendrier",
+     "bouton": "8 nov. Le jour des Ñatitas Bolivie · des crânes fleuris et remerciés"
+    },
+    {
+     "ecran": "r-region-afrique",
+     "bouton": "Madagascar · tous les 5 à 7 ans Le retournement des morts On enveloppe les défunts dans de nouveaux "
+    },
+    {
+     "ecran": "r-region-afrique",
+     "bouton": "Ghana Les cercueils figuratifs Un cercueil sculpté à l'image d'un métier ou d'une passion : un poiss"
+    },
+    {
+     "ecran": "r-region-afrique",
+     "bouton": "Ghana Des funérailles en couleurs Rouge et noir pour la famille proche, blanc pour célébrer une long"
+    },
+    {
+     "ecran": "r-region-afrique",
+     "bouton": "Afrique du Sud · un an après Le dévoilement de la pierre La famille se réunit pour dévoiler la pierr"
+    },
+    {
+     "ecran": "r-region-ameriques",
+     "bouton": "Nouvelle-Orléans · lors des obsèques Les cortèges de jazz La fanfare joue lentement à l'aller, puis "
+    },
+    {
+     "ecran": "r-region-ameriques",
+     "bouton": "Bolivie · 8 novembre Le jour des Ñatitas On fleurit et on remercie des crânes gardés à la maison, vu"
+    },
+    {
+     "ecran": "r-region-ameriques",
+     "bouton": "Guatemala · 1er novembre Les cerfs-volants géants À Sumpango, on fait voler d'immenses cerfs-volants"
+    },
+    {
+     "ecran": "r-region-europe",
+     "bouton": "Irlande La veillée irlandaise On veille le défunt à la maison, avec des récits, de la musique, parfo"
+    },
+    {
+     "ecran": "r-region-europe",
+     "bouton": "France · 1er novembre La Toussaint On fleurit les tombes, souvent de chrysanthèmes."
+    },
+    {
+     "ecran": "r-region-europe",
+     "bouton": "Grèce et monde orthodoxe Les quarante jours On partage la kollyva, un blé bouilli au miel, en mémoir"
+    },
+    {
+     "ecran": "r-region-europe",
+     "bouton": "Tradition juive La shiv'a Sept jours de deuil à la maison, puis chaque année une bougie de 24 heures"
+    },
+    {
+     "ecran": "r-region-europe",
+     "bouton": "Tradition musulmane Les trois jours de condoléances La famille reçoit pendant trois jours ; les proc"
+    },
+    {
+     "ecran": "r-region-oceanie",
+     "bouton": "Peuples aborigènes d'Australie Le Sorry Business Un deuil collectif ; on évite souvent de prononcer "
+    },
+    {
+     "ecran": "r-region-oceanie",
+     "bouton": "Maoris · Nouvelle-Zélande Le tangihanga Plusieurs jours de veillée sur le lieu de rassemblement : le"
+    },
+    {
+     "ecran": "r-region-oceanie",
+     "bouton": "Nouvelle-Zélande · juin ou juillet Matariki Au lever des Pléiades, on se souvient de ceux qui sont p"
+    },
+    {
+     "ecran": "r-region",
+     "bouton": "Chine · début avril Qingming, la fête de la clarté On nettoie les tombes, on y apporte des fleurs et"
+    },
+    {
+     "ecran": "r-region",
+     "bouton": "Japon · chaque jour Le butsudan Un petit autel chez soi : photo, encens, un bol de riz. On salue ses"
+    },
+    {
+     "ecran": "r-region",
+     "bouton": "Népal · fin de l'été Gai Jatra Les familles en deuil défilent dans la rue, en chantant, pour accepte"
+    },
+    {
+     "ecran": "r-region",
+     "bouton": "Corée · Chuseok, en automne La table des ancêtres On dresse une table d'offrandes et on s'incline de"
+    }
+   ]
+  },
+  "l-film": {
+   "route": "/library/$kind",
+   "parametres": [
+    "film, série ou documentaire"
+   ],
+   "utilisee_par": [
+    {
+     "ecran": "fq-lire",
+     "bouton": "Voir · documentaire, 2020 Dick Johnson Is Dead Kirsten Johnson"
+    },
+    {
+     "ecran": "l-voir",
+     "bouton": "Film · Japon, 2008 Departures Yōjirō Takita · celui qui prépare les défunts"
+    },
+    {
+     "ecran": "l-voir",
+     "bouton": "Film · Italie, 2001 La Chambre du fils Nanni Moretti · une famille après la perte d'un enfant"
+    },
+    {
+     "ecran": "l-voir",
+     "bouton": "Film d'animation · 2017 Coco Pixar · le Jour des morts au Mexique, à voir en famille"
+    }
+   ]
+  },
+  "f-ressource": {
+   "route": "/library/$kind",
+   "parametres": [
+    "livre, podcast, musique"
+   ],
+   "utilisee_par": [
+    {
+     "ecran": "fa-enfant",
+     "bouton": "Lire : expliquer la mort d'un animal à un enfant"
+    },
+    {
+     "ecran": "fq-lire",
+     "bouton": "Lire · Antiquité Lettre à Ménécée Épicure"
+    },
+    {
+     "ecran": "fq-lire",
+     "bouton": "Lire · XVIe siècle Que philosopher, c'est apprendre à mourir Montaigne, dans les Essais"
+    },
+    {
+     "ecran": "fq-lire",
+     "bouton": "Lire · témoignage La Mort intime Marie de Hennezel"
+    },
+    {
+     "ecran": "l-ecouter",
+     "bouton": "Podcast · témoignages Les Pieds sur terre France Culture · des récits de vie, sans commentaire"
+    },
+    {
+     "ecran": "l-ecouter",
+     "bouton": "Podcast · en anglais Griefcast Cariad Lloyd · parler du deuil, avec humour aussi"
+    },
+    {
+     "ecran": "l-ecouter",
+     "bouton": "Musique Requiem Gabriel Fauré · une heure, doux et lumineux"
+    },
+    {
+     "ecran": "l-lire",
+     "bouton": "Livre · récit L'année de la pensée magique Joan Didion · après la mort de son mari"
+    },
+    {
+     "ecran": "l-lire",
+     "bouton": "Livre · journal Journal de deuil Roland Barthes · des notes courtes, à lire par morceaux"
+    },
+    {
+     "ecran": "l-lire",
+     "bouton": "Livre · repères Vivre le deuil au jour le jour Christophe Fauré · ce qui se passe, mois après mois"
+    },
+    {
+     "ecran": "f-bibliotheque",
+     "bouton": "Livre · 280 pages L'année de la pensée magique Joan Didion"
+    },
+    {
+     "ecran": "f-bibliotheque",
+     "bouton": "Livre · 320 pages Vivre le deuil au jour le jour Christophe Fauré"
+    },
+    {
+     "ecran": "f-bibliotheque",
+     "bouton": "Article · 6 minutes Quand le silence de la maison pèse Rédaction Legato"
+    },
+    {
+     "ecran": "f-corps-ressources",
+     "bouton": "Lire Pourquoi le chagrin empêche de dormir Article · 5 minutes"
+    },
+    {
+     "ecran": "f-parler-enfant",
+     "bouton": "Lire : expliquer la mort d'un animal"
+    }
+   ]
+  }
+ }
+}

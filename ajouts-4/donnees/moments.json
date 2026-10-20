@@ -1,0 +1,122 @@
+{
+ "_lire_moi": "Quand Legato propose une chose d'elle-même. Tout reste toujours accessible au même endroit. Sur Aujourd'hui, une seule carte à la fois, dans l'ordre de priorite.",
+ "priorite_aujourdhui": [
+  "securite_3114",
+  "echeance_moins_7_jours",
+  "je_suis_bloque_14_premiers_jours",
+  "reprise_travail_j_moins_3",
+  "point_du_mois",
+  "ce_qui_m_aiderait"
+ ],
+ "fonctions": [
+  {
+   "id": "je_suis_bloque",
+   "toujours": "Démarches, en haut",
+   "propose_quand": [
+    "les 14 premiers jours après le décès",
+    "Présence entend un blocage (mots de passe, argent, papiers…)"
+   ],
+   "ou": [
+    "carte sur Aujourd'hui",
+    "Présence"
+   ]
+  },
+  {
+   "id": "echeances",
+   "toujours": "Démarches → Vos échéances",
+   "propose_quand": [
+    "7 jours avant chaque date, puis la veille"
+   ],
+   "ou": [
+    "carte sur Aujourd'hui",
+    "notification (jamais avant 10 h ni le soir)"
+   ]
+  },
+  {
+   "id": "coffre",
+   "toujours": "Préparer (je pense à la mort)",
+   "propose_quand": [
+    "une fois, quand on remplit ses volontés"
+   ],
+   "ou": [
+    "Préparer"
+   ]
+  },
+  {
+   "id": "ce_qui_m_aiderait",
+   "toujours": "Soutien → Être entouré",
+   "propose_quand": [
+    "les 3 premières semaines",
+    "« fatigue » choisie 3 jours de suite",
+    "Le corps → Manger",
+    "Présence entend « je n'y arrive plus »"
+   ],
+   "ou": [
+    "carte sur Aujourd'hui",
+    "Le corps",
+    "Présence"
+   ]
+  },
+  {
+   "id": "parler_a_quelqu_un",
+   "toujours": "Soutien → Être entouré",
+   "propose_quand": [
+    "point du mois « lourd »",
+    "Le corps → Quand consulter",
+    "Présence entend une détresse durable"
+   ],
+   "ou": [
+    "Soutien",
+    "Présence"
+   ],
+   "urgence": "idées de mort : 3114 immédiatement"
+  },
+  {
+   "id": "point_du_mois",
+   "toujours": "Soutien, en haut",
+   "propose_quand": [
+    "chaque mois à partir du 2e, quelques jours après la date mensuelle du décès",
+    "jamais un jour difficile connu"
+   ],
+   "ou": [
+    "carte sur Aujourd'hui",
+    "notification douce"
+   ],
+   "desactivable": true
+  },
+  {
+   "id": "reprise_travail",
+   "toujours": "Soutien → Prendre soin de vous",
+   "propose_quand": [
+    "3 jours avant la date de reprise donnée par la personne"
+   ],
+   "ou": [
+    "carte sur Aujourd'hui"
+   ]
+  },
+  {
+   "id": "comment_aider_proches",
+   "toujours": "en haut de la page reçue par les proches",
+   "propose_quand": [
+    "un proche entre dans le cercle",
+    "un mois après le décès, si la personne l'autorise",
+    "un proche le demande à Présence"
+   ],
+   "ou": [
+    "page des proches",
+    "message aux proches"
+   ]
+  },
+  {
+   "id": "presence_guide",
+   "toujours": "« Écrire à Présence », partout",
+   "propose_quand": [
+    "une question pratique",
+    "un mal-être exprimé"
+   ],
+   "ou": [
+    "une ou deux cartes dans la conversation"
+   ]
+  }
+ ]
+}
