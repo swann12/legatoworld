@@ -26,3 +26,4 @@
 
 - Library preserves IDs; suggestions use authenticated Gateway or local discovery. Why: preserve favorites and privacy.
 - Sounds use a shared native player and offline-rendered files with encoded fades. Why: navigation and timer throttling must not stop audio.
+- Soutien D050–D060 state lives in `src/lib/soutien.ts` (local, per space); the single Aujourd'hui card comes from pure `src/lib/au-bon-moment.ts` (tested). Why: one priority rule, nothing personal leaves the phone.
