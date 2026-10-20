@@ -36,7 +36,7 @@ function SoutienAccueil() {
           <span style={{ fontFamily: "var(--lg-serif)", fontSize: 20, lineHeight: 1.15 }}>Votre point du mois</span>
           <span className="text-[12px]" style={{ color: "var(--sp-sub)" }}>3 questions · 2 min</span>
         </span>
-        <PrimaryButton space="support" to="/care/point" className="!h-10 whitespace-nowrap px-6">Faire le point</PrimaryButton>
+        <PrimaryButton space="support" to="/care/point" className="!h-10 shrink-0 whitespace-nowrap px-6">Faire le point</PrimaryButton>
       </section>
       <SectionLabel space="support" className="mt-4">Maintenant</SectionLabel>
       <Row space="support" title="Respirer, des sons pour s'apaiser" subtitle="3 minutes, ou toute la nuit" to="/care/sons" />

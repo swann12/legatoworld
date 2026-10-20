@@ -22,11 +22,11 @@ function Parler() {
         <Row space="support" title="Un groupe de parole" subtitle="avec d'autres personnes en deuil" to="/care/community/groups" />
         <Row space="support" title="Présence, à toute heure" subtitle="une intelligence artificielle, pas une personne" to="/presence" last />
       </div>
-      <div className="mt-6 flex items-center justify-between gap-4 p-[18px]" style={{ background: "var(--lg-bordeaux)", color: "var(--lg-rose)" }}>
+      <div className="mt-6 flex items-center justify-between gap-4 p-[18px]" style={{ background: "var(--lg-bordeaux)", color: "var(--lg-blush)" }}>
         <p className="text-[14px] leading-[1.45]">Des idées de mort ? Appelez le 3114, gratuit, jour et nuit.</p>
         <ConfirmedCall href="tel:3114" number="3114" label="3114" subtitle="Gratuit, jour et nuit."
           className="inline-flex h-10 shrink-0 items-center rounded-full px-5 text-[15px]"
-          style={{ border: "1px solid var(--lg-rose)", color: "var(--lg-rose)" }} />
+          style={{ border: "1px solid var(--lg-blush)", color: "var(--lg-blush)" }} />
       </div>
 
       {/* Hors maquette D054 : repris de l'ancienne page « Se confier », replié en attendant votre accord. */}
