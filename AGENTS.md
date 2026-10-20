@@ -24,4 +24,4 @@
 - Ajouts-4: Démarches title italics use `--sp-title-accent`; memory experiences use ExperienceButton; explained words use MotExplique + `src/lib/lexique.json`; page-less buttons use ActionFeedback; reused pages in `shared-pages.tsx`; Je suis bloqué renders `je-suis-bloque.json` via one `BloquePages` component. Why: ajouts-4 §1–§7.
 - Library preserves IDs; suggestions use authenticated Gateway or local discovery. Why: preserve favorites and privacy.
 - Sounds use a shared native player and offline-rendered files with encoded fades. Why: navigation and timer throttling must not stop audio.
-- Local-only data: `self-space.ts` (questions space), `soutien.ts` (Soutien, per space); the single Aujourd'hui card comes from pure tested `au-bon-moment.ts`. Why: one priority rule, nothing personal leaves the phone.
+- Local-only data: `self-space.ts` (questions space), `soutien.ts` (Soutien, per space); the single Aujourd'hui card comes from pure tested `au-bon-moment.ts`. Why: one priority rule, stays on the phone.
