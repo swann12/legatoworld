@@ -1,5 +1,12 @@
 # Reprise UX/UI Legato
 
+## Étape D3 — le corps (ajouts-4)
+- [x] Quatre listes présentées pour D014–D025 avant le code.
+- [x] D014 tuiles reliées ; D015–D018 créées via CorpsTopicPage ; D019 soin refait (fiches → D020) ; D020 exercice plein écran ; D021 modifié ; D022 marche plein écran (voix + minuteur) ; D023 modifié ; D024 noter créé ; D025 déjà conforme.
+- [x] Vérifié sur téléphone : parcours sommaire → dormir → exercice → retour, noter → suivi (2 points enregistrés), minuteur 10:00 ; 3 tests suivi réussis, tsgo OK.
+- [ ] Anciennes pages nuits / manger / eau / habiller / soin/$id conservées (§12 les remplace) : attendre l'accord pour supprimer.
+- [ ] D016 « Demander un repas » ouvre D006 en attendant D051 (/care/aide) ; D025 « Parler à quelqu'un » garde /crisis en attendant D054 (/care/parler).
+
 ## Étape D2 — pages réutilisées (ajouts-4)
 - [x] Présenter les quatre listes pour D006–D013 avant le code.
 - [x] Créer les huit écrans : /partage/message, /partage/site-officiel, /documents/$id, /documents/dossier/$categorie, /practical/prevenir, /aide/$article, /reglages/supprimer, /auth/mot-de-passe ; composants paramétrables dans shared-pages.tsx ; ligne « Prévenir les proches » de Démarches reliée.
