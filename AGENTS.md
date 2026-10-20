@@ -18,10 +18,10 @@
 - Garden plot selection activates its existing space before opening the personal memory page, without altering the painted image or plot geometry. Why: each loved one's memories and portrait remain isolated.
 - Community screens reuse community-store and community-data, with vigil choices local and clearly distinguished from real reservations. Why: preserve existing interactions without implying a connected community service.
 - The Démarches tab view for bereavement spaces comes from `src/lib/papers-plan.ts` (pure, tested), driven by the papers answer from onboarding and space settings. Why: one rule decides order and the ceremony visibility on every path.
-- The body "petit suivi" lives in `src/lib/corps-suivi.ts` (localStorage, tested); the walking voice uses the browser speech synthesis. Why: nothing about the body leaves the phone.
+- Body suivi: `src/lib/corps-suivi.ts` (localStorage, tested); walking voice on /help/corps/marche via browser speech; body topics share `CorpsTopicPage.tsx`. Why: nothing about the body leaves the phone.
 - Sick-relative carnet and tasks use `src/lib/carnet.ts`: shared_items in the circle when signed in, localStorage otherwise; members accept via accept_circle_task RPC. Why: circle sharing without loosening RLS.
 - Rituals and invitation identities use `src/lib/rituals-catalog.ts`; personal rituals use scoped `src/lib/my-rituals.ts`. Why: world traditions retain their identity when organised and personal rituals stay per space.
 - "questions" space data: `src/lib/self-space.ts`, local. Why: stays on the phone.
-- Ajouts-4: Démarches title italics use `--sp-title-accent`; memory experiences use ExperienceButton; explained words use MotExplique + `src/lib/lexique.json`; page-less buttons use ActionFeedback; reused pages (D006–D013) are parametrized in `shared-pages.tsx`. Why: ajouts-4 §1–§4.
+- Ajouts-4: Démarches title italics use `--sp-title-accent`; memory experiences use ExperienceButton; explained words use MotExplique + `src/lib/lexique.json`; page-less buttons use ActionFeedback; reused pages are parametrized in `shared-pages.tsx`. Why: ajouts-4 §1–§4.
 
 - Library uses library-data IDs; suggestions use authenticated Gateway SDK or local discovery selection. Why: retain URLs/favorites and keep visitor words on-device.
