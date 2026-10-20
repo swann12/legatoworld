@@ -272,9 +272,8 @@ export function CoffreAlerte() {
   const nav = useNavigate();
   const who = c.recipients.find((r) => r.requester)?.name.split(",")[0] ?? c.recipients[0]?.name.split(",")[0] ?? "Votre proche";
   const until = frDay(transmissionDate(new Date().toISOString()));
-  const ink = "var(--lg-pink, #EBC7C4)";
   return (
-    <div className="min-h-dvh" style={{ background: "linear-gradient(180deg,var(--lg-bordeaux-deep, #7A2E2C) 0%,#A5534F 50%,#C98B86 100%)", color: ink, fontFamily: "var(--lg-sans)" }}>
+    <div className="lg-coffre-alerte min-h-dvh" style={{ fontFamily: "var(--lg-sans)" }}>
       <div className="mx-auto flex min-h-dvh max-w-[430px] flex-col pb-10" style={{ paddingInline: "var(--lg-margin)" }}>
         <div className="flex items-center justify-between text-[14px]" style={{ height: "var(--lg-header-h)" }}>
           <Link to="/practical/coffre" className="flex min-h-11 items-center gap-2"><ArrowLeft className="size-4" strokeWidth={1.4} /> Mon coffre</Link>
@@ -285,8 +284,8 @@ export function CoffreAlerte() {
         <div className="flex-1" />
         <div className="flex flex-col items-center gap-4">
           <button type="button" onClick={() => { updateCoffre(() => ({ stoppedAt: new Date().toISOString() })); nav({ to: "/practical/coffre" }); }}
-            className="h-[52px] w-full rounded-full text-[15px]" style={{ background: ink, color: "var(--lg-bordeaux-deep, #7A2E2C)" }}>Arrêter la transmission</button>
-          <Link to="/practical/coffre" className="text-[13.5px] underline underline-offset-4" style={{ color: "var(--lg-bordeaux-deep, #7A2E2C)" }}>Je préviens {who} moi-même</Link>
+            className="lg-coffre-alerte-btn h-[52px] w-full rounded-full text-[15px]">Arrêter la transmission</button>
+          <Link to="/practical/coffre" className="lg-coffre-alerte-link text-[13.5px] underline underline-offset-4">Je préviens {who} moi-même</Link>
         </div>
       </div>
     </div>
@@ -323,7 +322,7 @@ export function CoffreDemande() {
       </button>
       <div className="mt-4 px-[18px] py-4" style={{ background: "var(--sp-block)" }}>
         <p className="text-[13.5px] leading-[1.5]">Pas encore d'acte de décès ? Vous pouvez le demander en ligne à la mairie.</p>
-        <div className="mt-2"><TextLink to="/lien-officiel/$id" params={{ id: "acte-deces" }}>Demander l'acte de décès</TextLink></div>
+        <div className="mt-2"><TextLink to="/partage/site-officiel" search={{ site: "service-public.fr", url: "https://www.service-public.fr/particuliers/vosdroits/R1406", papiers: "Le nom et la date du décès|La commune du décès|Votre lien avec la personne", duree: "environ 10 minutes" }}>Demander l'acte de décès</TextLink></div>
       </div>
       <div className="pt-5"><PrimaryButton disabled={!fileName} onClick={() => { setReceived({ personName: p.name, fileName: fileName!, sentAt: new Date().toISOString() }); nav({ to: "/practical/coffre-recu/attente" }); }}>Envoyer la demande</PrimaryButton></div>
     </Proche>
