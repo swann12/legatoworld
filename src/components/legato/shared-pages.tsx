@@ -18,8 +18,18 @@ export function MessagePret({ destinataires, texte }: { destinataires: string[];
   const to = destinataires.join(",");
 
   const copy = async () => {
-    try { await navigator.clipboard.writeText(body); show("Message copié."); }
-    catch { show("La copie n'a pas fonctionné."); }
+    try {
+      await navigator.clipboard.writeText(body);
+      show("Message copié.");
+    } catch {
+      const ta = document.createElement("textarea");
+      ta.value = body;
+      document.body.appendChild(ta);
+      ta.select();
+      const ok = document.execCommand("copy");
+      ta.remove();
+      show(ok ? "Message copié." : "La copie n'a pas fonctionné.");
+    }
   };
   const send = () => {
     const url = canal === "sms"
