@@ -15,7 +15,7 @@ import { useCarnet } from "@/lib/carnet";
 import { upcoming, dayName, hour, cap } from "@/lib/carnet-model";
 import { useSelf, prepareSummary } from "@/lib/self-space";
 import { pickMoment } from "@/lib/au-bon-moment";
-import { loadSoutien, monthKey } from "@/lib/soutien";
+import { useSoutien, monthKey } from "@/lib/soutien";
 
 export const Route = createFileRoute("/home/")({
   head: () => ({
@@ -56,6 +56,7 @@ function Today() {
   const { events } = useAgenda();
   const [night, setNight] = useState(false);
   const [first, setFirst] = useState("");
+  const { s: soutien } = useSoutien();
 
   useEffect(() => {
     setNight(isNightHour());
@@ -102,7 +103,6 @@ function Today() {
   if (kind !== "deuil" && active) return <KindHome kind={kind} space={active} header={header} emotions={currentEmotions} />;
 
   const sug = suggestion(currentEmotions, loved);
-  const soutien = loadSoutien();
   const nextDeadline = events.filter((e) => e.kind === "demarche" && daysAway(e.date) >= 0).sort((a, b) => daysAway(a.date) - daysAway(b.date))[0];
   // Une seule carte à la fois (ajouts-4 §6) : le bon moment passe avant la proposition du jour.
   const moment = pickMoment({
@@ -114,7 +114,6 @@ function Today() {
     workDate: soutien.workDate,
     pointDoneThisMonth: soutien.points.some((p) => p.month === monthKey()),
     pointOff: soutien.pointOff,
-    fatigueDays: currentEmotions.includes("fatigue") ? 3 : 0,
   });
   const s = moment ? { title: moment.title, meta: moment.meta, cta: moment.cta, to: moment.to, label: moment.label } : { ...sug, label: "Pour aujourd'hui" };
   const week = events.filter((e) => e.kind === "demarche" && daysAway(e.date) >= 0 && daysAway(e.date) <= 7);
