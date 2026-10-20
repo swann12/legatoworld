@@ -52,7 +52,7 @@ export function pickMoment(i: MomentInput): MomentCard | null {
   const death = parse(i.deathDate);
   const since = death ? dayDiff(death, i.now) : null;
 
-  if (since !== null && since >= 0 && since < 14) return { id: "je_suis_bloque_14_premiers_jours", label: "Si quelque chose coince", title: "Je suis bloqué", meta: "Mots de passe, argent, papiers", cta: "Voir", to: "/practical" };
+  if (since !== null && since >= 0 && since < 14) return { id: "je_suis_bloque_14_premiers_jours", label: "Si quelque chose coince", title: "Je suis bloqué", meta: "Mots de passe, argent, papiers", cta: "Voir", to: "/practical/bloque" };
 
   const work = parse(i.workDate);
   if (work) {

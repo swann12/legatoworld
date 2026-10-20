@@ -35,7 +35,8 @@ export function MaladeAides() {
       <Row space="practical" n={2} title="L'allocation journalière" subtitle="Une aide pendant ce congé" to="/practical/ajpa" />
       <Row space="practical" n={3} title="Une aide à domicile" subtitle="Pour elle, et pour vous soulager" to="/practical/aide-domicile" last />
       <SectionTitle accent={false} className="mt-10">Avec elle</SectionTitle>
-      <Row space="practical" n={4} title="Ses volontés et sa personne de confiance" subtitle="À préparer ensemble, sans urgence" to="/practical/wishes" last />
+      <Row space="practical" n={4} title="Ses volontés et sa personne de confiance" subtitle="À préparer ensemble, sans urgence" to="/practical/wishes" />
+      <Row space="practical" n={5} title="Il ne peut plus décider" subtitle="Hospitalisé, dans le coma, agir à sa place" to="/practical/bloque/cat-vivant" last />
     </StandardLayout>
   );
 }

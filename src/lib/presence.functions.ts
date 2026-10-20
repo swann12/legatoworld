@@ -2,7 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 
 const Input = z.object({
-  branch: z.enum(["person", "animal", "fear", "anxiety", "practical", "unknown"]),
+  branch: z.enum(["person", "animal", "fear", "anxiety", "practical", "bloque", "unknown"]),
   mode: z.enum(["cocoon", "anchoring", "breath", "relay"]),
   name: z.string().max(60).optional().default(""),
   lostName: z.string().max(60).optional().default(""),
@@ -30,6 +30,8 @@ function branchPrompt(branch: string, lostName: string) {
       return `La personne cherche à apprivoiser l'idée de la mort. Approche philosophique douce, contemplative. Tu peux convoquer la nature, le cycle des saisons, la mémoire. Jamais grave, jamais clinique.`;
     case "practical":
       return `La personne traverse les premiers jours après une perte. Ton ton est concret, tendre, organisé. Tu peux suggérer un seul tout petit pas (boire, respirer, appeler une personne). Pas de liste de démarches ici — c'est un autre espace pour ça.`;
+    case "bloque":
+      return `La personne est bloquée dans une démarche (codes, banque, papiers, hôpital). Vouvoie-la. Reconnais d'abord la difficulté en une phrase, puis donne en une ou deux phrases la première piste concrète. N'invente jamais de règle, de montant ni de délai : renvoie vers les pages proposées sous ta réponse, qui citent leurs sources. Si elle évoque une envie de mourir, donne le 3114 immédiatement.`;
     case "unknown":
     default:
       return `La personne ne sait pas encore ce qu'elle vient déposer. Accueille sans interroger. Laisse de la place au silence. Si elle parle, suis ce qui émerge sans diriger.`;

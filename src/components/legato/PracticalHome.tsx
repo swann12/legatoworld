@@ -60,6 +60,10 @@ function DeuilPractical() {
       )}
       {view === "avant" && <Lead className="mt-[10px] max-w-[310px]">Les obsèques ont lieu au plus tard 14 jours après le décès. Seulement l'essentiel.</Lead>}
       {view === "confie" && <Lead className="mt-[10px] max-w-[310px]">Vous ne voyez que ce {helper ? "qu'elle" : "qu'on"} vous demande.</Lead>}
+      {/* Accès « Je suis bloqué » dans les quatre états (ajouts-4 §7). */}
+      <div className="mt-5 px-5" style={{ background: "var(--sp-block)" }}>
+        <Row space="practical" title="Je suis bloqué" subtitle="Mots de passe, argent, papiers, premières heures" to="/practical/bloque" last />
+      </div>
 
       {view === "apres" && (
         <div className="mt-[14px] flex items-center gap-[14px] py-4" style={{ borderBottom: "1px solid var(--sp-line)" }}>

@@ -1,0 +1,94 @@
+{
+ "maison": [
+  "Le décès a eu lieu",
+  "à la maison."
+ ],
+ "hopital-deces": [
+  "À l'hôpital ou",
+  "en maison de retraite."
+ ],
+ "enquete": [
+  "Un accident,",
+  "une mort inexpliquée."
+ ],
+ "etranger": [
+  "Le décès a eu lieu",
+  "à l'étranger."
+ ],
+ "enfant-deces": [
+  "Le décès",
+  "d'un enfant."
+ ],
+ "suicide": [
+  "Après",
+  "un suicide."
+ ],
+ "mots-de-passe": [
+  "Je n'ai pas",
+  "ses mots de passe."
+ ],
+ "comptes": [
+  "Ses comptes",
+  "en ligne."
+ ],
+ "papiers": [
+  "Je ne trouve pas",
+  "ses papiers."
+ ],
+ "argent": [
+  "Je n'ai plus accès",
+  "à l'argent."
+ ],
+ "credits": [
+  "Ses crédits",
+  "et ses dettes."
+ ],
+ "contrats": [
+  "Ses abonnements",
+  "et contrats."
+ ],
+ "enfants": [
+  "Les enfants",
+  "mineurs."
+ ],
+ "logement": [
+  "Le",
+  "logement."
+ ],
+ "voiture": [
+  "La",
+  "voiture."
+ ],
+ "conges": [
+  "Votre",
+  "travail."
+ ],
+ "son-travail": [
+  "Son travail",
+  "ou son entreprise."
+ ],
+ "hopital": [
+  "Il est à l'hôpital,",
+  "il ne peut plus parler."
+ ],
+ "habilitation": [
+  "Agir à sa place,",
+  "durablement."
+ ],
+ "telephone": [
+  "Son téléphone,",
+  "ses comptes."
+ ],
+ "capital": [
+  "Le capital",
+  "décès."
+ ],
+ "reversion": [
+  "La pension",
+  "de réversion."
+ ],
+ "assurance-vie": [
+  "L'assurance-vie",
+  "et la prévoyance."
+ ]
+}
