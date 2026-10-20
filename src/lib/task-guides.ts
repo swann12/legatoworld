@@ -46,7 +46,7 @@ export const TASK_GUIDES: Partial<Record<PracticalCategory, TaskGuide>> = {
   obseques: {
     why: "Organiser la cérémonie et fixer un devis clair, sans se laisser presser.",
     who: "Pompes funèbres",
-    when: "Sous 6 jours après le décès",
+    when: "Sous 14 jours après le décès",
     docs: ["Acte de décès", "Contrat obsèques éventuel", "Volontés écrites du défunt si elles existent"],
     steps: [
       "Vérifier s'il existe un contrat obsèques déjà payé.",

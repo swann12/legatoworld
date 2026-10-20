@@ -57,7 +57,7 @@ function DeuilPractical() {
           {view === "confie" && <>{who} s'occupe<br /><em>des démarches.</em></>}
         </h1>
       )}
-      {view === "avant" && <Lead className="mt-[10px] max-w-[310px]">Les obsèques ont lieu dans les six jours ouvrables. Seulement l'essentiel.</Lead>}
+      {view === "avant" && <Lead className="mt-[10px] max-w-[310px]">Les obsèques ont lieu au plus tard 14 jours après le décès. Seulement l'essentiel.</Lead>}
       {view === "confie" && <Lead className="mt-[10px] max-w-[310px]">Vous ne voyez que ce {helper ? "qu'elle" : "qu'on"} vous demande.</Lead>}
 
       {view === "apres" && (
