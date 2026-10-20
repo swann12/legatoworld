@@ -16,10 +16,10 @@ export const Route = createFileRoute("/help/corps/")({
 });
 
 const TILES = [
-  { n: "01", title: "Dormir", sub: "les nuits", to: "/help/corps/nuits" },
+  { n: "01", title: "Dormir", sub: "les nuits", to: "/help/corps/dormir" },
   { n: "02", title: "Manger", sub: "même peu", to: "/help/corps/manger" },
-  { n: "03", title: "Se laver", sub: "un geste à la fois", to: "/help/corps/eau" },
-  { n: "04", title: "S'habiller", sub: "sans y penser", to: "/help/corps/habiller" },
+  { n: "03", title: "Se laver", sub: "un geste à la fois", to: "/help/corps/se-laver" },
+  { n: "04", title: "S'habiller", sub: "sans y penser", to: "/help/corps/s-habiller" },
   { n: "05", title: "Bouger", sub: "dix minutes", to: "/help/corps/bouger" },
   { n: "06", title: "Un soin", sub: "pour vous", to: "/help/corps/soin" },
 ];
