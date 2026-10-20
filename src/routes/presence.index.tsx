@@ -10,6 +10,28 @@ import { StandardLayout, PageTitle, ChatBubble, ChatInput, TextLink, OutlineButt
 import { useActiveSpace } from "@/lib/use-active-space";
 import { getDiscovery } from "@/lib/discovery";
 import { scopedKey } from "@/lib/active-space";
+import { Link } from "@tanstack/react-router";
+import { ArrowUpRight } from "lucide-react";
+import { guide, type Card } from "@/lib/presence-guide";
+
+const KIND_LABEL: Record<string, string> = { deuil: "deuil d'une personne", animal: "deuil d'un animal", malade: "un proche gravement malade", questions: "la personne pense beaucoup à la mort" };
+
+/** Cartes d'action (D120, D121) : cadre fin, étiquette en capitales, flèche. */
+function ActionCard({ c }: { c: Card }) {
+  const inner = (<>
+    <span className="min-w-0 flex-1">
+      <span className="lg-mono block" style={{ color: "var(--sp-sub)" }}>{c.etiquette}</span>
+      <span className="mt-1 block" style={{ fontFamily: "var(--lg-serif)", fontSize: 19, lineHeight: 1.2 }}>{c.titre}</span>
+      {c.sous && <span className="mt-1 block text-[12.5px]" style={{ color: "var(--sp-sub)" }}>{c.sous}</span>}
+      {c.source && <span className="mt-1 block text-[11.5px]" style={{ color: "var(--sp-sub)" }}>{c.source}</span>}
+    </span>
+    <ArrowUpRight className="size-4 shrink-0" strokeWidth={1.3} />
+  </>);
+  const cls = "flex items-center gap-3 px-4 py-[14px]";
+  const style = { border: "1px solid var(--sp-line-2)", color: "var(--sp-ink)" };
+  if (c.href) return <a href={c.href} className={cls} style={style}>{inner}</a>;
+  return <Link to={c.to} params={c.params as never} className={cls} style={style}>{inner}</Link>;
+}
 
 export const Route = createFileRoute("/presence/")({
   head: () => ({
@@ -42,6 +64,7 @@ function Presence() {
   const [draft, setDraft] = useState("");
   const [pending, setPending] = useState(false);
   const [notice, setNotice] = useState("");
+  const [topic, setTopic] = useState<"soutien" | "demarches" | null>(null);
   const { listening, toggle } = useDictation(setDraft);
   const endRef = useRef<HTMLDivElement>(null);
 
@@ -58,25 +81,38 @@ function Presence() {
     const next = [...stored, { role: "you" as const, text: t }];
     savePresenceHistory(next);
     setDraft("");
+    const shown = stored.flatMap((m) => m.cards?.map((c) => c.to) ?? []);
+    const g = guide(t, shown);
+    // Règle 6 : sécurité avant tout, sans attendre le modèle et sans autre carte.
+    if (g.safety) {
+      const text = g.safety === "3114"
+        ? "Ce que vous ressentez est très lourd, et vous n'avez pas à le porter seul. Vous pouvez appeler le 3114 maintenant : c'est gratuit, jour et nuit, quelqu'un vous écoutera."
+        : "Cela peut être une urgence. Appelez le 15 maintenant, ou demandez à quelqu'un près de vous de le faire.";
+      savePresenceHistory([...next, { role: "presence", text, cards: g.cards }]);
+      return;
+    }
+    if (g.topic) setTopic(g.topic);
     setPending(true);
     try {
       const { reply } = await callPresence({
         data: {
           branch: kind === "animal" ? "animal" : kind === "malade" ? "fear" : kind === "questions" ? "anxiety" : branch,
           mode, name, lostName: space?.name ?? lostName, portrait: portraitLine,
+          guided: true, fiches: g.fiches, cards: g.cards.map((c) => c.titre),
+          context: [KIND_LABEL[kind ?? "deuil"] ?? "", (space?.name ?? lostName) ? `personne disparue ou concernée : ${space?.name ?? lostName}` : ""].filter(Boolean).join(" ; "),
           history: [{ role: "presence" as const, text: hello }, ...next].filter(m => m.text).slice(-40).map((m) => ({ role: m.role === "you" ? ("user" as const) : ("assistant" as const), content: m.text })),
         },
       });
-      savePresenceHistory([...next, { role: "presence", text: reply }]);
+      savePresenceHistory([...next, { role: "presence", text: reply, cards: g.cards }]);
     } catch {
-      savePresenceHistory([...next, { role: "presence", text: "Je suis là, en silence. Reprenons quand vous voulez." }]);
+      savePresenceHistory([...next, { role: "presence", text: "Je suis là, en silence. Reprenons quand vous voulez.", cards: g.cards }]);
     } finally {
       setPending(false);
     }
   };
 
   return (
-    <StandardLayout space="support" back="/care/parler" backLabel="Parler à quelqu'un" nav={false} className="lg-presence-page">
+    <StandardLayout space={topic === "demarches" ? "practical" : "support"} back={topic === "demarches" ? "/practical" : "/care"} backLabel={topic === "demarches" ? "Démarches" : "Soutien"} nav={false} className="lg-presence-page">
       <div className="mt-5 flex flex-wrap items-baseline justify-between gap-2">
         <PageTitle size={32}>Présence</PageTitle>
         <p className="lg-mono">Intelligence artificielle</p>
@@ -84,23 +120,26 @@ function Presence() {
 
       <div className="mt-7 space-y-[22px]" aria-live="polite" aria-busy={pending}>
         {history.filter((m) => m.text).map((m, i) => (
-          <ChatBubble key={i} space="support" from={m.role === "you" ? "user" : "presence"}>{m.text}</ChatBubble>
+          <div key={i}>
+            <ChatBubble from={m.role === "you" ? "user" : "presence"}>{m.text}</ChatBubble>
+            {m.cards?.length ? <div className="mt-3 space-y-2">{m.cards.slice(0, 2).map((c) => <ActionCard key={c.titre} c={c} />)}</div> : null}
+          </div>
         ))}
-        {pending && <ChatBubble space="support" from="presence"><span style={{ opacity: 0.6 }}>…</span></ChatBubble>}
+        {pending && <ChatBubble from="presence"><span style={{ opacity: 0.6 }}>…</span></ChatBubble>}
         <div ref={endRef} />
       </div>
 
-      <div className="mt-[22px] flex flex-wrap gap-2">
+      {stored.length === 0 && <div className="mt-[22px] flex flex-wrap gap-2">
         <OutlineButton onClick={() => { setDraft(`J'aimerais parler de ${space?.name ?? lostName}.`); document.querySelector<HTMLInputElement>('input[aria-label="Écrire à Présence"]')?.focus(); }}>Lui parler d'elle</OutlineButton>
-        <OutlineButton to="/care/respirer">M'apaiser</OutlineButton>
-      </div>
+        <OutlineButton to="/care/sons/voix">M'apaiser</OutlineButton>
+      </div>}
 
       <form className="sticky bottom-0 mt-auto pt-8 pb-6" style={{ background: "var(--sp-bg)" }} onSubmit={(e) => { e.preventDefault(); void send(); }}>
         {notice && <p role="status" className="lg-lead mb-4">{notice} <TextLink to="/start/garder">Créer mon espace</TextLink></p>}
         <ChatInput value={draft} onChange={setDraft} onMic={toggle} pending={pending} listening={listening} />
         <div className="mt-[10px] flex flex-wrap items-center justify-between gap-2 text-[11px]" style={{ color: "var(--sp-sub)" }}>
           <span>{listening ? "Je vous écoute…" : "Vos échanges restent privés."}</span>
-          <TextLink to="/presence/about">Ce qu'elle peut faire</TextLink>
+          <TextLink to="/presence/infos">Ce qu'elle peut faire</TextLink>
         </div>
       </form>
     </StandardLayout>
