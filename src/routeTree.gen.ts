@@ -33,9 +33,11 @@ import { Route as WishesRouteImport } from './routes/wishes'
 import { Route as AuthenticatedCircleRouteImport } from './routes/_authenticated/circle'
 import { Route as AgendaIndexRouteImport } from './routes/agenda.index'
 import { Route as AgendaNewRouteImport } from './routes/agenda.new'
+import { Route as AideArticleRouteImport } from './routes/aide.$article'
 import { Route as AppointmentsIndexRouteImport } from './routes/appointments.index'
 import { Route as AppointmentsIdRouteImport } from './routes/appointments.$id'
 import { Route as AppointmentsNewRouteImport } from './routes/appointments.new'
+import { Route as AuthMotDePasseRouteImport } from './routes/auth_.mot-de-passe'
 import { Route as CareIndexRouteImport } from './routes/care.index'
 import { Route as CareAideRouteImport } from './routes/care.aide'
 import { Route as CareAngoisseRouteImport } from './routes/care.angoisse'
@@ -92,6 +94,7 @@ import { Route as PracticalFlowersRouteImport } from './routes/practical.flowers
 import { Route as PracticalLetterRouteImport } from './routes/practical.letter'
 import { Route as PracticalObjectsRouteImport } from './routes/practical.objects'
 import { Route as PracticalObsequesRouteImport } from './routes/practical.obseques'
+import { Route as PracticalPrevenirRouteImport } from './routes/practical.prevenir'
 import { Route as PracticalProgressRouteImport } from './routes/practical.progress'
 import { Route as PracticalProsRouteImport } from './routes/practical.pros'
 import { Route as PracticalResourcesRouteImport } from './routes/practical.resources'
@@ -110,6 +113,7 @@ import { Route as ProfileNotificationsRouteImport } from './routes/profile.notif
 import { Route as ProfilePortraitRouteImport } from './routes/profile.portrait'
 import { Route as ProfilePrivacyRouteImport } from './routes/profile.privacy'
 import { Route as ProfileProchesRouteImport } from './routes/profile.proches'
+import { Route as ReglagesSupprimerRouteImport } from './routes/reglages.supprimer'
 import { Route as ResourcesIndexRouteImport } from './routes/resources.index'
 import { Route as ResourcesCategoryRouteImport } from './routes/resources.$category'
 import { Route as SpaceIndexRouteImport } from './routes/space.index'
@@ -333,6 +337,11 @@ const AgendaNewRoute = AgendaNewRouteImport.update({
   path: '/agenda/new',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AideArticleRoute = AideArticleRouteImport.update({
+  id: '/aide/$article',
+  path: '/aide/$article',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AppointmentsIndexRoute = AppointmentsIndexRouteImport.update({
   id: '/appointments/',
   path: '/appointments/',
@@ -346,6 +355,11 @@ const AppointmentsIdRoute = AppointmentsIdRouteImport.update({
 const AppointmentsNewRoute = AppointmentsNewRouteImport.update({
   id: '/appointments/new',
   path: '/appointments/new',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthMotDePasseRoute = AuthMotDePasseRouteImport.update({
+  id: '/auth_/mot-de-passe',
+  path: '/auth/mot-de-passe',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CareIndexRoute = CareIndexRouteImport.update({
@@ -631,6 +645,11 @@ const PracticalObsequesRoute = PracticalObsequesRouteImport.update({
   path: '/obseques',
   getParentRoute: () => PracticalRoute,
 } as any)
+const PracticalPrevenirRoute = PracticalPrevenirRouteImport.update({
+  id: '/prevenir',
+  path: '/prevenir',
+  getParentRoute: () => PracticalRoute,
+} as any)
 const PracticalProgressRoute = PracticalProgressRouteImport.update({
   id: '/progress',
   path: '/progress',
@@ -720,6 +739,11 @@ const ProfileProchesRoute = ProfileProchesRouteImport.update({
   id: '/proches',
   path: '/proches',
   getParentRoute: () => ProfileRoute,
+} as any)
+const ReglagesSupprimerRoute = ReglagesSupprimerRouteImport.update({
+  id: '/reglages/supprimer',
+  path: '/reglages/supprimer',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const ResourcesIndexRoute = ResourcesIndexRouteImport.update({
   id: '/resources/',
@@ -1278,8 +1302,10 @@ export interface FileRoutesByFullPath {
   '/wishes': typeof WishesRoute
   '/circle': typeof AuthenticatedCircleRoute
   '/agenda/new': typeof AgendaNewRoute
+  '/aide/$article': typeof AideArticleRoute
   '/appointments/$id': typeof AppointmentsIdRoute
   '/appointments/new': typeof AppointmentsNewRoute
+  '/auth/mot-de-passe': typeof AuthMotDePasseRoute
   '/care/aide': typeof CareAideRoute
   '/care/angoisse': typeof CareAngoisseRoute
   '/care/community': typeof CareCommunityRouteWithChildren
@@ -1330,6 +1356,7 @@ export interface FileRoutesByFullPath {
   '/practical/letter': typeof PracticalLetterRoute
   '/practical/objects': typeof PracticalObjectsRoute
   '/practical/obseques': typeof PracticalObsequesRoute
+  '/practical/prevenir': typeof PracticalPrevenirRoute
   '/practical/progress': typeof PracticalProgressRoute
   '/practical/pros': typeof PracticalProsRouteWithChildren
   '/practical/resources': typeof PracticalResourcesRoute
@@ -1346,6 +1373,7 @@ export interface FileRoutesByFullPath {
   '/profile/portrait': typeof ProfilePortraitRoute
   '/profile/privacy': typeof ProfilePrivacyRoute
   '/profile/proches': typeof ProfileProchesRoute
+  '/reglages/supprimer': typeof ReglagesSupprimerRoute
   '/resources/$category': typeof ResourcesCategoryRouteWithChildren
   '/space/new': typeof SpaceNewRoute
   '/space/settings': typeof SpaceSettingsRouteWithChildren
@@ -1478,8 +1506,10 @@ export interface FileRoutesByTo {
   '/wishes': typeof WishesRoute
   '/circle': typeof AuthenticatedCircleRoute
   '/agenda/new': typeof AgendaNewRoute
+  '/aide/$article': typeof AideArticleRoute
   '/appointments/$id': typeof AppointmentsIdRoute
   '/appointments/new': typeof AppointmentsNewRoute
+  '/auth/mot-de-passe': typeof AuthMotDePasseRoute
   '/care/aide': typeof CareAideRoute
   '/care/angoisse': typeof CareAngoisseRoute
   '/care/emotions': typeof CareEmotionsRoute
@@ -1523,6 +1553,7 @@ export interface FileRoutesByTo {
   '/practical/letter': typeof PracticalLetterRoute
   '/practical/objects': typeof PracticalObjectsRoute
   '/practical/obseques': typeof PracticalObsequesRoute
+  '/practical/prevenir': typeof PracticalPrevenirRoute
   '/practical/progress': typeof PracticalProgressRoute
   '/practical/resources': typeof PracticalResourcesRoute
   '/practical/steps': typeof PracticalStepsRoute
@@ -1536,6 +1567,7 @@ export interface FileRoutesByTo {
   '/profile/portrait': typeof ProfilePortraitRoute
   '/profile/privacy': typeof ProfilePrivacyRoute
   '/profile/proches': typeof ProfileProchesRoute
+  '/reglages/supprimer': typeof ReglagesSupprimerRoute
   '/space/new': typeof SpaceNewRoute
   '/start/compte-requis': typeof StartCompteRequisRoute
   '/start/decouverte': typeof StartDecouverteRoute
@@ -1669,8 +1701,10 @@ export interface FileRoutesById {
   '/wishes': typeof WishesRoute
   '/_authenticated/circle': typeof AuthenticatedCircleRoute
   '/agenda/new': typeof AgendaNewRoute
+  '/aide/$article': typeof AideArticleRoute
   '/appointments/$id': typeof AppointmentsIdRoute
   '/appointments/new': typeof AppointmentsNewRoute
+  '/auth_/mot-de-passe': typeof AuthMotDePasseRoute
   '/care/aide': typeof CareAideRoute
   '/care/angoisse': typeof CareAngoisseRoute
   '/care/community': typeof CareCommunityRouteWithChildren
@@ -1721,6 +1755,7 @@ export interface FileRoutesById {
   '/practical/letter': typeof PracticalLetterRoute
   '/practical/objects': typeof PracticalObjectsRoute
   '/practical/obseques': typeof PracticalObsequesRoute
+  '/practical/prevenir': typeof PracticalPrevenirRoute
   '/practical/progress': typeof PracticalProgressRoute
   '/practical/pros': typeof PracticalProsRouteWithChildren
   '/practical/resources': typeof PracticalResourcesRoute
@@ -1737,6 +1772,7 @@ export interface FileRoutesById {
   '/profile/portrait': typeof ProfilePortraitRoute
   '/profile/privacy': typeof ProfilePrivacyRoute
   '/profile/proches': typeof ProfileProchesRoute
+  '/reglages/supprimer': typeof ReglagesSupprimerRoute
   '/resources/$category': typeof ResourcesCategoryRouteWithChildren
   '/space/new': typeof SpaceNewRoute
   '/space/settings': typeof SpaceSettingsRouteWithChildren
@@ -1876,8 +1912,10 @@ export interface FileRouteTypes {
     | '/wishes'
     | '/circle'
     | '/agenda/new'
+    | '/aide/$article'
     | '/appointments/$id'
     | '/appointments/new'
+    | '/auth/mot-de-passe'
     | '/care/aide'
     | '/care/angoisse'
     | '/care/community'
@@ -1928,6 +1966,7 @@ export interface FileRouteTypes {
     | '/practical/letter'
     | '/practical/objects'
     | '/practical/obseques'
+    | '/practical/prevenir'
     | '/practical/progress'
     | '/practical/pros'
     | '/practical/resources'
@@ -1944,6 +1983,7 @@ export interface FileRouteTypes {
     | '/profile/portrait'
     | '/profile/privacy'
     | '/profile/proches'
+    | '/reglages/supprimer'
     | '/resources/$category'
     | '/space/new'
     | '/space/settings'
@@ -2076,8 +2116,10 @@ export interface FileRouteTypes {
     | '/wishes'
     | '/circle'
     | '/agenda/new'
+    | '/aide/$article'
     | '/appointments/$id'
     | '/appointments/new'
+    | '/auth/mot-de-passe'
     | '/care/aide'
     | '/care/angoisse'
     | '/care/emotions'
@@ -2121,6 +2163,7 @@ export interface FileRouteTypes {
     | '/practical/letter'
     | '/practical/objects'
     | '/practical/obseques'
+    | '/practical/prevenir'
     | '/practical/progress'
     | '/practical/resources'
     | '/practical/steps'
@@ -2134,6 +2177,7 @@ export interface FileRouteTypes {
     | '/profile/portrait'
     | '/profile/privacy'
     | '/profile/proches'
+    | '/reglages/supprimer'
     | '/space/new'
     | '/start/compte-requis'
     | '/start/decouverte'
@@ -2266,8 +2310,10 @@ export interface FileRouteTypes {
     | '/wishes'
     | '/_authenticated/circle'
     | '/agenda/new'
+    | '/aide/$article'
     | '/appointments/$id'
     | '/appointments/new'
+    | '/auth_/mot-de-passe'
     | '/care/aide'
     | '/care/angoisse'
     | '/care/community'
@@ -2318,6 +2364,7 @@ export interface FileRouteTypes {
     | '/practical/letter'
     | '/practical/objects'
     | '/practical/obseques'
+    | '/practical/prevenir'
     | '/practical/progress'
     | '/practical/pros'
     | '/practical/resources'
@@ -2334,6 +2381,7 @@ export interface FileRouteTypes {
     | '/profile/portrait'
     | '/profile/privacy'
     | '/profile/proches'
+    | '/reglages/supprimer'
     | '/resources/$category'
     | '/space/new'
     | '/space/settings'
@@ -2472,8 +2520,10 @@ export interface RootRouteChildren {
   VitrineRoute: typeof VitrineRoute
   WishesRoute: typeof WishesRoute
   AgendaNewRoute: typeof AgendaNewRoute
+  AideArticleRoute: typeof AideArticleRoute
   AppointmentsIdRoute: typeof AppointmentsIdRoute
   AppointmentsNewRoute: typeof AppointmentsNewRoute
+  AuthMotDePasseRoute: typeof AuthMotDePasseRoute
   ComposeZoneRoute: typeof ComposeZoneRoute
   DevDesignRoute: typeof DevDesignRoute
   DocumentsIdRoute: typeof DocumentsIdRoute
@@ -2490,6 +2540,7 @@ export interface RootRouteChildren {
   PartageMessageRoute: typeof PartageMessageRoute
   PartageSiteOfficielRoute: typeof PartageSiteOfficielRoute
   PresenceAboutRoute: typeof PresenceAboutRoute
+  ReglagesSupprimerRoute: typeof ReglagesSupprimerRoute
   ResourcesCategoryRoute: typeof ResourcesCategoryRouteWithChildren
   SpaceNewRoute: typeof SpaceNewRoute
   SpaceSettingsRoute: typeof SpaceSettingsRouteWithChildren
@@ -2681,6 +2732,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AgendaNewRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/aide/$article': {
+      id: '/aide/$article'
+      path: '/aide/$article'
+      fullPath: '/aide/$article'
+      preLoaderRoute: typeof AideArticleRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/appointments/': {
       id: '/appointments/'
       path: '/appointments'
@@ -2700,6 +2758,13 @@ declare module '@tanstack/react-router' {
       path: '/appointments/new'
       fullPath: '/appointments/new'
       preLoaderRoute: typeof AppointmentsNewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth_/mot-de-passe': {
+      id: '/auth_/mot-de-passe'
+      path: '/auth/mot-de-passe'
+      fullPath: '/auth/mot-de-passe'
+      preLoaderRoute: typeof AuthMotDePasseRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/care/': {
@@ -3094,6 +3159,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PracticalObsequesRouteImport
       parentRoute: typeof PracticalRoute
     }
+    '/practical/prevenir': {
+      id: '/practical/prevenir'
+      path: '/prevenir'
+      fullPath: '/practical/prevenir'
+      preLoaderRoute: typeof PracticalPrevenirRouteImport
+      parentRoute: typeof PracticalRoute
+    }
     '/practical/progress': {
       id: '/practical/progress'
       path: '/progress'
@@ -3219,6 +3291,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/profile/proches'
       preLoaderRoute: typeof ProfileProchesRouteImport
       parentRoute: typeof ProfileRoute
+    }
+    '/reglages/supprimer': {
+      id: '/reglages/supprimer'
+      path: '/reglages/supprimer'
+      fullPath: '/reglages/supprimer'
+      preLoaderRoute: typeof ReglagesSupprimerRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/resources/': {
       id: '/resources/'
@@ -4323,6 +4402,7 @@ interface PracticalRouteChildren {
   PracticalLetterRoute: typeof PracticalLetterRoute
   PracticalObjectsRoute: typeof PracticalObjectsRoute
   PracticalObsequesRoute: typeof PracticalObsequesRoute
+  PracticalPrevenirRoute: typeof PracticalPrevenirRoute
   PracticalProgressRoute: typeof PracticalProgressRoute
   PracticalProsRoute: typeof PracticalProsRouteWithChildren
   PracticalResourcesRoute: typeof PracticalResourcesRoute
@@ -4356,6 +4436,7 @@ const PracticalRouteChildren: PracticalRouteChildren = {
   PracticalLetterRoute: PracticalLetterRoute,
   PracticalObjectsRoute: PracticalObjectsRoute,
   PracticalObsequesRoute: PracticalObsequesRoute,
+  PracticalPrevenirRoute: PracticalPrevenirRoute,
   PracticalProgressRoute: PracticalProgressRoute,
   PracticalProsRoute: PracticalProsRouteWithChildren,
   PracticalResourcesRoute: PracticalResourcesRoute,
@@ -4477,8 +4558,10 @@ const rootRouteChildren: RootRouteChildren = {
   VitrineRoute: VitrineRoute,
   WishesRoute: WishesRoute,
   AgendaNewRoute: AgendaNewRoute,
+  AideArticleRoute: AideArticleRoute,
   AppointmentsIdRoute: AppointmentsIdRoute,
   AppointmentsNewRoute: AppointmentsNewRoute,
+  AuthMotDePasseRoute: AuthMotDePasseRoute,
   ComposeZoneRoute: ComposeZoneRoute,
   DevDesignRoute: DevDesignRoute,
   DocumentsIdRoute: DocumentsIdRoute,
@@ -4495,6 +4578,7 @@ const rootRouteChildren: RootRouteChildren = {
   PartageMessageRoute: PartageMessageRoute,
   PartageSiteOfficielRoute: PartageSiteOfficielRoute,
   PresenceAboutRoute: PresenceAboutRoute,
+  ReglagesSupprimerRoute: ReglagesSupprimerRoute,
   ResourcesCategoryRoute: ResourcesCategoryRouteWithChildren,
   SpaceNewRoute: SpaceNewRoute,
   SpaceSettingsRoute: SpaceSettingsRouteWithChildren,
