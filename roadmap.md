@@ -2,9 +2,10 @@
 
 ## Étape D4 — sons de bien-être (ajouts-4)
 - [x] Présenter les quatre listes D026–D032 avant le code et conserver l’existant.
-- [ ] Reproduire les sept écrans, relier les boutons et garder un lecteur commun pendant la navigation.
-- [ ] Fournir des fichiers de démonstration originaux, minuteur audio natif, mélange et favoris locaux.
-- [ ] Vérifier les parcours, les réglages et les sauvegardes ; préciser la limite de vérification téléphone verrouillé.
+- [x] Reproduire les sept écrans, relier les boutons et garder un lecteur commun pendant la navigation ; ancienne page archivée sans supprimer le moteur existant.
+- [x] Fournir dix fichiers de démonstration originaux, minuteur audio natif, mélange et favoris locaux ; voix synthétiques et textes originaux à relire.
+- [x] Vérifier lecture, reprise, réglages, mélange, favoris persistants et arrêt audio en onglet arrière-plan ; cinq tests réussis, aucune erreur navigateur, mobile et desktop ouverts.
+- [ ] Vérification téléphone réellement verrouillé : appareil physique indisponible. Le navigateur/OS peut interrompre la lecture ; assombrissement visuel seulement.
 
 ## Étape D3 — le corps (ajouts-4)
 - [x] Quatre listes présentées pour D014–D025 avant le code.
