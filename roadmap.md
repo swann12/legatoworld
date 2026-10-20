@@ -1,5 +1,12 @@
 # Reprise UX/UI Legato
 
+## Étape D4 — sons de bien-être (ajouts-4)
+- [x] Présenter les quatre listes D026–D032 avant le code et conserver l’existant.
+- [x] Reproduire les sept écrans, relier les boutons et garder un lecteur commun pendant la navigation ; ancienne page archivée sans supprimer le moteur existant.
+- [x] Fournir dix fichiers de démonstration originaux, minuteur audio natif, mélange et favoris locaux ; voix synthétiques et textes originaux à relire.
+- [x] Vérifier lecture, reprise, réglages, mélange, favoris persistants et arrêt audio en onglet arrière-plan ; cinq tests réussis, aucune erreur navigateur, mobile et desktop ouverts.
+- [ ] Vérification téléphone réellement verrouillé : appareil physique indisponible. Le navigateur/OS peut interrompre la lecture ; assombrissement visuel seulement.
+
 ## Étape D3 — le corps (ajouts-4)
 - [x] Quatre listes présentées pour D014–D025 avant le code.
 - [x] D014 tuiles reliées ; D015–D018 créées via CorpsTopicPage ; D019 soin refait (fiches → D020) ; D020 exercice plein écran ; D021 modifié ; D022 marche plein écran (voix + minuteur) ; D023 modifié ; D024 noter créé ; D025 déjà conforme.

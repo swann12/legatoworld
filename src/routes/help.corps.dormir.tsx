@@ -16,7 +16,7 @@ export const Route = createFileRoute("/help/corps/dormir")({
         "Si cela dure plus de deux semaines, parlez-en à votre médecin.",
       ]}
       primary={{ label: "Faire l'exercice du soir", to: "/help/corps/exercice" }}
-      secondary={{ label: "Écouter des sons pour s'endormir", to: "/care/sons" }}
+      secondary={{ label: "Écouter des sons pour s'endormir", to: "/care/sons/endormir" }}
     />
   ),
 });

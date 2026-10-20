@@ -1,0 +1,24 @@
+.lg-sounds .lg-sound-title {display:block;font-family:var(--lg-serif);font-size:20px;line-height:1.15;}
+.lg-sound-sub {display:block;font-family:var(--lg-sans);font-size:12.5px;line-height:1.4;color:var(--sp-sub);}
+.lg-sound-row {display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--sp-line);color:var(--sp-ink);}
+.lg-sound-row .lg-sound-sub{margin-top:3px;}
+.lg-sound-play {display:grid;place-items:center;width:46px;height:46px;flex-shrink:0;border-radius:50%;background:var(--sp-btn-bg);color:var(--sp-btn-fg);}
+.lg-sound-duration{max-width:85px;text-align:right;font-size:10.5px;}
+.lg-sound-resume{display:flex;align-items:center;gap:12px;background:var(--sp-block);padding:18px 20px;}
+.lg-sound-resume a {height:44px;padding:0 20px;flex-shrink:0;}
+.lg-sound-menu {border-top:1px solid var(--sp-line-2);}
+.lg-sound-menu a{padding-block:15px;}
+.lg-sound-timerline {display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.lg-sounds .lg-sound-choice {min-width:88px;height:44px;border:1px solid var(--sp-line-2);border-radius:22px;padding:0 16px;color:var(--sp-ink);font-size:14.5px;}
+.lg-sounds .lg-sound-choice.is-selected {background:var(--lg-deep);color:var(--lg-mint);border-color:var(--lg-deep);}
+.lg-sound-slider-row{display:block;padding:16px 0;border-bottom:1px solid var(--sp-line);}
+.lg-sound-slider-row input{display:block;margin-top:12px;width:100%;height:22px;accent-color:var(--lg-deep);}
+.lg-sound-experience{min-height:100dvh;background:var(--lg-grad-sounds);color:var(--lg-cream);font-family:var(--lg-sans);}
+.lg-sound-experience-inner{display:flex;flex-direction:column;min-height:100dvh;max-width:430px;padding-inline:var(--lg-margin);margin:auto;}
+.lg-sound-clock{font-family:var(--lg-serif);font-size:64px;line-height:1;}
+.lg-sound-experience .lg-sound-main-play{width:78px;height:78px;min-height:78px;border-radius:50%;background:var(--lg-blue);color:var(--lg-deep);}
+.lg-sound-main-play svg{width:27px;height:27px;}
+.lg-sound-experience footer {color:var(--lg-deep);}
+.lg-sound-experience footer button,.lg-sound-experience footer a {color:inherit;}
+.lg-sound-experience .lg-sound-dark{position:fixed;inset:0;width:100%;height:100dvh;background:var(--lg-night-2);color:var(--lg-cream);border-radius:0;z-index:100;}
+@media(max-width:359px){.lg-sound-resume{padding:16px 12px;gap:8px;}.lg-sound-resume a{padding-inline:14px;}.lg-sound-row{gap:10px;}.lg-sound-play{width:38px;height:38px;}}
