@@ -1,5 +1,13 @@
 # Reprise UX/UI Legato
 
+## Étape D2 — pages réutilisées (ajouts-4)
+- [x] Présenter les quatre listes pour D006–D013 avant le code.
+- [x] Créer les huit écrans : /partage/message, /partage/site-officiel, /documents/$id, /documents/dossier/$categorie, /practical/prevenir, /aide/$article, /reglages/supprimer, /auth/mot-de-passe ; composants paramétrables dans shared-pages.tsx ; ligne « Prévenir les proches » de Démarches reliée.
+- [x] Vérifier les huit écrans sur téléphone : copie avec repli, « Voir le message » → D006 avec paramètres, SUPPRIMER qui débloque le bouton ; 5 tests démarches réussis, tsgo OK.
+- [ ] Relier les boutons appelants (listes utilisee_par de pages-reutilisees.json) : étapes suivantes.
+- [ ] Articles « supprimer un souvenir » et « données protégées » rédigés par l'agent : relecture attendue.
+- [ ] D008 : les documents locaux n'ont pas de fichier joint ; Télécharger/Partager répondent par un message, en attente du stockage de fichiers.
+
 ## Étape D1 — règles transverses (ajouts-4)
 - [x] Présenter les quatre listes pour D001–D005 avant le code.
 - [x] §1 titres Démarches en vert (token --sp-title-accent) ; §2 dégradé Mémoire rose→bordeaux, texte et bouton rose (ExperienceButton) ; §3 MotExplique + lexique.json (37 mots) ; §7 délai obsèques 14 jours ; D002 conversation refaite ; D004 SavedToast/ConfirmSheet/ConfirmedCall (15).
