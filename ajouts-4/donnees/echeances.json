@@ -1,0 +1,88 @@
+{
+ "_lire_moi": "Règles de calcul des échéances. Chaque règle part de la date du décès (date_deces) et des réponses de la première ouverture. Afficher l'échéance seulement si sa condition est vraie. Rappels : 7 jours avant, puis la veille, jamais avant 10 h ni le soir. Montants et délais à revoir chaque année.",
+ "regles": [
+  {
+   "id": "capital-deces",
+   "titre": "Demander le capital décès",
+   "en_clair": "Une somme versée par l'Assurance maladie aux proches d'une personne qui travaillait, pour faire face aux premiers frais.",
+   "date": "date_deces + 1 mois",
+   "apres": "possible encore pendant 2 ans",
+   "condition": "le défunt était salarié ou demandeur d'emploi",
+   "montant": "4 009 € (depuis le 1er avril 2026, revalorisé chaque 1er avril)",
+   "action": {
+    "type": "lien_officiel",
+    "cible": "ameli.fr"
+   },
+   "source": "ameli.fr",
+   "statut": "verifie"
+  },
+  {
+   "id": "vente-voiture",
+   "titre": "Vendre la voiture sans refaire la carte grise",
+   "en_clair": "Si la voiture est vendue ou donnée dans les 3 mois, la carte grise n'a pas à être mise au nom d'un héritier d'abord.",
+   "date": "date_deces + 3 mois",
+   "condition": "une voiture au nom du défunt, et l'envie de la vendre",
+   "action": {
+    "type": "lien_officiel",
+    "cible": "ants.gouv.fr"
+   },
+   "source": "ANTS (via legare.fr) : à confirmer sur ants.gouv.fr",
+   "statut": "a_verifier"
+  },
+  {
+   "id": "option-successorale",
+   "titre": "Choisir d'accepter ou non la succession",
+   "en_clair": "Pendant 4 mois, personne ne peut obliger un héritier à choisir ; sans contrainte, il a jusqu'à 10 ans.",
+   "date": "date_deces + 4 mois",
+   "type": "information",
+   "source": "service-public.fr (F1199)",
+   "statut": "verifie"
+  },
+  {
+   "id": "declaration-succession",
+   "titre": "La déclaration de succession",
+   "en_clair": "La liste de ses biens, faite avec le notaire, pour calculer les droits à payer.",
+   "date": "date_deces + 6 mois",
+   "condition": "si elle est nécessaire (le notaire le dit)",
+   "action": {
+    "type": "page",
+    "cible": "b-credits"
+   },
+   "source": "service-public.fr",
+   "statut": "a_verifier"
+  },
+  {
+   "id": "revenus-defunt",
+   "titre": "Déclarer ses derniers revenus",
+   "en_clair": "Les revenus de l'année du décès se déclarent l'année suivante, sur une ligne à part.",
+   "date": "printemps de l'année suivante",
+   "source": "impots.gouv.fr",
+   "statut": "a_verifier"
+  },
+  {
+   "id": "reversion",
+   "titre": "La pension de réversion",
+   "en_clair": "Une partie de sa retraite, versée chaque mois à son époux ou à son épouse. Jamais automatique.",
+   "date": "dès que possible",
+   "condition": "marié(e) au défunt, même divorcé(e) ; pas Pacs ni concubinage",
+   "action": {
+    "type": "lien_officiel",
+    "cible": "info-retraite.fr"
+   },
+   "source": "info-retraite.fr, retraitesdeletat.gouv.fr",
+   "statut": "verifie"
+  },
+  {
+   "id": "premier-anniversaire",
+   "titre": "Le premier anniversaire",
+   "date": "date_deces + 1 an",
+   "type": "moment",
+   "action": {
+    "type": "page",
+    "cible": "Main"
+   },
+   "source": "—",
+   "statut": "conseil"
+  }
+ ]
+}
