@@ -1108,6 +1108,7 @@
   --sp-select: var(--lg-blue); --sp-btn-bg: var(--lg-blue); --sp-btn-fg: var(--lg-blue-ink);
   --sp-accent: var(--lg-blue-ink); --sp-fill: var(--lg-blue-ink); --sp-stroke: var(--lg-blue-ink);
   --sp-line: var(--lg-line-1); --sp-line-2: var(--lg-line-2);
+  --lg-grad-memoire: linear-gradient(180deg, var(--lg-blue-ink), var(--lg-blue), var(--lg-blush));
 }
 [data-journey="malade"] .lg-space-community .lg-community-vigil,
 [data-journey="questions"] .lg-space-community .lg-community-vigil {
