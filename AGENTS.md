@@ -20,10 +20,8 @@
 - The Démarches tab view for bereavement spaces comes from `src/lib/papers-plan.ts` (pure, tested), driven by the papers answer from onboarding and space settings. Why: one rule decides order and the ceremony visibility on every path.
 - Body suivi: `src/lib/corps-suivi.ts` (localStorage, tested); walking voice on /help/corps/marche via browser speech; body topics share `CorpsTopicPage.tsx`. Why: nothing about the body leaves the phone.
 - Sick-relative carnet and tasks use `src/lib/carnet.ts`: shared_items in the circle when signed in, localStorage otherwise; members accept via accept_circle_task RPC. Why: circle sharing without loosening RLS.
-- Rituals and invitation identities use `src/lib/rituals-catalog.ts`; personal rituals use scoped `src/lib/my-rituals.ts`. Why: world traditions retain their identity when organised and personal rituals stay per space.
-- "questions" space data: `src/lib/self-space.ts`, local. Why: stays on the phone.
+- Rituals and invitation identities use `src/lib/rituals-catalog.ts`; personal rituals use scoped `src/lib/my-rituals.ts`. Why: traditions keep identity; personal rituals stay per space.
 - Ajouts-4: Démarches title italics use `--sp-title-accent`; memory experiences use ExperienceButton; explained words use MotExplique + `src/lib/lexique.json`; page-less buttons use ActionFeedback; reused pages are parametrized in `shared-pages.tsx`. Why: ajouts-4 §1–§4.
-
 - Library preserves IDs; suggestions use authenticated Gateway or local discovery. Why: preserve favorites and privacy.
 - Sounds use a shared native player and offline-rendered files with encoded fades. Why: navigation and timer throttling must not stop audio.
-- Soutien D050–D060 state lives in `src/lib/soutien.ts` (local, per space); the single Aujourd'hui card comes from pure `src/lib/au-bon-moment.ts` (tested). Why: one priority rule, nothing personal leaves the phone.
+- Local-only data: `self-space.ts` (questions space), `soutien.ts` (Soutien, per space); the single Aujourd'hui card comes from pure tested `au-bon-moment.ts`. Why: one priority rule, nothing personal leaves the phone.
