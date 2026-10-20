@@ -1,3 +1,4 @@
 - D033–D049 use the existing space-scoped memory/portrait stores plus authenticated garden_memories; discovery never sends content. Why: preserve prior work and privacy.
 - Pending contributions are owner-reviewed before entering lists or books; private files use five-minute signed URLs. Why: enforce consent beyond the UI.
 - Add forms and filtered lists are shared, with index leaves under layout routes. Why: avoid duplicate screens and keep details mounted.
+- Circle links use an explicit space-ID key without legacy global-key migration. Why: one invitation must never redirect another parcel's reads.

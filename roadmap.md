@@ -1,10 +1,12 @@
 # Reprise UX/UI Legato
 
 ## Étape D5 — Mémoire approfondie
-- [ ] Présenter les quatre listes D033–D049 et conserver les éléments hors maquette.
-- [ ] Reproduire les écrans et liens, sans toucher au jardin peint ni aux parcelles.
-- [ ] Garder les fichiers privés et les contributions en attente de validation.
-- [ ] Vérifier ajout, lecture, filtres, portrait, livre et validation ; signaler les limites réelles.
+- [x] Présenter les quatre listes D033–D049 et conserver les éléments hors maquette.
+- [x] Créer les pages et liens communs, sans toucher au jardin peint ni aux parcelles ; anciennes variantes conservées.
+- [x] Dépôt privé de 50 Mo et règles d’accès appliqués ; contributions en attente, liens de cercle isolés par parcelle.
+- [x] Vérifier phrase/modification/livre, fichiers photo et voix, portrait et date persistants ; dix tests réussis, écrans ouverts à 390 px et 1280 px sans erreur navigateur.
+- [ ] Invitation, dépôt privé et validation connectés de bout en bout : connexion du demandeur dans l’aperçu nécessaire ; aucune session correspondante disponible.
+- [ ] Paiement et impression : prestataire absent ; l’écran informe qu’aucune commande ni aucun paiement ne seront lancés.
 
 ## Étape D4 — sons de bien-être (ajouts-4)
 - [x] Présenter les quatre listes D026–D032 avant le code et conserver l’existant.
