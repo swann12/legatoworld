@@ -1,5 +1,11 @@
 # Reprise UX/UI Legato
 
+## Étape D5 — Mémoire approfondie
+- [ ] Présenter les quatre listes D033–D049 et conserver les éléments hors maquette.
+- [ ] Reproduire les écrans et liens, sans toucher au jardin peint ni aux parcelles.
+- [ ] Garder les fichiers privés et les contributions en attente de validation.
+- [ ] Vérifier ajout, lecture, filtres, portrait, livre et validation ; signaler les limites réelles.
+
 ## Étape D4 — sons de bien-être (ajouts-4)
 - [x] Présenter les quatre listes D026–D032 avant le code et conserver l’existant.
 - [x] Reproduire les sept écrans, relier les boutons et garder un lecteur commun pendant la navigation ; ancienne page archivée sans supprimer le moteur existant.

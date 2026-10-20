@@ -15,6 +15,13 @@
       "when": 1791882614525,
       "tag": "0001_accept_circle_task",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1792494149576,
+      "tag": "0002_private_memory_gardens",
+      "breakpoints": true
     }
   ]
 }

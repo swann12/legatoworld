@@ -18,7 +18,7 @@ export const listMyCircles = createServerFn({ method: "GET" })
     if (ids.length === 0) return { circles: [] };
     const { data, error } = await supabase
       .from("circles")
-      .select("id, name, defunt_name, owner_id, created_at")
+      .select("id, name, defunt_name, owner_id, created_at, memory_space_key")
       .in("id", ids)
       .order("created_at", { ascending: true });
     if (error) throw new Error(error.message);
@@ -113,32 +113,9 @@ export const acceptInvite = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { token: string }) => z.object({ token: z.string().min(8) }).parse(d))
   .handler(async ({ data, context }) => {
-    const { supabase, userId, claims } = context;
-    const { data: invite, error: e1 } = await supabase
-      .from("circle_invites")
-      .select("token, circle_id, email, role, expires_at, accepted_at")
-      .eq("token", data.token)
-      .single();
-    if (e1 || !invite) throw new Error("Invitation introuvable.");
-    if (invite.accepted_at) throw new Error("Invitation déjà utilisée.");
-    if (new Date(invite.expires_at).getTime() < Date.now()) throw new Error("Invitation expirée.");
-
-    // upsert membership (active)
-    const email = (claims as any)?.email ?? null;
-    const { error: e2 } = await supabase.from("circle_members").upsert(
-      {
-        circle_id: invite.circle_id,
-        user_id: userId,
-        email,
-        role: invite.role,
-        status: "active",
-      },
-      { onConflict: "circle_id,user_id" },
-    );
-    if (e2) throw new Error(e2.message);
-    // mark invite accepted (owner-only RLS update; use server admin path via update with explicit token match)
-    await supabase.from("circle_invites").update({ accepted_at: new Date().toISOString() }).eq("token", data.token);
-    return { circleId: invite.circle_id };
+    const { data: circleId, error } = await context.supabase.rpc("accept_legato_invite", { _token: data.token });
+    if (error || !circleId) throw new Error("Invitation indisponible, expirée ou destinée à une autre adresse.");
+    return { circleId };
   });
 
 // ---------- Shared items ----------

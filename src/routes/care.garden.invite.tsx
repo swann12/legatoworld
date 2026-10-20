@@ -7,6 +7,7 @@ import { useMemoryPerson } from "@/components/legato/MemoryUI";
 import { supabase } from "@/integrations/supabase/client";
 import { listMyCircles, getCircle, createCircle, createInvite } from "@/lib/circle.functions";
 import { legatoHead } from "@/lib/legato-head";
+import { ensureGarden } from "@/lib/garden.functions";
 export const Route = createFileRoute("/care/garden/invite")({ head: () => legatoHead("Inviter des proches à se souvenir", "Préparer une invitation pour retrouver vos proches dans un cercle Legato."), component: MemoryInvite });
 type Member = { id: string; user_id: string | null; email: string | null; display_name: string | null; status: string };
 type Invite = { token: string; email: string | null; expires_at: string; created_at: string };
@@ -17,9 +18,9 @@ function MemoryInvite() {
   useEffect(() => {
     if (!canUseConnectedAction("invite")) return;
     let active = true; setCircleId(""); setMembers([]); setInvites([]); setUrl("");
-    const load = async () => { try { const { data } = await supabase.auth.getUser(); if (!active) return; setAuthed(!!data.user); if (!data.user) return; setMe(data.user.id); const result = await list(); if (!active) return; const own = result.circles.find(c => c.owner_id === data.user?.id && c.defunt_name === name); if (own) { setCircleId(own.id); const details = await get({ data: { circleId: own.id } }); if (active) { setMembers(details.members); setInvites(details.invites); } } } catch { if (active) setNotice("Votre cercle n’a pas pu être chargé. Réessayez un peu plus tard."); } }; load(); return () => { active = false; };
+    const load = async () => { try { const { data } = await supabase.auth.getUser(); if (!active) return; setAuthed(!!data.user); if (!data.user) return; setMe(data.user.id); const result = await list(); if (!active) return; const own = result.circles.find(c => c.owner_id === data.user?.id && c.memory_space_key === person?.id); if (own) { setCircleId(own.id); const details = await get({ data: { circleId: own.id } }); if (active) { setMembers(details.members); setInvites(details.invites); } } } catch { if (active) setNotice("Votre cercle n’a pas pu être chargé. Réessayez un peu plus tard."); } }; load(); return () => { active = false; };
   }, [person?.id, name]);
-  const submit = async () => { setBusy(true); setNotice(""); try { const id = circleId || (await create({ data: { name: `Le jardin de ${name}`, defunt_name: name } })).id; setCircleId(id); const result = await invite({ data: { circleId: id, email: email.trim() || undefined } }); setUrl(`${window.location.origin}/invite/${encodeURIComponent(result.token)}`); setForm(false); await refresh(id); setNotice("Le lien est prêt. Aucun courriel n’a été envoyé automatiquement."); } catch { setNotice("L’invitation n’a pas pu être préparée. Vous pouvez réessayer."); } finally { setBusy(false); } };
+  const submit = async () => { if (!person) return; setBusy(true); setNotice(""); try { const id = circleId || (await ensureGarden({ data: { name, spaceKey: person.id } })).id; setCircleId(id); const result = await invite({ data: { circleId: id, email: email.trim() || undefined } }); setUrl(`${window.location.origin}/invite/${encodeURIComponent(result.token)}`); setForm(false); await refresh(id); setNotice("Le lien est prêt. Aucun courriel n’a été envoyé automatiquement."); } catch { setNotice("L’invitation n’a pas pu être préparée. Vous pouvez réessayer."); } finally { setBusy(false); } };
   const copy = async () => { try { await navigator.clipboard.writeText(url); setNotice("Le lien d’invitation est copié."); } catch { setNotice("Vous pouvez sélectionner et copier le lien ci-dessous."); } };
   return <StandardLayout space="memory" back="/care/garden/space" backLabel="Mémoire" activeTab="/care/garden">
     <PageTitle space="memory" className="mt-8">Inviter des proches<br />à <em>se souvenir.</em></PageTitle><Lead className="mt-4">Un cercle pour rassembler vos proches autour de {name}.</Lead>
@@ -29,6 +30,6 @@ function MemoryInvite() {
     {form && <form className="mt-6 space-y-5" onSubmit={e => { e.preventDefault(); submit(); }}><Field space="memory" label="Son courriel · facultatif" type="email" value={email} onChange={e => setEmail(e.target.value)} /><PrimaryButton space="memory" type="submit" disabled={busy}>{busy ? "Préparation…" : "Préparer l’invitation"}</PrimaryButton></form>}
     {url && <div className="mt-6"><label className="lg-mono">Le lien d’invitation<input aria-label="Lien d’invitation" value={url} readOnly className="mt-2 w-full text-[13px] bg-transparent py-2 normal-case" /></label><div className="flex flex-wrap gap-4 mt-3"><OutlineButton space="memory" onClick={copy}>Copier le lien</OutlineButton>{email.trim() && <a className="lg-memory-cta" href={`mailto:${encodeURIComponent(email.trim())}?subject=${encodeURIComponent("Se souvenir ensemble sur Legato")}&body=${encodeURIComponent(`Rejoignez le cercle de ${name} : ${url}`)}`}>Envoyer par courriel</a>}</div></div>}
     {notice && <p role="status" className="lg-row-sub mt-5">{notice}</p>}
-    <Block space="memory" className="mt-7"><p className="text-[14px] leading-relaxed">Vos souvenirs restent sur cet appareil. Inviter quelqu’un dans votre cercle ne les publie pas et ne les synchronise pas automatiquement.</p></Block>
+    <Block space="memory" className="mt-7"><p className="text-[14px] leading-relaxed">Seuls les souvenirs que vous partagez sont visibles par ce cercle. Les souvenirs proposés par vos proches attendent votre validation.</p></Block>
   </StandardLayout>;
 }

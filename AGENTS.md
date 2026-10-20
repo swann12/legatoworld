@@ -13,7 +13,7 @@
 - Booklet PDF loads on download with the editorial font. Why: safe SSR and readable accents.
 - Off-mockup features (step 10, memory forms, portrait editors) remain in collapsed or lazily mounted legacy views until removal is approved. Why: reproducing captures must not silently remove existing functionality.
 - Funeral-specific resource views are isolated from the support directory and mark mockup providers as examples without invented contact details. Why: reproducing the mockups must not imply verified prices or real booking capabilities.
-- Memory collection pages share canonical category helpers and the existing space-scoped memories-store; the dynamic zone parent renders Outlet and its list is an index leaf. Why: detail pages mount correctly and old category URLs remain usable.
+- Memory lists use canonical helpers and scoped memories-store; zone parents render Outlet with index lists. Read `src/components/legato/garden/AGENTS.md` for D5. Why: preserve data and mounted details.
 - Ritual/date landings are index leaves; traces use memories-store. Why: mounted details and space-scoped words.
 - Garden plot selection activates its existing space before opening the personal memory page, without altering the painted image or plot geometry. Why: each loved one's memories and portrait remain isolated.
 - Community screens reuse community-store and community-data, with vigil choices local and clearly distinguished from real reservations. Why: preserve existing interactions without implying a connected community service.

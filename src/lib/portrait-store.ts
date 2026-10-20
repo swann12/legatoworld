@@ -13,6 +13,8 @@ export type Portrait = {
   music: string[];       // son écoute
   colors: string[];      // ses couleurs
   freeText: string;      // facultatif, en fin de parcours
+  words?: string;
+  food?: string;
   updatedAt: number;
 };
 

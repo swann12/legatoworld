@@ -2,7 +2,9 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useServerFn } from "@tanstack/react-start";
-import { acceptInvite } from "@/lib/circle.functions";
+import { acceptInvite, getCircle } from "@/lib/circle.functions";
+import { useSpaces } from "@/lib/spaces-store";
+import { setActiveSpaceId, scopedKey } from "@/lib/active-space";
 import { toast } from "sonner";
 import { PrimaryButton, TextLink } from "@/components/legato/ds";
 import { LegatoLogo } from "@/components/legato/ds/LegatoLogo";
@@ -26,6 +28,7 @@ function InvitePage() {
   const { token } = Route.useParams();
   const navigate = useNavigate();
   const acceptFn = useServerFn(acceptInvite);
+  const { addSpace } = useSpaces();
   const [authed, setAuthed] = useState<boolean | null>(null);
   const [busy, setBusy] = useState(false);
 
@@ -36,9 +39,13 @@ function InvitePage() {
     if (!authed) { navigate({ to: "/auth", search: { redirect: `/invite/${token}` } as any }); return; }
     setBusy(true);
     try {
-      await acceptFn({ data: { token } });
+      const joined = await acceptFn({ data: { token } });
+      const details = await getCircle({ data: { circleId: joined.circleId } });
+      const space = addSpace({ name: details.circle.defunt_name || details.circle.name, relation: "autre" });
+      setActiveSpaceId(space.id);
+      localStorage.setItem(scopedKey("legato.garden-circle.v1"), joined.circleId);
       toast.success("Vous avez rejoint l'espace.");
-      navigate({ to: "/home" });
+      navigate({ to: "/care/garden/space" });
     } catch (e: any) {
       toast.error(e?.message ?? "Impossible d'accepter l'invitation.");
     } finally { setBusy(false); }
