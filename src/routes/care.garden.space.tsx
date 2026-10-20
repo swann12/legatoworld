@@ -9,8 +9,16 @@ import { useActiveSpace } from "@/lib/use-active-space";
 import { VoiceRecorder } from "@/components/legato/VoiceRecorder";
 import { SectionLabel } from "@/components/legato/ds";
 import { SelfTransmettre } from "@/components/legato/SelfSpace";
+import { GardenHome } from "@/components/legato/garden/MemoryPages";
 export const Route = createFileRoute("/care/garden/space")({ head: () => legatoHead("Le jardin de votre proche", "Un espace pour garder ses photos, sa voix, ses lettres et ses lieux."), component: MemorySpace });
 function MemorySpace() {
+  const { kind } = useActiveSpace();
+  if (kind === "malade") return <MaladeSouvenirs />;
+  if (kind === "questions") return <SelfTransmettre />;
+  return <GardenHome />;
+}
+/** Ancienne présentation conservée, sans modifier ses fonctions. */
+function LegacyMemorySpace() {
   const { kind: activeKind } = useActiveSpace();
   const { name, person } = useMemoryPerson(); const all = newestMemories(useMemories()); const latest = all[0];
   const animal = !!person && spaceKind(person) === "animal";

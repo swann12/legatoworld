@@ -101,6 +101,7 @@ export type Database = {
           created_at: string
           defunt_name: string | null
           id: string
+          memory_space_key: string | null
           name: string
           owner_id: string
           updated_at: string
@@ -109,6 +110,7 @@ export type Database = {
           created_at?: string
           defunt_name?: string | null
           id?: string
+          memory_space_key?: string | null
           name: string
           owner_id: string
           updated_at?: string
@@ -117,6 +119,7 @@ export type Database = {
           created_at?: string
           defunt_name?: string | null
           id?: string
+          memory_space_key?: string | null
           name?: string
           owner_id?: string
           updated_at?: string
@@ -181,6 +184,47 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      garden_memories: {
+        Row: {
+          author_id: string
+          circle_id: string
+          created_at: string
+          file_path: string | null
+          id: string
+          payload: Json
+          shared: boolean
+          status: string
+        }
+        Insert: {
+          author_id: string
+          circle_id: string
+          created_at?: string
+          file_path?: string | null
+          id?: string
+          payload?: Json
+          shared?: boolean
+          status?: string
+        }
+        Update: {
+          author_id?: string
+          circle_id?: string
+          created_at?: string
+          file_path?: string | null
+          id?: string
+          payload?: Json
+          shared?: boolean
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "garden_memories_circle_id_fkey"
+            columns: ["circle_id"]
+            isOneToOne: false
+            referencedRelation: "circles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       profiles: {
         Row: {
@@ -259,6 +303,7 @@ export type Database = {
     }
     Functions: {
       accept_circle_task: { Args: { _item: string }; Returns: boolean }
+      accept_legato_invite: { Args: { _token: string }; Returns: string }
       is_circle_member: {
         Args: { _circle_id: string; _user_id: string }
         Returns: boolean

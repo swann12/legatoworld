@@ -131,15 +131,21 @@ import { Route as CareDatesIndexRouteImport } from './routes/care.dates.index'
 import { Route as CareDatesIdRouteImport } from './routes/care.dates.$id'
 import { Route as CareGardenIndexRouteImport } from './routes/care.garden.index'
 import { Route as CareGardenZoneRouteImport } from './routes/care.garden.$zone'
+import { Route as CareGardenAjouterRouteImport } from './routes/care.garden.ajouter'
 import { Route as CareGardenAllRouteImport } from './routes/care.garden.all'
 import { Route as CareGardenBookRouteImport } from './routes/care.garden.book'
+import { Route as CareGardenDatesRouteImport } from './routes/care.garden.dates'
 import { Route as CareGardenDepotRouteImport } from './routes/care.garden.depot'
 import { Route as CareGardenHistoireRouteImport } from './routes/care.garden.histoire'
 import { Route as CareGardenHistoiresRouteImport } from './routes/care.garden.histoires'
 import { Route as CareGardenInviteRouteImport } from './routes/care.garden.invite'
 import { Route as CareGardenLettresRouteImport } from './routes/care.garden.lettres'
+import { Route as CareGardenLivreRouteImport } from './routes/care.garden.livre'
 import { Route as CareGardenObjetsRouteImport } from './routes/care.garden.objets'
+import { Route as CareGardenPortraitRouteImport } from './routes/care.garden.portrait'
+import { Route as CareGardenProchesRouteImport } from './routes/care.garden.proches'
 import { Route as CareGardenRecettesRouteImport } from './routes/care.garden.recettes'
+import { Route as CareGardenSouvenirsRouteImport } from './routes/care.garden.souvenirs'
 import { Route as CareGardenSpaceRouteImport } from './routes/care.garden.space'
 import { Route as CareJournalIndexRouteImport } from './routes/care.journal.index'
 import { Route as CareJournalLaterRouteImport } from './routes/care.journal.later'
@@ -216,6 +222,18 @@ import { Route as CareCommunityGroupNewRouteImport } from './routes/care.communi
 import { Route as CareCommunityVigilIdRouteImport } from './routes/care.community.vigil.$id'
 import { Route as CareGardenZoneIndexRouteImport } from './routes/care.garden.$zone.index'
 import { Route as CareGardenZoneIdRouteImport } from './routes/care.garden.$zone.$id'
+import { Route as CareGardenAjouterIndexRouteImport } from './routes/care.garden.ajouter.index'
+import { Route as CareGardenAjouterTypeRouteImport } from './routes/care.garden.ajouter.$type'
+import { Route as CareGardenAjouterFaitRouteImport } from './routes/care.garden.ajouter.fait'
+import { Route as CareGardenAjouterPhotoRouteImport } from './routes/care.garden.ajouter.photo'
+import { Route as CareGardenAjouterVoixRouteImport } from './routes/care.garden.ajouter.voix'
+import { Route as CareGardenLivreIndexRouteImport } from './routes/care.garden.livre.index'
+import { Route as CareGardenLivreApercuRouteImport } from './routes/care.garden.livre.apercu'
+import { Route as CareGardenLivreCommandeRouteImport } from './routes/care.garden.livre.commande'
+import { Route as CareGardenProchesIndexRouteImport } from './routes/care.garden.proches.index'
+import { Route as CareGardenProchesValiderRouteImport } from './routes/care.garden.proches.valider'
+import { Route as CareGardenSouvenirsIndexRouteImport } from './routes/care.garden.souvenirs.index'
+import { Route as CareGardenSouvenirsIdRouteImport } from './routes/care.garden.souvenirs.$id'
 import { Route as CareRituelsCalendrierIndexRouteImport } from './routes/care.rituels.calendrier.index'
 import { Route as CareRituelsCalendrierAnneeRouteImport } from './routes/care.rituels.calendrier.annee'
 import { Route as CareRituelsMondeIndexRouteImport } from './routes/care.rituels.monde.index'
@@ -843,6 +861,11 @@ const CareGardenZoneRoute = CareGardenZoneRouteImport.update({
   path: '/$zone',
   getParentRoute: () => CareGardenRoute,
 } as any)
+const CareGardenAjouterRoute = CareGardenAjouterRouteImport.update({
+  id: '/ajouter',
+  path: '/ajouter',
+  getParentRoute: () => CareGardenRoute,
+} as any)
 const CareGardenAllRoute = CareGardenAllRouteImport.update({
   id: '/all',
   path: '/all',
@@ -851,6 +874,11 @@ const CareGardenAllRoute = CareGardenAllRouteImport.update({
 const CareGardenBookRoute = CareGardenBookRouteImport.update({
   id: '/book',
   path: '/book',
+  getParentRoute: () => CareGardenRoute,
+} as any)
+const CareGardenDatesRoute = CareGardenDatesRouteImport.update({
+  id: '/dates',
+  path: '/dates',
   getParentRoute: () => CareGardenRoute,
 } as any)
 const CareGardenDepotRoute = CareGardenDepotRouteImport.update({
@@ -878,14 +906,34 @@ const CareGardenLettresRoute = CareGardenLettresRouteImport.update({
   path: '/lettres',
   getParentRoute: () => CareGardenRoute,
 } as any)
+const CareGardenLivreRoute = CareGardenLivreRouteImport.update({
+  id: '/livre',
+  path: '/livre',
+  getParentRoute: () => CareGardenRoute,
+} as any)
 const CareGardenObjetsRoute = CareGardenObjetsRouteImport.update({
   id: '/objets',
   path: '/objets',
   getParentRoute: () => CareGardenRoute,
 } as any)
+const CareGardenPortraitRoute = CareGardenPortraitRouteImport.update({
+  id: '/portrait',
+  path: '/portrait',
+  getParentRoute: () => CareGardenRoute,
+} as any)
+const CareGardenProchesRoute = CareGardenProchesRouteImport.update({
+  id: '/proches',
+  path: '/proches',
+  getParentRoute: () => CareGardenRoute,
+} as any)
 const CareGardenRecettesRoute = CareGardenRecettesRouteImport.update({
   id: '/recettes',
   path: '/recettes',
+  getParentRoute: () => CareGardenRoute,
+} as any)
+const CareGardenSouvenirsRoute = CareGardenSouvenirsRouteImport.update({
+  id: '/souvenirs',
+  path: '/souvenirs',
   getParentRoute: () => CareGardenRoute,
 } as any)
 const CareGardenSpaceRoute = CareGardenSpaceRouteImport.update({
@@ -1279,6 +1327,68 @@ const CareGardenZoneIdRoute = CareGardenZoneIdRouteImport.update({
   path: '/$id',
   getParentRoute: () => CareGardenZoneRoute,
 } as any)
+const CareGardenAjouterIndexRoute = CareGardenAjouterIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => CareGardenAjouterRoute,
+} as any)
+const CareGardenAjouterTypeRoute = CareGardenAjouterTypeRouteImport.update({
+  id: '/$type',
+  path: '/$type',
+  getParentRoute: () => CareGardenAjouterRoute,
+} as any)
+const CareGardenAjouterFaitRoute = CareGardenAjouterFaitRouteImport.update({
+  id: '/fait',
+  path: '/fait',
+  getParentRoute: () => CareGardenAjouterRoute,
+} as any)
+const CareGardenAjouterPhotoRoute = CareGardenAjouterPhotoRouteImport.update({
+  id: '/photo',
+  path: '/photo',
+  getParentRoute: () => CareGardenAjouterRoute,
+} as any)
+const CareGardenAjouterVoixRoute = CareGardenAjouterVoixRouteImport.update({
+  id: '/voix',
+  path: '/voix',
+  getParentRoute: () => CareGardenAjouterRoute,
+} as any)
+const CareGardenLivreIndexRoute = CareGardenLivreIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => CareGardenLivreRoute,
+} as any)
+const CareGardenLivreApercuRoute = CareGardenLivreApercuRouteImport.update({
+  id: '/apercu',
+  path: '/apercu',
+  getParentRoute: () => CareGardenLivreRoute,
+} as any)
+const CareGardenLivreCommandeRoute = CareGardenLivreCommandeRouteImport.update({
+  id: '/commande',
+  path: '/commande',
+  getParentRoute: () => CareGardenLivreRoute,
+} as any)
+const CareGardenProchesIndexRoute = CareGardenProchesIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => CareGardenProchesRoute,
+} as any)
+const CareGardenProchesValiderRoute =
+  CareGardenProchesValiderRouteImport.update({
+    id: '/valider',
+    path: '/valider',
+    getParentRoute: () => CareGardenProchesRoute,
+  } as any)
+const CareGardenSouvenirsIndexRoute =
+  CareGardenSouvenirsIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => CareGardenSouvenirsRoute,
+  } as any)
+const CareGardenSouvenirsIdRoute = CareGardenSouvenirsIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => CareGardenSouvenirsRoute,
+} as any)
 const CareRituelsCalendrierIndexRoute =
   CareRituelsCalendrierIndexRouteImport.update({
     id: '/rituels/calendrier/',
@@ -1476,15 +1586,21 @@ export interface FileRoutesByFullPath {
   '/care/community/regles': typeof CareCommunityReglesRoute
   '/care/dates/$id': typeof CareDatesIdRoute
   '/care/garden/$zone': typeof CareGardenZoneRouteWithChildren
+  '/care/garden/ajouter': typeof CareGardenAjouterRouteWithChildren
   '/care/garden/all': typeof CareGardenAllRoute
   '/care/garden/book': typeof CareGardenBookRoute
+  '/care/garden/dates': typeof CareGardenDatesRoute
   '/care/garden/depot': typeof CareGardenDepotRoute
   '/care/garden/histoire': typeof CareGardenHistoireRoute
   '/care/garden/histoires': typeof CareGardenHistoiresRoute
   '/care/garden/invite': typeof CareGardenInviteRoute
   '/care/garden/lettres': typeof CareGardenLettresRoute
+  '/care/garden/livre': typeof CareGardenLivreRouteWithChildren
   '/care/garden/objets': typeof CareGardenObjetsRoute
+  '/care/garden/portrait': typeof CareGardenPortraitRoute
+  '/care/garden/proches': typeof CareGardenProchesRouteWithChildren
   '/care/garden/recettes': typeof CareGardenRecettesRoute
+  '/care/garden/souvenirs': typeof CareGardenSouvenirsRouteWithChildren
   '/care/garden/space': typeof CareGardenSpaceRoute
   '/care/journal/later': typeof CareJournalLaterRoute
   '/care/resources/suggestions': typeof CareResourcesSuggestionsRoute
@@ -1562,6 +1678,14 @@ export interface FileRoutesByFullPath {
   '/care/community/$group/new': typeof CareCommunityGroupNewRoute
   '/care/community/vigil/$id': typeof CareCommunityVigilIdRouteWithChildren
   '/care/garden/$zone/$id': typeof CareGardenZoneIdRoute
+  '/care/garden/ajouter/$type': typeof CareGardenAjouterTypeRoute
+  '/care/garden/ajouter/fait': typeof CareGardenAjouterFaitRoute
+  '/care/garden/ajouter/photo': typeof CareGardenAjouterPhotoRoute
+  '/care/garden/ajouter/voix': typeof CareGardenAjouterVoixRoute
+  '/care/garden/livre/apercu': typeof CareGardenLivreApercuRoute
+  '/care/garden/livre/commande': typeof CareGardenLivreCommandeRoute
+  '/care/garden/proches/valider': typeof CareGardenProchesValiderRoute
+  '/care/garden/souvenirs/$id': typeof CareGardenSouvenirsIdRoute
   '/care/rituels/calendrier/annee': typeof CareRituelsCalendrierAnneeRoute
   '/care/sons/lecteur/$id': typeof CareSonsLecteurIdRoute
   '/help/corps/$sujet/contenus': typeof HelpCorpsSujetContenusRoute
@@ -1569,6 +1693,10 @@ export interface FileRoutesByFullPath {
   '/practical/tasks/$id/template': typeof PracticalTasksIdTemplateRoute
   '/care/community/$group/': typeof CareCommunityGroupIndexRoute
   '/care/garden/$zone/': typeof CareGardenZoneIndexRoute
+  '/care/garden/ajouter/': typeof CareGardenAjouterIndexRoute
+  '/care/garden/livre/': typeof CareGardenLivreIndexRoute
+  '/care/garden/proches/': typeof CareGardenProchesIndexRoute
+  '/care/garden/souvenirs/': typeof CareGardenSouvenirsIndexRoute
   '/care/rituels/calendrier/': typeof CareRituelsCalendrierIndexRoute
   '/care/rituels/monde/': typeof CareRituelsMondeIndexRoute
   '/help/corps/soin/': typeof HelpCorpsSoinIndexRoute
@@ -1681,12 +1809,14 @@ export interface FileRoutesByTo {
   '/care/dates/$id': typeof CareDatesIdRoute
   '/care/garden/all': typeof CareGardenAllRoute
   '/care/garden/book': typeof CareGardenBookRoute
+  '/care/garden/dates': typeof CareGardenDatesRoute
   '/care/garden/depot': typeof CareGardenDepotRoute
   '/care/garden/histoire': typeof CareGardenHistoireRoute
   '/care/garden/histoires': typeof CareGardenHistoiresRoute
   '/care/garden/invite': typeof CareGardenInviteRoute
   '/care/garden/lettres': typeof CareGardenLettresRoute
   '/care/garden/objets': typeof CareGardenObjetsRoute
+  '/care/garden/portrait': typeof CareGardenPortraitRoute
   '/care/garden/recettes': typeof CareGardenRecettesRoute
   '/care/garden/space': typeof CareGardenSpaceRoute
   '/care/journal/later': typeof CareJournalLaterRoute
@@ -1762,6 +1892,14 @@ export interface FileRoutesByTo {
   '/care/community/$group/$thread': typeof CareCommunityGroupThreadRoute
   '/care/community/$group/new': typeof CareCommunityGroupNewRoute
   '/care/garden/$zone/$id': typeof CareGardenZoneIdRoute
+  '/care/garden/ajouter/$type': typeof CareGardenAjouterTypeRoute
+  '/care/garden/ajouter/fait': typeof CareGardenAjouterFaitRoute
+  '/care/garden/ajouter/photo': typeof CareGardenAjouterPhotoRoute
+  '/care/garden/ajouter/voix': typeof CareGardenAjouterVoixRoute
+  '/care/garden/livre/apercu': typeof CareGardenLivreApercuRoute
+  '/care/garden/livre/commande': typeof CareGardenLivreCommandeRoute
+  '/care/garden/proches/valider': typeof CareGardenProchesValiderRoute
+  '/care/garden/souvenirs/$id': typeof CareGardenSouvenirsIdRoute
   '/care/rituels/calendrier/annee': typeof CareRituelsCalendrierAnneeRoute
   '/care/sons/lecteur/$id': typeof CareSonsLecteurIdRoute
   '/help/corps/$sujet/contenus': typeof HelpCorpsSujetContenusRoute
@@ -1769,6 +1907,10 @@ export interface FileRoutesByTo {
   '/practical/tasks/$id/template': typeof PracticalTasksIdTemplateRoute
   '/care/community/$group': typeof CareCommunityGroupIndexRoute
   '/care/garden/$zone': typeof CareGardenZoneIndexRoute
+  '/care/garden/ajouter': typeof CareGardenAjouterIndexRoute
+  '/care/garden/livre': typeof CareGardenLivreIndexRoute
+  '/care/garden/proches': typeof CareGardenProchesIndexRoute
+  '/care/garden/souvenirs': typeof CareGardenSouvenirsIndexRoute
   '/care/rituels/calendrier': typeof CareRituelsCalendrierIndexRoute
   '/care/rituels/monde': typeof CareRituelsMondeIndexRoute
   '/help/corps/soin': typeof HelpCorpsSoinIndexRoute
@@ -1900,15 +2042,21 @@ export interface FileRoutesById {
   '/care/community/regles': typeof CareCommunityReglesRoute
   '/care/dates/$id': typeof CareDatesIdRoute
   '/care/garden/$zone': typeof CareGardenZoneRouteWithChildren
+  '/care/garden/ajouter': typeof CareGardenAjouterRouteWithChildren
   '/care/garden/all': typeof CareGardenAllRoute
   '/care/garden/book': typeof CareGardenBookRoute
+  '/care/garden/dates': typeof CareGardenDatesRoute
   '/care/garden/depot': typeof CareGardenDepotRoute
   '/care/garden/histoire': typeof CareGardenHistoireRoute
   '/care/garden/histoires': typeof CareGardenHistoiresRoute
   '/care/garden/invite': typeof CareGardenInviteRoute
   '/care/garden/lettres': typeof CareGardenLettresRoute
+  '/care/garden/livre': typeof CareGardenLivreRouteWithChildren
   '/care/garden/objets': typeof CareGardenObjetsRoute
+  '/care/garden/portrait': typeof CareGardenPortraitRoute
+  '/care/garden/proches': typeof CareGardenProchesRouteWithChildren
   '/care/garden/recettes': typeof CareGardenRecettesRoute
+  '/care/garden/souvenirs': typeof CareGardenSouvenirsRouteWithChildren
   '/care/garden/space': typeof CareGardenSpaceRoute
   '/care/journal/later': typeof CareJournalLaterRoute
   '/care/resources/suggestions': typeof CareResourcesSuggestionsRoute
@@ -1986,6 +2134,14 @@ export interface FileRoutesById {
   '/care/community/$group/new': typeof CareCommunityGroupNewRoute
   '/care/community/vigil/$id': typeof CareCommunityVigilIdRouteWithChildren
   '/care/garden/$zone/$id': typeof CareGardenZoneIdRoute
+  '/care/garden/ajouter/$type': typeof CareGardenAjouterTypeRoute
+  '/care/garden/ajouter/fait': typeof CareGardenAjouterFaitRoute
+  '/care/garden/ajouter/photo': typeof CareGardenAjouterPhotoRoute
+  '/care/garden/ajouter/voix': typeof CareGardenAjouterVoixRoute
+  '/care/garden/livre/apercu': typeof CareGardenLivreApercuRoute
+  '/care/garden/livre/commande': typeof CareGardenLivreCommandeRoute
+  '/care/garden/proches/valider': typeof CareGardenProchesValiderRoute
+  '/care/garden/souvenirs/$id': typeof CareGardenSouvenirsIdRoute
   '/care/rituels/calendrier/annee': typeof CareRituelsCalendrierAnneeRoute
   '/care/sons/lecteur/$id': typeof CareSonsLecteurIdRoute
   '/help/corps/$sujet/contenus': typeof HelpCorpsSujetContenusRoute
@@ -1993,6 +2149,10 @@ export interface FileRoutesById {
   '/practical/tasks/$id/template': typeof PracticalTasksIdTemplateRoute
   '/care/community/$group/': typeof CareCommunityGroupIndexRoute
   '/care/garden/$zone/': typeof CareGardenZoneIndexRoute
+  '/care/garden/ajouter/': typeof CareGardenAjouterIndexRoute
+  '/care/garden/livre/': typeof CareGardenLivreIndexRoute
+  '/care/garden/proches/': typeof CareGardenProchesIndexRoute
+  '/care/garden/souvenirs/': typeof CareGardenSouvenirsIndexRoute
   '/care/rituels/calendrier/': typeof CareRituelsCalendrierIndexRoute
   '/care/rituels/monde/': typeof CareRituelsMondeIndexRoute
   '/help/corps/soin/': typeof HelpCorpsSoinIndexRoute
@@ -2124,15 +2284,21 @@ export interface FileRouteTypes {
     | '/care/community/regles'
     | '/care/dates/$id'
     | '/care/garden/$zone'
+    | '/care/garden/ajouter'
     | '/care/garden/all'
     | '/care/garden/book'
+    | '/care/garden/dates'
     | '/care/garden/depot'
     | '/care/garden/histoire'
     | '/care/garden/histoires'
     | '/care/garden/invite'
     | '/care/garden/lettres'
+    | '/care/garden/livre'
     | '/care/garden/objets'
+    | '/care/garden/portrait'
+    | '/care/garden/proches'
     | '/care/garden/recettes'
+    | '/care/garden/souvenirs'
     | '/care/garden/space'
     | '/care/journal/later'
     | '/care/resources/suggestions'
@@ -2210,6 +2376,14 @@ export interface FileRouteTypes {
     | '/care/community/$group/new'
     | '/care/community/vigil/$id'
     | '/care/garden/$zone/$id'
+    | '/care/garden/ajouter/$type'
+    | '/care/garden/ajouter/fait'
+    | '/care/garden/ajouter/photo'
+    | '/care/garden/ajouter/voix'
+    | '/care/garden/livre/apercu'
+    | '/care/garden/livre/commande'
+    | '/care/garden/proches/valider'
+    | '/care/garden/souvenirs/$id'
     | '/care/rituels/calendrier/annee'
     | '/care/sons/lecteur/$id'
     | '/help/corps/$sujet/contenus'
@@ -2217,6 +2391,10 @@ export interface FileRouteTypes {
     | '/practical/tasks/$id/template'
     | '/care/community/$group/'
     | '/care/garden/$zone/'
+    | '/care/garden/ajouter/'
+    | '/care/garden/livre/'
+    | '/care/garden/proches/'
+    | '/care/garden/souvenirs/'
     | '/care/rituels/calendrier/'
     | '/care/rituels/monde/'
     | '/help/corps/soin/'
@@ -2329,12 +2507,14 @@ export interface FileRouteTypes {
     | '/care/dates/$id'
     | '/care/garden/all'
     | '/care/garden/book'
+    | '/care/garden/dates'
     | '/care/garden/depot'
     | '/care/garden/histoire'
     | '/care/garden/histoires'
     | '/care/garden/invite'
     | '/care/garden/lettres'
     | '/care/garden/objets'
+    | '/care/garden/portrait'
     | '/care/garden/recettes'
     | '/care/garden/space'
     | '/care/journal/later'
@@ -2410,6 +2590,14 @@ export interface FileRouteTypes {
     | '/care/community/$group/$thread'
     | '/care/community/$group/new'
     | '/care/garden/$zone/$id'
+    | '/care/garden/ajouter/$type'
+    | '/care/garden/ajouter/fait'
+    | '/care/garden/ajouter/photo'
+    | '/care/garden/ajouter/voix'
+    | '/care/garden/livre/apercu'
+    | '/care/garden/livre/commande'
+    | '/care/garden/proches/valider'
+    | '/care/garden/souvenirs/$id'
     | '/care/rituels/calendrier/annee'
     | '/care/sons/lecteur/$id'
     | '/help/corps/$sujet/contenus'
@@ -2417,6 +2605,10 @@ export interface FileRouteTypes {
     | '/practical/tasks/$id/template'
     | '/care/community/$group'
     | '/care/garden/$zone'
+    | '/care/garden/ajouter'
+    | '/care/garden/livre'
+    | '/care/garden/proches'
+    | '/care/garden/souvenirs'
     | '/care/rituels/calendrier'
     | '/care/rituels/monde'
     | '/help/corps/soin'
@@ -2547,15 +2739,21 @@ export interface FileRouteTypes {
     | '/care/community/regles'
     | '/care/dates/$id'
     | '/care/garden/$zone'
+    | '/care/garden/ajouter'
     | '/care/garden/all'
     | '/care/garden/book'
+    | '/care/garden/dates'
     | '/care/garden/depot'
     | '/care/garden/histoire'
     | '/care/garden/histoires'
     | '/care/garden/invite'
     | '/care/garden/lettres'
+    | '/care/garden/livre'
     | '/care/garden/objets'
+    | '/care/garden/portrait'
+    | '/care/garden/proches'
     | '/care/garden/recettes'
+    | '/care/garden/souvenirs'
     | '/care/garden/space'
     | '/care/journal/later'
     | '/care/resources/suggestions'
@@ -2633,6 +2831,14 @@ export interface FileRouteTypes {
     | '/care/community/$group/new'
     | '/care/community/vigil/$id'
     | '/care/garden/$zone/$id'
+    | '/care/garden/ajouter/$type'
+    | '/care/garden/ajouter/fait'
+    | '/care/garden/ajouter/photo'
+    | '/care/garden/ajouter/voix'
+    | '/care/garden/livre/apercu'
+    | '/care/garden/livre/commande'
+    | '/care/garden/proches/valider'
+    | '/care/garden/souvenirs/$id'
     | '/care/rituels/calendrier/annee'
     | '/care/sons/lecteur/$id'
     | '/help/corps/$sujet/contenus'
@@ -2640,6 +2846,10 @@ export interface FileRouteTypes {
     | '/practical/tasks/$id/template'
     | '/care/community/$group/'
     | '/care/garden/$zone/'
+    | '/care/garden/ajouter/'
+    | '/care/garden/livre/'
+    | '/care/garden/proches/'
+    | '/care/garden/souvenirs/'
     | '/care/rituels/calendrier/'
     | '/care/rituels/monde/'
     | '/help/corps/soin/'
@@ -3572,6 +3782,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CareGardenZoneRouteImport
       parentRoute: typeof CareGardenRoute
     }
+    '/care/garden/ajouter': {
+      id: '/care/garden/ajouter'
+      path: '/ajouter'
+      fullPath: '/care/garden/ajouter'
+      preLoaderRoute: typeof CareGardenAjouterRouteImport
+      parentRoute: typeof CareGardenRoute
+    }
     '/care/garden/all': {
       id: '/care/garden/all'
       path: '/all'
@@ -3584,6 +3801,13 @@ declare module '@tanstack/react-router' {
       path: '/book'
       fullPath: '/care/garden/book'
       preLoaderRoute: typeof CareGardenBookRouteImport
+      parentRoute: typeof CareGardenRoute
+    }
+    '/care/garden/dates': {
+      id: '/care/garden/dates'
+      path: '/dates'
+      fullPath: '/care/garden/dates'
+      preLoaderRoute: typeof CareGardenDatesRouteImport
       parentRoute: typeof CareGardenRoute
     }
     '/care/garden/depot': {
@@ -3621,6 +3845,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CareGardenLettresRouteImport
       parentRoute: typeof CareGardenRoute
     }
+    '/care/garden/livre': {
+      id: '/care/garden/livre'
+      path: '/livre'
+      fullPath: '/care/garden/livre'
+      preLoaderRoute: typeof CareGardenLivreRouteImport
+      parentRoute: typeof CareGardenRoute
+    }
     '/care/garden/objets': {
       id: '/care/garden/objets'
       path: '/objets'
@@ -3628,11 +3859,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CareGardenObjetsRouteImport
       parentRoute: typeof CareGardenRoute
     }
+    '/care/garden/portrait': {
+      id: '/care/garden/portrait'
+      path: '/portrait'
+      fullPath: '/care/garden/portrait'
+      preLoaderRoute: typeof CareGardenPortraitRouteImport
+      parentRoute: typeof CareGardenRoute
+    }
+    '/care/garden/proches': {
+      id: '/care/garden/proches'
+      path: '/proches'
+      fullPath: '/care/garden/proches'
+      preLoaderRoute: typeof CareGardenProchesRouteImport
+      parentRoute: typeof CareGardenRoute
+    }
     '/care/garden/recettes': {
       id: '/care/garden/recettes'
       path: '/recettes'
       fullPath: '/care/garden/recettes'
       preLoaderRoute: typeof CareGardenRecettesRouteImport
+      parentRoute: typeof CareGardenRoute
+    }
+    '/care/garden/souvenirs': {
+      id: '/care/garden/souvenirs'
+      path: '/souvenirs'
+      fullPath: '/care/garden/souvenirs'
+      preLoaderRoute: typeof CareGardenSouvenirsRouteImport
       parentRoute: typeof CareGardenRoute
     }
     '/care/garden/space': {
@@ -4167,6 +4419,90 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CareGardenZoneIdRouteImport
       parentRoute: typeof CareGardenZoneRoute
     }
+    '/care/garden/ajouter/': {
+      id: '/care/garden/ajouter/'
+      path: '/'
+      fullPath: '/care/garden/ajouter/'
+      preLoaderRoute: typeof CareGardenAjouterIndexRouteImport
+      parentRoute: typeof CareGardenAjouterRoute
+    }
+    '/care/garden/ajouter/$type': {
+      id: '/care/garden/ajouter/$type'
+      path: '/$type'
+      fullPath: '/care/garden/ajouter/$type'
+      preLoaderRoute: typeof CareGardenAjouterTypeRouteImport
+      parentRoute: typeof CareGardenAjouterRoute
+    }
+    '/care/garden/ajouter/fait': {
+      id: '/care/garden/ajouter/fait'
+      path: '/fait'
+      fullPath: '/care/garden/ajouter/fait'
+      preLoaderRoute: typeof CareGardenAjouterFaitRouteImport
+      parentRoute: typeof CareGardenAjouterRoute
+    }
+    '/care/garden/ajouter/photo': {
+      id: '/care/garden/ajouter/photo'
+      path: '/photo'
+      fullPath: '/care/garden/ajouter/photo'
+      preLoaderRoute: typeof CareGardenAjouterPhotoRouteImport
+      parentRoute: typeof CareGardenAjouterRoute
+    }
+    '/care/garden/ajouter/voix': {
+      id: '/care/garden/ajouter/voix'
+      path: '/voix'
+      fullPath: '/care/garden/ajouter/voix'
+      preLoaderRoute: typeof CareGardenAjouterVoixRouteImport
+      parentRoute: typeof CareGardenAjouterRoute
+    }
+    '/care/garden/livre/': {
+      id: '/care/garden/livre/'
+      path: '/'
+      fullPath: '/care/garden/livre/'
+      preLoaderRoute: typeof CareGardenLivreIndexRouteImport
+      parentRoute: typeof CareGardenLivreRoute
+    }
+    '/care/garden/livre/apercu': {
+      id: '/care/garden/livre/apercu'
+      path: '/apercu'
+      fullPath: '/care/garden/livre/apercu'
+      preLoaderRoute: typeof CareGardenLivreApercuRouteImport
+      parentRoute: typeof CareGardenLivreRoute
+    }
+    '/care/garden/livre/commande': {
+      id: '/care/garden/livre/commande'
+      path: '/commande'
+      fullPath: '/care/garden/livre/commande'
+      preLoaderRoute: typeof CareGardenLivreCommandeRouteImport
+      parentRoute: typeof CareGardenLivreRoute
+    }
+    '/care/garden/proches/': {
+      id: '/care/garden/proches/'
+      path: '/'
+      fullPath: '/care/garden/proches/'
+      preLoaderRoute: typeof CareGardenProchesIndexRouteImport
+      parentRoute: typeof CareGardenProchesRoute
+    }
+    '/care/garden/proches/valider': {
+      id: '/care/garden/proches/valider'
+      path: '/valider'
+      fullPath: '/care/garden/proches/valider'
+      preLoaderRoute: typeof CareGardenProchesValiderRouteImport
+      parentRoute: typeof CareGardenProchesRoute
+    }
+    '/care/garden/souvenirs/': {
+      id: '/care/garden/souvenirs/'
+      path: '/'
+      fullPath: '/care/garden/souvenirs/'
+      preLoaderRoute: typeof CareGardenSouvenirsIndexRouteImport
+      parentRoute: typeof CareGardenSouvenirsRoute
+    }
+    '/care/garden/souvenirs/$id': {
+      id: '/care/garden/souvenirs/$id'
+      path: '/$id'
+      fullPath: '/care/garden/souvenirs/$id'
+      preLoaderRoute: typeof CareGardenSouvenirsIdRouteImport
+      parentRoute: typeof CareGardenSouvenirsRoute
+    }
     '/care/rituels/calendrier/': {
       id: '/care/rituels/calendrier/'
       path: '/rituels/calendrier'
@@ -4332,32 +4668,105 @@ const CareGardenZoneRouteWithChildren = CareGardenZoneRoute._addFileChildren(
   CareGardenZoneRouteChildren,
 )
 
+interface CareGardenAjouterRouteChildren {
+  CareGardenAjouterTypeRoute: typeof CareGardenAjouterTypeRoute
+  CareGardenAjouterFaitRoute: typeof CareGardenAjouterFaitRoute
+  CareGardenAjouterPhotoRoute: typeof CareGardenAjouterPhotoRoute
+  CareGardenAjouterVoixRoute: typeof CareGardenAjouterVoixRoute
+  CareGardenAjouterIndexRoute: typeof CareGardenAjouterIndexRoute
+}
+
+const CareGardenAjouterRouteChildren: CareGardenAjouterRouteChildren = {
+  CareGardenAjouterTypeRoute: CareGardenAjouterTypeRoute,
+  CareGardenAjouterFaitRoute: CareGardenAjouterFaitRoute,
+  CareGardenAjouterPhotoRoute: CareGardenAjouterPhotoRoute,
+  CareGardenAjouterVoixRoute: CareGardenAjouterVoixRoute,
+  CareGardenAjouterIndexRoute: CareGardenAjouterIndexRoute,
+}
+
+const CareGardenAjouterRouteWithChildren =
+  CareGardenAjouterRoute._addFileChildren(CareGardenAjouterRouteChildren)
+
+interface CareGardenLivreRouteChildren {
+  CareGardenLivreApercuRoute: typeof CareGardenLivreApercuRoute
+  CareGardenLivreCommandeRoute: typeof CareGardenLivreCommandeRoute
+  CareGardenLivreIndexRoute: typeof CareGardenLivreIndexRoute
+}
+
+const CareGardenLivreRouteChildren: CareGardenLivreRouteChildren = {
+  CareGardenLivreApercuRoute: CareGardenLivreApercuRoute,
+  CareGardenLivreCommandeRoute: CareGardenLivreCommandeRoute,
+  CareGardenLivreIndexRoute: CareGardenLivreIndexRoute,
+}
+
+const CareGardenLivreRouteWithChildren = CareGardenLivreRoute._addFileChildren(
+  CareGardenLivreRouteChildren,
+)
+
+interface CareGardenProchesRouteChildren {
+  CareGardenProchesValiderRoute: typeof CareGardenProchesValiderRoute
+  CareGardenProchesIndexRoute: typeof CareGardenProchesIndexRoute
+}
+
+const CareGardenProchesRouteChildren: CareGardenProchesRouteChildren = {
+  CareGardenProchesValiderRoute: CareGardenProchesValiderRoute,
+  CareGardenProchesIndexRoute: CareGardenProchesIndexRoute,
+}
+
+const CareGardenProchesRouteWithChildren =
+  CareGardenProchesRoute._addFileChildren(CareGardenProchesRouteChildren)
+
+interface CareGardenSouvenirsRouteChildren {
+  CareGardenSouvenirsIdRoute: typeof CareGardenSouvenirsIdRoute
+  CareGardenSouvenirsIndexRoute: typeof CareGardenSouvenirsIndexRoute
+}
+
+const CareGardenSouvenirsRouteChildren: CareGardenSouvenirsRouteChildren = {
+  CareGardenSouvenirsIdRoute: CareGardenSouvenirsIdRoute,
+  CareGardenSouvenirsIndexRoute: CareGardenSouvenirsIndexRoute,
+}
+
+const CareGardenSouvenirsRouteWithChildren =
+  CareGardenSouvenirsRoute._addFileChildren(CareGardenSouvenirsRouteChildren)
+
 interface CareGardenRouteChildren {
   CareGardenZoneRoute: typeof CareGardenZoneRouteWithChildren
+  CareGardenAjouterRoute: typeof CareGardenAjouterRouteWithChildren
   CareGardenAllRoute: typeof CareGardenAllRoute
   CareGardenBookRoute: typeof CareGardenBookRoute
+  CareGardenDatesRoute: typeof CareGardenDatesRoute
   CareGardenDepotRoute: typeof CareGardenDepotRoute
   CareGardenHistoireRoute: typeof CareGardenHistoireRoute
   CareGardenHistoiresRoute: typeof CareGardenHistoiresRoute
   CareGardenInviteRoute: typeof CareGardenInviteRoute
   CareGardenLettresRoute: typeof CareGardenLettresRoute
+  CareGardenLivreRoute: typeof CareGardenLivreRouteWithChildren
   CareGardenObjetsRoute: typeof CareGardenObjetsRoute
+  CareGardenPortraitRoute: typeof CareGardenPortraitRoute
+  CareGardenProchesRoute: typeof CareGardenProchesRouteWithChildren
   CareGardenRecettesRoute: typeof CareGardenRecettesRoute
+  CareGardenSouvenirsRoute: typeof CareGardenSouvenirsRouteWithChildren
   CareGardenSpaceRoute: typeof CareGardenSpaceRoute
   CareGardenIndexRoute: typeof CareGardenIndexRoute
 }
 
 const CareGardenRouteChildren: CareGardenRouteChildren = {
   CareGardenZoneRoute: CareGardenZoneRouteWithChildren,
+  CareGardenAjouterRoute: CareGardenAjouterRouteWithChildren,
   CareGardenAllRoute: CareGardenAllRoute,
   CareGardenBookRoute: CareGardenBookRoute,
+  CareGardenDatesRoute: CareGardenDatesRoute,
   CareGardenDepotRoute: CareGardenDepotRoute,
   CareGardenHistoireRoute: CareGardenHistoireRoute,
   CareGardenHistoiresRoute: CareGardenHistoiresRoute,
   CareGardenInviteRoute: CareGardenInviteRoute,
   CareGardenLettresRoute: CareGardenLettresRoute,
+  CareGardenLivreRoute: CareGardenLivreRouteWithChildren,
   CareGardenObjetsRoute: CareGardenObjetsRoute,
+  CareGardenPortraitRoute: CareGardenPortraitRoute,
+  CareGardenProchesRoute: CareGardenProchesRouteWithChildren,
   CareGardenRecettesRoute: CareGardenRecettesRoute,
+  CareGardenSouvenirsRoute: CareGardenSouvenirsRouteWithChildren,
   CareGardenSpaceRoute: CareGardenSpaceRoute,
   CareGardenIndexRoute: CareGardenIndexRoute,
 }
