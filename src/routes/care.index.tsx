@@ -27,7 +27,7 @@ function Soutien() {
       <PageTitle space="support" className="mt-12">Prendre soin<br /><em>de vous.</em></PageTitle>
       <SectionLabel space="support" className="mt-9">Maintenant</SectionLabel>
       <div className="mt-2">
-        <Row space="support" title="Se confier" subtitle="À Présence, à un bénévole, à un groupe" to="/care/aide" />
+        <Row space="support" title="Se confier" subtitle="À Présence, à un bénévole, à un groupe" to="/care/parler" />
         <Row space="support" title="Respirer, se poser" subtitle="Trois minutes, ou plus" to="/care/respirer" />
         <Row space="support" title="Prendre soin de votre corps" subtitle="Dormir, manger, se laver" to="/help/corps" last />
       </div>
@@ -47,7 +47,7 @@ function AnimalSoutien({ name }: { name: string }) {
       <PageTitle className="pt-[30px]">Prendre soin<br /><em>de vous.</em></PageTitle>
       <Lead className="mt-[10px] max-w-[310px]">Perdre un animal, c'est perdre une présence de chaque jour. Votre peine est légitime.</Lead>
       <SectionLabel className="mt-8">Maintenant</SectionLabel>
-      <Row title="Se confier" subtitle="À Présence, ou à des personnes qui ont vécu la même chose" to="/care/aide" />
+      <Row title="Se confier" subtitle="À Présence, ou à des personnes qui ont vécu la même chose" to="/care/parler" />
       <Row title="Si vous vous sentez coupable" subtitle="Après une euthanasie ou un accident" to="/care/guilt" />
       <Row title={`Écrire une lettre à ${name}`} subtitle="Lui dire ce qui n'a pas été dit" to="/care/journal" last />
       <div className="mt-8 px-5" style={{ background: "var(--sp-block)" }}>
@@ -65,7 +65,7 @@ function MaladeSoutien() {
       <PageTitle className="pt-[30px]">Prendre soin<br /><em>de vous aussi.</em></PageTitle>
       <Lead className="mt-[10px] max-w-[320px]">On s'oublie vite quand on accompagne. Commencez par ce qui demande le moins d'effort.</Lead>
       <SectionLabel className="mt-8">Maintenant</SectionLabel>
-      <Row title="Se confier" subtitle="À Présence, ou à une ligne d'écoute pour les aidants" to="/care/aide" />
+      <Row title="Se confier" subtitle="À Présence, ou à une ligne d'écoute pour les aidants" to="/care/parler" />
       <Row title="Si vous n'en pouvez plus" subtitle="Les signes, et comment souffler" to="/care/epuisement" last />
       <div className="mt-8 px-5" style={{ background: "var(--sp-block)" }}>
         <Row title="Respirer, dormir" subtitle="Trois minutes, ou plus" to="/care/respirer" />

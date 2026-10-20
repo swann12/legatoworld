@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { StandardLayout, PageTitle, SectionLabel, PrimaryButton, OutlineButton } from "@/components/legato/ds";
 
-export const Route = createFileRoute("/care/aide")({
+export const Route = createFileRoute("/care/aide/")({
   head: () => ({
     meta: [
       { title: "Se confier — Legato" },
