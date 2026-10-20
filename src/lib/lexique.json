@@ -1,0 +1,153 @@
+{
+ "_lire_moi": "Lexique unique : utilisé par « Le mot expliqué » et par Présence. Une phrase simple, sans autre mot technique.",
+ "mots": [
+  {
+   "mot": "Acte de décès",
+   "definition": "Le document officiel qui prouve le décès. La mairie le remet ; on en demande plusieurs copies, gratuites."
+  },
+  {
+   "mot": "Certificat de décès",
+   "definition": "Le papier signé par le médecin qui constate le décès. Il sert à faire l'acte de décès."
+  },
+  {
+   "mot": "Déclaration de décès",
+   "definition": "Prévenir la mairie du décès, dans les 24 heures. Les pompes funèbres ou l'hôpital le font souvent."
+  },
+  {
+   "mot": "Pompes funèbres",
+   "definition": "L'entreprise qui organise les obsèques : transport, cercueil, cérémonie, démarches. On la choisit librement."
+  },
+  {
+   "mot": "Chambre mortuaire",
+   "definition": "La salle de l'hôpital où le corps repose. Gratuite les trois premiers jours."
+  },
+  {
+   "mot": "Obsèques",
+   "definition": "L'enterrement ou la crémation, et la cérémonie. Au plus tard 14 jours après le décès."
+  },
+  {
+   "mot": "Capital décès",
+   "definition": "Une somme versée par l'Assurance maladie aux proches d'une personne qui travaillait, pour faire face aux premiers frais."
+  },
+  {
+   "mot": "Pension de réversion",
+   "definition": "Une partie de sa retraite, versée chaque mois à son époux ou à son épouse."
+  },
+  {
+   "mot": "Succession",
+   "definition": "Le partage de ses biens entre ses héritiers : argent, logement, objets. Le plus souvent, un notaire s'en occupe."
+  },
+  {
+   "mot": "Héritier",
+   "definition": "Une personne qui reçoit une part de ses biens, selon la loi ou son testament."
+  },
+  {
+   "mot": "Notaire",
+   "definition": "Le professionnel qui règle la succession et conserve les testaments."
+  },
+  {
+   "mot": "Déclaration de succession",
+   "definition": "La liste de ses biens, faite avec le notaire, pour calculer les droits à payer."
+  },
+  {
+   "mot": "Accepter ou refuser la succession",
+   "definition": "Un héritier peut accepter, accepter seulement à hauteur des biens, ou refuser s'il y a beaucoup de dettes."
+  },
+  {
+   "mot": "Testament",
+   "definition": "Le document où une personne dit à qui vont ses biens. Écrit à la main ou fait chez un notaire."
+  },
+  {
+   "mot": "Registre des testaments",
+   "definition": "Le fichier national que le notaire consulte pour savoir s'il existe un testament (fichier central des dispositions de dernières volontés)."
+  },
+  {
+   "mot": "Ficoba",
+   "definition": "Le fichier national de tous les comptes bancaires d'une personne. Un héritier peut le consulter gratuitement."
+  },
+  {
+   "mot": "AGIRA",
+   "definition": "L'organisme qui recherche gratuitement si une personne décédée avait une assurance-vie ou un contrat obsèques."
+  },
+  {
+   "mot": "Ciclade",
+   "definition": "Le service public qui retrouve l'argent oublié : comptes et contrats sans nouvelles depuis longtemps."
+  },
+  {
+   "mot": "Assurance-vie",
+   "definition": "Une épargne qui revient, au décès, aux personnes que le défunt a choisies."
+  },
+  {
+   "mot": "Assurance décès (prévoyance)",
+   "definition": "Une assurance, souvent prise par l'employeur, qui verse une somme aux proches."
+  },
+  {
+   "mot": "Assurance du prêt (emprunteur)",
+   "definition": "L'assurance liée à un crédit. Elle rembourse souvent le crédit immobilier au décès."
+  },
+  {
+   "mot": "Contrat obsèques",
+   "definition": "Une assurance qui paie les obsèques le moment venu, pour que les proches n'aient rien à avancer."
+  },
+  {
+   "mot": "Compte joint",
+   "definition": "Un compte au nom de deux personnes. Il continue en principe de fonctionner pour l'autre titulaire."
+  },
+  {
+   "mot": "Procuration",
+   "definition": "Une autorisation donnée à quelqu'un d'agir à sa place, par exemple à la banque. Elle s'arrête au décès."
+  },
+  {
+   "mot": "Personne de confiance",
+   "definition": "La personne choisie pour accompagner le malade et parler aux médecins s'il ne peut plus s'exprimer."
+  },
+  {
+   "mot": "Directives anticipées",
+   "definition": "Ce qu'une personne souhaite, ou non, pour la fin de sa vie. Elles s'imposent aux médecins."
+  },
+  {
+   "mot": "Habilitation familiale",
+   "definition": "Une autorisation du juge pour qu'un proche gère les papiers et l'argent d'une personne qui ne peut plus le faire."
+  },
+  {
+   "mot": "Juge des tutelles",
+   "definition": "Le juge qui décide qui s'occupe d'un enfant sans parent, ou d'un adulte qui ne peut plus décider."
+  },
+  {
+   "mot": "Autorité parentale",
+   "definition": "Le droit et le devoir de décider pour un enfant mineur."
+  },
+  {
+   "mot": "Allocation de soutien familial",
+   "definition": "Une aide de la CAF, versée chaque mois pour un enfant qui a perdu un parent."
+  },
+  {
+   "mot": "Bail",
+   "definition": "Le contrat de location d'un logement."
+  },
+  {
+   "mot": "Consulat",
+   "definition": "Le bureau de la France dans un pays étranger. Il aide les Français sur place."
+  },
+  {
+   "mot": "Transcription",
+   "definition": "Inscrire un acte étranger (naissance, décès) à l'état civil français."
+  },
+  {
+   "mot": "Procureur",
+   "definition": "Le magistrat qui dirige une enquête et autorise les obsèques quand la cause du décès n'est pas claire."
+  },
+  {
+   "mot": "Contact légataire",
+   "definition": "La personne qu'on désigne chez Apple ou Google pour accéder à son compte après son décès."
+  },
+  {
+   "mot": "Mon soutien psy",
+   "definition": "Le dispositif public qui rembourse jusqu'à 12 séances par an chez un psychologue partenaire."
+  },
+  {
+   "mot": "Congé de proche aidant",
+   "definition": "Des jours d'absence pour s'occuper d'un proche malade, indemnisés par la CAF."
+  }
+ ]
+}

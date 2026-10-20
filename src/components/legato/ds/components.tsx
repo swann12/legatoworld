@@ -53,6 +53,25 @@ export function PageTitle({ space, className = "", children, size = 34 }: S & { 
   );
 }
 
+/** Bouton des pleins écrans Mémoire/Rituels (ajouts-4 §2) : rose à texte bordeaux sur le dégradé. */
+export function ExperienceButton({ className = "", children, to, onClick, type = "button", disabled }: {
+  className?: string; children: ReactNode; to?: string; onClick?: () => void; type?: "button" | "submit"; disabled?: boolean;
+}) {
+  const cls = `lg-exp-btn ${className}`;
+  if (to) return <Link to={to} className={cls}>{children}</Link>;
+  return <button type={type} onClick={onClick} disabled={disabled} className={cls} style={sans}>{children}</button>;
+}
+
+/** « En clair » (ajouts-4 §3) : la définition d'un mot technique sous le titre, dans un encadré lin. */
+export function EnClair({ space, className = "", children }: S & { children: ReactNode }) {
+  return (
+    <div className={`${spaceClass(space)} ${className}`} style={{ background: "var(--lg-linen)", padding: "16px 18px" }}>
+      <p className="lg-mono">En clair</p>
+      <p className="mt-2" style={{ ...serif, fontSize: 19, lineHeight: 1.35, ...ink }}>{children}</p>
+    </div>
+  );
+}
+
 export function Lead({ space, className = "", children }: S & { children: ReactNode }) {
   return <p className={`${spaceClass(space)} lg-lead ${className}`} style={sub}>{children}</p>;
 }

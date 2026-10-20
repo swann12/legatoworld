@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { StandardLayout, PageTitle, Tip, TextLink } from "@/components/legato/ds";
+import { ConfirmedCall } from "@/components/legato/ActionFeedback";
 
 export const Route = createFileRoute("/help/corps/consulter")({
   head: () => ({
@@ -25,7 +26,7 @@ function Consulter() {
           <span style={{ fontFamily: "var(--lg-serif)", fontSize: 16, fontStyle: "italic" }}>Tout de suite —</span>
           <span className="text-[14px] leading-[1.5]">Douleur dans la poitrine, essoufflement soudain, malaise.</span>
         </span>
-        <a href="tel:15" className="inline-flex h-10 shrink-0 items-center rounded-full px-[18px] text-[14px]" style={{ background: "var(--lg-blush)", color: "var(--lg-bordeaux)" }}>Le 15</a>
+        <ConfirmedCall href="tel:15" number="15" label="Le 15" subtitle="SAMU · urgence médicale" className="inline-flex h-10 shrink-0 items-center rounded-full px-[18px] text-[14px]" style={{ background: "var(--lg-blush)", color: "var(--lg-bordeaux)" }} />
       </div>
       <p className="mt-[34px]" style={{ fontFamily: "var(--lg-serif)", fontSize: 17, fontStyle: "italic" }}>Votre médecin, si —</p>
       <Tip n={1}>Vous dormez très peu depuis plus de deux semaines.</Tip>
