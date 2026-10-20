@@ -166,10 +166,13 @@ import { Route as HelpCorpsIndexRouteImport } from './routes/help.corps.index'
 import { Route as HelpCorpsBougerRouteImport } from './routes/help.corps.bouger'
 import { Route as HelpCorpsComprendreRouteImport } from './routes/help.corps.comprendre'
 import { Route as HelpCorpsConsulterRouteImport } from './routes/help.corps.consulter'
+import { Route as HelpCorpsDormirRouteImport } from './routes/help.corps.dormir'
 import { Route as HelpCorpsEauRouteImport } from './routes/help.corps.eau'
 import { Route as HelpCorpsHabillerRouteImport } from './routes/help.corps.habiller'
 import { Route as HelpCorpsMangerRouteImport } from './routes/help.corps.manger'
 import { Route as HelpCorpsNuitsRouteImport } from './routes/help.corps.nuits'
+import { Route as HelpCorpsSHabillerRouteImport } from './routes/help.corps.s-habiller'
+import { Route as HelpCorpsSeLaverRouteImport } from './routes/help.corps.se-laver'
 import { Route as HelpCorpsSoinRouteImport } from './routes/help.corps.soin'
 import { Route as HelpCorpsSuiviRouteImport } from './routes/help.corps.suivi'
 import { Route as HomeCarnetIndexRouteImport } from './routes/home.carnet.index'
@@ -1007,6 +1010,11 @@ const HelpCorpsConsulterRoute = HelpCorpsConsulterRouteImport.update({
   path: '/consulter',
   getParentRoute: () => HelpCorpsRoute,
 } as any)
+const HelpCorpsDormirRoute = HelpCorpsDormirRouteImport.update({
+  id: '/dormir',
+  path: '/dormir',
+  getParentRoute: () => HelpCorpsRoute,
+} as any)
 const HelpCorpsEauRoute = HelpCorpsEauRouteImport.update({
   id: '/eau',
   path: '/eau',
@@ -1025,6 +1033,16 @@ const HelpCorpsMangerRoute = HelpCorpsMangerRouteImport.update({
 const HelpCorpsNuitsRoute = HelpCorpsNuitsRouteImport.update({
   id: '/nuits',
   path: '/nuits',
+  getParentRoute: () => HelpCorpsRoute,
+} as any)
+const HelpCorpsSHabillerRoute = HelpCorpsSHabillerRouteImport.update({
+  id: '/s-habiller',
+  path: '/s-habiller',
+  getParentRoute: () => HelpCorpsRoute,
+} as any)
+const HelpCorpsSeLaverRoute = HelpCorpsSeLaverRouteImport.update({
+  id: '/se-laver',
+  path: '/se-laver',
   getParentRoute: () => HelpCorpsRoute,
 } as any)
 const HelpCorpsSoinRoute = HelpCorpsSoinRouteImport.update({
@@ -1429,10 +1447,13 @@ export interface FileRoutesByFullPath {
   '/help/corps/bouger': typeof HelpCorpsBougerRoute
   '/help/corps/comprendre': typeof HelpCorpsComprendreRoute
   '/help/corps/consulter': typeof HelpCorpsConsulterRoute
+  '/help/corps/dormir': typeof HelpCorpsDormirRoute
   '/help/corps/eau': typeof HelpCorpsEauRoute
   '/help/corps/habiller': typeof HelpCorpsHabillerRoute
   '/help/corps/manger': typeof HelpCorpsMangerRoute
   '/help/corps/nuits': typeof HelpCorpsNuitsRoute
+  '/help/corps/s-habiller': typeof HelpCorpsSHabillerRoute
+  '/help/corps/se-laver': typeof HelpCorpsSeLaverRoute
   '/help/corps/soin': typeof HelpCorpsSoinRouteWithChildren
   '/help/corps/suivi': typeof HelpCorpsSuiviRoute
   '/home/carnet/$id': typeof HomeCarnetIdRoute
@@ -1620,10 +1641,13 @@ export interface FileRoutesByTo {
   '/help/corps/bouger': typeof HelpCorpsBougerRoute
   '/help/corps/comprendre': typeof HelpCorpsComprendreRoute
   '/help/corps/consulter': typeof HelpCorpsConsulterRoute
+  '/help/corps/dormir': typeof HelpCorpsDormirRoute
   '/help/corps/eau': typeof HelpCorpsEauRoute
   '/help/corps/habiller': typeof HelpCorpsHabillerRoute
   '/help/corps/manger': typeof HelpCorpsMangerRoute
   '/help/corps/nuits': typeof HelpCorpsNuitsRoute
+  '/help/corps/s-habiller': typeof HelpCorpsSHabillerRoute
+  '/help/corps/se-laver': typeof HelpCorpsSeLaverRoute
   '/help/corps/suivi': typeof HelpCorpsSuiviRoute
   '/home/carnet/$id': typeof HomeCarnetIdRoute
   '/home/carnet/note': typeof HomeCarnetNoteRoute
@@ -1828,10 +1852,13 @@ export interface FileRoutesById {
   '/help/corps/bouger': typeof HelpCorpsBougerRoute
   '/help/corps/comprendre': typeof HelpCorpsComprendreRoute
   '/help/corps/consulter': typeof HelpCorpsConsulterRoute
+  '/help/corps/dormir': typeof HelpCorpsDormirRoute
   '/help/corps/eau': typeof HelpCorpsEauRoute
   '/help/corps/habiller': typeof HelpCorpsHabillerRoute
   '/help/corps/manger': typeof HelpCorpsMangerRoute
   '/help/corps/nuits': typeof HelpCorpsNuitsRoute
+  '/help/corps/s-habiller': typeof HelpCorpsSHabillerRoute
+  '/help/corps/se-laver': typeof HelpCorpsSeLaverRoute
   '/help/corps/soin': typeof HelpCorpsSoinRouteWithChildren
   '/help/corps/suivi': typeof HelpCorpsSuiviRoute
   '/home/carnet/$id': typeof HomeCarnetIdRoute
@@ -2039,10 +2066,13 @@ export interface FileRouteTypes {
     | '/help/corps/bouger'
     | '/help/corps/comprendre'
     | '/help/corps/consulter'
+    | '/help/corps/dormir'
     | '/help/corps/eau'
     | '/help/corps/habiller'
     | '/help/corps/manger'
     | '/help/corps/nuits'
+    | '/help/corps/s-habiller'
+    | '/help/corps/se-laver'
     | '/help/corps/soin'
     | '/help/corps/suivi'
     | '/home/carnet/$id'
@@ -2230,10 +2260,13 @@ export interface FileRouteTypes {
     | '/help/corps/bouger'
     | '/help/corps/comprendre'
     | '/help/corps/consulter'
+    | '/help/corps/dormir'
     | '/help/corps/eau'
     | '/help/corps/habiller'
     | '/help/corps/manger'
     | '/help/corps/nuits'
+    | '/help/corps/s-habiller'
+    | '/help/corps/se-laver'
     | '/help/corps/suivi'
     | '/home/carnet/$id'
     | '/home/carnet/note'
@@ -2437,10 +2470,13 @@ export interface FileRouteTypes {
     | '/help/corps/bouger'
     | '/help/corps/comprendre'
     | '/help/corps/consulter'
+    | '/help/corps/dormir'
     | '/help/corps/eau'
     | '/help/corps/habiller'
     | '/help/corps/manger'
     | '/help/corps/nuits'
+    | '/help/corps/s-habiller'
+    | '/help/corps/se-laver'
     | '/help/corps/soin'
     | '/help/corps/suivi'
     | '/home/carnet/$id'
@@ -3663,6 +3699,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HelpCorpsConsulterRouteImport
       parentRoute: typeof HelpCorpsRoute
     }
+    '/help/corps/dormir': {
+      id: '/help/corps/dormir'
+      path: '/dormir'
+      fullPath: '/help/corps/dormir'
+      preLoaderRoute: typeof HelpCorpsDormirRouteImport
+      parentRoute: typeof HelpCorpsRoute
+    }
     '/help/corps/eau': {
       id: '/help/corps/eau'
       path: '/eau'
@@ -3689,6 +3732,20 @@ declare module '@tanstack/react-router' {
       path: '/nuits'
       fullPath: '/help/corps/nuits'
       preLoaderRoute: typeof HelpCorpsNuitsRouteImport
+      parentRoute: typeof HelpCorpsRoute
+    }
+    '/help/corps/s-habiller': {
+      id: '/help/corps/s-habiller'
+      path: '/s-habiller'
+      fullPath: '/help/corps/s-habiller'
+      preLoaderRoute: typeof HelpCorpsSHabillerRouteImport
+      parentRoute: typeof HelpCorpsRoute
+    }
+    '/help/corps/se-laver': {
+      id: '/help/corps/se-laver'
+      path: '/se-laver'
+      fullPath: '/help/corps/se-laver'
+      preLoaderRoute: typeof HelpCorpsSeLaverRouteImport
       parentRoute: typeof HelpCorpsRoute
     }
     '/help/corps/soin': {
@@ -4241,10 +4298,13 @@ interface HelpCorpsRouteChildren {
   HelpCorpsBougerRoute: typeof HelpCorpsBougerRoute
   HelpCorpsComprendreRoute: typeof HelpCorpsComprendreRoute
   HelpCorpsConsulterRoute: typeof HelpCorpsConsulterRoute
+  HelpCorpsDormirRoute: typeof HelpCorpsDormirRoute
   HelpCorpsEauRoute: typeof HelpCorpsEauRoute
   HelpCorpsHabillerRoute: typeof HelpCorpsHabillerRoute
   HelpCorpsMangerRoute: typeof HelpCorpsMangerRoute
   HelpCorpsNuitsRoute: typeof HelpCorpsNuitsRoute
+  HelpCorpsSHabillerRoute: typeof HelpCorpsSHabillerRoute
+  HelpCorpsSeLaverRoute: typeof HelpCorpsSeLaverRoute
   HelpCorpsSoinRoute: typeof HelpCorpsSoinRouteWithChildren
   HelpCorpsSuiviRoute: typeof HelpCorpsSuiviRoute
   HelpCorpsIndexRoute: typeof HelpCorpsIndexRoute
@@ -4255,10 +4315,13 @@ const HelpCorpsRouteChildren: HelpCorpsRouteChildren = {
   HelpCorpsBougerRoute: HelpCorpsBougerRoute,
   HelpCorpsComprendreRoute: HelpCorpsComprendreRoute,
   HelpCorpsConsulterRoute: HelpCorpsConsulterRoute,
+  HelpCorpsDormirRoute: HelpCorpsDormirRoute,
   HelpCorpsEauRoute: HelpCorpsEauRoute,
   HelpCorpsHabillerRoute: HelpCorpsHabillerRoute,
   HelpCorpsMangerRoute: HelpCorpsMangerRoute,
   HelpCorpsNuitsRoute: HelpCorpsNuitsRoute,
+  HelpCorpsSHabillerRoute: HelpCorpsSHabillerRoute,
+  HelpCorpsSeLaverRoute: HelpCorpsSeLaverRoute,
   HelpCorpsSoinRoute: HelpCorpsSoinRouteWithChildren,
   HelpCorpsSuiviRoute: HelpCorpsSuiviRoute,
   HelpCorpsIndexRoute: HelpCorpsIndexRoute,
