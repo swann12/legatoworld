@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { StandardLayout, PageTitle, SectionLabel, Row, Lead } from "@/components/legato/ds";
+import { StandardLayout, PageTitle, SectionLabel, Row, Lead, PrimaryButton } from "@/components/legato/ds";
 import { useActiveSpace } from "@/lib/use-active-space";
 import { SelfSoutien } from "@/components/legato/SelfSpace";
 
@@ -22,20 +22,40 @@ function Soutien() {
   if (kind === "malade") return <MaladeSoutien />;
   if (kind === "questions") return <SelfSoutien />;
   if (kind === "animal") return <AnimalSoutien name={space?.name ?? "lui"} />;
+  return <SoutienAccueil />;
+}
+
+/** D050 · Soutien, accueil (ajouts-4) */
+function SoutienAccueil() {
   return (
     <StandardLayout space="support" title="Soutien" activeTab="/care">
-      <PageTitle space="support" className="mt-12">Prendre soin<br /><em>de vous.</em></PageTitle>
-      <SectionLabel space="support" className="mt-9">Maintenant</SectionLabel>
-      <div className="mt-2">
-        <Row space="support" title="Se confier" subtitle="À Présence, à un bénévole, à un groupe" to="/care/parler" />
-        <Row space="support" title="Respirer, se poser" subtitle="Trois minutes, ou plus" to="/care/respirer" />
-        <Row space="support" title="Prendre soin de votre corps" subtitle="Dormir, manger, se laver" to="/help/corps" last />
-      </div>
-      <div className="mt-10 px-5" style={{ background: "var(--sp-block)" }}>
+      <PageTitle space="support" size={30} className="pt-5">Ce qui peut <em>vous aider.</em></PageTitle>
+      <section className="mt-4 flex items-center justify-between gap-3 px-[18px] py-[14px]" style={{ background: "var(--sp-block)", color: "var(--sp-block-ink)" }}>
+        <span className="flex flex-col gap-1">
+          <span className="lg-mono">Pour vous, en ce moment</span>
+          <span style={{ fontFamily: "var(--lg-serif)", fontSize: 20, lineHeight: 1.15 }}>Votre point du mois</span>
+          <span className="text-[12px]" style={{ color: "var(--sp-sub)" }}>3 questions · 2 min</span>
+        </span>
+        <PrimaryButton space="support" to="/care/point" className="!h-10 whitespace-nowrap px-6">Faire le point</PrimaryButton>
+      </section>
+      <SectionLabel space="support" className="mt-4">Maintenant</SectionLabel>
+      <Row space="support" title="Respirer, des sons pour s'apaiser" subtitle="3 minutes, ou toute la nuit" to="/care/sons" />
+      <Row space="support" title="Écrire à Présence" subtitle="elle écoute, et vous oriente" to="/presence" last />
+      <SectionLabel space="support" className="mt-4">Être entouré</SectionLabel>
+      <Row space="support" title="Ce qui m'aiderait" subtitle="dire à vos proches ce dont vous avez besoin" to="/care/aide" />
+      <Row space="support" title="Parler à quelqu'un" subtitle="médecin, psychologue, groupe" to="/care/parler" last />
+      <SectionLabel space="support" className="mt-4">Prendre soin de vous</SectionLabel>
+      <Row space="support" title="Le corps" subtitle="dormir, manger, bouger" to="/help/corps" />
+      <Row space="support" title="Reprendre le travail" subtitle="quand vous serez prêt" to="/care/travail" last />
+
+      {/* Hors maquette D050 : conservé replié en attendant votre accord. */}
+      <details className="mt-8">
+        <summary className="lg-mono cursor-pointer py-3" style={{ color: "var(--sp-sub)" }}>Autres pages</summary>
         <Row space="support" title="Écrire" subtitle="Journal et lettres" to="/care/journal" />
         <Row space="support" title="Lire, écouter" subtitle="Livres et podcasts choisis" to="/care/resources" />
+        <Row space="support" title="Respirer, se poser" subtitle="Trois minutes, ou plus" to="/care/respirer" />
         <Row space="support" title="Trouver un professionnel" subtitle="Psychologues, associations" to="/care/help" last />
-      </div>
+      </details>
     </StandardLayout>
   );
 }
