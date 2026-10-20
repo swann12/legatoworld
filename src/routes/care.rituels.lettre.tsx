@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { ExperienceLayout, PrimaryButton, TextLink } from "@/components/legato/ds";
+import { ExperienceLayout, ExperienceButton, TextLink } from "@/components/legato/ds";
 import { legatoHead } from "@/lib/legato-head";
 
 export const Route = createFileRoute("/care/rituels/lettre")({
@@ -19,7 +19,7 @@ function Lettre() {
       <h1 className="lg-title text-[36px]">Une lettre,<br /><em>puis la laisser partir.</em></h1>
       <p className="mt-3 text-[14px]">Écrivez ce qui n'a pas été dit. Personne ne la lira.</p>
     </>} action={<div className="flex w-full flex-col items-center gap-4">
-      <PrimaryButton space="memory" onClick={release} disabled={!text.trim() || leaving}>Laisser partir la lettre</PrimaryButton>
+      <ExperienceButton onClick={release} disabled={!text.trim() || leaving}>Laisser partir la lettre</ExperienceButton>
       <p className="text-center text-[12.5px]">Vous pouvez aussi l'<TextLink space="memory" onClick={() => window.print()}>imprimer</TextLink> et la brûler dehors, en sécurité.</p>
     </div>}>
       <textarea aria-label="Votre lettre" value={text} onChange={(e) => setText(e.target.value)} placeholder="Je voulais te dire…" rows={9}
