@@ -3,7 +3,7 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import { Check, Copy, Mail, MessageSquare, Plus } from "lucide-react";
 import { StandardLayout, PageTitle, Lead, PrimaryButton, TextLink, SectionLabel } from "@/components/legato/ds";
 import { useSavedToast } from "@/components/legato/ActionFeedback";
-import { useSmartBack } from "@/lib/use-smart-back";
+
 import { useVault, VAULT_CATS, type VaultCat } from "@/lib/vault-store";
 
 const serif = { fontFamily: "var(--lg-serif)", fontWeight: 400 } as const;
@@ -30,7 +30,7 @@ export function MessagePret({ destinataires, texte }: { destinataires: string[];
   };
 
   return (
-    <StandardLayout space="practical" back="#" backLabel="Retour" onBack={smartBack} activeTab="/practical">
+    <StandardLayout space="practical" back="/practical" backLabel="Retour" activeTab="/practical">
       <PageTitle space="practical" className="pt-8">Un message<br /><em>prêt à envoyer.</em></PageTitle>
       <p className={`${mono} mt-6`}>À</p>
       <div className="mt-2 flex flex-wrap items-center gap-2">
@@ -79,7 +79,7 @@ export function SiteOfficiel({ site, url, papiers, duree }: { site: string; url:
   const { show, toast } = useSavedToast();
   const navigate = useNavigate();
   return (
-    <StandardLayout space="practical" back="#" backLabel="Retour" onBack={smartBack} activeTab="/practical">
+    <StandardLayout space="practical" back="/practical" backLabel="Retour" activeTab="/practical">
       <PageTitle space="practical" className="pt-8">Faire la demande<br /><em>sur le site officiel.</em></PageTitle>
       <Lead className="mt-3">Vous allez quitter Legato pour {site}.</Lead>
       <SectionLabel space="practical" className="mt-6">Préparez d'abord</SectionLabel>
@@ -123,7 +123,7 @@ export function DocumentView({ id }: { id: string }) {
   const cat = doc ? VAULT_CATS.find((c) => c.id === doc.cat)?.label : undefined;
   const noFile = () => show("Pas encore de fichier joint à ce document.");
   return (
-    <StandardLayout space="practical" back="#" backLabel="Retour" onBack={smartBack} activeTab="/practical">
+    <StandardLayout space="practical" back="/practical" backLabel="Retour" activeTab="/practical">
       {doc ? (
         <>
           <PageTitle space="practical" className="pt-8">{doc.name}.</PageTitle>
