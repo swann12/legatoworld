@@ -8,11 +8,11 @@
 - DS children without an explicit space inherit layout tokens. Why: nested elements must not reset the page palette to Today.
 - /onboarding, /onboarding/practical and /onboarding/care share `src/lib/onboarding-flow.ts` answers, mapped to legato-state on completion. Why: one source of truth.
 - Concrete Démarches (screens 055–062) live in `src/lib/demarches.ts` (status via legato-state taskStatus, steps via task-steps); old category ids still resolve there. Why: one list feeds Démarches, Mon avancement, detail and Confier.
-- Ceremony decisions and flower proposals use the space-scoped practical-store through ceremony-flow; flower views use validated search state on /practical/flowers. Why: one source of truth survives navigation and keeps existing URLs.
-- Text/music proposals and object choices use practical-store; wishes questionnaire views use validated search state and legato-state. Why: existing URLs and saved choices survive navigation without parallel stores.
+- Ceremony decisions and flower proposals use the space-scoped practical-store through ceremony-flow; flower views use validated search state on /practical/flowers. Why: one source, stable URLs.
+- Text/music proposals and object choices use practical-store; wishes questionnaire views use validated search state and legato-state. Why: stable URLs, no parallel stores.
 - Booklet PDF loads on download with the editorial font. Why: safe SSR and readable accents.
-- Off-mockup features (step 10, memory forms, portrait editors) remain in collapsed or lazily mounted legacy views until removal is approved. Why: reproducing captures must not silently remove existing functionality.
-- Funeral-specific resource views are isolated from the support directory and mark mockup providers as examples without invented contact details. Why: reproducing the mockups must not imply verified prices or real booking capabilities.
+- Off-mockup features (step 10, memory forms, portrait editors) remain in collapsed or lazily mounted legacy views until removal is approved. Why: never silently remove features.
+- Funeral-specific resource views are isolated from the support directory and mark mockup providers as examples without invented contact details. Why: no implied real prices or bookings.
 - Memory lists use canonical helpers and scoped memories-store; zone parents render Outlet with index lists. Read `src/components/legato/garden/AGENTS.md` for D5. Why: preserve data and mounted details.
 - Ritual/date landings are index leaves; traces use memories-store. Why: mounted details and space-scoped words.
 - Garden plot selection activates its existing space before opening the personal memory page, without altering the painted image or plot geometry. Why: each loved one's memories and portrait remain isolated.
@@ -24,5 +24,4 @@
 - Ajouts-4: Démarches title italics use `--sp-title-accent`; memory experiences use ExperienceButton; explained words use MotExplique + `src/lib/lexique.json`; page-less buttons use ActionFeedback; reused pages in `shared-pages.tsx`; Je suis bloqué renders `je-suis-bloque.json` via one `BloquePages` component. Why: ajouts-4 §1–§7.
 - Library preserves IDs; suggestions use authenticated Gateway or local discovery. Why: preserve favorites and privacy.
 - Sounds use a shared native player and offline-rendered files with encoded fades. Why: navigation and timer throttling must not stop audio.
-- Local-only data: `self-space.ts` (questions space), `soutien.ts` (Soutien, per space); the single Aujourd'hui card comes from pure tested `au-bon-moment.ts`. Why: one priority rule, stays on the phone.
-- Coffre (D109–D118): rules in pure tested `src/lib/coffre.ts` (7-day delay after verification, per-recipient docs, no passwords), stored on the device; pages in `CoffrePages.tsx`. Why: §9 rules in one place, nothing leaves the phone until a verified backend exists.
+- Local-only data: `self-space.ts`, `soutien.ts`, coffre rules in pure tested `coffre.ts`; the single Aujourd'hui card comes from tested `au-bon-moment.ts`. Why: one rule each, stays on the phone.
