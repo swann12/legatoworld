@@ -17,6 +17,7 @@ export function phaseOf(c: TodayInput): 1 | 2 | 3 {
   return d < 15 ? 1 : d <= 90 ? 2 : 3;
 }
 function target(title: string): Pick<TodayAction, "to" | "params" | "search"> {
+  if (title.includes("3114")) return { to: "tel:3114" };
   if (title.includes("pompes funèbres")) return { to: "/practical/tasks/$id", params: { id: "obseques" } };
   if (title.includes("cérémonie")) return { to: "/practical/ceremony" };
   if (title.includes("Prévenir les proches")) return { to: "/practical/prevenir" };
@@ -98,10 +99,10 @@ export function todayPlan(input: TodayInput): TodayPlan {
   for (const family of families) if (!used.has(family.famille)) { add(rowOf(family)); used.add(family.famille); }
   add(action(rules.aujourdhui.ensuite.par_defaut[String(phase) as "1" | "2" | "3"], phase === 2 ? "fatigue, gorge serrée : c'est fréquent" : phase === 1 ? "2 minutes de lecture" : "ce que d'autres en ont dit"));
   const danger = has("danger"), night = !danger && has("nuit");
-  return { phase, title: danger ? title : `${night ? "Bonsoir" : "Bonjour"}${c.name ? ` ${c.name}` : ""}. ${title}`, feelings: c.emos.map(e => (rules.emotions.affichage as Record<string, string>)[e] ?? e.toLowerCase()).map(clean).join(", "), card: selected, next: danger || night ? [action("Écrire à Présence", night ? "si vous ne dormez pas" : "elle vous écoute et vous oriente")] : next, blocked: phase === 1 && !danger && !night, night, danger, confirmFuneral: c.papiers === "R" && d !== null && d >= 15 };
+  return { phase, title: danger ? title : `${night ? "Bonsoir" : "Bonjour"}${c.name ? ` ${c.name}` : ""}. ${title}`, feelings: c.emos.length ? c.emos.map(e => (rules.emotions.affichage as Record<string, string>)[e] ?? e.toLowerCase()).map(clean).join(", ") : "choisir", card: selected, next: danger || night ? [action("Écrire à Présence", night ? "si vous ne dormez pas" : "elle vous écoute et vous oriente")] : next, blocked: phase === 1 && !danger && !night, night, danger, confirmFuneral: c.papiers === "R" && d !== null && d >= 15 };
 }
 export type SupportAction = { title: string; meta: string; cta: string; to: string };
-export type SupportPlan = { phase: 1 | 2 | 3; danger: boolean; card: SupportAction; sections: { title: string; rows: SupportAction[] }[]; monthly: boolean };
+export type SupportPlan = { phase: 1 | 2 | 3; danger: boolean; card: SupportAction; sections: { title: string; rows: SupportAction[] }[]; monthly: boolean; monthlyActive: boolean };
 const row = (title: string, meta: string, to: string, cta = "Ouvrir"): SupportAction => ({ title, meta, to, cta });
 
 /** The JSON defines priority and headings; copy/rows follow soutien() in the supplied simulator. */
@@ -136,7 +137,7 @@ export function supportPlan(c: TodayInput): SupportPlan {
     : phase === 2
       ? [withoutCard([parler, proches, groupe]), [body, row("Quand consulter un médecin", "les signes d'alerte", "/help/corps/consulter")]]
       : [withoutCard([parler, groupe], 1), withoutCard([row("Reprendre le travail", "messages prêts, reprise progressive", "/care/travail"), row("Lire, écouter, voir", "ce que d'autres en ont dit", "/care/resources")], 1)];
-  return { phase, danger: has("danger"), card, sections: rules.soutien.rubriques[String(phase) as "1" | "2" | "3"].map((title, i) => ({ title, rows: rows[i] ?? [] })), monthly: phase >= 2 && (days === null || days >= 30) };
+  return { phase, danger: has("danger"), card, sections: rules.soutien.rubriques[String(phase) as "1" | "2" | "3"].map((title, i) => ({ title, rows: rows[i] ?? [] })), monthly: phase >= 2 && (days === null || days >= 30), monthlyActive: has("point") };
 }
 
 export type EmotionDay = { day: string; values: string[] };
@@ -154,7 +155,7 @@ export function practicalPlan(c: TodayInput) {
   const data = rules.demarches[code];
   const helper = c.helper || "Votre proche";
   const title = { R: ["Les premiers jours,", "dans l'ordre."], O: ["Ce qu'il reste", "à faire."], F: ["Presque", "terminé."], Q: [`${helper} s'occupe`, "des démarches."] }[code];
-  const meta = { R: "20 minutes · elles déclarent aussi le décès", O: "10 minutes · en ligne, à la mairie", F: "avec le notaire · dans les six mois", Q: "2 minutes · un document à signer" }[code];
+  const meta = { R: "20 minutes · elles déclarent aussi le décès", O: "10 minutes · en ligne, à la mairie", F: "avec le notaire · avant le 8 mars", Q: "2 minutes · un document à signer" }[code];
   const to = { R: "/practical/tasks/obseques", O: "/practical/tasks/acte-deces", F: "/practical/tasks/notaire", Q: "/practical/tasks/banque" }[code];
   const rows: Record<string, Omit<Action, "title">> = {
     "Organiser la cérémonie": { meta: "le lieu, la date", to: "/practical/ceremony" },
@@ -166,7 +167,7 @@ export function practicalPlan(c: TodayInput) {
   return {
     code, title,
     card: { title: code === "Q" ? data.en_premier.split(": ")[1]?.replace(/^signer/, "Signer") ?? data.en_premier : data.en_premier, meta, to },
-    label: "En premier", helper: code === "Q" ? `${helper} a besoin de vous` : undefined,
+    label: code === "O" ? "Cette semaine, en premier" : code === "Q" ? `${helper} a besoin de vous` : "En premier", helper: code === "Q" ? `${helper} a besoin de vous` : undefined,
     cta: { R: "Voir comment", O: "Faire la demande", F: "Préparer le rendez-vous", Q: "Voir le document" }[code],
     next: ("puis" in data ? data.puis : []).flatMap(title => rows[title] ? [{ title, ...rows[title] }] : []),
     link: code === "O" ? { title: "Vos échéances", to: "/agenda" } : code === "Q" ? { title: "Voir toutes les démarches", to: "/practical/tasks" } : undefined,
