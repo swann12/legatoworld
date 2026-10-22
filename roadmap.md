@@ -9,6 +9,9 @@
 - [x] Moteur issu du JSON et structure §4 ; 14 scénarios conformes, E004–E008 vérifiés à 390 px avec réponses et dates identiques ; émotions modifiées et relues après rechargement.
 - [x] Retirer les éléments hors structure demandés : Inviter un proche seul, Cette semaine, ancienne ligne date, introduction et propositions anciennes ; pages conservées.
 
+## Ajouts-5 Soutien
+- [x] Accueil deuil §6 branché au moteur : 14 scénarios et 4 règles ciblées passent ; E009–E011 ouverts, liste d’aide et point mensuel jusqu’au résultat vérifiés ; Présence précède le point final. Anciennes pages conservées.
+
 ## Étape D5 — Mémoire approfondie
 - [x] Présenter les quatre listes D033–D049 et conserver les éléments hors maquette.
 - [x] Créer les pages et liens communs, sans toucher au jardin peint ni aux parcelles ; anciennes variantes conservées.

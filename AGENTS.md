@@ -28,3 +28,4 @@
 - Sounds use a shared native player and offline-rendered files with encoded fades. Why: navigation and timer throttling must not stop audio.
 - Local-only data: `self-space.ts`, `soutien.ts`, coffre rules in pure tested `coffre.ts`. Why: sensitive personal content stays on the phone.
 - Bereavement Aujourd'hui uses the pure tested `ajouts5/today-engine.ts` and the supplied rules JSON; TodayPage adapts local answers and signals without fetching personal content. Why: one deterministic source selects the card and next lines; the supplied scenarios are regression tests.
+- Bereavement Soutien uses `ajouts5/support-engine.ts`, the same rules JSON and phaseOf; daily emotion history remains space-scoped on the device. Why: one tested selector preserves priorities and detects consecutive fatigue days without sharing personal content.
