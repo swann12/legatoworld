@@ -10,6 +10,11 @@
 - [x] Retirer les éléments hors structure demandés : Inviter un proche seul, Cette semaine, ancienne ligne date, introduction et propositions anciennes ; pages conservées.
 
 ## Ajouts-5 Soutien
+## Ajouts-5 Démarches et cinq accueils
+- [ ] Refaire les quatre réponses papiers, ajouter Présence en fin des cinq accueils et retirer ses boutons flottants.
+- [ ] Vérifier une seule carte principale et au plus un encart beige sur chaque accueil.
+
+## Ajouts-5 Soutien
 - [x] Accueil deuil §6 branché au moteur : 14 scénarios et 4 règles ciblées passent ; E009–E011 ouverts, liste d’aide et point mensuel jusqu’au résultat vérifiés ; Présence précède le point final. Anciennes pages conservées.
 
 ## Étape D5 — Mémoire approfondie
