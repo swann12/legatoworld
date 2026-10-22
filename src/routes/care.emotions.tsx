@@ -41,13 +41,14 @@ const label = (id: Choice) => CHOICES.find((c) => c.id === id)?.label ?? "";
 function DailyEmotions() {
   const navigate = useNavigate();
   const [picked, setPicked] = useState<string[]>([]);
+  const [legacyOpen, setLegacyOpen] = useState(false);
   useEffect(() => setPicked(loadTodayEmotions()), []);
   const save = () => { saveTodayEmotions(picked); navigate({ to: "/home" }); };
-  return <QuestionLayout footer={<QuestionFooter cta="Enregistrer" onCta={save} link="Passer cette étape" onLink={() => navigate({ to: "/home" })} />}>
+  return <QuestionLayout step={1} total={1} footer={<QuestionFooter cta="Enregistrer" onCta={save} link="Passer cette étape" onLink={() => navigate({ to: "/home" })} />}>
     <PageTitle size={32}>Comment allez-vous<br /><em>aujourd'hui ?</em></PageTitle>
     <Lead className="mt-3">Plusieurs choix possibles. Aucune réponse n'est fausse, et elle reste privée.</Lead>
     <div className="mt-7"><EmotionChoices picked={picked} onChange={setPicked} /></div>
-    <details className="mt-8"><summary className="lg-row-sub">Autres façons de faire le point</summary><LegacyEmotions /></details>
+    <details className="mt-8" onToggle={event => setLegacyOpen(event.currentTarget.open)}><summary className="lg-row-sub">Autres façons de faire le point</summary>{legacyOpen && <LegacyEmotions />}</details>
   </QuestionLayout>;
 }
 
