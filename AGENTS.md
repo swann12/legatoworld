@@ -1,5 +1,6 @@
 - New screens use `src/components/legato/ds/` and its Standard/Question/Experience layouts; `space` maps to `.lg-space-*` variables in styles.css, never page colors. Why: central, themable space palettes.
-- Global nav is `ds/BottomNav`, with labels/visibility from `space-navigation` and palette from its active tab. Why: shared navigation inherits journey colors even outside the page wrapper.
+- Global nav is `ds/BottomNav`, with labels/visibility from `space-navigation` and independent nav tokens. Why: page and journey palettes must never recolor navigation.
+- Opening and Welcome share `waitForLegatoFonts`; supplied fonts are served locally and preloaded in the root head. Why: visible entry text must not switch fonts after appearing.
 - JourneyTheme applies space-kind palette overrides to DS tokens; emergency screens retain their separate colors. Why: explicit DS descendants must not reset the active journey palette.
 - Onboarding keeps animal body answers on the created space and derives its kind through space-navigation. Why: navigation follows the selected space rather than another space's onboarding answers.
 - Header wordmarks use ds/LegatoLogo with the supplied day/night assets. Why: every header shares the exact same source images and size.

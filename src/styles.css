@@ -979,9 +979,9 @@
 }
 
 /* ==== Legato v2 — polices locales ==== */
-@font-face { font-family: 'Instrument Serif'; src: url('/fonts/InstrumentSerif-Regular.ttf') format('truetype'); font-style: normal; font-weight: 400; font-display: swap; }
-@font-face { font-family: 'Instrument Serif'; src: url('/fonts/InstrumentSerif-Italic.ttf') format('truetype'); font-style: italic; font-weight: 400; font-display: swap; }
-@font-face { font-family: 'Instrument Sans'; src: url('/fonts/InstrumentSans.ttf') format('truetype'); font-style: normal; font-weight: 100 900; font-display: swap; }
+@font-face { font-family: 'Instrument Serif'; src: url('/fonts/InstrumentSerif-Regular.woff2') format('woff2'); font-style: normal; font-weight: 400; font-display: block; }
+@font-face { font-family: 'Instrument Serif'; src: url('/fonts/InstrumentSerif-Italic.woff2') format('woff2'); font-style: italic; font-weight: 400; font-display: block; }
+@font-face { font-family: 'Instrument Sans'; src: url('/fonts/InstrumentSans.woff2') format('woff2'); font-style: normal; font-weight: 100 900; font-display: block; }
 @font-face { font-family: 'Space Mono'; src: url('/fonts/SpaceMono-Regular.ttf') format('truetype'); font-style: normal; font-weight: 400; font-display: swap; }
 
 :root {
@@ -989,6 +989,9 @@
   --lg-cream:  #F7F4EF;   /* fond de toutes les pages */
   --lg-linen:  #F3EBE1;   /* bloc Soutien et Démarches, sélection */
   --lg-deep:   #2C4B40;   /* texte principal, barre de navigation, bouton Aujourd'hui */
+  --lg-nav-bg: #2C4B40;
+  --lg-nav-text: #F7F4EF;
+  --lg-nav-selected: #F7F4EF;
   --lg-sub:    #6F7F76;   /* texte secondaire */
   --lg-line-1: rgba(44, 75, 64, 0.12);  /* filet entre lignes */
   --lg-line-2: rgba(44, 75, 64, 0.28);  /* filet de structure, contours */
@@ -1097,6 +1100,12 @@
   --sp-line: var(--lg-line-1); --sp-line-2: var(--lg-line-2);
 }
 .lg-presence-page { padding-bottom:0; }
+.lg-bottom-nav { background:var(--lg-nav-bg); font-family:var(--lg-sans); }
+.lg-bottom-nav a { color:var(--lg-nav-text); }
+.lg-bottom-nav a[aria-current="page"] { background:var(--lg-nav-selected); color:var(--lg-nav-bg); }
+.lg-discovery-resume .lg-discovery-intro { padding:56px 28px 0; }
+.lg-discovery-resume .lg-title { font-size:44px; line-height:1.05; }
+.lg-discovery-resume .lg-lead { margin-top:22px; font-size:15px; line-height:1.6; }
 /* Mémoire / Communauté : la demande du 17 octobre prime sur les palettes B.
    Une encre bleue foncée maintient le contraste sur les deux pastels. */
 [data-journey="malade"] :is(.lg-space-memory, .lg-space-community),

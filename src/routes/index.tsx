@@ -1,5 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
+import { waitForLegatoFonts } from "@/lib/legato-fonts";
 import symboleAsset from "@/assets/legato-symbole.png.asset.json";
 import wordmarkAsset from "@/assets/legato-wordmark.png.asset.json";
 const logoSymbole = symboleAsset.url;
@@ -31,6 +32,8 @@ const LOGO_SHOW_AT_SECONDS = 6.2;
 function Intro() {
   const navigate = useNavigate();
   const [leaving, setLeaving] = useState(false);
+  const [fontsReady, setFontsReady] = useState(false);
+  useEffect(() => { let live = true; void waitForLegatoFonts().then(() => { if (live) setFontsReady(true); }); return () => { live = false; }; }, []);
   const [logoVisible, setLogoVisible] = useState(false);
   const [showEnter, setShowEnter] = useState(false);
   const [bottomFadeVisible, setBottomFadeVisible] = useState(true);
@@ -49,7 +52,7 @@ function Intro() {
   }, [navigate]);
 
   const enter = () => {
-    if (leaving) return;
+    if (leaving || !fontsReady) return;
     setLeaving(true);
     window.setTimeout(() => navigate({ to: "/start" }), 900);
   };
@@ -265,7 +268,7 @@ function Intro() {
       </div>
 
       {/* Bouton « Entrer » — pleine largeur dans les marges de 28 px */}
-      {showEnter && (
+      {showEnter && fontsReady && (
         <div className="absolute inset-x-0 bottom-0 flex justify-center pb-[66px]">
           <button
             onClick={enter}

@@ -2,7 +2,6 @@ import { Link, useLocation } from "@tanstack/react-router";
 import { Sun, Heart, ListChecks, Sprout, Users } from "lucide-react";
 import { useActiveSpace } from "@/lib/use-active-space";
 import { showPracticalTab, spaceTabLabels } from "@/lib/space-navigation";
-import { spaceClass } from "./space";
 
 const TABS = [
   { to: "/home", label: "Aujourd'hui", Icon: Sun, match: (p: string) => p.startsWith("/home") },
@@ -16,15 +15,12 @@ const TABS = [
 export function BottomNav({ night = false, active, fixed = true }: { night?: boolean; active?: string; fixed?: boolean }) {
   const { pathname } = useLocation();
   const { kind, space } = useActiveSpace();
-  const nightOn = night && kind !== "questions";
   const labels = spaceTabLabels(kind);
   const tabs = TABS.filter(t => t.to !== "/practical" || showPracticalTab(kind, space?.animalBodyState));
   const current = active ?? pathname;
-  const palette = current.startsWith("/care/community") ? "community" : /^(\/care\/(garden|rituels|dates)|\/compose)/.test(current) ? "memory" : undefined;
   return (
     <nav aria-label="Navigation principale"
-      className={`${spaceClass(palette)} ${fixed ? "fixed inset-x-4 bottom-5 z-40 mx-auto max-w-[398px]" : "relative w-full"} flex h-[60px] items-center justify-between rounded-[30px] px-1.5`}
-       style={{ background: nightOn ? "var(--lg-night-2)" : "var(--lg-deep)", border: nightOn ? "1px solid var(--lg-night-line)" : "none" }}>
+      className={`lg-bottom-nav ${fixed ? "fixed inset-x-4 bottom-5 z-40 mx-auto max-w-[398px]" : "relative w-full"} flex h-[60px] items-center justify-between rounded-[30px] px-1.5`}>
       {tabs.map(({ to, label: original, Icon, match }) => {
         const label = to === "/practical" ? labels.practical : to === "/care/garden" ? labels.memory : original;
         const on = active ? active === to : match(current);
@@ -33,8 +29,6 @@ export function BottomNav({ night = false, active, fixed = true }: { night?: boo
             className="flex h-12 min-w-11 items-center justify-center gap-2 rounded-full px-3 text-[14px] transition-all"
             style={{
               fontFamily: "var(--lg-sans)",
-              background: on ? (nightOn ? "var(--lg-mint)" : "var(--lg-cream)") : "transparent",
-              color: on ? "var(--lg-deep)" : nightOn ? "var(--lg-mint)" : "var(--lg-cream)",
               opacity: on ? 1 : 0.75,
               flex: on ? "0 0 auto" : "1 1 0",
             }}>
