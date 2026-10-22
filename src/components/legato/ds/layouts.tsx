@@ -13,7 +13,7 @@ export function StandardLayout({ space = "today", title, back, backLabel, header
   space?: Space; title?: string; back?: string; backLabel?: string; headerLeft?: ReactNode; children: ReactNode; nav?: boolean; activeTab?: string; className?: string;
 }) {
   const { pathname } = useLocation();
-  const principal = ["/home", "/care", "/practical", "/care/garden", "/care/community"].includes(pathname.replace(/\/$/, ""));
+  const principal = ["/home", "/care", "/practical", "/care/garden", "/care/garden/space", "/care/community"].includes(pathname.replace(/\/$/, ""));
   const automaticPresence = principal && !className.includes("lg-today-engine") && !className.includes("lg-support-engine");
   return (
     <div className={`${spaceClass(space)} min-h-dvh ${className}`} style={{ background: "var(--sp-bg)", color: "var(--sp-ink)", fontFamily: "var(--lg-sans)" }}>

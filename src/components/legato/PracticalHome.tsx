@@ -23,7 +23,8 @@ function Label({ children, accent, className = "" }: { children: string; accent:
 
 /** B013–B016 · l'onglet Démarches suit la réponse « Où en êtes-vous avec les papiers ? » (§6). */
 export function Practical() {
-  const { kind } = useActiveSpace();
+  const { kind, hydrated } = useActiveSpace();
+  if (!hydrated) return null;
   return kind === "malade" ? <MaladeAides /> : kind === "questions" ? <SelfPreparer /> : kind === "animal" ? <AnimalPractical /> : <PracticalPage />;
 }
 

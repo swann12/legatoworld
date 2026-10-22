@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
 import type { Relation } from "./legato-state";
 import type { AnimalBodyState } from "./space-navigation";
+import { kindForWhom } from "./space-navigation";
+import { getForWhom, getAnimalBodyState, getCareState, getDeathDate } from "./onboarding-flow";
 
 /* ───────── Mes espaces — un espace par être aimé ─────────
    Stocké en localStorage, comme les souvenirs. Chaque espace porte
@@ -68,7 +70,7 @@ function uid() {
 }
 
 /** Crée l'espace initial à partir de l'onboarding, une seule fois. */
-function seedIfEmpty(): Space[] {
+export function seedIfEmpty(): Space[] {
   if (typeof window === "undefined") return [];
   const existing = load();
   if (existing.length) return existing;
@@ -85,8 +87,11 @@ function seedIfEmpty(): Space[] {
     id: uid(),
     name: name || RELATION_LABEL[relation ?? "autre"] || "Proche",
     relation,
+    kind: getForWhom() ? kindForWhom(getForWhom()) : relation === "animal" ? "animal" : "deuil",
+    animalBodyState: getForWhom() === "animal" ? getAnimalBodyState() ?? undefined : undefined,
+    careState: getForWhom() === "malade" ? getCareState() ?? undefined : undefined,
     birthday: null,
-    deathDate: null,
+    deathDate: getDeathDate(),
     customDates: [],
     archived: false,
     createdAt: Date.now(),
@@ -118,6 +123,7 @@ export function useSpaces() {
       relation: input.relation ?? null,
       kind: input.kind,
       animalBodyState: input.animalBodyState,
+      careState: input.careState,
       birthday: input.birthday ?? null,
       deathDate: input.deathDate ?? null,
       deathCircumstance: input.deathCircumstance,

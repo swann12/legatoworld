@@ -19,7 +19,8 @@ export const Route = createFileRoute("/care/")({
 });
 
 function Soutien() {
-  const { kind, space } = useActiveSpace();
+  const { kind, space, hydrated } = useActiveSpace();
+  if (!hydrated) return null;
   if (kind === "malade") return <MaladeSoutien />;
   if (kind === "questions") return <SelfSoutien />;
   if (kind === "animal") return <AnimalSoutien name={space?.name ?? "lui"} />;
@@ -88,7 +89,7 @@ function MaladeSoutien() {
       <SectionLabel className="mt-8">Maintenant</SectionLabel>
       <Row title="Se confier" subtitle="À Présence, ou à une ligne d'écoute pour les aidants" to="/care/parler" />
       <Row title="Si vous n'en pouvez plus" subtitle="Les signes, et comment souffler" to="/care/epuisement" last />
-      <div className="mt-8 px-5" style={{ background: "var(--sp-block)" }}>
+      <div className="mt-8">
         <Row title="Respirer, dormir" subtitle="Trois minutes, ou plus" to="/care/respirer" />
         <Row title="Écrire" subtitle="Ce que vous n'osez pas lui dire" to="/care/journal" />
         <Row title="Trouver un psychologue" subtitle="Spécialisé dans l'accompagnement" to="/care/help" last />

@@ -42,6 +42,8 @@ const FOR_WHOM: { id: ForWhom; label: string; hint: string }[] = [
 
 function Onboarding() {
   const { etape } = Route.useSearch();
+  const { hydrated } = useLegato();
+  if (!hydrated) return null;
   if (etape === "pret") return <Ready />;
   if (etape === "prenom") return <NameStep />;
   if (etape === "comment") return <CircumstanceStep />;
@@ -216,6 +218,7 @@ function Ready() {
   const initial = (forWhom === "moi" ? legato.name : legato.lovedOneName).trim().charAt(0).toUpperCase() || "L";
 
   const open = async () => {
+    if (!forWhom) return;
     const needs = getNeeds();
     const papers = getPapers();
     // Besoin principal déduit des choix multiples
