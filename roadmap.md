@@ -10,7 +10,7 @@
 - [x] Retirer les éléments hors structure demandés : Inviter un proche seul, Cette semaine, ancienne ligne date, introduction et propositions anciennes ; pages conservées.
 
 ## Ajouts-5 Soutien
-- [ ] Refaire l’accueil selon §6 et le moteur, tester les 14 scénarios et la fin de page.
+- [x] Accueil deuil §6 branché au moteur : 14 scénarios et 4 règles ciblées passent ; E009–E011 ouverts, liste d’aide et point mensuel jusqu’au résultat vérifiés ; Présence précède le point final. Anciennes pages conservées.
 
 ## Étape D5 — Mémoire approfondie
 - [x] Présenter les quatre listes D033–D049 et conserver les éléments hors maquette.
