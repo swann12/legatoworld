@@ -1,9 +1,13 @@
 # Reprise UX/UI Legato
 
 ## Ajouts-5 §1
-- [ ] Polices fournies locales, préchargement et attente pendant l’ouverture.
-- [ ] Navigation vert profond indépendante des palettes.
-- [ ] Découverte neuve vide, E003 reprise/recommencer et vérifications.
+- [x] Polices fournies locales, préchargement et attente pendant l’ouverture.
+- [x] Navigation vert profond indépendante des palettes.
+- [x] Découverte neuve vide, E003 reprise/recommencer et vérifications.
+
+## Ajouts-5 Aujourd’hui
+- [ ] Moteur issu du JSON et structure §4 ; vérifier E004–E008 avec les réponses exactes.
+- [ ] Retirer les éléments hors structure demandés, dont Inviter un proche seul ; détailler les retraits.
 
 ## Étape D5 — Mémoire approfondie
 - [x] Présenter les quatre listes D033–D049 et conserver les éléments hors maquette.
