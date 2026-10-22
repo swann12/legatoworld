@@ -7,6 +7,7 @@ import { LegatoMark } from "@/components/legato/LegatoMark";
 import { Button } from "@/components/ui/button";
 import { PrimaryButton, TextLink } from "@/components/legato/ds";
 import { LegatoLogo } from "@/components/legato/ds/LegatoLogo";
+import { waitForLegatoFonts } from "@/lib/legato-fonts";
 
 export const Route = createFileRoute("/start/")({
   head: () => ({
@@ -48,6 +49,8 @@ function Start() {
   const [error, setError] = useState<string | null>(null);
   const [info, setInfo] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [fontsReady, setFontsReady] = useState(false);
+  useEffect(() => { let live = true; void waitForLegatoFonts().then(() => { if (live) setFontsReady(true); }); return () => { live = false; }; }, []);
 
   const goNext = () => setStage("quote");
   const enterApp = () => navigate({ to: "/onboarding" });
@@ -130,6 +133,8 @@ function Start() {
       setInfo("Vérifiez votre boîte mail pour confirmer votre inscription.");
     }
   };
+
+  if (!fontsReady) return <main className="min-h-dvh bg-lg-cream" aria-busy="true" />;
 
   if (stage === "quote") {
     return (

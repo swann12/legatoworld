@@ -1,9 +1,11 @@
 - New screens use `src/components/legato/ds/` and its Standard/Question/Experience layouts; `space` maps to `.lg-space-*` variables in styles.css, never page colors. Why: central, themable space palettes.
-- Global nav is `ds/BottomNav`, with labels/visibility from `space-navigation` and palette from its active tab. Why: shared navigation inherits journey colors even outside the page wrapper.
+- Global nav is `ds/BottomNav`, with labels/visibility from `space-navigation` and independent nav tokens. Why: page and journey palettes must never recolor navigation.
+- Opening and Welcome share `waitForLegatoFonts`; supplied fonts are served locally and preloaded in the root head. Why: visible entry text must not switch fonts after appearing.
 - JourneyTheme applies space-kind palette overrides to DS tokens; emergency screens retain their separate colors. Why: explicit DS descendants must not reset the active journey palette.
 - Onboarding keeps animal body answers on the created space and derives its kind through space-navigation. Why: navigation follows the selected space rather than another space's onboarding answers.
 - Header wordmarks use ds/LegatoLogo with the supplied day/night assets. Why: every header shares the exact same source images and size.
 - Discovery stays local; conversion archives only allowlisted app keys under authenticated RLS. Why: no visitor content leaves the device.
+- Discovery restart clears allowlisted visitor content and reloads providers; progress is recorded centrally by DiscoverySession. Why: removed storage must not leave stale in-memory answers, while resume preserves content.
 - DiscoverySession owns the identity listener; conversion completes only after validated sign-in, keeping local content until archive save. Why: failed transfers must not lose visitor work.
 - DS children without an explicit space inherit layout tokens. Why: nested elements must not reset the page palette to Today.
 - /onboarding, /onboarding/practical and /onboarding/care share `src/lib/onboarding-flow.ts` answers, mapped to legato-state on completion. Why: one source of truth.
@@ -24,4 +26,5 @@
 - Ajouts-4: Démarches title italics use `--sp-title-accent`; memory experiences use ExperienceButton; explained words use MotExplique + `src/lib/lexique.json`; page-less buttons use ActionFeedback; reused pages in `shared-pages.tsx`; Je suis bloqué renders `je-suis-bloque.json` via one `BloquePages` component; Présence safety and cards come from pure tested `presence-guide.ts`, the model only writes text from its fiches. Why: ajouts-4 §1–§7.
 - Library preserves IDs; suggestions use authenticated Gateway or local discovery. Why: preserve favorites and privacy.
 - Sounds use a shared native player and offline-rendered files with encoded fades. Why: navigation and timer throttling must not stop audio.
-- Local-only data: `self-space.ts`, `soutien.ts`, coffre rules in pure tested `coffre.ts`; the single Aujourd'hui card comes from tested `au-bon-moment.ts`. Why: one rule each, stays on the phone.
+- Local-only data: `self-space.ts`, `soutien.ts`, coffre rules in pure tested `coffre.ts`. Why: sensitive personal content stays on the phone.
+- Bereavement Aujourd'hui uses the pure tested `ajouts5/today-engine.ts` and the supplied rules JSON; TodayPage adapts local answers and signals without fetching personal content. Why: one deterministic source selects the card and next lines; the supplied scenarios are regression tests.
