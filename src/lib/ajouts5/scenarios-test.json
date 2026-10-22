@@ -1,0 +1,693 @@
+{
+ "_lire_moi": "14 situations types. Pour chacune : les réponses de la personne et ce que Legato doit afficher. Produites par simulateur-reference.html ; les situations 1, 13, 14, 6 et 7 correspondent aux écrans E004, E006, E005, E007 et E008. Lovable doit obtenir exactement les mêmes résultats.",
+ "scenarios": [
+  {
+   "scenario": "1 · Trois jours, rien n'est commencé, décès soudain, besoin de tout, sidéré et angoissé",
+   "reponses": {
+    "days": "3",
+    "papiers": "R",
+    "comment": "S",
+    "besoins": [
+     "T",
+     "D",
+     "P",
+     "M"
+    ],
+    "emos": [
+     "Sidéré",
+     "Angoisse"
+    ],
+    "flags": []
+   },
+   "attendu": {
+    "aujourdhui": {
+     "titre": "Bonjour Victor. Une seule chose aujourd’hui.",
+     "etiquette": "Aujourd’hui",
+     "carte": "Choisir les pompes funèbres",
+     "ensuite": [
+      "Demander à un proche de venir",
+      "Dire à vos proches ce qui vous aiderait"
+     ],
+     "je_suis_bloque": true
+    },
+    "soutien": {
+     "carte_du_haut": "Dire à vos proches ce qui vous aiderait",
+     "rubriques": [
+      "Être entouré",
+      "Tenir ces premiers jours"
+     ],
+     "point_du_mois_en_bas": false
+    },
+    "demarches": {
+     "en_premier": "Choisir les pompes funèbres"
+    },
+    "raisons": [
+     "Période« Rien n’est commencé » : période 1, les premiers jours.",
+     "Pour aujourd’huiRègle 2 : période 1 et « rien n’est commencé » : la prochaine étape des obsèques. Elle passe avant les émotions, parce que le délai est obligatoire.",
+     "AngoisseUne démarche passe en premier. Présence reste accessible à tout moment (bouton « Parler à Présence »).",
+     "EnsuitePremière ligne : l’émotion suivante, « Choc ».",
+     "EnsuitePuis les lignes de la période 1, filtrées par les besoins cochés. Deux lignes au plus.",
+     "Je suis bloquéPériode 1 : une ligne claire, avec son pictogramme, sous « Ensuite ».",
+     "SoutienEn haut, toujours une seule carte : Dire à vos proches ce qui vous aiderait (les 3 premières semaines). Jamais le point du mois, jamais Respirer.",
+     "Soutien« Parler à quelqu’un » coché : en première ligne d’« Être entouré ».",
+     "SoutienOrdre des rubriques de la période 1.",
+     "Point du moisPas avant le 2e mois : il n’apparaît pas.",
+     "DémarchesLes premiers jours : pompes funèbres en premier, puis cérémonie, prévenir. Une seule carte mise en avant ; « Je suis bloqué » juste en dessous de la liste.",
+     "CommentDécès soudain : « Dire à vos proches ce qui vous aiderait » passe en premier dans « Ensuite »."
+    ]
+   }
+  },
+  {
+   "scenario": "2 · Trois jours, rien n'est commencé, aucune émotion choisie",
+   "reponses": {
+    "days": "3",
+    "papiers": "R",
+    "comment": "M",
+    "besoins": [
+     "T"
+    ],
+    "emos": [],
+    "flags": []
+   },
+   "attendu": {
+    "aujourdhui": {
+     "titre": "Bonjour Victor. Une seule chose aujourd’hui.",
+     "etiquette": "Aujourd’hui",
+     "carte": "Choisir les pompes funèbres",
+     "ensuite": [
+      "Dire à vos proches ce qui vous aiderait",
+      "Prévenir les proches"
+     ],
+     "je_suis_bloque": true
+    },
+    "soutien": {
+     "carte_du_haut": "Dire à vos proches ce qui vous aiderait",
+     "rubriques": [
+      "Être entouré",
+      "Tenir ces premiers jours"
+     ],
+     "point_du_mois_en_bas": false
+    },
+    "demarches": {
+     "en_premier": "Choisir les pompes funèbres"
+    },
+    "raisons": [
+     "Période« Rien n’est commencé » : période 1, les premiers jours.",
+     "Pour aujourd’huiRègle 2 : période 1 et « rien n’est commencé » : la prochaine étape des obsèques. Elle passe avant les émotions, parce que le délai est obligatoire.",
+     "EnsuitePuis les lignes de la période 1, filtrées par les besoins cochés. Deux lignes au plus.",
+     "Je suis bloquéPériode 1 : une ligne claire, avec son pictogramme, sous « Ensuite ».",
+     "SoutienEn haut, toujours une seule carte : Dire à vos proches ce qui vous aiderait (les 3 premières semaines). Jamais le point du mois, jamais Respirer.",
+     "SoutienOrdre des rubriques de la période 1.",
+     "Point du moisPas avant le 2e mois : il n’apparaît pas.",
+     "DémarchesLes premiers jours : pompes funèbres en premier, puis cérémonie, prévenir. Une seule carte mise en avant ; « Je suis bloqué » juste en dessous de la liste."
+    ]
+   }
+  },
+  {
+   "scenario": "3 · Cinq semaines, obsèques passées, échéance dans 5 jours, fatigué",
+   "reponses": {
+    "days": "42",
+    "papiers": "O",
+    "comment": "",
+    "besoins": [
+     "T",
+     "P"
+    ],
+    "emos": [
+     "Fatigue"
+    ],
+    "flags": [
+     "echeance"
+    ]
+   },
+   "attendu": {
+    "aujourdhui": {
+     "titre": "Bonjour Victor. Une démarche a un délai.",
+     "etiquette": "Avant le 8 octobre · dans 5 jours",
+     "carte": "Demander le capital décès",
+     "ensuite": [
+      "Mieux dormir cette nuit",
+      "Voir un psychologue"
+     ],
+     "je_suis_bloque": false
+    },
+    "soutien": {
+     "carte_du_haut": "Voir un psychologue",
+     "rubriques": [
+      "Être entouré",
+      "Comprendre ce que vous vivez"
+     ],
+     "point_du_mois_en_bas": true
+    },
+    "demarches": {
+     "en_premier": "Commander l’acte de décès"
+    },
+    "raisons": [
+     "Période« Les obsèques sont passées » : période 2.",
+     "Pour aujourd’huiRègle 3 : une échéance dans moins de 7 jours.",
+     "EnsuitePremière ligne : l’émotion suivante, « Épuisement ».",
+     "EnsuitePuis les lignes de la période 2, filtrées par les besoins cochés. Deux lignes au plus.",
+     "SoutienEn haut, toujours une seule carte : Voir un psychologue (« parler à quelqu’un » coché). Jamais le point du mois, jamais Respirer.",
+     "Soutien« Parler à quelqu’un » coché : en première ligne d’« Être entouré ».",
+     "SoutienOrdre des rubriques de la période 2.",
+     "Point du moisÀ partir du 2e mois, tout en bas. Il ne revient chaque mois que s’il est activé.",
+     "DémarchesCe qu’il reste : l’acte de décès en premier, puis la banque, les organismes. Une seule carte mise en avant ; « Je suis bloqué » juste en dessous de la liste."
+    ]
+   }
+  },
+  {
+   "scenario": "4 · Six semaines, obsèques passées, sans échéance, fatigué et triste, démarches",
+   "reponses": {
+    "days": "42",
+    "papiers": "O",
+    "comment": "",
+    "besoins": [
+     "T",
+     "D"
+    ],
+    "emos": [
+     "Fatigue",
+     "Tristesse"
+    ],
+    "flags": []
+   },
+   "attendu": {
+    "aujourdhui": {
+     "titre": "Bonjour Victor. Une démarche cette semaine.",
+     "etiquette": "Cette semaine",
+     "carte": "Prévenir la banque",
+     "ensuite": [
+      "Mieux dormir cette nuit",
+      "Écrire une lettre à Anne"
+     ],
+     "je_suis_bloque": false
+    },
+    "soutien": {
+     "carte_du_haut": "Un groupe de parole",
+     "rubriques": [
+      "Être entouré",
+      "Comprendre ce que vous vivez"
+     ],
+     "point_du_mois_en_bas": true
+    },
+    "demarches": {
+     "en_premier": "Commander l’acte de décès"
+    },
+    "raisons": [
+     "Période« Les obsèques sont passées » : période 2.",
+     "Pour aujourd’huiRègle 5 : période 2 et « faire les démarches » : la démarche suivante de la semaine.",
+     "EnsuitePremière ligne : l’émotion suivante, « Épuisement ».",
+     "EnsuitePuis les lignes de la période 2, filtrées par les besoins cochés. Deux lignes au plus.",
+     "SoutienEn haut, toujours une seule carte : Un groupe de parole (par défaut, pour ne pas rester seul). Jamais le point du mois, jamais Respirer.",
+     "SoutienOrdre des rubriques de la période 2.",
+     "Point du moisÀ partir du 2e mois, tout en bas. Il ne revient chaque mois que s’il est activé.",
+     "DémarchesCe qu’il reste : l’acte de décès en premier, puis la banque, les organismes. Une seule carte mise en avant ; « Je suis bloqué » juste en dessous de la liste."
+    ]
+   }
+  },
+  {
+   "scenario": "5 · Quatre mois, presque tout est fait, mémoire, manque",
+   "reponses": {
+    "days": "120",
+    "papiers": "F",
+    "comment": "",
+    "besoins": [
+     "M"
+    ],
+    "emos": [
+     "Manque"
+    ],
+    "flags": []
+   },
+   "attendu": {
+    "aujourdhui": {
+     "titre": "Bonjour Victor. Prenez ce temps pour elle.",
+     "etiquette": "Pour vous, aujourd’hui",
+     "carte": "Ajouter un souvenir d’elle",
+     "ensuite": [
+      "Ses dates",
+      "La succession"
+     ],
+     "je_suis_bloque": false
+    },
+    "soutien": {
+     "carte_du_haut": "Un groupe de parole",
+     "rubriques": [
+      "Être entouré",
+      "Avancer"
+     ],
+     "point_du_mois_en_bas": true
+    },
+    "demarches": {
+     "en_premier": "La déclaration de succession"
+    },
+    "raisons": [
+     "Période« Presque tout est fait » : période 3.",
+     "Pour aujourd’huiRègle 6 : selon les émotions. La famille la plus urgente choisie est « Peine ».",
+     "EnsuitePuis les lignes de la période 3, filtrées par les besoins cochés. Deux lignes au plus.",
+     "SoutienEn haut, toujours une seule carte : Un groupe de parole (par défaut, pour ne pas rester seul). Jamais le point du mois, jamais Respirer.",
+     "SoutienOrdre des rubriques de la période 3.",
+     "Point du moisÀ partir du 2e mois, tout en bas. Il ne revient chaque mois que s’il est activé.",
+     "DémarchesLa succession en premier, puis les derniers contrats. Une seule carte mise en avant ; « Je suis bloqué » juste en dessous de la liste."
+    ]
+   }
+  },
+  {
+   "scenario": "6 · Quatre mois, anniversaire dans 9 jours",
+   "reponses": {
+    "days": "120",
+    "papiers": "F",
+    "comment": "",
+    "besoins": [
+     "M"
+    ],
+    "emos": [
+     "Manque"
+    ],
+    "flags": [
+     "anniv"
+    ]
+   },
+   "attendu": {
+    "aujourdhui": {
+     "titre": "Bonjour Victor. Son anniversaire approche.",
+     "etiquette": "Dans 9 jours, le 3 octobre",
+     "carte": "Préparer un geste pour elle",
+     "ensuite": [
+      "Ajouter un souvenir d’elle",
+      "La succession"
+     ],
+     "je_suis_bloque": false
+    },
+    "soutien": {
+     "carte_du_haut": "Un groupe de parole",
+     "rubriques": [
+      "Être entouré",
+      "Avancer"
+     ],
+     "point_du_mois_en_bas": true
+    },
+    "demarches": {
+     "en_premier": "La déclaration de succession"
+    },
+    "raisons": [
+     "Période« Presque tout est fait » : période 3.",
+     "Pour aujourd’huiRègle 4 : une date difficile dans les 10 jours.",
+     "EnsuitePremière ligne : l’émotion suivante, « Peine ».",
+     "EnsuitePuis les lignes de la période 3, filtrées par les besoins cochés. Deux lignes au plus.",
+     "SoutienEn haut, toujours une seule carte : Un groupe de parole (par défaut, pour ne pas rester seul). Jamais le point du mois, jamais Respirer.",
+     "SoutienOrdre des rubriques de la période 3.",
+     "Point du moisÀ partir du 2e mois, tout en bas. Il ne revient chaque mois que s’il est activé.",
+     "DémarchesLa succession en premier, puis les derniers contrats. Une seule carte mise en avant ; « Je suis bloqué » juste en dessous de la liste."
+    ]
+   }
+  },
+  {
+   "scenario": "7 · Trois semaines, quelqu'un s'occupe des papiers, en colère et coupable, parler",
+   "reponses": {
+    "days": "21",
+    "papiers": "Q",
+    "comment": "",
+    "besoins": [
+     "P"
+    ],
+    "emos": [
+     "Colère",
+     "Culpabilité"
+    ],
+    "flags": []
+   },
+   "attendu": {
+    "aujourdhui": {
+     "titre": "Bonjour Victor. Ce que vous ressentez est fréquent.",
+     "etiquette": "Pour vous, aujourd’hui",
+     "carte": "Écrire ce qui pèse",
+     "ensuite": [
+      "Claire attend votre signature",
+      "Dire à vos proches ce qui vous aiderait"
+     ],
+     "je_suis_bloque": false
+    },
+    "soutien": {
+     "carte_du_haut": "Dire à vos proches ce qui vous aiderait",
+     "rubriques": [
+      "Être entouré",
+      "Comprendre ce que vous vivez"
+     ],
+     "point_du_mois_en_bas": false
+    },
+    "demarches": {
+     "en_premier": "Signer le mandat pour la banque"
+    },
+    "raisons": [
+     "PériodeDécès il y a 15 jours à 3 mois : période 2.",
+     "Pour aujourd’huiRègle 6 : selon les émotions. La famille la plus urgente choisie est « Colère et culpabilité ».",
+     "EnsuitePuis les lignes de la période 2, filtrées par les besoins cochés. Deux lignes au plus.",
+     "SoutienEn haut, toujours une seule carte : Dire à vos proches ce qui vous aiderait (les 3 premières semaines). Jamais le point du mois, jamais Respirer.",
+     "Soutien« Parler à quelqu’un » coché : en première ligne d’« Être entouré ».",
+     "SoutienOrdre des rubriques de la période 2.",
+     "Point du moisPas avant le 2e mois : il n’apparaît pas.",
+     "DémarchesSeulement ce que la personne choisie vous demande. Une seule carte mise en avant ; « Je suis bloqué » juste en dessous de la liste."
+    ]
+   }
+  },
+  {
+   "scenario": "8 · Six semaines, reprise du travail dans 3 jours",
+   "reponses": {
+    "days": "42",
+    "papiers": "O",
+    "comment": "",
+    "besoins": [
+     "T"
+    ],
+    "emos": [
+     "Fatigue"
+    ],
+    "flags": [
+     "travail"
+    ]
+   },
+   "attendu": {
+    "aujourdhui": {
+     "titre": "Bonjour Victor. On commence par vous.",
+     "etiquette": "Pour vous, aujourd’hui",
+     "carte": "Mieux dormir cette nuit",
+     "ensuite": [
+      "Reprendre le travail lundi",
+      "Ce que le deuil fait au corps"
+     ],
+     "je_suis_bloque": false
+    },
+    "soutien": {
+     "carte_du_haut": "Préparer votre retour lundi",
+     "rubriques": [
+      "Être entouré",
+      "Comprendre ce que vous vivez"
+     ],
+     "point_du_mois_en_bas": true
+    },
+    "demarches": {
+     "en_premier": "Commander l’acte de décès"
+    },
+    "raisons": [
+     "Période« Les obsèques sont passées » : période 2.",
+     "Pour aujourd’huiRègle 6 : selon les émotions. La famille la plus urgente choisie est « Épuisement ».",
+     "EnsuitePuis les lignes de la période 2, filtrées par les besoins cochés. Deux lignes au plus.",
+     "SoutienEn haut, toujours une seule carte : Préparer votre retour lundi (reprise dans 3 jours). Jamais le point du mois, jamais Respirer.",
+     "SoutienOrdre des rubriques de la période 2.",
+     "Point du moisÀ partir du 2e mois, tout en bas. Il ne revient chaque mois que s’il est activé.",
+     "DémarchesCe qu’il reste : l’acte de décès en premier, puis la banque, les organismes. Une seule carte mise en avant ; « Je suis bloqué » juste en dessous de la liste."
+    ]
+   }
+  },
+  {
+   "scenario": "9 · Après 21 h",
+   "reponses": {
+    "days": "42",
+    "papiers": "O",
+    "comment": "",
+    "besoins": [
+     "T"
+    ],
+    "emos": [
+     "Tristesse"
+    ],
+    "flags": [
+     "nuit"
+    ]
+   },
+   "attendu": {
+    "aujourdhui": {
+     "titre": "Bonsoir Victor. Ce soir, seulement du repos.",
+     "etiquette": "Pour ce soir",
+     "carte": "Un son pour s’endormir",
+     "ensuite": [
+      "Écrire à Présence"
+     ],
+     "je_suis_bloque": false
+    },
+    "soutien": {
+     "carte_du_haut": "Un groupe de parole",
+     "rubriques": [
+      "Être entouré",
+      "Comprendre ce que vous vivez"
+     ],
+     "point_du_mois_en_bas": true
+    },
+    "demarches": {
+     "en_premier": "Commander l’acte de décès"
+    },
+    "raisons": [
+     "Période« Les obsèques sont passées » : période 2.",
+     "Aujourd’huiAprès 21 h : seulement du repos, aucune démarche.",
+     "SoutienEn haut, toujours une seule carte : Un groupe de parole (par défaut, pour ne pas rester seul). Jamais le point du mois, jamais Respirer.",
+     "SoutienOrdre des rubriques de la période 2.",
+     "Point du moisÀ partir du 2e mois, tout en bas. Il ne revient chaque mois que s’il est activé.",
+     "DémarchesCe qu’il reste : l’acte de décès en premier, puis la banque, les organismes. Une seule carte mise en avant ; « Je suis bloqué » juste en dessous de la liste."
+    ]
+   }
+  },
+  {
+   "scenario": "10 · Présence a entendu des idées de mort",
+   "reponses": {
+    "days": "21",
+    "papiers": "O",
+    "comment": "",
+    "besoins": [
+     "T"
+    ],
+    "emos": [
+     "Vide"
+    ],
+    "flags": [
+     "danger"
+    ]
+   },
+   "attendu": {
+    "aujourdhui": {
+     "titre": "Vous n’êtes pas seul.",
+     "etiquette": null,
+     "carte": "Appeler le 3114",
+     "ensuite": [
+      "Écrire à Présence"
+     ],
+     "je_suis_bloque": false
+    },
+    "soutien": {
+     "carte_du_haut": "Appeler le 3114",
+     "rubriques": [
+      "Être entouré",
+      "Comprendre ce que vous vivez"
+     ],
+     "point_du_mois_en_bas": false
+    },
+    "demarches": {
+     "en_premier": "Commander l’acte de décès"
+    },
+    "raisons": [
+     "Période« Les obsèques sont passées » : période 2.",
+     "Aujourd’huiRègle 1 : un signal de danger passe avant tout : le 3114.",
+     "SoutienEn haut, toujours une seule carte : Appeler le 3114 (un signal de danger). Jamais le point du mois, jamais Respirer.",
+     "SoutienOrdre des rubriques de la période 2.",
+     "Point du moisPas avant le 2e mois : il n’apparaît pas.",
+     "DémarchesCe qu’il reste : l’acte de décès en premier, puis la banque, les organismes. Une seule carte mise en avant ; « Je suis bloqué » juste en dessous de la liste."
+    ]
+   }
+  },
+  {
+   "scenario": "11 · Quatre mois, se sent seul",
+   "reponses": {
+    "days": "120",
+    "papiers": "F",
+    "comment": "",
+    "besoins": [
+     "T"
+    ],
+    "emos": [
+     "Seul"
+    ],
+    "flags": []
+   },
+   "attendu": {
+    "aujourdhui": {
+     "titre": "Bonjour Victor. Vous n’avez pas à tout porter seul.",
+     "etiquette": "Pour vous, aujourd’hui",
+     "carte": "Un groupe de parole",
+     "ensuite": [
+      "La succession",
+      "Lire, écouter, voir"
+     ],
+     "je_suis_bloque": false
+    },
+    "soutien": {
+     "carte_du_haut": "Un groupe de parole",
+     "rubriques": [
+      "Être entouré",
+      "Avancer"
+     ],
+     "point_du_mois_en_bas": true
+    },
+    "demarches": {
+     "en_premier": "La déclaration de succession"
+    },
+    "raisons": [
+     "Période« Presque tout est fait » : période 3.",
+     "Pour aujourd’huiRègle 6 : selon les émotions. La famille la plus urgente choisie est « Solitude ».",
+     "EnsuitePuis les lignes de la période 3, filtrées par les besoins cochés. Deux lignes au plus.",
+     "SoutienEn haut, toujours une seule carte : Un groupe de parole (par défaut, pour ne pas rester seul). Jamais le point du mois, jamais Respirer.",
+     "SoutienOrdre des rubriques de la période 3.",
+     "Point du moisÀ partir du 2e mois, tout en bas. Il ne revient chaque mois que s’il est activé.",
+     "DémarchesLa succession en premier, puis les derniers contrats. Une seule carte mise en avant ; « Je suis bloqué » juste en dessous de la liste."
+    ]
+   }
+  },
+  {
+   "scenario": "12 · Trois semaines, apaisé, mémoire",
+   "reponses": {
+    "days": "21",
+    "papiers": "O",
+    "comment": "M",
+    "besoins": [
+     "M"
+    ],
+    "emos": [
+     "Apaisé"
+    ],
+    "flags": []
+   },
+   "attendu": {
+    "aujourdhui": {
+     "titre": "Bonjour Victor. Un moment plus calme.",
+     "etiquette": "Pour vous, aujourd’hui",
+     "carte": "Un geste pour elle",
+     "ensuite": [
+      "Dire à vos proches ce qui vous aiderait",
+      "Ajouter un souvenir d’elle"
+     ],
+     "je_suis_bloque": false
+    },
+    "soutien": {
+     "carte_du_haut": "Dire à vos proches ce qui vous aiderait",
+     "rubriques": [
+      "Être entouré",
+      "Comprendre ce que vous vivez"
+     ],
+     "point_du_mois_en_bas": false
+    },
+    "demarches": {
+     "en_premier": "Commander l’acte de décès"
+    },
+    "raisons": [
+     "Période« Les obsèques sont passées » : période 2.",
+     "Pour aujourd’huiRègle 6 : selon les émotions. La famille la plus urgente choisie est « Apaisement ».",
+     "EnsuitePuis les lignes de la période 2, filtrées par les besoins cochés. Deux lignes au plus.",
+     "SoutienEn haut, toujours une seule carte : Dire à vos proches ce qui vous aiderait (les 3 premières semaines). Jamais le point du mois, jamais Respirer.",
+     "SoutienOrdre des rubriques de la période 2.",
+     "Point du moisPas avant le 2e mois : il n’apparaît pas.",
+     "DémarchesCe qu’il reste : l’acte de décès en premier, puis la banque, les organismes. Une seule carte mise en avant ; « Je suis bloqué » juste en dessous de la liste."
+    ]
+   }
+  },
+  {
+   "scenario": "13 · Six semaines, obsèques passées, « tenir le coup » seulement, fatigué et triste (écran E006)",
+   "reponses": {
+    "days": "42",
+    "papiers": "O",
+    "comment": "",
+    "besoins": [
+     "T"
+    ],
+    "emos": [
+     "Fatigue",
+     "Tristesse"
+    ],
+    "flags": []
+   },
+   "attendu": {
+    "aujourdhui": {
+     "titre": "Bonjour Victor. On commence par vous.",
+     "etiquette": "Pour vous, aujourd’hui",
+     "carte": "Mieux dormir cette nuit",
+     "ensuite": [
+      "Écrire une lettre à Anne",
+      "Ce que le deuil fait au corps"
+     ],
+     "je_suis_bloque": false
+    },
+    "soutien": {
+     "carte_du_haut": "Un groupe de parole",
+     "rubriques": [
+      "Être entouré",
+      "Comprendre ce que vous vivez"
+     ],
+     "point_du_mois_en_bas": true
+    },
+    "demarches": {
+     "en_premier": "Commander l’acte de décès"
+    },
+    "raisons": [
+     "Période« Les obsèques sont passées » : période 2.",
+     "Pour aujourd’huiRègle 6 : selon les émotions. La famille la plus urgente choisie est « Épuisement ».",
+     "EnsuitePremière ligne : l’émotion suivante, « Peine ».",
+     "EnsuitePuis les lignes de la période 2, filtrées par les besoins cochés. Deux lignes au plus.",
+     "SoutienEn haut, toujours une seule carte : Un groupe de parole (par défaut, pour ne pas rester seul). Jamais le point du mois, jamais Respirer.",
+     "SoutienOrdre des rubriques de la période 2.",
+     "Point du moisÀ partir du 2e mois, tout en bas. Il ne revient chaque mois que s’il est activé.",
+     "DémarchesCe qu’il reste : l’acte de décès en premier, puis la banque, les organismes. Une seule carte mise en avant ; « Je suis bloqué » juste en dessous de la liste."
+    ]
+   }
+  },
+  {
+   "scenario": "14 · Cinq semaines, échéance proche, fatigué, « parler » (écran E005)",
+   "reponses": {
+    "days": "42",
+    "papiers": "O",
+    "comment": "",
+    "besoins": [
+     "T",
+     "P"
+    ],
+    "emos": [
+     "Fatigue"
+    ],
+    "flags": [
+     "echeance"
+    ]
+   },
+   "attendu": {
+    "aujourdhui": {
+     "titre": "Bonjour Victor. Une démarche a un délai.",
+     "etiquette": "Avant le 8 octobre · dans 5 jours",
+     "carte": "Demander le capital décès",
+     "ensuite": [
+      "Mieux dormir cette nuit",
+      "Voir un psychologue"
+     ],
+     "je_suis_bloque": false
+    },
+    "soutien": {
+     "carte_du_haut": "Voir un psychologue",
+     "rubriques": [
+      "Être entouré",
+      "Comprendre ce que vous vivez"
+     ],
+     "point_du_mois_en_bas": true
+    },
+    "demarches": {
+     "en_premier": "Commander l’acte de décès"
+    },
+    "raisons": [
+     "Période« Les obsèques sont passées » : période 2.",
+     "Pour aujourd’huiRègle 3 : une échéance dans moins de 7 jours.",
+     "EnsuitePremière ligne : l’émotion suivante, « Épuisement ».",
+     "EnsuitePuis les lignes de la période 2, filtrées par les besoins cochés. Deux lignes au plus.",
+     "SoutienEn haut, toujours une seule carte : Voir un psychologue (« parler à quelqu’un » coché). Jamais le point du mois, jamais Respirer.",
+     "Soutien« Parler à quelqu’un » coché : en première ligne d’« Être entouré ».",
+     "SoutienOrdre des rubriques de la période 2.",
+     "Point du moisÀ partir du 2e mois, tout en bas. Il ne revient chaque mois que s’il est activé.",
+     "DémarchesCe qu’il reste : l’acte de décès en premier, puis la banque, les organismes. Une seule carte mise en avant ; « Je suis bloqué » juste en dessous de la liste."
+    ]
+   }
+  }
+ ]
+}

@@ -1,0 +1,419 @@
+{
+ "_lire_moi": "Le moteur qui décide ce qu'affichent Aujourd'hui, Soutien et Démarches. Une seule source de vérité : ce fichier. Implémentation de référence : simulateur-reference.html (fonctions phaseOf, aujourdhui, soutien, demarches).",
+ "entrees": {
+  "type_espace": "personne décédée (ce fichier) ; les autres espaces suivront la même mécanique",
+  "date_deces": "facultative ; jours écoulés = aujourd'hui - date_deces",
+  "papiers": {
+   "R": "Rien n'est commencé",
+   "O": "Les obsèques sont passées",
+   "F": "Presque tout est fait",
+   "Q": "Quelqu'un s'en occupe pour moi",
+   "": "question passée"
+  },
+  "comment": {
+   "S": "Soudainement",
+   "M": "Après une maladie",
+   "": "Je préfère ne pas répondre ou passé"
+  },
+  "besoins": {
+   "T": "Tenir le coup au jour le jour",
+   "D": "Faire les démarches",
+   "P": "Parler à quelqu'un",
+   "M": "Garder sa mémoire"
+  },
+  "emotions_du_jour": "plusieurs possibles, enregistrées chaque jour",
+  "signaux": {
+   "echeance": "une échéance dans moins de 7 jours (echeances.json)",
+   "anniv": "une date difficile dans les 10 jours (Mémoire → ses dates)",
+   "travail": "reprise du travail dans 3 jours ou moins (date donnée dans Soutien)",
+   "fatigue3": "« fatigue » choisie 3 jours de suite",
+   "point": "point du mois activé",
+   "nuit": "il est plus de 21 h",
+   "danger": "Présence a détecté des idées de mort"
+  }
+ },
+ "periodes": [
+  {
+   "periode": 1,
+   "nom": "Les premiers jours",
+   "si": "papiers = R et (pas de date ou moins de 15 jours) ; ou pas de réponse décisive et moins de 15 jours"
+  },
+  {
+   "periode": 2,
+   "nom": "Après les obsèques",
+   "si": "papiers = O (sauf plus de 90 jours → 3) ; ou papiers = R avec plus de 15 jours (demander d'abord si les obsèques ont eu lieu) ; ou 15 à 90 jours ; ou ni date ni réponse"
+  },
+  {
+   "periode": 3,
+   "nom": "Les mois qui suivent",
+   "si": "papiers = F ; ou plus de 90 jours"
+  }
+ ],
+ "aujourdhui": {
+  "structure": [
+   "Titre du jour (une phrase)",
+   "Ligne « Vous vous sentez : … · Modifier »",
+   "Une seule carte bleue",
+   "« Ensuite » : deux lignes au plus",
+   "Période 1 : ligne « Je suis bloqué »",
+   "Champ « Une question ? Écrivez à Présence… »"
+  ],
+  "carte": "la première règle vraie, dans l'ordre",
+  "regles_carte": [
+   {
+    "ordre": 1,
+    "si": "danger",
+    "carte": {
+     "etiquette": "",
+     "titre": "Appeler le 3114",
+     "ligne": "Gratuit, jour et nuit. Quelqu'un vous répond et vous aide.",
+     "bouton": "Appeler",
+     "style": "bordeaux"
+    },
+    "titre_du_jour": "Vous n'êtes pas seul."
+   },
+   {
+    "ordre": 2,
+    "si": "nuit",
+    "carte": {
+     "etiquette": "Pour ce soir",
+     "titre": "Un son pour s'endormir",
+     "ligne": "La pluie, la mer · il s'arrête tout seul.",
+     "bouton": "Écouter"
+    },
+    "titre_du_jour": "Ce soir, seulement du repos.",
+    "ensuite": [
+     "Écrire à Présence"
+    ]
+   },
+   {
+    "ordre": 3,
+    "si": "période 1 et papiers = R",
+    "carte": {
+     "etiquette": "Aujourd'hui",
+     "titre": "Choisir les pompes funèbres",
+     "ligne": "20 minutes · les obsèques ont lieu dans les 14 jours",
+     "bouton": "Voir comment"
+    },
+    "titre_du_jour": "Une seule chose aujourd'hui.",
+    "note": "passe avant les émotions : le délai est obligatoire ; ensuite viennent la cérémonie, puis prévenir les proches"
+   },
+   {
+    "ordre": 4,
+    "si": "échéance dans moins de 7 jours et papiers ≠ Q",
+    "carte": {
+     "etiquette": "Avant le 8 octobre · dans 5 jours",
+     "titre": "Demander le capital décès",
+     "ligne": "10 minutes · le formulaire est déjà rempli",
+     "bouton": "Faire la demande"
+    },
+    "titre_du_jour": "Une démarche a un délai."
+   },
+   {
+    "ordre": 5,
+    "si": "date difficile dans les 10 jours",
+    "carte": {
+     "etiquette": "Dans 9 jours, le 3 octobre",
+     "titre": "Préparer un geste pour elle",
+     "ligne": "seul ou avec vos proches · 3 idées",
+     "bouton": "Voir les idées"
+    },
+    "titre_du_jour": "Son anniversaire approche."
+   },
+   {
+    "ordre": 6,
+    "si": "période 2 et besoin D et papiers ≠ Q",
+    "carte": {
+     "etiquette": "Cette semaine",
+     "titre": "Prévenir la banque",
+     "ligne": "15 minutes · le courrier est prêt",
+     "bouton": "Voir le courrier"
+    },
+    "titre_du_jour": "Une démarche cette semaine.",
+    "note": "la démarche suivante de la liste de Démarches"
+   },
+   {
+    "ordre": 7,
+    "si": "au moins une émotion choisie",
+    "carte": "la proposition principale de la famille la plus urgente (voir emotions)",
+    "titre_du_jour": "celui de la famille"
+   },
+   {
+    "ordre": 8,
+    "si": "sinon",
+    "carte": "période 1 : « Dormir, manger : le minimum » ; besoin P : « Voir un psychologue » ; besoin M : « Ajouter un souvenir d'elle » ; sinon « Écrire 10 minutes »",
+    "titre_du_jour": "Comment allez-vous aujourd'hui ?"
+   }
+  ],
+  "ensuite": {
+   "algorithme": [
+    "1. La première famille d'émotion pas encore utilisée par la carte donne la première ligne.",
+    "2. Puis les lignes de la période, dans l'ordre, si leur condition est vraie.",
+    "3. Puis les autres familles d'émotions choisies.",
+    "4. Puis la ligne par défaut de la période.",
+    "Jamais de doublon avec la carte. Deux lignes au plus. Décès soudain en période 1 : « Dire à vos proches ce qui vous aiderait » passe en premier parmi les lignes de la période.",
+    "Si la carte est une date difficile (règle 5), ne pas ajouter la ligne « Ses dates »."
+   ],
+   "periode_1": [
+    {
+     "si": "3 premières semaines",
+     "ligne": "Dire à vos proches ce qui vous aiderait",
+     "sous": "repas, courses, enfants"
+    },
+    {
+     "si": "papiers = R",
+     "ligne": "Prévenir les proches",
+     "sous": "un seul message, à relire avant"
+    },
+    {
+     "ligne": "Dormir, manger : le minimum",
+     "sous": "2 minutes de lecture"
+    }
+   ],
+   "periode_2": [
+    {
+     "si": "papiers = Q",
+     "ligne": "Claire attend votre signature",
+     "sous": "le mandat pour la banque · 2 minutes"
+    },
+    {
+     "si": "besoin D et papiers ≠ Q",
+     "ligne": "Prévenir la banque",
+     "sous": "15 minutes · courrier prêt"
+    },
+    {
+     "si": "3 premières semaines",
+     "ligne": "Dire à vos proches ce qui vous aiderait",
+     "sous": "repas, courses, enfants"
+    },
+    {
+     "si": "besoin P",
+     "ligne": "Voir un psychologue",
+     "sous": "12 séances remboursées par an"
+    },
+    {
+     "si": "reprise du travail",
+     "ligne": "Reprendre le travail lundi",
+     "sous": "messages prêts, reprise progressive"
+    },
+    {
+     "si": "besoin M",
+     "ligne": "Ajouter un souvenir d'elle",
+     "sous": "une photo, sa voix, une phrase"
+    }
+   ],
+   "periode_3": [
+    {
+     "si": "besoin P",
+     "ligne": "Voir un psychologue",
+     "sous": "12 séances remboursées par an"
+    },
+    {
+     "si": "besoin M",
+     "ligne": "Ses dates",
+     "sous": "anniversaire, date du décès : un rappel la veille"
+    },
+    {
+     "si": "reprise du travail",
+     "ligne": "Reprendre le travail lundi",
+     "sous": "messages prêts, reprise progressive"
+    },
+    {
+     "si": "papiers = F",
+     "ligne": "La succession",
+     "sous": "dernière démarche · avant le 8 mars"
+    },
+    {
+     "si": "besoin M",
+     "ligne": "Ajouter un souvenir d'elle",
+     "sous": "une photo, sa voix, une phrase"
+    }
+   ],
+   "par_defaut": {
+    "1": "Dormir, manger : le minimum",
+    "2": "Ce que le deuil fait au corps",
+    "3": "Lire, écouter, voir"
+   }
+  },
+  "je_suis_bloque": "période 1 seulement : une ligne sous « Ensuite » (pictogramme ? menthe sur cercle vert profond, « Je suis bloqué », « mot de passe, argent, papier introuvable »)"
+ },
+ "emotions": {
+  "liste": [
+   "Sidéré",
+   "Je ne réalise pas",
+   "Angoisse",
+   "Peur",
+   "Fatigue",
+   "Vide",
+   "Seul",
+   "Colère",
+   "Culpabilité",
+   "Tristesse",
+   "Manque",
+   "Apaisé",
+   "Soulagé",
+   "Autre"
+  ],
+  "affichage": {
+   "Sidéré": "sidéré",
+   "Je ne réalise pas": "je ne réalise pas",
+   "Angoisse": "angoissé",
+   "Peur": "j'ai peur",
+   "Fatigue": "fatigué",
+   "Vide": "vide",
+   "Seul": "seul",
+   "Colère": "en colère",
+   "Culpabilité": "coupable",
+   "Tristesse": "triste",
+   "Manque": "elle me manque",
+   "Apaisé": "apaisé",
+   "Soulagé": "soulagé"
+  },
+  "familles_par_priorite": [
+   {
+    "famille": "Angoisse",
+    "emotions": [
+     "Angoisse",
+     "Peur"
+    ],
+    "carte": {
+     "titre": "Apaiser l'angoisse",
+     "ligne": "3 gestes simples · 1 minute",
+     "bouton": "Lire"
+    },
+    "ligne_ensuite": "Apaiser l'angoisse",
+    "titre_du_jour": "Commençons par vous apaiser."
+   },
+   {
+    "famille": "Choc",
+    "emotions": [
+     "Sidéré",
+     "Je ne réalise pas"
+    ],
+    "carte": {
+     "titre": "Demander à un proche de venir",
+     "ligne": "un message prêt à envoyer",
+     "bouton": "Écrire le message"
+    },
+    "ligne_ensuite": "Demander à un proche de venir",
+    "titre_du_jour": "Ne restez pas seul aujourd'hui."
+   },
+   {
+    "famille": "Épuisement",
+    "emotions": [
+     "Fatigue",
+     "Vide"
+    ],
+    "carte": {
+     "titre": "Mieux dormir cette nuit",
+     "ligne": "3 conseils simples · 2 minutes",
+     "bouton": "Lire les conseils"
+    },
+    "ligne_ensuite": "Mieux dormir cette nuit",
+    "titre_du_jour": "On commence par vous."
+   },
+   {
+    "famille": "Solitude",
+    "emotions": [
+     "Seul"
+    ],
+    "carte": "3 premières semaines : « Dire à vos proches ce qui vous aiderait » ; ensuite : « Un groupe de parole »",
+    "titre_du_jour": "Vous n'avez pas à tout porter seul."
+   },
+   {
+    "famille": "Colère et culpabilité",
+    "emotions": [
+     "Colère",
+     "Culpabilité"
+    ],
+    "carte": {
+     "titre": "Écrire ce qui pèse",
+     "ligne": "10 minutes · personne ne le lira",
+     "bouton": "Commencer"
+    },
+    "ligne_ensuite": "Écrire ce qui pèse",
+    "titre_du_jour": "Ce que vous ressentez est fréquent."
+   },
+   {
+    "famille": "Peine",
+    "emotions": [
+     "Tristesse",
+     "Manque"
+    ],
+    "carte": "« Manque » et besoin M : « Ajouter un souvenir d'elle » ; sinon « Écrire une lettre à [prénom] · 10 minutes · personne ne la lira »",
+    "titre_du_jour": "Prenez ce temps pour elle."
+   },
+   {
+    "famille": "Apaisement",
+    "emotions": [
+     "Apaisé",
+     "Soulagé"
+    ],
+    "carte": {
+     "titre": "Un geste pour elle",
+     "ligne": "un rituel simple · moins d'une heure",
+     "bouton": "Voir les idées"
+    },
+    "ligne_ensuite": "Lire, écouter, voir",
+    "titre_du_jour": "Un moment plus calme."
+   }
+  ],
+  "jamais": "Respirer n'est jamais proposé en carte ni en tête de Soutien ; il reste dans « Prendre soin de vous ».",
+  "periode_1": "En période 1, la famille « Choc » passe avant « Angoisse »."
+ },
+ "soutien": {
+  "carte_du_haut": "toujours une, la première vraie : danger → 3114 (bordeaux) ; fatigue 3 jours → « Mieux dormir cette nuit » ; reprise du travail → « Préparer votre retour lundi » ; 3 premières semaines → « Dire à vos proches ce qui vous aiderait » ; besoin P → « Voir un psychologue » ; sinon « Un groupe de parole »",
+  "rubriques": {
+   "1": [
+    "Être entouré",
+    "Tenir ces premiers jours"
+   ],
+   "2": [
+    "Être entouré",
+    "Comprendre ce que vous vivez"
+   ],
+   "3": [
+    "Être entouré",
+    "Avancer"
+   ]
+  },
+  "lignes": "deux par rubrique au plus, jamais la même que la carte du haut",
+  "fin_de_page": [
+   "Champ « Une question ? Écrivez à Présence… »",
+   "Période 2 après le 1er mois et période 3 : « Faire le point sur ce mois » tout à la fin, après Présence"
+  ]
+ },
+ "demarches": {
+  "R": {
+   "en_premier": "Choisir les pompes funèbres",
+   "puis": [
+    "Organiser la cérémonie",
+    "Prévenir les proches"
+   ]
+  },
+  "O": {
+   "en_premier": "Commander l'acte de décès",
+   "puis": [
+    "Prévenir la banque",
+    "Retraite, assurance maladie"
+   ],
+   "lien": "Vos échéances"
+  },
+  "F": {
+   "en_premier": "La déclaration de succession",
+   "puis": [
+    "Résilier les derniers contrats"
+   ]
+  },
+  "Q": {
+   "en_premier": "Claire a besoin de vous : signer le mandat pour la banque",
+   "lien": "Voir toutes les démarches"
+  },
+  "toujours": [
+   "une seule carte « En premier » (lin)",
+   "la liste numérotée",
+   "la ligne « Je suis bloqué » sous la liste",
+   "le champ Présence à la fin"
+  ]
+ }
+}
