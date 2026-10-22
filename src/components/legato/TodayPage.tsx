@@ -13,6 +13,7 @@ import { upcomingForSpaces, type Space } from "@/lib/spaces-store";
 import { useSoutien } from "@/lib/soutien";
 import { usePresenceHistory } from "@/lib/presence-history";
 import { scopedKey } from "@/lib/active-space";
+import { localDay, type EmotionDay } from "@/lib/ajouts5/support-engine";
 
 const EMOTION_LABELS: Partial<Record<Emotion, string>> = { sideration: "Sidéré", anxiete: "Angoisse", peur: "Peur", fatigue: "Fatigue", vide: "Vide", solitude: "Seul", colere: "Colère", culpabilite: "Culpabilité", tristesse: "Tristesse", nostalgie: "Manque", besoin_calme: "Apaisé", soulagement: "Soulagé" };
 const ID_BY_LABEL = Object.fromEntries(Object.entries(EMOTION_LABELS).map(([id, label]) => [label, id])) as Record<string, Emotion>;
@@ -57,6 +58,11 @@ export function TodayPage({ space, header, name, night }: { space?: Space; heade
   const save = () => {
     const values = picked;
     localStorage.setItem(scopedKey("lg.today.emotions"), JSON.stringify({ day: dateKey(now), values }));
+    try {
+      const key = scopedKey("lg.today.emotion-history");
+      const history = JSON.parse(localStorage.getItem(key) ?? "[]") as EmotionDay[];
+      localStorage.setItem(key, JSON.stringify([...history.filter(e => e.day !== localDay(now)), { day: localDay(now), values }].slice(-90)));
+    } catch { /* private history remains local */ }
     setEmotions(values);
     legato.setCurrentEmotions(values.flatMap(label => ID_BY_LABEL[label] ? [ID_BY_LABEL[label]] : []));
     setOpen(false);

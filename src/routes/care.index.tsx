@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { StandardLayout, PageTitle, SectionLabel, Row, Lead, PrimaryButton } from "@/components/legato/ds";
+import { StandardLayout, PageTitle, SectionLabel, Row, Lead } from "@/components/legato/ds";
+import { SupportPage } from "@/components/legato/SupportPage";
 import { useActiveSpace } from "@/lib/use-active-space";
 import { SelfSoutien } from "@/components/legato/SelfSpace";
 
@@ -7,7 +8,7 @@ export const Route = createFileRoute("/care/")({
   head: () => ({
     meta: [
       { title: "Soutien — Legato" },
-      { name: "description", content: "Prendre soin de vous : se confier, respirer, écrire, trouver un professionnel." },
+      { name: "description", content: "Le soutien utile maintenant, adapté aux premiers jours et aux mois qui suivent." },
       { property: "og:title", content: "Soutien — Legato" },
       { property: "og:description", content: "Prendre soin de vous, maintenant." },
       { property: "og:type", content: "website" },
@@ -22,10 +23,10 @@ function Soutien() {
   if (kind === "malade") return <MaladeSoutien />;
   if (kind === "questions") return <SelfSoutien />;
   if (kind === "animal") return <AnimalSoutien name={space?.name ?? "lui"} />;
-  return <SoutienAccueil />;
+  return <SupportPage />;
 }
 
-/** D050 · Soutien, accueil (ajouts-4) */
+/** Ancien accueil D050 conservé sans montage en attendant l’accord de suppression. */
 function SoutienAccueil() {
   return (
     <StandardLayout space="support" title="Soutien" activeTab="/care">
@@ -36,7 +37,7 @@ function SoutienAccueil() {
           <span style={{ fontFamily: "var(--lg-serif)", fontSize: 20, lineHeight: 1.15 }}>Votre point du mois</span>
           <span className="text-[12px]" style={{ color: "var(--sp-sub)" }}>3 questions · 2 min</span>
         </span>
-        <PrimaryButton space="support" to="/care/point" className="!h-10 shrink-0 whitespace-nowrap px-6">Faire le point</PrimaryButton>
+        <Row space="support" title="Faire le point" to="/care/point" last />
       </section>
       <SectionLabel space="support" className="mt-4">Maintenant</SectionLabel>
       <Row space="support" title="Respirer, des sons pour s'apaiser" subtitle="3 minutes, ou toute la nuit" to="/care/sons" />
