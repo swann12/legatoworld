@@ -67,14 +67,14 @@ export function todayPlan(input: TodayInput): TodayPlan {
   };
   let card: TodayAction | undefined;
   let title = rules.aujourdhui.regles_carte[7].titre_du_jour;
-  let used = "";
+  const used = new Set<string>();
   let from = "";
   for (const rule of rules.aujourdhui.regles_carte) {
     const match = [has("danger"), has("nuit"), phase === 1 && c.papiers === "R", has("echeance") && c.papiers !== "Q", has("anniv"), phase === 2 && need("D") && c.papiers !== "Q", families.length > 0, true][rule.ordre - 1];
     if (!match) continue;
     title = rule.titre_du_jour;
     if (typeof rule.carte !== "string") card = action(clean(rule.carte.titre), clean(rule.carte.ligne), rule.carte.bouton, clean(rule.carte.etiquette));
-    if (rule.ordre === 7 && families[0]) { card = mainOf(families[0]); title = families[0].titre_du_jour; used = families[0].famille; }
+    if (rule.ordre === 7 && families[0]) { card = mainOf(families[0]); title = families[0].titre_du_jour; used.add(families[0].famille); }
     if (rule.ordre === 8) card = phase === 1 ? action("Dormir, manger : le minimum", "Ce qui aide vraiment ces premiers jours · 2 minutes de lecture.", "Lire", "Pour vous, aujourd'hui") : need("P") ? action("Prendre rendez-vous avec un psychologue", "12 séances remboursées par an · un message prêt pour prendre rendez-vous.", "Voir comment", "Pour vous, aujourd'hui") : need("M") ? action("Ajouter un souvenir d'elle", "Une photo, sa voix, une phrase · 5 minutes.", "Ajouter", "Pour vous, aujourd'hui") : action("Écrire 10 minutes", "Ce que vous ressentez aujourd'hui. Personne ne le lira.", "Commencer", "Pour vous, aujourd'hui");
     from = rule.ordre === 5 ? "date" : "";
     if (rule.ordre === 3 && card && c.completed?.includes("obseques")) card = c.completed.includes("ceremony") ? action("Prévenir les proches", "un seul message, à relire avant", "Voir le message", "Aujourd'hui") : action("Organiser la cérémonie", "le lieu, la date", "Commencer", "Aujourd'hui");
@@ -85,16 +85,17 @@ export function todayPlan(input: TodayInput): TodayPlan {
   const selected = card ?? action("Écrire 10 minutes");
   const next: TodayAction[] = [];
   const add = (a: TodayAction) => { if (next.length < 2 && a.title !== selected.title && !next.some(x => x.title === a.title)) next.push(a); };
-  const other = families.find(f => f.famille !== used);
-  if (other) { add(rowOf(other)); used = other.famille; }
+  const other = families.find(f => !used.has(f.famille));
+  if (other) { add(rowOf(other)); used.add(other.famille); }
   const period = phase === 1 ? rules.aujourdhui.ensuite.periode_1 : phase === 2 ? rules.aujourdhui.ensuite.periode_2 : rules.aujourdhui.ensuite.periode_3;
   const conditions: Record<string, boolean> = { "3 premières semaines": recent, "papiers = R": c.papiers === "R", "papiers = Q": c.papiers === "Q", "besoin D et papiers ≠ Q": need("D") && c.papiers !== "Q", "besoin P": need("P"), "besoin M": need("M"), "reprise du travail": has("travail"), "papiers = F": c.papiers === "F" };
   for (const row of period) {
     if ("si" in row && typeof row.si === "string" && !conditions[row.si]) continue;
     if (from === "date" && row.ligne === "Ses dates") continue;
-    add(action(clean(row.ligne).replace(/Claire/g, c.helper), clean(row.sous)));
+    const meta = phase === 2 && row.ligne.startsWith("Dire à vos proches") ? "ils choisissent ce qu'ils font" : phase === 3 && row.ligne.includes("travail") ? "les messages prêts, la reprise progressive" : clean(row.sous);
+    add(action(clean(row.ligne).replace(/Claire/g, c.helper), meta));
   }
-  for (const family of families) if (family.famille !== used) add(rowOf(family));
+  for (const family of families) if (!used.has(family.famille)) { add(rowOf(family)); used.add(family.famille); }
   add(action(rules.aujourdhui.ensuite.par_defaut[String(phase) as "1" | "2" | "3"], phase === 2 ? "fatigue, gorge serrée : c'est fréquent" : phase === 1 ? "2 minutes de lecture" : "ce que d'autres en ont dit"));
   const danger = has("danger"), night = !danger && has("nuit");
   return { phase, title: danger ? title : `${night ? "Bonsoir" : "Bonjour"}${c.name ? ` ${c.name}` : ""}. ${title}`, feelings: c.emos.map(e => (rules.emotions.affichage as Record<string, string>)[e] ?? e.toLowerCase()).map(clean).join(", "), card: selected, next: danger || night ? [action("Écrire à Présence", night ? "si vous ne dormez pas" : "elle vous écoute et vous oriente")] : next, blocked: phase === 1 && !danger && !night, night, danger, confirmFuneral: c.papiers === "R" && d !== null && d >= 15 };
