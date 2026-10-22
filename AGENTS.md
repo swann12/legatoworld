@@ -5,6 +5,7 @@
 - Onboarding keeps animal body answers on the created space and derives its kind through space-navigation. Why: navigation follows the selected space rather than another space's onboarding answers.
 - Header wordmarks use ds/LegatoLogo with the supplied day/night assets. Why: every header shares the exact same source images and size.
 - Discovery stays local; conversion archives only allowlisted app keys under authenticated RLS. Why: no visitor content leaves the device.
+- Discovery restart clears allowlisted visitor content and reloads providers; progress is recorded centrally by DiscoverySession. Why: removed storage must not leave stale in-memory answers, while resume preserves content.
 - DiscoverySession owns the identity listener; conversion completes only after validated sign-in, keeping local content until archive save. Why: failed transfers must not lose visitor work.
 - DS children without an explicit space inherit layout tokens. Why: nested elements must not reset the page palette to Today.
 - /onboarding, /onboarding/practical and /onboarding/care share `src/lib/onboarding-flow.ts` answers, mapped to legato-state on completion. Why: one source of truth.

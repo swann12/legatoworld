@@ -2,7 +2,7 @@ import { type ReactNode, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { supabase } from "@/integrations/supabase/client";
-import { collectDiscoveryContent, finishDiscoveryAccount, getDiscovery, isDiscoveryContentKey, useDiscovery } from "@/lib/discovery";
+import { collectDiscoveryContent, finishDiscoveryAccount, getDiscovery, isDiscoveryContentKey, rememberDiscoveryTarget, useDiscovery } from "@/lib/discovery";
 import { getDiscoveryArchive, saveDiscoveryArchive } from "@/lib/discovery.functions";
 import { TextLink } from "./ds";
 
@@ -16,11 +16,12 @@ export function DiscoveryBanner() {
 /** One identity subscriber; copying only app content never includes credentials. */
 export function DiscoverySession({ children }: { children: ReactNode }) {
   const nav = useNavigate();
-  const { pathname } = useLocation();
+  const { pathname, searchStr } = useLocation();
   const { active } = useDiscovery();
   const save = useServerFn(saveDiscoveryArchive);
   const read = useServerFn(getDiscoveryArchive);
   const [error, setError] = useState("");
+  useEffect(() => { rememberDiscoveryTarget(pathname + searchStr); }, [pathname, searchStr]);
   useEffect(() => {
     let running = false;
     const resume = async () => {
