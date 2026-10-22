@@ -1,5 +1,11 @@
 # Reprise UX/UI Legato
 
+## Ajouts-5 E001–E003
+- [x] Question facultative après le prénom pour personne décédée, réponse conservée dans l’espace ; parcours jusqu’à Aujourd’hui vérifié.
+- [x] Choix multiple de 14 émotions, conservation quotidienne par espace et adjectifs sur Aujourd’hui ; modification et relecture après rechargement vérifiées, quatre tests passent.
+- [x] E003 Recommencer / Reprendre testé : reprise des émotions, puis effacement des réponses ; huit tests découverte passent.
+- [ ] Fidélité exacte E001–E003 : 02-ECRANS.md, maquettes.html et captures Ajouts-5 absents des documents accessibles ; mise en page fondée sur les règles et le système existant.
+
 ## Ajouts-5 §1
 - [x] Polices fournies locales, préchargement et attente pendant l’ouverture.
 - [x] Navigation vert profond indépendante des palettes.

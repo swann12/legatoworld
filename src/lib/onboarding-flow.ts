@@ -5,6 +5,7 @@ export type ForWhom = "personne" | "animal" | "malade" | "moi";
 export type Need = "tenir" | "demarches" | "parler" | "memoire" | "enfant" | "rdv" | "droits" | "aidants";
 export type CareState = "hopital" | "maison" | "palliatif" | "incertain";
 export type PapersState = "rien" | "obseques" | "presque" | "delegue";
+export type DeathCircumstance = "S" | "M" | "";
 import type { AnimalBodyState } from "./space-navigation";
 
 const K = { forWhom: "lg.onb.forWhom", needs: "lg.onb.needs", papers: "lg.onb.papers", deathDate: "lg.onb.deathDate" };
@@ -26,6 +27,11 @@ export const getPapers = () => read<PapersState | null>(K.papers, null);
 export const setPapers = (v: PapersState | null) => write(K.papers, v);
 export const getDeathDate = () => read<string | null>(K.deathDate, null);
 export const setDeathDate = (v: string | null) => write(K.deathDate, v || null);
+export const getDeathCircumstance = (): DeathCircumstance => {
+  const value = read<string>("lg.onb.comment", "");
+  return value === "S" || value === "M" ? value : "";
+};
+export const setDeathCircumstance = (value: DeathCircumstance) => write("lg.onb.comment", value);
 export const getAnimalBodyState = () => read<AnimalBodyState | null>("lg.onb.animalBody", null);
 export const setAnimalBodyState = (v: AnimalBodyState | null) => write("lg.onb.animalBody", v);
 

@@ -26,6 +26,7 @@ export type Space = {
   relation: Relation | null;
   birthday?: string | null;  // ISO YYYY-MM-DD
   deathDate?: string | null; // ISO YYYY-MM-DD
+  deathCircumstance?: import("./onboarding-flow").DeathCircumstance;
   note?: string;
   customDates: SpaceDate[];
   archived: boolean;
@@ -119,6 +120,7 @@ export function useSpaces() {
       animalBodyState: input.animalBodyState,
       birthday: input.birthday ?? null,
       deathDate: input.deathDate ?? null,
+      deathCircumstance: input.deathCircumstance,
       note: input.note ?? "",
       customDates: input.customDates ?? [],
       archived: false,

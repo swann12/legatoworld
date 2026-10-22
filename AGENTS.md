@@ -29,4 +29,5 @@
 - Local-only data: `self-space.ts`, `soutien.ts`, coffre rules in pure tested `coffre.ts`. Why: sensitive personal content stays on the phone.
 - `moteur-legato.ts` owns all phase, Today, Support and Practical selection; ajouts5 engine files only re-export compatibility APIs. Why: one pure module and the supplied JSON remain the source of truth, with fourteen full-scenario regression tests.
 - Daily emotion history remains space-scoped on the device and its fatigue signal is computed by the common engine. Why: consecutive days can be detected without sharing personal content.
+- E001 uses onboarding-flow's typed death circumstance and persists it on the created space; E002 uses shared EmotionChoices and daily-emotions storage. Why: both entry points retain all fourteen choices without leaking another space's answers.
 - Main StandardLayout screens append the shared in-flow PresenceField; Today and Support place it explicitly before their dialogs/monthly section, and the painted garden adds it outside the image. Why: one consistent entry without floating buttons or altered plot geometry.
