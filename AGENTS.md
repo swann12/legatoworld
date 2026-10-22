@@ -1,8 +1,9 @@
 - New screens use `src/components/legato/ds/` and its Standard/Question/Experience layouts; `space` maps to `.lg-space-*` variables in styles.css, never page colors. Why: central, themable space palettes.
 - Global nav is `ds/BottomNav`, with labels/visibility from `space-navigation` and independent nav tokens. Why: page and journey palettes must never recolor navigation.
+- BottomNav uses explicit tab selection independent of ancestor Link matching, preloads its destinations and opens the active memory space; the painted overview stays reachable from that space. Why: one selected tab and direct access without removing parcels.
 - Opening and Welcome share `waitForLegatoFonts`; supplied fonts are served locally and preloaded in the root head. Why: visible entry text must not switch fonts after appearing.
 - JourneyTheme applies space-kind palette overrides to DS tokens; emergency screens retain their separate colors. Why: explicit DS descendants must not reset the active journey palette.
-- Onboarding keeps animal body answers on the created space and derives its kind through space-navigation. Why: navigation follows the selected space rather than another space's onboarding answers.
+- Onboarding and legacy space initialization persist the chosen kind and its animal/care answers; principal screens wait for space hydration before choosing a journey. Why: emotion returns and page remounts must not briefly render bereavement for other journeys.
 - Header wordmarks use ds/LegatoLogo with the supplied day/night assets. Why: every header shares the exact same source images and size.
 - Discovery stays local; conversion archives only allowlisted app keys under authenticated RLS. Why: no visitor content leaves the device.
 - Discovery restart clears allowlisted visitor content and reloads providers; progress is recorded centrally by DiscoverySession. Why: removed storage must not leave stale in-memory answers, while resume preserves content.

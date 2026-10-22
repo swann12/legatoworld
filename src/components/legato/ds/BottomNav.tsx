@@ -1,32 +1,33 @@
 import { Link, useLocation } from "@tanstack/react-router";
 import { Sun, Heart, ListChecks, Sprout, Users } from "lucide-react";
 import { useActiveSpace } from "@/lib/use-active-space";
-import { showPracticalTab, spaceTabLabels } from "@/lib/space-navigation";
+import { MEMORY_ENTRY_PATH, showPracticalTab, spaceTabLabels } from "@/lib/space-navigation";
 
 const TABS = [
   { to: "/home", label: "Aujourd'hui", Icon: Sun, match: (p: string) => p.startsWith("/home") },
   { to: "/care", label: "Soutien", Icon: Heart, match: (p: string) => p.startsWith("/help") || p.startsWith("/presence") || p.startsWith("/library") || p.startsWith("/appointments") || p === "/no-words" || (p.startsWith("/care") && !p.startsWith("/care/garden") && !p.startsWith("/care/community") && !p.startsWith("/care/rituels") && !p.startsWith("/care/dates")) },
   { to: "/practical", label: "Démarches", Icon: ListChecks, match: (p: string) => p.startsWith("/practical") || p.startsWith("/agenda") },
-  { to: "/care/garden", label: "Mémoire", Icon: Sprout, match: (p: string) => p.startsWith("/care/garden") || p.startsWith("/care/rituels") || p.startsWith("/care/dates") || p.startsWith("/compose") || p === "/profile/portrait" },
+  { to: MEMORY_ENTRY_PATH, label: "Mémoire", Icon: Sprout, match: (p: string) => p.startsWith("/care/garden") || p.startsWith("/care/rituels") || p.startsWith("/care/dates") || p.startsWith("/compose") || p === "/profile/portrait" },
   { to: "/care/community", label: "Communauté", Icon: Users, match: (p: string) => p.startsWith("/care/community") },
 ] as const;
 
 /** Barre flottante à 5 onglets (§6). `night` pour le mode nuit. */
 export function BottomNav({ night = false, active, fixed = true }: { night?: boolean; active?: string; fixed?: boolean }) {
   const { pathname } = useLocation();
-  const { kind, space } = useActiveSpace();
+  const { kind, space, hydrated } = useActiveSpace();
   const labels = spaceTabLabels(kind);
   const tabs = TABS.filter(t => t.to !== "/practical" || showPracticalTab(kind, space?.animalBodyState));
   const current = active ?? pathname;
+  if (!hydrated) return null;
   return (
     <nav aria-label="Navigation principale"
       className={`lg-bottom-nav ${fixed ? "fixed inset-x-4 bottom-5 z-40 mx-auto max-w-[398px]" : "relative w-full"} flex h-[60px] items-center justify-between rounded-[30px] px-1.5`}>
       {tabs.map(({ to, label: original, Icon, match }) => {
-        const label = to === "/practical" ? labels.practical : to === "/care/garden" ? labels.memory : original;
-        const on = active ? active === to : match(current);
+        const label = to === "/practical" ? labels.practical : to === "/care/garden/space" ? labels.memory : original;
+        const on = active ? match(active) : match(current);
         return (
-          <Link key={to} to={to} aria-label={label} aria-current={on ? "page" : undefined}
-            className="flex h-12 min-w-11 items-center justify-center gap-2 rounded-full px-3 text-[14px] transition-all"
+          <Link key={to} to={to} preload="render" activeOptions={{ exact: true }} aria-label={label} aria-current={on ? "page" : undefined} data-tab-selected={on ? "true" : "false"}
+            className="flex h-12 min-w-11 items-center justify-center gap-2 rounded-full px-3 text-[14px]"
             style={{
               fontFamily: "var(--lg-sans)",
               opacity: on ? 1 : 0.75,

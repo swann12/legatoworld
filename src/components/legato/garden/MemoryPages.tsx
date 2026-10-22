@@ -12,6 +12,7 @@ import { memoryDate,memoryKind } from '@/lib/memory-garden';
 import { scopedKey } from '@/lib/active-space';
 import { usePortrait,portraitLabels } from '@/lib/portrait-store';
 import { useMemoryPerson } from '@/components/legato/MemoryUI';
+import { useActiveSpace } from '@/lib/use-active-space';
 import './garden.css';
 export function GardenShell({children,back='/care/garden/space',backLabel='Mémoire'}:{children:ReactNode;back?:string;backLabel?:string}){
  return <StandardLayout space="memory" back={back} backLabel={backLabel} activeTab="/care/garden" className="garden-d5">{children}</StandardLayout>;
@@ -22,16 +23,17 @@ export function Photo({memory,className=''}:{memory?:GardenMemory;className?:str
 const titleOf=(m:GardenMemory)=>m.title||m.body?.slice(0,70)||memoryKind(m);
 export function GardenHome(){
  const g=useGarden();const latest=g.memories[0];
+ const {kind}=useActiveSpace();const animal=kind==='animal';
  return <StandardLayout space="memory" title="Mémoire" activeTab="/care/garden" className="garden-d5">
   <PageTitle className="gd-title">Le jardin<br/> {g.person?.relation==='conjoint'?'de ':/^[aeiouyàâéèêh]/i.test(g.name)?"d'":"de "}<em>{g.person?.relation==='conjoint'?'mon amour':g.name}.</em></PageTitle>
   <Lead className="gd-lead">{g.memories.length?`${g.memories.length} souvenirs · le dernier ajouté ${new Date(latest.createdAt).toLocaleDateString('fr-FR')}${latest.author?` par ${latest.author}`:''}.`:'Son jardin attend le premier souvenir.'}</Lead>
   {latest&&<Link className="gd-latest" to="/care/garden/souvenirs/$id" params={{id:latest.id}} search={{type:undefined}}><Photo memory={latest}/><span><span className="gd-tag block">Dernier souvenir</span><span className="gd-name block mt-1">{titleOf(latest)}</span><span className="gd-sub block mt-1">{memoryKind(latest).toLowerCase()} · {memoryDate(latest)}</span></span><ChevronRight size={14}/></Link>}
   <Row className="gd-row" n={1} icon="arrow" title="Tous ses souvenirs" subtitle="Photos, voix, lettres, lieux" to="/care/garden/souvenirs"/>
   <Row className="gd-row" n={2} icon="arrow" title="Ajouter un souvenir" subtitle="Une photo, sa voix, une phrase, un lieu" to="/care/garden/ajouter"/>
-  <Row className="gd-row" n={3} icon="arrow" title="Son portrait" subtitle="Qui elle était, ce qu'elle aimait" to="/care/garden/portrait"/>
+  <Row className="gd-row" n={3} icon="arrow" title="Son portrait" subtitle={animal?"Qui il était, ce qu'il aimait":"Qui elle était, ce qu'elle aimait"} to="/care/garden/portrait"/>
   <Row className="gd-row" n={4} icon="arrow" title="Avec vos proches" subtitle={g.pending.length?`${g.pending.length} souvenirs à regarder`:'Les souvenirs de votre cercle'} to="/care/garden/proches"/>
-  <Row className="gd-row" n={5} icon="arrow" title="Un livre pour elle" subtitle="Ses souvenirs, imprimés" to="/care/garden/livre"/>
-  <div className="gd-actions"><TextLink to="/care/garden/dates">Ses dates</TextLink><TextLink to="/care/rituels">Un geste pour elle</TextLink></div>
+  <Row className="gd-row" n={5} icon="arrow" title={animal?"Un livre pour lui":"Un livre pour elle"} subtitle="Ses souvenirs, imprimés" to="/care/garden/livre"/>
+  <div className="gd-actions"><TextLink to="/care/garden/dates">Ses dates</TextLink><TextLink to="/care/rituels">{animal?"Un geste pour lui":"Un geste pour elle"}</TextLink></div>
   {g.error&&<p role="alert" className="gd-sub mt-4">{g.error}</p>}
   <MemoryExtras><TextLink to="/care/garden">Revenir aux parcelles</TextLink><div className="gd-actions"><TextLink to="/care/garden/depot">L’atelier de composition</TextLink><TextLink to="/care/garden/histoires">Ses histoires</TextLink><TextLink to="/care/garden/recettes">Ses recettes</TextLink><TextLink to="/home/ses-affaires">Ses affaires</TextLink></div></MemoryExtras>
  </StandardLayout>;

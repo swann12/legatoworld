@@ -1,7 +1,7 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 
-// La mémoire EST le jardin. On évite la page anecdotique : redirection nette.
+// Les anciennes entrées mémoire ouvrent l'espace personnel, pas les parcelles.
 export const Route = createFileRoute("/care/memory")({
-  beforeLoad: () => { throw redirect({ to: "/care/garden" }); },
+  beforeLoad: () => { throw redirect({ to: "/care/garden/space" }); },
   component: () => null,
 });

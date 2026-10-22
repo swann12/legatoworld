@@ -15,6 +15,8 @@ import { getDiscovery, useDiscovery } from "@/lib/discovery";
 import { useCarnet } from "@/lib/carnet";
 import { upcoming, dayName, hour, cap } from "@/lib/carnet-model";
 import { useSelf, prepareSummary } from "@/lib/self-space";
+import { MEMORY_ENTRY_PATH } from "@/lib/space-navigation";
+import { loadTodayEmotions, emotionIds } from "@/lib/daily-emotions";
 
 
 
@@ -35,11 +37,13 @@ export const Route = createFileRoute("/home/")({
 function Today() {
   const { active: discovery } = useDiscovery();
   const { lovedOneName, currentEmotions, name: localName } = useLegato();
-  const { spaces } = useSpaces();
+  const { spaces, hydrated } = useSpaces();
   const activeId = useActiveSpaceId();
   const { events } = useAgenda();
   const [night, setNight] = useState(false);
   const [first, setFirst] = useState("");
+  const [dailyEmotions, setDailyEmotions] = useState<Emotion[]>([]);
+  useEffect(() => { if (hydrated) setDailyEmotions(emotionIds(loadTodayEmotions())); }, [hydrated, activeId]);
 
 
   useEffect(() => {
@@ -66,6 +70,8 @@ function Today() {
   const kind: SpaceKind = active ? spaceKind(active) : "deuil";
   const nightOn = night && getSpacePrefs(active?.id).nuit;
 
+  if (!hydrated) return null;
+
   if (kind === "deuil") return <TodayPage space={active ? { ...active, deathDate: active.deathDate ?? getDeathDate() } : undefined} header={header} name={who} night={nightOn} />;
 
   if (nightOn) {
@@ -84,9 +90,9 @@ function Today() {
     );
   }
 
-  if (kind === "malade" && active) return <MaladeHome space={active} header={header} emotions={currentEmotions} />;
-  if (kind === "questions" && active) return <SelfHome header={header} who={who} emotions={currentEmotions} />;
-  if (active) return <KindHome kind={kind} space={active} header={header} emotions={currentEmotions} />;
+  if (kind === "malade" && active) return <MaladeHome space={active} header={header} emotions={dailyEmotions} />;
+  if (kind === "questions" && active) return <SelfHome header={header} who={who} emotions={dailyEmotions} />;
+  if (active) return <KindHome kind={kind} space={active} header={header} emotions={dailyEmotions} />;
 
   return null;
 }
@@ -122,7 +128,7 @@ function variantFor(kind: SpaceKind, space: Space): Variant {
       label: "Pour aujourd'hui",
       blockTitle: atVet ? "Choisir sa crémation ou son enterrement" : "Rassembler ses photos préférées",
       meta: atVet ? "10 minutes · il est encore chez le vétérinaire" : "15 minutes · pour garder sa trace",
-      cta: atVet ? "Voir les possibilités" : "Commencer", to: atVet ? "/practical/animal-body" : "/care/garden",
+      cta: atVet ? "Voir les possibilités" : "Commencer", to: atVet ? "/practical/animal-body" : MEMORY_ENTRY_PATH,
       rows: [
         ...(papersHidden ? [] : [{ title: "Cette semaine", subtitle: `${left} démarches, rien d'urgent`, to: "/practical" }]),
         { title: "Si vous vous sentez coupable", subtitle: "C'est très fréquent, surtout après une euthanasie", to: "/care/guilt" },

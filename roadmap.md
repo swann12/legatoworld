@@ -1,5 +1,15 @@
 # Reprise UX/UI Legato
 
+## Régression des quatre parcours — priorité 22 octobre
+- [x] Corriger l’affichage prématuré deuil, conserver le type et les réponses animal/malade ; quatre parcours complets, émotions puis cinq onglets et rechargement vérifiés ; quatre tests de régression passent.
+- [x] Mémoire / Souvenirs / Transmettre ouvrent Space pour les quatre parcours ; alias mémoire et carte photos animal corrigés ; parcelles conservées.
+
+## Vérifications ordonnées et menu — 22 octobre
+- [x] 14 scénarios du moteur passent ; six situations 1, 3, 5, 7, 8, 10 : résultats des trois accueils comparés au simulateur et 18 captures produites.
+- [x] Bienvenue dans les polices locales chargées, navigation verte dans les quatre parcours et nouvelle découverte vide vérifiées.
+- [x] Double sélection corrigée, destinations préchargées, entrée Mémoire sur Space.
+- [x] Six situations comparées : carte unique, aucun Respirer en carte et point mensuel après Présence ; 18 comparaisons produites. Vérification exhaustive de tous les écrans non certifiée.
+
 ## Ajouts-5 E001–E003
 - [x] Question facultative après le prénom pour personne décédée, réponse conservée dans l’espace ; parcours jusqu’à Aujourd’hui vérifié.
 - [x] Choix multiple de 14 émotions, conservation quotidienne par espace et adjectifs sur Aujourd’hui ; modification et relecture après rechargement vérifiées, quatre tests passent.

@@ -1,7 +1,10 @@
 import { describe, expect, it } from "bun:test";
-import { kindForWhom, showPracticalTab, spaceTabLabels } from "./space-navigation";
+import { MEMORY_ENTRY_PATH, kindForWhom, showPracticalTab, spaceTabLabels } from "./space-navigation";
 
 describe("les quatre espaces", () => {
+  it("Mémoire ouvre d'abord la page Space", () => {
+    expect(MEMORY_ENTRY_PATH).toBe("/care/garden/space");
+  });
   it("conserve les quatre types choisis", () => {
     expect(["personne", "animal", "malade", "moi"].map(w => kindForWhom(w as "personne" | "animal" | "malade" | "moi"))).toEqual(["deuil", "animal", "malade", "questions"]);
   });

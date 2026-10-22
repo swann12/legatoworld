@@ -12,7 +12,8 @@ import { SelfTransmettre } from "@/components/legato/SelfSpace";
 import { GardenHome } from "@/components/legato/garden/MemoryPages";
 export const Route = createFileRoute("/care/garden/space")({ head: () => legatoHead("Le jardin de votre proche", "Un espace pour garder ses photos, sa voix, ses lettres et ses lieux."), component: MemorySpace });
 function MemorySpace() {
-  const { kind } = useActiveSpace();
+  const { kind, hydrated } = useActiveSpace();
+  if (!hydrated) return null;
   if (kind === "malade") return <MaladeSouvenirs />;
   if (kind === "questions") return <SelfTransmettre />;
   return <GardenHome />;

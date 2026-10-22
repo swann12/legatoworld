@@ -1,8 +1,11 @@
 import rules from "./ajouts5/regles-aujourdhui-soutien-demarches.json";
 import { scopedKey } from "./active-space";
 import { localDay, type EmotionDay } from "./moteur-legato";
+import type { Emotion } from "./legato-state";
 export const emotionChoices = rules.emotions.liste;
 export const validEmotions = (values: string[]) => emotionChoices.filter(value => values.includes(value));
+const IDS: Record<string, Emotion> = { "Sidéré": "sideration", "Je ne réalise pas": "sideration", "Angoisse": "anxiete", "Peur": "peur", "Fatigue": "fatigue", "Vide": "vide", "Seul": "solitude", "Colère": "colere", "Culpabilité": "culpabilite", "Tristesse": "tristesse", "Manque": "nostalgie", "Apaisé": "besoin_calme", "Soulagé": "soulagement" };
+export const emotionIds = (values: string[]): Emotion[] => [...new Set(validEmotions(values).flatMap(value => IDS[value] ? [IDS[value]] : []))];
 export function readDailyEmotions(storage: Pick<Storage, "getItem">, key: string, now: Date): string[] {
   try {
     const saved = JSON.parse(storage.getItem(key) ?? "null") as EmotionDay | null;
