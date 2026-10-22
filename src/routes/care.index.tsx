@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { StandardLayout, PageTitle, SectionLabel, Row, Lead } from "@/components/legato/ds";
+import { StandardLayout, PageTitle, SectionLabel, Row, Lead, PrimaryButton } from "@/components/legato/ds";
 import { SupportPage } from "@/components/legato/SupportPage";
 import { useActiveSpace } from "@/lib/use-active-space";
 import { SelfSoutien } from "@/components/legato/SelfSpace";
@@ -37,7 +37,7 @@ function SoutienAccueil() {
           <span style={{ fontFamily: "var(--lg-serif)", fontSize: 20, lineHeight: 1.15 }}>Votre point du mois</span>
           <span className="text-[12px]" style={{ color: "var(--sp-sub)" }}>3 questions · 2 min</span>
         </span>
-        <Row space="support" title="Faire le point" to="/care/point" last />
+        <PrimaryButton space="support" to="/care/point" className="!h-10 shrink-0 whitespace-nowrap px-6">Faire le point</PrimaryButton>
       </section>
       <SectionLabel space="support" className="mt-4">Maintenant</SectionLabel>
       <Row space="support" title="Respirer, des sons pour s'apaiser" subtitle="3 minutes, ou toute la nuit" to="/care/sons" />

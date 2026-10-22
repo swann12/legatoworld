@@ -9,7 +9,6 @@
 - [x] Moteur issu du JSON et structure §4 ; 14 scénarios conformes, E004–E008 vérifiés à 390 px avec réponses et dates identiques ; émotions modifiées et relues après rechargement.
 - [x] Retirer les éléments hors structure demandés : Inviter un proche seul, Cette semaine, ancienne ligne date, introduction et propositions anciennes ; pages conservées.
 
-## Étape D5 — Mémoire approfondie
 ## Ajouts-5 Soutien
 - [ ] Refaire l’accueil selon §6 et le moteur, tester les 14 scénarios et la fin de page.
 

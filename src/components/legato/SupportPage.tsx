@@ -25,7 +25,10 @@ export function SupportPage() {
     if (legato.currentEmotionAt && localDay(new Date(legato.currentEmotionAt)) === localDay(now)) {
       emotions = [...emotions.filter(e => e.day !== localDay(now)), { day: localDay(now), values: legato.currentEmotions.includes("fatigue") ? ["Fatigue"] : [] }];
     }
-    setInput({ days, papiers: papersCode(getPapers()), besoins: getNeeds().map(n => ({ tenir: "T", demarches: "D", parler: "P", memoire: "M" })[n]), fatigue: fatigueThreeDays(emotions, now) });
+    setInput({ days, papiers: papersCode(getPapers()), besoins: getNeeds().flatMap(n => {
+      const code = ({ tenir: "T", demarches: "D", parler: "P", memoire: "M" } as Record<string, string>)[n];
+      return code ? [code] : [];
+    }), fatigue: fatigueThreeDays(emotions, now) });
   }, [legato.hydrated, legato.currentEmotionAt, space?.id, space?.deathDate]);
   if (!input) return <StandardLayout space="support" title="Soutien" activeTab="/care"><div aria-busy="true" /></StandardLayout>;
   const danger = legato.currentEmotions.includes("besoin_aide") || history.slice(-2).some(m => m.cards?.some(c => c.href === "tel:3114"));
@@ -42,7 +45,7 @@ export function SupportPage() {
       {section.rows.map((a, i) => <Row key={a.title} title={a.title} subtitle={a.meta} to={a.to} last={i === section.rows.length - 1} />)}
     </section>)}
     {/* Existing pages remain accessible, without promoting breathing or a second card. */}
-    <details className="lg-support-extras"><summary>Autres pages</summary><Row title="Écrire" subtitle="Journal et lettres" to="/care/journal" /><Row title="Lire, écouter, voir" to="/care/resources" /><Row title="Prendre soin de vous" subtitle="Respirer, sons, professionnels" to="/care/sons" /><Row title="Trouver un professionnel" to="/care/help" last /></details>
+    <details className="lg-support-extras"><summary>Autres pages</summary><Row title="Écrire" subtitle="Journal et lettres" to="/care/journal" /><Row title="Lire, écouter, voir" to="/care/resources" /><Row title="Les sons" to="/care/sons" /><Row title="Prendre soin de vous" subtitle="Respirer, se poser" to="/care/respirer" /><Row title="Parler à quelqu'un" to="/care/parler" /><Row title="Trouver un professionnel" to="/care/help" last /></details>
     <Link to="/presence" className="lg-today-presence"><span>Une question ? Écrivez à Présence…</span><span><ArrowRight size={16} strokeWidth={1.3} /></span></Link>
     {plan.monthly && <section className="lg-support-monthly"><h2>Faire le point sur ce mois</h2><p>Trois questions, si vous le souhaitez.</p><OutlineButton to="/care/point">Commencer</OutlineButton></section>}
   </StandardLayout>;
