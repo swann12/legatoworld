@@ -10,9 +10,9 @@
 - [x] Retirer les éléments hors structure demandés : Inviter un proche seul, Cette semaine, ancienne ligne date, introduction et propositions anciennes ; pages conservées.
 
 ## Ajouts-5 Démarches et cinq accueils
-- [ ] Réunir la logique dans un module moteur-legato, sans nouvelles modifications d’écran ; vérifier les 14 situations complètes du simulateur.
-- [ ] Refaire les quatre réponses papiers, ajouter Présence en fin des cinq accueils et retirer ses boutons flottants.
-- [ ] Vérifier une seule carte principale et au plus un encart beige sur chaque accueil.
+- [x] Réunir la logique dans moteur-legato, sans nouvelles modifications d’écran ; 14 situations complètes et 35 combinaisons de limites comparées au simulateur.
+- [x] Refaire les quatre réponses papiers, ajouter Présence en fin des cinq accueils et retirer ses boutons flottants ; parcours deuil et quatre liens principaux ouverts.
+- [ ] Audit complet des variantes : les accueils deuil ont été vérifiés ; les autres types nécessitent une nouvelle vérification après affichage réel du contenu. Retouches d’écran suspendues à la demande « Ne touche pas encore aux écrans ».
 
 ## Ajouts-5 Soutien
 - [x] Accueil deuil §6 branché au moteur : 14 scénarios et 4 règles ciblées passent ; E009–E011 ouverts, liste d’aide et point mensuel jusqu’au résultat vérifiés ; Présence précède le point final. Anciennes pages conservées.
