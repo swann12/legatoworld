@@ -2,12 +2,13 @@ import { useEffect, useState, type ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, ChevronRight, HelpCircle } from "lucide-react";
 import { StandardLayout, PrimaryButton, Row, TextLink } from "./ds";
-import { Button } from "@/components/ui/button";
+import { EmotionChoices } from "./EmotionChoices";
+import { loadTodayEmotions, saveTodayEmotions } from "@/lib/daily-emotions";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { todayPlan, papersCode } from "@/lib/ajouts5/today-engine";
 import rules from "@/lib/ajouts5/regles-aujourdhui-soutien-demarches.json";
 import { useLegato, type Emotion } from "@/lib/legato-state";
-import { getPapers, getNeeds, getPapersHelper, getDeathDate } from "@/lib/onboarding-flow";
+import { getPapers, getNeeds, getPapersHelper, getDeathDate, getDeathCircumstance } from "@/lib/onboarding-flow";
 import { useAgenda, daysAway } from "@/lib/agenda-store";
 import { upcomingForSpaces, type Space } from "@/lib/spaces-store";
 import { useSoutien } from "@/lib/soutien";
@@ -39,11 +40,8 @@ export function TodayPage({ space, header, name, night }: { space?: Space; heade
     setBesoins(getNeeds().map(n => (({ tenir: "T", demarches: "D", parler: "P", memoire: "M" } as Record<string, string>)[n] ?? "")));
     setHelper(getPapersHelper());
     try {
-      setComment(JSON.parse(localStorage.getItem("lg.onb.comment") ?? '""'));
-      const stored = JSON.parse(localStorage.getItem(scopedKey("lg.today.emotions")) ?? "null") as { day: string; values: string[] } | null;
-      if (stored?.day === dateKey(today)) setEmotions(stored.values);
-      else if (legato.currentEmotionAt && dateKey(new Date(legato.currentEmotionAt)) === dateKey(today)) setEmotions(legato.currentEmotions.flatMap(e => EMOTION_LABELS[e] ? [EMOTION_LABELS[e] ?? ""] : []));
-      else setEmotions([]);
+      setComment(space?.deathCircumstance ?? (space ? "" : getDeathCircumstance()));
+      setEmotions(loadTodayEmotions(today));
     } catch { setEmotions([]); }
   }, [legato.hydrated, legato.currentEmotionAt, space?.id]);
   if (!now) return <StandardLayout title="Legato" headerLeft={header}><div aria-busy="true" /></StandardLayout>;
@@ -56,13 +54,7 @@ export function TodayPage({ space, header, name, night }: { space?: Space; heade
   const plan = todayPlan({ days: elapsed, papiers, comment, besoins, emos: emotions, name, loved: (space?.name ?? legato.lovedOneName) || "votre proche", helper: helper || "Votre proche", flags: [danger ? "danger" : "", night ? "nuit" : "", deadline ? "echeance" : "", anniversary ? "anniv" : "", soutien.workDate && daysAway(soutien.workDate) >= 0 && daysAway(soutien.workDate) <= 3 ? "travail" : ""], deadline: deadline ? { label: deadline.title, days: daysAway(deadline.date), date: format(new Date(`${deadline.date}T12:00:00`)), to: "/practical" } : undefined, anniversary: anniversary ? { days: anniversary.daysAway, date: format(anniversary.date) } : undefined, completed: Object.entries(legato.taskStatus).filter(([, value]) => value === "done").map(([id]) => id) });
   const edit = () => { setPicked(emotions); setOpen(true); };
   const save = () => {
-    const values = picked;
-    localStorage.setItem(scopedKey("lg.today.emotions"), JSON.stringify({ day: dateKey(now), values }));
-    try {
-      const key = scopedKey("lg.today.emotion-history");
-      const history = JSON.parse(localStorage.getItem(key) ?? "[]") as EmotionDay[];
-      localStorage.setItem(key, JSON.stringify([...history.filter(e => e.day !== localDay(now)), { day: localDay(now), values }].slice(-90)));
-    } catch { /* private history remains local */ }
+    const values = saveTodayEmotions(picked, now);
     setEmotions(values);
     legato.setCurrentEmotions(values.flatMap(label => ID_BY_LABEL[label] ? [ID_BY_LABEL[label]] : []));
     setOpen(false);
@@ -70,7 +62,7 @@ export function TodayPage({ space, header, name, night }: { space?: Space; heade
   const split = plan.title.indexOf(". ");
   return <StandardLayout space={plan.night ? "night" : "today"} title="Legato" headerLeft={header} activeTab="/home" className="lg-today-engine">
     <h1 className="lg-title lg-today-title">{split >= 0 ? <>{plan.title.slice(0, split + 1)} <em>{plan.title.slice(split + 2)}</em></> : plan.title}</h1>
-    {!plan.danger && !plan.night && <div className="lg-today-mood"><span>Vous vous sentez : <span>{plan.feelings || "choisir"}</span></span><TextLink onClick={edit}>Modifier</TextLink></div>}
+    {!plan.danger && !plan.night && <div className="lg-today-mood"><span>Vous vous sentez : <span>{plan.feelings || "choisir"}</span></span><span aria-hidden="true">·</span><TextLink onClick={edit}>Modifier</TextLink></div>}
     <section className={`lg-today-card ${plan.danger ? "lg-today-danger" : ""}`} aria-label="Proposition du jour">
       {plan.card.label && <p className="lg-today-label">{plan.card.label}</p>}
       <h2>{plan.card.title}</h2><p className="lg-today-meta">{plan.card.meta}</p>
@@ -79,6 +71,6 @@ export function TodayPage({ space, header, name, night }: { space?: Space; heade
     {plan.next.length > 0 && <><p className="lg-section mt-[22px] mb-0.5">Ensuite —</p><div>{plan.next.map((a, i) => <Link key={a.title} to={a.to} params={a.params as never} search={a.search as never} className={`lg-today-row ${i === plan.next.length - 1 ? "lg-today-row-last" : ""}`}><span><span>{a.title}</span><span>{a.meta}</span></span><ChevronRight size={14} /></Link>)}</div></>}
     {plan.blocked && <Link to="/practical/bloque" className="lg-today-blocked"><span className="lg-today-help-icon"><HelpCircle size={18} strokeWidth={1.5} /></span><span className="flex-1 min-w-0"><span className="lg-row-title block">Je suis bloqué</span><span className="lg-row-sub block">mot de passe, argent, papier introuvable</span></span><ChevronRight size={14} /></Link>}
     <Link to="/presence" className="lg-today-presence"><span>Une question ? Écrivez à Présence…</span><span><ArrowRight size={16} strokeWidth={1.3} /></span></Link>
-    <Dialog open={open} onOpenChange={setOpen}><DialogContent className="lg-today-emotions"><DialogTitle className="lg-title">Comment allez-vous<br /><em>aujourd'hui ?</em></DialogTitle><DialogDescription>Plusieurs choix possibles. Aucune réponse n'est fausse, et elle reste privée.</DialogDescription><div className="flex flex-wrap gap-2">{rules.emotions.liste.map(label => <Button key={label} variant="outline" aria-pressed={picked.includes(label)} onClick={() => setPicked(values => values.includes(label) ? values.filter(v => v !== label) : [...values, label])}>{label}</Button>)}</div><PrimaryButton onClick={save}>Enregistrer</PrimaryButton></DialogContent></Dialog>
+    <Dialog open={open} onOpenChange={setOpen}><DialogContent className="lg-today-emotions"><DialogTitle className="lg-title">Comment allez-vous<br /><em>aujourd'hui ?</em></DialogTitle><DialogDescription>Plusieurs choix possibles. Aucune réponse n'est fausse, et elle reste privée.</DialogDescription><EmotionChoices picked={picked} onChange={setPicked} /><PrimaryButton onClick={save}>Enregistrer</PrimaryButton></DialogContent></Dialog>
   </StandardLayout>;
 }

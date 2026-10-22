@@ -1401,8 +1401,8 @@ h1, h2, h3 { text-wrap: balance; }
 .lg-today-presence > span:last-child { display:grid; place-items:center; width:38px; height:38px; flex-shrink:0; border-radius:50%; background:var(--lg-blue); color:var(--lg-deep); }
 .lg-today-emotions { background:var(--lg-cream); color:var(--lg-deep); font-family:var(--lg-sans); max-width:min(430px, calc(100vw - 32px)); max-height:90dvh; overflow:auto; }
 .lg-today-emotions .lg-title { font-size:32px; }
-.lg-today-emotions [aria-pressed] { background:transparent; color:var(--lg-deep); border-color:var(--lg-line-2); font-weight:400; border-radius:22px; }
-.lg-today-emotions [aria-pressed=true] { background:var(--lg-deep); color:var(--lg-mint); }
+.lg-emotion-choices [aria-pressed] { background:transparent; color:var(--sp-ink); border-color:var(--sp-line-2); font-weight:400; border-radius:22px; }
+.lg-emotion-choices [aria-pressed=true] { background:var(--lg-deep); color:var(--lg-mint); }
 
 /* Ajouts-5 §6 : une seule ancre, rubriques ouvertes, Présence avant le point mensuel. */
 .lg-support-engine { --support-card-bg:var(--lg-linen); --support-card-ink:var(--lg-deep); --support-button-bg:var(--lg-deep); --support-button-ink:var(--lg-mint); }

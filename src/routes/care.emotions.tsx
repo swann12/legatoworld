@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { Fragment, useEffect, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { getDiscovery } from "@/lib/discovery";
@@ -8,6 +8,9 @@ import { useLegato, type Emotion } from "@/lib/legato-state";
 import { loadCheckin, saveCheckin } from "@/lib/checkin-store";
 import { saveIntensity } from "@/lib/emotion-intensity";
 import { StandardLayout, PageTitle, Lead, MoodBar, Block, PrimaryButton, Row } from "@/components/legato/ds";
+import { QuestionLayout, QuestionFooter } from "@/components/legato/ds";
+import { EmotionChoices } from "@/components/legato/EmotionChoices";
+import { loadTodayEmotions, saveTodayEmotions } from "@/lib/daily-emotions";
 
 export const Route = createFileRoute("/care/emotions")({
   head: () => ({
@@ -20,7 +23,7 @@ export const Route = createFileRoute("/care/emotions")({
       { name: "twitter:card", content: "summary" },
     ],
   }),
-  component: Emotions,
+  component: DailyEmotions,
 });
 
 type Choice = Emotion | "autre";
@@ -35,7 +38,20 @@ const CHOICES: { id: Choice; label: string }[] = [
 ];
 const label = (id: Choice) => CHOICES.find((c) => c.id === id)?.label ?? "";
 
-function Emotions() {
+function DailyEmotions() {
+  const navigate = useNavigate();
+  const [picked, setPicked] = useState<string[]>([]);
+  useEffect(() => setPicked(loadTodayEmotions()), []);
+  const save = () => { saveTodayEmotions(picked); navigate({ to: "/home" }); };
+  return <QuestionLayout footer={<QuestionFooter cta="Enregistrer" onCta={save} link="Passer cette étape" onLink={() => navigate({ to: "/home" })} />}>
+    <PageTitle size={32}>Comment allez-vous<br /><em>aujourd'hui ?</em></PageTitle>
+    <Lead className="mt-3">Plusieurs choix possibles. Aucune réponse n'est fausse, et elle reste privée.</Lead>
+    <div className="mt-7"><EmotionChoices picked={picked} onChange={setPicked} /></div>
+    <details className="mt-8"><summary className="lg-row-sub">Autres façons de faire le point</summary><LegacyEmotions /></details>
+  </QuestionLayout>;
+}
+
+function LegacyEmotions() {
   const { currentEmotions, setCurrentEmotions, hydrated } = useLegato();
   const record = useServerFn(recordEmotion);
   const [picked, setPicked] = useState<Choice[]>([]);

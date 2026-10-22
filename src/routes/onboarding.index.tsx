@@ -9,16 +9,16 @@ import { setActiveSpaceId } from "@/lib/active-space";
 import { kindForWhom } from "@/lib/space-navigation";
 import {
   TOTAL_STEPS, getDeathDate, getForWhom, getNeeds, getPapers, setDeathDate, setForWhom,
-  setNeeds, setPapers, showsName, getConcerns, setConcerns, getMoment, setMoment, showsPapers, getAnimalBodyState, getCareState, getIllnessNote, setIllnessNote, CARE_STATE_SUMMARY, type ForWhom,
+  setNeeds, setPapers, showsName, getConcerns, setConcerns, getMoment, setMoment, showsPapers, getAnimalBodyState, getCareState, getIllnessNote, setIllnessNote, getDeathCircumstance, setDeathCircumstance, CARE_STATE_SUMMARY, type ForWhom, type DeathCircumstance,
 } from "@/lib/onboarding-flow";
 import type { Concern, Moment } from "@/lib/self-space";
 import { Field, Lead, OptionCard, PageTitle, QuestionFooter, QuestionLayout, StepBar, PrimaryButton } from "@/components/legato/ds";
 
-type Search = { etape?: "prenom" | "pret" | "occupe" | "moment" };
+type Search = { etape?: "prenom" | "pret" | "occupe" | "moment" | "comment" };
 
 export const Route = createFileRoute("/onboarding/")({
   validateSearch: (s: Record<string, unknown>): Search => ({
-    etape: s.etape === "prenom" || s.etape === "pret" || s.etape === "occupe" || s.etape === "moment" ? s.etape : undefined,
+    etape: s.etape === "prenom" || s.etape === "pret" || s.etape === "occupe" || s.etape === "moment" || s.etape === "comment" ? s.etape : undefined,
   }),
   head: () => ({
     meta: [
@@ -44,6 +44,7 @@ function Onboarding() {
   const { etape } = Route.useSearch();
   if (etape === "pret") return <Ready />;
   if (etape === "prenom") return <NameStep />;
+  if (etape === "comment") return <CircumstanceStep />;
   if (etape === "occupe") return <ConcernStep />;
   if (etape === "moment") return <MomentStep />;
   return <ForWhomStep />;
@@ -152,7 +153,7 @@ function NameStep() {
     setDate(getDeathDate() ?? "");
   }, [hydrated]);
 
-  const goOn = () => navigate({ to: showsPapers(getForWhom()) ? "/onboarding/practical" : "/onboarding/care" });
+  const goOn = () => getForWhom() === "personne" ? navigate({ to: "/onboarding", search: { etape: "comment" } }) : navigate({ to: showsPapers(getForWhom()) ? "/onboarding/practical" : "/onboarding/care" });
   const save = () => {
     setLovedOneName(name.trim());
     setLovedOther(link.trim());
@@ -185,6 +186,19 @@ function NameStep() {
       </>}
     </QuestionLayout>
   );
+}
+
+/** E001 · réponse facultative, après le prénom. */
+function CircumstanceStep() {
+  const navigate = useNavigate();
+  const [choice, setChoice] = useState<DeathCircumstance | null>(null);
+  useEffect(() => { const value = getDeathCircumstance(); if (value) setChoice(value); }, []);
+  const next = (value: DeathCircumstance) => { setDeathCircumstance(value); navigate({ to: "/onboarding/practical" }); };
+  return <QuestionLayout step={2} total={TOTAL_STEPS} footer={<QuestionFooter cta="Continuer" ctaDisabled={choice === null} onCta={() => { if (choice !== null) next(choice); }} link="Passer cette étape" onLink={() => next("")} />}>
+    <PageTitle size={30}>Comment est-ce<br /><em>arrivé ?</em></PageTitle>
+    <Lead className="mt-3">Votre réponse reste privée.</Lead>
+    <div className="mt-6 flex flex-col gap-[10px]">{([{ value: "S", label: "Soudainement" }, { value: "M", label: "Après une maladie" }, { value: "", label: "Je préfère ne pas répondre" }] as const).map(o => <OptionCard key={o.label} label={o.label} selected={choice === o.value} onClick={() => setChoice(o.value)} />)}</div>
+  </QuestionLayout>;
 }
 
 /** 010 · C'est prêt */
@@ -224,10 +238,10 @@ function Ready() {
       // L'espace a pu être amorcé automatiquement à partir du prénom : on le complète plutôt que de le doubler.
       const existing = spaces.find((s) => !s.archived && s.name === spaceName);
       if (existing) {
-        updateSpace(existing.id, { kind, relation: legato.lovedOneRelation, deathDate: getDeathDate(), animalBodyState: forWhom === "animal" ? getAnimalBodyState() ?? undefined : undefined, ...(forWhom === "malade" ? { careState: getCareState() ?? undefined, note: getIllnessNote() || undefined } : {}) });
+        updateSpace(existing.id, { kind, relation: legato.lovedOneRelation, deathDate: getDeathDate(), deathCircumstance: forWhom === "personne" ? getDeathCircumstance() : undefined, animalBodyState: forWhom === "animal" ? getAnimalBodyState() ?? undefined : undefined, ...(forWhom === "malade" ? { careState: getCareState() ?? undefined, note: getIllnessNote() || undefined } : {}) });
         setActiveSpaceId(existing.id);
       } else {
-        const space = addSpace({ name: spaceName, kind, relation: legato.lovedOneRelation, deathDate: getDeathDate(), animalBodyState: forWhom === "animal" ? getAnimalBodyState() ?? undefined : undefined, ...(forWhom === "malade" ? { careState: getCareState() ?? undefined, note: getIllnessNote() || undefined } : {}) });
+        const space = addSpace({ name: spaceName, kind, relation: legato.lovedOneRelation, deathDate: getDeathDate(), deathCircumstance: forWhom === "personne" ? getDeathCircumstance() : undefined, animalBodyState: forWhom === "animal" ? getAnimalBodyState() ?? undefined : undefined, ...(forWhom === "malade" ? { careState: getCareState() ?? undefined, note: getIllnessNote() || undefined } : {}) });
         setActiveSpaceId(space.id);
       }
     }
