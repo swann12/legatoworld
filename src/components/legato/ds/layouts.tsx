@@ -1,22 +1,27 @@
 import { useSmartBack } from "@/lib/use-smart-back";
 import type { ReactNode } from "react";
-import { Link } from "@tanstack/react-router";
+import { Link, useLocation } from "@tanstack/react-router";
 import { ArrowLeft, X } from "lucide-react";
 import { spaceClass, type Space } from "./space";
 import { PageHeader, StepBar } from "./components";
 import { BottomNav } from "./BottomNav";
 import { DiscoveryBanner } from "../DiscoveryUI";
+import { PresenceField } from "./PresenceField";
 
 /** Écran standard (§4.1) : en-tête 64 px + barre flottante. */
 export function StandardLayout({ space = "today", title, back, backLabel, headerLeft, children, nav = true, activeTab, className = "" }: {
   space?: Space; title?: string; back?: string; backLabel?: string; headerLeft?: ReactNode; children: ReactNode; nav?: boolean; activeTab?: string; className?: string;
 }) {
+  const { pathname } = useLocation();
+  const principal = ["/home", "/care", "/practical", "/care/garden", "/care/community"].includes(pathname.replace(/\/$/, ""));
+  const automaticPresence = principal && !className.includes("lg-today-engine") && !className.includes("lg-support-engine");
   return (
     <div className={`${spaceClass(space)} min-h-dvh ${className}`} style={{ background: "var(--sp-bg)", color: "var(--sp-ink)", fontFamily: "var(--lg-sans)" }}>
       <div className="mx-auto max-w-[430px] pb-32" style={{ paddingInline: "var(--lg-margin)" }}>
         <PageHeader space={space} title={title} back={back} backLabel={backLabel} left={headerLeft} />
         <DiscoveryBanner />
         {children}
+        {automaticPresence && <PresenceField />}
       </div>
       {nav && <BottomNav night={space === "night"} active={activeTab} />}
     </div>

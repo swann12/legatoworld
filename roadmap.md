@@ -9,6 +9,11 @@
 - [x] Moteur issu du JSON et structure §4 ; 14 scénarios conformes, E004–E008 vérifiés à 390 px avec réponses et dates identiques ; émotions modifiées et relues après rechargement.
 - [x] Retirer les éléments hors structure demandés : Inviter un proche seul, Cette semaine, ancienne ligne date, introduction et propositions anciennes ; pages conservées.
 
+## Ajouts-5 Démarches et cinq accueils
+- [x] Réunir la logique dans moteur-legato, sans nouvelles modifications d’écran ; 14 situations complètes et 35 combinaisons de limites comparées au simulateur.
+- [x] Refaire les quatre réponses papiers, ajouter Présence en fin des cinq accueils et retirer ses boutons flottants ; parcours deuil et quatre liens principaux ouverts.
+- [ ] Audit complet des variantes : les accueils deuil ont été vérifiés ; les autres types nécessitent une nouvelle vérification après affichage réel du contenu. Retouches d’écran suspendues à la demande « Ne touche pas encore aux écrans ».
+
 ## Ajouts-5 Soutien
 - [x] Accueil deuil §6 branché au moteur : 14 scénarios et 4 règles ciblées passent ; E009–E011 ouverts, liste d’aide et point mensuel jusqu’au résultat vérifiés ; Présence précède le point final. Anciennes pages conservées.
 

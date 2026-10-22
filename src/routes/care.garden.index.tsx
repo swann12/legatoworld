@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Shell } from "@/components/legato/Shell";
-import { PageHeader, PageTitle, PrimaryButton, OutlineButton } from "@/components/legato/ds";
+import { PageHeader, PageTitle, PrimaryButton, OutlineButton, PresenceField } from "@/components/legato/ds";
 import { legatoHead } from "@/lib/legato-head";
 import { useSpaces } from "@/lib/spaces-store";
 import { setActiveSpaceId, useActiveSpaceId } from "@/lib/active-space";
@@ -164,6 +164,7 @@ function CareGarden() {
             <PrimaryButton space="memory" to="/space/new" plus>Ajouter une parcelle</PrimaryButton>
           </div>
         </section>
+        <div className="px-6"><PresenceField /></div>
       </div>
     </Shell>
   );
