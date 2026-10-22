@@ -22,6 +22,7 @@ function target(title: string): Pick<TodayAction, "to" | "params" | "search"> {
   if (title.includes("Prévenir les proches")) return { to: "/practical/prevenir" };
   if (title.includes("capital décès")) return { to: "/practical/bloque/$id", params: { id: "capital" } };
   if (title.includes("Prévenir la banque")) return { to: "/practical/tasks/$id/template", params: { id: "banque" } };
+  if (title.includes("Écrire une lettre")) return { to: "/care/rituels/lettre" };
   if (title.includes("signature")) return { to: "/practical/share" };
   if (title.includes("succession")) return { to: "/practical/tasks/$id", params: { id: "notaire" } };
   if (title.includes("Apaiser")) return { to: "/care/angoisse" };
@@ -77,7 +78,7 @@ export function todayPlan(input: TodayInput): TodayPlan {
     if (rule.ordre === 8) card = phase === 1 ? action("Dormir, manger : le minimum", "Ce qui aide vraiment ces premiers jours · 2 minutes de lecture.", "Lire", "Pour vous, aujourd'hui") : need("P") ? action("Prendre rendez-vous avec un psychologue", "12 séances remboursées par an · un message prêt pour prendre rendez-vous.", "Voir comment", "Pour vous, aujourd'hui") : need("M") ? action("Ajouter un souvenir d'elle", "Une photo, sa voix, une phrase · 5 minutes.", "Ajouter", "Pour vous, aujourd'hui") : action("Écrire 10 minutes", "Ce que vous ressentez aujourd'hui. Personne ne le lira.", "Commencer", "Pour vous, aujourd'hui");
     from = rule.ordre === 5 ? "date" : "";
     if (rule.ordre === 3 && card && c.completed?.includes("obseques")) card = c.completed.includes("ceremony") ? action("Prévenir les proches", "un seul message, à relire avant", "Voir le message", "Aujourd'hui") : action("Organiser la cérémonie", "le lieu, la date", "Commencer", "Aujourd'hui");
-    if (rule.ordre === 4 && card && c.deadline) { card.title = c.deadline.label; card.label = `Avant le ${c.deadline.date} · dans ${c.deadline.days} jours`; card.to = c.deadline.to; }
+    if (rule.ordre === 4 && card && c.deadline) { card.title = c.deadline.label; card.label = `Avant le ${c.deadline.date} · dans ${c.deadline.days} jours`; Object.assign(card, target(card.title)); if (card.to === "/care/journal") card.to = c.deadline.to; }
     if (rule.ordre === 5 && card && c.anniversary) card.label = `Dans ${c.anniversary.days} jours, le ${c.anniversary.date}`;
     break;
   }

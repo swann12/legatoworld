@@ -6,8 +6,8 @@
 - [x] Découverte neuve vide, E003 reprise/recommencer et vérifications.
 
 ## Ajouts-5 Aujourd’hui
-- [ ] Moteur issu du JSON et structure §4 ; vérifier E004–E008 avec les réponses exactes.
-- [ ] Retirer les éléments hors structure demandés, dont Inviter un proche seul ; détailler les retraits.
+- [x] Moteur issu du JSON et structure §4 ; 14 scénarios conformes, E004–E008 vérifiés à 390 px avec réponses et dates identiques ; émotions modifiées et relues après rechargement.
+- [x] Retirer les éléments hors structure demandés : Inviter un proche seul, Cette semaine, ancienne ligne date, introduction et propositions anciennes ; pages conservées.
 
 ## Étape D5 — Mémoire approfondie
 - [x] Présenter les quatre listes D033–D049 et conserver les éléments hors maquette.
