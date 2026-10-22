@@ -1,5 +1,10 @@
 # Reprise UX/UI Legato
 
+## Ajouts-5 §1
+- [ ] Polices fournies locales, préchargement et attente pendant l’ouverture.
+- [ ] Navigation vert profond indépendante des palettes.
+- [ ] Découverte neuve vide, E003 reprise/recommencer et vérifications.
+
 ## Étape D5 — Mémoire approfondie
 - [x] Présenter les quatre listes D033–D049 et conserver les éléments hors maquette.
 - [x] Créer les pages et liens communs, sans toucher au jardin peint ni aux parcelles ; anciennes variantes conservées.
