@@ -10,6 +10,7 @@
 - [x] Retirer les éléments hors structure demandés : Inviter un proche seul, Cette semaine, ancienne ligne date, introduction et propositions anciennes ; pages conservées.
 
 ## Ajouts-5 Démarches et cinq accueils
+- [ ] Réunir la logique dans un module moteur-legato, sans nouvelles modifications d’écran ; vérifier les 14 situations complètes du simulateur.
 - [ ] Refaire les quatre réponses papiers, ajouter Présence en fin des cinq accueils et retirer ses boutons flottants.
 - [ ] Vérifier une seule carte principale et au plus un encart beige sur chaque accueil.
 
