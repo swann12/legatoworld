@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useLegato, type Emotion } from "@/lib/legato-state";
 import { useSpaces, upcomingForSpaces, formatDaysAway, spaceKind, type Space, type SpaceKind } from "@/lib/spaces-store";
 import { getSpacePrefs } from "@/lib/space-prefs";
+import { TodayPage } from "@/components/legato/TodayPage";
 import { Fragment as F2 } from "react";
 import { useActiveSpaceId } from "@/lib/active-space";
 import { useAgenda, daysAway } from "@/lib/agenda-store";
@@ -14,8 +15,8 @@ import { getDiscovery, useDiscovery } from "@/lib/discovery";
 import { useCarnet } from "@/lib/carnet";
 import { upcoming, dayName, hour, cap } from "@/lib/carnet-model";
 import { useSelf, prepareSummary } from "@/lib/self-space";
-import { pickMoment } from "@/lib/au-bon-moment";
-import { useSoutien, monthKey } from "@/lib/soutien";
+
+
 
 export const Route = createFileRoute("/home/")({
   head: () => ({
@@ -31,23 +32,6 @@ export const Route = createFileRoute("/home/")({
   component: Today,
 });
 
-const MOODS: { id: Emotion | "autre"; label: string }[] = [
-  { id: "tristesse", label: "Tristesse" },
-  { id: "fatigue", label: "Fatigue" },
-  { id: "colere", label: "Colère" },
-  { id: "nostalgie", label: "Nostalgie" },
-  { id: "autre", label: "Autre" },
-];
-
-/** Une seule proposition, choisie selon l'humeur déclarée. */
-function suggestion(emotions: Emotion[], loved: string) {
-  const who = loved || "elle";
-  if (emotions.includes("fatigue")) return { title: "Une respiration de trois minutes", meta: "3 minutes · parce que vous vous sentez fatigué", cta: "Respirer", to: "/care/respirer" };
-  if (emotions.includes("colere")) return { title: "Écrire ce qui vous met en colère", meta: "10 minutes · parce que vous vous sentez en colère", cta: "Commencer à écrire", to: "/care/journal" };
-  if (emotions.includes("nostalgie")) return { title: `Déposer un souvenir de ${who}`, meta: "5 minutes · parce que vous pensez à elle", cta: "Ouvrir la mémoire", to: "/care/garden" };
-  return { title: `Écrire une lettre à ${who}`, meta: "10 minutes · parce que vous vous sentez triste", cta: "Commencer à écrire", to: "/care/journal" };
-}
-
 function Today() {
   const { active: discovery } = useDiscovery();
   const { lovedOneName, currentEmotions, name: localName } = useLegato();
@@ -56,7 +40,7 @@ function Today() {
   const { events } = useAgenda();
   const [night, setNight] = useState(false);
   const [first, setFirst] = useState("");
-  const { s: soutien } = useSoutien();
+
 
   useEffect(() => {
     setNight(isNightHour());
@@ -82,6 +66,8 @@ function Today() {
   const kind: SpaceKind = active ? spaceKind(active) : "deuil";
   const nightOn = night && getSpacePrefs(active?.id).nuit;
 
+  if (kind === "deuil") return <TodayPage space={active ? { ...active, deathDate: active.deathDate ?? getDeathDate() } : undefined} header={header} name={who} night={nightOn} />;
+
   if (nightOn) {
     return (
       <StandardLayout space="night" title="Legato" headerLeft={header} className="lg-home-screen">
@@ -102,50 +88,7 @@ function Today() {
   if (kind === "questions" && active) return <SelfHome header={header} who={who} emotions={currentEmotions} />;
   if (kind !== "deuil" && active) return <KindHome kind={kind} space={active} header={header} emotions={currentEmotions} />;
 
-  const sug = suggestion(currentEmotions, loved);
-  const nextDeadline = events.filter((e) => e.kind === "demarche" && daysAway(e.date) >= 0).sort((a, b) => daysAway(a.date) - daysAway(b.date))[0];
-  // Une seule carte à la fois (ajouts-4 §6) : le bon moment passe avant la proposition du jour.
-  const moment = pickMoment({
-    now: new Date(),
-    safety: currentEmotions.includes("besoin_aide"),
-    nextDeadlineDays: nextDeadline ? daysAway(nextDeadline.date) : null,
-    nextDeadlineLabel: nextDeadline?.title,
-    deathDate: active?.deathDate ?? getDeathDate(),
-    workDate: soutien.workDate,
-    pointDoneThisMonth: soutien.points.some((p) => p.month === monthKey()),
-    pointOff: soutien.pointOff,
-  });
-  const s = moment ? { title: moment.title, meta: moment.meta, cta: moment.cta, to: moment.to, label: moment.label } : { ...sug, label: "Pour aujourd'hui" };
-  const week = events.filter((e) => e.kind === "demarche" && daysAway(e.date) >= 0 && daysAway(e.date) <= 7);
-  const next = upcomingForSpaces(active ? [active] : spaces, 60)[0];
-
-  return (
-    <StandardLayout space="today" title="Legato" headerLeft={header} className="lg-home-screen">
-      <h1 className="lg-title pt-8" style={{ fontSize: 34 }}>
-        Bonjour{who ? ` ${who}` : ""}.{since ? ` Cela fait ${since}.` : ""} <em>Comment allez-vous</em> aujourd'hui&nbsp;?
-      </h1>
-      <p className="lg-home-moods" style={{ fontFamily: "var(--lg-serif)", fontSize: 21 }}>
-        {MOODS.map((m, i) => {
-          const on = m.id !== "autre" && currentEmotions.includes(m.id);
-          return (
-            <Fragment key={m.id}><span className="whitespace-nowrap">
-              <Link to="/care/emotions" className={on ? "underline underline-offset-4" : ""} style={{ color: on ? "var(--sp-ink)" : "var(--sp-sub)", textDecorationThickness: 1 }}>{m.label}</Link>
-              {i < MOODS.length - 1 && <span style={{ color: "var(--sp-sub)" }}>,</span>}
-            </span>{" "}</Fragment>
-          );
-        })}
-      </p>
-      <Block className="lg-home-block" label={s.label} title={s.title} meta={s.meta}>
-        {discovery ? <PrimaryButton space="today" to={s.to}>{s.cta}</PrimaryButton> : <OutlineButton to={s.to} className="lg-home-action">{s.cta}</OutlineButton>}
-      </Block>
-      <div>
-        {discovery && <Row title="Inviter un proche" subtitle="Pour partager des souvenirs" to="/start/compte-requis" />}
-        <Row title="Cette semaine" to="/practical"
-          subtitle={week.length ? `${week.length} démarche${week.length > 1 ? "s" : ""} à l'agenda` : "Voir ce qui reste à faire"} last={!next} />
-        {next && <Row title={formatDaysAway(next.daysAway)} subtitle={`${next.label} · préparer un geste`} to="/care/dates" last />}
-      </div>
-    </StandardLayout>
-  );
+  return null;
 }
 
 type Variant = {

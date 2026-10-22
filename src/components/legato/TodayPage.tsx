@@ -7,7 +7,7 @@ import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/compone
 import { todayPlan, papersCode } from "@/lib/ajouts5/today-engine";
 import rules from "@/lib/ajouts5/regles-aujourdhui-soutien-demarches.json";
 import { useLegato, type Emotion } from "@/lib/legato-state";
-import { getPapers, getNeeds, getPapersHelper } from "@/lib/onboarding-flow";
+import { getPapers, getNeeds, getPapersHelper, getDeathDate } from "@/lib/onboarding-flow";
 import { useAgenda, daysAway } from "@/lib/agenda-store";
 import { upcomingForSpaces, type Space } from "@/lib/spaces-store";
 import { useSoutien } from "@/lib/soutien";
@@ -35,7 +35,7 @@ export function TodayPage({ space, header, name, night }: { space?: Space; heade
     if (!legato.hydrated) return;
     const today = new Date(); setNow(today);
     setPapiers(papersCode(getPapers()));
-    setBesoins(getNeeds().map(n => ({ tenir: "T", demarches: "D", parler: "P", memoire: "M" }[n] ?? "")));
+    setBesoins(getNeeds().map(n => (({ tenir: "T", demarches: "D", parler: "P", memoire: "M" } as Record<string, string>)[n] ?? "")));
     setHelper(getPapersHelper());
     try {
       setComment(JSON.parse(localStorage.getItem("lg.onb.comment") ?? '""'));
@@ -46,13 +46,13 @@ export function TodayPage({ space, header, name, night }: { space?: Space; heade
     } catch { setEmotions([]); }
   }, [legato.hydrated, legato.currentEmotionAt, space?.id]);
   if (!now) return <StandardLayout title="Legato" headerLeft={header}><div aria-busy="true" /></StandardLayout>;
-  const deathDate = space?.deathDate;
+  const deathDate = space?.deathDate ?? getDeathDate();
   const elapsed = deathDate ? String(Math.max(0, Math.round((new Date(now.getFullYear(), now.getMonth(), now.getDate(), 12).getTime() - new Date(`${deathDate}T12:00:00`).getTime()) / 864e5))) : "";
   const deadline = events.filter(e => e.kind === "demarche" && daysAway(e.date) >= 0 && daysAway(e.date) < 7).sort((a, b) => a.date.localeCompare(b.date))[0];
   const anniversary = space ? upcomingForSpaces([space], 10)[0] : undefined;
   const danger = legato.currentEmotions.includes("besoin_aide") || history.slice(-2).some(m => m.cards?.some(c => c.href === "tel:3114"));
   const format = (date: Date) => date.toLocaleDateString("fr-FR", { day: "numeric", month: "long" });
-  const plan = todayPlan({ days: elapsed, papiers, comment, besoins, emos: emotions, name, loved: space?.name ?? legato.lovedOneName || "votre proche", helper: helper || "Votre proche", flags: [danger ? "danger" : "", night ? "nuit" : "", deadline ? "echeance" : "", anniversary ? "anniv" : "", soutien.workDate && daysAway(soutien.workDate) >= 0 && daysAway(soutien.workDate) <= 3 ? "travail" : ""], deadline: deadline ? { label: deadline.title, days: daysAway(deadline.date), date: format(new Date(`${deadline.date}T12:00:00`)), to: "/practical" } : undefined, anniversary: anniversary ? { days: anniversary.daysAway, date: format(anniversary.date) } : undefined, completed: Object.entries(legato.taskStatus).filter(([, value]) => value === "done").map(([id]) => id) });
+  const plan = todayPlan({ days: elapsed, papiers, comment, besoins, emos: emotions, name, loved: (space?.name ?? legato.lovedOneName) || "votre proche", helper: helper || "Votre proche", flags: [danger ? "danger" : "", night ? "nuit" : "", deadline ? "echeance" : "", anniversary ? "anniv" : "", soutien.workDate && daysAway(soutien.workDate) >= 0 && daysAway(soutien.workDate) <= 3 ? "travail" : ""], deadline: deadline ? { label: deadline.title, days: daysAway(deadline.date), date: format(new Date(`${deadline.date}T12:00:00`)), to: "/practical" } : undefined, anniversary: anniversary ? { days: anniversary.daysAway, date: format(anniversary.date) } : undefined, completed: Object.entries(legato.taskStatus).filter(([, value]) => value === "done").map(([id]) => id) });
   const edit = () => { setPicked(emotions); setOpen(true); };
   const save = () => {
     const values = picked;
@@ -70,7 +70,7 @@ export function TodayPage({ space, header, name, night }: { space?: Space; heade
       <h2>{plan.card.title}</h2><p className="lg-today-meta">{plan.card.meta}</p>
       <PrimaryButton to={plan.danger ? undefined : plan.card.to} params={plan.card.params} search={plan.card.search} onClick={plan.danger ? () => { window.location.href = "tel:3114"; } : undefined}>{plan.card.cta}</PrimaryButton>
     </section>
-    {plan.next.length > 0 && <><p className="lg-section mt-[22px] mb-0.5">Ensuite —</p><div>{plan.next.map((a, i) => <Row key={a.title} title={a.title} subtitle={a.meta} to={a.to} params={a.params} onClick={undefined} last={i === plan.next.length - 1} />)}</div></>}
+    {plan.next.length > 0 && <><p className="lg-section mt-[22px] mb-0.5">Ensuite —</p><div>{plan.next.map((a, i) => <Link key={a.title} to={a.to} params={a.params as never} search={a.search as never} className={`lg-today-row ${i === plan.next.length - 1 ? "lg-today-row-last" : ""}`}><span><span>{a.title}</span><span>{a.meta}</span></span><ChevronRight size={14} /></Link>)}</div></>}
     {plan.blocked && <Link to="/practical/bloque" className="lg-today-blocked"><span className="lg-today-help-icon"><HelpCircle size={18} strokeWidth={1.5} /></span><span className="flex-1 min-w-0"><span className="lg-row-title block">Je suis bloqué</span><span className="lg-row-sub block">mot de passe, argent, papier introuvable</span></span><ChevronRight size={14} /></Link>}
     <Link to="/presence" className="lg-today-presence"><span>Une question ? Écrivez à Présence…</span><span><ArrowRight size={16} strokeWidth={1.3} /></span></Link>
     <Dialog open={open} onOpenChange={setOpen}><DialogContent className="lg-today-emotions"><DialogTitle className="lg-title">Comment allez-vous<br /><em>aujourd'hui ?</em></DialogTitle><DialogDescription>Plusieurs choix possibles. Aucune réponse n'est fausse, et elle reste privée.</DialogDescription><div className="flex flex-wrap gap-2">{rules.emotions.liste.map(label => <Button key={label} variant="outline" aria-pressed={picked.includes(label)} onClick={() => setPicked(values => values.includes(label) ? values.filter(v => v !== label) : [...values, label])}>{label}</Button>)}</div><PrimaryButton onClick={save}>Enregistrer</PrimaryButton></DialogContent></Dialog>

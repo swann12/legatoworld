@@ -89,7 +89,7 @@ export function todayPlan(input: TodayInput): TodayPlan {
   const period = phase === 1 ? rules.aujourdhui.ensuite.periode_1 : phase === 2 ? rules.aujourdhui.ensuite.periode_2 : rules.aujourdhui.ensuite.periode_3;
   const conditions: Record<string, boolean> = { "3 premières semaines": recent, "papiers = R": c.papiers === "R", "papiers = Q": c.papiers === "Q", "besoin D et papiers ≠ Q": need("D") && c.papiers !== "Q", "besoin P": need("P"), "besoin M": need("M"), "reprise du travail": has("travail"), "papiers = F": c.papiers === "F" };
   for (const row of period) {
-    if ("si" in row && !conditions[row.si]) continue;
+    if ("si" in row && typeof row.si === "string" && !conditions[row.si]) continue;
     if (from === "date" && row.ligne === "Ses dates") continue;
     add(action(clean(row.ligne).replace(/Claire/g, c.helper), clean(row.sous)));
   }
