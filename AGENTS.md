@@ -26,4 +26,5 @@
 - Ajouts-4: Démarches title italics use `--sp-title-accent`; memory experiences use ExperienceButton; explained words use MotExplique + `src/lib/lexique.json`; page-less buttons use ActionFeedback; reused pages in `shared-pages.tsx`; Je suis bloqué renders `je-suis-bloque.json` via one `BloquePages` component; Présence safety and cards come from pure tested `presence-guide.ts`, the model only writes text from its fiches. Why: ajouts-4 §1–§7.
 - Library preserves IDs; suggestions use authenticated Gateway or local discovery. Why: preserve favorites and privacy.
 - Sounds use a shared native player and offline-rendered files with encoded fades. Why: navigation and timer throttling must not stop audio.
-- Local-only data: `self-space.ts`, `soutien.ts`, coffre rules in pure tested `coffre.ts`; the single Aujourd'hui card comes from tested `au-bon-moment.ts`. Why: one rule each, stays on the phone.
+- Local-only data: `self-space.ts`, `soutien.ts`, coffre rules in pure tested `coffre.ts`. Why: sensitive personal content stays on the phone.
+- Bereavement Aujourd'hui uses the pure tested `ajouts5/today-engine.ts` and the supplied rules JSON; TodayPage adapts local answers and signals without fetching personal content. Why: one deterministic source selects the card and next lines; the supplied scenarios are regression tests.

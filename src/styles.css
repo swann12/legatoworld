@@ -1372,3 +1372,34 @@ h1, h2, h3 { text-wrap: balance; }
 .lg-coffre-alerte { background: linear-gradient(180deg, #7A2E2C 0%, #A5534F 50%, #C98B86 100%); color: #EBC7C4; }
 .lg-coffre-alerte-btn { background: #EBC7C4; color: #7A2E2C; }
 .lg-coffre-alerte-link { color: #7A2E2C; }
+
+/* Ajouts-5 : Aujourd'hui conserve une structure unique, avec une seule carte. */
+.lg-today-engine { --today-card-bg:var(--lg-blue); --today-card-ink:var(--lg-deep); --today-button-bg:var(--lg-deep); --today-button-ink:var(--lg-mint); }
+.lg-today-title { padding-top:28px; font-size:36px; line-height:1.08; text-wrap:balance; }
+.lg-today-title em { color:inherit; }
+.lg-today-mood { margin-top:16px; display:flex; align-items:baseline; justify-content:space-between; gap:12px; font-size:13px; color:var(--sp-sub); }
+.lg-today-mood > span > span { color:var(--sp-ink); }
+.lg-today-mood button { flex-shrink:0; font-size:13px; }
+.lg-today-card { margin-top:26px; padding:22px; background:var(--today-card-bg); color:var(--today-card-ink); }
+.lg-today-label { font-family:var(--lg-serif); font-size:17px; font-style:italic; margin-bottom:8px; }
+.lg-today-card h2 { font-family:var(--lg-serif); font-weight:400; font-size:27px; line-height:1.1; text-wrap:balance; }
+.lg-today-meta { margin-top:6px; font-size:13px; line-height:1.45; }
+.lg-today-card > a, .lg-today-card > button { --sp-btn-bg:var(--today-button-bg); --sp-btn-fg:var(--today-button-ink); margin-top:16px; height:44px; padding:0 24px; border-radius:22px; font-size:15px; }
+.lg-today-danger { --today-card-bg:var(--lg-bordeaux); --today-card-ink:var(--lg-rose); --today-button-bg:var(--lg-rose); --today-button-ink:var(--lg-bordeaux); }
+.lg-today-row { display:flex; align-items:center; gap:12px; padding:18px 0; border-bottom:1px solid var(--sp-line); }
+.lg-today-row-last { border-bottom:0; }
+.lg-today-row > span { flex:1; min-width:0; display:flex; flex-direction:column; gap:5px; }
+.lg-today-row > span > span:first-child { font-family:var(--lg-serif); font-size:21px; line-height:1.15; text-wrap:balance; }
+.lg-today-row > span > span:last-child { font-size:13px; color:var(--sp-sub); line-height:1.45; }
+.lg-today-row > svg { flex-shrink:0; }
+.lg-today-blocked { display:flex; align-items:center; gap:14px; padding:12px 0; margin-top:4px; border-top:1px solid var(--sp-line); }
+.lg-today-blocked .lg-row-title { font-size:19px; }
+.lg-today-blocked .lg-row-sub { font-size:12.5px; color:var(--sp-sub); }
+.lg-today-help-icon { display:grid; place-items:center; flex-shrink:0; width:36px; height:36px; border-radius:50%; background:var(--lg-deep); color:var(--lg-mint); }
+.lg-today-presence { display:flex; align-items:center; gap:8px; border:1px solid var(--sp-line-2); border-radius:26px; padding:5px 5px 5px 18px; margin-top:18px; }
+.lg-today-presence > span:first-child { flex:1; min-width:0; font-family:var(--lg-serif); font-size:17px; font-style:italic; color:var(--sp-sub); }
+.lg-today-presence > span:last-child { display:grid; place-items:center; width:38px; height:38px; flex-shrink:0; border-radius:50%; background:var(--lg-blue); color:var(--lg-deep); }
+.lg-today-emotions { background:var(--lg-cream); color:var(--lg-deep); font-family:var(--lg-sans); max-width:min(430px, calc(100vw - 32px)); max-height:90dvh; overflow:auto; }
+.lg-today-emotions .lg-title { font-size:32px; }
+.lg-today-emotions [aria-pressed] { background:transparent; color:var(--lg-deep); border-color:var(--lg-line-2); font-weight:400; border-radius:22px; }
+.lg-today-emotions [aria-pressed=true] { background:var(--lg-deep); color:var(--lg-mint); }
