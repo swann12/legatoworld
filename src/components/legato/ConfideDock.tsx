@@ -6,6 +6,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { savePractical, loadPractical } from "@/lib/practical-store";
 import { recordEmotion } from "@/lib/emotional.functions";
 import { supabase } from "@/integrations/supabase/client";
+import { PresenceField } from "./ds";
 
 export function ConfideDock({ step }: { step?: string }) {
   const { mode } = useLegato();
@@ -76,14 +77,7 @@ export function ConfideDock({ step }: { step?: string }) {
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>
-      <SheetTrigger asChild>
-        <button
-          aria-label="Parler ou écrire à Lovely"
-          className="dock-halo fixed bottom-24 right-5 z-40 w-14 h-14 rounded-full ceramic flex items-center justify-center"
-        >
-          <span aria-hidden className="block size-2 rounded-full" style={{ background: "var(--bordeaux)" }} />
-        </button>
-      </SheetTrigger>
+      <PresenceField />
       <SheetContent side="bottom" className="bg-paper border-t border-dusk/10 p-0 max-h-[85dvh] overflow-y-auto">
         <div className="px-7 pt-7 pb-10 max-w-[640px] mx-auto">
           <p className="text-[10px] uppercase tracking-[0.22em] text-dusk/45">Se confier — texte ou voix</p>

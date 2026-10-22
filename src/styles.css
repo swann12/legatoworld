@@ -1422,3 +1422,12 @@ h1, h2, h3 { text-wrap: balance; }
 .lg-support-monthly a { margin-top:14px; }
 .lg-support-extras { margin-top:24px; color:var(--sp-sub); font-size:12px; }
 .lg-support-extras summary { cursor:pointer; padding-block:8px; }
+
+/* Ajouts-5 §7 : un seul encart lin, puis les lignes et Présence. */
+.lg-practical-card { margin-top:24px; padding:22px; background:var(--sp-block); color:var(--sp-block-ink); }
+.lg-practical-label { color:var(--sp-accent); font-family:var(--lg-serif); font-style:italic; font-size:17px; margin-bottom:8px; }
+.lg-practical-card h2 { font-family:var(--lg-serif); font-weight:400; font-size:27px; line-height:1.1; }
+.lg-practical-card > p:not(.lg-practical-label) { font-size:13px; margin-top:6px; line-height:1.45; }
+.lg-practical-card > a { margin-top:16px; height:auto; min-height:44px; padding-block:10px; text-align:center; }
+.lg-practical-blocked { margin-top:20px; }
+.lg-practical-blocked .lg-row-sub { font-size:12px; }

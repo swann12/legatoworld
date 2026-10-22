@@ -19,7 +19,7 @@
 - Ritual/date landings are index leaves; traces use memories-store. Why: mounted details and space-scoped words.
 - Garden plot selection activates its existing space before opening the personal memory page, without altering the painted image or plot geometry. Why: each loved one's memories and portrait remain isolated.
 - Community screens reuse community-store and community-data, with vigil choices local and clearly distinguished from real reservations. Why: preserve existing interactions without implying a connected community service.
-- The Démarches tab view for bereavement spaces comes from `src/lib/papers-plan.ts` (pure, tested), driven by the papers answer from onboarding and space settings. Why: one rule decides order and the ceremony visibility on every path.
+- The bereavement Démarches home uses pure tested `ajouts5/practical-engine.ts` and the supplied rules JSON; legacy papers-plan remains for historical views. Why: the four answers share one selector and one highlighted card.
 - Body suivi: `src/lib/corps-suivi.ts` (localStorage, tested); walking voice on /help/corps/marche via browser speech; body topics share `CorpsTopicPage.tsx`. Why: nothing about the body leaves the phone.
 - Sick-relative carnet and tasks use `src/lib/carnet.ts`: shared_items in the circle when signed in, localStorage otherwise; members accept via accept_circle_task RPC. Why: circle sharing without loosening RLS.
 - Rituals and invitation identities use `src/lib/rituals-catalog.ts`; personal rituals use scoped `src/lib/my-rituals.ts`. Why: per space.
@@ -29,3 +29,4 @@
 - Local-only data: `self-space.ts`, `soutien.ts`, coffre rules in pure tested `coffre.ts`. Why: sensitive personal content stays on the phone.
 - Bereavement Aujourd'hui uses the pure tested `ajouts5/today-engine.ts` and the supplied rules JSON; TodayPage adapts local answers and signals without fetching personal content. Why: one deterministic source selects the card and next lines; the supplied scenarios are regression tests.
 - Bereavement Soutien uses `ajouts5/support-engine.ts`, the same rules JSON and phaseOf; daily emotion history remains space-scoped on the device. Why: one tested selector preserves priorities and detects consecutive fatigue days without sharing personal content.
+- Main StandardLayout screens append the shared in-flow PresenceField; Today and Support place it explicitly before their dialogs/monthly section, and the painted garden adds it outside the image. Why: one consistent entry without floating buttons or altered plot geometry.

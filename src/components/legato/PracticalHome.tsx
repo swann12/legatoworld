@@ -10,6 +10,7 @@ import { useActiveSpace } from "@/lib/use-active-space";
 import { AnimalPractical } from "./AnimalPractical";
 import { MaladeAides } from "./MaladePractical";
 import { MotExplique } from "./MotExplique";
+import { PracticalPage } from "./PracticalPage";
 
 export const demarcheLink = (d: Demarche) => (d.letter && d.id === "banque" ? `/practical/tasks/${d.id}/template` : `/practical/tasks/${d.id}`);
 
@@ -23,7 +24,7 @@ function Label({ children, accent, className = "" }: { children: string; accent:
 /** B013–B016 · l'onglet Démarches suit la réponse « Où en êtes-vous avec les papiers ? » (§6). */
 export function Practical() {
   const { kind } = useActiveSpace();
-  return kind === "malade" ? <MaladeAides /> : kind === "questions" ? <SelfPreparer /> : kind === "animal" ? <AnimalPractical /> : <DeuilPractical />;
+  return kind === "malade" ? <MaladeAides /> : kind === "questions" ? <SelfPreparer /> : kind === "animal" ? <AnimalPractical /> : <PracticalPage />;
 }
 
 function DeuilPractical() {

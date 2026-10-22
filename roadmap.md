@@ -9,7 +9,6 @@
 - [x] Moteur issu du JSON et structure §4 ; 14 scénarios conformes, E004–E008 vérifiés à 390 px avec réponses et dates identiques ; émotions modifiées et relues après rechargement.
 - [x] Retirer les éléments hors structure demandés : Inviter un proche seul, Cette semaine, ancienne ligne date, introduction et propositions anciennes ; pages conservées.
 
-## Ajouts-5 Soutien
 ## Ajouts-5 Démarches et cinq accueils
 - [ ] Refaire les quatre réponses papiers, ajouter Présence en fin des cinq accueils et retirer ses boutons flottants.
 - [ ] Vérifier une seule carte principale et au plus un encart beige sur chaque accueil.
