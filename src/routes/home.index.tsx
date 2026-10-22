@@ -86,7 +86,7 @@ function Today() {
 
   if (kind === "malade" && active) return <MaladeHome space={active} header={header} emotions={currentEmotions} />;
   if (kind === "questions" && active) return <SelfHome header={header} who={who} emotions={currentEmotions} />;
-  if (kind !== "deuil" && active) return <KindHome kind={kind} space={active} header={header} emotions={currentEmotions} />;
+  if (active) return <KindHome kind={kind} space={active} header={header} emotions={currentEmotions} />;
 
   return null;
 }
