@@ -9,17 +9,21 @@ const logoLegato = wordmarkAsset.url;
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Legato — Un jardin qui éclôt" },
-      { property: "og:title", content: "Legato — Un jardin qui éclôt" },
-      { property: "og:description", content: "Une ouverture douce sur Legato. Un jardin qui fleurit lentement, comme une respiration." },
+      { title: "Legato — Traverser le deuil, à votre rythme" },
+      { name: "description", content: "Legato accompagne le deuil, la maladie d'un proche et les questions sur la mort : soutien, démarches, souvenirs et rituels, au jour le jour." },
+      { property: "og:title", content: "Legato — Traverser le deuil, à votre rythme" },
+      { property: "og:description", content: "Legato accompagne le deuil, la maladie d'un proche et les questions sur la mort : soutien, démarches, souvenirs et rituels, au jour le jour." },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
-      {
-        name: "description",
-        content:
-          "Une ouverture douce sur Legato. Un jardin qui fleurit lentement, comme une respiration.",
-      },
+      { property: "og:url", content: "https://legatoworld.lovable.app/" },
+      { property: "og:image", content: "https://legatoworld.lovable.app/og-legato.jpg" },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Legato — Traverser le deuil, à votre rythme" },
+      { name: "twitter:description", content: "Legato accompagne le deuil, la maladie d'un proche et les questions sur la mort : soutien, démarches, souvenirs et rituels, au jour le jour." },
+      { name: "twitter:image", content: "https://legatoworld.lovable.app/og-legato.jpg" },
     ],
+    links: [{ rel: "canonical", href: "https://legatoworld.lovable.app/" }],
   }),
   component: Intro,
 });
