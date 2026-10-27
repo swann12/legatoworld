@@ -74,26 +74,20 @@ function Vitrine() {
       </header>
 
       {/* Ouverture */}
-      <section className="mx-auto grid max-w-[1120px] gap-12 px-7 pb-24 pt-10 md:grid-cols-[1.1fr_1fr] md:items-center">
-        <div>
-          <Label>Traverser, au jour le jour</Label>
-          <h1 className="mt-5" style={{ ...serif, fontSize: "clamp(44px,6vw,76px)", lineHeight: 1, textWrap: "balance" }}>
-            Certaines choses <em>s'accompagnent,</em> plutôt qu'elles ne se réparent.
-          </h1>
-          <p className="mt-6 max-w-[42ch] text-[17px] leading-relaxed" style={sub}>
-            Legato vous accompagne après la mort d'une personne ou d'un animal, auprès d'un proche gravement malade, ou quand vous pensez souvent à la mort. Une intention claire, une action évidente.
-          </p>
-          <div className="mt-10 flex flex-wrap items-center gap-6">
-            <Link to="/" className="inline-flex items-center px-7 py-4 text-[15px]" style={{ background: "var(--lg-deep)", color: "var(--lg-mint)", borderRadius: 999 }}>
-              Découvrir Legato
-            </Link>
-            <span className="lg-mono" style={sub}>Sans compte · iOS et Android bientôt</span>
-          </div>
+      <section className="mx-auto max-w-[820px] px-7 pb-28 pt-16 text-center md:pt-24">
+        <Label>Traverser, au jour le jour</Label>
+        <h1 className="mt-6" style={{ ...serif, fontSize: "clamp(44px,6vw,80px)", lineHeight: 1.02, textWrap: "balance" }}>
+          Certaines choses <em>s'accompagnent,</em> plutôt qu'elles ne se réparent.
+        </h1>
+        <p className="mx-auto mt-7 max-w-[46ch] text-[17px] leading-relaxed" style={sub}>
+          Legato vous accompagne après la mort d'une personne ou d'un animal, auprès d'un proche gravement malade, ou quand vous pensez souvent à la mort. Une intention claire, une action évidente.
+        </p>
+        <div className="mt-11 flex flex-wrap items-center justify-center gap-6">
+          <Link to="/" className="inline-flex items-center px-8 py-4 text-[15px]" style={{ background: "var(--lg-deep)", color: "var(--lg-mint)", borderRadius: 999 }}>
+            Découvrir Legato
+          </Link>
+          <span className="lg-mono" style={sub}>Sans compte · iOS et Android bientôt</span>
         </div>
-        <figure className="mx-auto w-full max-w-[380px] select-none">
-          <img src={vitrineBloom} alt="Les fleurs qui s'ouvrent, l'entrée de Legato" className="w-full rounded-[28px]" draggable={false} />
-          <figcaption className="mt-3 text-center lg-mono" style={sub}>L'ouverture de Legato</figcaption>
-        </figure>
       </section>
 
       {/* Pour qui */}
