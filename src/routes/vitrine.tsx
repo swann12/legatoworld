@@ -2,229 +2,145 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import gardenPainted from "@/assets/garden-painted-v4.png";
 import { LegatoLogo } from "@/components/legato/ds/LegatoLogo";
 
+const OG = "https://legatoworld.lovable.app/og-legato.jpg";
+
 export const Route = createFileRoute("/vitrine")({
   head: () => ({
     meta: [
-      { title: "Legato — Un compagnon doux pour le deuil" },
-      {
-        name: "description",
-        content:
-          "Legato accompagne le deuil et la peur de perdre. Téléchargez l'application pour un espace tenu, sans pression.",
-      },
-      { property: "og:title", content: "Legato — Un compagnon doux pour le deuil" },
-      { property: "og:description", content: "Legato accompagne le deuil, les souvenirs et la peur de perdre, à votre rythme." },
+      { title: "Legato — Traverser le deuil, à votre rythme" },
+      { name: "description", content: "Legato accompagne le deuil, la maladie d'un proche et les questions sur la mort : soutien, démarches, souvenirs et rituels." },
+      { property: "og:title", content: "Legato — Traverser le deuil, à votre rythme" },
+      { property: "og:description", content: "Soutien, démarches, souvenirs et rituels, au jour le jour." },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "https://legatoworld.lovable.app/vitrine" },
-      { property: "og:image", content: "https://legatoworld.lovable.app/og-legato.jpg" },
+      { property: "og:image", content: OG },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:image", content: "https://legatoworld.lovable.app/og-legato.jpg" },
+      { name: "twitter:image", content: OG },
     ],
     links: [{ rel: "canonical", href: "https://legatoworld.lovable.app/vitrine" }],
   }),
   component: Vitrine,
 });
 
-function PhoneFrame({ src, label }: { src: string; label: string }) {
-  // Render the app at its native mobile width (390x800) and scale it down
-  // so the layout inside the iframe never reflows or feels cramped.
-  const NATIVE_W = 390;
-  const NATIVE_H = 800;
-  const FRAME_W = 300;
-  const scale = FRAME_W / NATIVE_W;
-  const FRAME_H = NATIVE_H * scale;
+const serif = { fontFamily: "var(--lg-serif)" } as const;
+const sans = { fontFamily: "var(--lg-sans)", color: "var(--lg-deep)" } as const;
+const sub = { color: "var(--lg-sub)" } as const;
 
+function Label({ children }: { children: string }) {
+  return <p className="lg-mono" style={sub}>{children} —</p>;
+}
+
+function H2({ children }: { children: React.ReactNode }) {
+  return <h2 className="mt-4 max-w-[22ch]" style={{ ...serif, fontSize: "clamp(32px,4vw,48px)", lineHeight: 1.05, textWrap: "balance" }}>{children}</h2>;
+}
+
+function PhoneFrame({ src, label }: { src: string; label: string }) {
+  const NATIVE_W = 390, NATIVE_H = 800, FRAME_W = 280;
+  const scale = FRAME_W / NATIVE_W;
   return (
-    <div className="flex flex-col items-center gap-3">
-      <div
-        className="ceramic organic-radius-3 relative overflow-hidden shadow-[0_30px_60px_-30px_color-mix(in_oklab,var(--dusk)_25%,transparent)]"
-        style={{ width: FRAME_W, height: FRAME_H, padding: 6 }}
-      >
-        <div
-          className="overflow-hidden rounded-[22px] bg-paper"
-          style={{ width: FRAME_W - 12, height: FRAME_H - 12 }}
-        >
-          <iframe
-            src={src}
-            title={label}
-            loading="lazy"
-            className="border-0 bg-paper"
-            style={{
-              width: NATIVE_W,
-              height: NATIVE_H,
-              transform: `scale(${scale})`,
-              transformOrigin: "top left",
-            }}
-          />
-        </div>
+    <div className="flex flex-col items-center gap-4">
+      <div className="overflow-hidden" style={{ width: FRAME_W, height: NATIVE_H * scale, borderRadius: 28, border: "6px solid var(--lg-deep)", background: "var(--lg-cream)" }}>
+        <iframe src={src} title={label} loading="lazy" className="border-0"
+          style={{ width: NATIVE_W, height: NATIVE_H, transform: `scale(${scale})`, transformOrigin: "top left" }} />
       </div>
-      <p className="text-[10px] uppercase tracking-[0.24em] text-dusk/45">{label}</p>
+      <p className="lg-mono" style={sub}>{label}</p>
     </div>
   );
 }
 
+const SPACES = [
+  { t: "Une personne est morte", d: "Les démarches dans le bon ordre, le soutien des premières semaines, un jardin de souvenirs." },
+  { t: "Un animal est mort", d: "Un chagrin reconnu, les choix pour son corps, ses papiers, une parcelle pour lui." },
+  { t: "Un proche est gravement malade", d: "Un carnet partagé avec le cercle, qui fait quoi, les questions au médecin." },
+  { t: "Je pense souvent à la mort", d: "Préparer, transmettre, écrire ce qui compte. Une aide immédiate si c'est trop lourd." },
+];
+
+const DAYS = [
+  { t: "Aujourd'hui", d: "Selon vos émotions et la période traversée, une seule chose : ce qui compte maintenant." },
+  { t: "Soutien", d: "Parler à quelqu'un, un psychologue remboursé, dire à vos proches ce qui vous aiderait." },
+  { t: "Démarches", d: "Ce qui vient en premier, puis la suite, numérotée. Et « Je suis bloqué » quand rien n'avance." },
+  { t: "Mémoire", d: "Photos, voix, recettes, lettres : un jardin peint où chaque être aimé a sa parcelle." },
+];
+
 function Vitrine() {
   return (
-    <main className="min-h-dvh bg-paper text-dusk">
-      {/* Top bar */}
-      <header className="mx-auto flex max-w-[1200px] items-center justify-between px-6 py-6 sm:px-10">
+    <main className="min-h-dvh" style={{ background: "var(--lg-cream)", ...sans }}>
+      <header className="mx-auto flex max-w-[1120px] items-center justify-between px-7 py-6">
         <LegatoLogo />
-        <nav className="flex items-center gap-6 text-[11px] uppercase tracking-[0.22em] text-dusk/55">
-          <a href="#manifeste" className="hover:text-dusk">Manifeste</a>
-          <a href="#espaces" className="hover:text-dusk">Pour qui</a>
-          <a href="#apercu" className="hover:text-dusk">Aperçu</a>
-          <a href="#telecharger" className="hover:text-dusk">Télécharger</a>
+        <nav className="hidden gap-7 sm:flex">
+          {[["#pour-qui", "Pour qui"], ["#au-quotidien", "Au quotidien"], ["#apercu", "Aperçu"]].map(([h, l]) => (
+            <a key={h} href={h} className="lg-mono" style={sub}>{l}</a>
+          ))}
         </nav>
       </header>
 
-      {/* Hero */}
-      <section className="mx-auto grid max-w-[1200px] gap-12 px-6 pt-10 pb-24 sm:px-10 md:grid-cols-[1.1fr_1fr] md:items-center md:gap-16">
+      {/* Ouverture */}
+      <section className="mx-auto grid max-w-[1120px] gap-12 px-7 pb-24 pt-10 md:grid-cols-[1.1fr_1fr] md:items-center">
         <div>
-          <p className="text-[10px] font-medium uppercase tracking-[0.32em] text-dusk/45">
-            Un compagnon doux, au jour le jour
-          </p>
-          <h1
-            className="mt-6 font-serif text-[clamp(2.4rem,5vw,4rem)] leading-[1.02] text-dusk"
-            style={{ textWrap: "balance" }}
-          >
-            Certaines choses <span className="italic">s'accompagnent,</span><br />
-            plutôt qu'elles ne se réparent.
+          <Label>Traverser, au jour le jour</Label>
+          <h1 className="mt-5" style={{ ...serif, fontSize: "clamp(44px,6vw,76px)", lineHeight: 1, textWrap: "balance" }}>
+            Certaines choses <em>s'accompagnent,</em> plutôt qu'elles ne se réparent.
           </h1>
-          <p
-            className="mt-7 max-w-[44ch] text-[clamp(15px,1.4vw,17px)] leading-relaxed text-dusk/65"
-            style={{ textWrap: "balance" }}
-          >
-            Legato est un espace tranquille pour traverser le deuil d'une personne ou d'un animal, accompagner un proche gravement malade, ou apprivoiser les pensées sur la mort.
-            Chaque jour, une seule chose utile — rien de plus.
+          <p className="mt-6 max-w-[42ch] text-[17px] leading-relaxed" style={sub}>
+            Legato vous accompagne après la mort d'une personne ou d'un animal, auprès d'un proche gravement malade, ou quand vous pensez souvent à la mort. Une intention claire, une action évidente.
           </p>
-
-          <div className="mt-10 flex flex-wrap items-center gap-4">
-            <a
-              href="#telecharger"
-              className="ceramic organic-radius-3 px-7 py-4 text-center"
-            >
-              <span className="block font-serif text-[1.1rem] text-dusk">
-                Télécharger l'application
-              </span>
-              <span className="mt-1 block text-[10px] uppercase tracking-[0.22em] text-dusk/50">
-                iOS · Android · bientôt disponible
-              </span>
-            </a>
-            <Link
-              to="/"
-              className="text-[11px] uppercase tracking-[0.22em] text-dusk/55 hover:text-dusk"
-            >
-              Essayer la démo →
+          <div className="mt-10 flex flex-wrap items-center gap-6">
+            <Link to="/" className="inline-flex items-center px-7 py-4 text-[15px]" style={{ background: "var(--lg-deep)", color: "var(--lg-mint)", borderRadius: 999 }}>
+              Découvrir Legato
             </Link>
+            <span className="lg-mono" style={sub}>Sans compte · iOS et Android bientôt</span>
           </div>
         </div>
-
-        <div className="relative mx-auto">
-          <img
-            src={gardenPainted}
-            alt="Le jardin peint de Legato"
-            className="w-full max-w-[460px] select-none garden-dissolve"
-            draggable={false}
-          />
-        </div>
+        <img src={gardenPainted} alt="Le jardin peint de Legato, une parcelle par être aimé" className="mx-auto w-full max-w-[440px] select-none" draggable={false} />
       </section>
 
-      {/* Manifeste */}
-      <section id="manifeste" className="border-t border-dusk/8 bg-clay/40">
-        <div className="mx-auto max-w-[1100px] px-6 py-24 sm:px-10">
-          <p className="text-[10px] font-medium uppercase tracking-[0.32em] text-dusk/45">
-            Manifeste
-          </p>
-          <h2
-            className="mt-5 max-w-[24ch] font-serif text-[clamp(1.8rem,3.4vw,2.6rem)] leading-[1.1] text-dusk"
-            style={{ textWrap: "balance" }}
-          >
-            Pas une app de productivité. Une présence.
-          </h2>
-          <div className="mt-12 grid gap-10 md:grid-cols-3">
-            {[
-              { t: "Tenu, pas guidé", d: "Pas de plan en 5 étapes. Juste des gestes simples, à votre rythme, qui s'adaptent à ce que vous traversez." },
-              { t: "Doux, pas froid", d: "Une esthétique tactile : papier, céramique, peinture. Une voix posée, jamais clinique, jamais performante." },
-              { t: "Privé, pour de vrai", d: "Vos souvenirs, votre journal, vos êtres aimés restent vôtres. Pensé pour la pudeur de ce qu'on confie." },
-            ].map((b) => (
-              <div key={b.t}>
-                <h3 className="font-serif text-[1.4rem] text-dusk">
-                  {b.t}
-                </h3>
-                <p className="mt-3 text-[14.5px] leading-relaxed text-dusk/65">
-                  {b.d}
-                </p>
+      {/* Pour qui */}
+      <section id="pour-qui" style={{ background: "var(--lg-linen)" }}>
+        <div className="mx-auto max-w-[1120px] px-7 py-24">
+          <Label>Pour qui</Label>
+          <H2>Un espace qui s'adapte à <em>ce que vous vivez.</em></H2>
+          <div className="mt-12 grid gap-x-12 sm:grid-cols-2">
+            {SPACES.map((s, i) => (
+              <div key={s.t} className="flex gap-5 py-6" style={{ borderTop: "1px solid color-mix(in oklab, var(--lg-deep) 14%, transparent)" }}>
+                <span style={{ ...serif, fontSize: 30, lineHeight: 1, color: "var(--lg-sub)" }}>{i + 1}</span>
+                <div>
+                  <h3 style={{ ...serif, fontSize: 24, lineHeight: 1.15 }}>{s.t}</h3>
+                  <p className="mt-2 text-[15px] leading-relaxed" style={sub}>{s.d}</p>
+                </div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Quatre espaces */}
-      <section id="espaces" className="border-t border-dusk/8">
-        <div className="mx-auto max-w-[1100px] px-6 py-24 sm:px-10">
-          <p className="text-[10px] font-medium uppercase tracking-[0.32em] text-dusk/45">Pour qui</p>
-          <h2 className="mt-5 max-w-[26ch] font-serif text-[clamp(1.8rem,3.4vw,2.6rem)] leading-[1.1] text-dusk" style={{ textWrap: "balance" }}>
-            Un espace qui s'adapte à <span className="italic">ce que vous vivez.</span>
-          </h2>
-          <div className="mt-12 grid gap-10 sm:grid-cols-2">
-            {[
-              { t: "Une personne est morte", d: "Les démarches dans le bon ordre, le soutien des premières semaines, un jardin de souvenirs à partager." },
-              { t: "Un animal est mort", d: "Un chagrin reconnu, les choix pour son corps, ses papiers, et une parcelle pour se souvenir de lui." },
-              { t: "Un proche est gravement malade", d: "Un carnet partagé avec le cercle, qui fait quoi, les questions au médecin, et du répit pour vous." },
-              { t: "Je pense souvent à la mort", d: "Préparer, transmettre, écrire ce qui compte. Et une aide immédiate si l'envie de ne plus être là arrive." },
-            ].map((b, i) => (
-              <div key={b.t} className="border-t border-dusk/10 pt-6">
-                <p className="font-serif text-[1rem] italic text-dusk/45">{String(i + 1).padStart(2, "0")}</p>
-                <h3 className="mt-2 font-serif text-[1.4rem] text-dusk">{b.t}</h3>
-                <p className="mt-3 text-[14.5px] leading-relaxed text-dusk/65">{b.d}</p>
+      {/* Au quotidien */}
+      <section id="au-quotidien">
+        <div className="mx-auto max-w-[1120px] px-7 py-24">
+          <Label>Au quotidien</Label>
+          <H2>Chaque jour, <em>une seule chose</em> utile.</H2>
+          <div className="mt-12 grid gap-10 md:grid-cols-4">
+            {DAYS.map((d) => (
+              <div key={d.t}>
+                <h3 style={{ ...serif, fontSize: 26 }}>{d.t}</h3>
+                <p className="mt-2 text-[15px] leading-relaxed" style={sub}>{d.d}</p>
               </div>
             ))}
+          </div>
+          <div className="mt-14 max-w-[640px] px-7 py-6" style={{ background: "var(--lg-blue)" }}>
+            <p className="lg-mono" style={sub}>Présence</p>
+            <p className="mt-2" style={{ ...serif, fontSize: 24, lineHeight: 1.25 }}>
+              Une voix qui écoute, puis vous guide vers la bonne page. Elle n'invente ni règle ni délai.
+            </p>
           </div>
         </div>
       </section>
 
-      {/* Ce que Legato fait */}
-      <section className="border-t border-dusk/8 bg-clay/40">
-        <div className="mx-auto max-w-[1100px] px-6 py-24 sm:px-10">
-          <p className="text-[10px] font-medium uppercase tracking-[0.32em] text-dusk/45">Au quotidien</p>
-          <h2 className="mt-5 max-w-[26ch] font-serif text-[clamp(1.8rem,3.4vw,2.6rem)] leading-[1.1] text-dusk" style={{ textWrap: "balance" }}>
-            Une intention claire, une action évidente.
-          </h2>
-          <div className="mt-12 grid gap-10 md:grid-cols-3">
-            {[
-              { t: "Aujourd'hui", d: "Selon vos émotions du jour et la période que vous traversez, une seule carte : ce qui compte maintenant." },
-              { t: "Je suis bloqué", d: "Un compte gelé, un papier introuvable, une famille divisée : des étapes concrètes, sourcées, sans jargon." },
-              { t: "Présence", d: "Une voix qui écoute, puis vous guide vers la bonne page de Legato. Jamais de règle inventée." },
-              { t: "Soutien", d: "Parler à quelqu'un, un psychologue remboursé, dire à vos proches ce qui vous aiderait." },
-              { t: "Mémoire", d: "Photos, voix, recettes, lettres : un jardin peint où chaque être aimé a sa parcelle." },
-              { t: "Rituels", d: "Des gestes simples, seul ou à plusieurs, et vingt et une traditions du monde." },
-            ].map((b) => (
-              <div key={b.t}>
-                <h3 className="font-serif text-[1.3rem] text-dusk">{b.t}</h3>
-                <p className="mt-3 text-[14.5px] leading-relaxed text-dusk/65">{b.d}</p>
-              </div>
-            ))}
-          </div>
-          <p className="mt-14 max-w-[60ch] text-[13.5px] leading-relaxed text-dusk/55">
-            Vous pouvez découvrir Legato sans compte : vos réponses restent sur votre téléphone. Un compte n'est utile que pour inviter vos proches ou partager.
-          </p>
-        </div>
-      </section>
-
-      {/* Aperçu — phones */}
-      <section id="apercu" className="border-t border-dusk/8">
-        <div className="mx-auto max-w-[1200px] px-6 py-24 sm:px-10">
-          <p className="text-[10px] font-medium uppercase tracking-[0.32em] text-dusk/45">
-            Aperçu
-          </p>
-          <h2
-            className="mt-5 max-w-[28ch] font-serif text-[clamp(1.8rem,3.4vw,2.6rem)] leading-[1.1] text-dusk"
-            style={{ textWrap: "balance" }}
-          >
-            Quelques fenêtres, vivantes, sur l'application.
-          </h2>
-
-          <div className="mt-14 flex flex-wrap items-start justify-center gap-10 md:gap-14">
+      {/* Aperçu */}
+      <section id="apercu" style={{ background: "var(--lg-linen)" }}>
+        <div className="mx-auto max-w-[1120px] px-7 py-24">
+          <Label>Aperçu</Label>
+          <H2>Quelques fenêtres <em>sur l'application.</em></H2>
+          <div className="mt-14 flex flex-wrap justify-center gap-10">
             <PhoneFrame src="/home" label="Aujourd'hui" />
             <PhoneFrame src="/care" label="Soutien" />
             <PhoneFrame src="/care/garden" label="Le jardin" />
@@ -232,66 +148,24 @@ function Vitrine() {
         </div>
       </section>
 
-      {/* Download */}
-      <section id="telecharger" className="border-t border-dusk/8 bg-clay/40">
-        <div className="mx-auto max-w-[900px] px-6 py-28 text-center sm:px-10">
-          <p className="text-[10px] font-medium uppercase tracking-[0.32em] text-dusk/45">
-            Télécharger
+      {/* Confidentialité */}
+      <section>
+        <div className="mx-auto max-w-[760px] px-7 py-24 text-center">
+          <Label>Vos mots restent à vous</Label>
+          <p className="mx-auto mt-5 max-w-[26ch]" style={{ ...serif, fontSize: "clamp(28px,3.4vw,40px)", lineHeight: 1.15 }}>
+            Sans compte, tout reste <em>sur votre téléphone.</em>
           </p>
-          <h2
-            className="mt-5 font-serif text-[clamp(2rem,4vw,3rem)] leading-[1.05] text-dusk"
-            style={{ textWrap: "balance" }}
-          >
-            Legato vit dans votre poche.
-          </h2>
-          <p
-            className="mx-auto mt-6 max-w-[48ch] text-[15.5px] leading-relaxed text-dusk/65"
-            style={{ textWrap: "balance" }}
-          >
-            L'application est pensée pour le téléphone — un objet intime, près du cœur.
-            Téléchargez-la pour l'avoir à vos côtés, dans les moments qui comptent.
+          <p className="mx-auto mt-5 max-w-[46ch] text-[15px] leading-relaxed" style={sub}>
+            Un compte ne sert qu'à inviter vos proches, écrire à plusieurs ou retrouver votre espace sur un autre appareil.
           </p>
-
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-            <a
-              href="#"
-              className="ceramic organic-radius-3 px-8 py-5"
-              aria-label="Télécharger sur l'App Store"
-            >
-              <span className="block text-[10px] uppercase tracking-[0.22em] text-dusk/50">
-                Bientôt sur
-              </span>
-              <span className="mt-1 block font-serif text-[1.3rem] text-dusk">
-                App Store
-              </span>
-            </a>
-            <a
-              href="#"
-              className="ceramic organic-radius-3 px-8 py-5"
-              aria-label="Télécharger sur Google Play"
-            >
-              <span className="block text-[10px] uppercase tracking-[0.22em] text-dusk/50">
-                Bientôt sur
-              </span>
-              <span className="mt-1 block font-serif text-[1.3rem] text-dusk">
-                Google Play
-              </span>
-            </a>
-          </div>
-
-          <p className="mt-10 text-[11px] uppercase tracking-[0.22em] text-dusk/40">
-            En attendant — <Link to="/" className="text-dusk/70 hover:text-dusk">essayer la démo dans votre navigateur</Link>
-          </p>
+          <Link to="/" className="mt-8 inline-block text-[15px] underline underline-offset-4">Découvrir Legato</Link>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t border-dusk/8">
-        <div className="mx-auto flex max-w-[1200px] flex-wrap items-center justify-between gap-4 px-6 py-10 sm:px-10">
-          <LegatoLogo />
-          <p className="text-[10px] uppercase tracking-[0.24em] text-dusk/45">
-            © {new Date().getFullYear()} · Tenu avec soin
-          </p>
+      <footer style={{ background: "var(--lg-deep)" }}>
+        <div className="mx-auto flex max-w-[1120px] flex-wrap items-center justify-between gap-4 px-7 py-10">
+          <LegatoLogo night />
+          <p className="lg-mono" style={{ color: "var(--lg-cream)", opacity: 0.7 }}>© {new Date().getFullYear()} · Tenu avec soin</p>
         </div>
       </footer>
     </main>
