@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import gardenPainted from "@/assets/garden-painted-v4.png";
+import vitrineBloom from "@/assets/vitrine-bloom.jpg";
 import { LegatoLogo } from "@/components/legato/ds/LegatoLogo";
 
 const OG = "https://legatoworld.lovable.app/og-legato.jpg";
@@ -91,7 +91,10 @@ function Vitrine() {
             <span className="lg-mono" style={sub}>Sans compte · iOS et Android bientôt</span>
           </div>
         </div>
-        <img src={gardenPainted} alt="Le jardin peint de Legato, une parcelle par être aimé" className="mx-auto w-full max-w-[440px] select-none" draggable={false} />
+        <figure className="mx-auto w-full max-w-[380px] select-none">
+          <img src={vitrineBloom} alt="Les fleurs qui s'ouvrent, l'entrée de Legato" className="w-full rounded-[28px]" draggable={false} />
+          <figcaption className="mt-3 text-center lg-mono" style={sub}>L'ouverture de Legato</figcaption>
+        </figure>
       </section>
 
       {/* Pour qui */}
