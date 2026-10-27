@@ -1,5 +1,4 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import vitrineBloom from "@/assets/vitrine-bloom.jpg";
 import { LegatoLogo } from "@/components/legato/ds/LegatoLogo";
 
 const OG = "https://legatoworld.lovable.app/og-legato.jpg";
