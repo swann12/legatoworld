@@ -35,20 +35,13 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" },
-      { title: "Legato — A quiet companion through grief" },
-      {
-        name: "description",
-        content:
-          "Legato is a refined, emotionally intelligent companion for grief, loss, and the fear of losing someone — with a living garden at its center.",
-      },
+      { title: "Legato — Traverser le deuil, à votre rythme" },
+      { name: "description", content: "Legato accompagne le deuil, la maladie d'un proche et les questions sur la mort : soutien, démarches, souvenirs et rituels, au jour le jour." },
       { name: "author", content: "Legato" },
-      { property: "og:title", content: "Legato — A quiet companion through grief" },
-      { property: "og:description", content: "Legato is a refined emotional companion to navigate grief, support, practical steps and remembrance." },
+      { property: "og:site_name", content: "Legato" },
+      { property: "og:locale", content: "fr_FR" },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
-      { name: "twitter:title", content: "Legato — A quiet companion through grief" },
-      { name: "description", content: "Legato is a refined emotional companion to navigate grief, support, practical steps and remembrance." },
-      { name: "twitter:description", content: "Legato is a refined emotional companion to navigate grief, support, practical steps and remembrance." },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
       { rel: "icon", type: "image/png", href: "/favicon.png" },
