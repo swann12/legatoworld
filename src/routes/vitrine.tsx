@@ -139,7 +139,8 @@ function Vitrine() {
           <div className="mt-14 flex flex-wrap justify-center gap-10">
             <PhoneFrame src="/home" label="Aujourd'hui" />
             <PhoneFrame src="/care" label="Soutien" />
-            <PhoneFrame src="/care/garden" label="Le jardin" />
+            <PhoneFrame src="/practical" label="Démarches" />
+            <PhoneFrame src="/care/garden/space" label="Ses souvenirs" />
           </div>
         </div>
       </section>
