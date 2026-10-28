@@ -68,7 +68,7 @@ function Today() {
   );
 
   const kind: SpaceKind = active ? spaceKind(active) : "deuil";
-  const nightOn = night && getSpacePrefs(active?.id).nuit;
+  const nightOn = false; void night; // Mode Nuit retiré à la demande de l utilisateur.
 
   if (!hydrated) return null;
 
