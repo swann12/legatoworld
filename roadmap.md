@@ -147,3 +147,7 @@
 - [x] Relier les parcelles à leur espace personnel et vérifier dépôt, détail, portrait et livre.
 - [ ] Vérifier l’invitation connectée de bout en bout : session du compte utilisateur indisponible.
 - [ ] Suppression des éléments hors maquette : en attente d’accord utilisateur.
+
+- [ ] Retirer le mode Nuit
+- [ ] Titres de parties plus valorisés, plus d espace entre parties
+- [ ] Aperçu lien + vitrine : Space au lieu des parcelles, ciblé perte de quelqu un
