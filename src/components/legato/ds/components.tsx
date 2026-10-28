@@ -79,7 +79,7 @@ export function Lead({ space, className = "", children }: S & { children: ReactN
 export function SectionLabel({ space, className = "", children, accent = false }: S & { children: ReactNode; accent?: boolean }) {
   return (
     <p className={`${spaceClass(space)} lg-section ${className}`} style={{ color: accent ? "var(--sp-accent)" : "var(--sp-ink)" }}>
-      {children} —
+      {children}<span className="lg-section-dash"> —</span>
     </p>
   );
 }

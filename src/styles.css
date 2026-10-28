@@ -1414,6 +1414,7 @@ h1, h2, h3 { text-wrap: balance; }
 .lg-support-danger { --support-card-bg:var(--lg-bordeaux); --support-card-ink:var(--lg-blush); --support-button-bg:var(--lg-blush); --support-button-ink:var(--lg-bordeaux); }
 .lg-support-section { margin-top:64px; }
 .lg-support-section .lg-section { font-size:30px; line-height:1.1; font-style:italic; color:var(--sp-accent) !important; margin-bottom:10px; padding-bottom:12px; border-bottom:1px solid var(--sp-ink); }
+.lg-support-section .lg-section-dash { display:none; }
 .lg-support-section .lg-row-title { font-family:var(--lg-serif); font-size:21px; line-height:1.15; }
 .lg-support-section .lg-row-sub { font-size:12px; line-height:1.45; }
 .lg-support-monthly { padding-top:32px; text-align:center; }
