@@ -148,6 +148,6 @@
 - [ ] Vérifier l’invitation connectée de bout en bout : session du compte utilisateur indisponible.
 - [ ] Suppression des éléments hors maquette : en attente d’accord utilisateur.
 
-- [ ] Retirer le mode Nuit
-- [ ] Titres de parties plus valorisés, plus d espace entre parties
-- [ ] Aperçu lien + vitrine : Space au lieu des parcelles, ciblé perte de quelqu un
+- [x] Retirer le mode Nuit
+- [x] Titres de parties plus valorisés, plus d espace entre parties
+- [x] Aperçu lien + vitrine : Space au lieu des parcelles, ciblé perte de quelqu un
