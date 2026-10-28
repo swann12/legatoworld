@@ -1412,8 +1412,8 @@ h1, h2, h3 { text-wrap: balance; }
 .lg-support-meta { font-size:13px; line-height:1.45; margin-top:6px; }
 .lg-support-card > a,.lg-support-card > button { --sp-btn-bg:var(--support-button-bg); --sp-btn-fg:var(--support-button-ink); margin-top:16px; min-height:44px; height:auto; padding-block:10px; text-align:center; }
 .lg-support-danger { --support-card-bg:var(--lg-bordeaux); --support-card-ink:var(--lg-blush); --support-button-bg:var(--lg-blush); --support-button-ink:var(--lg-bordeaux); }
-.lg-support-section { margin-top:28px; }
-.lg-support-section .lg-section { margin-bottom:2px; }
+.lg-support-section { margin-top:64px; }
+.lg-support-section .lg-section { font-size:30px; line-height:1.1; font-style:italic; color:var(--sp-accent) !important; margin-bottom:10px; padding-bottom:12px; border-bottom:1px solid var(--sp-ink); }
 .lg-support-section .lg-row-title { font-family:var(--lg-serif); font-size:21px; line-height:1.15; }
 .lg-support-section .lg-row-sub { font-size:12px; line-height:1.45; }
 .lg-support-monthly { padding-top:32px; text-align:center; }
